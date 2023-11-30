@@ -1,0 +1,45 @@
+[package]
+name = "u5_new"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
+    "stm32u575ri",
+] }
+embassy-stm32 = { version = "0.1.0", git = "https://github.com/embassy-rs/embassy", commit = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64", features = [
+    # "nightly",
+    "unstable-traits",
+    "stm32u575ri",
+    "unstable-pac",
+    "memory-x",
+    "time-driver-any",
+    "exti",
+    "defmt",
+] }
+
+defmt = { version = "0.3.5" }
+defmt-rtt = { version = "0.4.0" }
+defmt-itm = { version = "0.3.0" }
+
+cortex-m = { version = "0.7.7", features = [
+    "inline-asm",
+    "critical-section-single-core",
+] }
+cortex-m-rt = { version = "0.7.3" }
+
+[dependencies.embassy-executor]
+features = ["integrated-timers"]
+git = "https://github.com/embassy-rs/embassy"
+
+[[bin]]
+name = "u5_new"
+test = false
+bench = false
+[[bin]]
+name = "led"
+bench = false
+test = false
