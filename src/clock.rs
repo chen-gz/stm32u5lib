@@ -1,6 +1,20 @@
 pub mod gg {
     use cortex_m::{self, peripheral::SYST};
-    static mut SYSTEM_CLOCK: u32 = 4_000_000;
+
+    use cortex_m_rt::entry;
+    use embassy_stm32::rcc::*;
+    use embassy_stm32::time::Hertz;
+    use stm32_metapac::RCC;
+    // use embassy_stm32::pac::metadata::sdmmc;
+    // use embassy_stm32::sdmmc;
+    use embassy_stm32::{bind_interrupts, timer};
+    use embassy_stm32::{
+        dma::NoDma, gpio::Output, i2c, interrupt, peripherals, rcc, sdmmc, time::khz,
+    };
+    pub static mut SYSTEM_CLOCK: u32 = 4_000_000;
+    pub fn get_kernel_freq() -> u32 {
+        unsafe { SYSTEM_CLOCK }
+    }
 
     pub fn delay_enable(system_clock: u32) {
         unsafe {
@@ -22,10 +36,7 @@ pub mod gg {
                 let start = dwt.cyccnt.read();
                 let end = start.wrapping_add(interval);
                 let mut now = dwt.cyccnt.read();
-                while (now >= start && now <= end)
-                    || (now >= start && start > end)
-                    || (now <= end && end < start)
-                {
+                while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
                     now = dwt.cyccnt.read();
                 }
             }
@@ -41,10 +52,7 @@ pub mod gg {
             let start = dwt.cyccnt.read();
             let end = start.wrapping_add(interval);
             let mut now = dwt.cyccnt.read();
-            while (now >= start && now <= end)
-                || (now >= start && start > end)
-                || (now <= end && end < start)
-            {
+            while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
                 now = dwt.cyccnt.read();
             }
         }
@@ -58,12 +66,33 @@ pub mod gg {
             let start = dwt.cyccnt.read();
             let end = start.wrapping_add(interval);
             let mut now = dwt.cyccnt.read();
-            while (now >= start && now <= end)
-                || (now >= start && start > end)
-                || (now <= end && end < start)
-            {
+            while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
                 now = dwt.cyccnt.read();
             }
         }
+    }
+    pub fn delay_tick(n: u32) {
+        unsafe {
+            let p = cortex_m::Peripherals::steal();
+            let dwt = &p.DWT;
+            let start = dwt.cyccnt.read();
+            let end = start.wrapping_add(n);
+            let mut now = dwt.cyccnt.read();
+            while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
+                now = dwt.cyccnt.read();
+            }
+        }
+    }
+
+    pub fn init_clock() {
+        let mut config = embassy_stm32::Config::default();
+        config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
+        config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
+                                                         // should better set in the rcc module. instead of here.
+
+        let p = embassy_stm32::init(config);
+        delay_enable(160_000_000);
+        RCC.ccipr1()
+            .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
     }
 }

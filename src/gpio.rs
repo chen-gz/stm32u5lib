@@ -2,15 +2,18 @@
 pub mod gg {
 
     macro_rules! define_gpio_port {
-    ($($name:ident: $port:ident, $pin:expr),*) => {
-        $(
-            pub const $name: GpioPort = GpioPort {
-                port: $port,
-                pin: $pin,
-            };
-        )*
-    };
-}
+        ($($name:ident: $port:ident, $pin:expr, $alt:expr),*) => {
+            $(
+                pub const $name: GpioPort = GpioPort {
+                    port: $port,
+                    pin: $pin,
+                    alt_func: $alt,
+                };
+            )*
+        };
+    }
+
+    use core::panic;
 
     pub use stm32_metapac::gpio::vals::Moder;
     pub use stm32_metapac::gpio::vals::Odr;
@@ -22,6 +25,8 @@ pub mod gg {
     pub struct GpioPort {
         port: Gpio,
         pin: usize,
+        /// Alternate function
+        alt_func: u8,
     }
 
     impl GpioPort {
@@ -43,49 +48,37 @@ pub mod gg {
                 );
             })
         }
-        pub fn setup(&self, moder: Moder, otypte: Ot, pupd: Pupdr, alt: u8) {
+        pub fn setup(&self, moder: Moder, otypte: Ot, pupd: Pupdr) {
             self.port.moder().modify(|v| v.set_moder(self.pin, moder));
             self.port.otyper().modify(|v| v.set_ot(self.pin, otypte));
             self.port.pupdr().modify(|v| v.set_pupdr(self.pin, pupd));
             if self.pin < 8 {
-                self.port.afr(0).modify(|v| v.set_afr(self.pin, alt));
+                self.port
+                    .afr(0)
+                    .modify(|v| v.set_afr(self.pin, self.alt_func));
             } else {
-                self.port.afr(1).modify(|v| v.set_afr(self.pin - 8, alt));
+                self.port
+                    .afr(1)
+                    .modify(|v| v.set_afr(self.pin - 8, self.alt_func));
             }
         }
     }
     define_gpio_port!(
-    PC0: GPIOC, 0, PC1: GPIOC, 1, PC2: GPIOC, 2, PC3: GPIOC, 3,
-    PC4: GPIOC, 4, PC5: GPIOC, 5, PC6: GPIOC, 6, PC7: GPIOC, 7,
-    PC8: GPIOC, 8, PC9: GPIOC, 9, PC10: GPIOC, 10, PC11: GPIOC, 11,
-    PC12: GPIOC, 12, PC13: GPIOC, 13, PC14: GPIOC, 14, PC15: GPIOC, 15
+    PB0: GPIOB, 0, 0, PB1: GPIOB, 1,0, PB2: GPIOB, 2, 0, PB3: GPIOB, 3,0,
+    PB4: GPIOB, 4, 0, PB5: GPIOB, 5,0, PB6: GPIOB, 6, 0, PB7: GPIOB, 7,0,
+    PB8: GPIOB, 8, 0, PB9: GPIOB, 9,0, PB10: GPIOB, 10, 0, PB11: GPIOB, 11,0,
+    PB12: GPIOB, 12, 0, PB13: GPIOB, 13,0, PB14: GPIOB, 14, 0, PB15: GPIOB, 15,0,
+
+    PC0: GPIOC, 0, 0, PC1: GPIOC, 1,0, PC2: GPIOC, 2, 0, PC3: GPIOC, 3,0,
+    PC4: GPIOC, 4, 0, PC5: GPIOC, 5,0, PC6: GPIOC, 6, 0, PC7: GPIOC, 7,0,
+    PC8: GPIOC, 8, 0, PC9: GPIOC, 9,0, PC10: GPIOC, 10, 0, PC11: GPIOC, 11,0,
+    PC12: GPIOC, 12, 0, PC13: GPIOC, 13,0, PC14: GPIOC, 14, 0, PC15: GPIOC, 15,0,
+
+    // alternative functions
+    I2C1_SCL_PB6: GPIOB, 6, 4,
+    I2C1_SDA_PB7: GPIOB, 7, 4,
+    I2C1_SCL_PB8: GPIOB, 8, 4,
+    I2C1_SDA_PB9: GPIOB, 9, 4
 
     );
-
-    //  define_gpio_port!(
-    //      PA0: 0, PA1: 1, PA2: 2, PA3: 3,
-    //      PA4: 4, PA5: 5, PA6: 6, PA7: 7,
-    //      PA8: 8, PA9: 9, PA10: 10, PA11: 11,
-    //      PA12: 12, PA13: 13, PA14: 14, PA15: 15,
-
-    //      PB0: 0, PB1: 1, PB2: 2, PB3: 3,
-    //      PB4: 4, PB5: 5, PB6: 6, PB7: 7,
-    //      PB8: 8, PB9: 9, PB10: 10, PB11: 11,
-    //      PB12: 12, PB13: 13, PB14: 14, PB15: 15,
-
-    //      PC0: 0, PC1: 1, PC2: 2, PC3: 3,
-    //      PC4: 4, PC5: 5, PC6: 6, PC7: 7,
-    //      PC8: 8, PC9: 9, PC10: 10, PC11: 11,
-    //      PC12: 12, PC13: 13, PC14: 14, PC15: 15,
-
-    //      PD0: 0, PD1: 1, PD2: 2, PD3: 3,
-    //      PD4: 4, PD5: 5, PD6: 6, PD7: 7,
-    //      PD8: 8, PD9: 9, PD10: 10, PD11: 11,
-    //      PD12: 12, PD13: 13, PD14: 14, PD15: 15,
-
-    //      PE0: 0, PE1: 1, PE2: 2, PE3: 3,
-    //      PE4: 4, PE5: 5, PE6: 6, PE7: 7,
-    //      PE8: 8, PE9: 9, PE10: 10, PE11: 11,
-    //      PE12: 12, PE13: 13, PE14: 14, PE15: 15
-    //  );
 }

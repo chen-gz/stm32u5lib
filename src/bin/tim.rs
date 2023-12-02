@@ -13,6 +13,9 @@ mod clock;
 #[path = "../gpio.rs"]
 mod gpio;
 
+#[path = "../gi2c.rs"]
+mod gi2c;
+
 use defmt_rtt as _;
 const CAM_I2C_ADDR: u8 = 0x78;
 use gpio::gg::GpioPort;
@@ -40,18 +43,15 @@ fn setup() {
 use embassy_stm32::rcc::*;
 #[entry]
 fn main() -> ! {
-    let mut config = embassy_stm32::Config::default();
-    config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
-    config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
-                                                     // should better set in the rcc module. instead of here.
-
-    let p = embassy_stm32::init(config);
-    clock::gg::delay_enable(160_000_000);
+    clock::gg::init_clock();
     setup();
 
     defmt::info!("setup led finished!");
+    let i2c1 = gi2c::gg::I2C1;
+    i2c1.init(400_000, gpio::gg::I2C1_SCL_PB6, gpio::gg::I2C1_SDA_PB7);
+
     loop {
-        GREEN.toggle();
+        // GREEN.toggle();
         ORANGE.toggle();
         // BLUE.toggle();
         clock::gg::delay_ms(500);

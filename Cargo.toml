@@ -43,3 +43,11 @@ bench = false
 name = "led"
 bench = false
 test = false
+[[bin]]
+name = "i2c"
+bench = false
+test = false
+[[bin]]
+name = "timer"
+bench = false
+tese = false
