@@ -94,5 +94,6 @@ pub mod gg {
         delay_enable(160_000_000);
         RCC.ccipr1()
             .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
+        RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
     }
 }

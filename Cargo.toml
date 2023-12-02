@@ -51,3 +51,7 @@ test = false
 name = "timer"
 bench = false
 tese = false
+[[bin]]
+name = "cam"
+bench = false
+test = false

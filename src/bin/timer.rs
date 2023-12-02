@@ -15,6 +15,8 @@ mod gpio;
 
 #[path = "../gi2c.rs"]
 mod gi2c;
+#[path = "../gtim.rs"]
+mod gtim;
 
 use defmt_rtt as _;
 const CAM_I2C_ADDR: u8 = 0x78;
