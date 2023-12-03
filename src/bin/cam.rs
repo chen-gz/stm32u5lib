@@ -37,17 +37,15 @@ bind_interrupts!(struct Irqs {
     I2C3_EV => embassy_stm32::i2c::EventInterruptHandler<peripherals::I2C3>;
     // GPDMA1_CH0 => embassy_stm32::dma::<peripherals::GPDMA1_CH0>;
 });
+#[path = "../gi2c.rs"]
+mod gi2c;
+#[path = "../gpio.rs"]
+mod gpio;
 #[path = "../ov5640_reg.rs"]
 mod ov5640_reg;
 
 use ov5640_reg::*;
 
-#[path = "../gi2c.rs"]
-mod gi2c;
-#[path = "../gpio.rs"]
-mod gpio;
-
-use crate::ov5640_reg::{OV5640_Common, OV5640_JFIFO_OVERFLOW, OV5640_JPEG_MODE, OV5640_PF_JPEG};
 use embassy_stm32::timer::simple_pwm;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use embassy_sync::signal::Signal;
@@ -65,20 +63,29 @@ static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 #[path = "../clock.rs"]
 mod clock;
-#[embassy_executor::main]
-async fn main(spawner: Spawner) {
-    // let mut config = Config::default();
-    // let p = embassy_stm32::init(config);
-    clock::gg::init_clock();
-    let p = unsafe { embassy_stm32::Peripherals::steal() };
 
-    let led_orange = gpio::gg::PC4;
-    led_orange.setup();
+const LED_GREEN: gpio::GpioPort = gpio::PC3;
+const LED_ORANGE: gpio::GpioPort = gpio::PC4;
+const LED_BLUE: gpio::GpioPort = gpio::PC5;
+const CAM_I2C: gi2c::I2cPort = gi2c::I2C3;
+const CAM_PDWN: gpio::GpioPort = gpio::PB0;
 
-    defmt::info!("start init");
+fn setup() {
+    // this function setup for peripheral
+    clock::init_clock();
+    CAM_PDWN.setup();
+    LED_ORANGE.setup();
+    LED_ORANGE.set_high();
+    LED_GREEN.setup();
+    LED_GREEN.set_high();
+    LED_BLUE.setup();
+    LED_BLUE.set_high();
+    CAM_I2C.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
+}
 
-    // start usb task
+fn setup_cam_clk() {
     // set tim1 as PWN output for 24Mhz as camera clock
+    let p = unsafe { embassy_stm32::Peripherals::steal() };
     let ch1 = simple_pwm::PwmPin::new_ch1(p.PA8, OutputType::PushPull);
     let mut cam_xclk = simple_pwm::SimplePwm::new(
         p.TIM1,
@@ -91,48 +98,14 @@ async fn main(spawner: Spawner) {
         embassy_stm32::timer::CountingMode::EdgeAlignedUp,
     );
     let max = cam_xclk.get_max_duty();
-    // spawner.spawn(usb_task()).unwrap();
-
-    let res = spawner.spawn(usb_task());
-    match res {
-        Ok(_) => {}
-        Err(err) => {
-            defmt::info!("spawn usb task failed");
-        }
-    }
-
     cam_xclk.set_duty(embassy_stm32::timer::Channel::Ch1, max / 2);
     TIM1.cr1().modify(|w| {
         w.set_arpe(Arpe::ENABLED);
     });
     cam_xclk.enable(embassy_stm32::timer::Channel::Ch1);
-
-    let cam_i2c = gi2c::gg::I2C3;
-    cam_i2c.init(100_000, gpio::gg::I2C3_SCL_PC0, gpio::gg::I2C3_SDA_PB4);
-
-    let mut read_val: [u8; 2] = [0u8; 2];
-    cam_i2c
-        .write_read(
-            OV5640_I2C_ADDR as u16,
-            &[
-                (OV5640_CHIP_ID_HIGH_BYTE >> 8) as u8,
-                OV5640_CHIP_ID_HIGH_BYTE as u8,
-            ],
-            &mut read_val[0..1],
-        )
-        .unwrap();
-    cam_i2c
-        .write_read(
-            OV5640_I2C_ADDR as u16,
-            &[
-                (OV5640_CHIP_ID_LOW_BYTE >> 8) as u8,
-                OV5640_CHIP_ID_LOW_BYTE as u8,
-            ],
-            &mut read_val[1..2],
-        )
-        .unwrap();
-    defmt::info!("read chipid success (hex): 0x{:x}", read_val);
-
+}
+fn setup_dcmi() {
+    let p = unsafe { embassy_stm32::Peripherals::steal() };
     let mut dcmi_config = embassy_stm32::dcmi::Config::default();
     dcmi_config.vsync_level = embassy_stm32::dcmi::VSyncDataInvalidLevel::High;
     dcmi_config.hsync_level = embassy_stm32::dcmi::HSyncDataInvalidLevel::High;
@@ -158,43 +131,59 @@ async fn main(spawner: Spawner) {
     DCMI.cr().modify(|w| {
         w.set_jpeg(true);
     });
-    let led_green = gpio::gg::PC3;
-    led_green.setup();
+}
+
+fn setup_camera() {
+    let mut read_val: [u8; 2] = [0u8; 2];
+    CAM_I2C
+        .write_read(
+            OV5640_I2C_ADDR,
+            &[
+                (OV5640_CHIP_ID_HIGH_BYTE >> 8) as u8,
+                OV5640_CHIP_ID_HIGH_BYTE as u8,
+            ],
+            &mut read_val[0..1],
+        )
+        .unwrap();
+    CAM_I2C
+        .write_read(
+            OV5640_I2C_ADDR,
+            &[
+                (OV5640_CHIP_ID_LOW_BYTE >> 8) as u8,
+                OV5640_CHIP_ID_LOW_BYTE as u8,
+            ],
+            &mut read_val[1..2],
+        )
+        .unwrap();
+    assert!(read_val[0] == 0x56 && read_val[1] == 0x40);
 
     // read PIDH
     let mut read_val = [0u8; 1];
-    cam_i2c
-        .write_read(OV5640_I2C_ADDR, &[0x30, 0x0A], &mut read_val)
-        .unwrap();
-    defmt::info!("PIDH: {}", read_val[0]);
 
-    let mut read_val = [0u8; 1];
-
-    cam_i2c
-        .write_read(ov5640_reg::OV5640_I2C_ADDR, &[0x30, 0x0B], &mut read_val)
-        .unwrap();
-
+    defmt::info!("writing ov5640 common regs");
     for &(reg, val) in ov5640_reg::OV5640_Common.iter() {
         let mut reg_val = [0u8; 3];
         reg_val[0] = (reg >> 8) as u8;
         reg_val[1] = reg as u8;
         reg_val[2] = val as u8;
-        match cam_i2c.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
+        match CAM_I2C.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
             Ok(_) => {}
             Err(_) => {
-                defmt::info!("write reg failed")
+                defmt::panic!("failed when writing ov5640 common regs");
             }
         }
     }
+
+    defmt::info!("writing ov5640 jpeg regs");
     for &(reg, val) in OV5640_PF_JPEG.iter() {
         let mut reg_val = [0u8; 3];
         reg_val[0] = (reg >> 8) as u8;
         reg_val[1] = reg as u8;
         reg_val[2] = val as u8;
-        match cam_i2c.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
+        match CAM_I2C.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
             Ok(_) => {}
             Err(_) => {
-                defmt::info!("write reg failed")
+                defmt::panic!("failed when writing ov5640 jpeg regs");
             }
         }
     }
@@ -203,77 +192,104 @@ async fn main(spawner: Spawner) {
         reg_val[0] = (reg >> 8) as u8;
         reg_val[1] = reg as u8;
         reg_val[2] = val as u8;
-        match cam_i2c.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
+        match CAM_I2C.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
             Ok(_) => {}
             Err(_) => {
-                defmt::info!("write reg failed")
+                defmt::panic!("failed when writing ov5640 jpeg mode");
             }
         }
     }
+    defmt::info!("writing ov5640 jpeg regs finished");
 
     let mut read_val = [0u8; 1];
     let mut reg_addr = [0u8; 2];
     // OV5640_TIMING_TC_REG21
     reg_addr[0] = (ov5640_reg::OV5640_TIMING_TC_REG21 >> 8) as u8;
     reg_addr[1] = ov5640_reg::OV5640_TIMING_TC_REG21 as u8;
-    cam_i2c.write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val);
+    CAM_I2C
+        .write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val)
+        .unwrap();
     let mut write_val = [0u8; 3];
     write_val[0] = reg_addr[0];
     write_val[1] = reg_addr[1];
     write_val[2] = read_val[0] | (1 << 5);
-    cam_i2c.write(ov5640_reg::OV5640_I2C_ADDR, &write_val);
+    CAM_I2C
+        .write(ov5640_reg::OV5640_I2C_ADDR, &write_val)
+        .unwrap();
 
     // SYSREM_RESET02
     reg_addr[0] = (ov5640_reg::OV5640_SYSREM_RESET02 >> 8) as u8;
     reg_addr[1] = ov5640_reg::OV5640_SYSREM_RESET02 as u8;
-    cam_i2c.write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val);
+    CAM_I2C
+        .write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val)
+        .unwrap();
     let mut write_val = [0u8; 3];
     write_val[0] = reg_addr[0];
     write_val[1] = reg_addr[1];
     write_val[2] = read_val[0] & !(1 << 2 | 1 << 3 | 1 << 4);
-    cam_i2c.write(ov5640_reg::OV5640_I2C_ADDR, &write_val);
+    CAM_I2C
+        .write(ov5640_reg::OV5640_I2C_ADDR, &write_val)
+        .unwrap();
 
     // OV5640_CLOCK_ENABLE02
     reg_addr[0] = (ov5640_reg::OV5640_CLOCK_ENABLE02 >> 8) as u8;
     reg_addr[1] = ov5640_reg::OV5640_CLOCK_ENABLE02 as u8;
-    cam_i2c.write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val);
+    CAM_I2C
+        .write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val)
+        .unwrap();
     let mut write_val = [0u8; 3];
     write_val[0] = reg_addr[0];
     write_val[1] = reg_addr[1];
     write_val[2] = read_val[0] | (1 << 3 | 1 << 5);
-    cam_i2c.write(ov5640_reg::OV5640_I2C_ADDR, &write_val);
+    CAM_I2C
+        .write(ov5640_reg::OV5640_I2C_ADDR, &write_val)
+        .unwrap();
+    defmt::info!("setup camera registers finished");
+}
 
-    PWR.svmcr().modify(|w| w.set_io2sv(true));
-    // let mut led_red = Output::new(p.PG2, embassy_stm32::gpio::Level::High, embassy_stm32::gpio::Speed::VeryHigh);
+#[embassy_executor::main]
+async fn main(spawner: Spawner) {
+    setup();
+    defmt::info!("init clock finished");
+    setup_cam_clk();
+    // CAM_PDWN.set_high();
+    clock::delay_ms(10);
+    setup_camera();
+
+    // start usb task
+    // spawner.spawn(usb_task()).unwrap();
+
+    spawner.spawn(usb_task()).unwrap();
+
     GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {
         Timer::after(Duration::from_secs(1)).await;
-        led_green.toggle();
+        LED_GREEN.toggle();
     }
 
-    loop {
-        unsafe {
-            dcmi.capture(&mut PIC_BUF).await;
-        }
-        let buf = unsafe { &PIC_BUF };
-        if unsafe { (PIC_BUF[0] & 0xffff) == 0xd8ff } {
-        } else {
-            continue;
-        }
-        // try to find oxff 0xd9
-        let mut pix_size = 0;
-        for i in 0..PIC_BUF_SIZE {
-            if unsafe { PIC_BUF[i] & 0xffff == 0xd9ff || (PIC_BUF[i] >> 16) & 0xffff == 0xd9ff } {
-                // led_red.toggle();
-                led_green.toggle();
-                pix_size = i;
-                break;
-            }
-        }
-        SIGNAL.signal(pix_size as u32);
-        SIGNAL2.wait().await;
-        Timer::after(Duration::from_secs(3)).await;
-    }
+    // loop {
+    //     unsafe {
+    //         dcmi.capture(&mut PIC_BUF).await;
+    //     }
+    //     let buf = unsafe { &PIC_BUF };
+    //     if unsafe { (PIC_BUF[0] & 0xffff) == 0xd8ff } {
+    //     } else {
+    //         continue;
+    //     }
+    //     // try to find oxff 0xd9
+    //     let mut pix_size = 0;
+    //     for i in 0..PIC_BUF_SIZE {
+    //         if unsafe { PIC_BUF[i] & 0xffff == 0xd9ff || (PIC_BUF[i] >> 16) & 0xffff == 0xd9ff } {
+    //             // led_red.toggle();
+    //             LED_GREEN.toggle();
+    //             pix_size = i;
+    //             break;
+    //         }
+    //     }
+    //     SIGNAL.signal(pix_size as u32);
+    //     SIGNAL2.wait().await;
+    //     Timer::after(Duration::from_secs(3)).await;
+    // }
 }
 
 #[embassy_executor::task]
