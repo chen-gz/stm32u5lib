@@ -2,10 +2,6 @@
 #![no_main]
 use cortex_m_rt::entry;
 
-// #[path = "../clock.rs"]
-// mod clock;
-// #[path = "../gpio.rs"]
-// mod gpio;
 use u5_lib::clock;
 use u5_lib::gpio;
 

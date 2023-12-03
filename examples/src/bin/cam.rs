@@ -35,12 +35,9 @@ bind_interrupts!(struct Irqs {
     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
     // GPDMA1_CH0 => embassy_stm32::dma::<peripherals::GPDMA1_CH0>;
 });
-#[path = "../gi2c.rs"]
-mod gi2c;
-#[path = "../gpio.rs"]
-mod gpio;
 #[path = "../ov5640_reg.rs"]
 mod ov5640_reg;
+use u5_lib::*;
 
 use ov5640_reg::*;
 
