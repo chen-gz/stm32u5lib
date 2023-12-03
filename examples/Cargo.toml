@@ -1,0 +1,28 @@
+[package]
+name = "led"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+u5-lib = { path = "../u5-lib" }
+cortex-m = { version = "0.7.7", features = [
+    "inline-asm",
+    "critical-section-single-core",
+] }
+cortex-m-rt = { version = "0.7.3" }
+futures = { version = "0.3.17", default-features = false, fetures = [
+    "async-await",
+] }
+
+defmt = { version = "0.3.5" }
+defmt-rtt = { version = "0.4.0" }
+defmt-itm = { version = "0.3.0" }
+
+[[bin]]
+
+name = "led"
+bench = false
+test = false
