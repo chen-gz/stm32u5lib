@@ -7,33 +7,51 @@ edition = "2021"
 
 [dependencies]
 
-stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
-    "stm32u575ri",
-] }
+
 embassy-stm32 = { version = "0.1.0", git = "https://github.com/embassy-rs/embassy", commit = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64", features = [
     # "nightly",
-    "unstable-traits",
-    "stm32u575ri",
+    # "unstable-traits",
+    # "stm32u575ri",
+    "stm32u575zi",
     "unstable-pac",
     "memory-x",
     "time-driver-any",
     "exti",
     "defmt",
 ] }
-
+stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
+    "stm32u575zi",
+] }
+#  "stm32u575ri",
 defmt = { version = "0.3.5" }
 defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
+
 
 cortex-m = { version = "0.7.7", features = [
     "inline-asm",
     "critical-section-single-core",
 ] }
 cortex-m-rt = { version = "0.7.3" }
-
+futures = { version = "0.3.17", default-features = false, fetures = [
+    "async-await",
+] }
+embassy-time = { git = "https://github.com/embassy-rs/embassy", commit = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64" }
+embassy-sync = { version = "0.2.0" }
+# embassy-sync = { git = "https://github.com/embassy-rs/embassy", commit = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64" }
 [dependencies.embassy-executor]
-features = ["integrated-timers"]
+features = ["nightly", "arch-cortex-m", "executor-thread", "integrated-timers"]
 git = "https://github.com/embassy-rs/embassy"
+commit = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64"
+
+[dependencies.embassy-usb]
+git = "https://github.com/embassy-rs/embassy"
+commit = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64"
+
+[profile.dev]
+lto = true
+opt-level = "z"
+debug = true
 
 [[bin]]
 name = "u5_new"

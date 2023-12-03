@@ -95,5 +95,9 @@ pub mod gg {
         RCC.ccipr1()
             .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
         RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
+
+        RCC.ccipr3()
+            .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::Icsel::HSI));
+        RCC.apb3enr().modify(|v| v.set_i2c3en(true));
     }
 }

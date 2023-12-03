@@ -10,3 +10,5 @@ led:
 	DEFMT_LOG=info cargo run --bin led
 i2c: 
 	DEFMT_LOG=info cargo run --bin i2c
+cam: 
+	DEFMT_LOG=info cargo run --bin cam
