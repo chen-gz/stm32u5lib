@@ -81,6 +81,7 @@ pub fn init_clock() {
     config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
     config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
                                                      // should better set in the rcc module. instead of here.
+    let _p = embassy_stm32::init(config);
     delay_enable(160_000_000);
     RCC.ccipr1()
         .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
