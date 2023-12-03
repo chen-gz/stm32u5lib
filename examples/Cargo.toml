@@ -22,7 +22,14 @@ defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
 
 [[bin]]
-
 name = "led"
+bench = false
+test = false
+[[bin]]
+name = "i2c"
+bench = false
+test = false
+[[bin]]
+name = "cam"
 bench = false
 test = false
