@@ -1,13 +1,8 @@
-use cortex_m::{self, peripheral::SYST};
+#![allow(dead_code)]
+use cortex_m::{self};
 
-use cortex_m_rt::entry;
 use embassy_stm32::rcc::*;
-use embassy_stm32::time::Hertz;
 use stm32_metapac::RCC;
-// use embassy_stm32::pac::metadata::sdmmc;
-// use embassy_stm32::sdmmc;
-use embassy_stm32::{bind_interrupts, timer};
-use embassy_stm32::{dma::NoDma, gpio::Output, i2c, interrupt, peripherals, rcc, sdmmc, time::khz};
 pub static mut SYSTEM_CLOCK: u32 = 4_000_000;
 pub fn get_kernel_freq() -> u32 {
     unsafe { SYSTEM_CLOCK }
@@ -86,8 +81,6 @@ pub fn init_clock() {
     config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
     config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
                                                      // should better set in the rcc module. instead of here.
-
-    let p = embassy_stm32::init(config);
     delay_enable(160_000_000);
     RCC.ccipr1()
         .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));

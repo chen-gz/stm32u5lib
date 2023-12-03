@@ -1,65 +1,45 @@
 #![no_std]
 #![no_main]
-#![allow(unused)]
 use cortex_m_rt::entry;
-use embassy_stm32::time::Hertz;
-// use embassy_stm32::pac::metadata::sdmmc;
-// use embassy_stm32::sdmmc;
-use embassy_stm32::{bind_interrupts, timer};
-use embassy_stm32::{dma::NoDma, gpio::Output, i2c, interrupt, peripherals, rcc, sdmmc, time::khz};
 
 #[path = "../clock.rs"]
 mod clock;
+#[path = "../gi2c.rs"]
+mod gi2c;
 #[path = "../gpio.rs"]
 mod gpio;
 
-#[path = "../gi2c.rs"]
-mod gi2c;
-
 use defmt_rtt as _;
-const CAM_I2C_ADDR: u8 = 0x78;
-use gpio::gg::GpioPort;
-const GREEN: GpioPort = gpio::gg::PC3;
-const ORANGE: GpioPort = gpio::gg::PC4;
-const BLUE: GpioPort = gpio::gg::PC5;
+const CAM_I2C_ADDR: u16 = 0x78;
+use gpio::GpioPort;
+const GREEN: GpioPort = gpio::PC3;
+const ORANGE: GpioPort = gpio::PC4;
+const BLUE: GpioPort = gpio::PC5;
+const I2C: gi2c::I2cPort = gi2c::I2C1;
 fn setup() {
-    GREEN.setup(
-        gpio::gg::Moder::OUTPUT,
-        gpio::gg::Ot::PUSHPULL,
-        gpio::gg::Pupdr::FLOATING,
-    );
-    ORANGE.setup(
-        gpio::gg::Moder::OUTPUT,
-        gpio::gg::Ot::PUSHPULL,
-        gpio::gg::Pupdr::FLOATING,
-    );
-    BLUE.setup(
-        gpio::gg::Moder::OUTPUT,
-        gpio::gg::Ot::PUSHPULL,
-        gpio::gg::Pupdr::FLOATING,
-    );
+    GREEN.setup();
+    ORANGE.setup();
+    BLUE.setup();
+    I2C.init(400_000, gpio::I2C1_SCL_PB6, gpio::I2C1_SDA_PB7);
 }
 
-use embassy_stm32::rcc::*;
 #[entry]
 fn main() -> ! {
-    clock::gg::init_clock();
+    clock::init_clock();
     setup();
 
     defmt::info!("setup led finished!");
-    let i2c1 = gi2c::gg::I2C1;
-    i2c1.init(400_000, gpio::gg::I2C1_SCL_PB6, gpio::gg::I2C1_SDA_PB7);
+    I2C.write(CAM_I2C_ADDR, &[0x0]).unwrap();
+    let mut data = [0u8; 2];
+    I2C.read(CAM_I2C_ADDR, &mut data).unwrap();
 
     loop {
-        // GREEN.toggle();
         ORANGE.toggle();
-        // BLUE.toggle();
-        clock::gg::delay_ms(500);
+        clock::delay_ms(500);
     }
 }
 
 use core::panic::PanicInfo;
-use core::time::Duration;
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     loop {}

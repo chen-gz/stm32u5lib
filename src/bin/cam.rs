@@ -33,8 +33,6 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
 bind_interrupts!(struct Irqs {
     DCMI_PSSI => embassy_stm32::dcmi::InterruptHandler<peripherals::DCMI>;
     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
-    I2C3_ER => embassy_stm32::i2c::ErrorInterruptHandler<peripherals::I2C3>;
-    I2C3_EV => embassy_stm32::i2c::EventInterruptHandler<peripherals::I2C3>;
     // GPDMA1_CH0 => embassy_stm32::dma::<peripherals::GPDMA1_CH0>;
 });
 #[path = "../gi2c.rs"]
