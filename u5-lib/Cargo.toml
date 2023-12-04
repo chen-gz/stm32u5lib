@@ -9,9 +9,6 @@ edition = "2021"
 # "nightly",
 # "unstable-traits",
 # "stm32u575ri",
-stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
-    "stm32u575zi",
-] }
 #  "stm32u575ri",
 defmt = { version = "0.3.5" }
 defmt-rtt = { version = "0.4.0" }
@@ -25,6 +22,9 @@ cortex-m = { version = "0.7.7", features = [
 cortex-m-rt = { version = "0.7.3" }
 futures = { version = "0.3.17", default-features = false, fetures = [
     "async-await",
+] }
+stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
+    "stm32u575zi",
 ] }
 embassy-sync = { version = "0.2.0" }
 # embassy-sync = { git = "https://github.com/embassy-rs/embassy", rev = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64" }
@@ -60,26 +60,6 @@ lto = true
 opt-level = "z"
 debug = true
 
-# [[bin]]
-# name = "u5_new"
-# test = false
-# bench = false
-# [[bin]]
-# name = "led"
-# bench = false
-# test = false
-# [[bin]]
-# name = "i2c"
-# bench = false
-# test = false
-# [[bin]]
-# name = "timer"
-# bench = false
-# test = false
-# [[bin]]
-# name = "cam"
-# bench = false
-# test = false
 [lib]
 name = "u5_lib"
 path = "src/lib.rs"

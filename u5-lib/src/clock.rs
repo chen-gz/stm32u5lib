@@ -90,4 +90,9 @@ pub fn init_clock() {
     RCC.ccipr3()
         .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::Icsel::HSI));
     RCC.apb3enr().modify(|v| v.set_i2c3en(true));
+
+    // dcmi clock
+    RCC.ahb2enr1().modify(|v| v.set_dcmien(true));
+    // enable dma clock
+    RCC.ahb1enr().modify(|v| v.set_gpdma1en(true))
 }
