@@ -37,14 +37,8 @@ bind_interrupts!(struct Irqs {
 });
 // #[path = "../ov5640_reg.rs"]
 // mod ov5640_reg;
+use u5_lib::ov5640_reg;
 use u5_lib::*;
-use u5_lib::{
-    gpio::{
-        DCMI_D0_PC6, DCMI_D1_PC7, DCMI_D2_PC8, DCMI_D3_PC9, DCMI_D4_PC11, DCMI_D5_PB6, DCMI_D6_PB8,
-        DCMI_D7_PB9, DCMI_HSYNC_PA4, DCMI_PIXCLK_PA6, DCMI_VSYNC_PB7,
-    },
-    ov5640_reg,
-};
 
 use ov5640_reg::*;
 
@@ -57,10 +51,10 @@ use stm32_metapac::gpio::vals::Ospeedr;
 use stm32_metapac::timer::vals::Arpe;
 use stm32_metapac::{DCMI, GPDMA1, GPIOB, GPIOC, I2C3, PWR, RCC, TIM1};
 
-const PIC_BUF_SIZE: usize = 600_000;
-// const PIC_BUF_SIZE: usize = 0xffff;
+// const PIC_BUF_SIZE: usize = 130_000;
+const PIC_BUF_SIZE: usize = 0xffff;
 // const PIC_BUF_SIZE: usize = 140_000;
-static mut PIC_BUF: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
+static mut PIC_BUF: [u32; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
@@ -252,53 +246,138 @@ async fn main(spawner: Spawner) {
     setup();
     defmt::info!("init clock finished");
     setup_cam_clk();
-    CAM_PDWN.set_low();
+    // CAM_PDWN.set_high();
     clock::delay_ms(10);
     setup_camera();
-    let dcmi = dcmi::DCMI;
-    dcmi.init(
-        DCMI_D0_PC6,
-        DCMI_D1_PC7,
-        DCMI_D2_PC8,
-        DCMI_D3_PC9,
-        DCMI_D4_PC11,
-        DCMI_D5_PB6,
-        DCMI_D6_PB8,
-        DCMI_D7_PB9,
-        DCMI_HSYNC_PA4,
-        DCMI_VSYNC_PB7,
-        DCMI_PIXCLK_PA6,
-    );
-    unsafe {
-        // get buffert address add print it
-        defmt::info!("PIC_BUF address = 0x{:x}", PIC_BUF.as_ptr() as u32);
-        dcmi.capture(dma::DCMI_DMA, &mut PIC_BUF);
-        clock::delay_ms(2000);
-        dcmi.stop_capture(dma::DCMI_DMA);
-        // print first 10 bytes in PIC_BUF in hex
-        defmt::info!("PIC_BUF[0..10] in hex =  0x{:x}", &PIC_BUF[0..10]);
-        defmt::info!("dcmi status register = 0x{:x}", DCMI.sr().read().0);
-        defmt::info!(
-            "dcmi raw interrupt status register = 0x{:x}",
-            DCMI.ris().read().0
-        );
-        defmt::info!("PIC_BUF[0..10] in hex =  0x{:x}", &PIC_BUF[0..10]);
-        // try to find ff d9 for jpeg end
-        let mut found = false;
-        for i in 0..PIC_BUF_SIZE - 1 {
-            if PIC_BUF[i] == 0xff && PIC_BUF[i + 1] == 0xd9 {
-                found = true;
-                defmt::info!("find jpeg end at index {}", i);
-            }
-        }
-        if !found {
-            defmt::info!("not find jpeg end");
-        }
-    }
 
-    // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
+    // start usb task
+    // spawner.spawn(usb_task()).unwrap();
+
+    spawner.spawn(usb_task()).unwrap();
+
+    GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {
         Timer::after(Duration::from_secs(1)).await;
         LED_GREEN.toggle();
+    }
+    // DCMI.capture(&mut PIC_BUF).await;
+
+    // loop {
+    //     unsafe {
+    //         dcmi.capture(&mut PIC_BUF).await;
+    //     }
+    //     let buf = unsafe { &PIC_BUF };
+    //     if unsafe { (PIC_BUF[0] & 0xffff) == 0xd8ff } {
+    //     } else {
+    //         continue;
+    //     }
+    //     // try to find oxff 0xd9
+    //     let mut pix_size = 0;
+    //     for i in 0..PIC_BUF_SIZE {
+    //         if unsafe { PIC_BUF[i] & 0xffff == 0xd9ff || (PIC_BUF[i] >> 16) & 0xffff == 0xd9ff } {
+    //             // led_red.toggle();
+    //             LED_GREEN.toggle();
+    //             pix_size = i;
+    //             break;
+    //         }
+    //     }
+    //     SIGNAL.signal(pix_size as u32);
+    //     SIGNAL2.wait().await;
+    //     Timer::after(Duration::from_secs(3)).await;
+    // }
+}
+
+#[embassy_executor::task]
+async fn usb_task() {
+    let p = unsafe { embassy_stm32::Peripherals::steal() };
+    // init USB CDC
+    let mut ep_out_buffer = [0u8; 256];
+    let mut config = embassy_stm32::usb_otg::Config::default();
+    // config.vbus_detection = true;
+    config.vbus_detection = false;
+    let driver = Driver::new_fs(
+        p.USB_OTG_FS,
+        Irqs,
+        p.PA12,
+        p.PA11,
+        &mut ep_out_buffer,
+        config,
+    );
+    //
+    // // Create embassy-usb Config
+    let mut config = embassy_usb::Config::new(0xc0de, 0xcafe);
+    config.manufacturer = Some("Embassy");
+    config.product = Some("USB-serial example");
+    config.serial_number = Some("12345678");
+
+    config.device_class = 0xEF;
+    config.device_sub_class = 0x02;
+    config.device_protocol = 0x01;
+    config.composite_with_iads = true;
+
+    // Create embassy-usb DeviceBuilder using the driver and config.
+    // It needs some buffers for building the descriptors.
+    let mut device_descriptor = [0; 256];
+    let mut config_descriptor = [0; 256];
+    let mut bos_descriptor = [0; 256];
+    let mut control_buf = [0; 64];
+    let mut msos_descriptor = [0; 256];
+
+    let mut state = State::new();
+
+    // Create classes on the builder.
+    //
+    // pub fn new(
+    //     driver: D,
+    //     config: Config<'d>,
+    //     device_descriptor_buf: &'d mut [u8],
+    //     config_descriptor_buf: &'d mut [u8],
+    //     bos_descriptor_buf: &'d mut [u8],
+    //     msos_descriptor_buf: &'d mut [u8],
+    //     control_buf: &'d mut [u8],
+    let mut builder = Builder::new(
+        driver,
+        config,
+        &mut device_descriptor,
+        &mut config_descriptor,
+        &mut bos_descriptor,
+        &mut msos_descriptor,
+        &mut control_buf,
+    );
+
+    let mut class = CdcAcmClass::new(&mut builder, &mut state, 64);
+    // Build the builder.
+    let mut usb = builder.build();
+    let usb_fut = usb.run(); // Run the USB device.
+                             // Do stuff with the class!
+    let echo_fut = async {
+        loop {
+            class.wait_connection().await;
+            let num = SIGNAL.wait().await as usize;
+            let times = num / 16 + 1;
+            let mut addr_shift = 0;
+
+            for i in 0..times {
+                let mut buf_u8 = [0u8; 64];
+                for j in 0..16 {
+                    if (i * 16 + j > num + 1) {
+                        break;
+                    }
+                    unsafe {
+                        buf_u8[4 * j] = (PIC_BUF[i * 16 + j]) as u8;
+                        buf_u8[4 * j + 1] = (PIC_BUF[i * 16 + j] >> 8) as u8;
+                        buf_u8[4 * j + 2] = (PIC_BUF[i * 16 + j] >> 16) as u8;
+                        buf_u8[4 * j + 3] = (PIC_BUF[i * 16 + j] >> 24) as u8;
+                    }
+                }
+                class.write_packet(&buf_u8).await;
+            }
+            SIGNAL2.signal(1);
+        }
+    };
+
+    join(usb_fut, echo_fut).await; // Run everything concurrently.
+    loop {
+        Timer::after(Duration::from_secs(1)).await;
     }
 }
