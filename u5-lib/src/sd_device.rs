@@ -1,0 +1,27 @@
+use embedded_sdmmc::{Block, BlockCount, BlockDevice, BlockIdx, Error, Mode, Timestamp};
+
+use crate::sdmmc::{SdError, SdInstance};
+
+impl BlockDevice for SdInstance {
+    type Error = SdError;
+    fn read(
+        &self,
+        blocks: &mut [Block],
+        start_block_idx: BlockIdx,
+        reason: &str,
+    ) -> Result<(), Self::Error> {
+        let len = blocks.len() * 256;
+        let data = unsafe { core::slice::from_raw_parts_mut(blocks.as_mut_ptr() as *mut u8, len) };
+        return self.read_multiple_blocks(data, start_block_idx.0, blocks.len() as u32);
+    }
+    fn write(&self, blocks: &[Block], start_block_idx: BlockIdx) -> Result<(), Self::Error> {
+        let len = blocks.len() * 256;
+        let data = unsafe { core::slice::from_raw_parts(blocks.as_ptr() as *const u8, len) };
+        return self.write_multiple_blocks(data, start_block_idx.0, blocks.len() as u32);
+    }
+
+    fn num_blocks(&self) -> Result<BlockCount, Self::Error> {
+
+        Ok(BlockCount(0))
+    }
+}

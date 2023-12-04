@@ -1,8 +1,8 @@
 #![allow(dead_code)]
 use cortex_m::{self};
 
-use embassy_stm32::rcc::*;
-use stm32_metapac::RCC;
+use embassy_stm32::{interrupt::typelevel::RCC, rcc::*};
+use stm32_metapac::{rcc, RCC};
 pub static mut SYSTEM_CLOCK: u32 = 4_000_000;
 pub fn get_kernel_freq() -> u32 {
     unsafe { SYSTEM_CLOCK }
@@ -94,5 +94,22 @@ pub fn init_clock() {
     // dcmi clock
     RCC.ahb2enr1().modify(|v| v.set_dcmien(true));
     // enable dma clock
-    RCC.ahb1enr().modify(|v| v.set_gpdma1en(true))
+    RCC.ahb1enr().modify(|v| v.set_gpdma1en(true));
+
+    // enable gpioG clock
+    RCC.ahb2enr1().modify(|v| v.set_gpiogen(true));
+
+    // enable sdmmc clock
+    RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
+
+    // enable sdmmc2 clock
+    RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
+
+    // hsi48 as iclk
+    RCC.ccipr1()
+        .modify(|v| v.set_iclksel(rcc::vals::Iclksel::HSI48));
+
+    // use hsi48 for sdmmc clock
+    RCC.ccipr2()
+        .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK));
 }
