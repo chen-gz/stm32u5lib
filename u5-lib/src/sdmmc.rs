@@ -1,7 +1,7 @@
 #![allow(unused)]
 
-use defmt::export::panic;
 use crate::clock::{delay_ms, delay_tick, delay_us};
+use defmt::export::panic;
 use futures::future::OkInto;
 use stm32_metapac::{common, sdmmc::Sdmmc};
 pub struct SdmmcPort {
@@ -14,6 +14,7 @@ pub const SD1: SdmmcPort = SdmmcPort {
 #[derive(Copy, Clone, Debug)]
 pub enum SdError {
     STATUSError,
+    CmdTimeout,
 }
 
 use crate::gpio::*;
@@ -35,43 +36,68 @@ impl SdInstance {
             rca: sd::RCA::default(),
         }
     }
-    pub fn init(&mut self) {
+    pub fn init(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
+        clk.setup();
+        cmd.setup();
+        d0.setup();
+
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            v.set_clkdiv(240); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
         });
 
         self.port.power().modify(|v| v.set_pwrctrl(3));
         delay_us(200);
+        defmt::info!("power on, power register: {:?}", self.port.power().read().0);
+        defmt::info!("clkcr: {:?}", self.port.clkcr().read().0);
         self.port.dtimer().modify(|v| {
             v.0 = 8000;
         });
         delay_ms(20);
+        defmt::info!("start init sd card");
         // initilize sd card
-        let mut cmd = common_cmd::idle();
-        self.send_cmd_ctrl(cmd);
-        let cmd = sd_cmd::send_if_cond(0xF, 0xa);
-        self.send_cmd_ctrl(cmd);
+        self.send_cmd_ctrl(common_cmd::idle());
+        delay_ms(200);
+
+        defmt::info!("send if cond");
+        // let cmd = sd_cmd::send_if_cond(0xF, 0xa);
+        loop {
+            match self.send_cmd_ctrl(sd_cmd::send_if_cond(0x1, 0xaa)) {
+                Ok(_) => {
+                    defmt::info!("send if cond ok");
+                    break;
+                }
+                Err(_) => defmt::info!("send if cond error"),
+            }
+        }
 
         ///////// repeat this untill the card is ready
         //
         // card not initialized, rca = 0
+        defmt::info!("send app cmd");
         self.send_cmd_ctrl(common_cmd::app_cmd(0));
+
+        defmt::info!("send op cond");
         let cmd = sd_cmd::sd_send_op_cond(true, true, false, 0xffff);
         self.send_cmd_ctrl(cmd);
         ////////// end of repeat
 
+        defmt::info!("all send cid");
         self.send_cmd_ctrl(common_cmd::all_send_cid());
 
+        defmt::info!("send relative address");
         self.send_cmd_ctrl(sd_cmd::send_relative_address()); // the length of R6 is not defined. the
-                                                        // function may cause issue
+                                                             // function may cause issue
 
+        defmt::info!("send csd");
         self.send_cmd_ctrl(common_cmd::send_csd(self.rca.address()));
 
+        defmt::info!("select card");
         self.send_cmd_ctrl(common_cmd::select_card(self.rca.address()));
 
         // test cmd 23, whether
+        defmt::info!("set block count");
         self.send_cmd_ctrl(sd_cmd::set_block_count(1));
         // self.send_cmd(common_cmd::send_csd(self.csd.rc))
         // self.send_cmd(sd_cmd::send_scr());
@@ -107,14 +133,18 @@ impl SdInstance {
         });
         // ennable command path state machine
         self.port.cmdr().modify(|v| {
-            v.set_cmdtrans(true);
+            v.set_cpsmen(true);
         });
         // read sta
         let mut sta = self.port.star().read();
         match cmd.response_len() {
             ResponseLen::Zero => {
                 // wait for cmdsent
-                while !self.port.star().read().cmdsent() {}
+                while !self.port.star().read().cmdsent() {
+                    // get sta and check error
+                    defmt::info!("sta: {:?}", self.port.star().read().0);
+                    delay_ms(100);
+                }
             }
             ResponseLen::R48 => {
                 panic!("wrong cmd");
@@ -142,6 +172,13 @@ impl SdInstance {
         {
             trans = true;
         }
+        defmt::info!(
+            "cmd: {}, arg: {:x}, trans: {}, resp_len: {}",
+            cmd.cmd,
+            cmd.arg,
+            trans,
+            res_len
+        );
 
         self.port.cmdr().modify(|v| {
             v.set_cmdindex(cmd.cmd);
@@ -150,17 +187,25 @@ impl SdInstance {
         });
         // ennable command path state machine
         self.port.cmdr().modify(|v| {
-            v.set_cmdtrans(true);
+            v.set_cpsmen(true);
         });
         // read sta
         let mut sta = self.port.star().read();
         match cmd.response_len() {
             ResponseLen::Zero => {
                 // wait for cmdsent if no response
+                //
                 while !self.port.star().read().cmdsent() {}
             }
             ResponseLen::R48 => {
-                while !self.port.star().read().cmdrend() {}
+                while !self.port.star().read().cmdrend() {
+                    // get stat and print it
+                    defmt::info!("sta: 0x{:x}", self.port.star().read().0);
+                    delay_ms(100);
+                    if self.port.star().read().ctimeout() {
+                        return Err(SdError::CmdTimeout);
+                    }
+                }
                 // handle short response
                 let resp = self.port.respr(0).read().0;
                 let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp);
@@ -181,23 +226,20 @@ impl SdInstance {
                 let resp3 = self.port.respr(3).read().0;
                 if cmd.cmd == common_cmd::send_csd(0).cmd {
                     let csd: sd::CSD<sd::SD> = sd::CSD::from([resp0, resp1, resp2, resp3]);
-                    defmt::info!("csd: {:?}", csd);
+                    // defmt::info!("csd: {:?}", csd);
                     self.csd = csd;
                 } else if cmd.cmd == common_cmd::send_cid(0).cmd {
                     let cid: sd::CID<sd::SD> = sd::CID::from([resp0, resp1, resp2, resp3]);
-                    defmt::info!("cid: {:?}", cid);
+                    // defmt::info!("cid: {:?}", cid);
                     self.cid = cid;
                 }
             }
         }
+        defmt::info!("cmdsent");
         Ok(())
     }
 
-    pub fn read_single_block(
-        &self,
-        buf: &mut [u8; 512],
-        block_addr: u64,
-    ) -> Result<(), SdError> {
+    pub fn read_single_block(&self, buf: &mut [u8; 512], block_addr: u64) -> Result<(), SdError> {
         // TODO: check
         if block_addr > self.csd.block_count() {
             return Err(SdError::STATUSError);
