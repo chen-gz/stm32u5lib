@@ -5,16 +5,21 @@ use core::ptr::read;
 use crate::clock::{delay_ms, delay_tick, delay_us};
 use futures::future::OkInto;
 use stm32_metapac::{common, sdmmc::Sdmmc};
+
 pub struct SdmmcPort {
     port: Sdmmc,
 }
+
 pub const SD1: SdmmcPort = SdmmcPort {
     port: stm32_metapac::SDMMC1,
 };
+
 use defmt::Format;
 
 #[derive(Copy, Clone, Debug, Format)]
 pub enum SdError {
+    WriteBlockCountError,
+    ReadBlockCountError,
     STATUSError,
     CmdCrcFail,
     DataCrcFail,
@@ -84,17 +89,17 @@ impl SdInstance {
         clk.setup();
         cmd.setup();
         d0.setup();
-        delay_ms(100);
+        delay_ms(1);
 
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            v.set_clkdiv(240); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
         });
 
         delay_ms(20);
         self.port.power().modify(|v| v.set_pwrctrl(3));
-        delay_ms(200);
+        delay_ms(20);
         self.port.dtimer().modify(|v| {
             v.0 = 8000; // TODO: check this value and add comment about it
         });
@@ -233,14 +238,10 @@ impl SdInstance {
     pub fn block_count(&self) -> u32 {
         self.csd.block_count() as u32
     }
-    pub fn test_r6() {
-        let tmp: sd_cmd::R6;
-        // tmp.response_len();
-    }
     pub fn send_cmd<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
         delay_ms(5); // at least seven sdmmc_hcli clock peirod are needed between two write access
-                     // to the cmdr register
+        // to the cmdr register
         self.port.argr().write(|w| {
             w.0 = cmd.arg;
         });
@@ -360,6 +361,72 @@ impl SdInstance {
         Ok(())
     }
 
+    /// the maximum block count is (1<<24) = 16777216 bytes = 16MB
+    pub fn read_multiple_blocks(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        block_count: u32,
+    ) -> Result<(), SdError> {
+        defmt::info!("read multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
+        if (block_count + block_addr) > self.csd.block_count() as u32 {
+            return Err(SdError::ReadBlockCountError);
+        }
+        // TODO: check
+        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+        self.port.dlenr().write(|v| v.0 = block_count * 512);
+        self.port.dctrl().modify(|v| {
+            v.set_fiforst(true);
+            v.set_dblocksize(9);
+            v.set_dtmode(0); // stream data transfer
+            v.set_dtdir(true); // read ture, write false
+        });
+        self.port.idmactrlr().modify(|v| {
+            v.set_idmabmode(false); // single buffer mode
+            v.set_idmaen(true);
+        });
+        self.send_cmd(sd_cmd::set_block_count(block_count))?;
+        self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
+        while !self.port.star().read().dataend() {
+            defmt::error!("stat at read multiple block dataend: {:x}", self.port.star().read().0);
+            self.error_test()?;
+            delay_ms(100);
+        }
+        Ok(())
+    }
+    pub fn write_multiple_blocks(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        block_count: u32,
+    ) -> Result<(), SdError> {
+        defmt::info!("write multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
+        if (block_count + block_addr) > self.csd.block_count() as u32 {
+            return Err(SdError::WriteBlockCountError);
+        }
+        // TODO: check
+        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+        self.port.idmactrlr().modify(|v| {
+            v.set_idmabmode(false); // single buffer mode
+            v.set_idmaen(true);
+        });
+        self.port.dlenr().write(|v| v.0 = block_count * 512);
+        self.port.dctrl().modify(|v| {
+            v.set_fiforst(true);
+            v.set_dblocksize(9);
+            v.set_dtmode(0); // block data transfer
+            v.set_dtdir(false); // read ture, write false
+        });
+        self.send_cmd(sd_cmd::set_block_count(block_count))?;
+        self.send_cmd(common_cmd::write_multiple_blocks(block_addr))?;
+        while !self.port.star().read().dataend() {
+            defmt::error!("stat at write multiple block dataend: {:x}", self.port.star().read().0);
+            self.error_test()?;
+            delay_ms(100);
+        }
+        Ok(())
+    }
+
     // pub fn read_single_block(&self, buf: &mut [u8; 512], block_addr: u64) -> Result<(), SdError> {
     //     // TODO: check
     //     if block_addr > self.csd.block_count() {
@@ -380,8 +447,7 @@ impl SdInstance {
     //         v.set_dtdir(true); // from card to controller
     //     });
     //
-    //     let mut cmd = common_cmd::read_single_block(block_addr as u32);
-    //     self.send_cmd(cmd);
+    //     self.send_cmd(common_cmd::read_single_block(block_addr as u32))?;
     //     // wait for data transfer complete
     //     while !self.port.star().read().dataend() {
     //         self.error_test()?;
@@ -389,88 +455,33 @@ impl SdInstance {
     //     }
     //     Ok(())
     // }
-    //
-    // pub fn write_single_block(&self, buf: &[u8; 512], block_addr: u32) -> Result<(), SdError> {
-    //     // todo check
-    //     if block_addr as u64 > self.csd.block_count() {
-    //         return Err(SdError::STATUSError);
-    //     }
-    //     // TODO: check the address does not match to c code.
-    //
-    //     self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
-    //     self.port.idmactrlr().modify(|v| {
-    //         v.set_idmabmode(false); // single buffer mode
-    //         v.set_idmaen(true); // enable dma
-    //     });
-    //     self.port.dlenr().write(|v| v.0 = 512);
-    //
-    //     self.port.dctrl().modify(|v| {
-    //         v.set_fiforst(true); // reset fifo
-    //         v.set_dblocksize(9); // 512 bytes
-    //         v.set_dtmode(0); // block data transfer
-    //         v.set_dtdir(false); // from controller to card
-    //     });
-    //     let cmd = common_cmd::write_single_block(block_addr);
-    //     self.send_cmd(cmd);
-    //     while !self.port.star().read().dataend() {
-    //         self.error_test()?;
-    //         delay_ms(100);
-    //     }
-    //     Ok(())
-    // }
-    /// the maximum block count is (1<<24) = 16777216 bytes = 16MB
-    pub fn read_multiple_blocks(
-        &self,
-        buf: &mut [u8],
-        block_addr: u32,
-        block_count: u32,
-    ) -> Result<(), SdError> {
-        // TODO: check
-        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
-        self.port.idmactrlr().modify(|v| {
-            v.set_idmabmode(false); // single buffer mode
-            v.set_idmaen(true);
-        });
-        self.port.dlenr().write(|v| v.0 = block_count * 512);
-        self.port.dctrl().modify(|v| {
-            v.set_fiforst(true);
-            v.set_dblocksize(9);
-            v.set_dtmode(0); // stream data transfer
-            v.set_dtdir(false); // read ture, write false
-        });
-        self.send_cmd(sd_cmd::set_block_count(block_count))?;
-        self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
-        while !self.port.star().read().dataend() {
-            self.error_test()?;
-            delay_ms(100);
-        }
-        Ok(())
-    }
-    pub fn write_multiple_blocks(
-        &self,
-        buf: &[u8],
-        block_addr: u32,
-        block_count: u32,
-    ) -> Result<(), SdError> {
-        // TODO: check
-        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
-        self.port.idmactrlr().modify(|v| {
-            v.set_idmabmode(false); // single buffer mode
-            v.set_idmaen(true);
-        });
-        self.port.dlenr().write(|v| v.0 = block_count * 512);
-        self.port.dctrl().modify(|v| {
-            v.set_fiforst(true);
-            v.set_dblocksize(9);
-            v.set_dtmode(0); // block data transfer
-            v.set_dtdir(false); // read ture, write false
-        });
-        self.send_cmd(sd_cmd::set_block_count(block_count))?;
-        self.send_cmd(common_cmd::write_multiple_blocks(block_addr))?;
-        while !self.port.star().read().dataend() {
-            self.error_test()?;
-            delay_ms(100);
-        }
-        Ok(())
-    }
+//
+// pub fn write_single_block(&self, buf: &[u8; 512], block_addr: u32) -> Result<(), SdError> {
+//     // todo check
+//     if block_addr as u64 > self.csd.block_count() {
+//         return Err(SdError::STATUSError);
+//     }
+//     // TODO: check the address does not match to c code.
+//
+//     self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+//     self.port.idmactrlr().modify(|v| {
+//         v.set_idmabmode(false); // single buffer mode
+//         v.set_idmaen(true); // enable dma
+//     });
+//     self.port.dlenr().write(|v| v.0 = 512);
+//
+//     self.port.dctrl().modify(|v| {
+//         v.set_fiforst(true); // reset fifo
+//         v.set_dblocksize(9); // 512 bytes
+//         v.set_dtmode(0); // block data transfer
+//         v.set_dtdir(false); // from controller to card
+//     });
+//     let cmd = common_cmd::write_single_block(block_addr);
+//     self.send_cmd(cmd);
+//     while !self.port.star().read().dataend() {
+//         self.error_test()?;
+//         delay_ms(100);
+//     }
+//     Ok(())
+// }
 }

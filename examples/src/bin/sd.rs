@@ -35,7 +35,7 @@ fn setup() {
     // CAM_PDWN.setup();
     // LED_ORANGE.setup();
     // LED_ORANGE.set_high();
-    // LED_GREEN.setup();
+    LED_GREEN.setup();
     LED_GREEN.set_high();
     // LED_BLUE.setup();
     // LED_BLUE.set_high();
@@ -73,18 +73,22 @@ async fn main(_spawner: Spawner) {
     //     .open_volume(embedded_sdmmc::VolumeIdx(0))
     //     .unwrap();
     // defmt::info!("Volume 0: {:?}", volume0.get_volume_info());
+    let volume0 = volume_mgr.open_volume(embedded_sdmmc::VolumeIdx(0)).unwrap();
+    defmt::info!("Volume 0: {:?}", volume0);
+    let mut root_dir = volume_mgr.open_root_dir(volume0).unwrap();
+    // let mut root_dir = volume0.open_root_dir().unwrap();
 
-    match volume_mgr.open_volume(embedded_sdmmc::VolumeIdx(0)) {
-        Ok(volume0) => {
-            // Your code here to work with volume0
-        }
-        Err(e) => {
-            // Error handling code here
-            // eprintln!("Failed to open volume: {}", e);
-            // You can also perform additional error handling here
-            defmt::panic!("Failed to open volume: {}", e);
-        }
-    }
+    let mut file = volume_mgr.open_file_in_dir(root_dir, "test.txt", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
+    defmt::info!("open file");
+    // creat a buf contains "hello world"
+    let buf = b"hello world, fromt rust";
+    // write buf to file
+    let _ = volume_mgr.write(file, &buf[..]).unwrap();
+
+    defmt::info!("write file");
+    // close file
+    let _ = volume_mgr.close_file(file).unwrap();
+    defmt::info!("close file");
 
     // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {
