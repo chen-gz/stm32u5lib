@@ -40,65 +40,82 @@ impl SdInstance {
         clk.setup();
         cmd.setup();
         d0.setup();
+        delay_ms(100);
 
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(240); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
         });
 
         self.port.power().modify(|v| v.set_pwrctrl(3));
         delay_us(200);
-        defmt::info!("power on, power register: {:?}", self.port.power().read().0);
-        defmt::info!("clkcr: {:?}", self.port.clkcr().read().0);
         self.port.dtimer().modify(|v| {
-            v.0 = 8000;
+            v.0 = 4000; // TODO: check this value and add comment about it
         });
         delay_ms(20);
         defmt::info!("start init sd card");
         // initilize sd card
-        self.send_cmd_ctrl(common_cmd::idle());
-        delay_ms(200);
-
+        self.send_cmd(common_cmd::idle());
+        self.send_cmd(common_cmd::idle());
+        self.send_cmd(common_cmd::idle());
+        self.send_cmd(common_cmd::idle());
         defmt::info!("send if cond");
         // let cmd = sd_cmd::send_if_cond(0xF, 0xa);
-        loop {
-            match self.send_cmd_ctrl(sd_cmd::send_if_cond(0x1, 0xaa)) {
+        let mut ok = true;
+        for i in 0..20 {
+            defmt::info!("send if conf {}", i);
+            match self.send_cmd(sd_cmd::send_if_cond(0x1, 0xaa)) {
                 Ok(_) => {
-                    defmt::info!("send if cond ok");
-                    break;
+                    // read response
+                    let resp0 = self.port.respr(0).read().0;
+                    defmt::info!("send if conf response: {:x}", resp0);
                 }
                 Err(_) => defmt::info!("send if cond error"),
             }
+            delay_ms(10);
+        }
+
+        if !ok {
+            defmt::panic!("init sd card error: send if cond error");
         }
 
         ///////// repeat this untill the card is ready
         //
-        // card not initialized, rca = 0
-        defmt::info!("send app cmd");
-        self.send_cmd_ctrl(common_cmd::app_cmd(0));
+        ok = false;
+        for i in 0..10 {
+            // card not initialized, rca = 0
+            defmt::info!("send app cmd");
+            match self.send_cmd(common_cmd::app_cmd(0)) {
+                Ok(_) => {
+                    ok = true;
+                }
+                Err(_) => defmt::info!("send app cmd error"),
+            }
+            if (ok) {
+                defmt::info!("send op cond");
+                self.send_cmd(sd_cmd::sd_send_op_cond(true, true, false, 0xffff))
+                    .unwrap();
+                break;
+            }
+            delay_ms(1);
+        }
 
-        defmt::info!("send op cond");
-        let cmd = sd_cmd::sd_send_op_cond(true, true, false, 0xffff);
-        self.send_cmd_ctrl(cmd);
-        ////////// end of repeat
+        self.get_cid();
+        defmt::info!("cid: {}", self.cid.product_name());
 
-        defmt::info!("all send cid");
-        self.send_cmd_ctrl(common_cmd::all_send_cid());
+        self.get_rca();
+        defmt::info!("rca: {}", self.rca.address());
 
-        defmt::info!("send relative address");
-        self.send_cmd_ctrl(sd_cmd::send_relative_address()); // the length of R6 is not defined. the
-                                                             // function may cause issue
-
-        defmt::info!("send csd");
-        self.send_cmd_ctrl(common_cmd::send_csd(self.rca.address()));
+        self.get_csd();
+        defmt::info!("csd: {}", self.csd.block_count());
 
         defmt::info!("select card");
-        self.send_cmd_ctrl(common_cmd::select_card(self.rca.address()));
+        self.send_cmd(common_cmd::select_card(self.rca.address()));
 
         // test cmd 23, whether
         defmt::info!("set block count");
-        self.send_cmd_ctrl(sd_cmd::set_block_count(1));
+        self.send_cmd(sd_cmd::set_block_count(1));
         // self.send_cmd(common_cmd::send_csd(self.csd.rc))
         // self.send_cmd(sd_cmd::send_scr());
     }
@@ -106,63 +123,14 @@ impl SdInstance {
         let tmp: sd_cmd::R6;
         // tmp.response_len();
     }
-    // the cmd should be common_cmd::read_single_block, common_cmd::write_single_block,
-    // common_cmd::write_multiple_blocks, common_cmd::read_multiple_blocks
-    pub fn send_cmd_data<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
+    pub fn send_cmd<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
         self.port.argr().write(|w| {
             w.0 = cmd.arg;
         });
         let res_len = match cmd.response_len() {
             ResponseLen::Zero => 0,
             ResponseLen::R48 => 1,
-            ResponseLen::R136 => 3,
-        };
-        let mut trans = false;
-        if cmd.cmd == common_cmd::read_single_block(0).cmd
-            || cmd.cmd == common_cmd::write_single_block(0).cmd
-            || cmd.cmd == common_cmd::write_multiple_blocks(0).cmd
-            || cmd.cmd == common_cmd::read_multiple_blocks(0).cmd
-        {
-            trans = true;
-        }
-
-        self.port.cmdr().modify(|v| {
-            v.set_cmdindex(cmd.cmd);
-            v.set_waitresp(res_len);
-            v.set_cmdtrans(trans); // TODO: update this
-        });
-        // ennable command path state machine
-        self.port.cmdr().modify(|v| {
-            v.set_cpsmen(true);
-        });
-        // read sta
-        let mut sta = self.port.star().read();
-        match cmd.response_len() {
-            ResponseLen::Zero => {
-                // wait for cmdsent
-                while !self.port.star().read().cmdsent() {
-                    // get sta and check error
-                    defmt::info!("sta: {:?}", self.port.star().read().0);
-                    delay_ms(100);
-                }
-            }
-            ResponseLen::R48 => {
-                panic!("wrong cmd");
-            }
-            ResponseLen::R136 => {
-                panic!("wrong cmd");
-            }
-        }
-        Ok(())
-    }
-    pub fn send_cmd_ctrl<R: Resp>(&mut self, cmd: Cmd<R>) -> Result<(), SdError> {
-        self.port.argr().write(|w| {
-            w.0 = cmd.arg;
-        });
-        let res_len = match cmd.response_len() {
-            ResponseLen::Zero => 0,
-            ResponseLen::R48 => 1,
-            ResponseLen::R136 => 3,
+            ResponseLen::R136 => 2,
         };
         let mut trans = false;
         if cmd.cmd == common_cmd::read_single_block(0).cmd
@@ -183,60 +151,79 @@ impl SdInstance {
         self.port.cmdr().modify(|v| {
             v.set_cmdindex(cmd.cmd);
             v.set_waitresp(res_len);
-            v.set_cmdtrans(trans); // TODO: update this
+            v.set_cmdtrans(trans);
         });
-        // ennable command path state machine
+        delay_tick(10);
+        defmt::info!("cmdr: 0x{:x}", self.port.cmdr().read().0);
         self.port.cmdr().modify(|v| {
-            v.set_cpsmen(true);
+            v.set_cpsmen(true); // ennable command path state machine
         });
         // read sta
         let mut sta = self.port.star().read();
-        match cmd.response_len() {
-            ResponseLen::Zero => {
-                // wait for cmdsent if no response
-                //
-                while !self.port.star().read().cmdsent() {}
+
+        while !self.port.star().read().cmdsent() {
+            // defmt::info!("cmd not sent");
+            if self.port.star().read().ctimeout() {
+                return Err(SdError::CmdTimeout);
             }
-            ResponseLen::R48 => {
-                while !self.port.star().read().cmdrend() {
-                    // get stat and print it
-                    defmt::info!("sta: 0x{:x}", self.port.star().read().0);
-                    delay_ms(100);
-                    if self.port.star().read().ctimeout() {
-                        return Err(SdError::CmdTimeout);
-                    }
-                }
-                // handle short response
-                let resp = self.port.respr(0).read().0;
-                let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp);
-                if cs.error() {
-                    panic!("sd card error");
-                }
-                // TODO: check r3 response ?
-                if cmd.cmd == sd_cmd::send_relative_address().cmd {
-                    defmt::info!("receive r3 response! ");
-                    self.rca = sd::RCA::from(resp);
-                }
-            }
-            ResponseLen::R136 => {
-                while !self.port.star().read().cmdrend() {}
-                let resp0 = self.port.respr(0).read().0;
-                let resp1 = self.port.respr(1).read().0;
-                let resp2 = self.port.respr(2).read().0;
-                let resp3 = self.port.respr(3).read().0;
-                if cmd.cmd == common_cmd::send_csd(0).cmd {
-                    let csd: sd::CSD<sd::SD> = sd::CSD::from([resp0, resp1, resp2, resp3]);
-                    // defmt::info!("csd: {:?}", csd);
-                    self.csd = csd;
-                } else if cmd.cmd == common_cmd::send_cid(0).cmd {
-                    let cid: sd::CID<sd::SD> = sd::CID::from([resp0, resp1, resp2, resp3]);
-                    // defmt::info!("cid: {:?}", cid);
-                    self.cid = cid;
-                }
+            delay_ms(100);
+            defmt::info!("cmd not send with sat {:x}", sta.0);
+            defmt::info!("cpsmact {}", sta.cpsmact());
+        }
+        if cmd.response_len() == ResponseLen::Zero {
+            return Ok(());
+        }
+
+        while !self.port.star().read().cmdrend() {
+            // defmt::info!("cmd response not received");
+            // get stat and print it
+            if self.port.star().read().ctimeout() {
+                defmt::info!("cmd response timeout");
+                return Err(SdError::CmdTimeout);
             }
         }
-        defmt::info!("cmdsent");
+        while self.port.star().read().cpsmact() {}
+
+        // if self.port.respcmdr().read().0 != cmd.cmd as u32 {
+        defmt::info!(
+            "cmd response received, the send cmd is {:x}, the response cmd is {:x} \n stat is {:x}",
+            cmd.cmd,
+            self.port.respcmdr().read().0,
+            self.port.star().read().0,
+        );
+        // clear the stat register
+        self.port.icr().write(|v| v.0 = 0x1FE00FFF);
+
+        defmt::info!("stat register cleared: {:x}", self.port.star().read().0);
+        // }
         Ok(())
+    }
+    pub fn get_cid(&mut self) {
+        self.send_cmd(common_cmd::all_send_cid()).unwrap();
+        // read response
+        let resp0 = self.port.respr(0).read().0;
+        let resp1 = self.port.respr(1).read().0;
+        let resp2 = self.port.respr(2).read().0;
+        let resp3 = self.port.respr(3).read().0;
+        self.cid = sd::CID::from([resp0, resp1, resp2, resp3]);
+    }
+    pub fn get_csd(&mut self) {
+        self.send_cmd(common_cmd::send_csd(0)).unwrap();
+        // read response
+        let resp0 = self.port.respr(0).read().0;
+        let resp1 = self.port.respr(1).read().0;
+        let resp2 = self.port.respr(2).read().0;
+        let resp3 = self.port.respr(3).read().0;
+        self.csd = sd::CSD::from([resp0, resp1, resp2, resp3]);
+    }
+    pub fn get_rca(&mut self) {
+        // self.send_cmd(sd_cmd::send_relative_address()).unwrap();
+        let cmd: common_cmd::Cmd<sd_cmd::R6> = common_cmd::cmd(3, 0);
+        self.send_cmd(cmd).unwrap();
+        // self.send_cmd(common_cmd::cmd(3, 0xA)).unwrap();
+        let resp0 = self.port.respr(0).read().0;
+        defmt::info!("rca: {:x}", resp0);
+        self.rca = sd::RCA::from(resp0);
     }
 
     pub fn read_single_block(&self, buf: &mut [u8; 512], block_addr: u64) -> Result<(), SdError> {
@@ -260,7 +247,7 @@ impl SdInstance {
         });
 
         let mut cmd = common_cmd::read_single_block(block_addr as u32);
-        self.send_cmd_data(cmd);
+        self.send_cmd(cmd);
         Ok(())
     }
 
@@ -285,7 +272,7 @@ impl SdInstance {
             v.set_dtdir(false); // from controller to card
         });
         let cmd = common_cmd::write_single_block(block_addr);
-        self.send_cmd_data(cmd);
+        self.send_cmd(cmd);
         Ok(())
     }
     /// the maximum block count is (1<<24) = 16777216 bytes = 16MB
@@ -309,9 +296,9 @@ impl SdInstance {
             v.set_dtdir(false);
         });
         let cmd = sd_cmd::set_block_count(block_count);
-        self.send_cmd_data(cmd);
+        self.send_cmd(cmd);
         let cmd = common_cmd::read_multiple_blocks(block_addr);
-        self.send_cmd_data(cmd);
+        self.send_cmd(cmd);
         Ok(())
     }
     pub fn write_multiple_blocks(
@@ -334,7 +321,7 @@ impl SdInstance {
             v.set_dtdir(true);
         });
         let cmd = common_cmd::write_multiple_blocks(block_addr);
-        self.send_cmd_data(cmd);
+        self.send_cmd(cmd);
         Ok(())
     }
 }

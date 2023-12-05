@@ -31,15 +31,15 @@ const CAM_PDWN: gpio::GpioPort = gpio::PB0;
 fn setup() {
     // this function setup for peripheral
     clock::init_clock();
-    CAM_PDWN.setup();
-    LED_ORANGE.setup();
-    LED_ORANGE.set_high();
-    LED_GREEN.setup();
-    LED_GREEN.set_high();
-    LED_BLUE.setup();
-    LED_BLUE.set_high();
-    CAM_I2C.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
-    CAM_PDWN.set_high();
+    // CAM_PDWN.setup();
+    // LED_ORANGE.setup();
+    // LED_ORANGE.set_high();
+    // LED_GREEN.setup();
+    // LED_GREEN.set_high();
+    // LED_BLUE.setup();
+    // LED_BLUE.set_high();
+    // CAM_I2C.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
+    // CAM_PDWN.set_high();
 }
 use u5_lib::sdmmc::*;
 
