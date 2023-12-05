@@ -9,6 +9,7 @@ use embassy_executor::Spawner;
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
+    defmt::info!("panic");
     loop {}
 }
 

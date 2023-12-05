@@ -13,4 +13,4 @@ i2c:
 cam: 
 	cd examples/ && DEFMT_LOG=info cargo run --bin cam
 sd: 
-	cd examples/ && DEFMT_LOG=info cargo run --bin sd
+	cd examples/ && DEFMT_LOG=debug cargo run --bin sd

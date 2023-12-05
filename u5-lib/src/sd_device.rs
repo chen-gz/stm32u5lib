@@ -21,7 +21,6 @@ impl BlockDevice for SdInstance {
     }
 
     fn num_blocks(&self) -> Result<BlockCount, Self::Error> {
-
-        Ok(BlockCount(0))
+        Ok(BlockCount(self.block_count()))
     }
 }
