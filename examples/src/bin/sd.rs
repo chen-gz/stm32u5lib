@@ -36,7 +36,7 @@ fn setup() {
     // LED_ORANGE.setup();
     // LED_ORANGE.set_high();
     // LED_GREEN.setup();
-    // LED_GREEN.set_high();
+    LED_GREEN.set_high();
     // LED_BLUE.setup();
     // LED_BLUE.set_high();
     // CAM_I2C.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
@@ -44,12 +44,47 @@ fn setup() {
 }
 use u5_lib::sdmmc::*;
 
+struct ftsource {}
+use embedded_sdmmc::TimeSource;
+use embedded_sdmmc::Timestamp;
+impl TimeSource for ftsource {
+    fn get_timestamp(&self) -> Timestamp {
+        Timestamp {
+            year_since_1970: 0,
+            zero_indexed_month: 0,
+            zero_indexed_day: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+        }
+    }
+}
+
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) {
     setup();
     let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
+    let ts = ftsource {};
     sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
     defmt::info!("init sd card");
+
+    let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
+    // let mut volume0 = volume_mgr
+    //     .open_volume(embedded_sdmmc::VolumeIdx(0))
+    //     .unwrap();
+    // defmt::info!("Volume 0: {:?}", volume0.get_volume_info());
+
+    match volume_mgr.open_volume(embedded_sdmmc::VolumeIdx(0)) {
+        Ok(volume0) => {
+            // Your code here to work with volume0
+        }
+        Err(e) => {
+            // Error handling code here
+            // eprintln!("Failed to open volume: {}", e);
+            // You can also perform additional error handling here
+            defmt::panic!("Failed to open volume: {}", e);
+        }
+    }
 
     // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {
