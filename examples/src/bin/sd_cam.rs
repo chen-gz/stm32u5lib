@@ -285,6 +285,7 @@ async fn main(spawner: Spawner) {
         dcmi.capture(dma::DCMI_DMA, &mut PIC_BUF);
         clock::delay_ms(2000);
         dcmi.stop_capture(dma::DCMI_DMA);
+        CAM_PDWN.set_high();
         // print first 10 bytes in PIC_BUF in hex
         defmt::info!("PIC_BUF[0..10] in hex =  0x{:x}", &PIC_BUF[0..10]);
         defmt::info!("dcmi status register = 0x{:x}", DCMI.sr().read().0);
@@ -330,7 +331,7 @@ async fn main(spawner: Spawner) {
         // let mut file = volume_mgr.open_file_in_dir(root_dir, "4.jpg", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
 
 
-        let file = match volume_mgr.open_file_in_dir(root_dir, "j2312.jpg", embedded_sdmmc::Mode::ReadWriteCreateOrTruncate) {
+        let file = match volume_mgr.open_file_in_dir(root_dir, "j23129.jpg", embedded_sdmmc::Mode::ReadWriteCreateOrTruncate) {
             Ok(f) => {  defmt::info!("open file success");f }
             Err(err) => {defmt::panic!("open file failed {:?}", err)}
         };
@@ -338,7 +339,10 @@ async fn main(spawner: Spawner) {
             defmt::info!("open file success");
             // write buf to file
             defmt::info!("write file, pic_start = {}, pic_end = {}", pic_start, pic_end);
-            let _ = volume_mgr.write(file, &PIC_BUF[0..pic_end]).unwrap();
+            match volume_mgr.write(file, &PIC_BUF[0..pic_end]){
+                Ok(_) => {defmt::info!("write file success");}
+                Err(err) => {defmt::panic!("write file failed {:?}", err)}
+            }
             defmt::info!("write file");
             // close file
             let _ = volume_mgr.close_file(file).unwrap();

@@ -17,7 +17,23 @@ impl BlockDevice for SdInstance {
     fn write(&self, blocks: &[Block], start_block_idx: BlockIdx) -> Result<(), Self::Error> {
         let len = blocks.len() * 256;
         let data = unsafe { core::slice::from_raw_parts(blocks.as_ptr() as *const u8, len) };
-        return self.write_multiple_blocks(data, start_block_idx.0, blocks.len() as u32);
+        let mut ok = false;
+        let mut err = SdError::AckFail;
+        for i in 0..10{
+            match self.write_multiple_blocks(data, start_block_idx.0, blocks.len() as u32){
+                Ok(_) => {
+                    ok = true;
+                    break;
+                },
+                Err(e) => {err = e;},
+            }
+        }
+        if ok{
+            Ok(())
+        }else{
+            Err(err)
+        }
+
     }
 
     fn num_blocks(&self) -> Result<BlockCount, Self::Error> {
