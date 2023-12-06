@@ -89,12 +89,12 @@ impl SdInstance {
         clk.setup();
         cmd.setup();
         d0.setup();
-        delay_ms(1);
+        delay_ms(10); // TODO: chekc this value
 
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(240); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            v.set_clkdiv(30); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
         });
 
         delay_ms(20);
@@ -240,7 +240,7 @@ impl SdInstance {
     }
     pub fn send_cmd<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
-        delay_ms(5); // at least seven sdmmc_hcli clock peirod are needed between two write access
+        delay_tick(10); // at least seven sdmmc_hcli clock peirod are needed between two write access
         // to the cmdr register
         self.port.argr().write(|w| {
             w.0 = cmd.arg;
@@ -297,8 +297,8 @@ impl SdInstance {
 
         while !self.port.star().read().cmdrend() {
             self.error_test()?;
-            defmt::debug!("checkpoint 2: sta {:x}", self.port.star().read().0);
-            delay_ms(100);
+            // defmt::debug!("checkpoint 2: sta {:x}", self.port.star().read().0);
+           // delay_ms(100);
         }
         while self.port.star().read().cpsmact() {}
 
@@ -388,9 +388,9 @@ impl SdInstance {
         self.send_cmd(sd_cmd::set_block_count(block_count))?;
         self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
         while !self.port.star().read().dataend() {
-            defmt::error!("stat at read multiple block dataend: {:x}", self.port.star().read().0);
+            //defmt::error!("stat at read multiple block dataend: {:x}", self.port.star().read().0);
             self.error_test()?;
-            delay_ms(100);
+            //delay_ms(100);
         }
         Ok(())
     }
@@ -420,9 +420,9 @@ impl SdInstance {
         self.send_cmd(sd_cmd::set_block_count(block_count))?;
         self.send_cmd(common_cmd::write_multiple_blocks(block_addr))?;
         while !self.port.star().read().dataend() {
-            defmt::error!("stat at write multiple block dataend: {:x}", self.port.star().read().0);
+            //defmt::error!("stat at write multiple block dataend: {:x}", self.port.star().read().0);
             self.error_test()?;
-            delay_ms(100);
+            //delay_ms(100);
         }
         Ok(())
     }

@@ -75,6 +75,10 @@ test = false
 name = "sd"
 bench = false
 test = false
+[[bin]]
+name = "sd_cam"
+bench  = false
+test = false
 
 [profile.dev]
 lto = true
