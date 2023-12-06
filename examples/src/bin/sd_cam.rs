@@ -317,6 +317,7 @@ async fn main(spawner: Spawner) {
         let ts = ftsource {};
         sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
         defmt::info!("init sd card");
+        LED_BLUE.toggle();
         let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
         // let mut volume0 = volume_mgr
         //     .open_volume(embedded_sdmmc::VolumeIdx(0))
@@ -359,7 +360,7 @@ async fn main(spawner: Spawner) {
 
     // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {
-        Timer::after(Duration::from_secs(1)).await;
         LED_GREEN.toggle();
+        Timer::after(Duration::from_secs(1)).await;
     }
 }

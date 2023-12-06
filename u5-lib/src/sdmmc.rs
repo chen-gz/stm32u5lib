@@ -94,16 +94,14 @@ impl SdInstance {
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(30); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
         });
 
-        delay_ms(20);
         self.port.power().modify(|v| v.set_pwrctrl(3));
-        delay_ms(20);
+        delay_ms(1); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
-            v.0 = 8000; // TODO: check this value and add comment about it
+            v.0 = 8000; // 400khz, 8000clk = 20ms
         });
-        delay_ms(200);
         defmt::info!("start init sd card");
         // initilize sd card
         match self.send_cmd(common_cmd::idle()) {
@@ -240,7 +238,8 @@ impl SdInstance {
     }
     pub fn send_cmd<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
-        delay_us(10); // at least seven sdmmc_hcli clock peirod are needed between two write access
+        delay_us(1); // at least seven sdmmc_hcli clock peirod are needed between two write access
+        // 7clk, 160mhz, 44.4ns, 444ns
         // to the cmdr register
         self.port.argr().write(|w| {
             w.0 = cmd.arg;
@@ -265,29 +264,29 @@ impl SdInstance {
             trans = true;
         }
 
-        defmt::debug!("cmd_reg: 0x{:x}", self.port.cmdr().read().0);
+        // defmt::debug!("cmd_reg: 0x{:x}", self.port.cmdr().read().0);
         self.port.cmdr().write(|v| {
             v.set_cmdindex(cmd.cmd);
             v.set_waitresp(res_len);
             v.set_cmdtrans(trans);
             v.set_cpsmen(true); // ennable command path state machine
         });
-        defmt::debug!(
-            "cmd_reg: 0x{:x}, cmd: {}, arg: 0x{:x}, trans: {}, resp_len: {}",
-            self.port.cmdr().read().0,
-            cmd.cmd,
-            cmd.arg,
-            trans,
-            res_len
-        );
+        // defmt::debug!(
+        //     "cmd_reg: 0x{:x}, cmd: {}, arg: 0x{:x}, trans: {}, resp_len: {}",
+        //     self.port.cmdr().read().0,
+        //     cmd.cmd,
+        //     cmd.arg,
+        //     trans,
+        //     res_len
+        // );
         // read sta
         // let mut sta = self.port.star().read();
         // defmt::info!("cmd sent");
-        defmt::debug!("checkpoint 1, sta {:x}", self.port.star().read().0);
+        // defmt::debug!("checkpoint 1, sta {:x}", self.port.star().read().0);
 
         while !self.port.star().read().cmdsent() && !self.port.star().read().cmdrend() {
             self.error_test()?;
-            delay_ms(100);
+            delay_us(1); // wait for
             // delay_ms(100);
             // defmt::info!("cmd not send with sat {:x}", self.port.star().read().0);
             // defmt::info!("cpsmact {}", self.port.star().read().cpsmact());
@@ -298,23 +297,23 @@ impl SdInstance {
 
         while !self.port.star().read().cmdrend() {
             self.error_test()?;
-            delay_ms(100);
+            delay_us(1);
             // defmt::debug!("checkpoint 2: sta {:x}", self.port.star().read().0);
            // delay_ms(100);
         }
         while self.port.star().read().cpsmact() {}
 
         // if self.port.respcmdr().read().0 != cmd.cmd as u32 {
-        defmt::debug!(
-            "cmd response received, the send cmd is {:x}, the response cmd is {:x} \n stat is {:x} \n response are {:x}, {:x}, {:x}, {:x}",
-            cmd.cmd,
-            self.port.respcmdr().read().0,
-            self.port.star().read().0,
-            self.port.respr(0).read().0,
-            self.port.respr(1).read().0,
-            self.port.respr(2).read().0,
-            self.port.respr(3).read().0
-        );
+        // defmt::debug!(
+        //     "cmd response received, the send cmd is {:x}, the response cmd is {:x} \n stat is {:x} \n response are {:x}, {:x}, {:x}, {:x}",
+        //     cmd.cmd,
+        //     self.port.respcmdr().read().0,
+        //     self.port.star().read().0,
+        //     self.port.respr(0).read().0,
+        //     self.port.respr(1).read().0,
+        //     self.port.respr(2).read().0,
+        //     self.port.respr(3).read().0
+        // );
 
         // clear the stat register
         // self.port.icr().write(|v| v.0 = 0x1FE00FFF);
@@ -370,7 +369,7 @@ impl SdInstance {
         block_addr: u32,
         block_count: u32,
     ) -> Result<(), SdError> {
-        defmt::info!("read multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
+        // defmt::info!("read multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::ReadBlockCountError);
         }
@@ -389,10 +388,11 @@ impl SdInstance {
         });
         self.send_cmd(sd_cmd::set_block_count(block_count))?;
         self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
+        // delay_ms(10);
         while !self.port.star().read().dataend() {
-            defmt::error!("stat at read multiple block dataend: {:x}", self.port.star().read().0);
+            // defmt::error!("stat at read multiple block dataend: {:x}", self.port.star().read().0);
             self.error_test()?;
-            delay_ms(100);
+            // delay_ms(50);
         }
         Ok(())
     }
@@ -402,7 +402,7 @@ impl SdInstance {
         block_addr: u32,
         block_count: u32,
     ) -> Result<(), SdError> {
-        defmt::info!("write multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
+        // defmt::info!("write multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::WriteBlockCountError);
         }
@@ -421,10 +421,11 @@ impl SdInstance {
         });
         self.send_cmd(sd_cmd::set_block_count(block_count))?;
         self.send_cmd(common_cmd::write_multiple_blocks(block_addr))?;
+        // delay_ms(15);
         while !self.port.star().read().dataend() {
-            defmt::error!("stat at write multiple block dataend: {:x}", self.port.star().read().0);
+            // defmt::error!("stat at write multiple block dataend: {:x}", self.port.star().read().0);
             self.error_test()?;
-            delay_ms(100);
+            // delay_ms(50);
         }
         Ok(())
     }
