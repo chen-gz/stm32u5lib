@@ -40,6 +40,10 @@ impl DcmiPort {
         hs.setup();
         vs.setup();
         pclk.setup();
+
+    }
+
+    pub fn capture(&self, dma: DmaChannel, buf: &mut [u8]) {
         self.port.cr().modify(|v| {
             v.set_jpeg(true);
             v.set_cm(false);
@@ -47,9 +51,6 @@ impl DcmiPort {
             v.set_hspol(true);
             v.set_pckpol(true);
         });
-    }
-
-    pub fn capture(&self, dma: DmaChannel, buf: &mut [u8]) {
         let dst_addr = buf.as_ptr() as u32;
         let len = buf.len() as u32;
         // get draddress
@@ -68,6 +69,9 @@ impl DcmiPort {
     }
     pub fn stop_capture(&self, dma: DmaChannel) {
         self.port.cr().modify(|v| v.set_capture(false));
+        self.port.cr().modify(|v| v.set_enable(false));
+        // claer all interrupt flags
+        self.port.icr().write(|w| w.0 = 0x1f);
         dma.stop();
     }
 }

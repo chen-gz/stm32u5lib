@@ -4,6 +4,8 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
+use core::fmt::{write, Write};
+use heapless::String;
 use core::future::Future;
 use core::hash::Hasher;
 use cortex_m::prelude::_embedded_hal_blocking_spi_Write;
@@ -61,7 +63,6 @@ use u5_lib::sdmmc::{SdError, SdInstance};
 const PIC_BUF_SIZE: usize = 600_000;
 // const PIC_BUF_SIZE: usize = 0xffff;
 // const PIC_BUF_SIZE: usize = 140_000;
-static mut PIC_BUF: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
@@ -251,8 +252,10 @@ fn setup_camera() {
 
 
 struct ftsource {}
+
 use embedded_sdmmc::{Error, File, TimeSource};
 use embedded_sdmmc::Timestamp;
+use u5_lib::clock::delay_ms;
 use u5_lib::gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14};
 
 impl TimeSource for ftsource {
@@ -276,16 +279,32 @@ async fn main(spawner: Spawner) {
     CAM_PDWN.set_low();
     clock::delay_ms(10);
     setup_camera();
+
+    // init sd card
+    let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
+    let ts = ftsource {};
+    sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
+    defmt::info!("init sd card");
+    LED_BLUE.toggle();
+    let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
+    let volume0 = volume_mgr.open_volume(embedded_sdmmc::VolumeIdx(0)).unwrap();
+    defmt::info!("Volume 0: {:?}", volume0);
+    let mut root_dir = volume_mgr.open_root_dir(volume0).unwrap();
+    // let mut root_dir = volume0.open_root_dir().unwrap();
+    defmt::info!("open root dir");
     let dcmi = dcmi::DCMI;
     dcmi.init(DCMI_D0_PC6, DCMI_D1_PC7, DCMI_D2_PC8, DCMI_D3_PC9, DCMI_D4_PC11, DCMI_D5_PB6,
               DCMI_D6_PB8, DCMI_D7_PB9, DCMI_HSYNC_PA4, DCMI_VSYNC_PB7, DCMI_PIXCLK_PA6, );
-    unsafe {
+    delay_ms(3000);
+    let mut PIC_BUF: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
+    for pic_num in 0..1000 {
+        CAM_PDWN.set_low();
+        delay_ms(1000);
         // get buffert address add print it
-        defmt::info!("PIC_BUF address = 0x{:x}", PIC_BUF.as_ptr() as u32);
         dcmi.capture(dma::DCMI_DMA, &mut PIC_BUF);
         clock::delay_ms(2000);
         dcmi.stop_capture(dma::DCMI_DMA);
-        CAM_PDWN.set_high();
+        // CAM_PDWN.set_high();
         // print first 10 bytes in PIC_BUF in hex
         defmt::info!("PIC_BUF[0..10] in hex =  0x{:x}", &PIC_BUF[0..10]);
         defmt::info!("dcmi status register = 0x{:x}", DCMI.sr().read().0);
@@ -303,64 +322,42 @@ async fn main(spawner: Spawner) {
         for i in 0..PIC_BUF_SIZE - 1 {
             if PIC_BUF[i] == 0xff && PIC_BUF[i + 1] == 0xd9 {
                 found = true;
-                defmt::info!("find jpeg end at index {}", i);
-                // times += 1;
                 pic_end = i;
+                defmt::info!("find jpeg end at index {}", i);
                 break;
             }
         }
         if !found {
-            defmt::info!("not find jpeg end");
+            defmt::error!("not find jpeg end");
         }
-        // init sd card
-        let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
-        let ts = ftsource {};
-        sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
-        defmt::info!("init sd card");
-        LED_BLUE.toggle();
-        let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
-        // let mut volume0 = volume_mgr
-        //     .open_volume(embedded_sdmmc::VolumeIdx(0))
-        //     .unwrap();
-        // defmt::info!("Volume 0: {:?}", volume0.get_volume_info());
-        let volume0 = volume_mgr.open_volume(embedded_sdmmc::VolumeIdx(0)).unwrap();
-        defmt::info!("Volume 0: {:?}", volume0);
-        let mut root_dir = volume_mgr.open_root_dir(volume0).unwrap();
-        // let mut root_dir = volume0.open_root_dir().unwrap();
-        defmt::info!("open root dir");
 
         // let mut file = volume_mgr.open_file_in_dir(root_dir, "4.jpg", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
 
-
-        let file = match volume_mgr.open_file_in_dir(root_dir, "j23129.jpg", embedded_sdmmc::Mode::ReadWriteCreateOrTruncate) {
-            Ok(f) => {  defmt::info!("open file success");f }
-            Err(err) => {defmt::panic!("open file failed {:?}", err)}
+        let mut file_name = String::<32>::new();
+        file_name.write_fmt(format_args!("{}.jpg", pic_num)).unwrap();
+        let file = match volume_mgr.open_file_in_dir(root_dir, file_name.as_str(), embedded_sdmmc::Mode::ReadWriteCreateOrTruncate) {
+            Ok(f) => {
+                defmt::info!("open file success");
+                f
+            }
+            Err(err) => { defmt::panic!("open file failed {:?}", err) }
         };
 
-            defmt::info!("open file success");
-            // write buf to file
-            defmt::info!("write file, pic_start = {}, pic_end = {}", pic_start, pic_end);
-            match volume_mgr.write(file, &PIC_BUF[0..pic_end]){
-                Ok(_) => {defmt::info!("write file success");}
-                Err(err) => {defmt::panic!("write file failed {:?}", err)}
-            }
-            defmt::info!("write file");
-            // close file
-            let _ = volume_mgr.close_file(file).unwrap();
-            defmt::info!("close file");
+        defmt::info!("open file success");
         // write buf to file
-        // defmt::info!("write file, pic_start = {}, pic_end = {}", pic_start, pic_end);
-        // let _ = volume_mgr.write(file, &PIC_BUF[0..pic_end]).unwrap();
-        //
-        // defmt::info!("write file");
-        // // close file
-        // let _ = volume_mgr.close_file(file).unwrap();
-        // defmt::info!("close file");
+        defmt::info!("write file, pic_start = {}, pic_end = {}", pic_start, pic_end);
+        match volume_mgr.write(file, &PIC_BUF[0..pic_end]) {
+            Ok(_) => { defmt::info!("write file success"); }
+            Err(err) => { defmt::panic!("write file failed {:?}", err) }
+        }
+        defmt::info!("write file");
+        // close file
+        let _ = volume_mgr.close_file(file).unwrap();
+        defmt::info!("close file");
+        LED_GREEN.toggle();
     }
-
     // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {
-        LED_GREEN.toggle();
         Timer::after(Duration::from_secs(1)).await;
     }
 }
