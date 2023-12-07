@@ -82,6 +82,6 @@ bench  = false
 test = false
 
 [profile.dev]
-lto = true
+#lto = true
 opt-level = "z"
 debug = true

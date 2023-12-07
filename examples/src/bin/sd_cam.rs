@@ -300,13 +300,16 @@ async fn main(spawner: Spawner) {
     let mut PIC_BUF: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
     for pic_num in 0..1000 {
         CAM_PDWN.set_low();
-        delay_ms(1000);
+        delay_ms(100);
         // get buffert address add print it
         dcmi.capture(dma::DCMI_DMA, &mut PIC_BUF);
-        clock::delay_ms(2000);
+        //clock::delay_ms(1000);
+         while !dcmi.get_picture(){};
         dcmi.stop_capture(dma::DCMI_DMA);
         // CAM_PDWN.set_high();
         // print first 10 bytes in PIC_BUF in hex
+        CAM_PDWN.set_high();
+        LED_BLUE.toggle();
         defmt::info!("PIC_BUF[0..10] in hex =  0x{:x}", &PIC_BUF[0..10]);
         defmt::info!("dcmi status register = 0x{:x}", DCMI.sr().read().0);
         defmt::info!(
