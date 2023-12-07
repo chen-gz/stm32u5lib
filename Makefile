@@ -1,4 +1,4 @@
-.PHONY: all
+# .PHONY: all 
 
 all: 
 	DEFMT_LOG=info cargo build 

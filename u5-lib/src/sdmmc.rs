@@ -49,7 +49,9 @@ use defmt::Format;
 #[derive(Copy, Clone, Debug, Format)]
 pub enum SdError {
     WriteBlockCountError,
+    WriteAddressError,
     ReadBlockCountError,
+
     STATUSError,
     CmdCrcFail,
     DataCrcFail,
@@ -269,8 +271,8 @@ impl SdInstance {
     pub fn send_cmd<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
         delay_us(1); // at least seven sdmmc_hcli clock peirod are needed between two write access
-        // 7clk, 160mhz, 44.4ns, 444ns
-        // to the cmdr register
+                     // 7clk, 160mhz, 44.4ns, 444ns
+                     // to the cmdr register
         self.port.argr().write(|w| w.0 = cmd.arg);
         let res_len = match cmd.response_len() {
             ResponseLen::Zero => 0,
@@ -304,38 +306,44 @@ impl SdInstance {
         });
         while !self.port.star().read().cmdsent() && !self.port.star().read().cmdrend() {
             self.error_test()?;
-            delay_ms(1);
+delay_ms(1);
         }
-        // defmt::info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
         if cmd.response_len() == ResponseLen::Zero {
             return Ok(());
         }
 
         while !self.port.star().read().cmdrend() {
             self.error_test()?;
-            delay_ms(1);
+        delay_ms(1);
         }
         while self.port.star().read().cpsmact() {}
+
         // handle R1 response
         // if not r1 response handle outsize
         let resp0 = self.port.respr(0).read().0;
         if res_len != 1 {
             return Ok(());
         }
-        if cmd.cmd == common_cmd::set_block_length(0).cmd ||
-            cmd.cmd == common_cmd::card_status(0, false).cmd ||
-            cmd.cmd == common_cmd::write_single_block(0).cmd ||
-            cmd.cmd == common_cmd::write_multiple_blocks(0).cmd ||
-            cmd.cmd == common_cmd::read_single_block(0).cmd ||
-            cmd.cmd == common_cmd::read_multiple_blocks(0).cmd ||
-            cmd.cmd == common_cmd::app_cmd(0).cmd {
+        if cmd.cmd == common_cmd::set_block_length(0).cmd
+            || cmd.cmd == common_cmd::card_status(0, false).cmd
+            || cmd.cmd == common_cmd::write_single_block(0).cmd
+            || cmd.cmd == common_cmd::write_multiple_blocks(0).cmd
+            || cmd.cmd == common_cmd::read_single_block(0).cmd
+            || cmd.cmd == common_cmd::read_multiple_blocks(0).cmd
+            || cmd.cmd == common_cmd::app_cmd(0).cmd
+        {
             let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp0);
             if (cs.error()) {
-                defmt::info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
+                defmt::info!(
+                    "cmd: {}, param: {:x}, res_len: {}",
+                    cmd.cmd,
+                    cmd.arg,
+                    res_len
+                );
                 defmt::info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
                 defmt::error!("card status error: {:x}", resp0);
                 defmt::error!(
-                "card status errs: out of range: {},
+                    "card status errs: out of range: {},
                 address error: {},
                 block len error: {},
                 erase seq error: {},
@@ -348,40 +356,23 @@ impl SdInstance {
                 csd overwrite: {},
                 wp erase skip: {},
                 erase reset: {}",
-                cs.out_of_range(),
-                cs.address_error(),
-                cs.block_len_error(),
-                cs.erase_seq_error(),
-                cs.lock_unlock_failed(),
-                cs.com_crc_error(),
-                cs.illegal_command(),
-                cs.card_ecc_failed(),
-                cs.cc_error(),
-                cs.error(),
-                cs.csd_overwrite(),
-                cs.wp_erase_skip(),
-                cs.erase_reset(),
-
-            );
+                    cs.out_of_range(),
+                    cs.address_error(),
+                    cs.block_len_error(),
+                    cs.erase_seq_error(),
+                    cs.lock_unlock_failed(),
+                    cs.com_crc_error(),
+                    cs.illegal_command(),
+                    cs.card_ecc_failed(),
+                    cs.cc_error(),
+                    cs.error(),
+                    cs.csd_overwrite(),
+                    cs.wp_erase_skip(),
+                    cs.erase_reset(),
+                );
                 return Err(SdError::STATUSError);
             }
         }
-
-
-        // if self.port.respcmdr().read().0 != cmd.cmd as u32 {
-        // defmt::debug!(
-        //     "cmd response received, the send cmd is {:x}, the response cmd is {:x} \n stat is {:x} \n response are {:x}, {:x}, {:x}, {:x}",
-        //     cmd.cmd,
-        //     self.port.respcmdr().read().0,
-        //     self.port.star().read().0,
-        //     self.port.respr(0).read().0,
-        //     self.port.respr(1).read().0,
-        //     self.port.respr(2).read().0,
-        //     self.port.respr(3).read().0
-        // );
-
-        // clear the stat register
-        // self.port.icr().write(|v| v.0 = 0x1FE00FFF);
         Ok(())
     }
     pub fn get_cid(&mut self) -> Result<(), SdError> {
@@ -460,10 +451,10 @@ impl SdInstance {
         block_addr: u32,
         block_count: u32,
     ) -> Result<(), SdError> {
-        // defmt::info!("read multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::ReadBlockCountError);
         }
+       // self.send_cmd(common_cmd::idle())?;
         // TODO: check
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
         self.port.dlenr().write(|v| v.0 = block_count * 512);
@@ -481,23 +472,21 @@ impl SdInstance {
         self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
         // delay_ms(10);
         while !self.port.star().read().dataend() {
-            // defmt::error!("stat at read multiple block dataend: {:x}", self.port.star().read().0);
             self.error_test()?;
-            // delay_ms(50);
         }
         Ok(())
     }
+
     pub fn write_multiple_blocks(
         &self,
         buf: &[u8],
         block_addr: u32,
         block_count: u32,
     ) -> Result<(), SdError> {
-        // defmt::info!("write multiple blocks, block_addr: {}, block_count: {}", block_addr, block_count);
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::WriteBlockCountError);
         }
-        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+                self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
         self.port.dlenr().write(|v| v.0 = block_count * 512);
         self.port.dctrl().modify(|v| {
             v.set_fiforst(true);
@@ -511,49 +500,17 @@ impl SdInstance {
         });
         self.send_cmd(sd_cmd::set_block_count(block_count))?;
         self.send_cmd(common_cmd::write_multiple_blocks(block_addr))?;
-        // delay_ms(15);
-        // delay_ms(100);
         while !self.port.star().read().dataend() {
-            // defmt::error!("stat at write multiple block dataend: {:x}", self.port.star().read().0);
-            let ret = self.error_test();
-            match ret {
-                Ok(_) => {}
-                Err(e) => {
-                    defmt::error!("write multiple blocks error: {:?}", e);
-                    break;
-                }
-            }
+            self.error_test()?
         }
         Ok(())
     }
 
     pub fn write_single_block(&self, buf: &[u8], block_addr: u32) -> Result<(), SdError> {
-        // todo check
         if block_addr as u64 > self.csd.block_count() {
-            return Err(SdError::STATUSError);
+            return Err(SdError::WriteAddressError);
         }
-        defmt::info!("write single block, block_addr: {}", block_addr);
-        // stop dpsmact if its enabled
-        if self.port.star().read().cpsmact() || self.port.star().read().dpsmact() {
-            defmt::error!(
-                "wrong status. cpsmact: {}, dpsmact: {}",
-                self.port.star().read().cpsmact(),
-                self.port.star().read().dpsmact()
-            );
-            // we need to move dpsmact to idle state
-            // this is done by send go to idle state command
-            self.send_cmd(common_cmd::stop_transmission())?;
-            self.send_cmd(common_cmd::idle())?;
-            defmt::info!("goto idle after wrong status");
-            delay_ms(20);
-        }
-        // self.port.dtimer().modify(|v| {
-        //     v.0 = 16000; // 400khz, 8000clk = 20ms
-        // });
-        self.port.dctrl().modify(|v| {
-            v.set_fiforst(true); // reset fifo
-        });
-        delay_ms(1);
+        // self.send_cmd(common_cmd::idle())?;
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
         self.port.dlenr().write(|v| v.0 = 512);
         self.port.dctrl().modify(|v| {
@@ -562,7 +519,6 @@ impl SdInstance {
             v.set_dtmode(0); // block data transfer
             v.set_dtdir(false); // from controller to card
         });
-        delay_us(1);
         self.port.idmactrlr().modify(|v| {
             v.set_idmabmode(false); // single buffer mode
             v.set_idmaen(true); // enable dma
@@ -571,15 +527,9 @@ impl SdInstance {
         while !self.port.star().read().dataend() {
             self.error_test()?;
         }
-        // wait fo busy
-        defmt::info!("wait for busy");
-        self.send_cmd(common_cmd::idle())?; // send  idle command to sample the busy signal
-        while (self.port.star().read().busyd0()) {
-            self.error_test()?;
-        }
-        // delay_ms(150);
         Ok(())
     }
+
     pub fn read_single_block_retry(
         &self,
         buf: &mut [u8],
@@ -598,6 +548,7 @@ impl SdInstance {
         }
         Err(SdError::STATUSError)
     }
+
     pub fn write_single_block_retry(
         &self,
         buf: &[u8],
@@ -617,6 +568,7 @@ impl SdInstance {
         }
         Err(SdError::STATUSError)
     }
+
     pub async fn write_single_blocks_async(
         &self,
         buf: &[u8],
@@ -637,13 +589,10 @@ impl SdInstance {
         });
         self.port.idmactrlr().modify(|v| {
             v.set_idmabmode(false); // single buffer mode
-            v.set_idmaen(true); // enable dma
+            v.set_idmaen(true); // enable jdma
         });
         self.send_cmd(common_cmd::write_single_block(block_addr))?;
         self.wait_for_dataend().await?;
-        // while !self.port.star().read().dataend() {
-        //     self.error_test()?;
-        // }
         Ok(())
     }
     wait_for_event!(wait_for_dataend, dataend);

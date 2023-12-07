@@ -74,4 +74,7 @@ impl DcmiPort {
         self.port.icr().write(|w| w.0 = 0x1f);
         dma.stop();
     }
+    pub fn get_picture(&self) -> bool {
+        self.port.ris().read().frame_ris()
+    }
 }

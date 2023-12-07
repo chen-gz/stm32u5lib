@@ -145,9 +145,9 @@ impl DmaChannel {
     }
     pub fn stop(&self) {
         let ch = self.ins.ch(self.ch);
-        // ch.cr().modify(|v| {
-        //     v.set_susp(true);
-        // });
+        ch.cr().modify(|v| {
+            v.set_susp(true);
+        });
         ch.cr().modify(|v| {
             v.set_reset(true);
         });

@@ -1,0 +1,23 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cargo",
+			"command": "build",
+			"args": [
+				"--bin",
+				"sd_cam"
+			],
+			"problemMatcher": [
+				"$rustc"
+			],
+			"group": "build",
+			"label": "rust: cargo build",
+			"options": {
+				"env": {
+					"DEFMT_LOG": "info"
+				}
+			}
+		}
+	]
+}
