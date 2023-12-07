@@ -1,3 +1,4 @@
+#![feature(noop_waker)]
 #![no_std]
 pub mod clock;
 pub mod gi2c;

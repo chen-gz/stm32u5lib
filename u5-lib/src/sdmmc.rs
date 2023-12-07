@@ -3,12 +3,42 @@
 use core::ptr::read;
 
 use crate::clock::{delay_ms, delay_tick, delay_us};
+use cortex_m::delay;
+use futures::future::poll_fn;
 use futures::future::OkInto;
+use sdio_host::common_cmd::cmd;
 use stm32_metapac::{common, sdmmc::Sdmmc};
+macro_rules! wait_for_event {
+    ($fn_name:ident, $event:ident) => {
+        pub async fn $fn_name(&self) -> Result<(), SdError> {
+            poll_fn(|cx| {
+                self.set_waker(cx.waker().clone());
+                match self.error_test() {
+                    Ok(_) => {}
+                    Err(err) => {
+                        self.clear_interrupt();
+                        return core::task::Poll::Ready(Err(err));
+                    }
+                }
+                if self.port.star().read().$event() {
+                    self.clear_interrupt();
+                    return core::task::Poll::Ready(Ok(()));
+                }
+                core::task::Poll::Pending
+            })
+            .await
+        }
+    };
+}
+
+// Usage
 
 pub struct SdmmcPort {
     port: Sdmmc,
 }
+
+// import waker
+use core::future::Future;
 
 pub const SD1: SdmmcPort = SdmmcPort {
     port: stm32_metapac::SDMMC1,
@@ -100,7 +130,7 @@ impl SdInstance {
         self.port.power().modify(|v| v.set_pwrctrl(3));
         delay_ms(1); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
-            v.0 = 8000; // 400khz, 8000clk = 20ms
+            v.0 = 400_000; // 400khz, 8000clk = 20ms
         });
         defmt::info!("start init sd card");
         // initilize sd card
@@ -241,9 +271,7 @@ impl SdInstance {
         delay_us(1); // at least seven sdmmc_hcli clock peirod are needed between two write access
         // 7clk, 160mhz, 44.4ns, 444ns
         // to the cmdr register
-        self.port.argr().write(|w| {
-            w.0 = cmd.arg;
-        });
+        self.port.argr().write(|w| w.0 = cmd.arg);
         let res_len = match cmd.response_len() {
             ResponseLen::Zero => 0,
             ResponseLen::R48 => {
@@ -263,45 +291,82 @@ impl SdInstance {
         {
             trans = true;
         }
-
-        // defmt::debug!("cmd_reg: 0x{:x}", self.port.cmdr().read().0);
+        let mut stop = false;
+        if cmd.cmd == common_cmd::idle().cmd || cmd.cmd == common_cmd::stop_transmission().cmd {
+            stop = true;
+        }
         self.port.cmdr().write(|v| {
             v.set_cmdindex(cmd.cmd);
             v.set_waitresp(res_len);
             v.set_cmdtrans(trans);
+            v.set_cmdstop(stop);
             v.set_cpsmen(true); // ennable command path state machine
         });
-        // defmt::debug!(
-        //     "cmd_reg: 0x{:x}, cmd: {}, arg: 0x{:x}, trans: {}, resp_len: {}",
-        //     self.port.cmdr().read().0,
-        //     cmd.cmd,
-        //     cmd.arg,
-        //     trans,
-        //     res_len
-        // );
-        // read sta
-        // let mut sta = self.port.star().read();
-        // defmt::info!("cmd sent");
-        // defmt::debug!("checkpoint 1, sta {:x}", self.port.star().read().0);
-
         while !self.port.star().read().cmdsent() && !self.port.star().read().cmdrend() {
             self.error_test()?;
-            delay_us(1); // wait for
-            // delay_ms(100);
-            // defmt::info!("cmd not send with sat {:x}", self.port.star().read().0);
-            // defmt::info!("cpsmact {}", self.port.star().read().cpsmact());
+            delay_ms(1);
         }
+        // defmt::info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
         if cmd.response_len() == ResponseLen::Zero {
             return Ok(());
         }
 
         while !self.port.star().read().cmdrend() {
             self.error_test()?;
-            delay_us(1);
-            // defmt::debug!("checkpoint 2: sta {:x}", self.port.star().read().0);
-            // delay_ms(100);
+            delay_ms(1);
         }
         while self.port.star().read().cpsmact() {}
+        // handle R1 response
+        // if not r1 response handle outsize
+        let resp0 = self.port.respr(0).read().0;
+        if res_len != 1 {
+            return Ok(());
+        }
+        if cmd.cmd == common_cmd::set_block_length(0).cmd ||
+            cmd.cmd == common_cmd::card_status(0, false).cmd ||
+            cmd.cmd == common_cmd::write_single_block(0).cmd ||
+            cmd.cmd == common_cmd::write_multiple_blocks(0).cmd ||
+            cmd.cmd == common_cmd::read_single_block(0).cmd ||
+            cmd.cmd == common_cmd::read_multiple_blocks(0).cmd ||
+            cmd.cmd == common_cmd::app_cmd(0).cmd {
+            let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp0);
+            if (cs.error()) {
+                defmt::info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
+                defmt::info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
+                defmt::error!("card status error: {:x}", resp0);
+                defmt::error!(
+                "card status errs: out of range: {},
+                address error: {},
+                block len error: {},
+                erase seq error: {},
+                lock unlock failed: {},
+                com crc error: {},
+                illegal command: {},
+                card ecc failed: {},
+                cc error: {},
+                error: {},
+                csd overwrite: {},
+                wp erase skip: {},
+                erase reset: {}",
+                cs.out_of_range(),
+                cs.address_error(),
+                cs.block_len_error(),
+                cs.erase_seq_error(),
+                cs.lock_unlock_failed(),
+                cs.com_crc_error(),
+                cs.illegal_command(),
+                cs.card_ecc_failed(),
+                cs.cc_error(),
+                cs.error(),
+                cs.csd_overwrite(),
+                cs.wp_erase_skip(),
+                cs.erase_reset(),
+
+            );
+                return Err(SdError::STATUSError);
+            }
+        }
+
 
         // if self.port.respcmdr().read().0 != cmd.cmd as u32 {
         // defmt::debug!(
@@ -361,10 +426,9 @@ impl SdInstance {
         self.rca = sd::RCA::from(resp0);
         Ok(())
     }
-
     pub fn read_single_block(&self, buf: &mut [u8], block_addr: u32) -> Result<(), SdError> {
         // TODO: check
-        if block_addr > self.csd.block_count() as u32{
+        if block_addr > self.csd.block_count() as u32 {
             return Err(SdError::STATUSError);
         }
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
@@ -448,10 +512,17 @@ impl SdInstance {
         self.send_cmd(sd_cmd::set_block_count(block_count))?;
         self.send_cmd(common_cmd::write_multiple_blocks(block_addr))?;
         // delay_ms(15);
+        // delay_ms(100);
         while !self.port.star().read().dataend() {
             // defmt::error!("stat at write multiple block dataend: {:x}", self.port.star().read().0);
-            self.error_test()?;
-            // delay_ms(50);
+            let ret = self.error_test();
+            match ret {
+                Ok(_) => {}
+                Err(e) => {
+                    defmt::error!("write multiple blocks error: {:?}", e);
+                    break;
+                }
+            }
         }
         Ok(())
     }
@@ -461,6 +532,101 @@ impl SdInstance {
         if block_addr as u64 > self.csd.block_count() {
             return Err(SdError::STATUSError);
         }
+        defmt::info!("write single block, block_addr: {}", block_addr);
+        // stop dpsmact if its enabled
+        if self.port.star().read().cpsmact() || self.port.star().read().dpsmact() {
+            defmt::error!(
+                "wrong status. cpsmact: {}, dpsmact: {}",
+                self.port.star().read().cpsmact(),
+                self.port.star().read().dpsmact()
+            );
+            // we need to move dpsmact to idle state
+            // this is done by send go to idle state command
+            self.send_cmd(common_cmd::stop_transmission())?;
+            self.send_cmd(common_cmd::idle())?;
+            defmt::info!("goto idle after wrong status");
+            delay_ms(20);
+        }
+        // self.port.dtimer().modify(|v| {
+        //     v.0 = 16000; // 400khz, 8000clk = 20ms
+        // });
+        self.port.dctrl().modify(|v| {
+            v.set_fiforst(true); // reset fifo
+        });
+        delay_ms(1);
+        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+        self.port.dlenr().write(|v| v.0 = 512);
+        self.port.dctrl().modify(|v| {
+            v.set_fiforst(true); // reset fifo
+            v.set_dblocksize(9); // 512 bytes
+            v.set_dtmode(0); // block data transfer
+            v.set_dtdir(false); // from controller to card
+        });
+        delay_us(1);
+        self.port.idmactrlr().modify(|v| {
+            v.set_idmabmode(false); // single buffer mode
+            v.set_idmaen(true); // enable dma
+        });
+        self.send_cmd(common_cmd::write_single_block(block_addr))?;
+        while !self.port.star().read().dataend() {
+            self.error_test()?;
+        }
+        // wait fo busy
+        defmt::info!("wait for busy");
+        self.send_cmd(common_cmd::idle())?; // send  idle command to sample the busy signal
+        while (self.port.star().read().busyd0()) {
+            self.error_test()?;
+        }
+        // delay_ms(150);
+        Ok(())
+    }
+    pub fn read_single_block_retry(
+        &self,
+        buf: &mut [u8],
+        block_addr: u32,
+        try_times: u32,
+    ) -> Result<(), SdError> {
+        for i in 0..try_times {
+            match self.read_single_block(buf, block_addr) {
+                Ok(_) => {
+                    return Ok(());
+                }
+                Err(err) => {
+                    defmt::error!("read single block error: {:?}, try times: {}", err, i);
+                }
+            }
+        }
+        Err(SdError::STATUSError)
+    }
+    pub fn write_single_block_retry(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        try_times: u32,
+    ) -> Result<(), SdError> {
+        for i in 0..try_times {
+            match self.write_single_block(buf, block_addr) {
+                Ok(_) => {
+                    return Ok(());
+                }
+                Err(err) => {
+                    defmt::error!("write single block error: {:?}, try times: {}", err, i);
+                }
+            }
+            delay_ms(50);
+        }
+        Err(SdError::STATUSError)
+    }
+    pub async fn write_single_blocks_async(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+    ) -> Result<(), SdError> {
+        if block_addr as u64 > self.csd.block_count() {
+            return Err(SdError::STATUSError);
+        }
+        // stop all current transmission
+        self.port.cmdr().modify(|v| v.set_cmdstop(true));
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
         self.port.dlenr().write(|v| v.0 = 512);
         self.port.dctrl().modify(|v| {
@@ -474,10 +640,76 @@ impl SdInstance {
             v.set_idmaen(true); // enable dma
         });
         self.send_cmd(common_cmd::write_single_block(block_addr))?;
-        while !self.port.star().read().dataend() {
-            self.error_test()?;
-            // delay_ms(100);
-        }
+        self.wait_for_dataend().await?;
+        // while !self.port.star().read().dataend() {
+        //     self.error_test()?;
+        // }
         Ok(())
+    }
+    wait_for_event!(wait_for_dataend, dataend);
+    wait_for_event!(wait_for_cmdrend, cmdrend);
+    wait_for_event!(wait_for_cmdsent, cmdsent);
+
+    pub fn set_waker(&self, waker: core::task::Waker) {
+        unsafe {
+            if self.port == stm32_metapac::SDMMC1 {
+                SDMMC1_WAKER = waker;
+            } else {
+                SDMMC2_WAKER = waker;
+            }
+        }
+    }
+    pub fn clear_error(&self) {
+        self.port.icr().modify(|v| {
+            v.set_ctimeoutc(true);
+            v.set_dtimeoutc(true);
+            v.set_ccrcfailc(true);
+            v.set_dcrcfailc(true);
+            v.set_txunderrc(true);
+            v.set_rxoverrc(true);
+            v.set_ackfailc(true);
+            v.set_acktimeoutc(true);
+        })
+    }
+    pub fn clear_interrupt(&self) {
+        self.port.icr().write(|v| v.0 = 0x1FE00FFF);
+    }
+}
+
+impl Future for SdInstance {
+    type Output = Result<(), SdError>;
+    fn poll(
+        self: core::pin::Pin<&mut Self>,
+        cx: &mut core::task::Context<'_>,
+    ) -> core::task::Poll<Self::Output> {
+        unsafe {
+            if self.port == stm32_metapac::SDMMC1 {
+                SDMMC1_WAKER = cx.waker().clone();
+            } else {
+                SDMMC2_WAKER = cx.waker().clone();
+            }
+        }
+        return core::task::Poll::Pending;
+        todo!()
+    }
+}
+
+use core::task::Waker;
+use stm32_metapac::interrupt;
+
+static mut SDMMC1_WAKER: Waker = Waker::noop();
+static mut SDMMC2_WAKER: Waker = Waker::noop();
+
+#[interrupt]
+fn SDMMC1() {
+    unsafe {
+        SDMMC1_WAKER.wake_by_ref();
+    }
+}
+
+#[interrupt]
+fn SDMMC2() {
+    unsafe {
+        SDMMC2_WAKER.wake_by_ref();
     }
 }

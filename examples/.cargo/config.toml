@@ -3,8 +3,8 @@ target = "thumbv8m.main-none-eabihf"
 
 #rustflags = ["-C", "link-arg=-Tlink.x"]
 [target.thumbv8m.main-none-eabihf]
-#runner = "probe-rs attach --chip STM32U575RITx"
+runner = "probe-rs attach --chip STM32U575RITx"
 
-runner = "probe-rs run --chip STM32U575RITx"
+#runner = "probe-rs run --chip STM32U575RITx"
 
 # rustflags = ["-C", "link-arg=-Tlink.x"]

@@ -29,6 +29,7 @@ use futures::future::join;
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
+    defmt::info!("panic");
     loop {}
 }
 

@@ -1,3 +1,5 @@
+
+#![feature(noop_waker)]
 #![no_std]
 #![no_main]
 use cortex_m_rt::entry;
