@@ -80,7 +80,7 @@ pub fn init_clock() {
     let mut config = embassy_stm32::Config::default();
     config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
     config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
-                                                     // should better set in the rcc module. instead of here.
+    //                                                  // should better set in the rcc module. instead of here.
     let _p = embassy_stm32::init(config);
     delay_enable(160_000_000);
     RCC.ccipr1()
@@ -123,4 +123,29 @@ pub fn init_clock() {
 
     // enable sdmmc2 clock
     RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
+}
+pub fn set_clock_to_pll() {
+    // let mut config = embassy_stm32::Config::default();
+    // config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
+    // config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
+    // //                                                  // should better set in the rcc module. instead of here.
+    // let _p = embassy_stm32::init(config);
+    delay_enable(160_000_000);
+
+    RCC.cfgr1().modify(|w| {
+        w.set_sw(stm32_metapac::rcc::vals::Sw::PLL1_R);
+    });
+}
+
+pub fn set_clock_to_hsi() {
+    // let mut config = embassy_stm32::Config::default();
+    // config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
+    // config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
+    // //                                                  // should better set in the rcc module. instead of here.
+    // let _p = embassy_stm32::init(config);
+    delay_enable(4_000_000);
+
+    RCC.cfgr1().modify(|w| {
+        w.set_sw(stm32_metapac::rcc::vals::Sw::HSI);
+    });
 }

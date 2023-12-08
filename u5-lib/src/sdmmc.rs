@@ -121,18 +121,18 @@ impl SdInstance {
         clk.setup();
         cmd.setup();
         d0.setup();
-        delay_ms(10); // TODO: chekc this value
+        delay_ms(100); // TODO: chekc this value
 
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            v.set_clkdiv(24); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
         });
 
         self.port.power().modify(|v| v.set_pwrctrl(3));
-        delay_ms(1); // 400khz, 74clk = 185us
+        delay_ms(10); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
-            v.0 = 400_000; // 400khz, 8000clk = 20ms
+            v.0 = 5*400_000; // 400khz, 8000clk = 20ms
         });
         defmt::info!("start init sd card");
         // initilize sd card
@@ -142,7 +142,7 @@ impl SdInstance {
         }
         // let cmd = sd_cmd::send_if_cond(0xF, 0xa);
         let mut ok = false;
-        for i in 0..10 {
+        for i in 0..50 {
             defmt::debug!("send if conf {}", i);
             match self.send_cmd(sd_cmd::send_if_cond(0x1, 0xaa)) {
                 Ok(_) => {
