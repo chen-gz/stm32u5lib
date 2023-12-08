@@ -5,10 +5,8 @@
 #![allow(unused_imports)]
 
 use core::fmt::{write, Write};
-use heapless::String;
-use core::future::Future;
-use core::hash::Hasher;
-use cortex_m::prelude::_embedded_hal_blocking_spi_Write;
+use core::{future::Future, hash::Hasher};
+use cortex_m::{asm, prelude::_embedded_hal_blocking_spi_Write};
 use defmt_rtt as _;
 use embassy_executor::Spawner;
 use embassy_stm32::{
@@ -20,12 +18,13 @@ use embassy_stm32::{
     usb_otg::{Driver, Instance},
     Config, Peripheral,
 };
-use embassy_usb::{
-    class::cdc_acm::{CdcAcmClass, State},
-    driver::EndpointError,
-    Builder, UsbDevice,
-};
+// use embassy_usb::{
+//     class::cdc_acm::{CdcAcmClass, State},
+//     driver::EndpointError,
+//     Builder, UsbDevice,
+// };
 use futures::future::join;
+use heapless::String;
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
@@ -251,11 +250,10 @@ fn setup_camera() {
     defmt::info!("setup camera registers finished");
 }
 
-
 struct ftsource {}
 
-use embedded_sdmmc::{Error, File, TimeSource};
 use embedded_sdmmc::Timestamp;
+use embedded_sdmmc::{Error, File, TimeSource};
 use u5_lib::clock::delay_ms;
 use u5_lib::gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14};
 
@@ -288,27 +286,45 @@ async fn main(spawner: Spawner) {
     defmt::info!("init sd card");
     LED_BLUE.toggle();
     let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
-    let volume0 = volume_mgr.open_volume(embedded_sdmmc::VolumeIdx(0)).unwrap();
+    let volume0 = volume_mgr
+        .open_volume(embedded_sdmmc::VolumeIdx(0))
+        .unwrap();
     defmt::info!("Volume 0: {:?}", volume0);
     let mut root_dir = volume_mgr.open_root_dir(volume0).unwrap();
     // let mut root_dir = volume0.open_root_dir().unwrap();
     defmt::info!("open root dir");
     let dcmi = dcmi::DCMI;
-    dcmi.init(DCMI_D0_PC6, DCMI_D1_PC7, DCMI_D2_PC8, DCMI_D3_PC9, DCMI_D4_PC11, DCMI_D5_PB6,
-              DCMI_D6_PB8, DCMI_D7_PB9, DCMI_HSYNC_PA4, DCMI_VSYNC_PB7, DCMI_PIXCLK_PA6, );
+    dcmi.init(
+        DCMI_D0_PC6,
+        DCMI_D1_PC7,
+        DCMI_D2_PC8,
+        DCMI_D3_PC9,
+        DCMI_D4_PC11,
+        DCMI_D5_PB6,
+        DCMI_D6_PB8,
+        DCMI_D7_PB9,
+        DCMI_HSYNC_PA4,
+        DCMI_VSYNC_PB7,
+        DCMI_PIXCLK_PA6,
+    );
     delay_ms(3000);
     let mut PIC_BUF: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
-    for pic_num in 0..1000 {
+    let mut pic_num = 0;
+    // for pic_num in 0..1000 {
+    loop {
+        pic_num += 1;
+        clock::set_clock_to_pll();
         CAM_PDWN.set_low();
         delay_ms(100);
         // get buffert address add print it
         dcmi.capture(dma::DCMI_DMA, &mut PIC_BUF);
         //clock::delay_ms(1000);
-         while !dcmi.get_picture(){};
+        while !dcmi.get_picture() {}
         dcmi.stop_capture(dma::DCMI_DMA);
         // CAM_PDWN.set_high();
         // print first 10 bytes in PIC_BUF in hex
         CAM_PDWN.set_high();
+        clock::set_clock_to_hsi();
         LED_BLUE.toggle();
         defmt::info!("PIC_BUF[0..10] in hex =  0x{:x}", &PIC_BUF[0..10]);
         defmt::info!("dcmi status register = 0x{:x}", DCMI.sr().read().0);
@@ -338,27 +354,44 @@ async fn main(spawner: Spawner) {
         // let mut file = volume_mgr.open_file_in_dir(root_dir, "4.jpg", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
 
         let mut file_name = String::<32>::new();
-        file_name.write_fmt(format_args!("{}.jpg", pic_num)).unwrap();
-        let file = match volume_mgr.open_file_in_dir(root_dir, file_name.as_str(), embedded_sdmmc::Mode::ReadWriteCreateOrTruncate) {
+        file_name
+            .write_fmt(format_args!("{}.jpg", pic_num))
+            .unwrap();
+        let file = match volume_mgr.open_file_in_dir(
+            root_dir,
+            file_name.as_str(),
+            embedded_sdmmc::Mode::ReadWriteCreateOrTruncate,
+        ) {
             Ok(f) => {
                 defmt::info!("open file success");
                 f
             }
-            Err(err) => { defmt::panic!("open file failed {:?}", err) }
+            Err(err) => {
+                defmt::panic!("open file failed {:?}", err)
+            }
         };
 
         defmt::info!("open file success");
         // write buf to file
-        defmt::info!("write file, pic_start = {}, pic_end = {}", pic_start, pic_end);
+        defmt::info!(
+            "write file, pic_start = {}, pic_end = {}",
+            pic_start,
+            pic_end
+        );
         match volume_mgr.write(file, &PIC_BUF[0..pic_end]) {
-            Ok(_) => { defmt::info!("write file success"); }
-            Err(err) => { defmt::panic!("write file failed {:?}", err) }
+            Ok(_) => {
+                defmt::info!("write file success");
+            }
+            Err(err) => {
+                defmt::panic!("write file failed {:?}", err)
+            }
         }
         defmt::info!("write file");
         // close file
         let _ = volume_mgr.close_file(file).unwrap();
         defmt::info!("close file");
         LED_GREEN.toggle();
+        // Timer::after(Duration::from_secs(5)).await;
     }
     // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {
