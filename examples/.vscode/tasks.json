@@ -1,23 +1,29 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "cargo",
-			"command": "build",
-			"args": [
+
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build", 
 				"--bin",
 				"sd_cam"
-			],
-			"problemMatcher": [
-				"$rustc"
-			],
-			"group": "build",
-			"label": "rust: cargo build",
-			"options": {
+            ],
+            
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile",
+            			"options": {
 				"env": {
-					"DEFMT_LOG": "error",
+					"DEFMT_LOG": "info",
 				}
 			}
-		}
-	]
+        },
+
+    ]
 }
+

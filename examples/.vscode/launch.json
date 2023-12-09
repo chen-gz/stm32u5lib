@@ -2,15 +2,11 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "preLaunchTask": "rust: cargo build",
+        "preLaunchTask": "build",
         "type": "probe-rs-debug",
         "request": "launch",
-        "name": "probe_rs sd_cam launch example",
+        "name": "probe_rs sd_cam",
         "cwd": "${workspaceFolder}",
-        //!MODIFY (or remove)
-        //"speed": 24000,
-        //!MODIFY (or remove)
-        //"probe": "0483:8006",
         "runtimeExecutable": "probe-rs",
         "runtimeArgs": ["dap-server"],
         //!MODIFY
@@ -19,48 +15,43 @@
           "flashingEnabled": true,
           "haltAfterReset": false,
           "formatOptions": {
-            //!MODIFY (or remove). Valid values are: 'bin', 'hex', 'elf'(default), 'idf'
-            //"format": "elf"
           }
         },
         "coreConfigs": [
           {
             "coreIndex": 0,
-            //!MODIFY
             "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\sd_cam",
-            //!MODIFY
             "svdFile": "stm32u575.svd",
             "rttEnabled": true
           }
         ],
         "env": {
-          //!MODIFY (or remove)
-          // If you set this variable, check the VSCode console log window for the location of the log file.
           "RUST_LOG": "Console",
           "DEFMT_LOG": "debug",
         },
          // Info, Debug
          "consoleLogLevel": "Info"
+      },
+      {
+        "type": "probe-rs-debug",
+        "request": "attach",
+        "name": "attach",
+        "cwd": "${workspaceFolder}",
+        "chip": "STM32U575RITx",
+        "coreConfigs": [
+          {
+            "coreIndex": 0,
+            "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\sd_cam",
+            "svdFile": "stm32u575.svd",
+            "rttEnabled": true
+          }
+        ],
+        "env": {
+          "RUST_LOG": "Console",
+          "DEFMT_LOG": "debug",
+        },
+        "consoleLogLevel": "Info"
       }
+
     ]
   }
-
-//   {
-//     "version": "0.2.0",
-//     "configurations": [
-//       {
-//         "preLaunchTask": "${defaultBuildTask}",
-//         "type": "probe-rs-debug",
-//         "request": "launch",
-//         "name": "probe_rs Executable Test",
-//         //!MODIFY
-//         "chip": "STM32U575RITx",
-//         "coreConfigs": [
-//           {
-//             //!MODIFY
-//             "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\sd_cam"
-//           }
-//         ]
-//       }
-//     ]
-//   }
