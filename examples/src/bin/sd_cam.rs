@@ -29,6 +29,17 @@ use heapless::String;
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     defmt::info!("panic");
+    defmt::error!(
+        "Location file name: {:?}, line: {:?}, col: {:?}",
+        _info.location().unwrap().file(),
+        _info.location().unwrap().line(),
+        _info.location().unwrap().column()
+    );
+    // defmt::error!("Payload: {:?}", _info.payload().downcast_ref::<&str>().unwrap());
+    // defmt::error!("info : {}", _info);
+
+    // defmt::error!("Location: {:?}", _info.location().unwrap());
+
     loop {}
 }
 
@@ -60,8 +71,6 @@ use stm32_metapac::timer::vals::Arpe;
 use stm32_metapac::{DCMI, GPDMA1, GPIOB, GPIOC, I2C3, PWR, RCC, TIM1};
 use u5_lib::sdmmc::{SdError, SdInstance};
 
-// const PIC_BUF_SIZE: usize = 0xffff;
-// const PIC_BUF_SIZE: usize = 140_000;
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
@@ -106,34 +115,34 @@ fn setup_cam_clk() {
     cam_xclk.enable(embassy_stm32::timer::Channel::Ch1);
 }
 
-fn setup_dcmi() {
-    let p = unsafe { embassy_stm32::Peripherals::steal() };
-    let mut dcmi_config = embassy_stm32::dcmi::Config::default();
-    dcmi_config.vsync_level = embassy_stm32::dcmi::VSyncDataInvalidLevel::High;
-    dcmi_config.hsync_level = embassy_stm32::dcmi::HSyncDataInvalidLevel::High;
-    dcmi_config.pixclk_polarity = embassy_stm32::dcmi::PixelClockPolarity::RisingEdge;
+// fn setup_dcmi() {
+//     let p = unsafe { embassy_stm32::Peripherals::steal() };
+//     let mut dcmi_config = embassy_stm32::dcmi::Config::default();
+//     dcmi_config.vsync_level = embassy_stm32::dcmi::VSyncDataInvalidLevel::High;
+//     dcmi_config.hsync_level = embassy_stm32::dcmi::HSyncDataInvalidLevel::High;
+//     dcmi_config.pixclk_polarity = embassy_stm32::dcmi::PixelClockPolarity::RisingEdge;
 
-    let mut dcmi = embassy_stm32::dcmi::Dcmi::new_8bit(
-        p.DCMI,
-        p.GPDMA1_CH0,
-        Irqs,
-        p.PC6,
-        p.PC7,
-        p.PC8,
-        p.PC9,
-        p.PC11,
-        p.PB6,
-        p.PB8,
-        p.PB9,
-        p.PB7,
-        p.PA4,
-        p.PA6,
-        dcmi_config,
-    );
-    DCMI.cr().modify(|w| {
-        w.set_jpeg(true);
-    });
-}
+//     let mut dcmi = embassy_stm32::dcmi::Dcmi::new_8bit(
+//         p.DCMI,
+//         p.GPDMA1_CH0,
+//         Irqs,
+//         p.PC6,
+//         p.PC7,
+//         p.PC8,
+//         p.PC9,
+//         p.PC11,
+//         p.PB6,
+//         p.PB8,
+//         p.PB9,
+//         p.PB7,
+//         p.PA4,
+//         p.PA6,
+//         dcmi_config,
+//     );
+//     DCMI.cr().modify(|w| {
+//         w.set_jpeg(true);
+//     });
+// }
 
 fn setup_camera() {
     let mut read_val: [u8; 2] = [0u8; 2];
@@ -147,6 +156,7 @@ fn setup_camera() {
             &mut read_val[0..1],
         )
         .unwrap();
+
     CAM_I2C
         .write_read(
             OV5640_I2C_ADDR,
@@ -160,8 +170,6 @@ fn setup_camera() {
     assert!(read_val[0] == 0x56 && read_val[1] == 0x40);
 
     // read PIDH
-    let mut read_val = [0u8; 1];
-
     defmt::info!("writing ov5640 common regs");
     for &(reg, val) in ov5640_reg::OV5640_Common.iter() {
         let mut reg_val = [0u8; 3];
@@ -248,15 +256,14 @@ fn setup_camera() {
         .unwrap();
     defmt::info!("setup camera registers finished");
 }
+struct FtSource {}
 
-struct ftsource {}
-
-use embedded_sdmmc::{Error, File, TimeSource, BlockDevice};
+use embedded_sdmmc::{BlockDevice, Directory, Error, File, TimeSource, VolumeManager};
 use embedded_sdmmc::{Timestamp, Volume};
 use u5_lib::clock::delay_ms;
 use u5_lib::gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14};
 
-impl TimeSource for ftsource {
+impl TimeSource for FtSource {
     fn get_timestamp(&self) -> Timestamp {
         Timestamp {
             year_since_1970: 0,
@@ -289,98 +296,92 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
     );
     dcmi
 }
-
-#[embassy_executor::main]
-async fn main(spawner: Spawner) {
-    setup();
-    let dcmi = setup_camera_dcmi();
-
-    // update
+fn init_sd() -> (VolumeManager<SdInstance, FtSource>, Directory) {
     let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
-    let ts = ftsource {};
+    let ts = FtSource {};
     sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
     let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
     let volume0 = volume_mgr
         .open_volume(embedded_sdmmc::VolumeIdx(0))
         .unwrap();
-    defmt::info!("Volume 0: {:?}", volume0);
-    let mut root_dir = volume_mgr.open_root_dir(volume0).unwrap();
-    defmt::info!("open root dir");
+    let root_dir = volume_mgr.open_root_dir(volume0).unwrap();
+    // let dir = volume_mgr.open_dir(root_dir, "hello").unwrap();
+    return (volume_mgr, root_dir);
+}
 
-
-
-    delay_ms(10);
-    const PIC_BUF_SIZE: usize = 600_000;
-    let mut PIC_BUF: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
-    let mut pic_num = 0;
-    // for pic_num in 0..1000 {
+#[embassy_executor::main]
+async fn main(_spawner: Spawner) {
+    let mut pic_num = 251;
     loop {
-        pic_num += 1;
+        setup();
+        let dcmi = setup_camera_dcmi();
+        let (mut volume_mgr, root_dir) = init_sd();
 
-        clock::set_clock_to_pll(); // fast clock for camera
-        CAM_PDWN.set_low();
-        delay_ms(2);
-        dcmi.capture(dma::DCMI_DMA, &mut PIC_BUF);
-        while !dcmi.get_picture() {}
-        dcmi.stop_capture(dma::DCMI_DMA);
-        CAM_PDWN.set_high();
-        LED_BLUE.toggle();
+        // update
+        delay_ms(10);
+        const PIC_BUF_SIZE: usize = 600_000;
+        let pic_buf: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
+        loop {
+            pic_num += 1;
+            clock::set_clock_to_pll(); // fast clock for camera
+            CAM_PDWN.set_low();
+            delay_ms(2);
+            dcmi.capture(dma::DCMI_DMA, &pic_buf);
+            while !dcmi.get_picture() {}
+            dcmi.stop_capture(dma::DCMI_DMA);
+            CAM_PDWN.set_high();
+            LED_BLUE.toggle();
 
-        let mut found = false;
-        let mut pic_end = 0;
-        for i in 0..PIC_BUF_SIZE - 1 {
-            if PIC_BUF[i] == 0xff && PIC_BUF[i + 1] == 0xd9 {
-                found = true;
-                pic_end = i;
-                defmt::info!("find jpeg end at index {}", i);
-                break;
+            let mut found = false;
+            let mut pic_end = 0;
+            for i in 0..PIC_BUF_SIZE - 1 {
+                if pic_buf[i] == 0xff && pic_buf[i + 1] == 0xd9 {
+                    found = true;
+                    pic_end = i;
+                    break;
+                }
             }
+            if !found {
+                defmt::error!("not find jpeg end");
+                continue; // not found the end of jpeg, continue to capture the next picture
+            }
+            clock::set_clock_to_hsi(); // slow clock for sd card
+
+            // let mut file = volume_mgr.open_file_in_dir(root_dir, "4.jpg", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
+
+            let mut file_name = String::<32>::new();
+            file_name
+                .write_fmt(format_args!("{}.jpg", pic_num))
+                .unwrap(); // This shout not have error
+            let file = match volume_mgr.open_file_in_dir(
+                root_dir,
+                file_name.as_str(),
+                embedded_sdmmc::Mode::ReadWriteCreateOrTruncate,
+            ) {
+                Ok(f) => f,
+                Err(err) => {
+                    defmt::error!("open file failed {:?}", err);
+                    break;
+                }
+            };
+            // write buf to file
+            match volume_mgr.write(file, &pic_buf[0..pic_end]) {
+                Ok(_) => {}
+                Err(err) => {
+                    defmt::error!("write file failed {:?}", err);
+                    break;
+                }
+            }
+            // close file
+            match volume_mgr.close_file(file) {
+                Ok(_) => {}
+                Err(err) => {
+                    defmt::error!("close file failed {:?}", err);
+                    break;
+                }
+            }
+            defmt::info!("finish take picture file name {}", file_name.as_str());
+            LED_GREEN.toggle();
         }
-        if !found {
-            defmt::error!("not find jpeg end");
-            continue; // not found the end of jpeg, continue to capture the next picture
-        }
-        clock::set_clock_to_hsi(); // slow clock for sd card
-
-        // let mut file = volume_mgr.open_file_in_dir(root_dir, "4.jpg", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
-
-        let mut file_name = String::<32>::new();
-        file_name
-            .write_fmt(format_args!("{}.jpg", pic_num))
-            .unwrap();
-        let file = match volume_mgr.open_file_in_dir(
-            root_dir,
-            file_name.as_str(),
-            embedded_sdmmc::Mode::ReadWriteCreateOrTruncate,
-        ) {
-            Ok(f) => {
-                defmt::info!("open file success");
-                f
-            }
-            Err(err) => {
-                defmt::panic!("open file failed {:?}", err)
-            }
-        };
-
-        defmt::info!("open file success");
-        // write buf to file
-        match volume_mgr.write(file, &PIC_BUF[0..pic_end]) {
-            Ok(_) => {
-                defmt::info!("write file success");
-            }
-            Err(err) => {
-                defmt::panic!("write file failed {:?}", err)
-            }
-        }
-        defmt::info!("write file");
-        // close file
-        let _ = volume_mgr.close_file(file).unwrap();
-        defmt::info!("close file");
-        LED_GREEN.toggle();
-        // Timer::after(Duration::from_secs(5)).await;
-    }
-    // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
-    loop {
-        Timer::after(Duration::from_secs(1)).await;
     }
 }

@@ -74,12 +74,12 @@ impl DmaChannel {
         // buf: &[u8]) {
         self.init();
         assert!(len < DMA_MAX_TRANSFER_SIZE * 32);
-        defmt::info!(
-            "dma src_addr = {}, dst_addr = {}, len = {}",
-            src_addr,
-            dar_addr,
-            len
-        );
+        // defmt::info!(
+        //     "dma src_addr = {}, dst_addr = {}, len = {}",
+        //     src_addr,
+        //     dar_addr,
+        //     len
+        // );
         let cnts = (len + DMA_MAX_TRANSFER_SIZE - 1) / DMA_MAX_TRANSFER_SIZE; // round up
 
         unsafe {
@@ -135,8 +135,8 @@ impl DmaChannel {
             ch.dar().write_value(link_list[0].dar);
             ch.br1().modify(|v| v.0 = link_list[0].br1);
             ch.llr().modify(|v| v.0 = link_list[0].llr);
-            defmt::info!("dma sar = 0x{:x}", ch.sar().read());
-            defmt::info!("dma dar = 0x{:x}", ch.dar().read());
+            // defmt::info!("dma sar = 0x{:x}", ch.sar().read());
+            // defmt::info!("dma dar = 0x{:x}", ch.dar().read());
 
             ch.cr().modify(|v| {
                 v.set_en(true);

@@ -31,6 +31,7 @@
         },
          // Info, Debug
          "consoleLogLevel": "Info"
+        
       },
       {
         "type": "probe-rs-debug",

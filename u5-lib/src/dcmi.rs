@@ -43,7 +43,7 @@ impl DcmiPort {
 
     }
 
-    pub fn capture(&self, dma: DmaChannel, buf: &mut [u8]) {
+    pub fn capture(&self, dma: DmaChannel, buf: &[u8]) {
         self.port.cr().modify(|v| {
             v.set_jpeg(true);
             v.set_cm(false);
@@ -55,11 +55,7 @@ impl DcmiPort {
         let len = buf.len() as u32;
         // get draddress
         let src_addr = self.port.dr().as_ptr() as u32;
-        defmt::info!("src_addr: {:x}", src_addr);
         dma.start(src_addr, dst_addr, len);
-        defmt::info!("dma start with src_addr: {:x}", src_addr);
-        defmt::info!("dma start with dst_addr: {:x}", dst_addr);
-        defmt::info!("dma start with len: {}", len);
 
         // start capture
         self.port.cr().modify(|v| {
