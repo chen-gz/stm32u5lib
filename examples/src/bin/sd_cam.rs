@@ -18,11 +18,6 @@ use embassy_stm32::{
     usb_otg::{Driver, Instance},
     Config, Peripheral,
 };
-// use embassy_usb::{
-//     class::cdc_acm::{CdcAcmClass, State},
-//     driver::EndpointError,
-//     Builder, UsbDevice,
-// };
 use futures::future::join;
 use heapless::String;
 
@@ -35,21 +30,27 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
         _info.location().unwrap().line(),
         _info.location().unwrap().column()
     );
-    // defmt::error!("Payload: {:?}", _info.payload().downcast_ref::<&str>().unwrap());
-    // defmt::error!("info : {}", _info);
-
-    // defmt::error!("Location: {:?}", _info.location().unwrap());
-
     loop {}
 }
+struct FtSource {}
 
-bind_interrupts!(struct Irqs {
-    DCMI_PSSI => embassy_stm32::dcmi::InterruptHandler<peripherals::DCMI>;
-    OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
-    // GPDMA1_CH0 => embassy_stm32::dma::<peripherals::GPDMA1_CH0>;
-});
-// #[path = "../ov5640_reg.rs"]
-// mod ov5640_reg;
+use embedded_sdmmc::{BlockDevice, Directory, Error, File, TimeSource, VolumeManager};
+use embedded_sdmmc::{Timestamp, Volume};
+use u5_lib::clock::delay_ms;
+use u5_lib::gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14};
+
+impl TimeSource for FtSource {
+    fn get_timestamp(&self) -> Timestamp {
+        Timestamp {
+            year_since_1970: 0,
+            zero_indexed_month: 0,
+            zero_indexed_day: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+        }
+    }
+}
 use u5_lib::*;
 use u5_lib::{
     gpio::{
@@ -79,6 +80,11 @@ const LED_ORANGE: gpio::GpioPort = gpio::PC4;
 const LED_BLUE: gpio::GpioPort = gpio::PC5;
 const CAM_I2C: gi2c::I2cPort = gi2c::I2C3;
 const CAM_PDWN: gpio::GpioPort = gpio::PB0;
+
+bind_interrupts!(struct Irqs {
+    OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
+    // GPDMA1_CH0 => embassy_stm32::dma::<peripherals::GPDMA1_CH0>;
+});
 
 fn setup() {
     // this function setup for peripheral
@@ -115,171 +121,14 @@ fn setup_cam_clk() {
     cam_xclk.enable(embassy_stm32::timer::Channel::Ch1);
 }
 
-// fn setup_dcmi() {
-//     let p = unsafe { embassy_stm32::Peripherals::steal() };
-//     let mut dcmi_config = embassy_stm32::dcmi::Config::default();
-//     dcmi_config.vsync_level = embassy_stm32::dcmi::VSyncDataInvalidLevel::High;
-//     dcmi_config.hsync_level = embassy_stm32::dcmi::HSyncDataInvalidLevel::High;
-//     dcmi_config.pixclk_polarity = embassy_stm32::dcmi::PixelClockPolarity::RisingEdge;
+#[path = "../camera.rs"]
+mod camera;
 
-//     let mut dcmi = embassy_stm32::dcmi::Dcmi::new_8bit(
-//         p.DCMI,
-//         p.GPDMA1_CH0,
-//         Irqs,
-//         p.PC6,
-//         p.PC7,
-//         p.PC8,
-//         p.PC9,
-//         p.PC11,
-//         p.PB6,
-//         p.PB8,
-//         p.PB9,
-//         p.PB7,
-//         p.PA4,
-//         p.PA6,
-//         dcmi_config,
-//     );
-//     DCMI.cr().modify(|w| {
-//         w.set_jpeg(true);
-//     });
-// }
-
-fn setup_camera() {
-    let mut read_val: [u8; 2] = [0u8; 2];
-    CAM_I2C
-        .write_read(
-            OV5640_I2C_ADDR,
-            &[
-                (OV5640_CHIP_ID_HIGH_BYTE >> 8) as u8,
-                OV5640_CHIP_ID_HIGH_BYTE as u8,
-            ],
-            &mut read_val[0..1],
-        )
-        .unwrap();
-
-    CAM_I2C
-        .write_read(
-            OV5640_I2C_ADDR,
-            &[
-                (OV5640_CHIP_ID_LOW_BYTE >> 8) as u8,
-                OV5640_CHIP_ID_LOW_BYTE as u8,
-            ],
-            &mut read_val[1..2],
-        )
-        .unwrap();
-    assert!(read_val[0] == 0x56 && read_val[1] == 0x40);
-
-    // read PIDH
-    defmt::info!("writing ov5640 common regs");
-    for &(reg, val) in ov5640_reg::OV5640_Common.iter() {
-        let mut reg_val = [0u8; 3];
-        reg_val[0] = (reg >> 8) as u8;
-        reg_val[1] = reg as u8;
-        reg_val[2] = val as u8;
-        match CAM_I2C.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
-            Ok(_) => {}
-            Err(_) => {
-                defmt::panic!("failed when writing ov5640 common regs");
-            }
-        }
-    }
-
-    defmt::info!("writing ov5640 jpeg regs");
-    for &(reg, val) in OV5640_PF_JPEG.iter() {
-        let mut reg_val = [0u8; 3];
-        reg_val[0] = (reg >> 8) as u8;
-        reg_val[1] = reg as u8;
-        reg_val[2] = val as u8;
-        match CAM_I2C.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
-            Ok(_) => {}
-            Err(_) => {
-                defmt::panic!("failed when writing ov5640 jpeg regs");
-            }
-        }
-    }
-    for &(reg, val) in OV5640_JPEG_MODE.iter() {
-        let mut reg_val = [0u8; 3];
-        reg_val[0] = (reg >> 8) as u8;
-        reg_val[1] = reg as u8;
-        reg_val[2] = val as u8;
-        match CAM_I2C.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val) {
-            Ok(_) => {}
-            Err(_) => {
-                defmt::panic!("failed when writing ov5640 jpeg mode");
-            }
-        }
-    }
-    defmt::info!("writing ov5640 jpeg regs finished");
-
-    let mut read_val = [0u8; 1];
-    let mut reg_addr = [0u8; 2];
-    // OV5640_TIMING_TC_REG21
-    reg_addr[0] = (ov5640_reg::OV5640_TIMING_TC_REG21 >> 8) as u8;
-    reg_addr[1] = ov5640_reg::OV5640_TIMING_TC_REG21 as u8;
-    CAM_I2C
-        .write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val)
-        .unwrap();
-    let mut write_val = [0u8; 3];
-    write_val[0] = reg_addr[0];
-    write_val[1] = reg_addr[1];
-    write_val[2] = read_val[0] | (1 << 5);
-    CAM_I2C
-        .write(ov5640_reg::OV5640_I2C_ADDR, &write_val)
-        .unwrap();
-
-    // SYSREM_RESET02
-    reg_addr[0] = (ov5640_reg::OV5640_SYSREM_RESET02 >> 8) as u8;
-    reg_addr[1] = ov5640_reg::OV5640_SYSREM_RESET02 as u8;
-    CAM_I2C
-        .write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val)
-        .unwrap();
-    let mut write_val = [0u8; 3];
-    write_val[0] = reg_addr[0];
-    write_val[1] = reg_addr[1];
-    write_val[2] = read_val[0] & !(1 << 2 | 1 << 3 | 1 << 4);
-    CAM_I2C
-        .write(ov5640_reg::OV5640_I2C_ADDR, &write_val)
-        .unwrap();
-
-    // OV5640_CLOCK_ENABLE02
-    reg_addr[0] = (ov5640_reg::OV5640_CLOCK_ENABLE02 >> 8) as u8;
-    reg_addr[1] = ov5640_reg::OV5640_CLOCK_ENABLE02 as u8;
-    CAM_I2C
-        .write_read(ov5640_reg::OV5640_I2C_ADDR, &reg_addr, &mut read_val)
-        .unwrap();
-    let mut write_val = [0u8; 3];
-    write_val[0] = reg_addr[0];
-    write_val[1] = reg_addr[1];
-    write_val[2] = read_val[0] | (1 << 3 | 1 << 5);
-    CAM_I2C
-        .write(ov5640_reg::OV5640_I2C_ADDR, &write_val)
-        .unwrap();
-    defmt::info!("setup camera registers finished");
-}
-struct FtSource {}
-
-use embedded_sdmmc::{BlockDevice, Directory, Error, File, TimeSource, VolumeManager};
-use embedded_sdmmc::{Timestamp, Volume};
-use u5_lib::clock::delay_ms;
-use u5_lib::gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14};
-
-impl TimeSource for FtSource {
-    fn get_timestamp(&self) -> Timestamp {
-        Timestamp {
-            year_since_1970: 0,
-            zero_indexed_month: 0,
-            zero_indexed_day: 0,
-            hours: 0,
-            minutes: 0,
-            seconds: 0,
-        }
-    }
-}
 fn setup_camera_dcmi() -> dcmi::DcmiPort {
     setup_cam_clk();
     CAM_PDWN.set_low();
     clock::delay_ms(10);
-    setup_camera();
+    camera::setup_camera(CAM_I2C);
     let dcmi = dcmi::DCMI;
     dcmi.init(
         DCMI_D0_PC6,
@@ -296,26 +145,30 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
     );
     dcmi
 }
-fn init_sd() -> (VolumeManager<SdInstance, FtSource>, Directory) {
+fn init_sd() -> SdInstance {
+    // -> (VolumeManager<SdInstance, FtSource>, Directory) {
     let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
     let ts = FtSource {};
     sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
-    let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
-    let volume0 = volume_mgr
-        .open_volume(embedded_sdmmc::VolumeIdx(0))
-        .unwrap();
-    let root_dir = volume_mgr.open_root_dir(volume0).unwrap();
+    // let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
+    // let volume0 = volume_mgr
+    //     .open_volume(embedded_sdmmc::VolumeIdx(0))
+    //     .unwrap();
+    // let root_dir = volume_mgr.open_root_dir(volume0).unwrap();
     // let dir = volume_mgr.open_dir(root_dir, "hello").unwrap();
-    return (volume_mgr, root_dir);
+    // return (volume_mgr, root_dir);
+    return sd;
 }
 
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) {
-    let mut pic_num = 251;
+    let mut pic_num = 10;
+    const multipiler: u32 = 1000;
     loop {
         setup();
         let dcmi = setup_camera_dcmi();
-        let (mut volume_mgr, root_dir) = init_sd();
+        // let (mut volume_mgr, root_dir) = init_sd();
+        let sd = init_sd();
 
         // update
         delay_ms(10);
@@ -346,6 +199,10 @@ async fn main(_spawner: Spawner) {
                 continue; // not found the end of jpeg, continue to capture the next picture
             }
             clock::set_clock_to_hsi(); // slow clock for sd card
+            let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
+            let end: usize = block_count as usize * 512;
+            sd.write_multiple_blocks(&pic_buf[0..end], pic_num * multipiler, block_count)
+                .unwrap();
 
             // let mut file = volume_mgr.open_file_in_dir(root_dir, "4.jpg", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
 
@@ -353,33 +210,33 @@ async fn main(_spawner: Spawner) {
             file_name
                 .write_fmt(format_args!("{}.jpg", pic_num))
                 .unwrap(); // This shout not have error
-            let file = match volume_mgr.open_file_in_dir(
-                root_dir,
-                file_name.as_str(),
-                embedded_sdmmc::Mode::ReadWriteCreateOrTruncate,
-            ) {
-                Ok(f) => f,
-                Err(err) => {
-                    defmt::error!("open file failed {:?}", err);
-                    break;
-                }
-            };
-            // write buf to file
-            match volume_mgr.write(file, &pic_buf[0..pic_end]) {
-                Ok(_) => {}
-                Err(err) => {
-                    defmt::error!("write file failed {:?}", err);
-                    break;
-                }
-            }
-            // close file
-            match volume_mgr.close_file(file) {
-                Ok(_) => {}
-                Err(err) => {
-                    defmt::error!("close file failed {:?}", err);
-                    break;
-                }
-            }
+                           // let file = match volume_mgr.open_file_in_dir(
+                           //     root_dir,
+                           //     file_name.as_str(),
+                           //     embedded_sdmmc::Mode::ReadWriteCreateOrTruncate,
+                           // ) {
+                           //     Ok(f) => f,
+                           //     Err(err) => {
+                           //         defmt::error!("open file failed {:?}", err);
+                           //         break;
+                           //     }
+                           // };
+                           // // write buf to file
+                           // match volume_mgr.write(file, &pic_buf[0..pic_end]) {
+                           //     Ok(_) => {}
+                           //     Err(err) => {
+                           //         defmt::error!("write file failed {:?}", err);
+                           //         break;
+                           //     }
+                           // }
+                           // // close file
+                           // match volume_mgr.close_file(file) {
+                           //     Ok(_) => {}
+                           //     Err(err) => {
+                           //         defmt::error!("close file failed {:?}", err);
+                           //         break;
+                           //     }
+                           // }
             defmt::info!("finish take picture file name {}", file_name.as_str());
             LED_GREEN.toggle();
         }
