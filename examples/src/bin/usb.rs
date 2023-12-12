@@ -33,14 +33,11 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
 bind_interrupts!(struct Irqs {
     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
 });
-// #[path = "../ov5640_reg.rs"]
-// mod ov5640_reg;
 use u5_lib::ov5640_reg;
 use u5_lib::*;
 
 use ov5640_reg::*;
 
-use embassy_stm32::timer::simple_pwm;
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
 use embassy_time::{Duration, Timer};
 use stm32_metapac::{
