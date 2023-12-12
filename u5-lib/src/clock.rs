@@ -123,6 +123,10 @@ pub fn init_clock() {
 
     // enable sdmmc2 clock
     RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
+
+
+
+
 }
 pub fn set_clock_to_pll() {
     // let mut config = embassy_stm32::Config::default();

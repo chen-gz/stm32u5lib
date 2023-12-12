@@ -9,3 +9,5 @@ pub mod gpio;
 pub mod ov5640_reg;
 pub mod sd_device;
 pub mod sdmmc;
+
+pub mod rtc;
