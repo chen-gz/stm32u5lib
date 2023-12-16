@@ -4,12 +4,20 @@
 // #![allow(dead_code)]
 // #![allow(unused_imports)]
 
+use core::fmt::{write, Write};
 use defmt_rtt as _;
 use embassy_executor::Spawner;
+use heapless::String;
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     defmt::info!("panic");
+    defmt::error!(
+        "Location file name: {:?}, line: {:?}, col: {:?}",
+        _info.location().unwrap().file(),
+        _info.location().unwrap().line(),
+        _info.location().unwrap().column()
+    );
     loop {}
 }
 
@@ -67,28 +75,42 @@ async fn main(_spawner: Spawner) {
     let ts = ftsource {};
     sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
     defmt::info!("init sd card");
-
     let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
-    // let mut volume0 = volume_mgr
-    //     .open_volume(embedded_sdmmc::VolumeIdx(0))
-    //     .unwrap();
-    // defmt::info!("Volume 0: {:?}", volume0.get_volume_info());
-    let volume0 = volume_mgr.open_volume(embedded_sdmmc::VolumeIdx(0)).unwrap();
+    let volume0 = volume_mgr
+        .open_volume(embedded_sdmmc::VolumeIdx(0))
+        .unwrap();
     defmt::info!("Volume 0: {:?}", volume0);
     let mut root_dir = volume_mgr.open_root_dir(volume0).unwrap();
-    // let mut root_dir = volume0.open_root_dir().unwrap();
 
-    let mut file = volume_mgr.open_file_in_dir(root_dir, "test.txt", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();
-    defmt::info!("open file");
-    // creat a buf contains "hello world"
-    let buf = b"hello world, fromt rust";
-    // write buf to file
-    let _ = volume_mgr.write(file, &buf[..]).unwrap();
+    let mut file_num = 0;
+    loop {
+        file_num += 1;
+        let mut file_name = String::<32>::new();
+        file_name
+            .write_fmt(format_args!("{}.da", file_num))
+            .unwrap(); 
+        // if put .data as end. I got nametooLong error
 
-    defmt::info!("write file");
-    // close file
-    let _ = volume_mgr.close_file(file).unwrap();
-    defmt::info!("close file");
+        let file = match volume_mgr.open_file_in_dir(
+            root_dir,
+            file_name.as_str(),
+            embedded_sdmmc::Mode::ReadWriteCreateOrTruncate,
+        ) {
+            Ok(f) => f,
+            Err(err) => {
+                defmt::error!("open file failed {:?}", err);
+                break;
+            }
+        };
+        defmt::info!("open file");
+        let buf = b"hello world, from rust";
+        let _ = volume_mgr.write(file, &buf[..]).unwrap();
+
+        defmt::info!("write file");
+        let _ = volume_mgr.close_file(file).unwrap();
+        defmt::info!("close file");
+        LED_BLUE.toggle();
+    }
 
     // GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
     loop {

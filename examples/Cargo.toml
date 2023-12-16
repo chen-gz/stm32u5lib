@@ -80,6 +80,10 @@ test = false
 name = "sd_cam"
 bench  = false
 test = false
+[[bin]]
+name = "usb"
+bench  = false
+test = false
 
 [profile.dev]
 #lto = true

@@ -1,27 +1,18 @@
 #![no_std]
 #![no_main]
+
 #![feature(type_alias_impl_trait)]
 #![allow(dead_code)]
 #![allow(unused_imports)]
+use heapless::String;
+use core::fmt::Write;
 
-use core::future::Future;
-use core::hash::Hasher;
-use cortex_m::prelude::_embedded_hal_blocking_spi_Write;
 use defmt_rtt as _;
 use embassy_executor::Spawner;
-use embassy_stm32::{
-    bind_interrupts,
-    gpio::{Output, OutputType},
-    peripherals,
-    time::{khz, Hertz},
-    usb_otg,
-    usb_otg::{Driver, Instance},
-    Config, Peripheral,
-};
+use embassy_stm32::{bind_interrupts, peripherals, usb_otg::{self, Instance}, usb_otg::Driver};
 use embassy_usb::{
     class::cdc_acm::{CdcAcmClass, State},
-    driver::EndpointError,
-    Builder, UsbDevice,
+    Builder, driver::EndpointError,
 };
 use futures::future::join;
 
@@ -33,22 +24,11 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
 bind_interrupts!(struct Irqs {
     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
 });
-use u5_lib::ov5640_reg;
 use u5_lib::*;
-
-use ov5640_reg::*;
 
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
 use embassy_time::{Duration, Timer};
-use stm32_metapac::{
-    gpdma::vals::ChTr1Ap, gpio::vals::Ospeedr, timer::vals::Arpe, GPDMA1, GPIOB, GPIOC, I2C3, PWR,
-    RCC, TIM1,
-};
 
-// const PIC_BUF_SIZE: usize = 130_000;
-const PIC_BUF_SIZE: usize = 0xffff;
-// const PIC_BUF_SIZE: usize = 140_000;
-static mut PIC_BUF: [u32; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
@@ -58,8 +38,8 @@ const LED_BLUE: gpio::GpioPort = gpio::PC5;
 const CAM_I2C: gi2c::I2cPort = gi2c::I2C3;
 const CAM_PDWN: gpio::GpioPort = gpio::PB0;
 
+use u5_lib::rtc;
 fn setup() {
-    // this function setup for peripheral
     clock::init_clock();
     CAM_PDWN.setup();
     LED_ORANGE.setup();
@@ -68,53 +48,17 @@ fn setup() {
     LED_GREEN.set_high();
     LED_BLUE.setup();
     LED_BLUE.set_high();
-    CAM_I2C.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
+    // setup rtc
+    rtc::setup(23, 12, 14, 21, 33, 0);
 }
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     setup();
     defmt::info!("init clock finished");
-    setup_cam_clk();
-    // CAM_PDWN.set_high();
     clock::delay_ms(10);
-    setup_camera();
-
-    // start usb task
-    // spawner.spawn(usb_task()).unwrap();
-
     spawner.spawn(usb_task()).unwrap();
-
-    GPDMA1.ch(0).tr1().modify(|w| w.set_dap(ChTr1Ap::PORT1));
-    loop {
-        Timer::after(Duration::from_secs(1)).await;
-        LED_GREEN.toggle();
-    }
-    // DCMI.capture(&mut PIC_BUF).await;
-
-    // loop {
-    //     unsafe {
-    //         dcmi.capture(&mut PIC_BUF).await;
-    //     }
-    //     let buf = unsafe { &PIC_BUF };
-    //     if unsafe { (PIC_BUF[0] & 0xffff) == 0xd8ff } {
-    //     } else {
-    //         continue;
-    //     }
-    //     // try to find oxff 0xd9
-    //     let mut pix_size = 0;
-    //     for i in 0..PIC_BUF_SIZE {
-    //         if unsafe { PIC_BUF[i] & 0xffff == 0xd9ff || (PIC_BUF[i] >> 16) & 0xffff == 0xd9ff } {
-    //             // led_red.toggle();
-    //             LED_GREEN.toggle();
-    //             pix_size = i;
-    //             break;
-    //         }
-    //     }
-    //     SIGNAL.signal(pix_size as u32);
-    //     SIGNAL2.wait().await;
-    //     Timer::after(Duration::from_secs(3)).await;
-    // }
+    LED_BLUE.set_low();
 }
 
 #[embassy_executor::task]
@@ -145,8 +89,6 @@ async fn usb_task() {
     config.device_protocol = 0x01;
     config.composite_with_iads = true;
 
-    // Create embassy-usb DeviceBuilder using the driver and config.
-    // It needs some buffers for building the descriptors.
     let mut device_descriptor = [0; 256];
     let mut config_descriptor = [0; 256];
     let mut bos_descriptor = [0; 256];
@@ -155,16 +97,6 @@ async fn usb_task() {
 
     let mut state = State::new();
 
-    // Create classes on the builder.
-    //
-    // pub fn new(
-    //     driver: D,
-    //     config: Config<'d>,
-    //     device_descriptor_buf: &'d mut [u8],
-    //     config_descriptor_buf: &'d mut [u8],
-    //     bos_descriptor_buf: &'d mut [u8],
-    //     msos_descriptor_buf: &'d mut [u8],
-    //     control_buf: &'d mut [u8],
     let mut builder = Builder::new(
         driver,
         config,
@@ -179,35 +111,46 @@ async fn usb_task() {
     // Build the builder.
     let mut usb = builder.build();
     let usb_fut = usb.run(); // Run the USB device.
-                             // Do stuff with the class!
     let echo_fut = async {
         loop {
             class.wait_connection().await;
-            let num = SIGNAL.wait().await as usize;
-            let times = num / 16 + 1;
-            let mut addr_shift = 0;
-
-            for i in 0..times {
-                let mut buf_u8 = [0u8; 64];
-                for j in 0..16 {
-                    if (i * 16 + j > num + 1) {
-                        break;
-                    }
-                    unsafe {
-                        buf_u8[4 * j] = (PIC_BUF[i * 16 + j]) as u8;
-                        buf_u8[4 * j + 1] = (PIC_BUF[i * 16 + j] >> 8) as u8;
-                        buf_u8[4 * j + 2] = (PIC_BUF[i * 16 + j] >> 16) as u8;
-                        buf_u8[4 * j + 3] = (PIC_BUF[i * 16 + j] >> 24) as u8;
-                    }
-                }
-                class.write_packet(&buf_u8).await;
-            }
-            SIGNAL2.signal(1);
+            defmt::info!("connected");
+            let _ = echo(&mut class).await;
+            defmt::info!("disconnected");
         }
     };
 
     join(usb_fut, echo_fut).await; // Run everything concurrently.
+}
+
+struct Disconnected {}
+
+impl From<EndpointError> for Disconnected {
+    fn from(val: EndpointError) -> Self {
+        match val {
+            EndpointError::BufferOverflow => panic!("Buffer overflow"),
+            EndpointError::Disabled => Disconnected {},
+        }
+    }
+}
+
+
+async fn echo<'d, T: Instance + 'd>(class: &mut CdcAcmClass<'d, Driver<'d, T>>) -> Result<(), Disconnected> {
+    let mut buf = [0; 64];
     loop {
-        Timer::after(Duration::from_secs(1)).await;
+            let n = class.read_packet(&mut buf).await.unwrap();
+            let data = &buf[..n];
+            // info!("data: {:x}", data);
+            let time = rtc::get_time();
+            let mut s = String::<64>::new();
+            s.write_fmt(format_args!("{}: ", time)).unwrap();
+            // convert s to u8 array
+            let mut buf_u8 = [0; 64];
+            for (i, c) in s.as_bytes().iter().enumerate() {
+                buf_u8[i] = *c;
+            }
+            class.write_packet(data).await.unwrap();
+            class.write_packet(&buf_u8).await.unwrap();
+            LED_BLUE.toggle();
     }
 }

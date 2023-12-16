@@ -2,32 +2,44 @@
 use crate::clock::delay_tick;
 use stm32_metapac::common::R;
 use stm32_metapac::common::W;
-use stm32_metapac::{pwr, rtc, rtc::Rtc, PWR, RCC, RTC};
+use stm32_metapac::{rcc, pwr, rtc, rtc::Rtc, PWR, RCC, RTC};
 pub struct RtcPort;
 
-impl RtcPort {
-    fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8) {
+// impl RtcPort {
+    pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8) {
         // enable rtc clock and backup domain
-        RCC.bdcr().modify(|v| {
-            v.set_lseon(true);
-            v.set_rtcsel(rcc::vals::Rtcsel::LSE);
-            v.set_rtcen(true);
-            v.set_bdrst(true);
-        });
         RCC.ahb3enr().modify(|v| {
             v.set_pwren(true);
         });
         RCC.apb3enr().modify(|v| {
             v.set_rtcapben(true);
         });
-        // enable backup domain write
-        PWR.dbpcr().modify(|v| v.set_dbp(true));
+
+        RCC.srdamr().modify(|v| {
+            v.set_rtcapbamen(true);
+        });
+        RCC.apb3smenr().modify(|v| {
+            v.set_rtcapbsmen(true);
+        });
+
+
         RCC.bdcr().modify(|v| {
             v.set_rtcen(true);
             v.set_lseon(true);
         });
         // wait for lse ready
         while !RCC.bdcr().read().lserdy() {}
+
+
+
+        RCC.bdcr().modify(|v| {
+            // v.set_lseon(true);
+            v.set_rtcsel(rcc::vals::Rtcsel::LSE);
+            // v.set_rtcen(true);
+            // v.set_bdrst(true);
+        });
+        // enable backup domain write
+        PWR.dbpcr().modify(|v| v.set_dbp(true));
 
         // set rtc clock to lse
         RCC.bdcr()
@@ -36,8 +48,10 @@ impl RtcPort {
         RTC.icsr().modify(|v| v.set_bin(rtc::vals::Bin::BCD));
         // write protection disable
         RTC.wpr().write(|w| unsafe { w.0 = 0xCA });
+        delay_tick(10);
         RTC.wpr().write(|w| unsafe { w.0 = 0x53 });
         // enter init mode
+        RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE));
         RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE));
 
         // wait for init mode ready
@@ -88,7 +102,7 @@ impl RtcPort {
     }
     fn get_month() -> u8 {
         let dr = RTC.dr().read();
-        dr.mu() + dr.mt() * 10
+        dr.mu() + dr.mt() as u8 * 10
     }
     fn get_day() -> u8 {
         let dr = RTC.dr().read();
@@ -117,7 +131,7 @@ impl RtcPort {
         let day: u32 = dr.du() as u32 + dr.dt() as u32 * 10;
         year * 10000 + month * 100 + day
     }
-    fn get_time() -> u32 {
+    pub fn get_time() -> u32 {
         // hhmmss
         let tr = RTC.tr().read();
         let hour: u32 = tr.hu() as u32 + tr.ht() as u32 * 10;
@@ -125,4 +139,4 @@ impl RtcPort {
         let second: u32 = tr.su() as u32 + tr.st() as u32 * 10;
         hour * 10000 + minute * 100 + second
     }
-}
+// }
