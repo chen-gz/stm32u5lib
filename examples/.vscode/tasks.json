@@ -9,7 +9,7 @@
             "args": [
                 "build", 
 				"--bin",
-				"sd_cam"
+				"usb"
             ],
             
             "group": "build",

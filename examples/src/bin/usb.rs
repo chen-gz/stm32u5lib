@@ -1,18 +1,22 @@
 #![no_std]
 #![no_main]
-
 #![feature(type_alias_impl_trait)]
 #![allow(dead_code)]
 #![allow(unused_imports)]
-use heapless::String;
 use core::fmt::Write;
+use heapless::String;
 
 use defmt_rtt as _;
 use embassy_executor::Spawner;
-use embassy_stm32::{bind_interrupts, peripherals, usb_otg::{self, Instance}, usb_otg::Driver};
+use embassy_stm32::{
+    bind_interrupts, peripherals,
+    usb_otg::Driver,
+    usb_otg::{self, Instance},
+};
 use embassy_usb::{
     class::cdc_acm::{CdcAcmClass, State},
-    Builder, driver::EndpointError,
+    driver::EndpointError,
+    Builder,
 };
 use futures::future::join;
 
@@ -49,7 +53,7 @@ fn setup() {
     LED_BLUE.setup();
     LED_BLUE.set_high();
     // setup rtc
-    rtc::setup(23, 12, 14, 21, 33, 0);
+    // rtc::setup(23, 12, 14, 21, 33, 0);
 }
 
 #[embassy_executor::main]
@@ -111,16 +115,16 @@ async fn usb_task() {
     // Build the builder.
     let mut usb = builder.build();
     let usb_fut = usb.run(); // Run the USB device.
-    let echo_fut = async {
+    let handler_fut = async {
         loop {
             class.wait_connection().await;
             defmt::info!("connected");
-            let _ = echo(&mut class).await;
+            let _ = usb_handler(&mut class).await;
             defmt::info!("disconnected");
         }
     };
 
-    join(usb_fut, echo_fut).await; // Run everything concurrently.
+    join(usb_fut, handler_fut).await; // Run everything concurrently.
 }
 
 struct Disconnected {}
@@ -134,23 +138,37 @@ impl From<EndpointError> for Disconnected {
     }
 }
 
-
-async fn echo<'d, T: Instance + 'd>(class: &mut CdcAcmClass<'d, Driver<'d, T>>) -> Result<(), Disconnected> {
-    let mut buf = [0; 64];
+#[path = "../ebcmd.rs"]
+mod ebcmd;
+async fn usb_handler<'d, T: Instance + 'd>(
+    class: &mut CdcAcmClass<'d, Driver<'d, T>>,
+) -> Result<(), Disconnected> {
+    let mut buf: [u8; 128] = [0; 128]; // the maximum size of the command is 64 bytes
     loop {
-            let n = class.read_packet(&mut buf).await.unwrap();
-            let data = &buf[..n];
-            // info!("data: {:x}", data);
-            let time = rtc::get_time();
-            let mut s = String::<64>::new();
-            s.write_fmt(format_args!("{}: ", time)).unwrap();
-            // convert s to u8 array
-            let mut buf_u8 = [0; 64];
-            for (i, c) in s.as_bytes().iter().enumerate() {
-                buf_u8[i] = *c;
+        let n = class.read_packet(&mut buf).await.unwrap();
+        let command = ebcmd::bytes_to_command(&buf[..n]);
+        let res = match command {
+            ebcmd::Command::SetTim(year, month, day, hour, minute, second) => {
+                rtc::setup(year, month, day, hour, minute, second);
+                ebcmd::Response::SetTim(0)
             }
-            class.write_packet(data).await.unwrap();
-            class.write_packet(&buf_u8).await.unwrap();
-            LED_BLUE.toggle();
+            ebcmd::Command::GetTim => {
+                let date = rtc::get_date();
+                let time = rtc::get_time();
+                ebcmd::Response::GetTim(date.0, date.1, date.2, time.0, time.1, time.2)
+            }
+            ebcmd::Command::GetPic(_id) => {
+                let mut buf = [0; 64];
+                buf[0] = 0x02;
+                // get data from sd storage and put it into buf
+                let _pic_buf = [0; 256];
+
+                ebcmd::Response::GetTim(0, 0, 0, 0, 0, 0)
+            }
+        };
+        let (buf, len) = ebcmd::response_to_bytes(res);
+        class.write_packet(&buf[0..len]).await.unwrap();
+        LED_BLUE.toggle();
     }
 }
+// 213403:

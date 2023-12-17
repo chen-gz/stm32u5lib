@@ -20,7 +20,8 @@
         "coreConfigs": [
           {
             "coreIndex": 0,
-            "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\sd_cam",
+            // "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\sd_cam",
+            "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\usb",
             "svdFile": "stm32u575.svd",
             "rttEnabled": true
           }
@@ -42,7 +43,7 @@
         "coreConfigs": [
           {
             "coreIndex": 0,
-            "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\sd_cam",
+            "programBinary": "C:\\tmp\\u5_new\\examples\\target\\thumbv8m.main-none-eabihf\\debug\\usb",
             "svdFile": "stm32u575.svd",
             "rttEnabled": true
           }

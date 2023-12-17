@@ -4,13 +4,14 @@ drives = ['%s:' % d for d in string.ascii_uppercase if os.path.exists('%s:' % d)
 print(drives)
 import win32file
 import win32con
-drive = r"\\.\PhysicalDrive3"  # Replace with your SD card's device name
 # get physical drive list 
 import wmi
 
 for drive in wmi.WMI().Win32_DiskDrive():
     print(drive.Caption, drive.DeviceID, drive.Index, drive.InterfaceType, drive.Manufacturer, drive.MediaType, drive.Model, drive.Name, drive.PNPDeviceID, drive.SerialNumber, drive.Size, drive.SystemName, drive.TotalCylinders, drive.TotalHeads, drive.TotalSectors, drive.TotalTracks, drive.TracksPerCylinder)
-exit()
+# exit()
+# drive = r"\\.\PhysicalDrive2"  # Replace with your SD card's device name
+drive = r"\\.\PHYSICALDRIVE2"  # Replace with your SD card's device namek
 
 def read_sector(drive, sector, sector_size=512):
     # Open the drive
@@ -106,10 +107,12 @@ print(' '.join('{:02x}'.format(x) for x in sector_data))
 
 pic_num: int = 11
 multiplier: int = 1000
-while True:
+while True and pic_num < 100000:
+    print("pic_num: ", pic_num)
     data = read_sectors(drive, pic_num * multiplier, multiplier)
     if data[0] != 0xff or data[1] != 0xd8:
-        break
+        pic_num += 1 #
+        continue
     # find the end of the picture, ff d9
     pic_end = 0
     for i in range(len(data)):
@@ -117,6 +120,6 @@ while True:
             pic_end = i + 1
             break
     # write the picture
-    with open(str(pic_num) + ".jpg", "wb") as f:
+    with open("./pic/" + str(pic_num) + ".jpg", "wb") as f:
         f.write(data[:pic_end])
-    pic_num += 1
+    pic_num += 1 #
