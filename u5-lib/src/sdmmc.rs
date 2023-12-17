@@ -598,7 +598,6 @@ delay_ms(1);
     wait_for_event!(wait_for_dataend, dataend);
     wait_for_event!(wait_for_cmdrend, cmdrend);
     wait_for_event!(wait_for_cmdsent, cmdsent);
-
     pub fn set_waker(&self, waker: core::task::Waker) {
         unsafe {
             if self.port == stm32_metapac::SDMMC1 {

@@ -33,9 +33,6 @@ use u5_lib::*;
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
 use embassy_time::{Duration, Timer};
 
-static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-
 const LED_GREEN: gpio::GpioPort = gpio::PC3;
 const LED_ORANGE: gpio::GpioPort = gpio::PC4;
 const LED_BLUE: gpio::GpioPort = gpio::PC5;
@@ -59,6 +56,7 @@ fn setup() {
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     setup();
+    rtc::enable_rtc_read();
     defmt::info!("init clock finished");
     clock::delay_ms(10);
     spawner.spawn(usb_task()).unwrap();
@@ -146,7 +144,8 @@ async fn usb_handler<'d, T: Instance + 'd>(
     let mut buf: [u8; 128] = [0; 128]; // the maximum size of the command is 64 bytes
     loop {
         let n = class.read_packet(&mut buf).await.unwrap();
-        let command = ebcmd::bytes_to_command(&buf[..n]);
+        // let command = ebcmd::bytes_to_command(&buf[..n]);
+        let command = ebcmd::Command::from_array(&buf[..n]);
         let res = match command {
             ebcmd::Command::SetTim(year, month, day, hour, minute, second) => {
                 rtc::setup(year, month, day, hour, minute, second);
@@ -162,7 +161,6 @@ async fn usb_handler<'d, T: Instance + 'd>(
                 buf[0] = 0x02;
                 // get data from sd storage and put it into buf
                 let _pic_buf = [0; 256];
-
                 ebcmd::Response::GetTim(0, 0, 0, 0, 0, 0)
             }
         };
@@ -171,4 +169,3 @@ async fn usb_handler<'d, T: Instance + 'd>(
         LED_BLUE.toggle();
     }
 }
-// 213403:
