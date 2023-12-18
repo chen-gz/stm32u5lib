@@ -2,27 +2,37 @@
 #![no_main]
 #![feature(type_alias_impl_trait)]
 #![allow(dead_code)]
-#![allow(unused_imports)]
-use core::fmt::Write;
-use cortex_m::delay;
-use embedded_sdmmc::BlockDevice;
+ #![allow(unused_imports)]
+use core::{fmt::Write};
+use embassy_time::{Duration, Timer};
 use heapless::String;
 
 use defmt_rtt as _;
 use embassy_executor::Spawner;
 use embassy_stm32::{
     bind_interrupts,
-    peripherals::{self, RCC},
-    usb_otg::Driver,
-    usb_otg::{self, Instance},
+    gpio::OutputType,
+    peripherals::{self},
+    time::khz,
+    timer::{simple_pwm, self},
+    usb_otg::{self, Driver, Instance},
 };
+
 use embassy_usb::{
     class::cdc_acm::{CdcAcmClass, State},
     driver::EndpointError,
-    Builder, msos::DescriptorSetInformation,
+    Builder,
 };
 use futures::future::join;
+use u5_lib::{
+    gpio::{
+        DCMI_D0_PC6, DCMI_D1_PC7, DCMI_D2_PC8, DCMI_D3_PC9, DCMI_D4_PC11, DCMI_D5_PB6, DCMI_D6_PB8,
+        DCMI_D7_PB9, DCMI_HSYNC_PA4, DCMI_PIXCLK_PA6, DCMI_VSYNC_PB7,
+    },
+    ov5640_reg, rtc,
+};
 
+use stm32_metapac::{timer::vals::Arpe, TIM1, RCC};
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     defmt::info!("panic");
@@ -34,15 +44,15 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
     );
     loop {}
 }
-
 bind_interrupts!(struct Irqs {
     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
 });
-use u5_lib::gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14};
-use u5_lib::{sdmmc::SdInstance, *};
-
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
-use embassy_time::{Duration, Timer};
+use u5_lib::{
+    gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14},
+    sdmmc::SdInstance,
+    *,
+};
 
 const LED_GREEN: gpio::GpioPort = gpio::PC3;
 const LED_ORANGE: gpio::GpioPort = gpio::PC4;
@@ -53,15 +63,6 @@ const CAM_CLOCK: gpio::GpioPort = gpio::MCO_PA8;
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL_SD_INST: Signal<CriticalSectionRawMutex, SdInstance> = Signal::new();
 
-use u5_lib::rtc;
-
-use u5_lib::{
-    gpio::{
-        DCMI_D0_PC6, DCMI_D1_PC7, DCMI_D2_PC8, DCMI_D3_PC9, DCMI_D4_PC11, DCMI_D5_PB6, DCMI_D6_PB8,
-        DCMI_D7_PB9, DCMI_HSYNC_PA4, DCMI_PIXCLK_PA6, DCMI_VSYNC_PB7,
-    },
-    ov5640_reg,
-};
 fn setup() {
     clock::init_clock();
     CAM_PDWN.setup();
@@ -72,46 +73,16 @@ fn setup() {
     LED_GREEN.set_high();
     LED_BLUE.setup();
     LED_BLUE.set_high();
-    // CAM_CLOCK.setup();
-    // CAM_I2C.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
+    CAM_CLOCK.setup();
     CAM_I2C.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
 }
-use stm32_metapac::RCC;
 
-use embassy_stm32::{
-    timer::simple_pwm,
-
-    gpio::{Output, OutputType},
-};
-use embassy_stm32::time::khz;
-use stm32_metapac::TIM1;
-use stm32_metapac::timer::vals::Arpe;
 fn setup_cam_clk() {
     // set PA8 as mco output for HSI48 and divide by 2 (24Mhz)
-    // RCC.cfgr1().modify(|w| {
-    //     w.set_mcosel(stm32_metapac::rcc::vals::Mcosel::HSI48);
-    //     w.set_mcopre(stm32_metapac::rcc::vals::Mcopre::DIV2);
-    // });
-    // p
-    // set tim1 as PWN output for 24Mhz as camera clock
-    let p = unsafe { embassy_stm32::Peripherals::steal() };
-    let ch1 = simple_pwm::PwmPin::new_ch1(p.PA8, OutputType::PushPull);
-    let mut cam_xclk = simple_pwm::SimplePwm::new(
-        p.TIM1,
-        Some(ch1),
-        None,
-        None,
-        None,
-        khz(24000),
-        // simple_pwm::CountingMode::EdgeAlignedUp,
-        embassy_stm32::timer::CountingMode::EdgeAlignedUp,
-    );
-    let max = cam_xclk.get_max_duty();
-    cam_xclk.set_duty(embassy_stm32::timer::Channel::Ch1, max / 2);
-    TIM1.cr1().modify(|w| {
-        w.set_arpe(Arpe::ENABLED);
+    RCC.cfgr1().modify(|w| {
+        w.set_mcosel(stm32_metapac::rcc::vals::Mcosel::HSI48);
+        w.set_mcopre(stm32_metapac::rcc::vals::Mcopre::DIV2);
     });
-    cam_xclk.enable(embassy_stm32::timer::Channel::Ch1);
 }
 
 #[path = "../camera.rs"]
@@ -160,8 +131,9 @@ async fn main(spawner: Spawner) {
         let dcmi = setup_camera_dcmi();
         let sd = init_sd();
         clock::delay_ms(10);
-        const PIC_BUF_SIZE: usize = 512 * 1000;
+        const PIC_BUF_SIZE: usize = 512 * 1000; // 512K
         let mut pic_buf = [0u8; PIC_BUF_SIZE];
+        Timer::after(Duration::from_millis(1000)).await;
 
         loop {
             if SIGNAL.signaled() {
@@ -177,9 +149,9 @@ async fn main(spawner: Spawner) {
             clock::set_clock_to_pll(); // fast clock for camera
             CAM_PDWN.set_low();
             clock::delay_ms(2);
-            // dcmi.capture(dma::DCMI_DMA, &pic_buf);
-            // while !dcmi.get_picture() {}
-            // dcmi.stop_capture(dma::DCMI_DMA);
+            dcmi.capture(dma::DCMI_DMA, &pic_buf);
+            while !dcmi.get_picture() {}
+            dcmi.stop_capture(dma::DCMI_DMA);
             defmt::info!("finish take picture");
             CAM_PDWN.set_high();
             LED_BLUE.toggle();
@@ -193,8 +165,8 @@ async fn main(spawner: Spawner) {
                     break;
                 }
             }
-            found = true;
-            pic_end = 6000;
+            // found = true;
+            // pic_end = 6000;
             if !found {
                 defmt::error!("not find jpeg end");
                 continue; // not found the end of jpeg, continue to capture the next picture
@@ -215,16 +187,23 @@ async fn main(spawner: Spawner) {
             pic_buf[7] = time.0;
             pic_buf[8] = time.1;
             pic_buf[9] = time.2;
-            // clock::set_clock_to_hsi(); // slow clock for sd card
+            clock::set_clock_to_hsi(); // slow clock for sd card
             let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
             let end: usize = block_count as usize * 512;
-            defmt::info!("start write picture to sd card, block_count: {}", block_count);
-             sd.write_multiple_blocks_async(&pic_buf[0..end], pic_num * IMG_SIZE, block_count).await.unwrap();
-             defmt::info!("finish write picture to sd card");
+            defmt::info!(
+                "start write picture to sd card, block_count: {}",
+                block_count
+            );
+            sd.write_multiple_blocks_async(&pic_buf[0..end], pic_num * IMG_SIZE, block_count)
+                .await
+                .unwrap();
+            defmt::info!("finish write picture to sd card");
             // update first block
             let mut buf = [0u8; 512];
             // sd.read_single_block(&mut buf, SIZE_BLOCK).unwrap();
-            sd.read_single_block_async(&mut buf, SIZE_BLOCK).await.unwrap();
+            sd.read_single_block_async(&mut buf, SIZE_BLOCK)
+                .await
+                .unwrap();
 
             let mut num = ((buf[0] as u32) << 24)
                 | ((buf[1] as u32) << 16)
@@ -332,12 +311,12 @@ async fn usb_handler<'d, T: Instance + 'd>(
 ) -> Result<(), Disconnected> {
     let mut buf: [u8; 128] = [0; 128]; // the maximum size of the command is 64 bytes
                                        // let sd = SdInstance::new(stm32_metapac::SDMMC2);
-    // let sd = init_sd();
-    // get sd instance from main task
+                                       // let sd = init_sd();
+                                       // get sd instance from main task
     let sd = SIGNAL_SD_INST.wait().await;
 
     // let sd = SdInstance::new(stm32_metapac::SDMMC2);
-    // let sd 
+    // let sd
 
     loop {
         let n = class.read_packet(&mut buf).await.unwrap();
