@@ -4,35 +4,41 @@ use core::ptr::read;
 
 use crate::clock::{delay_ms, delay_tick, delay_us};
 use cortex_m::delay;
+use cortex_m::peripheral::NVIC;
+use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+use embassy_sync::signal;
+use embassy_sync::signal::Signal;
 use futures::future::poll_fn;
 use futures::future::OkInto;
 use sdio_host::common_cmd::cmd;
 use stm32_metapac::{common, sdmmc::Sdmmc};
-macro_rules! wait_for_event {
-    ($fn_name:ident, $event:ident) => {
-        pub async fn $fn_name(&self) -> Result<(), SdError> {
-            poll_fn(|cx| {
-                self.set_waker(cx.waker().clone());
-                match self.error_test() {
-                    Ok(_) => {}
-                    Err(err) => {
-                        self.clear_interrupt();
-                        return core::task::Poll::Ready(Err(err));
-                    }
-                }
-                if self.port.star().read().$event() {
-                    self.clear_interrupt();
-                    return core::task::Poll::Ready(Ok(()));
-                }
-                core::task::Poll::Pending
-            })
-            .await
-        }
-    };
-}
+// macro_rules! wait_for_event {
+//     ($fn_name:ident, $event:ident) => {
+//         pub async fn $fn_name(&self) -> Result<(), SdError> {
+//             // enable interrupt
+//             poll_fn(|cx| {
+//                 self.set_waker(cx.waker().clone());
+//                 match self.error_test() {
+//                     Ok(_) => {}
+//                     Err(err) => {
+//                         self.clear_interrupt();
+//                         return core::task::Poll::Ready(Err(err));
+//                     }
+//                 }
+//                 if self.port.star().read().$event() {
+//                     self.clear_interrupt();
+//                     return core::task::Poll::Ready(Ok(()));
+//                 }
+//                 core::task::Poll::Pending
+//             })
+//             .await
+//         }
+//     };
+// }
 
 // Usage
 
+#[derive(Copy, Clone)]
 pub struct SdmmcPort {
     port: Sdmmc,
 }
@@ -73,12 +79,15 @@ use sdio_host::{
     *,
 };
 
+#[derive(Copy, Clone)]
 pub struct SdInstance {
     port: Sdmmc,
     cid: sd::CID<sd::SD>,
     csd: sd::CSD<sd::SD>,
     rca: sd::RCA<sd::SD>,
 }
+unsafe impl Send for SdInstance {}
+unsafe impl Sync for SdInstance {}
 
 impl SdInstance {
     pub fn new(sd: Sdmmc) -> Self {
@@ -91,6 +100,34 @@ impl SdInstance {
     }
     pub fn error_test(&self) -> Result<(), SdError> {
         let sta = self.port.star().read();
+        if sta.ccrcfail() {
+            return Err(SdError::CmdCrcFail);
+        }
+        if sta.dcrcfail() {
+            return Err(SdError::DataCrcFail);
+        }
+        if sta.ctimeout() {
+            return Err(SdError::CmdTimeout);
+        }
+        if sta.dtimeout() {
+            return Err(SdError::DataTimeout);
+        }
+        if sta.txunderr() {
+            return Err(SdError::TxUnderrun);
+        }
+        if sta.rxoverr() {
+            return Err(SdError::RxOverrun);
+        }
+        if sta.ackfail() {
+            return Err(SdError::AckFail);
+        }
+        if sta.acktimeout() {
+            return Err(SdError::AckTimeOut);
+        }
+        Ok(())
+    }
+
+    pub fn error_test_async(&self, sta: stm32_metapac::sdmmc::regs::Star) -> Result<(), SdError> {
         if sta.ccrcfail() {
             return Err(SdError::CmdCrcFail);
         }
@@ -132,7 +169,7 @@ impl SdInstance {
         self.port.power().modify(|v| v.set_pwrctrl(3));
         delay_ms(10); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
-            v.0 = 5*400_000; // 400khz, 8000clk = 20ms
+            v.0 = 5 * 400_000; // 400khz, 8000clk = 20ms
         });
         defmt::info!("start init sd card");
         // initilize sd card
@@ -306,7 +343,7 @@ impl SdInstance {
         });
         while !self.port.star().read().cmdsent() && !self.port.star().read().cmdrend() {
             self.error_test()?;
-delay_ms(1);
+            delay_ms(1);
         }
         if cmd.response_len() == ResponseLen::Zero {
             return Ok(());
@@ -314,7 +351,7 @@ delay_ms(1);
 
         while !self.port.star().read().cmdrend() {
             self.error_test()?;
-        delay_ms(1);
+            delay_ms(1);
         }
         while self.port.star().read().cpsmact() {}
 
@@ -375,6 +412,130 @@ delay_ms(1);
         }
         Ok(())
     }
+
+    pub async fn send_cmd_async<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
+        self.port.icr().write(|v| v.0 = 0x1FE00FFF);
+        delay_us(1); // at least seven sdmmc_hcli clock peirod are needed between two write access
+                     // 7clk, 160mhz, 44.4ns, 444ns
+                     // to the cmdr register
+        self.port.argr().write(|w| w.0 = cmd.arg);
+        let res_len = match cmd.response_len() {
+            ResponseLen::Zero => 0,
+            ResponseLen::R48 => {
+                let mut val = 1;
+                if cmd.cmd == sd_cmd::sd_send_op_cond(true, false, false, 0).cmd {
+                    val = 2; // no crc for this command
+                }
+                val
+            }
+            ResponseLen::R136 => 3,
+        };
+        let mut trans = false;
+        if cmd.cmd == common_cmd::read_single_block(0).cmd
+            || cmd.cmd == common_cmd::write_single_block(0).cmd
+            || cmd.cmd == common_cmd::write_multiple_blocks(0).cmd
+            || cmd.cmd == common_cmd::read_multiple_blocks(0).cmd
+        {
+            trans = true;
+        }
+        let mut stop = false;
+        if cmd.cmd == common_cmd::idle().cmd || cmd.cmd == common_cmd::stop_transmission().cmd {
+            stop = true;
+        }
+        self.port.cmdr().write(|v| {
+            v.set_cmdindex(cmd.cmd);
+            v.set_waitresp(res_len);
+            v.set_cmdtrans(trans);
+            v.set_cmdstop(stop);
+            v.set_cpsmen(true); // ennable command path state machine
+        });
+        let mut stat = stm32_metapac::sdmmc::regs::Star(SIGNAL2.wait().await);
+
+        while !stat.cmdrend() && !stat.cmdsent() {
+            self.error_test_async(stat)?;
+            stat = stm32_metapac::sdmmc::regs::Star(SIGNAL2.wait().await);
+        }
+
+        defmt::info!("cmdrend: {}, cmdsent: {}", stat.cmdrend(), stat.cmdsent());
+
+        if cmd.response_len() == ResponseLen::Zero {
+            return Ok(());
+        }
+        while !stat.cmdrend() {
+            self.error_test_async(stat)?;
+            stat = stm32_metapac::sdmmc::regs::Star(SIGNAL2.wait().await);
+        }
+        while self.port.star().read().cpsmact() {} // wait for cpsm idle -- TODO: check this
+
+        if cmd.cmd == common_cmd::write_multiple_blocks(0).cmd
+        || cmd.cmd == common_cmd::read_multiple_blocks(0).cmd
+        || cmd.cmd == common_cmd::write_single_block(0).cmd
+        || cmd.cmd == common_cmd::read_single_block(0).cmd
+         {
+            defmt::info!("write multiple blocks");
+            while (stat.dataend() == false) {
+                self.error_test_async(stat)?;
+                stat = stm32_metapac::sdmmc::regs::Star(SIGNAL2.wait().await);
+            }
+        }
+        // handle R1 response
+        // if not r1 response handle outsize
+        let resp0 = self.port.respr(0).read().0;
+        if res_len != 1 {
+            return Ok(());
+        }
+        if cmd.cmd == common_cmd::set_block_length(0).cmd
+            || cmd.cmd == common_cmd::card_status(0, false).cmd
+            || cmd.cmd == common_cmd::write_single_block(0).cmd
+            || cmd.cmd == common_cmd::write_multiple_blocks(0).cmd
+            || cmd.cmd == common_cmd::read_single_block(0).cmd
+            || cmd.cmd == common_cmd::read_multiple_blocks(0).cmd
+            || cmd.cmd == common_cmd::app_cmd(0).cmd
+        {
+            let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp0);
+            if (cs.error()) {
+                defmt::info!(
+                    "cmd: {}, param: {:x}, res_len: {}",
+                    cmd.cmd,
+                    cmd.arg,
+                    res_len
+                );
+                defmt::info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
+                defmt::error!("card status error: {:x}", resp0);
+                defmt::error!(
+                    "card status errs: out of range: {},
+                address error: {},
+                block len error: {},
+                erase seq error: {},
+                lock unlock failed: {},
+                com crc error: {},
+                illegal command: {},
+                card ecc failed: {},
+                cc error: {},
+                error: {}
+                csd overwrite: {},
+                wp erase skip: {},
+                erase reset: {}",
+                    cs.out_of_range(),
+                    cs.address_error(),
+                    cs.block_len_error(),
+                    cs.erase_seq_error(),
+                    cs.lock_unlock_failed(),
+                    cs.com_crc_error(),
+                    cs.illegal_command(),
+                    cs.card_ecc_failed(),
+                    cs.cc_error(),
+                    cs.error(),
+                    cs.csd_overwrite(),
+                    cs.wp_erase_skip(),
+                    cs.erase_reset(),
+                );
+                return Err(SdError::STATUSError);
+            }
+        }
+        Ok(())
+    }
+
     pub fn get_cid(&mut self) -> Result<(), SdError> {
         defmt::info!(
             "get cid with resp len {}",
@@ -454,7 +615,7 @@ delay_ms(1);
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::ReadBlockCountError);
         }
-       // self.send_cmd(common_cmd::idle())?;
+        // self.send_cmd(common_cmd::idle())?;
         // TODO: check
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
         self.port.dlenr().write(|v| v.0 = block_count * 512);
@@ -486,7 +647,7 @@ delay_ms(1);
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::WriteBlockCountError);
         }
-                self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
         self.port.dlenr().write(|v| v.0 = block_count * 512);
         self.port.dctrl().modify(|v| {
             v.set_fiforst(true);
@@ -530,55 +691,48 @@ delay_ms(1);
         Ok(())
     }
 
-    pub fn read_single_block_retry(
-        &self,
-        buf: &mut [u8],
-        block_addr: u32,
-        try_times: u32,
-    ) -> Result<(), SdError> {
-        for i in 0..try_times {
-            match self.read_single_block(buf, block_addr) {
-                Ok(_) => {
-                    return Ok(());
-                }
-                Err(err) => {
-                    defmt::error!("read single block error: {:?}, try times: {}", err, i);
-                }
-            }
-        }
-        Err(SdError::STATUSError)
-    }
-
-    pub fn write_single_block_retry(
+    pub async fn write_multiple_blocks_async(
         &self,
         buf: &[u8],
         block_addr: u32,
-        try_times: u32,
+        block_count: u32,
     ) -> Result<(), SdError> {
-        for i in 0..try_times {
-            match self.write_single_block(buf, block_addr) {
-                Ok(_) => {
-                    return Ok(());
-                }
-                Err(err) => {
-                    defmt::error!("write single block error: {:?}, try times: {}", err, i);
-                }
-            }
-            delay_ms(50);
+        if (block_count + block_addr) > self.csd.block_count() as u32 {
+            return Err(SdError::WriteBlockCountError);
         }
-        Err(SdError::STATUSError)
+        unsafe {
+            NVIC::unmask(stm32_metapac::Interrupt::SDMMC2);
+        }
+        // we should not clear interrupt here
+        self.clear_interrupt();
+        self.error_interrupt_enable();
+        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+        self.port.dlenr().write(|v| v.0 = block_count * 512);
+        self.port.dctrl().modify(|v| {
+            v.set_fiforst(true);
+            v.set_dblocksize(9);
+            v.set_dtmode(0); // block data transfer
+            v.set_dtdir(false); // read ture, write false
+        });
+        self.port.idmactrlr().modify(|v| {
+            v.set_idmabmode(false); // single buffer mode
+            v.set_idmaen(true);
+        });
+        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
+        self.send_cmd_async(common_cmd::write_multiple_blocks(block_addr)).await?;
+        Ok(())
     }
 
-    pub async fn write_single_blocks_async(
-        &self,
-        buf: &[u8],
-        block_addr: u32,
-    ) -> Result<(), SdError> {
+    pub async fn write_single_block_async(&self, buf: &[u8], block_addr: u32) -> Result<(), SdError> {
         if block_addr as u64 > self.csd.block_count() {
-            return Err(SdError::STATUSError);
+            return Err(SdError::WriteAddressError);
         }
-        // stop all current transmission
-        self.port.cmdr().modify(|v| v.set_cmdstop(true));
+        unsafe {
+            NVIC::unmask(stm32_metapac::Interrupt::SDMMC2);
+        }
+        // we should not clear interrupt here
+        self.clear_interrupt();
+        self.error_interrupt_enable();
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
         self.port.dlenr().write(|v| v.0 = 512);
         self.port.dctrl().modify(|v| {
@@ -589,24 +743,100 @@ delay_ms(1);
         });
         self.port.idmactrlr().modify(|v| {
             v.set_idmabmode(false); // single buffer mode
-            v.set_idmaen(true); // enable jdma
+            v.set_idmaen(true); // enable dma
         });
-        self.send_cmd(common_cmd::write_single_block(block_addr))?;
-        self.wait_for_dataend().await?;
+        // self.send_cmd(common_cmd::write_single_block(block_addr))?;
+        self.send_cmd_async(common_cmd::write_single_block(block_addr)).await?;
         Ok(())
     }
-    wait_for_event!(wait_for_dataend, dataend);
-    wait_for_event!(wait_for_cmdrend, cmdrend);
-    wait_for_event!(wait_for_cmdsent, cmdsent);
-    pub fn set_waker(&self, waker: core::task::Waker) {
-        unsafe {
-            if self.port == stm32_metapac::SDMMC1 {
-                SDMMC1_WAKER = waker;
-            } else {
-                SDMMC2_WAKER = waker;
-            }
+
+    pub async fn read_single_block_async(&self, buf: &mut [u8], block_addr: u32) -> Result<(), SdError> {
+        // TODO: check
+        if block_addr > self.csd.block_count() as u32 {
+            return Err(SdError::STATUSError);
         }
+        unsafe {
+            NVIC::unmask(stm32_metapac::Interrupt::SDMMC2);
+        }
+        self.clear_interrupt();
+        self.error_interrupt_enable();
+        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+        self.port.dlenr().write(|v| v.0 = 512);
+        self.port.dctrl().modify(|v| {
+            v.set_fiforst(true); // reset fifo
+            v.set_dblocksize(9); // 512 bytes
+            v.set_dtmode(0); // block data transfer
+            v.set_dtdir(true); // from card to controller
+        });
+        self.port.idmactrlr().modify(|v| {
+            v.set_idmabmode(false); // single buffer mode
+            v.set_idmaen(true); // enable dma
+        });
+
+        // self.send_cmd(common_cmd::read_single_block(block_addr as u32))?;
+        self.send_cmd_async(common_cmd::read_single_block(block_addr as u32)).await?;
+        Ok(())
     }
+    pub async fn read_multiple_blocks_async(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        block_count: u32,
+    ) -> Result<(), SdError> {
+        if (block_count + block_addr) > self.csd.block_count() as u32 {
+            return Err(SdError::ReadBlockCountError);
+        }
+        // self.send_cmd(common_cmd::idle())?;
+        // TODO: check
+        self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+        self.port.dlenr().write(|v| v.0 = block_count * 512);
+        self.port.dctrl().modify(|v| {
+            v.set_fiforst(true);
+            v.set_dblocksize(9);
+            v.set_dtmode(0); // stream data transfer
+            v.set_dtdir(true); // read ture, write false
+        });
+        self.port.idmactrlr().modify(|v| {
+            v.set_idmabmode(false); // single buffer mode
+            v.set_idmaen(true);
+        });
+        // self.send_cmd(sd_cmd::set_block_count(block_count))?;
+        // self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
+        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
+        self.send_cmd_async(common_cmd::read_multiple_blocks(block_addr)).await?;
+        Ok(())
+    }
+
+    // pub fn write_multiple_blocks(
+    //     &self,
+    //     buf: &[u8],
+    //     block_addr: u32,
+    //     block_count: u32,
+    // ) -> Result<(), SdError> {
+    //     if (block_count + block_addr) > self.csd.block_count() as u32 {
+    //         return Err(SdError::WriteBlockCountError);
+    //     }
+    //     self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
+    //     self.port.dlenr().write(|v| v.0 = block_count * 512);
+    //     self.port.dctrl().modify(|v| {
+    //         v.set_fiforst(true);
+    //         v.set_dblocksize(9);
+    //         v.set_dtmode(0); // block data transfer
+    //         v.set_dtdir(false); // read ture, write false
+    //     });
+    //     self.port.idmactrlr().modify(|v| {
+    //         v.set_idmabmode(false); // single buffer mode
+    //         v.set_idmaen(true);
+    //     });
+    //     self.send_cmd(sd_cmd::set_block_count(block_count))?;
+    //     self.send_cmd(common_cmd::write_multiple_blocks(block_addr))?;
+    //     while !self.port.star().read().dataend() {
+    //         self.error_test()?
+    //     }
+    //     Ok(())
+    // }
+
+
     pub fn clear_error(&self) {
         self.port.icr().modify(|v| {
             v.set_ctimeoutc(true);
@@ -622,25 +852,119 @@ delay_ms(1);
     pub fn clear_interrupt(&self) {
         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
     }
-}
+    pub fn error_interrupt_enable(&self) {
+        self.port.maskr().modify(|v| {
+            v.set_cmdsentie(true);
+            v.set_cmdrendie(true);
+            v.set_dataendie(true);
 
-impl Future for SdInstance {
-    type Output = Result<(), SdError>;
-    fn poll(
-        self: core::pin::Pin<&mut Self>,
-        cx: &mut core::task::Context<'_>,
-    ) -> core::task::Poll<Self::Output> {
-        unsafe {
-            if self.port == stm32_metapac::SDMMC1 {
-                SDMMC1_WAKER = cx.waker().clone();
-            } else {
+            v.set_ccrcfailie(true);
+            v.set_dcrcfailie(true);
+            v.set_ctimeoutie(true);
+            v.set_dtimeoutie(true);
+            v.set_txunderrie(true);
+            v.set_rxoverrie(true);
+            v.set_cmdrendie(true);
+            v.set_cmdsentie(true);
+            v.set_dataendie(true);
+            v.set_dbckendie(true);
+            v.set_dabortie(true);
+        });
+    }
+    async fn wait_for_event(&self) -> Result<stm32_metapac::sdmmc::regs::Star, SdError> {
+        poll_fn(|cx| {
+            unsafe {
+                // if self.port == stm32_metapac::SDMMC1 {
+                //     SDMMC1_WAKER = cx.waker().clone();
+                // } else {
+                //     SDMMC2_WAKER = cx.waker().clone();
+                // }
                 SDMMC2_WAKER = cx.waker().clone();
             }
-        }
-        return core::task::Poll::Pending;
-        todo!()
+            // cause by interrupt?
+            let star = self.port.star().read();
+            let mask = self.port.maskr().read();
+            defmt::info!("call wait for event");
+            // list all interrupt
+            let star_u32 = star.0;
+            let mask_u32 = mask.0;
+            if star_u32 & mask_u32 == 0 {
+                self.error_interrupt_enable();
+                return core::task::Poll::Pending; // call no by interrupt
+            }
+
+            let star = self.port.star().read();
+            self.port.icr().write(|v| v.0 = 0x1FE00FFF);
+            if self.error_test().is_err() {
+                return core::task::Poll::Ready(Err(SdError::STATUSError));
+            }
+            return core::task::Poll::Ready(Ok(star));
+
+            // if star.cmdsent() && mask.cmdsentie()
+            // || star.cmdrend() && mask.cmdrendie()
+            // || star.dataend() && mask.dataendie()
+            // || star.dbckend() && mask.dbckendie()
+            // {
+            //     // read one more time of star and clear interrupt
+            //     // clear all interrupt
+
+            // }
+            // // cuase by interrupt ?
+            // // if yes, return the star register and clear interrupt
+            // // if no, return pending
+            // // todo!()
+            // return core::task::Poll::Pending;
+        })
+        .await
     }
 }
+
+// impl Future for SdInstance {
+//     type Output = Result<stm32_metapac::sdmmc::regs::Star, SdError>;
+//     fn poll(
+//         self: core::pin::Pin<&mut Self>,
+//         cx: &mut core::task::Context<'_>,
+//     ) -> core::task::Poll<Self::Output> {
+//         unsafe {
+//             if self.port == stm32_metapac::SDMMC1 {
+//                 SDMMC1_WAKER = cx.waker().clone();
+//             } else {
+//                 SDMMC2_WAKER = cx.waker().clone();
+//             }
+//         }
+//         // cause by interrupt?
+//         let star = self.port.star().read();
+//         let mask = self.port.maskr().read();
+//         // list all interrupt
+//         let star_u32 = star.0;
+//         let mask_u32 = mask.0;
+//         if star_u32 & mask_u32 == 0 {
+//             return core::task::Poll::Pending; // call no by interrupt
+//         }
+
+//         let star = self.port.star().read();
+//         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
+//         if self.error_test().is_err() {
+//             return core::task::Poll::Ready(Err(SdError::STATUSError));
+//         }
+//         return core::task::Poll::Ready(Ok(star));
+
+//         // if star.cmdsent() && mask.cmdsentie()
+//         // || star.cmdrend() && mask.cmdrendie()
+//         // || star.dataend() && mask.dataendie()
+//         // || star.dbckend() && mask.dbckendie()
+//         // {
+//         //     // read one more time of star and clear interrupt
+//         //     // clear all interrupt
+
+//         // }
+//         // // cuase by interrupt ?
+//         // // if yes, return the star register and clear interrupt
+//         // // if no, return pending
+//         // // todo!()
+//         // return core::task::Poll::Pending;
+//     }
+// }
 
 use core::task::Waker;
 use stm32_metapac::interrupt;
@@ -655,9 +979,23 @@ fn SDMMC1() {
     }
 }
 
+static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+static mut signal2_val: u32 = 0;
 #[interrupt]
 fn SDMMC2() {
     unsafe {
-        SDMMC2_WAKER.wake_by_ref();
+        defmt::info!("SDMMC2 interrupt");
+        // TODO: we need the old value if it is signaled
+        let stat = stm32_metapac::SDMMC2.star().read().0;
+        if (SIGNAL2.signaled()){
+            // SIGNAL2.signal(stm32_metapac::SDMMC2.star().read().0 | val);
+            SIGNAL2.signal(stat | signal2_val);
+        }
+        else {
+            SIGNAL2.signal(stat);
+        }
+        signal2_val = stat;
+        stm32_metapac::SDMMC2.icr().write(|v| v.0 = 0x1FE00FFF);
     }
 }

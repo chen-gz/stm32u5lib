@@ -19,12 +19,19 @@ use embassy_stm32::{
 use embassy_usb::{
     class::cdc_acm::{CdcAcmClass, State},
     driver::EndpointError,
-    Builder,
+    Builder, msos::DescriptorSetInformation,
 };
 use futures::future::join;
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
+    defmt::info!("panic");
+    defmt::error!(
+        "Location file name: {:?}, line: {:?}, col: {:?}",
+        _info.location().unwrap().file(),
+        _info.location().unwrap().line(),
+        _info.location().unwrap().column()
+    );
     loop {}
 }
 
@@ -44,7 +51,7 @@ const CAM_I2C: gi2c::I2cPort = gi2c::I2C3;
 const CAM_PDWN: gpio::GpioPort = gpio::PB0;
 const CAM_CLOCK: gpio::GpioPort = gpio::MCO_PA8;
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+static SIGNAL_SD_INST: Signal<CriticalSectionRawMutex, SdInstance> = Signal::new();
 
 use u5_lib::rtc;
 
@@ -153,18 +160,26 @@ async fn main(spawner: Spawner) {
         let dcmi = setup_camera_dcmi();
         let sd = init_sd();
         clock::delay_ms(10);
-        const PIC_BUF_SIZE: usize = 600_000;
+        const PIC_BUF_SIZE: usize = 512 * 1000;
         let mut pic_buf = [0u8; PIC_BUF_SIZE];
 
         loop {
+            if SIGNAL.signaled() {
+                SIGNAL_SD_INST.signal(sd);
+                let mut val = SIGNAL.wait().await;
+                while val != 0 {
+                    defmt::info!("usb connected, stop take picture");
+                    val = SIGNAL.wait().await;
+                }
+            }
             defmt::info!("start take picture");
             pic_num += 1;
             clock::set_clock_to_pll(); // fast clock for camera
             CAM_PDWN.set_low();
             clock::delay_ms(2);
-            dcmi.capture(dma::DCMI_DMA, &pic_buf);
-            while !dcmi.get_picture() {}
-            dcmi.stop_capture(dma::DCMI_DMA);
+            // dcmi.capture(dma::DCMI_DMA, &pic_buf);
+            // while !dcmi.get_picture() {}
+            // dcmi.stop_capture(dma::DCMI_DMA);
             defmt::info!("finish take picture");
             CAM_PDWN.set_high();
             LED_BLUE.toggle();
@@ -178,6 +193,8 @@ async fn main(spawner: Spawner) {
                     break;
                 }
             }
+            found = true;
+            pic_end = 6000;
             if !found {
                 defmt::error!("not find jpeg end");
                 continue; // not found the end of jpeg, continue to capture the next picture
@@ -198,14 +215,16 @@ async fn main(spawner: Spawner) {
             pic_buf[7] = time.0;
             pic_buf[8] = time.1;
             pic_buf[9] = time.2;
-            clock::set_clock_to_hsi(); // slow clock for sd card
+            // clock::set_clock_to_hsi(); // slow clock for sd card
             let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
             let end: usize = block_count as usize * 512;
-            sd.write_multiple_blocks(&pic_buf[0..end], pic_num * IMG_SIZE, block_count)
-                .unwrap();
+            defmt::info!("start write picture to sd card, block_count: {}", block_count);
+             sd.write_multiple_blocks_async(&pic_buf[0..end], pic_num * IMG_SIZE, block_count).await.unwrap();
+             defmt::info!("finish write picture to sd card");
             // update first block
             let mut buf = [0u8; 512];
-            sd.read_single_block(&mut buf, SIZE_BLOCK).unwrap();
+            // sd.read_single_block(&mut buf, SIZE_BLOCK).unwrap();
+            sd.read_single_block_async(&mut buf, SIZE_BLOCK).await.unwrap();
 
             let mut num = ((buf[0] as u32) << 24)
                 | ((buf[1] as u32) << 16)
@@ -217,7 +236,8 @@ async fn main(spawner: Spawner) {
             buf[2] = ((num >> 8) & 0xff) as u8;
             buf[3] = (num & 0xff) as u8;
 
-            sd.write_single_block(&buf, SIZE_BLOCK).unwrap();
+            // sd.write_single_block(&buf, SIZE_BLOCK).unwrap();
+            sd.write_single_block_async(&buf, SIZE_BLOCK).await.unwrap();
 
             let mut file_name = String::<32>::new();
             file_name
@@ -225,7 +245,7 @@ async fn main(spawner: Spawner) {
                 .unwrap(); // This shout not have error
             defmt::info!("finish take picture file name {}", file_name.as_str());
             LED_GREEN.toggle();
-            Timer::after(Duration::from_millis(1000)).await;
+            // Timer::after(Duration::from_millis(1000)).await;
         }
     }
 }
@@ -283,11 +303,11 @@ async fn usb_task() {
     let handler_fut = async {
         loop {
             class.wait_connection().await;
-            SIGNAL2.signal(0);
+            SIGNAL.signal(1);
             defmt::info!("connected");
             let _ = usb_handler(&mut class).await;
             defmt::info!("disconnected");
-            SIGNAL2.signal(1);
+            SIGNAL.signal(0);
         }
     };
 
@@ -312,7 +332,13 @@ async fn usb_handler<'d, T: Instance + 'd>(
 ) -> Result<(), Disconnected> {
     let mut buf: [u8; 128] = [0; 128]; // the maximum size of the command is 64 bytes
                                        // let sd = SdInstance::new(stm32_metapac::SDMMC2);
-    let sd = init_sd();
+    // let sd = init_sd();
+    // get sd instance from main task
+    let sd = SIGNAL_SD_INST.wait().await;
+
+    // let sd = SdInstance::new(stm32_metapac::SDMMC2);
+    // let sd 
+
     loop {
         let n = class.read_packet(&mut buf).await.unwrap();
         let command = ebcmd::Command::from_array(&buf[..n]);

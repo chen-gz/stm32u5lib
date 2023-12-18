@@ -14,7 +14,8 @@ impl BlockDevice for SdInstance {
         let len = blocks.len() * 256;
         let data = unsafe { core::slice::from_raw_parts_mut(blocks.as_mut_ptr() as *mut u8, len) };
         if blocks.len() == 1 {
-            return self.read_single_block_retry(data, start_block_idx.0, 3);
+            // return self.read_single_block_retry(data, start_block_idx.0, 3);
+            return self.read_single_block(data, start_block_idx.0);
         } else {
             defmt::panic!("read multiple blocks")
         }
