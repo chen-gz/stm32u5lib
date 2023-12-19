@@ -603,7 +603,7 @@ pub const OV5640_PF_JPEG: &[(u16, u16)] = &[
     // (OV5640_TIMING_DVPVO_LOW, 0xE0),
 ];
 
-pub const OV5640_Common: &[(u16, u16)] = &[
+pub const OV5640_COMMON: &[(u16, u16)] = &[
     (OV5640_SCCB_SYSTEM_CTRL1, 0x11),
     (OV5640_SYSTEM_CTROL0, 0x82),
     (OV5640_SCCB_SYSTEM_CTRL1, 0x03),

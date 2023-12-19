@@ -1,8 +1,8 @@
 #![no_std]
 #![no_main]
 #![feature(type_alias_impl_trait)]
-// #![allow(dead_code)]
-// #![allow(unused_imports)]
+#![allow(dead_code)]
+#![allow(unused_imports)]
 
 use core::fmt::{write, Write};
 use defmt_rtt as _;
@@ -52,10 +52,10 @@ fn setup() {
 }
 use u5_lib::sdmmc::*;
 
-struct ftsource {}
+struct Ftsource {}
 use embedded_sdmmc::TimeSource;
 use embedded_sdmmc::Timestamp;
-impl TimeSource for ftsource {
+impl TimeSource for Ftsource {
     fn get_timestamp(&self) -> Timestamp {
         Timestamp {
             year_since_1970: 0,
@@ -72,7 +72,7 @@ impl TimeSource for ftsource {
 async fn main(_spawner: Spawner) {
     setup();
     let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
-    let ts = ftsource {};
+    let ts = Ftsource {};
     sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
     defmt::info!("init sd card");
     let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
@@ -80,7 +80,7 @@ async fn main(_spawner: Spawner) {
         .open_volume(embedded_sdmmc::VolumeIdx(0))
         .unwrap();
     defmt::info!("Volume 0: {:?}", volume0);
-    let mut root_dir = volume_mgr.open_root_dir(volume0).unwrap();
+    let root_dir = volume_mgr.open_root_dir(volume0).unwrap();
 
     let mut file_num = 0;
     loop {

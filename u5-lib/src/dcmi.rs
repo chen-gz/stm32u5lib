@@ -1,6 +1,9 @@
 #![allow(unused)]
 use crate::clock::delay_tick;
 use crate::gpio::GpioPort;
+use cortex_m::peripheral::NVIC;
+use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+use embassy_sync::signal::Signal;
 use stm32_metapac::dcmi::Dcmi;
 pub struct DcmiPort {
     port: Dcmi,
@@ -73,4 +76,31 @@ impl DcmiPort {
     pub fn get_picture(&self) -> bool {
         self.port.ris().read().frame_ris()
     }
+    pub async fn get_picture_async(&self) {
+        // enable interrupt
+        unsafe { NVIC::unmask(stm32_metapac::Interrupt::DCMI_PSSI) };
+        self.port.ier().write(|w| w.set_frame_ie(true));
+
+        // self.port.ris().read().frame_ris()
+        let mut val = stm32_metapac::dcmi::regs::Ris(SIGNAL.wait().await);
+        while !val.frame_ris() {
+            val = stm32_metapac::dcmi::regs::Ris(SIGNAL.wait().await);
+        }
+    }
+}
+
+static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+use stm32_metapac::interrupt;
+#[interrupt]
+fn DCMI_PSSI() {
+    // clear interrupt flag
+    // DCMI.icr().write(|w| w.0 = 0x1f);
+    // 
+    let ris = stm32_metapac::DCMI.ris().read().0;
+
+    SIGNAL.signal(ris);
+    // clear itnerupt 
+    stm32_metapac::DCMI.icr().write(|w| w.0 = 0x1f);
+    // clear pending bit
+    // NVIC::unpend(Interrupt::DCMI_PSSI);
 }

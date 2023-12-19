@@ -33,11 +33,9 @@ pub(crate) fn setup_camera(i2c: gi2c::I2cPort) {
         .unwrap();
     assert!(read_val[0] == 0x56 && read_val[1] == 0x40);
 
-    // read PIDH
-    let mut read_val = [0u8; 1];
 
     defmt::info!("writing ov5640 common regs");
-    for &(reg, val) in ov5640_reg::OV5640_Common.iter() {
+    for &(reg, val) in ov5640_reg::OV5640_COMMON.iter() {
         let mut reg_val = [0u8; 3];
         reg_val[0] = (reg >> 8) as u8;
         reg_val[1] = reg as u8;

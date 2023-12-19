@@ -148,7 +148,7 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
 fn init_sd() -> SdInstance {
     // -> (VolumeManager<SdInstance, FtSource>, Directory) {
     let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
-    let ts = FtSource {};
+    let _ts = FtSource {};
     sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
     // let mut volume_mgr = embedded_sdmmc::VolumeManager::new(sd, ts);
     // let volume0 = volume_mgr
@@ -163,7 +163,7 @@ fn init_sd() -> SdInstance {
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) {
     let mut pic_num = 10;
-    const multipiler: u32 = 1000;
+    const MULTIPILER: u32 = 1000;
     loop {
         setup();
         let dcmi = setup_camera_dcmi();
@@ -201,7 +201,7 @@ async fn main(_spawner: Spawner) {
             clock::set_clock_to_hsi(); // slow clock for sd card
             let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
             let end: usize = block_count as usize * 512;
-            sd.write_multiple_blocks(&pic_buf[0..end], pic_num * multipiler, block_count)
+            sd.write_multiple_blocks(&pic_buf[0..end], pic_num * MULTIPILER, block_count)
                 .unwrap();
 
             // let mut file = volume_mgr.open_file_in_dir(root_dir, "4.jpg", embedded_sdmmc::Mode::ReadWriteCreate).unwrap();

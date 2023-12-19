@@ -11,7 +11,7 @@ for drive in wmi.WMI().Win32_DiskDrive():
     print(drive.Caption, drive.DeviceID, drive.Index, drive.InterfaceType, drive.Manufacturer, drive.MediaType, drive.Model, drive.Name, drive.PNPDeviceID, drive.SerialNumber, drive.Size, drive.SystemName, drive.TotalCylinders, drive.TotalHeads, drive.TotalSectors, drive.TotalTracks, drive.TracksPerCylinder)
 # exit()
 # drive = r"\\.\PhysicalDrive2"  # Replace with your SD card's device name
-drive = r"\\.\PHYSICALDRIVE2"  # Replace with your SD card's device namek
+drive = r"\\.\PHYSICALDRIVE4"  # Replace with your SD card's device namek
 
 def read_sector(drive, sector, sector_size=512):
     # Open the drive
@@ -87,9 +87,9 @@ def read_sectors(drive, start_sector, num_sectors, sector_size=512):
     return data
 
 # Example usage
-sector_data = read_sector(drive, 10000)  # Read the first sector
-# print sector_data as hex
-print(' '.join('{:02x}'.format(x) for x in sector_data))
+# sector_data = read_sector(drive, 10000)  # Read the first sector
+# # print sector_data as hex
+# print(' '.join('{:02x}'.format(x) for x in sector_data))
 # print(sector_data)
 
 print()
@@ -97,29 +97,30 @@ data = b'\x00' * 512
 
 # write_sector(drive, 11000, data)  # Write the first sector
 
-sector_data = read_sector(drive, 11000)  # Read the first sector
+# sector_data = read_sector(drive, 22000)  # Read the first sector
+sector_data = read_sector(drive, 1)  # Read the first sector
 print(' '.join('{:02x}'.format(x) for x in sector_data))
 
 
-sector_data = read_sector(drive, 12000)  # Read the first sector
-# print sector_data as hex
-print(' '.join('{:02x}'.format(x) for x in sector_data))
+# sector_data = read_sector(drive, 12000)  # Read the first sector
+# # print sector_data as hex
+# print(' '.join('{:02x}'.format(x) for x in sector_data))
 
-pic_num: int = 11
-multiplier: int = 1000
-while True and pic_num < 100000:
-    print("pic_num: ", pic_num)
-    data = read_sectors(drive, pic_num * multiplier, multiplier)
-    if data[0] != 0xff or data[1] != 0xd8:
-        pic_num += 1 #
-        continue
-    # find the end of the picture, ff d9
-    pic_end = 0
-    for i in range(len(data)):
-        if data[i] == 0xff and data[i+1] == 0xd9:
-            pic_end = i + 1
-            break
-    # write the picture
-    with open("./pic/" + str(pic_num) + ".jpg", "wb") as f:
-        f.write(data[:pic_end])
-    pic_num += 1 #
+# pic_num: int = 11
+# multiplier: int = 1000
+# while True and pic_num < 100:
+#     print("pic_num: ", pic_num)
+#     data = read_sectors(drive, pic_num * multiplier, multiplier)
+#     # if data[0] != 0xff or data[1] != 0xd8:
+#     #     pic_num += 1 #
+#     #     continue
+#     # find the end of the picture, ff d9
+#     pic_end = 0
+#     for i in range(len(data)):
+#         if data[i] == 0xff and data[i+1] == 0xd9:
+#             pic_end = i + 1
+#             break
+#     # write the picture
+#     with open("./pic/" + str(pic_num) + ".jpg", "wb") as f:
+#         f.write(data[:pic_end+1])
+#     pic_num += 1 #

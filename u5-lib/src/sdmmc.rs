@@ -981,7 +981,7 @@ fn SDMMC1() {
 
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-static mut signal2_val: u32 = 0;
+static mut SIGNAL2_VAL: u32 = 0;
 #[interrupt]
 fn SDMMC2() {
     unsafe {
@@ -990,12 +990,12 @@ fn SDMMC2() {
         let stat = stm32_metapac::SDMMC2.star().read().0;
         if (SIGNAL2.signaled()){
             // SIGNAL2.signal(stm32_metapac::SDMMC2.star().read().0 | val);
-            SIGNAL2.signal(stat | signal2_val);
+            SIGNAL2.signal(stat | SIGNAL2_VAL);
         }
         else {
             SIGNAL2.signal(stat);
         }
-        signal2_val = stat;
+        SIGNAL2_VAL = stat;
         stm32_metapac::SDMMC2.icr().write(|v| v.0 = 0x1FE00FFF);
     }
 }

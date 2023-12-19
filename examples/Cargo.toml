@@ -69,10 +69,6 @@ name = "i2c"
 bench = false
 test = false
 [[bin]]
-name = "cam"
-bench = false
-test = false
-[[bin]]
 name = "sd"
 bench = false
 test = false
@@ -81,7 +77,7 @@ name = "sd_cam"
 bench  = false
 test = false
 [[bin]]
-name = "usb"
+name = "usb_sd_cam"
 bench  = false
 test = false
 

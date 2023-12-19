@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use cortex_m::{self};
 
-use embassy_stm32::{ rcc::*};
+use embassy_stm32::rcc::*;
 use stm32_metapac::{rcc, RCC};
 pub static mut SYSTEM_CLOCK: u32 = 4_000_000;
 pub fn get_kernel_freq() -> u32 {
