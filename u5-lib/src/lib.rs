@@ -11,3 +11,4 @@ pub mod sd_device;
 pub mod sdmmc;
 
 pub mod rtc;
+pub mod exti;

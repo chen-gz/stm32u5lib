@@ -36,7 +36,7 @@ macro_rules! define_gpio_port_alt {
     }
 
 pub struct GpioPort {
-    port: Gpio,
+    pub port: Gpio,
     pin: usize,
     /// Alternate function
     alt_func: u8,
@@ -98,6 +98,7 @@ define_gpio_port!(
     PC8: GPIOC, 8,PC9: GPIOC, 9, PC10: GPIOC, 10, PC11: GPIOC, 11,
     PC12: GPIOC, 12,PC13: GPIOC, 13, PC14: GPIOC, 14, PC15: GPIOC, 15
 
+
 );
 define_gpio_port_alt!(
     I2C1_SCL_PB6: GPIOB, 6, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
@@ -121,8 +122,12 @@ define_gpio_port_alt!(
     DCMI_PIXCLK_PA6: GPIOA, 6, 4, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
 
     SDMMC2_CK_PC1: GPIOC, 1, 12, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::PULLUP,
-    SDMMC2_CMD_PA0: GPIOA, 0, 12, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
-    SDMMC2_D0_PB14: GPIOB, 14, 12, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
-    
-    MCO_PA8: GPIOA, 8, 0, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING
+    SDMMC2_CMD_PA0: GPIOA, 0, 12, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::PULLUP,
+    SDMMC2_D0_PB14: GPIOB, 14, 12, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::PULLUP,
+
+    GPIO_MCO_PA8: GPIOA, 8, 0, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
+
+    GPIO_EXTI_PB2: GPIOB, 2, 0, Moder::INPUT, Ot::OPENDRAIN, Pupdr::PULLUP,
+    GPIO_EXTI_PB3: GPIOB, 3, 0, Moder::INPUT, Ot::PUSHPULL, Pupdr::FLOATING
+
 );

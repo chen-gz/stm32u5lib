@@ -8,7 +8,6 @@ use core::result::Result::{Ok, Err};
 
 use defmt_rtt as _;
 
-const CAM_I2C: gi2c::I2cPort = gi2c::I2C3;
 pub(crate) fn setup_camera(i2c: gi2c::I2cPort) {
     let mut read_val: [u8; 2] = [0u8; 2];
     i2c

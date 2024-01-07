@@ -1,20 +1,15 @@
 #![no_std]
 #![no_main]
 #![feature(type_alias_impl_trait)]
-#![allow(dead_code)]
-#![allow(unused_imports)]
-use core::fmt::Write;
+// #![allow(dead_code)]
+// #![allow(unused_imports)]
 use embassy_time::{Duration, Timer};
-use heapless::String;
 
 use defmt_rtt as _;
 use embassy_executor::Spawner;
 use embassy_stm32::{
     bind_interrupts,
-    gpio::OutputType,
     peripherals::{self},
-    time::khz,
-    timer::{self, simple_pwm},
     usb_otg::{self, Driver, Instance},
 };
 
@@ -27,12 +22,22 @@ use futures::future::join;
 use u5_lib::{
     gpio::{
         DCMI_D0_PC6, DCMI_D1_PC7, DCMI_D2_PC8, DCMI_D3_PC9, DCMI_D4_PC11, DCMI_D5_PB6, DCMI_D6_PB8,
-        DCMI_D7_PB9, DCMI_HSYNC_PA4, DCMI_PIXCLK_PA6, DCMI_VSYNC_PB7,
+        DCMI_D7_PB9, DCMI_HSYNC_PA4, DCMI_PIXCLK_PA6, DCMI_VSYNC_PB7, SDMMC2_CK_PC1,
+        SDMMC2_CMD_PA0, SDMMC2_D0_PB14,
     },
-    ov5640_reg, rtc,
+    rtc,
+    sdmmc::SdInstance,
+    *,
 };
 
-use stm32_metapac::{timer::vals::Arpe, RCC, TIM1};
+use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
+
+use crate::ebcmd::Response;
+
+#[path = "../camera.rs"]
+mod camera;
+
+use stm32_metapac::RCC;
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     defmt::info!("panic");
@@ -47,14 +52,6 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
 bind_interrupts!(struct Irqs {
     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
 });
-use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
-use u5_lib::{
-    gpio::{SDMMC2_CK_PC1, SDMMC2_CMD_PA0, SDMMC2_D0_PB14},
-    sdmmc::SdInstance,
-    *,
-};
-
-use crate::ebcmd::Response;
 
 const LED_GREEN: gpio::GpioPort = gpio::PC3;
 const LED_ORANGE: gpio::GpioPort = gpio::PC4;
@@ -87,9 +84,6 @@ fn setup_cam_clk() {
     });
 }
 
-#[path = "../camera.rs"]
-mod camera;
-
 fn setup_camera_dcmi() -> dcmi::DcmiPort {
     setup_cam_clk();
     CAM_PDWN.set_low();
@@ -109,9 +103,11 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
         DCMI_VSYNC_PB7,
         DCMI_PIXCLK_PA6,
     );
+    clock::delay_ms(1000); // avoid the green picture
     // CAM_PDWN.set_high();
     dcmi
 }
+
 fn init_sd() -> SdInstance {
     let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
     sd.init(SDMMC2_CK_PC1, SDMMC2_D0_PB14, SDMMC2_CMD_PA0);
@@ -121,13 +117,7 @@ fn init_sd() -> SdInstance {
 const IMG_START_BLOCK: u32 = 10;
 const IMG_SIZE: u32 = 2000; // 2000 block = 2000 * 512 = 1M
 const SIZE_BLOCK: u32 = 1; // first block store the number of image files
-async fn save_picture(
-    // pic_num: u32,
-    // img_size: u32,
-    // pic_end: usize,
-    pic_buf: &mut [u8],
-    sd: &SdInstance,
-) {
+async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     let mut found = false;
     let mut pic_end = 0;
     let len = pic_buf.len();
@@ -175,11 +165,31 @@ async fn save_picture(
     buf[1] = ((num >> 16) & 0xff) as u8;
     buf[2] = ((num >> 8) & 0xff) as u8;
     buf[3] = (num & 0xff) as u8;
-    sd.write_single_block_async(&buf, SIZE_BLOCK).await.unwrap();
+    match 
+    sd.write_single_block_async(&buf, SIZE_BLOCK).await
+    {
+        Ok(_) => {
+            defmt::info!("write picture number to sd card success");
+        }
+        Err(err) => {
+            defmt::error!("write picture number to sd card fail: {:?}", err);
+        }
+    }
 
-    sd.write_multiple_blocks_async(&pic_buf[0..end], num * IMG_SIZE, block_count)
-        .await
-        .unwrap();
+    match sd.write_multiple_blocks_async(
+        &pic_buf[0..end],
+        (num + IMG_START_BLOCK) * IMG_SIZE,
+        block_count,
+    )
+    .await
+    {
+        Ok(_) => {
+            defmt::info!("write picture to sd card success");
+        }
+        Err(err) => {
+            defmt::error!("write picture to sd card fail: {:?}", err);
+        }
+    }
     defmt::info!("finish write picture to sd card");
 }
 
@@ -194,9 +204,9 @@ async fn main(spawner: Spawner) {
     loop {
         Timer::after(Duration::from_millis(500)).await;
         if SIGNAL.signaled() {
-    CAM_PDWN.set_high();
-            let mut val = SIGNAL.wait().await;
             SIGNAL_SD_INST.signal(sd);
+            CAM_PDWN.set_high();
+            let mut val = SIGNAL.wait().await;
             while val != 0 {
                 defmt::info!("usb connected, stop take picture");
                 val = SIGNAL.wait().await;
@@ -281,7 +291,7 @@ async fn usb_task() {
             defmt::info!("connected");
             let _ = usb_handler(&mut class).await;
             defmt::info!("disconnected");
-            SIGNAL.signal(0);
+            // SIGNAL.signal(0);
         }
     };
     join(usb_fut, handler_fut).await; // Run everything concurrently.
@@ -297,6 +307,7 @@ impl From<EndpointError> for Disconnected {
         }
     }
 }
+static mut sd_init: bool = false;
 
 #[path = "../ebcmd.rs"]
 mod ebcmd;
@@ -311,8 +322,11 @@ async fn usb_handler<'d, T: Instance + 'd>(
 
     defmt::info!("start usb handler");
     let mut sd = SdInstance::new(stm32_metapac::SDMMC2);
-    if SIGNAL_SD_INST.signaled() {
-        sd = SIGNAL_SD_INST.wait().await;
+    unsafe {
+        if SIGNAL_SD_INST.signaled() && !sd_init {
+            sd = SIGNAL_SD_INST.wait().await;
+            sd_init = true;
+        }
     }
 
     loop {
@@ -330,65 +344,108 @@ async fn usb_handler<'d, T: Instance + 'd>(
                 let time = rtc::get_time();
                 let res = ebcmd::Response::GetTim(date.0, date.1, date.2, time.0, time.1, time.2);
                 let (buf, len) = res.to_array();
+                // let len = 48;
+                // class.write_packet(&buf[0..len]).await.unwrap();
+                // class.write_packet(&buf[0..len]).await.unwrap();
+                // class.write_packet(&buf[0..len]).await.unwrap();
+                // class.write_packet(&buf[0..len]).await.unwrap();
+                // class.write_packet(&buf[0..len]).await.unwrap();
                 class.write_packet(&buf[0..len]).await.unwrap();
             }
             ebcmd::Command::GetPic(id) => {
+                unsafe {
+                    if SIGNAL_SD_INST.signaled() && !sd_init {
+                        sd = SIGNAL_SD_INST.wait().await;
+                        LED_ORANGE.toggle();
+                    }
+                }
                 let mut buf = [0; 64];
                 buf[0] = 0x02;
-                let _pic_buf = [0; 256];
+                let mut pic_buf = [0; 512];
                 // get data from sd storage and put it into buf
-                let start_block = id * IMG_SIZE;
+                let start_block = (id + IMG_START_BLOCK) * IMG_SIZE;
                 // get the size of the picture
-                sd.read_single_block(&mut buf, start_block).unwrap();
+                // sd.read_single_block(&mut buf, start_block).
+                sd.read_single_block_async(&mut pic_buf, start_block)
+                    .await
+                    .unwrap();
                 // get the end of picture
-                let pic_end = ((buf[0] as u32) << 24)
-                    | ((buf[1] as u32) << 16)
-                    | ((buf[2] as u32) << 8)
-                    | (buf[3] as u32);
+                let pic_end = ((pic_buf[0] as u32) << 24)
+                    | ((pic_buf[1] as u32) << 16)
+                    | ((pic_buf[2] as u32) << 8)
+                    | (pic_buf[3] as u32);
                 let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
+                // let block_count = 1000;
+
                 let mut ordinal = 0;
-                let mut send_len:usize;
-                let mut res :Response; 
+                let mut send_len: usize;
+                let mut res: Response;
                 let mut start = 16;
                 loop {
+                    if start >= pic_buf.len() {
+                        break;
+                    }
                     (ordinal, send_len, res) =
-                        ebcmd::Response::pic_res_from_data(id, ordinal, &buf[start..]);
+                        ebcmd::Response::pic_res_from_data(id, ordinal, &pic_buf[start..]);
                     if send_len == 0 {
                         break;
                     }
                     start += send_len;
-                    let (buf, len) = res.to_array();
-                    class.write_packet(&buf[0..len]).await.unwrap();
+
+                    let (buf_tmp, len) = res.to_array();
+                    class.write_packet(&buf_tmp[0..len]).await.unwrap();
+                    // Timer::after(Duration::from_millis(100)).await;
+                    LED_BLUE.toggle();
                 }
-                // let tmp = ebcmd::Response::pic_res_from_data(id, 0, &buf[10..]);
-                // let end: usize = block_count as usize * 512;
-                // send current block
+                LED_GREEN.toggle();
                 for block in 1..block_count {
-                    sd.read_single_block(&mut buf, start_block + block).unwrap();
+                    // sd.read_single_block(&mut buf, start_block + block).unwrap();
+                    // let mut pic_buf = [0; 512]; // why without this line, the program not work?
+                    sd.read_single_block_async(&mut pic_buf, start_block + block)
+                        .await
+                        .unwrap();
                     start = 0;
                     loop {
+                        if start >= pic_buf.len() {
+                            break;
+                        }
                         (ordinal, send_len, res) =
-                            ebcmd::Response::pic_res_from_data(id, ordinal, &buf[start..]);
+                            ebcmd::Response::pic_res_from_data(id, ordinal, &pic_buf[start..]);
                         if send_len == 0 {
                             break;
                         }
                         start += send_len;
-                        let (buf, len) = res.to_array();
-                        class.write_packet(&buf[0..len]).await.unwrap();
+                        let (buf_tmp, len) = res.to_array();
+                        class.write_packet(&buf_tmp[0..len]).await.unwrap();
+                        // Timer::after(Duration::from_millis(100)).await;
                     }
+                    // LED_GREEN.toggle();
                 }
+
+                // let date = rtc::get_date();
+                // let time = rtc::get_time();
+                // let res = ebcmd::Response::GetTim(date.0, date.1, date.2, time.0, time.1, time.2);
+                // let (buf, len) = res.to_array();
+                // class.write_packet(&buf[0..len]).await.unwrap();
             }
             ebcmd::Command::GetPicNum => {
-                let mut buf = [0; 64];
-                buf[0] = 0x04;
                 let mut buf = [0u8; 512];
-                sd.read_single_block(&mut buf, SIZE_BLOCK).unwrap();
+                sd.read_single_block_async(&mut buf, SIZE_BLOCK)
+                    .await
+                    .unwrap();
                 let num = ((buf[0] as u32) << 24)
                     | ((buf[1] as u32) << 16)
                     | ((buf[2] as u32) << 8)
                     | (buf[3] as u32);
                 // ebcmd::Response::GetPicNum(num)
                 let res = ebcmd::Response::GetPicNum(num);
+                let (buf, len) = res.to_array();
+                class.write_packet(&buf[0..len]).await.unwrap();
+            }
+            ebcmd::Command::ClearPic => {
+                let buf = [0u8; 512];
+                sd.write_single_block_async(&buf, SIZE_BLOCK).await.unwrap();
+                let res = ebcmd::Response::ClearPic(0);
                 let (buf, len) = res.to_array();
                 class.write_packet(&buf[0..len]).await.unwrap();
             }

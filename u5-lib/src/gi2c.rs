@@ -46,6 +46,7 @@ impl I2cPort {
             // v.set_sclh(3);
             // v.set_sdadel(2);
             // v.set_scldel(3);
+
             v.set_presc(3);
             v.set_scll(0x13);
             v.set_sclh(0xF);
@@ -133,3 +134,4 @@ impl I2cPort {
         self.read(addr, read_data)
     }
 }
+

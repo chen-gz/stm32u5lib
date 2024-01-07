@@ -163,13 +163,17 @@ impl SdInstance {
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(24); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            // v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            // v.set_clkdiv(24); // 48Mhz / (2 * clkdiv) = 48M / 48 = 1Mhz
+            // v.set_clkdiv(6); // 48Mhz / (2 * clkdiv) = 48M / 12 = 4Mhz
+            v.set_clkdiv(2); // 48Mhz / (2 * clkdiv) = 48M / 4 = 12Mhz
         });
 
         self.port.power().modify(|v| v.set_pwrctrl(3));
         delay_ms(10); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
-            v.0 = 5 * 400_000; // 400khz, 8000clk = 20ms
+            v.0 = 5 * 400_0000; // 400khz, 8000clk = 20ms
+            // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
         });
         defmt::info!("start init sd card");
         // initilize sd card
