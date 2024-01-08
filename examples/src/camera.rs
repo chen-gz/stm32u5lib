@@ -3,7 +3,7 @@ use core::{
     result::Result::{Err, Ok},
 };
 use defmt;
-use u5_lib::{clock, gi2c, ov5640_reg, ov5640_reg::*, rtc, sdmmc::SdInstance, dma, gpio, dcmi};
+use u5_lib::{clock, dcmi, dma, gi2c, gpio, ov5640_reg, ov5640_reg::*, rtc, sdmmc::SdInstance};
 
 use defmt_rtt as _;
 
@@ -140,7 +140,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     pic_buf[7] = time.0;
     pic_buf[8] = time.1;
     pic_buf[9] = time.2;
-    clock::set_clock_to_hsi(); // slow clock for sd card
+    // clock::set_clock_to_hsi(); // slow clock for sd card
     let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
     let end: usize = block_count as usize * 512;
     defmt::info!(
@@ -148,9 +148,15 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
         block_count
     );
     let mut buf = [0u8; 512];
-    sd.read_single_block_async(&mut buf, SIZE_BLOCK)
-        .await
-        .unwrap();
+    match sd.read_single_block_async(&mut buf, SIZE_BLOCK).await {
+        Ok(_) => {
+            // defmt::info!("read picture number from sd card success");
+        }
+        Err(err) => {
+            defmt::error!("read picture number from sd card fail: {:?}", err);
+        }
+    }
+    // .unwrap();
     let mut num = ((buf[0] as u32) << 24)
         | ((buf[1] as u32) << 16)
         | ((buf[2] as u32) << 8)
@@ -186,7 +192,12 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     }
     defmt::info!("finish write picture to sd card");
 }
-pub async fn capture(pdwn: &gpio::GpioPort, dcmi: &dcmi::DcmiPort, pic_buf: &mut [u8], sd: &SdInstance) {
+pub async fn capture(
+    pdwn: &gpio::GpioPort,
+    dcmi: &dcmi::DcmiPort,
+    pic_buf: &mut [u8],
+    sd: &SdInstance,
+) {
     clock::set_clock_to_pll(); // fast clock for camera
     pdwn.set_low(); // set power down to low. Enable camera
     clock::delay_ms(1);
@@ -196,6 +207,6 @@ pub async fn capture(pdwn: &gpio::GpioPort, dcmi: &dcmi::DcmiPort, pic_buf: &mut
     defmt::info!("finish take picture");
     pdwn.set_high();
     // restore clock to hsi
-    clock::set_clock_to_hsi();
+    // clock::set_clock_to_hsi();
     save_picture(pic_buf, &sd).await;
 }

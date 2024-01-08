@@ -1,12 +1,17 @@
 #![allow(unused)]
 use crate::clock::delay_tick;
+// use cortex_m::interrupt;
+use cortex_m::peripheral::NVIC;
+use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+use embassy_sync::signal::Signal;
 use stm32_metapac::common::R;
 use stm32_metapac::common::W;
 use stm32_metapac::{pwr, rcc, rtc, rtc::Rtc, PWR, RCC, RTC};
 pub struct RtcPort;
 
 // impl RtcPort {
-pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8) {
+pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, period_wakup: u32) {
+    // if period_wakup is not 0, set up period wakeup for the rtc
     if !RCC.ahb3enr().read().pwren() {
         // enable power clock
         RCC.ahb3enr().modify(|v| {
@@ -22,7 +27,8 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8) {
         while !RCC.bdcr().read().lserdy() {}
     }
 
-    RCC.apb3enr().modify(|v| { // this wil 
+    RCC.apb3enr().modify(|v| {
+        // this wil
         v.set_rtcapben(true);
     });
 
@@ -33,11 +39,11 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8) {
 
     PWR.dbpcr().modify(|v| v.set_dbp(true)); // enable backup domain write
 
-    RTC.icsr().modify(|v| v.set_bin(rtc::vals::Bin::BCD)); // set to BCD format: 4bit for each digit
-    RTC.wpr().write(|w| unsafe { w.0 = 0xCA });  // write protection disable
+    // RTC.icsr().modify(|v| v.set_bin(rtc::vals::Bin::BCD)); // set to BCD format: 4bit for each digit
+    RTC.wpr().write(|w| unsafe { w.0 = 0xCA }); // write protection disable
     delay_tick(10);
-    RTC.wpr().write(|w| unsafe { w.0 = 0x53 });  // write protection disable
-    RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE));  // enter init mode
+    RTC.wpr().write(|w| unsafe { w.0 = 0x53 }); // write protection disable
+    RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE)); // enter init mode
 
     // wait for init mode ready
     while !RTC.icsr().read().initf() {}
@@ -143,4 +149,38 @@ pub fn get_time() -> (u8, u8, u8) {
         tr.mnu() + tr.mnt() * 10,
         tr.su() + tr.st() * 10,
     )
+}
+
+use core::time::Duration;
+pub async fn after(duration: Duration) {
+    unsafe { NVIC::unmask(stm32_metapac::Interrupt::RTC) };
+    let mut ticks = duration.as_micros() as u64;
+    if ticks == 0 {
+        ticks = 1;
+    }
+    let start = RTC.tr().read().ss();
+    let mut end = start + ticks;
+    if end >= 1000000 {
+        end -= 1000000;
+    }
+    while RTC.tr().read().ss() < end {}
+}
+
+use stm32_metapac::interrupt;
+static RTC_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+static RTC_SIGNAL_VAL: u32;
+#[interrupt]
+fn RTC() {
+    unsafe {
+        let stat: u32 = RTC.sr().read().0;
+        if RTC_SIGNAL.signaled() {
+            RTC_SIGNAL.signal(stat | RTC_SIGNAL_VAL);
+            RTC_SIGNAL_VAL |= stat;
+        } else {
+            RTC_SIGNAL.signal(stat);
+            RTC_SIGNAL_VAL = stat;
+        }
+        // clear interrupt flag
+        RTC.sr().write(|w| w.0 = 0);
+    }
 }

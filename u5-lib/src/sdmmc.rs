@@ -989,7 +989,7 @@ static mut SIGNAL2_VAL: u32 = 0;
 #[interrupt]
 fn SDMMC2() {
     unsafe {
-        defmt::info!("SDMMC2 interrupt");
+        // defmt::info!("SDMMC2 interrupt");
         // TODO: we need the old value if it is signaled
         let stat = stm32_metapac::SDMMC2.star().read().0;
         if (SIGNAL2.signaled()){

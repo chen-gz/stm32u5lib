@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 #![feature(type_alias_impl_trait)]
+use cortex_m::delay::Delay;
 // #![allow(dead_code)]
 // #![allow(unused_imports)]
 use embassy_time::{Duration, Timer};
@@ -8,6 +9,7 @@ use embassy_time::{Duration, Timer};
 use defmt_rtt as _;
 use embassy_executor::Spawner;
 
+use embassy_usb::msos::DescriptorType;
 use u5_lib::*;
 
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
@@ -28,7 +30,6 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
     loop {}
 }
 
-
 const LED_GREEN: gpio::GpioPort = gpio::PC3;
 const LED_ORANGE: gpio::GpioPort = gpio::PC4;
 const LED_BLUE: gpio::GpioPort = gpio::PC5;
@@ -36,6 +37,21 @@ const LED_BLUE: gpio::GpioPort = gpio::PC5;
 const CAM_PDWN: gpio::GpioPort = gpio::PB0;
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL_SD_INST: Signal<CriticalSectionRawMutex, sdmmc::SdInstance> = Signal::new();
+
+static DeepSemaphore: u32 = 0; // because only 1 cpu in this board. This will works. When this value is 0, then the mcu can go deep sleep.
+fn sleep_mode() {
+    unsafe {
+        let p = cortex_m::Peripherals::steal();
+        let mut scb = p.SCB;
+
+        if DeepSemaphore == 0 {
+            scb.set_sleepdeep();
+        }
+        else {
+            scb.clear_sleepdeep();
+        }
+    }
+}
 
 fn setup() {
     clock::init_clock();
@@ -81,16 +97,20 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
         gpio::DCMI_PIXCLK_PA6,
     );
     clock::delay_ms(1000); // avoid the green picture
-    // CAM_PDWN.set_high();
+                           // CAM_PDWN.set_high();
     dcmi
 }
 
 fn init_sd() -> sdmmc::SdInstance {
     let mut sd = sdmmc::SdInstance::new(stm32_metapac::SDMMC2);
-    sd.init(gpio::SDMMC2_CK_PC1, gpio::SDMMC2_D0_PB14, gpio::SDMMC2_CMD_PA0);
+    sd.init(
+        gpio::SDMMC2_CK_PC1,
+        gpio::SDMMC2_D0_PB14,
+        gpio::SDMMC2_CMD_PA0,
+    );
     return sd;
 }
-#[path ="../usb_util.rs"]
+#[path = "../usb_util.rs"]
 mod usb_util;
 use usb_util::usb_task;
 
@@ -119,7 +139,11 @@ async fn main(spawner: Spawner) {
         const PIC_BUF_SIZE: usize = 512 * 1300; // 512byte * 1300 = 650K
         let mut pic_buf = [0u8; PIC_BUF_SIZE];
         loop {
+            sleep_mode();   
             camera::capture(&CAM_PDWN, &dcmi, &mut pic_buf, &sd).await;
+
+            sleep_mode();
+            Timer::after(Duration::from_millis(3000)).await;
         }
     }
 }
