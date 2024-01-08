@@ -6,30 +6,42 @@
 use cortex_m::{peripheral::SCB, asm};
 use embassy_executor::Spawner;
 use stm32_metapac::PWR;
-use u5_lib::{clock, exti::EXTI2_PB2, gpio};
+use u5_lib::{clock, exti::EXTI2_PB2, gpio, rtc};
 
 use defmt_rtt as _;
 use gpio::GpioPort;
 const GREEN: GpioPort = gpio::PC3;
 const ORANGE: GpioPort = gpio::PC4;
 const BLUE: GpioPort = gpio::PC5;
+
 fn setup() {
+
+    clock::init_clock();
+    // CAM_PDWN.setup();
+
     GREEN.setup();
     ORANGE.setup();
     BLUE.setup();
 }
 
+#[path ="../usb_util.rs"]
+mod usb_util;
+use usb_util::usb_task;
 
-use stm32_metapac::pwr::vals::Lpms;
+// use stm32_metapac::pwr::vals::Lpms;
 #[embassy_executor::main]
-async fn main(_spawner: Spawner) {
-    clock::init_clock();
+async fn main(spawner: Spawner) {
     setup();
-    unsafe {
-        let p = cortex_m::Peripherals::steal();
-        let mut scb = p.SCB;
-        scb.set_sleepdeep();
-    }
+    rtc::enable_rtc_read();
+
+    spawner.spawn(usb_task()).unwrap();
+    // clock::init_clock();
+    // setup();
+    // unsafe {
+    //     let p = cortex_m::Peripherals::steal();
+    //     let mut scb = p.SCB;
+    //     scb.set_sleepdeep();
+    // }
     // standbby mode LPMS = 11x with BREN = 1 in PWR_BDCR
     // PWR.cr1().modify(|v|v.set_lpms(Lpms::));
 
