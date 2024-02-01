@@ -1,13 +1,17 @@
 #![allow(unused)]
+
 use crate::clock::delay_tick;
 use crate::gpio::GpioPort;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use embassy_sync::signal::Signal;
 use stm32_metapac::dcmi::Dcmi;
+use stm32_metapac::RCC;
+
 pub struct DcmiPort {
     port: Dcmi,
 }
+
 pub const DCMI: DcmiPort = DcmiPort {
     port: stm32_metapac::DCMI,
 };
@@ -32,6 +36,7 @@ impl DcmiPort {
         pclk: GpioPort,
     ) {
         // setup gpio ports
+        RCC.ahb2enr1().modify(|v| v.set_dcmien(true));
         d0.setup();
         d1.setup();
         d2.setup();
@@ -43,28 +48,35 @@ impl DcmiPort {
         hs.setup();
         vs.setup();
         pclk.setup();
-
     }
 
-    pub fn capture(&self, dma: DmaChannel, buf: &[u8]) {
-        self.port.cr().modify(|v| {
-            v.set_jpeg(true);
-            v.set_cm(false);
-            v.set_vspol(true);
-            v.set_hspol(true);
-            v.set_pckpol(true);
-        });
-        let dst_addr = buf.as_ptr() as u32;
-        let len = buf.len() as u32;
-        // get draddress
-        let src_addr = self.port.dr().as_ptr() as u32;
-        dma.start(src_addr, dst_addr, len);
+    pub async fn capture(&self, dma: DmaChannel, buf: &[u8]) {
+        // this function requires 160mhz clock and the deep sleep mode not allowed
+        crate::clock::run_with_160mhz_async(|| async {
+            crate::low_power::run_no_deep_sleep_async(|| async {
+                self.port.cr().modify(|v| {
+                    v.set_jpeg(true);
+                    v.set_cm(false);
+                    v.set_vspol(true);
+                    v.set_hspol(true);
+                    v.set_pckpol(true);
+                });
+                let dst_addr = buf.as_ptr() as u32;
+                let len = buf.len() as u32;
+                // get draddress
+                let src_addr = self.port.dr().as_ptr() as u32;
+                dma.start(src_addr, dst_addr, len);
 
-        // start capture
-        self.port.cr().modify(|v| {
-            v.set_capture(true);
-            v.set_enable(true);
-        });
+                // start capture
+                self.port.cr().modify(|v| {
+                    v.set_capture(true);
+                    v.set_enable(true);
+                });
+
+                self.get_picture_async().await;
+                self.stop_capture(dma);
+            }).await;
+        }).await;
     }
     pub fn stop_capture(&self, dma: DmaChannel) {
         self.port.cr().modify(|v| v.set_capture(false));
@@ -90,16 +102,18 @@ impl DcmiPort {
 }
 
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+
 use stm32_metapac::interrupt;
+
 #[interrupt]
 fn DCMI_PSSI() {
     // clear interrupt flag
     // DCMI.icr().write(|w| w.0 = 0x1f);
-    // 
+    //
     let ris = stm32_metapac::DCMI.ris().read().0;
 
     SIGNAL.signal(ris);
-    // clear itnerupt 
+    // clear itnerupt
     stm32_metapac::DCMI.icr().write(|w| w.0 = 0x1f);
     // clear pending bit
     // NVIC::unpend(Interrupt::DCMI_PSSI);

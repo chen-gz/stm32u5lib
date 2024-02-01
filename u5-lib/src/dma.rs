@@ -4,6 +4,7 @@ use crate::gpio::GpioPort;
 pub use stm32_metapac::gpdma::vals::*;
 use stm32_metapac::gpdma::Channel;
 use stm32_metapac::gpdma::Gpdma;
+use stm32_metapac::RCC;
 
 pub struct DmaChannel {
     ins: Gpdma,
@@ -55,6 +56,7 @@ static mut LINK_LISTS: DmaLists = [[ListNode {
 
 impl DmaChannel {
     pub fn init(&self) {
+        RCC.ahb1enr().modify(|v| v.set_gpdma1en(true));
         // setup gpio ports
         let ch = self.ins.ch(self.ch);
         ch.tr1().modify(|v| {

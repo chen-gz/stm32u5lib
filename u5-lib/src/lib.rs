@@ -12,3 +12,4 @@ pub mod sdmmc;
 
 pub mod rtc;
 pub mod exti;
+pub mod low_power;

@@ -153,7 +153,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
             // defmt::info!("read picture number from sd card success");
         }
         Err(err) => {
-            defmt::error!("read picture number from sd card fail: {:?}", err);
+            defmt::panic!("read picture number from sd card fail: {:?}", err);
         }
     }
     // .unwrap();
@@ -171,7 +171,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
             defmt::info!("write picture number to sd card success");
         }
         Err(err) => {
-            defmt::error!("write picture number to sd card fail: {:?}", err);
+            defmt::panic!("write picture number to sd card fail: {:?}", err);
         }
     }
 
@@ -187,7 +187,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
             defmt::info!("write picture to sd card success");
         }
         Err(err) => {
-            defmt::error!("write picture to sd card fail: {:?}", err);
+            defmt::panic!("write picture to sd card fail: {:?}", err);
         }
     }
     defmt::info!("finish write picture to sd card");
@@ -198,15 +198,12 @@ pub async fn capture(
     pic_buf: &mut [u8],
     sd: &SdInstance,
 ) {
-    clock::set_clock_to_pll(); // fast clock for camera
     pdwn.set_low(); // set power down to low. Enable camera
-    clock::delay_ms(1);
-    dcmi.capture(dma::DCMI_DMA, &pic_buf[16..]);
-    dcmi.get_picture_async().await;
-    dcmi.stop_capture(dma::DCMI_DMA);
+    clock::delay_ms(5);
+    dcmi.capture(dma::DCMI_DMA, &pic_buf[16..]).await;
     defmt::info!("finish take picture");
     pdwn.set_high();
-    // restore clock to hsi
-    // clock::set_clock_to_hsi();
-    save_picture(pic_buf, &sd).await;
+    u5_lib::low_power::run_no_deep_sleep_async( || async {
+        save_picture(pic_buf, &sd).await;
+    }).await;
 }

@@ -1,23 +1,21 @@
 #![no_std]
 #![no_main]
 #![feature(type_alias_impl_trait)]
-use cortex_m::delay::Delay;
+use cortex_m::peripheral::NVIC;
 // #![allow(dead_code)]
 // #![allow(unused_imports)]
-use embassy_time::{Duration, Timer};
+// use embassy_time::{Duration, Timer};
 
 use defmt_rtt as _;
 use embassy_executor::Spawner;
-
-use embassy_usb::msos::DescriptorType;
-use u5_lib::*;
+use u5_lib::{low_power::Executor, *};
 
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
 
 #[path = "../camera.rs"]
 mod camera;
 
-use stm32_metapac::RCC;
+use stm32_metapac::{pwr, PWR, RCC};
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     defmt::info!("panic");
@@ -38,16 +36,15 @@ const CAM_PDWN: gpio::GpioPort = gpio::PB0;
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL_SD_INST: Signal<CriticalSectionRawMutex, sdmmc::SdInstance> = Signal::new();
 
-static DeepSemaphore: u32 = 0; // because only 1 cpu in this board. This will works. When this value is 0, then the mcu can go deep sleep.
+static DEEP_SEMAPHORE: u32 = 0; // because only 1 cpu in this board. This will works. When this value is 0, then the mcu can go deep sleep.
 fn sleep_mode() {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let mut scb = p.SCB;
 
-        if DeepSemaphore == 0 {
+        if DEEP_SEMAPHORE == 0 {
             scb.set_sleepdeep();
-        }
-        else {
+        } else {
             scb.clear_sleepdeep();
         }
     }
@@ -58,11 +55,11 @@ fn setup() {
     CAM_PDWN.setup();
     // CAM_PDWN.set_high();
     LED_ORANGE.setup();
-    LED_ORANGE.set_high();
+    // LED_ORANGE.set_high();
     LED_GREEN.setup();
-    LED_GREEN.set_high();
+    // LED_GREEN.set_high();
     LED_BLUE.setup();
-    LED_BLUE.set_high();
+    // LED_BLUE.set_high();
 }
 
 fn setup_cam_clk() {
@@ -70,8 +67,8 @@ fn setup_cam_clk() {
     cam_clk.setup();
     // set PA8 as mco output for HSI48 and divide by 2 (24Mhz)
     RCC.cfgr1().modify(|w| {
-        w.set_mcosel(stm32_metapac::rcc::vals::Mcosel::HSI48);
-        w.set_mcopre(stm32_metapac::rcc::vals::Mcopre::DIV2);
+        w.set_mcosel(stm32_metapac::rcc::vals::Mcosel::HSI);
+        w.set_mcopre(stm32_metapac::rcc::vals::Mcopre::DIV1);
     });
 }
 
@@ -98,52 +95,124 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
     );
     clock::delay_ms(1000); // avoid the green picture
                            // CAM_PDWN.set_high();
+    CAM_PDWN.set_high();
     dcmi
 }
 
 fn init_sd() -> sdmmc::SdInstance {
     let mut sd = sdmmc::SdInstance::new(stm32_metapac::SDMMC2);
+
+    // u5_lib::clock::run_with_160mhz(|| {
     sd.init(
         gpio::SDMMC2_CK_PC1,
         gpio::SDMMC2_D0_PB14,
         gpio::SDMMC2_CMD_PA0,
     );
+    // });
     return sd;
 }
 #[path = "../usb_util.rs"]
 mod usb_util;
 use usb_util::usb_task;
 
+// #[cortex_m_rt::entry]
+// fn main() -> ! {
+//     Executor::take().run(|spawner| {
+//         // defmt::unwrap!(
+//         spawner.spawn(async_main(spawner)).unwrap();
+//         // );
+//     });
+// }
+
 #[embassy_executor::main]
-async fn main(spawner: Spawner) {
+// #[embassy_executor::task]
+async fn async_main(spawner: Spawner) {
+    // async fn main(spawner: Spawner) {
+
     setup();
+    LED_GREEN.set_high();
+    LED_ORANGE.set_high();
+    LED_BLUE.set_high();
     rtc::enable_rtc_read();
     let sd = init_sd();
     // share sd with usb task
-    let dcmi = setup_camera_dcmi();
-    // CAM_PDWN.set_high();
-    spawner.spawn(usb_task()).unwrap();
 
+    // let dcmi = setup_camera_dcmi();
+
+    clock::delay_ms(10);
+
+    
+    spawner.spawn(usb_task(sd)).unwrap();
+    spawner.spawn(btn()).unwrap();
+    CAM_PDWN.set_high();
+
+    LED_GREEN.set_low();
+    LED_ORANGE.set_low();
+    LED_BLUE.set_low();
+    // PWR.cr1().modify(|v| v.set_lpms(pwr::vals::Lpms::STOP3));
     loop {
-        Timer::after(Duration::from_millis(500)).await;
-        if SIGNAL.signaled() {
-            SIGNAL_SD_INST.signal(sd);
-            CAM_PDWN.set_high();
-            let mut val = SIGNAL.wait().await;
-            while val != 0 {
-                defmt::info!("usb connected, stop take picture");
-                val = SIGNAL.wait().await;
+        // clock::delay_ms(10);
+        // const PIC_BUF_SIZE: usize = 512 * 500; // 512byte * 1300 = 650K
+        // let mut pic_buf = [0u8; PIC_BUF_SIZE];
+        // loop {
+        //     if unsafe { TAKE_PIC } == false {
+        //         rtc::rtc_interrupt().await;
+        //         continue;
+        //     }
+        //     LED_BLUE.set_high();
+        //     camera::capture(&CAM_PDWN, &dcmi, &mut pic_buf, &sd).await;
+        //     LED_BLUE.set_low();
+            rtc::rtc_interrupt().await;
+        // }
+    }
+}
+static mut TAKE_PIC: bool = false;
+#[embassy_executor::task]
+async fn btn() {
+    let mut last_time: (u8, u8, u8) = (0, 0, 0);
+    loop {
+        exti::EXTI2_PB2.wait_for_raising().await;
+        let cur_time = u5_lib::rtc::get_time();
+        //  if cur_time + 1 second == last_time, then click twice
+        let mut click_twice = false;
+        defmt::info!("last_time: {:?}", last_time);
+        defmt::info!("cur_time: {:?}", cur_time);
+
+        if last_time == cur_time {
+            click_twice = true;
+        }
+        last_time.2 += 1;
+        if last_time.2 >= 60 {
+            last_time.2 = 0;
+            last_time.1 += 1;
+            if last_time.1 >= 60 {
+                last_time.1 = 0;
+                last_time.0 += 1;
+                if last_time.0 >= 24 {
+                    last_time.0 = 0;
+                }
             }
         }
-        clock::delay_ms(10);
-        const PIC_BUF_SIZE: usize = 512 * 1300; // 512byte * 1300 = 650K
-        let mut pic_buf = [0u8; PIC_BUF_SIZE];
-        loop {
-            sleep_mode();   
-            camera::capture(&CAM_PDWN, &dcmi, &mut pic_buf, &sd).await;
-
-            sleep_mode();
-            Timer::after(Duration::from_millis(3000)).await;
+        if last_time == cur_time {
+            click_twice = true;
+        }
+        last_time = cur_time;
+        if click_twice == false {
+            unsafe {
+                if (TAKE_PIC) {
+                    TAKE_PIC = false;
+                    LED_ORANGE.set_low();
+                } else {
+                    TAKE_PIC = true;
+                    LED_ORANGE.set_high();
+                }
+            }
+            defmt::info!("click once");
+        } else {
+            // enter no deep sleep mode
+            low_power::sleep_no_deep_request();
+            defmt::info!("click twice");
+            LED_BLUE.toggle();
         }
     }
 }

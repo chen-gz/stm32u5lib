@@ -1,6 +1,6 @@
 #![allow(unused)]
 use crate::clock::delay_tick;
-use stm32_metapac::i2c::I2c;
+use stm32_metapac::{i2c::I2c, RCC};
 pub struct I2cPort {
     port: I2c,
 }
@@ -24,8 +24,28 @@ pub enum I2cError {
     Timeout,
     Alert,
 }
+
 impl I2cPort {
     pub fn init(&self, freq: u32, scl_pin: GpioPort, sda_pin: GpioPort) {
+        crate::clock::hsi16_request();
+
+        if self.port == stm32_metapac::I2C1 {
+            RCC.ccipr1()
+                .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
+            RCC.apb1enr1().modify(|v| {
+                v.set_i2c1en(true);
+            });
+        } else if self.port == stm32_metapac::I2C3 {
+            RCC.ccipr3()
+                .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::Icsel::HSI));
+            RCC.apb3enr().modify(|v| {
+                v.set_i2c3en(true);
+            });
+        }
+
+        // RCC.srdamr().modify(|v| {
+        //     v.set_i2c3amen(true);
+        // });
         // setup gpio ports
         scl_pin.setup();
         sda_pin.setup();
@@ -134,4 +154,3 @@ impl I2cPort {
         self.read(addr, read_data)
     }
 }
-

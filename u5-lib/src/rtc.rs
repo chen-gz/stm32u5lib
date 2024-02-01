@@ -1,8 +1,11 @@
 #![allow(unused)]
 use crate::clock::delay_tick;
+use crate::gpio;
 // use cortex_m::interrupt;
+use cortex_m::peripheral::scb;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+use embassy_sync::blocking_mutex::raw::RawMutex;
 use embassy_sync::signal::Signal;
 use stm32_metapac::common::R;
 use stm32_metapac::common::W;
@@ -10,7 +13,12 @@ use stm32_metapac::{pwr, rcc, rtc, rtc::Rtc, PWR, RCC, RTC};
 pub struct RtcPort;
 
 // impl RtcPort {
-pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, period_wakup: u32) {
+pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, period_wakup_s: u16) {
+    // disable rtc interrupt
+    unsafe {
+        NVIC::mask(stm32_metapac::Interrupt::RTC);
+        NVIC::unpend(stm32_metapac::Interrupt::RTC);
+    };
     // if period_wakup is not 0, set up period wakeup for the rtc
     if !RCC.ahb3enr().read().pwren() {
         // enable power clock
@@ -43,9 +51,9 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
     RTC.wpr().write(|w| unsafe { w.0 = 0xCA }); // write protection disable
     delay_tick(10);
     RTC.wpr().write(|w| unsafe { w.0 = 0x53 }); // write protection disable
-    RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE)); // enter init mode
 
-    // wait for init mode ready
+    RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE)); // enter init mode
+                                                                  // wait for init mode ready
     while !RTC.icsr().read().initf() {}
 
     // set prescale to 1Hz
@@ -77,6 +85,23 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
     // clear bypass shadow register
     RTC.cr().modify(|v| v.set_bypshad(false));
     // exit init mode
+
+    if period_wakup_s != 0 {
+        RTC.cr().modify(|v| {
+            v.set_wute(false);
+            v.set_wutie(false);
+        }); // disable wakeup timer before setting period
+        while !RTC.icsr().read().wutwf() {} // wait for wakeup timer write flag
+
+        RTC.wutr()
+            .write(|w| unsafe { w.set_wut(period_wakup_s * 2048) }); // set wakeup period
+
+        RTC.cr().modify(|v| {
+            v.set_wucksel(rtc::vals::Wucksel::DIV16); // clock is 32768/16 = 2048Hz
+            v.set_wute(true);
+            v.set_wutie(true);
+        });
+    }
     RTC.icsr()
         .modify(|v| v.set_init(rtc::vals::Init::FREERUNNINGMODE));
 
@@ -84,16 +109,38 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
     PWR.dbpcr().modify(|v| v.set_dbp(false));
 
     // write protection enable
+
     RTC.wpr().write(|w| unsafe { w.0 = 0xFF });
+    // TODO: figure out what it will wakeup constantly
+
+    // TODO: temp solution. Reset the chip to make the rtc work
+    cortex_m::peripheral::SCB::sys_reset();
+
+    // unsafe {
+    //     NVIC::unpend(stm32_metapac::Interrupt::RTC);
+    //     NVIC::unmask(stm32_metapac::Interrupt::RTC); };
 }
 pub fn enable_rtc_read() {
     // enable rtc clock
+    RCC.ahb3enr().modify(|v| {
+        v.set_pwren(true); // RM0456 Rev4 Page 406
+    });
+    RCC.srdamr().modify(|v| {
+        v.set_rtcapbamen(true);
+    });
+    RCC.ahb3smenr().modify(|v| {
+        v.set_pwrsmen(true);
+    });
     if !RCC.ahb3enr().read().pwren() {
         // enable power clock
         RCC.ahb3enr().modify(|v| {
             v.set_pwren(true); // RM0456 Rev4 Page 406
         });
     }
+    PWR.dbpcr().modify(|v| v.set_dbp(true)); // enable backup domain write
+    RCC.apb3smenr().modify(|v| {
+        v.set_rtcapbsmen(true);
+    });
 
     RCC.apb3enr().modify(|v| {
         v.set_rtcapben(true);
@@ -152,35 +199,23 @@ pub fn get_time() -> (u8, u8, u8) {
 }
 
 use core::time::Duration;
-pub async fn after(duration: Duration) {
+pub async fn rtc_interrupt() {
     unsafe { NVIC::unmask(stm32_metapac::Interrupt::RTC) };
-    let mut ticks = duration.as_micros() as u64;
-    if ticks == 0 {
-        ticks = 1;
-    }
-    let start = RTC.tr().read().ss();
-    let mut end = start + ticks;
-    if end >= 1000000 {
-        end -= 1000000;
-    }
-    while RTC.tr().read().ss() < end {}
+    RTC_SIGNAL.wait().await;
+    // LED_GREEN.toggle();
 }
 
 use stm32_metapac::interrupt;
 static RTC_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-static RTC_SIGNAL_VAL: u32;
+// const LED_GREEN: gpio::GpioPort = gpio::PC3;
+
 #[interrupt]
 fn RTC() {
-    unsafe {
-        let stat: u32 = RTC.sr().read().0;
-        if RTC_SIGNAL.signaled() {
-            RTC_SIGNAL.signal(stat | RTC_SIGNAL_VAL);
-            RTC_SIGNAL_VAL |= stat;
-        } else {
-            RTC_SIGNAL.signal(stat);
-            RTC_SIGNAL_VAL = stat;
-        }
-        // clear interrupt flag
-        RTC.sr().write(|w| w.0 = 0);
-    }
+    // LED_GREEN.toggle();
+    defmt::info!("rtc interrupt with flag: {}", RTC.sr().read().0);
+    let stat: u32 = RTC.sr().read().0;
+    RTC_SIGNAL.signal(stat);
+    // clear interrupt flag
+    RTC.scr().write(|w| w.0 = 0x7F);
+    NVIC::unpend(stm32_metapac::Interrupt::RTC);
 }

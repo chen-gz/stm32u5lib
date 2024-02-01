@@ -176,7 +176,8 @@ async fn main(_spawner: Spawner) {
         let pic_buf: [u8; PIC_BUF_SIZE] = [0; PIC_BUF_SIZE];
         loop {
             pic_num += 1;
-            clock::set_clock_to_pll(); // fast clock for camera
+            // clock::set_clock_to_pll(); // fast clock for camera
+            clock::set_cpu_freq(160_000_000);
             CAM_PDWN.set_low();
             delay_ms(2);
             dcmi.capture(dma::DCMI_DMA, &pic_buf);
@@ -198,7 +199,8 @@ async fn main(_spawner: Spawner) {
                 defmt::error!("not find jpeg end");
                 continue; // not found the end of jpeg, continue to capture the next picture
             }
-            clock::set_clock_to_hsi(); // slow clock for sd card
+            // clock::set_clock_to_hsi(); // slow clock for sd card
+            clock::set_cpu_freq(4_000_000);
             let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
             let end: usize = block_count as usize * 512;
             sd.write_multiple_blocks(&pic_buf[0..end], pic_num * MULTIPILER, block_count)

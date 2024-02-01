@@ -3,6 +3,8 @@
 use core::ptr::read;
 
 use crate::clock::{delay_ms, delay_tick, delay_us};
+use stm32_metapac::rcc;
+use stm32_metapac::RCC;
 use cortex_m::delay;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
@@ -155,6 +157,21 @@ impl SdInstance {
         Ok(())
     }
     pub fn init(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
+        crate::clock::hsi48_request();
+        // hsi48 as iclk
+        RCC.ccipr1()
+            .modify(|v| v.set_iclksel(rcc::vals::Iclksel::HSI48));
+
+        // use hsi48 for sdmmc clock
+        RCC.ccipr2()
+            .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK));
+
+        // enable sdmmc clock
+        RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
+
+        // enable sdmmc2 clock
+        RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
+
         clk.setup();
         cmd.setup();
         d0.setup();
@@ -166,14 +183,14 @@ impl SdInstance {
             // v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
             // v.set_clkdiv(24); // 48Mhz / (2 * clkdiv) = 48M / 48 = 1Mhz
             // v.set_clkdiv(6); // 48Mhz / (2 * clkdiv) = 48M / 12 = 4Mhz
-            v.set_clkdiv(2); // 48Mhz / (2 * clkdiv) = 48M / 4 = 12Mhz
+            v.set_clkdiv(3); // 48Mhz / (2 * clkdiv) = 48M / 4 = 12Mhz
         });
 
         self.port.power().modify(|v| v.set_pwrctrl(3));
         delay_ms(10); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
             v.0 = 5 * 400_0000; // 400khz, 8000clk = 20ms
-            // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
+                                // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
         });
         defmt::info!("start init sd card");
         // initilize sd card
@@ -472,10 +489,10 @@ impl SdInstance {
         while self.port.star().read().cpsmact() {} // wait for cpsm idle -- TODO: check this
 
         if cmd.cmd == common_cmd::write_multiple_blocks(0).cmd
-        || cmd.cmd == common_cmd::read_multiple_blocks(0).cmd
-        || cmd.cmd == common_cmd::write_single_block(0).cmd
-        || cmd.cmd == common_cmd::read_single_block(0).cmd
-         {
+            || cmd.cmd == common_cmd::read_multiple_blocks(0).cmd
+            || cmd.cmd == common_cmd::write_single_block(0).cmd
+            || cmd.cmd == common_cmd::read_single_block(0).cmd
+        {
             defmt::info!("write multiple blocks");
             while (stat.dataend() == false) {
                 self.error_test_async(stat)?;
@@ -722,12 +739,18 @@ impl SdInstance {
             v.set_idmabmode(false); // single buffer mode
             v.set_idmaen(true);
         });
-        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
-        self.send_cmd_async(common_cmd::write_multiple_blocks(block_addr)).await?;
+        self.send_cmd_async(sd_cmd::set_block_count(block_count))
+            .await?;
+        self.send_cmd_async(common_cmd::write_multiple_blocks(block_addr))
+            .await?;
         Ok(())
     }
 
-    pub async fn write_single_block_async(&self, buf: &[u8], block_addr: u32) -> Result<(), SdError> {
+    pub async fn write_single_block_async(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+    ) -> Result<(), SdError> {
         if block_addr as u64 > self.csd.block_count() {
             return Err(SdError::WriteAddressError);
         }
@@ -750,11 +773,16 @@ impl SdInstance {
             v.set_idmaen(true); // enable dma
         });
         // self.send_cmd(common_cmd::write_single_block(block_addr))?;
-        self.send_cmd_async(common_cmd::write_single_block(block_addr)).await?;
+        self.send_cmd_async(common_cmd::write_single_block(block_addr))
+            .await?;
         Ok(())
     }
 
-    pub async fn read_single_block_async(&self, buf: &mut [u8], block_addr: u32) -> Result<(), SdError> {
+    pub async fn read_single_block_async(
+        &self,
+        buf: &mut [u8],
+        block_addr: u32,
+    ) -> Result<(), SdError> {
         // TODO: check
         if block_addr > self.csd.block_count() as u32 {
             return Err(SdError::STATUSError);
@@ -778,7 +806,8 @@ impl SdInstance {
         });
 
         // self.send_cmd(common_cmd::read_single_block(block_addr as u32))?;
-        self.send_cmd_async(common_cmd::read_single_block(block_addr as u32)).await?;
+        self.send_cmd_async(common_cmd::read_single_block(block_addr as u32))
+            .await?;
         Ok(())
     }
     pub async fn read_multiple_blocks_async(
@@ -806,8 +835,10 @@ impl SdInstance {
         });
         // self.send_cmd(sd_cmd::set_block_count(block_count))?;
         // self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
-        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
-        self.send_cmd_async(common_cmd::read_multiple_blocks(block_addr)).await?;
+        self.send_cmd_async(sd_cmd::set_block_count(block_count))
+            .await?;
+        self.send_cmd_async(common_cmd::read_multiple_blocks(block_addr))
+            .await?;
         Ok(())
     }
 
@@ -839,7 +870,6 @@ impl SdInstance {
     //     }
     //     Ok(())
     // }
-
 
     pub fn clear_error(&self) {
         self.port.icr().modify(|v| {
@@ -992,11 +1022,10 @@ fn SDMMC2() {
         // defmt::info!("SDMMC2 interrupt");
         // TODO: we need the old value if it is signaled
         let stat = stm32_metapac::SDMMC2.star().read().0;
-        if (SIGNAL2.signaled()){
+        if (SIGNAL2.signaled()) {
             // SIGNAL2.signal(stm32_metapac::SDMMC2.star().read().0 | val);
             SIGNAL2.signal(stat | SIGNAL2_VAL);
-        }
-        else {
+        } else {
             SIGNAL2.signal(stat);
         }
         SIGNAL2_VAL = stat;
