@@ -83,6 +83,6 @@ bench  = false
 test = false
 
 [profile.dev]
-lto = false
-opt-level = 1
+lto = true
+opt-level = 3
 debug = true

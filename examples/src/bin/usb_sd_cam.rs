@@ -126,22 +126,21 @@ use usb_util::usb_task;
 
 #[embassy_executor::main]
 // #[embassy_executor::task]
-async fn async_main(spawner: Spawner) {
+async fn main(spawner: Spawner) {
     // async fn main(spawner: Spawner) {
 
     setup();
     LED_GREEN.set_high();
     LED_ORANGE.set_high();
     LED_BLUE.set_high();
-    rtc::enable_rtc_read();
+
     let sd = init_sd();
     // share sd with usb task
 
-    // let dcmi = setup_camera_dcmi();
+    let dcmi = setup_camera_dcmi();
 
     clock::delay_ms(10);
 
-    
     spawner.spawn(usb_task(sd)).unwrap();
     spawner.spawn(btn()).unwrap();
     CAM_PDWN.set_high();
@@ -151,19 +150,19 @@ async fn async_main(spawner: Spawner) {
     LED_BLUE.set_low();
     // PWR.cr1().modify(|v| v.set_lpms(pwr::vals::Lpms::STOP3));
     loop {
-        // clock::delay_ms(10);
-        // const PIC_BUF_SIZE: usize = 512 * 500; // 512byte * 1300 = 650K
-        // let mut pic_buf = [0u8; PIC_BUF_SIZE];
-        // loop {
-        //     if unsafe { TAKE_PIC } == false {
-        //         rtc::rtc_interrupt().await;
-        //         continue;
-        //     }
-        //     LED_BLUE.set_high();
-        //     camera::capture(&CAM_PDWN, &dcmi, &mut pic_buf, &sd).await;
-        //     LED_BLUE.set_low();
+        clock::delay_ms(10);
+        const PIC_BUF_SIZE: usize = 512 * 1300; // 512byte * 1300 = 650K
+        let mut pic_buf = [0u8; PIC_BUF_SIZE];
+        loop {
+            if unsafe { TAKE_PIC } == false {
+                rtc::rtc_interrupt().await;
+                continue;
+            }
+            LED_BLUE.set_high();
+            camera::capture(&CAM_PDWN, &dcmi, &mut pic_buf, &sd).await;
+            LED_BLUE.set_low();
             rtc::rtc_interrupt().await;
-        // }
+        }
     }
 }
 static mut TAKE_PIC: bool = false;

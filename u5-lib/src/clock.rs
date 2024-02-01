@@ -189,94 +189,100 @@ pub fn set_gpio_clock() {
 //////////
 ///
 ///
-pub fn init_clock() {
-    let mut config = embassy_stm32::Config::default();
-    config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
-    config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
-    //                                                  // should better set in the rcc module. instead of here.
-    let _p = embassy_stm32::init(config);
-    // delay_enable(160_000_000);
-
-    DBGMCU.cr().modify(|cr| {
-        cr.set_dbg_stop(true);
-        cr.set_dbg_standby(true);
-    });
-    delay_enable();
-    set_gpio_clock();
-
-    // RCC.ahb3enr().modify(|w| {
-    //     w.set_pwren(true);
-    // });
-    RCC.ahb3enr().modify(|v| v.set_pwren(true)); // check when to enable pwr
-    RCC.ahb3enr().read(); // synchronize
-    PWR.dbpcr().modify(|v| v.set_dbp(true));
-    // RCC.bdcr().modify(|v| v.set_lseon(true));
-    // while !RCC.bdcr().read().lsirdy() {}
-    // set_cpu_freq(160_000_000);
-    set_clock();
-    delay_enable();
-    unsafe {
-        SYSTEM_CLOCK = 160_000_000;
-    }
-    RCC.ccipr1()
-        .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
-    RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
-
-    RCC.ccipr3()
-        .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::Icsel::HSI));
-    RCC.apb3enr().modify(|v| v.set_i2c3en(true));
-
-    // dcmi clock
-    RCC.ahb2enr1().modify(|v| v.set_dcmien(true));
-    // enable dma clock
-    RCC.ahb1enr().modify(|v| v.set_gpdma1en(true));
-    // enable gpioa clock
-    RCC.ahb2enr1().modify(|v| {
-        v.set_gpioaen(true);
-        v.set_gpioben(true);
-        v.set_gpiocen(true);
-    });
-
-    // enable gpioG clock
-    RCC.ahb2enr1().modify(|v| v.set_gpiogen(true));
-
-    // enable hsi48 clock
-    RCC.cr().modify(|v| v.set_hsi48on(true));
-    // warit for hsi48 ready
-    while !RCC.cr().read().hsi48rdy() {}
-
-    // hsi48 as iclk
-    RCC.ccipr1()
-        .modify(|v| v.set_iclksel(rcc::vals::Iclksel::HSI48));
-
-    // use hsi48 for sdmmc clock
-    RCC.ccipr2()
-        .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK));
-
-    // enable sdmmc clock
-    RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
-
-    // enable sdmmc2 clock
-    RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
-}
 // pub fn init_clock() {
+//     let mut config = embassy_stm32::Config::default();
+//     config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
+//     config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
+//     //                                                  // should better set in the rcc module. instead of here.
+//     let _p = embassy_stm32::init(config);
+//     // delay_enable(160_000_000);
+
 //     DBGMCU.cr().modify(|cr| {
 //         cr.set_dbg_stop(true);
 //         cr.set_dbg_standby(true);
 //     });
 //     delay_enable();
 //     set_gpio_clock();
-//     // RCC.ahb3enr().modify(|v| v.set_pwren(true)); // check when to enable pwr
-//     // PWR.dbpcr().modify(|v| v.set_dbp(true));
+
+//     // RCC.ahb3enr().modify(|w| {
+//     //     w.set_pwren(true);
+//     // });
+//     RCC.ahb3enr().modify(|v| v.set_pwren(true)); // check when to enable pwr
+//     RCC.ahb3enr().read(); // synchronize
+//     PWR.dbpcr().modify(|v| v.set_dbp(true));
 //     // RCC.bdcr().modify(|v| v.set_lseon(true));
 //     // while !RCC.bdcr().read().lsirdy() {}
 //     // set_cpu_freq(160_000_000);
 //     set_clock();
+//     delay_enable();
+//     unsafe {
+//         SYSTEM_CLOCK = 160_000_000;
+//     }
+//     RCC.ccipr1()
+//         .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
+//     RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
 
+//     RCC.ccipr3()
+//         .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::Icsel::HSI));
+//     RCC.apb3enr().modify(|v| v.set_i2c3en(true));
+
+//     // dcmi clock
+//     RCC.ahb2enr1().modify(|v| v.set_dcmien(true));
+//     // enable dma clock
+//     RCC.ahb1enr().modify(|v| v.set_gpdma1en(true));
+//     // enable gpioa clock
+//     RCC.ahb2enr1().modify(|v| {
+//         v.set_gpioaen(true);
+//         v.set_gpioben(true);
+//         v.set_gpiocen(true);
+//     });
+
+//     // enable gpioG clock
+//     RCC.ahb2enr1().modify(|v| v.set_gpiogen(true));
+
+//     // enable hsi48 clock
 //     RCC.cr().modify(|v| v.set_hsi48on(true));
 //     // warit for hsi48 ready
 //     while !RCC.cr().read().hsi48rdy() {}
+
+//     // hsi48 as iclk
+//     RCC.ccipr1()
+//         .modify(|v| v.set_iclksel(rcc::vals::Iclksel::HSI48));
+
+//     // use hsi48 for sdmmc clock
+//     RCC.ccipr2()
+//         .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK));
+
+//     // enable sdmmc clock
+//     RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
+
+//     // enable sdmmc2 clock
+//     RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
 // }
+pub fn init_clock() {
+    DBGMCU.cr().modify(|cr| {
+        cr.set_dbg_stop(true);
+        cr.set_dbg_standby(true);
+    });
+
+    let mut config = embassy_stm32::Config::default();
+    config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
+    config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
+    //                                                  // should better set in the rcc module. instead of here.
+    let _p = embassy_stm32::init(config);
+    delay_enable();
+    set_gpio_clock();
+    // RCC.ahb3enr().modify(|v| v.set_pwren(true)); // check when to enable pwr
+    // PWR.dbpcr().modify(|v| v.set_dbp(true));
+    // RCC.bdcr().modify(|v| v.set_lseon(true));
+    // while !RCC.bdcr().read().lsirdy() {}
+    // set_cpu_freq(160_000_000);
+    set_clock();
+
+    // RCC.cr().modify(|v| v.set_hsi48on(true));
+    // // warit for hsi48 ready
+    // while !RCC.cr().read().hsi48rdy() {}
+}
 /// set the cpu frequency to 160Mhz
 /// this is the maximum frequency
 /// The pll take msis 4Mhz as input source

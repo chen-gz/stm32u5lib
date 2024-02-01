@@ -11,9 +11,7 @@ const IMG_START_BLOCK: u32 = 10;
 const IMG_SIZE: u32 = 2000; // 2000 block = 2000 * 512 = 1M
 
 use embassy_stm32::{
-    bind_interrupts,
-    peripherals::{self},
-    usb_otg::{self, Driver, Instance},
+    bind_interrupts, peripherals::{self}, usb_otg::{self, Driver, Instance}
 };
 
 bind_interrupts!(struct Irqs {
@@ -133,7 +131,7 @@ async fn usb_handler<'d, T: Instance + 'd>(
         let command = ebcmd::Command::from_array(&buf[..n]);
         match command {
             ebcmd::Command::SetTim(year, month, day, hour, minute, second, period) => {
-                rtc::setup(year, month, day, hour, minute, second, period);
+                rtc::setup(year, month, day, hour, minute, second, period, stm32_metapac::rcc::vals::Rtcsel::LSI);
                 let res = ebcmd::Response::SetTim(0);
                 let (buf, len) = res.to_array();
                 class.write_packet(&buf[0..len]).await.unwrap();
