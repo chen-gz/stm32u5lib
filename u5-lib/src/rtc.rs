@@ -267,11 +267,11 @@ pub async fn rtc_interrupt() {
 
 use stm32_metapac::interrupt;
 static RTC_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-const LED_GREEN: gpio::GpioPort = gpio::PC3;
+// const LED_GREEN: gpio::GpioPort = gpio::PC3;
 
 #[interrupt]
 fn RTC() {
-    LED_GREEN.toggle();
+    // LED_GREEN.toggle();
     PWR.dbpcr().modify(|v| v.set_dbp(true)); // enable backup domain write
     defmt::info!("rtc interrupt with flag: {}", RTC.sr().read().0);
     let stat: u32 = RTC.sr().read().0;

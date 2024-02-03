@@ -11,7 +11,9 @@ const IMG_START_BLOCK: u32 = 10;
 const IMG_SIZE: u32 = 2000; // 2000 block = 2000 * 512 = 1M
 
 use embassy_stm32::{
-    bind_interrupts, peripherals::{self}, usb_otg::{self, Driver, Instance}
+    bind_interrupts,
+    peripherals::{self},
+    usb_otg::{self, Driver, Instance},
 };
 
 bind_interrupts!(struct Irqs {
@@ -70,12 +72,10 @@ pub async fn usb_task(sd_instace: SdInstance) {
     let usb_fut = usb.run(); // Run the USB device.
     let handler_fut = async {
         loop {
-            LED_BLUE.set_high();
             class.wait_connection().await;
-            LED_GREEN.set_high();
 
-            // u5_lib::clock::run_with_160mhz_async(|| async {
-            //     u5_lib::low_power::run_no_deep_sleep_async(|| async {
+            u5_lib::clock::run_with_160mhz_async(|| async {
+                u5_lib::low_power::run_no_deep_sleep_async(|| async {
                     // clock::set_clock_to_pll(); // fast clock for camera
                     // SIGNAL.signal(1);
                     // clock::set_clock_to_pll();
@@ -85,10 +85,10 @@ pub async fn usb_task(sd_instace: SdInstance) {
                     defmt::info!("disconnected");
                     // clock::set_clock_to_hsi();
                     // SIGNAL.signal(0);
-                // })
-                // .await;
-            // })
-            // .await;
+                })
+                .await;
+            })
+            .await;
             // LED_BLUE.set_high();
         }
     };
@@ -110,7 +110,6 @@ use eb_cmds as ebcmd;
 
 use crate::{LED_BLUE, LED_GREEN};
 
-
 async fn usb_handler<'d, T: Instance + 'd>(
     class: &mut CdcAcmClass<'d, Driver<'d, T>>,
     sd_instace: &SdInstance,
@@ -121,7 +120,6 @@ async fn usb_handler<'d, T: Instance + 'd>(
                                        // get sd instance from main task
                                        // let sd = SIGNAL_SD_INST.wait().await;
 
-
     // loop {
     //     let n = class.read_packet(&mut buf).await.unwrap();
     // }
@@ -131,7 +129,16 @@ async fn usb_handler<'d, T: Instance + 'd>(
         let command = ebcmd::Command::from_array(&buf[..n]);
         match command {
             ebcmd::Command::SetTim(year, month, day, hour, minute, second, period) => {
-                rtc::setup(year, month, day, hour, minute, second, period, stm32_metapac::rcc::vals::Rtcsel::LSI);
+                rtc::setup(
+                    year,
+                    month,
+                    day,
+                    hour,
+                    minute,
+                    second,
+                    period,
+                    stm32_metapac::rcc::vals::Rtcsel::LSI,
+                );
                 let res = ebcmd::Response::SetTim(0);
                 let (buf, len) = res.to_array();
                 class.write_packet(&buf[0..len]).await.unwrap();

@@ -45,7 +45,7 @@ pub fn hsi48_release() {
     }
     set_clock();
 }
-fn kernel_freq_160mhz_request() {
+pub fn kernel_freq_160mhz_request() {
     unsafe {
         CLOCK_REF.kernel_freq_160mhz += 1;
     }
@@ -86,7 +86,7 @@ static mut CLOCK_REF: ClockRef = ClockRef {
     hsi48: 1,
     msi: 0,
     lsi: 0,
-    kernel_freq_160mhz: 1,
+    kernel_freq_160mhz: 0,
     kernel_freq_80mhz: 0,
     kernel_freq_64mhz: 0,
     kernel_freq_48mhz: 0,
@@ -272,16 +272,7 @@ pub fn init_clock() {
     let _p = embassy_stm32::init(config);
     delay_enable();
     set_gpio_clock();
-    // RCC.ahb3enr().modify(|v| v.set_pwren(true)); // check when to enable pwr
-    // PWR.dbpcr().modify(|v| v.set_dbp(true));
-    // RCC.bdcr().modify(|v| v.set_lseon(true));
-    // while !RCC.bdcr().read().lsirdy() {}
-    // set_cpu_freq(160_000_000);
     set_clock();
-
-    // RCC.cr().modify(|v| v.set_hsi48on(true));
-    // // warit for hsi48 ready
-    // while !RCC.cr().read().hsi48rdy() {}
 }
 /// set the cpu frequency to 160Mhz
 /// this is the maximum frequency
@@ -289,11 +280,11 @@ pub fn init_clock() {
 /// m = 1, vco = 4Mhz * n (80) = 320Mhz, pll_p = 320 / p = 160Mhz, pll_q = 320 / q = 160Mhz, pll_r = 320 / r = 160Mhz
 /// pll1_r set to system clock
 fn set_cpu_freq_pll_msis_160mhz() {
-    RCC.cr().modify(|w| {
-        w.set_pllon(0, false);
-    });
+    // RCC.cr().modify(|w| {
+    //     w.set_pllon(0, false);
+    // });
     // wait for disable pll1
-    while RCC.cr().read().pllrdy(0) {}
+    // while RCC.cr().read().pllon() {}
 
     // 1. set pllm and pllsrc
     RCC.pll1cfgr().modify(|w| {
@@ -507,7 +498,7 @@ pub fn set_clock() {
         }
     };
     // current only support for 160Mhz and 4Mhz
-    set_cpu_freq(160_000_000);
+    set_cpu_freq(kernel_freq);
     unsafe {
         if CLOCK_REF.hsi16 > 0 {
             // enable hsi16

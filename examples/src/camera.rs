@@ -198,12 +198,29 @@ pub async fn capture(
     pic_buf: &mut [u8],
     sd: &SdInstance,
 ) {
-    pdwn.set_low(); // set power down to low. Enable camera
-    clock::delay_ms(5);
+    let cam_i2c: gi2c::I2cPort = gi2c::I2C3;
+    // pdwn.set_low(); // set power down to low. Enable camera
+    clock::delay_ms(1);
+    let mut reg_val = [0u8; 3];
+    reg_val[0] = (OV5640_SYSTEM_CTROL0 >> 8) as u8;
+    reg_val[1] = OV5640_SYSTEM_CTROL0 as u8;
+    reg_val[2] = 0x02;
+    cam_i2c.write(OV5640_I2C_ADDR, &reg_val).unwrap();
+    clock::delay_ms(200);
     dcmi.capture(dma::DCMI_DMA, &pic_buf[16..]).await;
     defmt::info!("finish take picture");
-    pdwn.set_high();
-    u5_lib::low_power::run_no_deep_sleep_async( || async {
+    // pdwn.set_high();
+    // 0x3008
+
+    let mut reg_val = [0u8; 3];
+    reg_val[0] = (OV5640_SYSTEM_CTROL0 >> 8) as u8;
+    reg_val[1] = OV5640_SYSTEM_CTROL0 as u8;
+    reg_val[2] = (1 << 6) | 0x02;
+
+    cam_i2c.write(OV5640_I2C_ADDR, &reg_val).unwrap();
+
+    u5_lib::low_power::run_no_deep_sleep_async(|| async {
         save_picture(pic_buf, &sd).await;
-    }).await;
+    })
+    .await;
 }

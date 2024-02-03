@@ -145,7 +145,7 @@ pub struct Executor {
     scb: SCB,
     // time_driver: &'static RtcDriver,
 }
-static mut REF_COUNT_DEEP: u32 = 1;
+static mut REF_COUNT_DEEP: u32 = 0;
 static mut REF_COUNT_STOP1: u32 = 0;
 static mut REF_COUNT_STOP2: u32 = 0;
 static mut REF_COUNT_STOP3: u32 = 0;
@@ -244,11 +244,11 @@ impl Executor {
         loop {
             unsafe {
                 EXECUTOR.as_mut().unwrap().inner.poll();
-                // self.configure_pwr();
-                // crate::clock::set_clock();
+                self.configure_pwr();
+                crate::clock::set_clock();
                 asm!("wfe");
-                // self.configure_pwr();
-                // crate::clock::set_clock();
+                self.configure_pwr();
+                crate::clock::set_clock();
             };
         }
     }

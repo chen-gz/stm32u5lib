@@ -75,7 +75,7 @@ fn setup_cam_clk() {
 fn setup_camera_dcmi() -> dcmi::DcmiPort {
     setup_cam_clk();
     CAM_PDWN.set_low();
-    clock::delay_ms(10);
+    clock::delay_ms(100);
     let cam_i2c: gi2c::I2cPort = gi2c::I2C3;
     cam_i2c.init(100_000, gpio::I2C3_SCL_PC0, gpio::I2C3_SDA_PB4);
     camera::setup_camera(cam_i2c);
@@ -93,9 +93,16 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
         gpio::DCMI_VSYNC_PB7,
         gpio::DCMI_PIXCLK_PA6,
     );
-    clock::delay_ms(1000); // avoid the green picture
-                           // CAM_PDWN.set_high();
-    CAM_PDWN.set_high();
+    LED_BLUE.set_low();
+    clock::delay_ms(5000); 
+    // CAM_PDWN.set_high();
+
+    let mut reg_val = [0u8; 3];
+    reg_val[0] = (ov5640_reg::OV5640_SYSTEM_CTROL0 >> 8) as u8;
+    reg_val[1] = ov5640_reg::OV5640_SYSTEM_CTROL0 as u8;
+    reg_val[2] = (1 << 6) | 0x02;
+
+    gi2c::I2C3.write(ov5640_reg::OV5640_I2C_ADDR, &reg_val).unwrap();
     dcmi
 }
 
@@ -115,18 +122,18 @@ fn init_sd() -> sdmmc::SdInstance {
 mod usb_util;
 use usb_util::usb_task;
 
-// #[cortex_m_rt::entry]
-// fn main() -> ! {
-//     Executor::take().run(|spawner| {
-//         // defmt::unwrap!(
-//         spawner.spawn(async_main(spawner)).unwrap();
-//         // );
-//     });
-// }
+#[cortex_m_rt::entry]
+fn main() -> ! {
+    Executor::take().run(|spawner| {
+        // defmt::unwrap!(
+        spawner.spawn(async_main(spawner)).unwrap();
+        // );
+    });
+}
 
-#[embassy_executor::main]
-// #[embassy_executor::task]
-async fn main(spawner: Spawner) {
+// #[embassy_executor::main]
+#[embassy_executor::task]
+async fn async_main(spawner: Spawner) {
     // async fn main(spawner: Spawner) {
 
     setup();
@@ -135,6 +142,7 @@ async fn main(spawner: Spawner) {
     LED_BLUE.set_high();
 
     let sd = init_sd();
+    LED_ORANGE.set_low();
     // share sd with usb task
 
     let dcmi = setup_camera_dcmi();
@@ -143,11 +151,9 @@ async fn main(spawner: Spawner) {
 
     spawner.spawn(usb_task(sd)).unwrap();
     spawner.spawn(btn()).unwrap();
-    CAM_PDWN.set_high();
+    // CAM_PDWN.set_high();
 
     LED_GREEN.set_low();
-    LED_ORANGE.set_low();
-    LED_BLUE.set_low();
     // PWR.cr1().modify(|v| v.set_lpms(pwr::vals::Lpms::STOP3));
     loop {
         clock::delay_ms(10);
@@ -198,7 +204,7 @@ async fn btn() {
         last_time = cur_time;
         if click_twice == false {
             unsafe {
-                if (TAKE_PIC) {
+                if TAKE_PIC {
                     TAKE_PIC = false;
                     LED_ORANGE.set_low();
                 } else {
@@ -210,6 +216,7 @@ async fn btn() {
         } else {
             // enter no deep sleep mode
             low_power::sleep_no_deep_request();
+            clock::kernel_freq_160mhz_request();
             defmt::info!("click twice");
             LED_BLUE.toggle();
         }
