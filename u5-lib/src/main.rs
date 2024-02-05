@@ -1,12 +1,9 @@
-
 #![feature(noop_waker)]
 #![no_std]
 #![no_main]
 use cortex_m_rt::entry;
 
 use u5_lib::clock;
-use u5_lib::dcmi;
-use u5_lib::dma;
 use u5_lib::gpio;
 
 use defmt_rtt as _;

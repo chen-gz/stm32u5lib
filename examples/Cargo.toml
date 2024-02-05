@@ -27,8 +27,9 @@ defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
 
 stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
-    "stm32u575ri",
+    # "stm32u575ri",
     # "stm32u575zi",
+    "stm32u5a5qj",
 ] }
 
 embassy-sync = { version = "0.2.0" }

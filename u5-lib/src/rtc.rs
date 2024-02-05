@@ -87,7 +87,8 @@ pub fn setup(
     delay_tick(10);
     RTC.wpr().write(|w| unsafe { w.0 = 0x53 }); // write protection disable
 
-    RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE)); // enter init mode
+    // RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::INITMODE)); // enter init mode
+    RTC.icsr().modify(|v| v.set_init(true)); // enter init mode
     while !RTC.icsr().read().initf() {} // wait for init mode ready
 
     // set prescale to 1Hz
@@ -155,8 +156,8 @@ pub fn setup(
             v.set_wutie(true);
         });
     }
-    RTC.icsr()
-        .modify(|v| v.set_init(rtc::vals::Init::FREERUNNINGMODE)); // exit init mode
+    // RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::FREERUNNINGMODE)); // exit init mode
+    RTC.icsr().modify(|v| v.set_init(false)); // exit init mode
 
     PWR.dbpcr().modify(|v| v.set_dbp(false)); // disable backup domain write
     RTC.wpr().write(|w| unsafe { w.0 = 0xFF }); // write protection enable
@@ -268,7 +269,6 @@ pub async fn rtc_interrupt() {
 use stm32_metapac::interrupt;
 static RTC_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 // const LED_GREEN: gpio::GpioPort = gpio::PC3;
-
 #[interrupt]
 fn RTC() {
     // LED_GREEN.toggle();

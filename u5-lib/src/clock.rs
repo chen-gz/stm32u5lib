@@ -95,7 +95,6 @@ static mut CLOCK_REF: ClockRef = ClockRef {
     kernel_freq_4mhz: 1,
 };
 
-use embassy_stm32::rcc::*;
 use stm32_metapac::{pwr, rcc, DBGMCU, FLASH, PWR, RCC};
 pub static mut SYSTEM_CLOCK: u32 = 4_000_000; // this is default value when the system start
 pub fn get_kernel_freq() -> u32 {
@@ -265,11 +264,11 @@ pub fn init_clock() {
         cr.set_dbg_standby(true);
     });
 
-    let mut config = embassy_stm32::Config::default();
-    config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
-    config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
+    // let mut config = embassy_stm32::Config::default();
+    // config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
+    // config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
     //                                                  // should better set in the rcc module. instead of here.
-    let _p = embassy_stm32::init(config);
+    // let _p = embassy_stm32::init(config);
     delay_enable();
     set_gpio_clock();
     set_clock();
@@ -289,14 +288,14 @@ fn set_cpu_freq_pll_msis_160mhz() {
     // 1. set pllm and pllsrc
     RCC.pll1cfgr().modify(|w| {
         w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::MSIS); // set pll source to msis
-        w.set_pllm(Pllm::DIV1); // set pllm to 1
+        w.set_pllm(stm32_metapac::rcc::vals::Pllm::DIV1); // set pllm to 1
         w.set_pllren(true); // enable pll1_r
     });
     RCC.pll1divr().modify(|v| {
-        v.set_plln(Plln::MUL80); // the default value is 129 (not valid )
-        v.set_pllr(Plldiv::DIV2); // this is default value
-        v.set_pllq(Plldiv::DIV2); // this is default value
-        v.set_pllp(Plldiv::DIV2); // this is default value
+        v.set_plln(stm32_metapac::rcc::vals::Plln::MUL80); // the default value is 129 (not valid )
+        v.set_pllr(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
+        v.set_pllq(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
+        v.set_pllp(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
     });
 
 

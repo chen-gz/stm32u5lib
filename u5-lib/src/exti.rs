@@ -1,7 +1,6 @@
 use cortex_m::peripheral::NVIC;
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
-use stm32_metapac::{exti, RCC};
-pub use stm32_metapac::EXTI;
+use stm32_metapac::{RCC};
 
 use crate::gpio::GpioPort;
 
@@ -19,7 +18,7 @@ macro_rules! define_exti_port {
 pub struct ExtiPort {
     gpio: GpioPort,
     line: usize,
-    reg: exti::Exti,
+    reg: stm32_metapac::exti::Exti,
 }
 
 impl ExtiPort {
@@ -47,7 +46,7 @@ impl ExtiPort {
         self.gpio.setup();
         unsafe {
             // NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
-            NVIC::unmask(interrupt::EXTI2);
+            NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
         }
         if self.line < 8 {
             self.reg.ftsr(0).modify(|v| v.set_line(self.line, true));
@@ -71,36 +70,11 @@ static EXTI2_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static mut EXTI2_SIGNAL_VALUE: u32 = 0;
 
 use stm32_metapac::interrupt;
-// define_exti_interrupt!(EXTI2, interrupt::EXTI2);
-// macro_rules! define_exti_interrupt {
-//     // ($($name:ident, $handler:ident),*) => {
-//     ($($handler:ident, $line:expr),*) => {
-//         $(
-//             #[interrupt]
-//             fn $handler() {
-//                 unsafe {
-//                     let stat = (((EXTI.fpr(0).read().0 >> $line) & 1) << 1)
-//                         | (EXTI.rpr(0).read().0 >> $line) & 1;
-//                     if EXTI2_SIGNAL.signaled() {
-//                         EXTI2_SIGNAL.signal(EXTI2_SIGNAL_VALUE | stat);
-//                         EXTI2_SIGNAL_VALUE |= stat;
-//                     } else {
-//                         EXTI2_SIGNAL.signal(stat);
-//                         EXTI2_SIGNAL_VALUE = stat;
-//                     }
-//                     EXTI.fpr(0).write(|v| v.set_line($line, true));
-//                     EXTI.rpr(0).write(|v| v.set_line($line, true));
-//                 }
-//             }
-//         )*
-//     };
-// }
-// define_exti_interrupt!(EXTI2, 2);
 #[interrupt]
 fn EXTI2(){
     unsafe {
-        let stat = (((EXTI.fpr(0).read().0 >> 2) & 1) << 1)
-            | (EXTI.rpr(0).read().0 >> 2) & 1;
+        let stat = (((stm32_metapac::EXTI.fpr(0).read().0 >> 2) & 1) << 1)
+            | (stm32_metapac::EXTI.rpr(0).read().0 >> 2) & 1;
         if EXTI2_SIGNAL.signaled() {
             EXTI2_SIGNAL.signal(EXTI2_SIGNAL_VALUE | stat);
             EXTI2_SIGNAL_VALUE |= stat;
@@ -108,8 +82,8 @@ fn EXTI2(){
             EXTI2_SIGNAL.signal(stat);
             EXTI2_SIGNAL_VALUE = stat;
         }
-        EXTI.fpr(0).write(|v| v.set_line(2, true));
-        EXTI.rpr(0).write(|v| v.set_line(2, true));
+        stm32_metapac::EXTI.fpr(0).write(|v| v.set_line(2, true));
+        stm32_metapac::EXTI.rpr(0).write(|v| v.set_line(2, true));
     }
 }
 

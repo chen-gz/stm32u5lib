@@ -60,7 +60,7 @@
 use core::arch::asm;
 use core::marker::PhantomData;
 use core::sync::atomic::{compiler_fence, Ordering};
-use stm32_metapac::{RCC, PWR, pwr};
+use stm32_metapac::{PWR, pwr};
 
 use cortex_m::peripheral::SCB;
 use embassy_executor::*;
@@ -117,7 +117,7 @@ static mut EXECUTOR: Option<Executor> = None;
 // }
 
 // #[cfg(stm32l5)]
-use stm32_metapac::pwr::vals::Lpms;
+// use stm32_metapac::pwr::vals::Lpms;
 
 // #[cfg(stm32l5)]
 // impl Into<Lpms> for StopMode {
@@ -146,10 +146,10 @@ pub struct Executor {
     // time_driver: &'static RtcDriver,
 }
 static mut REF_COUNT_DEEP: u32 = 0;
-static mut REF_COUNT_STOP1: u32 = 0;
-static mut REF_COUNT_STOP2: u32 = 0;
-static mut REF_COUNT_STOP3: u32 = 0;
-static mut REF_COUNT_STANDBY: u32 = 0;
+static mut _REF_COUNT_STOP1: u32 = 0;
+static mut _REF_COUNT_STOP2: u32 = 0;
+static mut _REF_COUNT_STOP3: u32 = 0;
+static mut _REF_COUNT_STANDBY: u32 = 0;
 pub fn sleep_no_deep_request() {
     unsafe {
         REF_COUNT_DEEP += 1;
@@ -200,10 +200,10 @@ impl Executor {
         })
     }
 
-    #[allow(unused_variables)]
-    fn configure_stop(&mut self) {
-        PWR.cr1().modify(|v| v.set_lpms(pwr::vals::Lpms::STOP3));
-    }
+    // #[allow(unused_variables)]
+    // fn configure_stop(&mut self) {
+    //     PWR.cr1().modify(|v| v.set_lpms(pwr::vals::Lpms::STOP3));
+    // }
 
     fn configure_pwr(&mut self) {
         // self.scb.clear_sleepdeep();
