@@ -53,9 +53,9 @@
 //!     // your application here...
 //! }
 //! ```
-//! 
-//! 
-//! 
+//!
+//!
+//!
 
 use core::arch::asm;
 use core::marker::PhantomData;
