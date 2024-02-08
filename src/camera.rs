@@ -193,7 +193,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     defmt::info!("finish write picture to sd card");
 }
 pub async fn capture(
-    pdwn: &gpio::GpioPort,
+    _pdwn: &gpio::GpioPort,
     dcmi: &dcmi::DcmiPort,
     pic_buf: &mut [u8],
     sd: &SdInstance,

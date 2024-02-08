@@ -60,7 +60,7 @@
 use core::arch::asm;
 use core::marker::PhantomData;
 use core::sync::atomic::{compiler_fence, Ordering};
-use stm32_metapac::{PWR, pwr};
+
 
 use cortex_m::peripheral::SCB;
 use embassy_executor::*;

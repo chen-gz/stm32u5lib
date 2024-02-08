@@ -3,8 +3,8 @@
 #![no_main]
 #![feature(type_alias_impl_trait)]
 
-use cortex_m_rt::entry;
-use u5_lib::{clock, exti, low_power};
+
+use u5_lib::{clock, exti};
 
 use u5_lib::gpio;
 
@@ -40,7 +40,7 @@ fn panic(_info: &PanicInfo) -> ! {
 
 #[embassy_executor::task]
 async fn btn() {
-    let mut last_time: (u8, u8, u8) = (0, 0, 0);
+    let _last_time: (u8, u8, u8) = (0, 0, 0);
     defmt::info!("waiting for btn");
     loop {
         exti::EXTI13_PC13.wait_for_raising().await;

@@ -6,14 +6,14 @@
 
 use defmt_rtt as _;
 use embassy_executor::Spawner;
-use u5_lib::{low_power::Executor, *};
+use u5_lib::{*};
 
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
 
 #[path = "../camera.rs"]
 mod camera;
 
-use stm32_metapac::{pwr, PWR, RCC};
+use stm32_metapac::{RCC};
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
     defmt::info!("panic");
@@ -143,7 +143,7 @@ async fn async_main(spawner: Spawner) {
     LED_ORANGE.set_low();
     // share sd with usb task
 
-    let dcmi = setup_camera_dcmi();
+    let _dcmi = setup_camera_dcmi();
 
     clock::delay_ms(10);
 
@@ -156,7 +156,7 @@ async fn async_main(spawner: Spawner) {
     loop {
         clock::delay_ms(10);
         const PIC_BUF_SIZE: usize = 512 * 1300; // 512byte * 1300 = 650K
-        let mut pic_buf = [0u8; PIC_BUF_SIZE];
+        let _pic_buf = [0u8; PIC_BUF_SIZE];
         loop {
             if unsafe { TAKE_PIC } == false {
                 rtc::rtc_interrupt().await;
