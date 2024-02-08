@@ -6,7 +6,7 @@
 			"command": "build",
 			"args": [
 				"--bin",
-				"sd_cam"
+				"btn"
 			],
 			"problemMatcher": [
 				"$rustc"

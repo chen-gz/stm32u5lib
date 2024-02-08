@@ -47,16 +47,17 @@ impl ExtiPort {
         unsafe {
             // NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
             NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
+            NVIC::unmask(stm32_metapac::Interrupt::EXTI13);
         }
-        if self.line < 8 {
+        // if self.line < 8 {
             self.reg.ftsr(0).modify(|v| v.set_line(self.line, true));
             // self.reg.rtsr(0).modify(|v| v.set_line(self.line, true));
             self.reg.imr(0).modify(|v| v.set_line(self.line, true));
             self.reg.emr(0).modify(|v| v.set_line(self.line, true));
-        } else {
-            self.reg.ftsr(1).modify(|v| v.set_line(self.line - 8, true));
-            self.reg.imr(1).modify(|v| v.set_line(self.line - 8, true));
-        }
+        // } else {
+        //     self.reg.ftsr(1).modify(|v| v.set_line(self.line - 8, true));
+        //     self.reg.imr(1).modify(|v| v.set_line(self.line - 8, true));
+        // }
         self.reg
             .exticr(self.line / 4)
             .modify(|v| v.set_exti(self.line % 4, self.exticr_from_port()));
@@ -64,10 +65,15 @@ impl ExtiPort {
         if self.line == 2 {
             EXTI2_SIGNAL.wait().await;
         }
+        else if self.line == 13 {
+            EXTI13_SIGNAL.wait().await;
+        }
     }
 }
 static EXTI2_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static mut EXTI2_SIGNAL_VALUE: u32 = 0;
+static EXTI13_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+static mut EXTI13_SIGNAL_VALUE: u32 = 0;
 
 use stm32_metapac::interrupt;
 #[interrupt]
@@ -87,9 +93,28 @@ fn EXTI2(){
     }
 }
 
+#[interrupt]
+fn EXTI13() {
+    unsafe {
+        let stat = (((stm32_metapac::EXTI.fpr(0).read().0 >> 13) & 1) << 1)
+            | (stm32_metapac::EXTI.rpr(0).read().0 >> 13) & 1;
+        if EXTI13_SIGNAL.signaled() {
+            EXTI13_SIGNAL.signal(EXTI13_SIGNAL_VALUE | stat);
+            EXTI13_SIGNAL_VALUE |= stat;
+        } else {
+            EXTI13_SIGNAL.signal(stat);
+            EXTI13_SIGNAL_VALUE = stat;
+        }
+        stm32_metapac::EXTI.fpr(0).write(|v| v.set_line(13, true));
+        stm32_metapac::EXTI.rpr(0).write(|v| v.set_line(13, true));
+    }
+
+}
+
 
 use crate::gpio::*;
 define_exti_port!(
-    EXTI2_PB2: GPIO_EXTI_PB2, 2
+    EXTI2_PB2: GPIO_EXTI_PB2, 2,
+    EXTI13_PC13: GPIO_EXTI_PC13, 13
     // EXTI3_PB3: GPIO_EXTI_PB3, 3
 );

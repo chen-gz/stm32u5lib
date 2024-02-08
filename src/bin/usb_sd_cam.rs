@@ -116,9 +116,9 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
 //     // });
 //     return sd;
 // }
-#[path = "../usb_util.rs"]
-mod usb_util;
-use usb_util::usb_task;
+// #[path = "../usb_util.rs"]
+// mod usb_util;
+// use usb_util::usb_task;
 
 // #[cortex_m_rt::entry]
 // fn main() -> ! {

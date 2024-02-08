@@ -2,10 +2,8 @@
 #![no_std]
 #![no_main]
 use cortex_m_rt::entry;
-
 use u5_lib::clock;
 use u5_lib::gpio;
-
 use defmt_rtt as _;
 use gpio::GpioPort;
 const GREEN: GpioPort = gpio::PB7;
@@ -26,7 +24,7 @@ fn main() -> ! {
     loop {
         GREEN.toggle();
         ORANGE.toggle();
-        clock::delay_ms(500);
+        clock::delay_ms(1000);
     }
 }
 

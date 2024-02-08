@@ -3,8 +3,6 @@
 use core::ptr::read;
 
 use crate::clock::{delay_ms, delay_tick, delay_us};
-use stm32_metapac::rcc;
-use stm32_metapac::RCC;
 use cortex_m::delay;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
@@ -13,6 +11,8 @@ use embassy_sync::signal::Signal;
 use futures::future::poll_fn;
 use futures::future::OkInto;
 use sdio_host::common_cmd::cmd;
+use stm32_metapac::rcc;
+use stm32_metapac::RCC;
 use stm32_metapac::{common, sdmmc::Sdmmc};
 // macro_rules! wait_for_event {
 //     ($fn_name:ident, $event:ident) => {
@@ -913,7 +913,7 @@ impl SdInstance {
                 // } else {
                 //     SDMMC2_WAKER = cx.waker().clone();
                 // }
-                SDMMC2_WAKER = cx.waker().clone();
+                // SDMMC2_WAKER = cx.waker().clone();
             }
             // cause by interrupt?
             let star = self.port.star().read();
@@ -1000,18 +1000,18 @@ impl SdInstance {
 //     }
 // }
 
-use core::task::Waker;
+// use core::task::Waker;
 use stm32_metapac::interrupt;
 
-static mut SDMMC1_WAKER: Waker = Waker::noop();
-static mut SDMMC2_WAKER: Waker = Waker::noop();
-
-#[interrupt]
-fn SDMMC1() {
-    unsafe {
-        SDMMC1_WAKER.wake_by_ref();
-    }
-}
+// static mut SDMMC1_WAKER: Waker = Waker::noop();
+// static mut SDMMC2_WAKER: Waker = Waker::noop();
+//
+// #[interrupt]
+// fn SDMMC1() {
+//     unsafe {
+//         SDMMC1_WAKER.wake_by_ref();
+//     }
+// }
 
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 static SIGNAL2: Signal<CriticalSectionRawMutex, u32> = Signal::new();
