@@ -26,7 +26,8 @@ futures = { version = "0.3.17", default-features = false, fetures = [
 ] }
 #stm32-data-e702b4d564bc9e3c8a5c0141a11efdc5f7ee8f24
 #stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
-stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-e702b4d564bc9e3c8a5c0141a11efdc5f7ee8f24", features = [
+# stm32-metapac = { path = "../stm32_data/", tag = "stm32-data-e702b4d564bc9e3c8a5c0141a11efdc5f7ee8f24", features = [
+stm32-metapac = { path = "../stm32_data/stm32-metapac", features = [
     "memory-x",
     "rt",
     # "stm32u575zi",
@@ -73,6 +74,24 @@ debug = true
 [lib]
 name = "u5_lib"
 path = "src/lib.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "btn"
+path = "src/bin/btn.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "led"
+path = "src/bin/led.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "usb_sd_cam"
+path = "src/bin/usb_sd_cam.rs"
 test = false
 bench = false
 
