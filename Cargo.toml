@@ -20,6 +20,7 @@ cortex-m = { version = "0.7.7", features = [
     "inline-asm",
     "critical-section-single-core",
 ] }
+critical-section = "1.1.2"
 cortex-m-rt = { version = "0.7.3" }
 futures = { version = "0.3.17", default-features = false, fetures = [
     "async-await",
@@ -42,6 +43,10 @@ git = "https://github.com/embassy-rs/embassy"
 rev = "a741571"
 
 [dependencies.embassy-usb]
+git = "https://github.com/embassy-rs/embassy"
+rev = "a741571"
+
+[dependencies.embassy-usb-driver]
 git = "https://github.com/embassy-rs/embassy"
 rev = "a741571"
 

@@ -10,7 +10,9 @@ pub mod ov5640_reg;
 pub mod sd_device;
 pub mod sdmmc;
 
-pub mod rtc;
 pub mod exti;
 pub mod low_power;
 pub mod lptim;
+pub mod rtc;
+
+pub mod usb;
