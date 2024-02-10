@@ -21,6 +21,8 @@ const IMG_SIZE: u32 = 2000; // 2000 block = 2000 * 512 = 1M
 //     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
 // });
 use futures::future::join;
+use u5_lib::gpio::{USB_DM_PA11, USB_DP_PA12};
+
 #[embassy_executor::task]
 pub async fn usb_task(sd_instace: SdInstance) {
     // let p = unsafe { embassy_stm32::Peripherals::steal() };
@@ -38,7 +40,7 @@ pub async fn usb_task(sd_instace: SdInstance) {
     //     config,
     // );
     let config = usb::Config::default();
-    let driver = u5_lib::usb::Driver::new(config);
+    let driver = u5_lib::usb::Driver::new(config,USB_DM_PA11, USB_DP_PA12);
     //
     // // Create embassy-usb Config
     let mut config = embassy_usb::Config::new(0xc0de, 0xcafe);

@@ -7,7 +7,6 @@
 use u5_lib::{clock, exti};
 
 use u5_lib::gpio;
-
 use defmt_rtt as _;
 use gpio::GpioPort;
 
@@ -43,6 +42,7 @@ async fn btn() {
     let _last_time: (u8, u8, u8) = (0, 0, 0);
     defmt::info!("waiting for btn");
     loop {
+        defmt::info!("button clicked");
         exti::EXTI13_PC13.wait_for_raising().await;
         GREEN.toggle();
     }

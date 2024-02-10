@@ -1,38 +1,70 @@
 use core::cell::UnsafeCell;
-use core::marker::PhantomData;
-use core::sync::atomic::{AtomicBool, AtomicU16, Ordering};
-use core::task::Poll;
+use core::{task::{Poll}, sync::atomic::{AtomicBool, AtomicU16, Ordering}};
 use cortex_m::peripheral::NVIC;
-use stm32_metapac::otg::vals;
-use stm32_metapac::{interrupt, USB_OTG_FS};
+use stm32_metapac::{otg::vals, interrupt, USB_OTG_FS};
 use critical_section;
 use stm32_metapac::otg;
+use futures::future::poll_fn;
+use defmt::{info, trace, error};
+use embassy_sync::waitqueue::AtomicWaker;
+use crate::gpio::GpioPort;
 
-fn regs() -> otg::Otg {
-    return stm32_metapac::USB_OTG_FS;
-}
+fn regs() -> otg::Otg { return stm32_metapac::USB_OTG_FS; }
 
 fn state() -> &'static State<MAX_EP_COUNT> {
     static STATE: State<MAX_EP_COUNT> = State::new();
     &STATE
 }
 
-// # pub const USB_OTG_FS: otg::Otg = unsafe { otg::Otg::from_ptr(0x4204_0000 as usize as _) };
-
 use embassy_usb_driver::{
     self, Bus as _, Direction, EndpointAddress, EndpointAllocError, EndpointError, EndpointIn,
     EndpointInfo, EndpointOut, EndpointType, Event, Unsupported,
 };
-use futures::future::poll_fn;
 
-use defmt::{info, trace, error};
-use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
-use embassy_sync::signal::Signal;
-use embassy_sync::waitqueue::AtomicWaker;
-use stm32_metapac::Interrupt::OTG_FS;
+static mut STATE: State<15> = State::new();
 
+pub struct State<const EP_COUNT: usize> {
+    /// Holds received SETUP packets. Available if [State::ep0_setup_ready] is true.
+    ep0_setup_data: [u8; 8],
+    ep0_setup_ready: AtomicBool,
+    ep_in_wakers: [AtomicWaker; EP_COUNT],
+    // ep_in_wakers: [Signal<CriticalSectionRawMutex, u32>; EP_COUNT],
+    ep_out_wakers: [AtomicWaker; EP_COUNT],
+    // ep_out_wakers: [Signal<CriticalSectionRawMutex, u32>; EP_COUNT],
+    /// RX FIFO is shared so extra buffers are needed to dequeue all data without waiting on each endpoint.
+    /// Buffers are ready when associated [State::ep_out_size] != [EP_OUT_BUFFER_EMPTY].
+    // ep_out_buffers: [UnsafeCell<*mut u8>; EP_COUNT],
+    ep_out_buffers: [[u8; 1024]; EP_COUNT],
+    ep_out_size: [AtomicU16; EP_COUNT],
+    bus_waker: AtomicWaker,
+    // bus_waker: Signal<CriticalSectionRawMutex, u32>,
+}
 
-static mut STATE: State<2> = State::new();
+unsafe impl<const EP_COUNT: usize> Send for State<EP_COUNT> {}
+
+unsafe impl<const EP_COUNT: usize> Sync for State<EP_COUNT> {}
+
+impl<const EP_COUNT: usize> State<EP_COUNT> {
+    /// Create a new State.
+    pub const fn new() -> Self {
+        // const NEW_AW: AtomicWaker = AtomicWaker::new();
+        // const NEW_AW: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+        const NEW_AW: AtomicWaker = AtomicWaker::new();
+        const NEW_BUF: UnsafeCell<*mut u8> = UnsafeCell::new(0 as _);
+        const NEW_SIZE: AtomicU16 = AtomicU16::new(EP_OUT_BUFFER_EMPTY);
+
+        Self {
+            // ep0_setup_data: UnsafeCell::new([0u8; 8]),
+            ep0_setup_data: [0u8; 8],
+            ep0_setup_ready: AtomicBool::new(false),
+            ep_in_wakers: [NEW_AW; EP_COUNT],
+            ep_out_wakers: [NEW_AW; EP_COUNT],
+            ep_out_buffers: [[0u8; 1024]; EP_COUNT],
+            ep_out_size: [NEW_SIZE; EP_COUNT],
+            bus_waker: NEW_AW,
+        }
+    }
+}
 
 unsafe fn on_interrupt() {
     info!("irq");
@@ -41,7 +73,7 @@ unsafe fn on_interrupt() {
     if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() {
         // wakeup interrupt, suspend interrupt, enumeration speed done interrupt, OTG interrupt, Session request (SRQ) interrupt
         // Mask interrupts and notify `Bus` to process them
-        r.gintmsk().write(|w| {});
+        r.gintmsk().write(|_w| {});
         STATE.bus_waker.wake();
         // BUS_WAKER_SIGNAL.signal(1);
         // T::state().bus_waker.wake();
@@ -53,7 +85,7 @@ unsafe fn on_interrupt() {
         // RX FIFO non-empty
         let status = r.grxstsp().read();
         // status read and popo pop register
-        trace!("=== status {:08x}", status.0);
+        info!("=== status {:08x}", status.0);
         let ep_num = status.epnum() as usize;
         let len = status.bcnt() as usize;
 
@@ -266,48 +298,6 @@ const EP_OUT_BUFFER_EMPTY: u16 = u16::MAX;
 
 //
 // /// USB OTG driver state.
-pub struct State<const EP_COUNT: usize> {
-    /// Holds received SETUP packets. Available if [State::ep0_setup_ready] is true.
-    ep0_setup_data: [u8; 8],
-    ep0_setup_ready: AtomicBool,
-    ep_in_wakers: [AtomicWaker; EP_COUNT],
-    // ep_in_wakers: [Signal<CriticalSectionRawMutex, u32>; EP_COUNT],
-    ep_out_wakers: [AtomicWaker; EP_COUNT],
-    // ep_out_wakers: [Signal<CriticalSectionRawMutex, u32>; EP_COUNT],
-    /// RX FIFO is shared so extra buffers are needed to dequeue all data without waiting on each endpoint.
-    /// Buffers are ready when associated [State::ep_out_size] != [EP_OUT_BUFFER_EMPTY].
-    // ep_out_buffers: [UnsafeCell<*mut u8>; EP_COUNT],
-    ep_out_buffers: [[u8; 1024]; EP_COUNT],
-    ep_out_size: [AtomicU16; EP_COUNT],
-    bus_waker: AtomicWaker,
-    // bus_waker: Signal<CriticalSectionRawMutex, u32>,
-}
-
-unsafe impl<const EP_COUNT: usize> Send for State<EP_COUNT> {}
-
-unsafe impl<const EP_COUNT: usize> Sync for State<EP_COUNT> {}
-
-impl<const EP_COUNT: usize> State<EP_COUNT> {
-    /// Create a new State.
-    pub const fn new() -> Self {
-        // const NEW_AW: AtomicWaker = AtomicWaker::new();
-        // const NEW_AW: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-        const NEW_AW: AtomicWaker = AtomicWaker::new();
-        const NEW_BUF: UnsafeCell<*mut u8> = UnsafeCell::new(0 as _);
-        const NEW_SIZE: AtomicU16 = AtomicU16::new(EP_OUT_BUFFER_EMPTY);
-
-        Self {
-            // ep0_setup_data: UnsafeCell::new([0u8; 8]),
-            ep0_setup_data: [0u8; 8],
-            ep0_setup_ready: AtomicBool::new(false),
-            ep_in_wakers: [NEW_AW; EP_COUNT],
-            ep_out_wakers: [NEW_AW; EP_COUNT],
-            ep_out_buffers: [[0u8; 1024]; EP_COUNT],
-            ep_out_size: [NEW_SIZE; EP_COUNT],
-            bus_waker: NEW_AW,
-        }
-    }
-}
 
 #[derive(Debug, Clone, Copy)]
 struct EndpointData {
@@ -388,7 +378,11 @@ impl Driver {
     // }
     pub fn new(
         config: Config,
+        DP: GpioPort,
+        DM: GpioPort,
     ) -> Self {
+        DP.setup();
+        DM.setup();
         Self {
             config,
             ep_in: [None; MAX_EP_COUNT],
@@ -420,18 +414,22 @@ impl Driver {
             // D::dir()
         );
         // find an unused endpoint
-        let index = (0..MAX_EP_COUNT)
-            .find(|&i| i != 0 || ep_type == EndpointType::Control)
-            .unwrap_or(0);
-        if index == 0 {
-            // no free endpoints
-            return Err(EndpointAllocError);
-        }
+        static mut index: u8 = 0;
+        unsafe {index += 1;}
+
+        // let index = (0..MAX_EP_COUNT)
+        //     .find(|&i| i != 0 || ep_type == EndpointType::Control)
+        //     .unwrap_or(0);
+        // defmt::info!("index: {:?}", index);
+        // if index == 0 {
+        //     // no free endpoints
+        //     return Err(EndpointAllocError);
+        // }
 
 
-        Ok(Endpoint{
+        Ok(Endpoint {
             info: EndpointInfo {
-                addr: EndpointAddress::from_parts(index, dir),
+                addr: EndpointAddress::from_parts(unsafe {index} as usize, dir),
                 ep_type,
                 max_packet_size,
                 interval_ms,
@@ -471,8 +469,8 @@ impl embassy_usb_driver::Driver<'_> for Driver {
         let ep_in = self
             .alloc_endpoint(EndpointType::Control, control_max_packet_size, 0, Direction::In)
             .unwrap();
-        assert_eq!(ep_out.info.addr.index(), 0);
-        assert_eq!(ep_in.info.addr.index(), 0);
+        // assert_eq!(ep_out.info.addr.index(), 0);
+        // assert_eq!(ep_in.info.addr.index(), 0);
 
         trace!("start");
 
@@ -502,6 +500,20 @@ pub struct Bus {
     inited: bool,
 }
 
+    fn restore_irqs() {
+        regs().gintmsk().write(|w| {
+            w.set_usbrst(true);
+            w.set_enumdnem(true);
+            w.set_usbsuspm(true);
+            w.set_wuim(true);
+            w.set_iepint(true);
+            w.set_oepint(true);
+            w.set_rxflvlm(true);
+            w.set_srqim(true);
+            w.set_otgint(true);
+        });
+    }
+
 impl Bus {
     fn restore_irqs() {
         regs().gintmsk().write(|w| {
@@ -520,25 +532,25 @@ impl Bus {
 
 impl Bus {
     fn init(&mut self) {
-            // Enable USB power
-            critical_section::with(|_| {
-                stm32_metapac::PWR.svmcr().modify(|w| {
-                    w.set_usv(true);
-                    w.set_uvmen(true);
-                });
+        // Enable USB power
+        critical_section::with(|_| {
+            stm32_metapac::PWR.svmcr().modify(|w| {
+                w.set_usv(true);
+                w.set_uvmen(true);
             });
+        });
 
-            // Wait for USB power to stabilize
-            while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
+        // Wait for USB power to stabilize
+        while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
 
-            // Select HSI48 as USB clock source.
-            critical_section::with(|_| {
-                // crate::pac::
-                stm32_metapac::RCC.ccipr1().modify(|w| {
-                    // w.set_iclksel(crate::pac::rcc::vals::Iclksel::HSI48);
-                    w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
-                })
-            });
+        // Select HSI48 as USB clock source.
+        critical_section::with(|_| {
+            // crate::pac::
+            stm32_metapac::RCC.ccipr1().modify(|w| {
+                // w.set_iclksel(crate::pac::rcc::vals::Iclksel::HSI48);
+                w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
+            })
+        });
 
         // <T as RccPeripheral>::enable_and_reset();
         stm32_metapac::RCC.ahb2enr1().modify(|w| w.set_usb_otg_fsen(true));
@@ -549,6 +561,8 @@ impl Bus {
         unsafe {
             NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
             NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
+            restore_irqs();
+            
         }
 
 
@@ -695,7 +709,7 @@ impl Bus {
         trace!("configure_endpoints");
 
         // let r = T::regs();
-        let r =     regs();
+        let r = regs();
 
         // Configure IN endpoints
         for (index, ep) in self.ep_in.iter().enumerate() {
@@ -842,7 +856,8 @@ impl embassy_usb_driver::Bus for Bus {
                 trace!("enumdne");
 
                 let speed = r.dsts().read().enumspd();
-                let trdt = calculate_trdt(speed, 160_000_000); //TODO: get HCLK frequency
+                let trdt = calculate_trdt(speed, 160_000_000);
+                //TODO: get HCLK frequency
                 trace!("  speed={} trdt={}", speed.to_bits(), trdt);
                 r.gusbcfg().modify(|w| w.set_trdt(trdt));
 
@@ -1162,7 +1177,7 @@ impl embassy_usb_driver::EndpointOut for Endpoint {
 }
 
 // impl<'d, T: Instance> embassy_usb_driver::EndpointIn for Endpoint<'d, T, In> {
-impl embassy_usb_driver::EndpointIn for Endpoint{
+impl embassy_usb_driver::EndpointIn for Endpoint {
     async fn write(&mut self, buf: &[u8]) -> Result<(), EndpointError> {
         trace!("write ep={:?} data={:?}", self.info.addr, buf);
 
@@ -1250,7 +1265,7 @@ impl embassy_usb_driver::EndpointIn for Endpoint{
             tmp[0..chunk.len()].copy_from_slice(chunk);
             r.fifo(index)
                 .write_value(stm32_metapac::otg::regs::Fifo(u32::from_ne_bytes(tmp)));
-                // .write_value(regs::Fifo(u32::from_ne_bytes(tmp)));
+            // .write_value(regs::Fifo(u32::from_ne_bytes(tmp)));
         }
 
         trace!("write done ep={:?}", self.info.addr);
@@ -1311,7 +1326,7 @@ impl embassy_usb_driver::ControlPipe for ControlPipe {
                 Poll::Pending
             }
         })
-        .await
+            .await
     }
 
     async fn data_out(
@@ -1420,6 +1435,7 @@ fn ep0_mpsiz(max_packet_size: u16) -> u16 {
         other => panic!("Unsupported EP0 size: {}", other),
     }
 }
+
 //
 fn calculate_trdt(speed: vals::Dspd, ahb_freq: u32) -> u8 {
     match speed {
@@ -1625,7 +1641,7 @@ const ENDPOINT_COUNT: usize = 9;
 // );
 // use stm32_metapac::Interrupt::OTG_FS;
 #[interrupt]
-fn OTG_FS(){
+fn OTG_FS() {
     unsafe {
         on_interrupt();
     }

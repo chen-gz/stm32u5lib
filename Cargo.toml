@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-defmt = { version = "0.3.5" }
+defmt = { version = "0.3.6" }
 defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
 sdio-host = { version = "0.9.0" }
@@ -73,7 +73,7 @@ features = ["defmt"]
 # rev = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64"
 
 [profile.dev]
-lto = true
+lto = false
 opt-level = "z"
 debug = true
 

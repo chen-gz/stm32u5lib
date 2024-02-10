@@ -10,7 +10,7 @@ use embassy_usb::{
     driver::EndpointError,
     Builder,
 };
-use u5_lib::{clock, gpio, rtc, sdmmc::SdInstance, *};
+use u5_lib::{clock, gpio, *};
 use u5_lib::{exti};
 
 use defmt_rtt as _;
@@ -36,7 +36,16 @@ use embassy_executor::Spawner;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
+    defmt::info!("panic");
+    defmt::error!(
+        "Location file name: {:?}, line: {:?}, col: {:?}",
+        _info.location().unwrap().file(),
+        _info.location().unwrap().line(),
+        _info.location().unwrap().column()
+    );
+
     loop {}
+    // loop {}
 }
 
 #[embassy_executor::task]
@@ -44,6 +53,7 @@ async fn btn() {
     let _last_time: (u8, u8, u8) = (0, 0, 0);
     defmt::info!("waiting for btn");
     loop {
+        defmt::info!("button clicked");
         exti::EXTI13_PC13.wait_for_raising().await;
         GREEN.toggle();
     }
@@ -65,13 +75,13 @@ const IMG_SIZE: u32 = 2000; // 2000 block = 2000 * 512 = 1M
 //     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
 // });
 use futures::future::join;
-use sdio_host::sd_cmd::speed_class_control;
+
 
 #[embassy_executor::task]
 pub async fn usb_task() {
     // let p = unsafe { embassy_stm32::Peripherals::steal() };
     // init USB CDC
-    let mut ep_out_buffer = [0u8; 256];
+    let _ep_out_buffer = [0u8; 256];
     // let mut config = embassy_stm32::usb_otg::Config::default();
     // config.vbus_detection = true;
     // config.vbus_detection = false;
@@ -84,8 +94,8 @@ pub async fn usb_task() {
     //     config,
     // );
     let config = usb::Config::default();
-    let driver = u5_lib::usb::Driver::new(config);
-    //
+    let driver = u5_lib::usb::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
+
     // // Create embassy-usb Config
     let mut config = embassy_usb::Config::new(0xc0de, 0xcafe);
     config.manufacturer = Some("Embassy");
