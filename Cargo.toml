@@ -45,10 +45,12 @@ rev = "a741571"
 [dependencies.embassy-usb]
 git = "https://github.com/embassy-rs/embassy"
 rev = "a741571"
+features = ["defmt"]
 
 [dependencies.embassy-usb-driver]
 git = "https://github.com/embassy-rs/embassy"
 rev = "a741571"
+features = ["defmt"]
 
 #[dependencies.embassy-stm32]
 #features = [
@@ -100,6 +102,13 @@ path = "src/bin/usb_sd_cam.rs"
 test = false
 bench = false
 
+[[bin]]
+name =  "usb_u575"
+path = "src/bin/usb_u575.rs"
+test = false
+bench = false
+
+
 
 # add default features for all supported chips
 
@@ -108,8 +117,10 @@ bench = false
 default = [
     #    "stm32u575zi",
     "stm32u575ri",
+    "defmt",
     #    "stm32u5a5qj",
 ]
+defmt = []
 #! ## Chip-selection features
 #! Select your chip by specifying the model as a feature, e.g. `stm32c011d6`.
 #! Check the `Cargo.toml` for the latest list of supported chips.

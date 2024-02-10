@@ -116,9 +116,9 @@ fn setup_camera_dcmi() -> dcmi::DcmiPort {
 //     // });
 //     return sd;
 // }
-// #[path = "../usb_util.rs"]
-// mod usb_util;
-// use usb_util::usb_task;
+#[path = "../usb_util.rs"]
+mod usb_util;
+use usb_util::usb_task;
 
 // #[cortex_m_rt::entry]
 // fn main() -> ! {
@@ -143,7 +143,7 @@ async fn async_main(spawner: Spawner) {
     LED_ORANGE.set_low();
     // share sd with usb task
 
-    let _dcmi = setup_camera_dcmi();
+    // let _dcmi = setup_camera_dcmi();
 
     clock::delay_ms(10);
 
