@@ -29,6 +29,9 @@ async fn main(spawner: Spawner) {
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();
     spawner.spawn(usb_task()).unwrap();
+    loop{
+        rtc:: rtc_interrupt().await;
+    }
 }
 
 use core::panic::PanicInfo;
@@ -45,7 +48,6 @@ fn panic(_info: &PanicInfo) -> ! {
     );
 
     loop {}
-    // loop {}
 }
 
 #[embassy_executor::task]

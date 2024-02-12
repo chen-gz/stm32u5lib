@@ -74,7 +74,7 @@ features = ["defmt"]
 
 [profile.dev]
 lto = false
-opt-level = "z"
+opt-level = 3
 debug = true
 
 

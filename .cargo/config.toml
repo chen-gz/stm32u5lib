@@ -8,4 +8,4 @@ runner = "probe-rs run --chip STM32U575ZITx"
 # rustflags = ["-C", "link-arg=-Tlink.x"]
 
 [env]
-DEFMT_LOG = "info"
+DEFMT_LOG = "trace"

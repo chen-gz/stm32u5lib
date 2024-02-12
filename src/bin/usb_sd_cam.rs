@@ -156,7 +156,7 @@ async fn async_main(spawner: Spawner) {
     loop {
         clock::delay_ms(10);
         const PIC_BUF_SIZE: usize = 512 * 1300; // 512byte * 1300 = 650K
-        let _pic_buf = [0u8; PIC_BUF_SIZE];
+        // let _pic_buf = [0u8; PIC_BUF_SIZE];
         loop {
             if unsafe { TAKE_PIC } == false {
                 rtc::rtc_interrupt().await;

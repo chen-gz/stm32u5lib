@@ -3,18 +3,17 @@
 #![no_main]
 #![feature(type_alias_impl_trait)]
 
-
 use u5_lib::{clock, exti};
-
-use u5_lib::gpio;
 use defmt_rtt as _;
 use gpio::GpioPort;
+use u5_lib::gpio;
 
 const GREEN: GpioPort = gpio::PB7;
 
 fn setup() {
     GREEN.setup();
 }
+use u5_lib::rtc;
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -22,13 +21,11 @@ async fn main(spawner: Spawner) {
     setup();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();
-
-    // loop {
-    // GREEN.toggle();
-    // clock::delay_ms(1000);
-    // }
+    // clock::delay_ms(300);
+    loop {
+        rtc::rtc_interrupt().await;
+    }
 }
-
 use core::panic::PanicInfo;
 use embassy_executor::Spawner;
 

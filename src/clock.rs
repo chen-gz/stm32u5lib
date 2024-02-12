@@ -78,7 +78,7 @@ where
 }
 
 static mut CLOCK_REF: ClockRef = ClockRef {
-    hsi16: 0,
+    hsi16: 1,
     hse: 0,
     pll1: 0,
     pll2: 0,
@@ -95,6 +95,7 @@ static mut CLOCK_REF: ClockRef = ClockRef {
     kernel_freq_4mhz: 1,
 };
 
+use defmt::info;
 use stm32_metapac::{pwr, rcc, DBGMCU, FLASH, PWR, RCC};
 pub static mut SYSTEM_CLOCK: u32 = 4_000_000; // this is default value when the system start
 pub fn get_kernel_freq() -> u32 {
@@ -502,6 +503,7 @@ pub fn set_clock() {
     };
     // current only support for 160Mhz and 4Mhz
     set_cpu_freq(kernel_freq);
+    info!("kernel freq: {}", kernel_freq);
     unsafe {
         if CLOCK_REF.hsi16 > 0 {
             // enable hsi16

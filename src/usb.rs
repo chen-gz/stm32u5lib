@@ -542,6 +542,7 @@ impl Bus {
 
         // Wait for USB power to stabilize
         while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
+        trace!("USB power stabilized");
 
         // Select HSI48 as USB clock source.
         critical_section::with(|_| {
@@ -559,9 +560,11 @@ impl Bus {
 
         // unsafe { T::Interrupt::enable() };
         unsafe {
-            NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
+            // NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
             NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
+            // NVIC::unmask(stm32_metapac::Interrupt)
             restore_irqs();
+            trace!("USB IRQs restored");
             
         }
 
@@ -774,9 +777,9 @@ impl Bus {
     fn disable(&mut self) {
 
         // Interrupt::disable();
-        unsafe {
-            NVIC::mask(stm32_metapac::Interrupt::OTG_FS);
-        }
+        // unsafe {
+        //     NVIC::mask(stm32_metapac::Interrupt::OTG_FS);
+        // }
 
 
         // TODO: disable USB peripheral
@@ -1642,8 +1645,11 @@ const ENDPOINT_COUNT: usize = 9;
 // use stm32_metapac::Interrupt::OTG_FS;
 #[interrupt]
 fn OTG_FS() {
+    info!("OTG_FS interrupt");
     unsafe {
         on_interrupt();
     }
 }
 
+
+// #[interrupt]
