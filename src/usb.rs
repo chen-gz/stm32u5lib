@@ -1,7 +1,10 @@
+/// TODO:
+/// 1. high speed is not supported
+///    -dcfg.dspd = 0b11 for current file
 use core::cell::UnsafeCell;
 use core::{task::{Poll}, sync::atomic::{AtomicBool, AtomicU16, Ordering}};
 use cortex_m::peripheral::NVIC;
-use stm32_metapac::{otg::vals, interrupt, USB_OTG_FS};
+use stm32_metapac::{otg::vals, USB_OTG_FS};
 use critical_section;
 use stm32_metapac::otg;
 use futures::future::poll_fn;
@@ -67,10 +70,13 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
 }
 
 unsafe fn on_interrupt() {
-    info!("irq");
+    
     let r = USB_OTG_FS;
     let ints = r.gintsts().read(); // core interrupt status
-    if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() {
+    // info!("irq with state {:?}, and mask {:?}", ints.0, r.gintmsk().read().0);
+    //show in hex
+    info!("irq with state {:08x}, and mask {:08x}", ints.0, r.gintmsk().read().0);
+    if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst() {
         // wakeup interrupt, suspend interrupt, enumeration speed done interrupt, OTG interrupt, Session request (SRQ) interrupt
         // Mask interrupts and notify `Bus` to process them
         r.gintmsk().write(|_w| {});
@@ -82,6 +88,7 @@ unsafe fn on_interrupt() {
 
     // Handle RX
     while r.gintsts().read().rxflvl() {
+        info!("rxflvl");
         // RX FIFO non-empty
         let status = r.grxstsp().read();
         // status read and popo pop register
@@ -180,6 +187,7 @@ unsafe fn on_interrupt() {
 
     // IN endpoint interrupt
     if ints.iepint() {
+        info!("iepint");
         let mut ep_mask = r.daint().read().iepint();
         let mut ep_num = 0;
 
@@ -389,7 +397,7 @@ impl Driver {
             ep_out: [None; MAX_EP_COUNT],
             ep_out_buffer: [[0; 1024]; MAX_EP_COUNT],
             ep_out_buffer_offset: 0,
-            phy_type: PhyType::InternalHighSpeed,
+            phy_type: PhyType::InternalFullSpeed,
         }
     }
 
@@ -554,7 +562,13 @@ impl Bus {
         });
 
         // <T as RccPeripheral>::enable_and_reset();
-        stm32_metapac::RCC.ahb2enr1().modify(|w| w.set_usb_otg_fsen(true));
+        // stm32_metapac::RCC.ahb2enr1().modify(|w| w.set_usb_otg_fsen(true));
+        stm32_metapac::RCC .ahb2enr1()
+            .modify(|w| w.set_usb_otg_fsen(true));
+        // stm32_metapac::RCC .ahb2rstr1()
+        //     .modify(|w| w.set_usb_otg_fsrst(true));
+        // stm32_metapac::RCC .ahb2rstr1()
+        //     .modify(|w| w.set_usb_otg_fsrst(false));
 
         // T::Interrupt::unpend();
 
@@ -597,6 +611,7 @@ impl Bus {
                 // F429-like chips have the GCCFG.NOVBUSSENS bit
                 r.gccfg_v1().modify(|w| {
                     w.set_novbussens(!self.config.vbus_detection);
+                    // w.set_novbussens(!false);
                     w.set_vbusasen(false);
                     w.set_vbusbsen(self.config.vbus_detection);
                     w.set_sofouten(false);
@@ -777,9 +792,9 @@ impl Bus {
     fn disable(&mut self) {
 
         // Interrupt::disable();
-        // unsafe {
-        //     NVIC::mask(stm32_metapac::Interrupt::OTG_FS);
-        // }
+        unsafe {
+            NVIC::mask(stm32_metapac::Interrupt::OTG_FS);
+        }
 
 
         // TODO: disable USB peripheral
@@ -1465,7 +1480,8 @@ fn calculate_trdt(speed: vals::Dspd, ahb_freq: u32) -> u8 {
                 24_000_000..=27_499_999 => 0x8,
                 27_500_000..=31_999_999 => 0x7, // 27.7..32 in code from CubeIDE
                 32_000_000..=u32::MAX => 0x6,
-            }
+            };
+            0x6
         }
         _ => unimplemented!(),
     }
@@ -1643,6 +1659,8 @@ const ENDPOINT_COUNT: usize = 9;
 //     };
 // );
 // use stm32_metapac::Interrupt::OTG_FS;
+
+use stm32_metapac::interrupt;
 #[interrupt]
 fn OTG_FS() {
     info!("OTG_FS interrupt");

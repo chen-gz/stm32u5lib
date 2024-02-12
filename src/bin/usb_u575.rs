@@ -50,6 +50,7 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
+use cortex_m::peripheral::NVIC;
 #[embassy_executor::task]
 async fn btn() {
     let _last_time: (u8, u8, u8) = (0, 0, 0);
@@ -57,7 +58,18 @@ async fn btn() {
     loop {
         defmt::info!("button clicked");
         exti::EXTI13_PC13.wait_for_raising().await;
+        defmt::info!("control & sts   0x{:08x}", stm32_metapac::USB_OTG_FS.gotgctl().read().0);
+        defmt::info!("ahb config      0x{:08x}", stm32_metapac::USB_OTG_FS.gahbcfg().read().0);
+        defmt::info!("int mask:       0x{:08x}", stm32_metapac::USB_OTG_FS.gintmsk().read().0);
+        defmt::info!("int status:     0x{:08x}", stm32_metapac::USB_OTG_FS.gintsts().read().0);
+        // read top of the stack
+        defmt::info!("rxstsr          0x{:08x}", stm32_metapac::USB_OTG_FS.grxstsr().read().0);
+        defmt::info!("reset control   0x{:08x}", stm32_metapac::USB_OTG_FS.grstctl().read().0);
+        // defmt::info!("NVIC            0x{:08x}", NVIC:
+        defmt::info!("NVIC            {:?}", NVIC::is_enabled(stm32_metapac::Interrupt::OTG_FS));
+        defmt::info!("NVIC            {:?}", NVIC::is_pending(stm32_metapac::Interrupt::OTG_FS));
         GREEN.toggle();
+
     }
 }
 
@@ -95,7 +107,8 @@ pub async fn usb_task() {
     //     &mut ep_out_buffer,
     //     config,
     // );
-    let config = usb::Config::default();
+    let mut config = usb::Config::default();
+    config.vbus_detection = false;
     let driver = u5_lib::usb::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
 
     // // Create embassy-usb Config
