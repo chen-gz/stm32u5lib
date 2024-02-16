@@ -14,6 +14,15 @@ use u5_lib::{clock, gpio, *};
 use u5_lib::{exti};
 
 use defmt_rtt as _;
+
+
+// define defmt format 
+#[derive(defmt::Format)]
+pub enum UsbError {
+    BufferOverflow,
+    Disabled,
+}
+
 use gpio::GpioPort;
 
 const GREEN: GpioPort = gpio::PB7;
@@ -120,13 +129,13 @@ pub async fn usb_task() {
     config.device_class = 0xEF;
     config.device_sub_class = 0x02;
     config.device_protocol = 0x01;
-    config.composite_with_iads = true;
+    config.composite_with_iads = false;
 
-    let mut device_descriptor = [0; 256];
-    let mut config_descriptor = [0; 256];
-    let mut bos_descriptor = [0; 256];
+    let mut device_descriptor = [0; 512];
+    let mut config_descriptor = [0; 512];
+    let mut bos_descriptor = [0; 512];
     let mut control_buf = [0; 64];
-    let mut msos_descriptor = [0; 256];
+    let mut msos_descriptor = [0; 512];
 
     let mut state = State::new();
 
@@ -148,8 +157,8 @@ pub async fn usb_task() {
         loop {
             class.wait_connection().await;
 
-            u5_lib::clock::run_with_160mhz_async(|| async {
-                u5_lib::low_power::run_no_deep_sleep_async(|| async {
+            // u5_lib::clock::run_with_160mhz_async(|| async {
+            //     u5_lib::low_power::run_no_deep_sleep_async(|| async {
                     // clock::set_clock_to_pll(); // fast clock for camera
                     // SIGNAL.signal(1);
                     // clock::set_clock_to_pll();
@@ -159,10 +168,10 @@ pub async fn usb_task() {
                     defmt::info!("disconnected");
                     // clock::set_clock_to_hsi();
                     // SIGNAL.signal(0);
-                })
-                    .await;
-            })
-                .await;
+            //     })
+            //         .await;
+            // })
+            //     .await;
             // LED_BLUE.set_high();
         }
     };

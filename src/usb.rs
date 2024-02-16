@@ -14,10 +14,6 @@ use crate::gpio::GpioPort;
 
 fn regs() -> otg::Otg { return stm32_metapac::USB_OTG_FS; }
 
-fn state() -> &'static State<MAX_EP_COUNT> {
-    static STATE: State<MAX_EP_COUNT> = State::new();
-    &STATE
-}
 
 use embassy_usb_driver::{
     self, Bus as _, Direction, EndpointAddress, EndpointAllocError, EndpointError, EndpointIn,
@@ -25,6 +21,10 @@ use embassy_usb_driver::{
 };
 
 static mut STATE: State<15> = State::new();
+fn state() -> &'static State<MAX_EP_COUNT> {
+    // static STATE: State<MAX_EP_COUNT> = State::new();
+    unsafe {&STATE}
+}
 
 pub struct State<const EP_COUNT: usize> {
     /// Holds received SETUP packets. Available if [State::ep0_setup_ready] is true.
@@ -72,6 +72,7 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
 unsafe fn on_interrupt() {
     
     let r = USB_OTG_FS;
+    r.gintmsk().write(|_w| {});
     let ints = r.gintsts().read(); // core interrupt status
     // info!("irq with state {:?}, and mask {:?}", ints.0, r.gintmsk().read().0);
     //show in hex
@@ -79,7 +80,6 @@ unsafe fn on_interrupt() {
     if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst() {
         // wakeup interrupt, suspend interrupt, enumeration speed done interrupt, OTG interrupt, Session request (SRQ) interrupt
         // Mask interrupts and notify `Bus` to process them
-        r.gintmsk().write(|_w| {});
         STATE.bus_waker.wake();
         // BUS_WAKER_SIGNAL.signal(1);
         // T::state().bus_waker.wake();
@@ -125,6 +125,7 @@ unsafe fn on_interrupt() {
                     // data[0..4].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
                     // data[4..8].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
                     state.ep0_setup_ready.store(true, Ordering::Release);
+                    trace!("SETUP packet received, waking up");
                     state.ep_out_wakers[0].wake();
                 } else {
                     error!("received SETUP before previous finished processing");
@@ -176,9 +177,11 @@ unsafe fn on_interrupt() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_DONE => {
                 trace!("SETUP_DATA_DONE ep={}", ep_num);
 
+                // r.doepctl(ep_num).modify(|w| w.set_cnak(false));
+                // TODO: waht happen here ? 
                 if quirk_setup_late_cnak(r) {
                     // Clear NAK to indicate we are ready to receive more data
-                    r.doepctl(ep_num).modify(|w| w.set_cnak(true));
+                    r.doepctl(ep_num).modify(|w| w.set_cnak(false));
                 }
             }
             x => trace!("unknown PKTSTS: {}", x.to_bits()),
@@ -194,6 +197,10 @@ unsafe fn on_interrupt() {
         // Iterate over endpoints while there are non-zero bits in the mask
         while ep_mask != 0 {
             if ep_mask & 1 != 0 {
+                // get the interrupt mask 
+                info!("device in endpoint interrupt mask: {:08x}", r.diepmsk().read().0);
+
+
                 let ep_ints = r.diepint(ep_num).read();
 
                 // clear all
@@ -214,8 +221,18 @@ unsafe fn on_interrupt() {
 
             ep_mask >>= 1;
             ep_num += 1;
+
         }
     }
+
+    if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst() 
+        {
+
+        }
+        else {
+    start_irq();
+
+        }
 
     // not needed? reception handled in rxflvl
     // OUT endpoint interrupt
@@ -423,7 +440,27 @@ impl Driver {
         );
         // find an unused endpoint
         static mut index: u8 = 0;
-        unsafe {index += 1;}
+
+        let mut  tmp_index = unsafe {index};
+        if ep_type == EndpointType::Control{
+            tmp_index = 0;
+        }
+        else {
+            unsafe {
+                tmp_index = index;
+                index += 1;
+            }
+        }
+        let info = EndpointInfo {
+            addr: EndpointAddress::from_parts(tmp_index as usize, dir),
+            ep_type,
+            max_packet_size,
+            interval_ms,
+        };
+        Ok(Endpoint {
+            info,
+        })
+
 
         // let index = (0..MAX_EP_COUNT)
         //     .find(|&i| i != 0 || ep_type == EndpointType::Control)
@@ -435,14 +472,14 @@ impl Driver {
         // }
 
 
-        Ok(Endpoint {
-            info: EndpointInfo {
-                addr: EndpointAddress::from_parts(unsafe {index} as usize, dir),
-                ep_type,
-                max_packet_size,
-                interval_ms,
-            },
-        })
+        // Ok(Endpoint {
+        //     info: EndpointInfo {
+        //         addr: EndpointAddress::from_parts(unsafe {index} as usize, dir),
+        //         ep_type,
+        //         max_packet_size,
+        //         interval_ms,
+        //     },
+        // })
     }
 }
 
@@ -508,7 +545,7 @@ pub struct Bus {
     inited: bool,
 }
 
-    fn restore_irqs() {
+    fn start_irq() {
         regs().gintmsk().write(|w| {
             w.set_usbrst(true);
             w.set_enumdnem(true);
@@ -547,41 +584,24 @@ impl Bus {
                 w.set_uvmen(true);
             });
         });
-
         // Wait for USB power to stabilize
         while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
         trace!("USB power stabilized");
 
         // Select HSI48 as USB clock source.
         critical_section::with(|_| {
-            // crate::pac::
             stm32_metapac::RCC.ccipr1().modify(|w| {
-                // w.set_iclksel(crate::pac::rcc::vals::Iclksel::HSI48);
                 w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
             })
         });
-
-        // <T as RccPeripheral>::enable_and_reset();
-        // stm32_metapac::RCC.ahb2enr1().modify(|w| w.set_usb_otg_fsen(true));
         stm32_metapac::RCC .ahb2enr1()
             .modify(|w| w.set_usb_otg_fsen(true));
-        // stm32_metapac::RCC .ahb2rstr1()
-        //     .modify(|w| w.set_usb_otg_fsrst(true));
-        // stm32_metapac::RCC .ahb2rstr1()
-        //     .modify(|w| w.set_usb_otg_fsrst(false));
-
-        // T::Interrupt::unpend();
-
-        // unsafe { T::Interrupt::enable() };
         unsafe {
-            // NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
+            NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
             NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
-            // NVIC::unmask(stm32_metapac::Interrupt)
-            restore_irqs();
-            trace!("USB IRQs restored");
-            
+            start_irq();
+            trace!("USB IRQs start");
         }
-
 
         let r = regs();
         let core_id = r.cid().read().0;
@@ -590,16 +610,13 @@ impl Bus {
         // Wait for AHB ready.
         while !r.grstctl().read().ahbidl() {}
 
-        // Configure as device.
         r.gusbcfg().write(|w| {
-            // Force device mode
-            w.set_fdmod(true);
-            // Enable internal full-speed PHY
-            w.set_physel(self.phy_type.internal() && !self.phy_type.high_speed());
+            w.set_fdmod(true);  // Force device mode TODO: no host mode support
+            w.set_physel(self.phy_type.internal() && !self.phy_type.high_speed());  // Enable internal full-speed PHY
         });
 
         // Configuring Vbus sense and SOF output
-        match core_id {
+        match core_id { // this is used to distinguish differnet stm32 chips
             0x0000_1200 | 0x0000_1100 => {
                 assert!(self.phy_type != PhyType::InternalHighSpeed);
 
@@ -643,13 +660,12 @@ impl Bus {
 
         // Set speed.
         r.dcfg().write(|w| {
-            w.set_pfivl(vals::Pfivl::FRAME_INTERVAL_80);
+            w.set_pfivl(vals::Pfivl::FRAME_INTERVAL_80); // set period frame interval TODO: figure out what is this
             w.set_dspd(self.phy_type.to_dspd());
         });
 
-        // Unmask transfer complete EP interrupt
         r.diepmsk().write(|w| {
-            w.set_xfrcm(true);
+            w.set_xfrcm(true);    // Unmask transfer complete EP interrupt
         });
 
         // Unmask and clear core interrupts
@@ -675,6 +691,8 @@ impl Bus {
         // Configure RX fifo size. All endpoints share the same FIFO area.
         let rx_fifo_size_words = RX_FIFO_EXTRA_SIZE_WORDS + ep_fifo_size(&self.ep_out);
         trace!("configuring rx fifo size={}", rx_fifo_size_words);
+        
+        let rx_fifo_size_words = 64;
 
         r.grxfsiz().modify(|w| w.set_rxfd(rx_fifo_size_words));
 
@@ -1104,7 +1122,8 @@ impl embassy_usb_driver::Endpoint for Endpoint {
                 Poll::Pending
             }
         })
-            .await
+            .await;
+        trace!("wait_enabled end");
     }
 }
 
@@ -1208,7 +1227,7 @@ impl embassy_usb_driver::EndpointIn for Endpoint {
         let index = self.info.addr.index();
         let state = state();
 
-        // Wait for previous transfer to complete and check if endpoint is disabled
+       // Wait for previous transfer to complete and check if endpoint is disabled
         poll_fn(|cx| {
             state.ep_in_wakers[index].register(cx.waker());
 
@@ -1216,7 +1235,7 @@ impl embassy_usb_driver::EndpointIn for Endpoint {
             let dtxfsts = r.dtxfsts(index).read();
             trace!(
                 "write ep={:?}: diepctl {:08x} ftxfsts {:08x}",
-                self.info.addr,
+                index,// self.info.addr,
                 diepctl.0,
                 dtxfsts.0
             );
@@ -1269,6 +1288,17 @@ impl embassy_usb_driver::EndpointIn for Endpoint {
             w.set_xfrsiz(buf.len() as _);
         });
 
+        r.daintmsk().modify(|w| {
+            // w.set_iepm(ep_irq_mask(&self.ep_in));
+            w.set_iepm(7);
+            // OUT interrupts not used, handled in RXFLVL
+            // w.set_oepm(ep_irq_mask(&self.ep_out));
+        });
+
+        r.diepmsk().write(|w| {
+            w.set_xfrcm(true);    // Unmask transfer complete EP interrupt
+        });
+
         critical_section::with(|_| {
             // Enable endpoint
             r.diepctl(index).modify(|w| {
@@ -1307,6 +1337,7 @@ impl embassy_usb_driver::ControlPipe for ControlPipe {
     }
 
     async fn setup(&mut self) -> [u8; 8] {
+        trace!("control: setup start");
         poll_fn(|cx| {
             // let state = T::state();
             let state = state();
@@ -1343,8 +1374,7 @@ impl embassy_usb_driver::ControlPipe for ControlPipe {
                 trace!("SETUP waiting");
                 Poll::Pending
             }
-        })
-            .await
+        }).await
     }
 
     async fn data_out(
@@ -1361,11 +1391,18 @@ impl embassy_usb_driver::ControlPipe for ControlPipe {
 
     async fn data_in(
         &mut self,
-        data: &[u8],
+        mut data: &[u8],
         _first: bool,
         last: bool,
     ) -> Result<(), EndpointError> {
-        trace!("control: data_in write: {:?}", data);
+        // // trace!("control: data_in write: {:?}", data);
+        // let tmp_dat = [0x09,0x02,0x30,0x00,0x02,0x01,0x00,0x80,0x32,0x09,0x04,0x00,0x00,0x01,0x02,0x02,0x00,0x00,0x07,0x05,0x80,0x03,0x08,0x00,0xFF,0x09,0x04,0x01,0x00,0x02,0x0A,0x00,0x00,0x00,0x07,0x05,0x01,0x02,0x40,0x00,0x00,0x07,0x05,0x82,0x02,0x40,0x00,0x00];
+
+        // if data[0] == 0x09 && data[1] ==0x02 {
+        //     trace!("control: data_in write: {:?}", data);
+        //     data = &tmp_dat;
+        // }
+
         self.ep_in.write(data).await?;
 
         // wait for status response from host after sending the last packet
@@ -1501,7 +1538,7 @@ fn quirk_setup_late_cnak(r: stm32_metapac::otg::Otg) -> bool {
 // pub use usb::*;
 //
 // // Using Instance::ENDPOINT_COUNT requires feature(const_generic_expr) so just define maximum eps
-const MAX_EP_COUNT: usize = 9;
+const MAX_EP_COUNT: usize = 15;
 const FIFO_DEPTH_WORDS: u16 = 1024;
 const ENDPOINT_COUNT: usize = 9;
 //
