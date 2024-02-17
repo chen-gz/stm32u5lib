@@ -439,18 +439,16 @@ impl Driver {
             // D::dir()
         );
         // find an unused endpoint
-        static mut index: u8 = 0;
+        static mut index: u8 = 1;
+        let mut tmp_index: u8 = unsafe{index};
 
-        let mut  tmp_index = unsafe {index};
-        if ep_type == EndpointType::Control{
+        if ep_type == EndpointType::Control {
             tmp_index = 0;
         }
         else {
-            unsafe {
-                tmp_index = index;
-                index += 1;
-            }
+            unsafe {index += 1};
         }
+
         let info = EndpointInfo {
             addr: EndpointAddress::from_parts(tmp_index as usize, dir),
             ep_type,
@@ -1216,7 +1214,7 @@ impl embassy_usb_driver::EndpointOut for Endpoint {
 // impl<'d, T: Instance> embassy_usb_driver::EndpointIn for Endpoint<'d, T, In> {
 impl embassy_usb_driver::EndpointIn for Endpoint {
     async fn write(&mut self, buf: &[u8]) -> Result<(), EndpointError> {
-        trace!("write ep={:?} data={:?}", self.info.addr, buf);
+        trace!("write ep={:?} data={:?}", self.info.addr.index(), buf);
 
         if buf.len() > self.info.max_packet_size as usize {
             return Err(EndpointError::BufferOverflow);
@@ -1242,14 +1240,14 @@ impl embassy_usb_driver::EndpointIn for Endpoint {
             if !diepctl.usbaep() {
                 trace!(
                     "write ep={:?} wait for prev: error disabled",
-                    self.info.addr
+                    self.info.addr.index()
                 );
                 Poll::Ready(Err(EndpointError::Disabled))
             } else if !diepctl.epena() {
-                trace!("write ep={:?} wait for prev: ready", self.info.addr);
+                trace!("write ep={:?} wait for prev: ready", self.info.addr.index());
                 Poll::Ready(Ok(()))
             } else {
-                trace!("write ep={:?} wait for prev: pending", self.info.addr);
+                trace!("write ep={:?} wait for prev: pending", self.info.addr.index());
                 Poll::Pending
             }
         })
