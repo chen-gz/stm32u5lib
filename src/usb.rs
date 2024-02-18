@@ -438,26 +438,130 @@ impl Driver {
             dir
             // D::dir()
         );
-        // find an unused endpoint
-        static mut index: u8 = 1;
-        let mut tmp_index: u8 = unsafe{index};
+        // if D::dir() == Direction::Out {
+        //     if self.ep_out_buffer_offset + max_packet_size as usize >= self.ep_out_buffer.len() {
+        //         error!("Not enough endpoint out buffer capacity");
+        //         return Err(EndpointAllocError);
+        //     }
+        // };
 
+        // let fifo_size_words = match D::dir() {
+        //     Direction::Out => (max_packet_size + 3) / 4,
+        //     // INEPTXFD requires minimum size of 16 words
+        //     Direction::In => u16::max((max_packet_size + 3) / 4, 16),
+        // };
+
+        // if fifo_size_words + self.allocated_fifo_words() > T::FIFO_DEPTH_WORDS {
+        //     error!("Not enough FIFO capacity");
+        //     return Err(EndpointAllocError);
+        // }
+
+        // let eps = match D::dir() {
+        //     Direction::Out => &mut self.ep_out,
+        //     Direction::In => &mut self.ep_in,
+        // };
+
+        // // Find free endpoint slot
+        // let slot = eps.iter_mut().enumerate().find(|(i, ep)| {
+        //     if *i == 0 && ep_type != EndpointType::Control {
+        //         // reserved for control pipe
+        //         false
+        //     } else {
+        //         ep.is_none()
+        //     }
+        // });
+
+        // let index = match slot {
+        //     Some((index, ep)) => {
+        //         *ep = Some(EndpointData {
+        //             ep_type,
+        //             max_packet_size,
+        //             fifo_size_words,
+        //         });
+        //         index
+        //     }
+        //     None => {
+        //         error!("No free endpoints available");
+        //         return Err(EndpointAllocError);
+        //     }
+        // };
+
+        // trace!("  index={}", index);
+
+        // if D::dir() == Direction::Out {
+        //     // Buffer capacity check was done above, now allocation cannot fail
+        //     unsafe {
+        //         *T::state().ep_out_buffers[index].get() =
+        //             self.ep_out_buffer.as_mut_ptr().offset(self.ep_out_buffer_offset as _);
+        //     }
+        //     self.ep_out_buffer_offset += max_packet_size as usize;
+        // }
+
+        // Ok(Endpoint {
+        //     _phantom: PhantomData,
+        //     info: EndpointInfo {
+        //         addr: EndpointAddress::from_parts(index, D::dir()),
+        //         ep_type,
+        //         max_packet_size,
+        //         interval_ms,
+        //     },
+        // })
         if ep_type == EndpointType::Control {
-            tmp_index = 0;
-        }
-        else {
-            unsafe {index += 1};
+            return Ok(Endpoint {
+                info: EndpointInfo {
+                    addr: EndpointAddress::from_parts(0, dir),
+                    ep_type,
+                    max_packet_size,
+                    interval_ms,
+                },
+            });
         }
 
-        let info = EndpointInfo {
-            addr: EndpointAddress::from_parts(tmp_index as usize, dir),
-            ep_type,
-            max_packet_size,
-            interval_ms,
+        let eps = match dir {
+            Direction::Out => &mut self.ep_out,
+            Direction::In => &mut self.ep_in,
         };
-        Ok(Endpoint {
-            info,
-        })
+
+        for i in 1..MAX_EP_COUNT {
+            if eps[i].is_none() {
+                eps[i] = Some(EndpointData {
+                    ep_type,
+                    max_packet_size,
+                    fifo_size_words: 64,
+                });
+                return Ok(Endpoint {
+                    info: EndpointInfo {
+                        addr: EndpointAddress::from_parts(i, dir),
+                        ep_type,
+                        max_packet_size,
+                        interval_ms,
+                    },
+                });
+            }
+        }
+        panic!("No free endpoints available");
+
+        // let index = (0..MAX_EP_COUNT).find(|&i| eps[i].is_none()).unwrap();
+        // eps[index] = Some(EndpointData {
+        //     ep_type,
+        //     max_packet_size,
+        //     fifo_size_words: 64,
+        // });
+        // static mut INDEX: usize = 0;
+        // unsafe {
+        //     INDEX = INDEX + 1;
+        // }
+        // return Ok(Endpoint {
+        //     info: EndpointInfo {
+        //         addr: EndpointAddress::from_parts(unsafe{INDEX}, dir),
+        //         ep_type,
+        //         max_packet_size,
+        //         interval_ms,
+        //     },
+        // });
+
+
+
 
 
         // let index = (0..MAX_EP_COUNT)

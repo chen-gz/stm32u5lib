@@ -129,7 +129,7 @@ pub async fn usb_task() {
     config.device_class = 0xEF;
     config.device_sub_class = 0x02;
     config.device_protocol = 0x01;
-    config.composite_with_iads = false;
+    config.composite_with_iads = true;
 
     let mut device_descriptor = [0; 512];
     let mut config_descriptor = [0; 512];
