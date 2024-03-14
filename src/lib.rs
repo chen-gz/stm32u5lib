@@ -16,3 +16,4 @@ pub mod lptim;
 pub mod rtc;
 
 pub mod usb;
+pub mod queue;
