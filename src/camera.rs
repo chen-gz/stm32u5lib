@@ -196,7 +196,7 @@ pub async fn capture(
     _pdwn: &gpio::GpioPort,
     dcmi: &dcmi::DcmiPort,
     pic_buf: &mut [u8],
-    sd: &SdInstance,
+    // sd: &SdInstance,
 ) {
     let cam_i2c: gi2c::I2cPort = gi2c::I2C3;
     // pdwn.set_low(); // set power down to low. Enable camera
@@ -219,8 +219,8 @@ pub async fn capture(
 
     cam_i2c.write(OV5640_I2C_ADDR, &reg_val).unwrap();
 
-    u5_lib::low_power::run_no_deep_sleep_async(|| async {
-        save_picture(pic_buf, &sd).await;
-    })
-    .await;
+    // u5_lib::low_power::run_no_deep_sleep_async(|| async {
+    //     save_picture(pic_buf, &sd).await;
+    // })
+    // .await;
 }

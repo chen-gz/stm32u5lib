@@ -1,6 +1,5 @@
 // this file is based on embassy_stm32::embassy_stm32::low_power
 
-
 //! Low-power support.
 //!
 //! The STM32 line of microcontrollers support various deep-sleep modes which exploit clock-gating
@@ -61,7 +60,6 @@ use core::arch::asm;
 use core::marker::PhantomData;
 use core::sync::atomic::{compiler_fence, Ordering};
 
-
 use cortex_m::peripheral::SCB;
 use embassy_executor::*;
 
@@ -91,7 +89,7 @@ static mut EXECUTOR: Option<Executor> = None;
 
 /// Configure STOP mode with RTC.
 // pub fn stop_with_rtc(rtc: &'static Rtc) {
-    // unsafe { EXECUTOR.as_mut().unwrap() }.stop_with_rtc(rtc)
+// unsafe { EXECUTOR.as_mut().unwrap() }.stop_with_rtc(rtc)
 // }
 
 /// Get whether the core is ready to enter the given stop mode.
@@ -145,29 +143,30 @@ pub struct Executor {
     scb: SCB,
     // time_driver: &'static RtcDriver,
 }
-static mut REF_COUNT_DEEP: u32 = 1;
+static mut REF_COUNT_DEEP: u32 = 0;
 static mut _REF_COUNT_STOP1: u32 = 0;
 static mut _REF_COUNT_STOP2: u32 = 0;
 static mut _REF_COUNT_STOP3: u32 = 0;
 static mut _REF_COUNT_STANDBY: u32 = 0;
-pub fn sleep_no_deep_request() {
+
+/// NO DEEP SLEEP if this function is called, the mcu will not go deep sleep
+pub fn mcu_no_deep_sleep() {
     unsafe {
         REF_COUNT_DEEP += 1;
     }
 }
-pub fn sleep_no_deep_release() {
+
+pub fn run_no_deep_sleep<F>(code: F)
+where
+    F: FnOnce(),
+{
+    unsafe {
+        REF_COUNT_DEEP += 1;
+    }
+    code();
     unsafe {
         REF_COUNT_DEEP -= 1;
     }
-}
-
-pub fn run_no_deep_sleep<F>(code: F)
-    where
-        F: FnOnce(),
-{
-    sleep_no_deep_request();
-    code();
-    sleep_no_deep_release();
 }
 
 pub async fn run_no_deep_sleep_async<F, R>(code: F)
@@ -175,19 +174,21 @@ where
     F: FnOnce() -> R,
     R: core::future::Future<Output = ()>,
 {
-    sleep_no_deep_request();
+    unsafe {
+        REF_COUNT_DEEP += 1;
+    }
     let result = code();
     result.await;
-    sleep_no_deep_release();
+    unsafe {
+        REF_COUNT_DEEP -= 1;
+    }
 }
-
-
 
 impl Executor {
     /// Create a new Executor.
     pub fn take() -> &'static mut Self {
         cortex_m::interrupt::free(|_| unsafe {
-        // critical_section::with(|_| unsafe {
+            // critical_section::with(|_| unsafe {
             assert!(EXECUTOR.is_none());
 
             EXECUTOR = Some(Self {
@@ -212,12 +213,10 @@ impl Executor {
         unsafe {
             if REF_COUNT_DEEP == 0 {
                 self.scb.set_sleepdeep();
-            }
-            else {
+            } else {
                 self.scb.clear_sleepdeep();
             }
         }
-
     }
 
     /// Run the executor.

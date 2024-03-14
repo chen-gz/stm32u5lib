@@ -62,19 +62,27 @@ pub fn run_with_160mhz<F>(code: F)
 where
     F: FnOnce(),
 {
-    kernel_freq_160mhz_request();
-    code();
-    kernel_freq_160mhz_release();
+    unsafe {
+        CLOCK_REF.kernel_freq_160mhz += 1;
+        set_clock();
+        code();
+        CLOCK_REF.kernel_freq_160mhz -= 1;
+    }
 }
 pub async fn run_with_160mhz_async<F, R>(code: F)
 where
     F: FnOnce() -> R,
     R: core::future::Future<Output = ()>,
 {
-    kernel_freq_160mhz_request();
-    let result = code();
-    result.await;
-    kernel_freq_160mhz_release();
+    unsafe {
+        CLOCK_REF.kernel_freq_160mhz += 1;
+        set_clock();
+        let result = code();
+        result.await;
+        kernel_freq_160mhz_release();
+        CLOCK_REF.kernel_freq_160mhz -= 1;
+        set_clock();
+    }
 }
 
 static mut CLOCK_REF: ClockRef = ClockRef {
@@ -302,7 +310,6 @@ fn set_cpu_freq_pll_msis_160mhz() {
         v.set_pllq(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
         v.set_pllp(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
     });
-
 
     // RCC.pll1cfgr().modify(|w| {
     //     w.set_pllren(true); // enable pll1_r

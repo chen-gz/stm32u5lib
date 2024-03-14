@@ -15,6 +15,7 @@ embedded-sdmmc = { version = "0.6.0", default-features = false, features = [
     "defmt-log",
 ] }
 
+eb_cmds = { path = "C:/tmp/eb_cmds" }
 
 cortex-m = { version = "0.7.7", features = [
     "inline-asm",

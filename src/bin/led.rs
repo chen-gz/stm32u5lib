@@ -6,7 +6,7 @@ use u5_lib::clock;
 use u5_lib::gpio;
 use defmt_rtt as _;
 use gpio::GpioPort;
-const GREEN: GpioPort = gpio::PB7;
+const GREEN: GpioPort = gpio::PC8;
 const ORANGE: GpioPort = gpio::PC4;
 const BLUE: GpioPort = gpio::PC5;
 fn setup() {
@@ -23,8 +23,8 @@ fn main() -> ! {
     defmt::info!("setup led finished!");
     loop {
         GREEN.toggle();
-        ORANGE.toggle();
-        clock::delay_ms(1000);
+        // ORANGE.toggle();
+        clock::delay_us(10);
     }
 }
 

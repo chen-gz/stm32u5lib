@@ -27,7 +27,7 @@
           {
             "coreIndex": 0,
             //!MODIFY
-            "programBinary": "C:\\tmp\\u5_new\\U5-LIB\\target\\thumbv8m.main-none-eabihf\\debug\\usb_u575",
+            "programBinary": "C:\\tmp\\u5_new\\U5-LIB\\target\\thumbv8m.main-none-eabihf\\debug\\led",
             //!MODIFY
             "svdFile": "stm32u575.svd",
             "rttEnabled": true
