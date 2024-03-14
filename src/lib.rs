@@ -16,8 +16,10 @@ pub mod low_power;
 pub mod lptim;
 pub mod rtc;
 
-pub mod usb_otg{
-    pub mod usb;
-}
+// pub mod usb_otg{
+    // pub mod usb;
+    // mod usb_otg;
+// }
 pub mod queue;
+pub mod usb_otg;
 // mod usb_otg;

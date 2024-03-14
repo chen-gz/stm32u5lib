@@ -70,9 +70,9 @@ async fn btn() {
 #[embassy_executor::task]
 pub async fn usb_task() {
     let _ep_out_buffer = [0u8; 256];
-    let mut config = usb_otg::usb::Config::default();
+    let mut config = usb_otg::Config::default();
     config.vbus_detection = false;
-    let driver = u5_lib::usb_otg::usb::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
+    let driver = usb_otg::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
 
     // // Create embassy-usb Config
     let mut config = embassy_usb::Config::new(0xabcd, 0xefba);
@@ -129,7 +129,7 @@ impl From<EndpointError> for Disconnected {
     }
 }
 
-async fn usb_handler<'d>(class: &mut CdcAcmClass<'d, usb_otg::usb::Driver>) -> Result<(), Disconnected> {
+async fn usb_handler<'d>(class: &mut CdcAcmClass<'d, usb_otg::Driver>) -> Result<(), Disconnected> {
     let mut buf: [u8; 128] = [0; 128];
     // the maximum size of the command is 64 bytes
     defmt::info!("start usb handler");

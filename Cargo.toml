@@ -26,9 +26,10 @@ futures = { version = "0.3.17", default-features = false, fetures = [
 ]}
 
 [dependencies.stm32-metapac]
-git="https://github.com/embassy-rs/stm32-data-generated"
+# git="https://github.com/embassy-rs/stm32-data-generated"
+path = "../stm32-data-generated/stm32-metapac"
 features = [ "memory-x", "rt"] # ,"stm32u575ri"]
-rev = "d63f931"
+#rev = "d63f931"
 
 [dependencies.embassy-sync]
 git = "https://github.com/embassy-rs/embassy"

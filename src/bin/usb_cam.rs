@@ -158,9 +158,9 @@ use futures::future::join;
 #[embassy_executor::task]
 pub async fn usb_task() {
     // let mut ep_out_buffer = [0u8; 256];
-    let mut  config = usb::Config::default();
+    let mut  config = Config::default();
     config.vbus_detection = false;
-    let driver = u5_lib::usb::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
+    let driver = u5_lib::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
     // Create embassy-usb Config
     let mut config = embassy_usb::Config::new(0xc0de, 0xcafe);
     config.manufacturer = Some("Embassy");
@@ -226,7 +226,7 @@ impl From<EndpointError> for Disconnected {
 // use eb_cmds as ebcmd;
 
 
-async fn usb_handler<'d>(class: &mut CdcAcmClass<'d, usb::Driver>) -> Result<(), Disconnected> {
+async fn usb_handler<'d>(class: &mut CdcAcmClass<'d, usb_otg::Driver>) -> Result<(), Disconnected> {
     let mut buf: [u8; 128] = [0; 128]; 
     defmt::info!("start usb handler");
     
