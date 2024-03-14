@@ -213,7 +213,7 @@ async fn btn() {
             defmt::info!("click once");
         } else {
             // enter no deep sleep mode
-            low_power::sleep_no_deep_request();
+            // low_power::sleep_no_deep_request();
             clock::kernel_freq_160mhz_request();
             defmt::info!("click twice");
             LED_BLUE.toggle();

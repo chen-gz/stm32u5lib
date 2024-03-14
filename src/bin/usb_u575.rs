@@ -4,47 +4,44 @@
 #![feature(type_alias_impl_trait)]
 
 use core::default::Default;
-// use ebcmd::Response;
+use core::panic::PanicInfo;
+use defmt_rtt as _;
+use embassy_executor::Spawner;
 use embassy_usb::{
     class::cdc_acm::{CdcAcmClass, State},
     driver::EndpointError,
     Builder,
 };
+use futures::future::{join, select};
 use u5_lib::{clock, gpio, *};
-use u5_lib::{exti};
+use u5_lib::{exti, low_power::mcu_no_deep_sleep};
 
-use defmt_rtt as _;
-
-
-// define defmt format 
+// define defmt format
 #[derive(defmt::Format)]
 pub enum UsbError {
     BufferOverflow,
     Disabled,
 }
 
-use gpio::GpioPort;
-
-const GREEN: GpioPort = gpio::PB7;
+const GREEN: gpio::GpioPort = gpio::PB7;
 
 fn setup() {
+    clock::init_clock();
     GREEN.setup();
 }
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
-    clock::init_clock();
     setup();
+    mcu_no_deep_sleep();
+    clock::kernel_freq_160mhz_request();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();
     spawner.spawn(usb_task()).unwrap();
-    loop{
-        rtc:: rtc_interrupt().await;
+    loop {
+        rtc::rtc_interrupt().await;
     }
 }
-
-use core::panic::PanicInfo;
-use embassy_executor::Spawner;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -59,7 +56,6 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-use cortex_m::peripheral::NVIC;
 #[embassy_executor::task]
 async fn btn() {
     let _last_time: (u8, u8, u8) = (0, 0, 0);
@@ -67,58 +63,16 @@ async fn btn() {
     loop {
         defmt::info!("button clicked");
         exti::EXTI13_PC13.wait_for_raising().await;
-        defmt::info!("control & sts   0x{:08x}", stm32_metapac::USB_OTG_FS.gotgctl().read().0);
-        defmt::info!("ahb config      0x{:08x}", stm32_metapac::USB_OTG_FS.gahbcfg().read().0);
-        defmt::info!("int mask:       0x{:08x}", stm32_metapac::USB_OTG_FS.gintmsk().read().0);
-        defmt::info!("int status:     0x{:08x}", stm32_metapac::USB_OTG_FS.gintsts().read().0);
-        // read top of the stack
-        defmt::info!("rxstsr          0x{:08x}", stm32_metapac::USB_OTG_FS.grxstsr().read().0);
-        defmt::info!("reset control   0x{:08x}", stm32_metapac::USB_OTG_FS.grstctl().read().0);
-        // defmt::info!("NVIC            0x{:08x}", NVIC:
-        defmt::info!("NVIC            {:?}", NVIC::is_enabled(stm32_metapac::Interrupt::OTG_FS));
-        defmt::info!("NVIC            {:?}", NVIC::is_pending(stm32_metapac::Interrupt::OTG_FS));
         GREEN.toggle();
-
     }
 }
 
-
-const SIZE_BLOCK: u32 = 1;
-// first block store the number of image files
-const IMG_START_BLOCK: u32 = 10;
-const IMG_SIZE: u32 = 2000; // 2000 block = 2000 * 512 = 1M
-
-// use embassy_stm32::{
-//     bind_interrupts,
-//     peripherals::{self},
-//     usb_otg::{self, Driver, Instance},
-// };
-
-// bind_interrupts!(struct Irqs {
-//     OTG_FS => usb_otg::InterruptHandler<peripherals::USB_OTG_FS>;
-// });
-use futures::future::join;
-
-
 #[embassy_executor::task]
 pub async fn usb_task() {
-    // let p = unsafe { embassy_stm32::Peripherals::steal() };
-    // init USB CDC
     let _ep_out_buffer = [0u8; 256];
-    // let mut config = embassy_stm32::usb_otg::Config::default();
-    // config.vbus_detection = true;
-    // config.vbus_detection = false;
-    // let driver = Driver::new_fs(
-    //     p.USB_OTG_FS,
-    //     Irqs,
-    //     p.PA12,
-    //     p.PA11,
-    //     &mut ep_out_buffer,
-    //     config,
-    // );
-    let mut config = usb::Config::default();
+    let mut config = usb_otg::usb::Config::default();
     config.vbus_detection = false;
-    let driver = u5_lib::usb::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
+    let driver = u5_lib::usb_otg::usb::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
 
     // // Create embassy-usb Config
     let mut config = embassy_usb::Config::new(0xabcd, 0xefba);
@@ -156,23 +110,9 @@ pub async fn usb_task() {
     let handler_fut = async {
         loop {
             class.wait_connection().await;
-
-            // u5_lib::clock::run_with_160mhz_async(|| async {
-            //     u5_lib::low_power::run_no_deep_sleep_async(|| async {
-                    // clock::set_clock_to_pll(); // fast clock for camera
-                    // SIGNAL.signal(1);
-                    // clock::set_clock_to_pll();
-                    // clock::set_cpu_freq(160_000_000);
-                    defmt::info!("connected");
-                    let _ = usb_handler(&mut class).await;
-                    defmt::info!("disconnected");
-                    // clock::set_clock_to_hsi();
-                    // SIGNAL.signal(0);
-            //     })
-            //         .await;
-            // })
-            //     .await;
-            // LED_BLUE.set_high();
+            defmt::info!("connected");
+            let _ = usb_handler(&mut class).await;
+            defmt::info!("disconnected");
         }
     };
     join(usb_fut, handler_fut).await; // Run everything concurrently.
@@ -189,13 +129,12 @@ impl From<EndpointError> for Disconnected {
     }
 }
 
-async fn usb_handler<'d>(
-    class: &mut CdcAcmClass<'d, usb::Driver>,
-) -> Result<(), Disconnected> {
+async fn usb_handler<'d>(class: &mut CdcAcmClass<'d, usb_otg::usb::Driver>) -> Result<(), Disconnected> {
     let mut buf: [u8; 128] = [0; 128];
     // the maximum size of the command is 64 bytes
     defmt::info!("start usb handler");
     loop {
+        // select(future1, future2)
         let n = class.read_packet(&mut buf).await.unwrap();
         class.write_packet(&buf[0..n]).await.unwrap();
     }

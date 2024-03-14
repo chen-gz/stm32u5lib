@@ -94,7 +94,7 @@ static mut CLOCK_REF: ClockRef = ClockRef {
     hsi48: 1,
     msi: 0,
     lsi: 0,
-    kernel_freq_160mhz: 1,
+    kernel_freq_160mhz: 0,
     kernel_freq_80mhz: 0,
     kernel_freq_64mhz: 0,
     kernel_freq_48mhz: 0,

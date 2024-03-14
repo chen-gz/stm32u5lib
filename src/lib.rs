@@ -1,5 +1,6 @@
 #![feature(noop_waker)]
 #![no_std]
+#![allow(dead_code)]
 pub mod clock;
 pub mod gi2c;
 
@@ -15,5 +16,8 @@ pub mod low_power;
 pub mod lptim;
 pub mod rtc;
 
-pub mod usb;
+pub mod usb_otg{
+    pub mod usb;
+}
 pub mod queue;
+// mod usb_otg;

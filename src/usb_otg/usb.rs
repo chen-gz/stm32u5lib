@@ -1,6 +1,7 @@
 /// TODO:
 /// 1. high speed is not supported
 ///    -dcfg.dspd = 0b11 for current file
+///
 use core::cell::UnsafeCell;
 use core::{task::{Poll}, sync::atomic::{AtomicBool, AtomicU16, Ordering}};
 use cortex_m::peripheral::NVIC;
@@ -8,9 +9,27 @@ use stm32_metapac::{otg::vals, USB_OTG_FS};
 use critical_section;
 use stm32_metapac::otg;
 use futures::future::poll_fn;
-use defmt::{info, trace, error};
+// use defmt::{info, trace, error};
 use embassy_sync::waitqueue::AtomicWaker;
+use crate::clock;
 use crate::gpio::GpioPort;
+// define info trace error to nothing
+macro_rules! info {
+    ($($arg:tt)*) => {};
+}
+macro_rules! trace {
+    ($($arg:tt)*) => {};
+}
+macro_rules! error {
+    ($($arg:tt)*) => {};
+}
+// map trace_bus_event to defmt::trace 
+macro_rules! trace_bus_event {
+    ($($arg:tt)*) => {
+        defmt::trace!($($arg)*)
+    };
+}
+
 
 fn regs() -> otg::Otg { return stm32_metapac::USB_OTG_FS; }
 
@@ -40,7 +59,6 @@ pub struct State<const EP_COUNT: usize> {
     ep_out_buffers: [[u8; 1024]; EP_COUNT],
     ep_out_size: [AtomicU16; EP_COUNT],
     bus_waker: AtomicWaker,
-    // bus_waker: Signal<CriticalSectionRawMutex, u32>,
 }
 
 unsafe impl<const EP_COUNT: usize> Send for State<EP_COUNT> {}
@@ -50,8 +68,6 @@ unsafe impl<const EP_COUNT: usize> Sync for State<EP_COUNT> {}
 impl<const EP_COUNT: usize> State<EP_COUNT> {
     /// Create a new State.
     pub const fn new() -> Self {
-        // const NEW_AW: AtomicWaker = AtomicWaker::new();
-        // const NEW_AW: Signal<CriticalSectionRawMutex, u32> = Signal::new();
         const NEW_AW: AtomicWaker = AtomicWaker::new();
         const NEW_BUF: UnsafeCell<*mut u8> = UnsafeCell::new(0 as _);
         const NEW_SIZE: AtomicU16 = AtomicU16::new(EP_OUT_BUFFER_EMPTY);
@@ -184,7 +200,9 @@ unsafe fn on_interrupt() {
                     r.doepctl(ep_num).modify(|w| w.set_cnak(false));
                 }
             }
-            x => trace!("unknown PKTSTS: {}", x.to_bits()),
+            x => {
+                trace!("unknown PKTSTS: {}", x.to_bits());
+            }
         }
     }
 
@@ -637,7 +655,6 @@ impl embassy_usb_driver::Driver<'_> for Driver {
         )
     }
 }
-
 /// USB bus.
 pub struct Bus {
     config: Config,
@@ -647,19 +664,19 @@ pub struct Bus {
     inited: bool,
 }
 
-    fn start_irq() {
-        regs().gintmsk().write(|w| {
-            w.set_usbrst(true);
-            w.set_enumdnem(true);
-            w.set_usbsuspm(true);
-            w.set_wuim(true);
-            w.set_iepint(true);
-            w.set_oepint(true);
-            w.set_rxflvlm(true);
-            w.set_srqim(true);
-            w.set_otgint(true);
-        });
-    }
+fn start_irq() {
+    regs().gintmsk().write(|w| {
+        w.set_usbrst(true);
+        w.set_enumdnem(true);
+        w.set_usbsuspm(true);
+        w.set_wuim(true);
+        w.set_iepint(true);
+        w.set_oepint(true);
+        w.set_rxflvlm(true);
+        w.set_srqim(true);
+        w.set_otgint(true);
+    });
+}
 
 impl Bus {
     fn restore_irqs() {
@@ -785,7 +802,7 @@ impl Bus {
     }
 
     fn init_fifo(&mut self) {
-        trace!("init_fifo");
+        trace_bus_event!("init_fifo");
 
         // let r = T::regs();
         let r = regs();
@@ -793,7 +810,7 @@ impl Bus {
         // Configure RX fifo size. All endpoints share the same FIFO area.
         let rx_fifo_size_words = RX_FIFO_EXTRA_SIZE_WORDS + ep_fifo_size(&self.ep_out);
         trace!("configuring rx fifo size={}", rx_fifo_size_words);
-        
+
         let rx_fifo_size_words = 64;
 
         r.grxfsiz().modify(|w| w.set_rxfd(rx_fifo_size_words));
@@ -844,7 +861,7 @@ impl Bus {
     }
 
     fn configure_endpoints(&mut self) {
-        trace!("configure_endpoints");
+        trace_bus_event!("configure_endpoints");
 
         // let r = T::regs();
         let r = regs();
@@ -903,6 +920,7 @@ impl Bus {
     }
 
     fn disable_all_endpoints(&mut self) {
+        trace_bus_event!("disable_all_endpoints in bus self");
         for i in 0..ENDPOINT_COUNT {
             self.endpoint_set_enabled(EndpointAddress::from_parts(i, Direction::In), false);
             self.endpoint_set_enabled(EndpointAddress::from_parts(i, Direction::Out), false);
@@ -910,6 +928,7 @@ impl Bus {
     }
 
     fn disable(&mut self) {
+        trace_bus_event!("disable in bus self");
 
         // Interrupt::disable();
         unsafe {
@@ -974,7 +993,7 @@ impl embassy_usb_driver::Bus for Bus {
             }
 
             if ints.usbrst() {
-                trace!("reset");
+                trace_bus_event!("reset");
 
                 self.init_fifo();
                 self.configure_endpoints();
@@ -1025,7 +1044,7 @@ impl embassy_usb_driver::Bus for Bus {
     }
 
     fn endpoint_set_stalled(&mut self, ep_addr: EndpointAddress, stalled: bool) {
-        trace!("endpoint_set_stalled ep={:?} en={}", ep_addr, stalled);
+        trace_bus_event!("endpoint_set_stalled ep={:?} en={}", ep_addr, stalled);
 
         assert!(
             ep_addr.index() < ENDPOINT_COUNT,
@@ -1065,6 +1084,7 @@ impl embassy_usb_driver::Bus for Bus {
     }
 
     fn endpoint_is_stalled(&mut self, ep_addr: EndpointAddress) -> bool {
+        trace!("endpoint_is_stalled ep={:?}", ep_addr);
         assert!(
             ep_addr.index() < ENDPOINT_COUNT,
             "endpoint_is_stalled index {} out of range",
@@ -1149,18 +1169,22 @@ impl embassy_usb_driver::Bus for Bus {
     }
 
     async fn enable(&mut self) {
-        trace!("enable");
+        trace_bus_event!("bus call enable");
+
         // TODO: enable the peripheral once enable/disable semantics are cleared up in embassy-usb
+        // clock::kernel_freq_160mhz_request();
     }
 
     async fn disable(&mut self) {
-        trace!("disable");
+        trace_bus_event!("bus call disable");
+        // clock::kernel_freq_160mhz_release();
 
         // TODO: disable the peripheral once enable/disable semantics are cleared up in embassy-usb
         //Bus::disable(self);
     }
 
     async fn remote_wakeup(&mut self) -> Result<(), Unsupported> {
+        trace_bus_event!("bus call remote_wakeup");
         Err(Unsupported)
     }
 }
@@ -1329,7 +1353,7 @@ impl embassy_usb_driver::EndpointIn for Endpoint {
         let index = self.info.addr.index();
         let state = state();
 
-       // Wait for previous transfer to complete and check if endpoint is disabled
+        // Wait for previous transfer to complete and check if endpoint is disabled
         poll_fn(|cx| {
             state.ep_in_wakers[index].register(cx.waker());
 

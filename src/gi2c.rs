@@ -30,19 +30,20 @@ impl I2cPort {
         crate::clock::hsi16_request();
 
         if self.port == stm32_metapac::I2C1 {
-            RCC.ccipr1()
-                .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI));
+            // RCC.ccipr1() .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI)); // update to new version of stm32_metapac
+            RCC.ccipr1() .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::I2csel::HSI));
+
             RCC.apb1enr1().modify(|v| {
                 v.set_i2c1en(true);
             });
         } else if self.port == stm32_metapac::I2C3 {
             RCC.ccipr3()
-                .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::Icsel::HSI));
+                .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::I2c3sel::HSI));
+
             RCC.apb3enr().modify(|v| {
                 v.set_i2c3en(true);
             });
         }
-
         // RCC.srdamr().modify(|v| {
         //     v.set_i2c3amen(true);
         // });

@@ -3,14 +3,11 @@ name = "u5-lib"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 defmt = { version = "0.3.6" }
 defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
 sdio-host = { version = "0.9.0" }
-# embedded-sdmmc = { version = "0.6.0", features = ["defmt-log"] }
 embedded-sdmmc = { version = "0.6.0", default-features = false, features = [
     "defmt-log",
 ] }
@@ -20,61 +17,38 @@ eb_cmds = { path = "C:/tmp/eb_cmds" }
 cortex-m = { version = "0.7.7", features = [
     "inline-asm",
     "critical-section-single-core",
-] }
+]} 
+
 critical-section = "1.1.2"
 cortex-m-rt = { version = "0.7.3" }
 futures = { version = "0.3.17", default-features = false, fetures = [
     "async-await",
-] }
-#stm32-data-e702b4d564bc9e3c8a5c0141a11efdc5f7ee8f24
-#stm32-metapac = { git = "https://github.com/embassy-rs/stm32-data-generated", tag = "stm32-data-7117ad49c06fa00c388130a34977e029910083bd", features = [
-# stm32-metapac = { path = "../stm32_data/", tag = "stm32-data-e702b4d564bc9e3c8a5c0141a11efdc5f7ee8f24", features = [
-stm32-metapac = { path = "../stm32_data/stm32-metapac", features = [
-    "memory-x",
-    "rt",
-    # "stm32u575zi",
-    "stm32u575ri",
-    # "stm32u5a5qj",
-] }
-embassy-sync = { version = "0.5.0" }
-# embassy-sync = { git = "https://github.com/embassy-rs/embassy", rev = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64" }
+]}
+
+[dependencies.stm32-metapac]
+git="https://github.com/embassy-rs/stm32-data-generated"
+features = [ "memory-x", "rt"] # ,"stm32u575ri"]
+rev = "d63f931"
+
+[dependencies.embassy-sync]
+git = "https://github.com/embassy-rs/embassy"
+rev = "35f284e"
+
 [dependencies.embassy-executor]
 features = ["nightly", "arch-cortex-m", "executor-thread"]
 git = "https://github.com/embassy-rs/embassy"
-# rev = "a741571"
-rev = "6196396"
+rev = "35f284e"
 
 [dependencies.embassy-usb]
 git = "https://github.com/embassy-rs/embassy"
-# rev = "a741571"
-rev = "6196396"
-features = ["defmt"]
+rev = "35f284e"
+# features = ["defmt"]
 
 [dependencies.embassy-usb-driver]
 git = "https://github.com/embassy-rs/embassy"
-# rev = "a741571"
-rev = "6196396"
+rev = "35f284e"
 features = ["defmt"]
 
-#[dependencies.embassy-stm32]
-#features = [
-#    # "stm32u575zi",
-#    "stm32u575ri",
-##    "unstable-pac",
-##    "memory-x",
-##    "time-driver-any",
-##    "exti",
-#    "defmt",
-#    "rt",
-#]
-#rev = "a741571"
-#git = "https://github.com/embassy-rs/embassy"
-#version = "0.1.0"
-
-# [dependencies.embassy-time]
-# git = "https://github.com/embassy-rs/embassy"
-# rev = "a741571"
-# rev = "b4bc9ac028568dfb3896dfb00cbd1e181863fd64"
 
 [profile.dev]
 lto = false
@@ -112,17 +86,12 @@ path = "src/bin/usb_u575.rs"
 test = false
 bench = false
 
-
-
 # add default features for all supported chips
-
 
 [features]
 default = [
-    #    "stm32u575zi",
     "stm32u575ri",
     "defmt",
-    #    "stm32u5a5qj",
 ]
 defmt = []
 #! ## Chip-selection features

@@ -67,65 +67,7 @@ use embassy_executor::*;
 // use crate::time_driver::{get_driver, RtcDriver};
 
 const THREAD_PENDER: usize = usize::MAX;
-
-// use crate::rtc::Rtc;
-
 static mut EXECUTOR: Option<Executor> = None;
-
-// foreach_interrupt! {
-//     (RTC, rtc, $block:ident, WKUP, $irq:ident) => {
-//         #[interrupt]
-//         #[allow(non_snake_case)]
-//         unsafe fn $irq() {
-//             EXECUTOR.as_mut().unwrap().on_wakeup_irq();
-//         }
-//     };
-// }
-
-// #[allow(dead_code)]
-// pub(crate) unsafe fn on_wakeup_irq() {
-//     EXECUTOR.as_mut().unwrap().on_wakeup_irq();
-// }
-
-/// Configure STOP mode with RTC.
-// pub fn stop_with_rtc(rtc: &'static Rtc) {
-// unsafe { EXECUTOR.as_mut().unwrap() }.stop_with_rtc(rtc)
-// }
-
-/// Get whether the core is ready to enter the given stop mode.
-///
-/// This will return false if some peripheral driver is in use that
-/// prevents entering the given stop mode.
-// pub fn stop_ready(stop_mode: StopMode) -> bool {
-//     match unsafe { EXECUTOR.as_mut().unwrap() }.stop_mode() {
-//         Some(StopMode::Stop2) => true,
-//         Some(StopMode::Stop1) => stop_mode == StopMode::Stop1,
-//         None => false,
-//     }
-// }
-
-/// Available stop modes.
-// #[non_exhaustive]
-// #[derive(PartialEq)]
-// pub enum StopMode {
-//     /// STOP 1
-//     Stop1,
-//     /// STOP 2
-//     Stop2,
-// }
-
-// #[cfg(stm32l5)]
-// use stm32_metapac::pwr::vals::Lpms;
-
-// #[cfg(stm32l5)]
-// impl Into<Lpms> for StopMode {
-//     fn into(self) -> Lpms {
-//         match self {
-//             StopMode::Stop1 => Lpms::STOP1,
-//             StopMode::Stop2 => Lpms::STOP2,
-//         }
-//     }
-// }
 
 /// Thread mode executor, using WFE/SEV.
 ///
@@ -162,9 +104,7 @@ where
 {
     unsafe {
         REF_COUNT_DEEP += 1;
-    }
-    code();
-    unsafe {
+        code();
         REF_COUNT_DEEP -= 1;
     }
 }
@@ -176,10 +116,8 @@ where
 {
     unsafe {
         REF_COUNT_DEEP += 1;
-    }
-    let result = code();
-    result.await;
-    unsafe {
+        let result = code();
+        result.await;
         REF_COUNT_DEEP -= 1;
     }
 }
@@ -207,8 +145,6 @@ impl Executor {
     // }
 
     fn configure_pwr(&mut self) {
-        // self.scb.clear_sleepdeep();
-
         compiler_fence(Ordering::SeqCst);
         unsafe {
             if REF_COUNT_DEEP == 0 {

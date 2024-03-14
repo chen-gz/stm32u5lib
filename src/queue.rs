@@ -1,3 +1,6 @@
+#![allow(dead_code)]
+
+
 struct Queue<T, const N: usize> {
     data: [T; N],
     start: usize, // start always point to the first element (exept when queue is empty, then start == end)
