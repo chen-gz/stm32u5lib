@@ -57,29 +57,29 @@ opt-level = 3
 debug = true
 
 
-[lib]
-name = "u5_lib"
-path = "src/lib.rs"
-test = false
-bench = false
+# [lib]
+# name = "u5_lib"
+# path = "src/lib.rs"
+# test = false
+# bench = false
 
-[[bin]]
-name = "btn"
-path = "src/bin/btn.rs"
-test = false
-bench = false
+# [[bin]]
+# name = "btn"
+# path = "src/bin/btn.rs"
+# test = false
+# bench = false
 
-[[bin]]
-name = "led"
-path = "src/bin/led.rs"
-test = false
-bench = false
+# [[bin]]
+# name = "led"
+# path = "src/bin/led.rs"
+# test = false
+# bench = false
 
-[[bin]]
-name = "usb_sd_cam"
-path = "src/bin/usb_sd_cam.rs"
-test = false
-bench = false
+# [[bin]]
+# name = "usb_sd_cam"
+# path = "src/bin/usb_sd_cam.rs"
+# test = false
+# bench = false
 
 [[bin]]
 name =  "usb_u575"

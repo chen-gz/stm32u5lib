@@ -1,7 +1,7 @@
 use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
-use defmt::trace;
+use defmt::{debug, trace};
 use embassy_usb_driver::{EndpointError, EndpointInfo};
 use stm32_metapac::USB_OTG_FS;
 use crate::usb_otg::{EP_OUT_BUFFER_EMPTY, state};
@@ -79,6 +79,8 @@ impl embassy_usb_driver::EndpointOut for Endpoint {
 
             let doepctl = r.doepctl(index).read();
             trace!("read ep={:?}: doepctl {:08x}", self.info.addr, doepctl.0,);
+            debug!("gintmsk: {:08x}", r.gintmsk().read().0);
+            trace!("gintsts: {:08x}", r.gintsts().read().0);
             if !doepctl.usbaep() {
                 trace!("read ep={:?} error disabled", self.info.addr);
                 return Poll::Ready(Err(EndpointError::Disabled));
