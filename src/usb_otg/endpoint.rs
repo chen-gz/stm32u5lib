@@ -1,14 +1,30 @@
 use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
+
 use defmt::{debug, trace};
-use embassy_usb_driver::{EndpointError, EndpointInfo};
-use stm32_metapac::USB_OTG_FS;
+use embassy_usb_driver::{Direction, EndpointAddress, EndpointError, EndpointInfo, EndpointType};
+// use stm32_metapac::USB_OTG_FS;
+
 use crate::usb_otg::{EP_OUT_BUFFER_EMPTY, state};
 use crate::usb_otg::regs;
 
+macro_rules! info {
+    ($($arg:tt)*) => {};
+}
+macro_rules! debug {
+    ($($arg:tt)*) => {};
+}
+macro_rules! trace {
+    ($($arg:tt)*) => {};
+}
+macro_rules! error {
+    ($($arg:tt)*) => {};
+}
+
 //
 // /// USB endpoint.
+#[derive(Clone, Copy, defmt::Format, PartialEq, Eq)]
 pub struct Endpoint {
     // _phantom: PhantomData<(&'d mut T, D)>,
     pub(crate) info: EndpointInfo,
@@ -16,6 +32,7 @@ pub struct Endpoint {
 
 impl embassy_usb_driver::Endpoint for Endpoint {
     fn info(&self) -> &EndpointInfo {
+        // &self.info
         &self.info
     }
 
@@ -26,7 +43,7 @@ impl embassy_usb_driver::Endpoint for Endpoint {
             state().ep_in_wakers[ep_index].register(cx.waker());
             // T::state().ep_in_wakers[ep_index].register(cx.waker());
 
-            if USB_OTG_FS.diepctl(ep_index).read().usbaep() {
+            if regs().diepctl(ep_index).read().usbaep() {
                 Poll::Ready(())
             } else {
                 Poll::Pending

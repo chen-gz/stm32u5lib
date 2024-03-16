@@ -3,6 +3,7 @@
 #![no_main]
 #![feature(type_alias_impl_trait)]
 
+use u5_lib::low_power::mcu_no_deep_sleep;
 use u5_lib::{clock, exti};
 use defmt_rtt as _;
 use gpio::GpioPort;
@@ -18,6 +19,7 @@ use u5_lib::rtc;
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     clock::init_clock();
+    mcu_no_deep_sleep();
     setup();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();

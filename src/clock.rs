@@ -193,6 +193,24 @@ pub fn set_gpio_clock() {
     // enable gpioG clock
     RCC.ahb2enr1().modify(|v| v.set_gpiogen(true));
 }
+pub fn set_sdmmc_clock() {
+    // use hsi48 for sdmmc clock
+    RCC.ccipr2()
+        .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK));
+
+    // enable sdmmc clock
+    RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
+
+    // enable sdmmc2 clock
+    RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
+}
+pub fn set_usart_clock() {
+    // set usart1 clock source to hsi
+    RCC.ccipr1()
+        .modify(|v| v.set_usart1sel(stm32_metapac::rcc::vals::Usart1sel::HSI));
+    // enable usart1 clock
+    RCC.apb2enr().modify(|v| v.set_usart1en(true));
+}
 
 //////////
 ///

@@ -14,7 +14,7 @@
         "runtimeExecutable": "probe-rs",
         "runtimeArgs": ["dap-server"],
         //!MODIFY
-        "chip": "STM32U575RITx",
+        "chip": "STM32U5A5ZJTx",
         "flashingConfig": {
           "flashingEnabled": true,
           "haltAfterReset": false,
@@ -29,7 +29,7 @@
             //!MODIFY
             "programBinary": "C:\\tmp\\u5_new\\U5-LIB\\target\\thumbv8m.main-none-eabihf\\debug\\usb_u575",
             //!MODIFY
-            "svdFile": "stm32u575.svd",
+            "svdFile": "stm32u5A5.svd",
             "rttEnabled": true
           }
         ],

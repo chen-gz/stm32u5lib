@@ -3,18 +3,19 @@ use core::task::Poll;
 
 /// USB bus.
 use cortex_m::peripheral::NVIC;
-use defmt::export::usize;
 // use crate::usb_otg::usb::{EndpointData, PhyType, regs};
 use defmt::{info, trace};
-use embassy_usb_driver::{Direction, EndpointAddress, EndpointIn, EndpointOut, EndpointType, Event, Unsupported};
-use stm32_metapac::{otg, USB_OTG_FS};
+use embassy_usb_driver::{
+    Direction, EndpointAddress, EndpointIn, EndpointOut, EndpointType, Event, Unsupported,
+};
+use stm32_metapac::otg;
 
-use crate::usb_otg::{Config, EndpointData, PhyType, regs, state};
 use crate::usb_otg::fifo_const::*;
+use crate::usb_otg::{regs, state, Config, EndpointData, PhyType};
 
 macro_rules! trace_bus_event {
     ($($arg:tt)*) => {
-        defmt::trace!($($arg)*)
+        defmt::info!($($arg)*)
     };
 }
 
@@ -44,11 +45,12 @@ impl Bus {
         });
     }
     fn init(&mut self) {
+        trace_bus_event!("init");
         // Enable USB power
         critical_section::with(|_| {
             stm32_metapac::PWR.svmcr().modify(|w| {
-                w.set_usv(true);  // RM0456 (rev 4) p 404. Romove Vddusb isolation
-                w.set_uvmen(true);  // Enable USB voltage monitoring
+                w.set_usv(true); // RM0456 (rev 4) p 404. Romove Vddusb isolation
+                w.set_uvmen(true); // Enable USB voltage monitoring
             });
         });
         // Wait for USB power to stabilize
@@ -61,11 +63,21 @@ impl Bus {
                 w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
             })
         });
-        stm32_metapac::RCC.ahb2enr1()
+        stm32_metapac::RCC
+            .ahb2enr1()
             .modify(|w| w.set_usb_otg_fsen(true));
+        #[cfg(stm32u575)]
         unsafe {
             NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
             NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
+            // start_irq();
+            Self::restore_irqs();
+            trace!("USB IRQs start");
+        }
+        #[cfg(stm32u5a5)]
+        unsafe {
+            NVIC::unpend(stm32_metapac::Interrupt::OTG_HS);
+            NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
             // start_irq();
             Self::restore_irqs();
             trace!("USB IRQs start");
@@ -79,8 +91,9 @@ impl Bus {
         while !r.grstctl().read().ahbidl() {}
 
         r.gusbcfg().write(|w| {
-            w.set_fdmod(true);  // Force device mode TODO: no host mode support
-            w.set_physel(self.phy_type.internal() && !self.phy_type.high_speed());  // Enable internal full-speed PHY
+            w.set_fdmod(true); // Force device mode TODO: no host mode support
+            // w.set_physel(self.phy_type.internal() && !self.phy_type.high_speed());
+            // Enable internal full-speed PHY
         });
 
         // Configuring Vbus sense and SOF output
@@ -112,7 +125,10 @@ impl Bus {
         // Set speed.
         r.dcfg().write(|w| {
             w.set_pfivl(otg::vals::Pfivl::FRAME_INTERVAL_80); // set period frame interval TODO: figure out what is this
+            #[cfg(stm32u575)]
             w.set_dspd(self.phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
+            #[cfg(stm32u5a5)]
+            w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL); // todo: for u5a5, this is different. 11 is reserved
         });
 
         r.diepmsk().write(|w| {
@@ -170,15 +186,13 @@ impl Bus {
         let r = regs();
         // configure control endpoint
         // the max_packet_size should be 8, 16, 32, 64
-        let ep0_mpsiz :u16= match self.ep_in[0] {
-            Some(ep) => {
-                match ep.max_packet_size {
-                    8 => 0b11,
-                    16 => 0b10,
-                    32 => 0b01,
-                    64 => 0b00,
-                    _ => panic!("Unsupported EP0 size: {}", ep.max_packet_size),
-                }
+        let ep0_mpsiz: u16 = match self.ep_in[0] {
+            Some(ep) => match ep.max_packet_size {
+                8 => 0b11,
+                16 => 0b10,
+                32 => 0b01,
+                64 => 0b00,
+                _ => panic!("Unsupported EP0 size: {}", ep.max_packet_size),
             },
             None => panic!("Control endpoint not configured"),
         };
@@ -208,7 +222,7 @@ impl Bus {
             }
             let ep = self.ep_in[i].unwrap();
             critical_section::with(|_| {
-                let ep_type =match  ep.ep_type {
+                let ep_type = match ep.ep_type {
                     EndpointType::Control => otg::vals::Eptyp::CONTROL,
                     EndpointType::Isochronous => otg::vals::Eptyp::ISOCHRONOUS,
                     EndpointType::Bulk => otg::vals::Eptyp::BULK,
@@ -222,20 +236,20 @@ impl Bus {
                     w.set_snak(true);
                     // w.set_usbaep(true);
                 });
-                r.daintmsk().modify(|w| { w.set_iepm(1 << i); }); // enable (in) interrupt for this endpoint
+                r.daintmsk().modify(|w| {
+                    w.set_iepm(1 << i);
+                }); // enable (in) interrupt for this endpoint
             });
         }
 
-
         // Configure OUT endpoints
         for i in 1..self.ep_out.len() {
-
             if self.ep_out[i] == None {
                 break;
             }
             let ep = self.ep_out[i].unwrap();
             critical_section::with(|_| {
-                let ep_type =match  ep.ep_type {
+                let ep_type = match ep.ep_type {
                     EndpointType::Control => otg::vals::Eptyp::CONTROL,
                     EndpointType::Isochronous => otg::vals::Eptyp::ISOCHRONOUS,
                     EndpointType::Bulk => otg::vals::Eptyp::BULK,
@@ -271,13 +285,20 @@ impl Bus {
     }
 
     fn disable(&mut self) {
+        // TODO: not review yet
         trace_bus_event!("disable in bus self");
 
         // Interrupt::disable();
+        #[cfg(stm32u575)]
         unsafe {
             NVIC::mask(stm32_metapac::Interrupt::OTG_FS);
         }
-
+        #[cfg(stm32u5a5)]
+        unsafe {
+            NVIC::mask(stm32_metapac::Interrupt::OTG_HS);
+        }
+        self.inited = false;
+        // disable the power
 
         // TODO: disable USB peripheral
         // <T as RccPeripheral>::disable();
@@ -398,11 +419,11 @@ impl embassy_usb_driver::Bus for Bus {
 
             Poll::Pending
         })
-            .await
+        .await
     }
 
     fn endpoint_set_enabled(&mut self, ep_addr: EndpointAddress, enabled: bool) {
-        trace!("endpoint_set_enabled ep={:?} en={}", ep_addr, enabled);
+        trace_bus_event!("endpoint_set_enabled ep={:?} en={}", ep_addr, enabled);
 
         assert!(
             ep_addr.index() < MAX_EP_COUNT,

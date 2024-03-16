@@ -4,14 +4,14 @@ use core::{
     sync::atomic::{AtomicBool, AtomicU16, Ordering},
 };
 
-use defmt::info;
+// use info;
 use embassy_sync::waitqueue::AtomicWaker;
 use embassy_usb_driver::{Direction, EndpointAddress, EndpointAllocError, EndpointInfo, EndpointType};
-use stm32_metapac::{interrupt, otg, USB_OTG_FS};
+use stm32_metapac::{interrupt, otg};
 
 use fifo_const::*;
 
-use crate::*;
+use crate::{usart::USART1, *};
 use crate::usb_otg::{
     bus::Bus,
     control_pipe::ControlPipe,
@@ -24,7 +24,20 @@ mod endpoint;
 mod control_pipe;
 mod phy_type;
 
-// const ENDPOINT_COUNT: usize = 9;
+// map info, debug, trace, error to nothing
+
+macro_rules! info {
+    ($($arg:tt)*) => {};
+}
+macro_rules! debug {
+    ($($arg:tt)*) => {};
+}
+macro_rules! trace {
+    ($($arg:tt)*) => {};
+}
+macro_rules! error {
+    ($($arg:tt)*) => {};
+}
 
 
 #[cfg(stm32u575)]
@@ -41,12 +54,16 @@ pub mod fifo_const {
 
 #[cfg(stm32u5a5)]
 pub mod fifo_const {
+    pub const MAX_EP_COUNT: usize = 9;
     pub const FIFO_DEPTH_WORDS: u16 = 1024;
     //4Kbtes = 4096 bytes = 1024 words
     // total fifo size in words
-    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 192;
-    // 1024 - 192 = 832; 832 / 9 = 92
-    pub const TX_FIFO_SIZE_WORDS: [u16; 9] = [96, 96, 96, 96, 96, 96, 96, 96, 64];
+    pub const RX_FIFO_SIZE_EACH: u16 = 128; // 128 bytes = 32 words
+    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288; // 32 * 9 = 288
+    // 1024 - 288 = 736; 736 / 9 = 81.7777 =320 bytes = 80 words
+    // 1024 - 288 - 80 * 8 = 96
+    pub const TX_FIFO_SIZE_WORDS: [u16; 9] = [80, 80, 80, 80, 80, 80, 80, 80, 
+    96];
 }
 
 
@@ -79,7 +96,10 @@ fn state() -> &'static mut State<MAX_EP_COUNT> {
 }
 
 pub(crate) fn regs() -> otg::Otg {
+    #[cfg(stm32u575)]
     return stm32_metapac::USB_OTG_FS;
+    #[cfg(stm32u5a5)]
+    return stm32_metapac::USB_OTG_HS;
 }
 
 unsafe impl<const EP_COUNT: usize> Send for State<EP_COUNT> {}
@@ -206,6 +226,7 @@ impl embassy_usb_driver::Driver<'_> for Driver {
     fn start(mut self, control_max_packet_size: u16) -> (Self::Bus, Self::ControlPipe) {
         // assert!(control_max_packet_size in );
         // control_max_packaet_size should be 8, 16, 32, 64
+        USART1.send("control_max_packet_size: \t\n".as_bytes());
         assert!(control_max_packet_size == 8 || control_max_packet_size == 16
             || control_max_packet_size == 32 || control_max_packet_size == 64);
         self.ep_in[0] = Some(EndpointData {
@@ -216,7 +237,7 @@ impl embassy_usb_driver::Driver<'_> for Driver {
             ep_type: EndpointType::Control,
             max_packet_size: control_max_packet_size,
         });
-        defmt::trace!("start");
+        trace!("start");
         (
             Bus {
                 config: self.config,
@@ -250,6 +271,7 @@ impl embassy_usb_driver::Driver<'_> for Driver {
 
 unsafe fn on_interrupt() {
     let r = regs();
+    // r.gahbcfg().modify(|w| w.set_dmaen(val));
     // r.gintmsk().write(|_w| {});
     let ints = r.gintsts().read();
     if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
@@ -266,11 +288,11 @@ unsafe fn on_interrupt() {
 
     // Handle RX
     while r.gintsts().read().rxflvl() {
-        defmt::info!("rxflvl");
+        info!("rxflvl");
         // RX FIFO non-empty
         let status = r.grxstsp().read();
         // status read and popo pop register
-        defmt::info!("=== status {:08x}", status.0);
+        info!("=== status {:08x}", status.0);
         let ep_num = status.epnum() as usize;
         let len = status.bcnt() as usize;
 
@@ -280,7 +302,7 @@ unsafe fn on_interrupt() {
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
                 // received SETUP packet
-                defmt::trace!("SETUP_DATA_RX");
+                trace!("SETUP_DATA_RX");
                 assert!(len == 8, "invalid SETUP packet length={}", len);
                 assert!(ep_num == 0, "invalid SETUP packet endpoint={}", ep_num);
 
@@ -303,17 +325,17 @@ unsafe fn on_interrupt() {
                     // data[0..4].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
                     // data[4..8].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
                     state.ep0_setup_ready.store(true, Ordering::Release);
-                    defmt::trace!("SETUP packet received, waking up");
+                    trace!("SETUP packet received, waking up");
                     state.ep_out_wakers[0].wake();
                 } else {
-                    defmt::error!("received SETUP before previous finished processing");
+                    error!("received SETUP before previous finished processing");
                     // discard FIFO
                     r.fifo(0).read();
                     r.fifo(0).read();
                 }
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
-                defmt::trace!("OUT_DATA_RX ep={} len={}", ep_num, len);
+                trace!("OUT_DATA_RX ep={} len={}", ep_num, len);
                 // received OUT data
                 if state.ep_out_size[ep_num].load(Ordering::Acquire) == EP_OUT_BUFFER_EMPTY {
                     // only n bytes of data are read from FIFO
@@ -328,7 +350,7 @@ unsafe fn on_interrupt() {
                     state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
                     state.ep_out_wakers[ep_num].wake();
                 } else {
-                    defmt::error!("ep_out buffer overflow index={}", ep_num);
+                    error!("ep_out buffer overflow index={}", ep_num);
                     // discard FIFO data
                     let len_words = (len + 3) / 4;
                     for _ in 0..len_words {
@@ -339,10 +361,10 @@ unsafe fn on_interrupt() {
                 // replease ep_out_wakers[ep_num] to as queue and remove locker
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_DONE => {
-                defmt::trace!("OUT_DATA_DONE ep={}", ep_num);
+                trace!("OUT_DATA_DONE ep={}", ep_num);
             }
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_DONE => {
-                defmt::trace!("SETUP_DATA_DONE ep={}", ep_num);
+                trace!("SETUP_DATA_DONE ep={}", ep_num);
 
                 // r.doepctl(ep_num).modify(|w| w.set_cnak(false));
                 // TODO: waht happen here ?
@@ -352,14 +374,14 @@ unsafe fn on_interrupt() {
                 }
             }
             x => {
-                defmt::trace!("unknown PKTSTS: {}", x.to_bits());
+                trace!("unknown PKTSTS: {}", x.to_bits());
             }
         }
     }
 
     // IN endpoint interrupt
     if ints.iepint() {
-        defmt::info!("iepint");
+        info!("iepint");
         let mut ep_mask = r.daint().read().iepint();
         let mut ep_num = 0;
 
@@ -367,7 +389,7 @@ unsafe fn on_interrupt() {
         while ep_mask != 0 {
             if ep_mask & 1 != 0 {
                 // get the interrupt mask
-                defmt::info!(
+                info!(
                     "device in endpoint interrupt mask: {:08x}",
                     r.diepmsk().read().0
                 );
@@ -387,7 +409,7 @@ unsafe fn on_interrupt() {
                 }
 
                 state.ep_in_wakers[ep_num].wake();
-                defmt::trace!("in ep={} irq val={:08x}", ep_num, ep_ints.0);
+                trace!("in ep={} irq val={:08x}", ep_num, ep_ints.0);
             }
 
             ep_mask >>= 1;
@@ -395,10 +417,6 @@ unsafe fn on_interrupt() {
         }
     }
 
-    // if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
-    // {} else {
-    //     start_irq();
-    // }
 
     // not needed? reception handled in rxflvl
     // OUT endpoint interrupt
@@ -422,6 +440,8 @@ unsafe fn on_interrupt() {
     // }
 }
 
+
+#[cfg(stm32u575)]
 #[interrupt]
 fn OTG_FS() {
     info!("OTG_FS interrupt");
@@ -430,47 +450,15 @@ fn OTG_FS() {
         clock::delay_us(200);
     }
 }
-
-// /// USB PHY type
-// #[derive(Copy, Clone, Debug, Eq, PartialEq)]
-// pub enum PhyType {
-//     /// Internal Full-Speed PHY
-//     ///
-//     /// Available on most High-Speed peripherals.
-//     InternalFullSpeed,
-//     /// Internal High-Speed PHY
-//     ///
-//     /// Available on a few STM32 chips.
-//     InternalHighSpeed,
-//     /// External ULPI High-Speed PHY
-//     ExternalHighSpeed,
-// }
-//
-// impl PhyType {
-//     /// Get whether this PHY is any of the internal types.
-//     pub fn internal(&self) -> bool {
-//         match self {
-//             PhyType::InternalFullSpeed | PhyType::InternalHighSpeed => true,
-//             PhyType::ExternalHighSpeed => false,
-//         }
-//     }
-//
-//     /// Get whether this PHY is any of the high-speed types.
-//     pub fn high_speed(&self) -> bool {
-//         match self {
-//             PhyType::InternalFullSpeed => false,
-//             PhyType::ExternalHighSpeed | PhyType::InternalHighSpeed => true,
-//         }
-//     }
-//
-//     pub(crate) fn to_dspd(&self) -> stm32_metapac::otg::vals::Dspd {
-//         match self {
-//             PhyType::InternalFullSpeed => stm32_metapac::otg::vals::Dspd::FULL_SPEED_INTERNAL,
-//             PhyType::InternalHighSpeed => stm32_metapac::otg::vals::Dspd::HIGH_SPEED,
-//             PhyType::ExternalHighSpeed => stm32_metapac::otg::vals::Dspd::HIGH_SPEED,
-//         }
-//     }
-// }
+#[cfg(stm32u5a5)]
+#[interrupt]
+fn OTG_HS() {
+    info!("OTG_HS interrupt");
+    unsafe {
+        on_interrupt();
+        clock::delay_us(200);
+    }
+}
 
 /// Indicates that [State::ep_out_buffers] is empty.
 

@@ -11,5 +11,10 @@ fn main() {
             println!("cargo:rustc-cfg=stm32u575");
             break; // Exit the loop once the first matching feature is found
         }
+        if key.starts_with("CARGO_FEATURE_STM32U5A5") {
+            // If found, print the cargo directive to set the `stm32u5` cfg flag
+            println!("cargo:rustc-cfg=stm32u5a5");
+            break; // Exit the loop once the first matching feature is found
+        }
     }
 }

@@ -86,12 +86,16 @@ name =  "usb_u575"
 path = "src/bin/usb_u575.rs"
 test = false
 bench = false
+opt-level = 3
+debug = true
+
 
 # add default features for all supported chips
 
 [features]
 default = [
-    "stm32u575ri",
+    # "stm32u575ri",
+    "stm32u5a5zj",
     "defmt",
 ]
 defmt = []

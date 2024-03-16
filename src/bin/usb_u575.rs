@@ -15,6 +15,8 @@ use embassy_usb::{
 use futures::future::{join, select};
 use u5_lib::{clock, gpio, *};
 use u5_lib::{exti, low_power::mcu_no_deep_sleep};
+use u5_lib::gpio::{USART_RX_PA10, USART_TX_PA9};
+use u5_lib::usart::USART1;
 
 // define defmt format
 #[derive(defmt::Format)]
@@ -27,6 +29,8 @@ const GREEN: gpio::GpioPort = gpio::PB7;
 
 fn setup() {
     clock::init_clock();
+    clock::set_gpio_clock();
+    USART1.setup(USART_TX_PA9, USART_RX_PA10);
     GREEN.setup();
 }
 
@@ -36,11 +40,25 @@ async fn main(spawner: Spawner) {
     mcu_no_deep_sleep();
     clock::kernel_freq_160mhz_request();
     defmt::info!("setup led finished!");
-    spawner.spawn(btn()).unwrap();
+    // spawner.spawn(btn()).unwrap();
     spawner.spawn(usb_task()).unwrap();
+    // loop {
+        // rtc::rtc_interrupt().await;
+    USART1.send("start task success!\n".as_bytes());
+
     loop {
-        rtc::rtc_interrupt().await;
+        exti::EXTI13_PC13.wait_for_raising().await;
+        GREEN.toggle();
+        USART1.send("button clicked\n".as_bytes());
+        // defmt::info!("button clicked");
     }
+    // }
+
+    // loop {
+    //     GREEN.toggle();
+    //     // ORANGE.toggle();
+    //     clock::delay_ms(300);
+    // }
 }
 
 #[panic_handler]
@@ -56,16 +74,16 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-#[embassy_executor::task]
-async fn btn() {
-    let _last_time: (u8, u8, u8) = (0, 0, 0);
-    defmt::info!("waiting for btn");
-    loop {
-        exti::EXTI13_PC13.wait_for_raising().await;
-        GREEN.toggle();
-        defmt::info!("button clicked");
-    }
-}
+// #[embassy_executor::task]
+// async fn btn() {
+//     let _last_time: (u8, u8, u8) = (0, 0, 0);
+//     defmt::info!("waiting for btn");
+//     loop {
+//         exti::EXTI13_PC13.wait_for_raising().await;
+//         GREEN.toggle();
+//         defmt::info!("button clicked");
+//     }
+// }
 
 #[embassy_executor::task]
 pub async fn usb_task() {
@@ -92,6 +110,7 @@ pub async fn usb_task() {
     let mut msos_descriptor = [0; 512];
 
     let mut state = State::new();
+    USART1.send("starting usb task new!\n\n".as_bytes());
 
     let mut builder = Builder::new(
         driver,
@@ -104,8 +123,10 @@ pub async fn usb_task() {
     );
 
     let mut class = CdcAcmClass::new(&mut builder, &mut state, 64);
+    USART1.send("declare class success!\n".as_bytes());
     // Build the builder.
     let mut usb = builder.build();
+    // USART1.send("success!\n".as_bytes());
     let usb_fut = usb.run(); // Run the USB device.
     let handler_fut = async {
         loop {
@@ -115,6 +136,7 @@ pub async fn usb_task() {
             defmt::info!("disconnected");
         }
     };
+    USART1.send("start usb task success!\n".as_bytes());
     join(usb_fut, handler_fut).await; // Run everything concurrently.
 }
 
@@ -135,7 +157,17 @@ async fn usb_handler<'d>(class: &mut CdcAcmClass<'d, usb_otg::Driver>) -> Result
     defmt::info!("start usb handler");
     loop {
         // select(future1, future2)
-        let n = class.read_packet(&mut buf).await.unwrap();
-        class.write_packet(&buf[0..n]).await.unwrap();
+        let ret = class.read_packet(&mut buf).await;
+        match ret {
+            Ok(n) => {
+                defmt::info!("read {} bytes", n);
+                class.write_packet(&buf[0..n]).await.unwrap();
+            }
+            Err(e) => {
+                defmt::info!("error: {:?}", e);
+                return Err(e.into());
+            }
+        }
+        // class.write_packet(&buf[0..n]).await.unwrap();
     }
 }

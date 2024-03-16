@@ -1,10 +1,23 @@
 use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
-use defmt::trace;
+
 use embassy_usb_driver::{EndpointError, EndpointIn, EndpointOut};
+
 use crate::usb_otg::{quirk_setup_late_cnak, regs, state};
 use crate::usb_otg::endpoint::Endpoint;
+macro_rules! info {
+    ($($arg:tt)*) => {};
+}
+macro_rules! debug {
+    ($($arg:tt)*) => {};
+}
+macro_rules! trace {
+    ($($arg:tt)*) => {};
+}
+macro_rules! error {
+    ($($arg:tt)*) => {};
+}
 
 //
 // /// USB control pipe.
@@ -16,6 +29,7 @@ pub struct ControlPipe {
 }
 
 impl embassy_usb_driver::ControlPipe for ControlPipe {
+    /// Maximum packet size for the control pipe
     fn max_packet_size(&self) -> usize {
         usize::from(self.max_packet_size)
     }
