@@ -23,5 +23,6 @@ pub mod rtc;
 pub mod queue;
 pub mod usb_otg;
 pub mod usart;
-mod adc;
+pub mod adc;
+pub mod tim;
 // mod usb_otg;

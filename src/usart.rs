@@ -1,9 +1,6 @@
 #![allow(unused)]
-
 use stm32_metapac::usart::vals::{M0, M1, Over8, Stop};
-
 use crate::{clock, gpio};
-
 pub struct UsartPort {
     port: stm32_metapac::usart::Usart,
 }

@@ -211,6 +211,20 @@ pub fn set_usart_clock() {
     // enable usart1 clock
     RCC.apb2enr().modify(|v| v.set_usart1en(true));
 }
+pub fn set_adc_clock() {
+    RCC.ahb3enr().modify(|v| v.set_pwren(true));
+    PWR.svmcr().modify(|v| v.set_asv(true));
+
+    // rm0456 rev4 p 495
+    // The ADC and DAC kernel clock source is selected thanks to ADCDACSEL[2:0] in RCC_CCIPR3.
+    // use hsi16 as adc clock
+    RCC.ccipr3()
+        .modify(|v| v.set_adcdacsel(stm32_metapac::rcc::vals::Adcdacsel::HSI));
+    // enable adc clock
+    RCC.ahb2enr1().modify(|v| v.set_adc12en(true));
+
+
+}
 
 //////////
 ///

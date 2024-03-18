@@ -11,6 +11,7 @@ sdio-host = { version = "0.9.0" }
 embedded-sdmmc = { version = "0.6.0", default-features = false, features = [
     "defmt-log",
 ] }
+heapless = { version = "0.8.0"}
 
 eb_cmds = { path = "C:/tmp/eb_cmds" }
 
@@ -27,7 +28,8 @@ futures = { version = "0.3.17", default-features = false, fetures = [
 
 [dependencies.stm32-metapac]
 # git="https://github.com/embassy-rs/stm32-data-generated"
-path = "../stm32-data-generated/stm32-metapac"
+#path = "../stm32-data-generated/stm32-metapac"
+path = "C:/tmp/stm32-data/build/stm32-metapac"
 features = [ "memory-x", "rt"] # ,"stm32u575ri"]
 #rev = "d63f931"
 
