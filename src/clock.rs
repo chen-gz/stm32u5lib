@@ -222,8 +222,6 @@ pub fn set_adc_clock() {
         .modify(|v| v.set_adcdacsel(stm32_metapac::rcc::vals::Adcdacsel::HSI));
     // enable adc clock
     RCC.ahb2enr1().modify(|v| v.set_adc12en(true));
-
-
 }
 
 //////////
@@ -317,6 +315,13 @@ pub fn init_clock() {
         cr.set_dbg_stop(true);
         cr.set_dbg_standby(true);
     });
+
+    // enable hse clock
+    RCC.cr().modify(|v| v.set_hseon(true));
+    // wait for hse ready
+    while !RCC.cr().read().hserdy() {}
+
+
 }
 /// set the cpu frequency to 160Mhz
 /// this is the maximum frequency
@@ -399,9 +404,9 @@ pub fn set_cpu_freq(freq: u32) {
     });
     while !PWR.vosr().read().vosrdy() {}
 
-    // PWR.vosr().modify(|w| {
-    //     w.set_boosten(true);
-    // });
+    PWR.vosr().modify(|w| {
+        w.set_boosten(true);
+    });
     // wait for boost ready
     // while !PWR.vosr().read().boostrdy() {}
 

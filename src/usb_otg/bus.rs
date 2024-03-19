@@ -58,14 +58,32 @@ impl Bus {
         defmt::trace!("USB power stabilized");
 
         // Select HSI48 as USB clock source.
+        #[cfg(stm32u575)]
         critical_section::with(|_| {
             stm32_metapac::RCC.ccipr1().modify(|w| {
                 w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
             })
         });
+        #[cfg(stm32u5a5)]
+        critical_section::with(|_| {
+            stm32_metapac::RCC.ccipr2().modify(|w| {
+                w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
+            })
+        });
+        #[cfg(stm32u575)]
         stm32_metapac::RCC
             .ahb2enr1()
             .modify(|w| w.set_usb_otg_fsen(true));
+
+        #[cfg(stm32u5a5)]
+        stm32_metapac::RCC
+            .ahb2enr1()
+            .modify(|w| {
+                w.set_usb_otg_hs_phyen(true);
+                w.set_usb_otg_hsen(true);
+            });
+
+
         #[cfg(stm32u575)]
         unsafe {
             NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
@@ -74,6 +92,7 @@ impl Bus {
             Self::restore_irqs();
             trace!("USB IRQs start");
         }
+
         #[cfg(stm32u5a5)]
         unsafe {
             NVIC::unpend(stm32_metapac::Interrupt::OTG_HS);
@@ -116,6 +135,23 @@ impl Bus {
                     w.set_bvaloval(true);
                 });
             }
+            0x0000_5000 => {
+                // U5A5
+                r.gccfg_v2().modify(|w| {
+                    // w.set_pwrdwn(true);
+                    // w.set_vbden(self.config.vbus_detection);   // vbus detect. these can used to save power.
+                    // w.set_vbden(true);
+                    // w.set_phyhsen(true);
+                    w.0 = (1<<24) | (1<<23);
+                });
+
+                // Force B-peripheral session
+                r.gotgctl().modify(|w| {
+                    w.set_bvaloen(true);
+                    w.set_bvaloval(true);
+                });
+                r.gusbcfg().modify(|w| w.set_trdt(0x09));
+            }
             _ => unimplemented!("Unknown USB core id {:X}", core_id),
         }
 
@@ -128,16 +164,12 @@ impl Bus {
             #[cfg(stm32u575)]
             w.set_dspd(self.phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
             #[cfg(stm32u5a5)]
-            w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL); // todo: for u5a5, this is different. 11 is reserved
+            w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
         });
 
         r.diepmsk().write(|w| {
             w.set_xfrcm(true);    // Unmask transfer complete EP interrupt
         });
-
-        // Unmask and clear core interrupts
-        // Bus::<T>::restore_irqs();
-        // r.gintsts().write_value(regs::Gintsts(0xFFFF_FFFF));
         r.gintsts().write_value(stm32_metapac::otg::regs::Gintsts(0xFFFF_FFFF));
 
         // Unmask global interrupt
@@ -395,7 +427,10 @@ impl embassy_usb_driver::Bus for Bus {
                 let trdt = calculate_trdt(speed, 160_000_000);
                 //TODO: get HCLK frequency
                 trace!("  speed={} trdt={}", speed.to_bits(), trdt);
+                #[cfg(stm32u575)]
                 r.gusbcfg().modify(|w| w.set_trdt(trdt));
+                #[cfg(stm32u5a5)]
+                r.gusbcfg().modify(|w| w.set_trdt(0x09));
 
                 r.gintsts().write(|w| w.set_enumdne(true)); // clear
                 Self::restore_irqs();

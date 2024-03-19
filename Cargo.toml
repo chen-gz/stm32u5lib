@@ -55,7 +55,7 @@ features = ["defmt"]
 
 [profile.dev]
 lto = false
-opt-level = 3
+# opt-level = 3
 debug = true
 
 

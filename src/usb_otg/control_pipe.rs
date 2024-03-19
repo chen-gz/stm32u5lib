@@ -6,18 +6,19 @@ use embassy_usb_driver::{EndpointError, EndpointIn, EndpointOut};
 
 use crate::usb_otg::{quirk_setup_late_cnak, regs, state};
 use crate::usb_otg::endpoint::Endpoint;
-macro_rules! info {
-    ($($arg:tt)*) => {};
-}
-macro_rules! debug {
-    ($($arg:tt)*) => {};
-}
-macro_rules! trace {
-    ($($arg:tt)*) => {};
-}
-macro_rules! error {
-    ($($arg:tt)*) => {};
-}
+use defmt::{trace, error};
+// macro_rules! info {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! debug {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! trace {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! error {
+//     ($($arg:tt)*) => {};
+// }
 
 //
 // /// USB control pipe.

@@ -54,7 +54,7 @@ pub mod fifo_const {
 
 #[cfg(stm32u5a5)]
 pub mod fifo_const {
-    pub const MAX_EP_COUNT: usize = 9;
+    pub const MAX_EP_COUNT: usize = 6;
     pub const FIFO_DEPTH_WORDS: u16 = 1024;
     //4Kbtes = 4096 bytes = 1024 words
     // total fifo size in words
@@ -62,8 +62,8 @@ pub mod fifo_const {
     pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288; // 32 * 9 = 288
     // 1024 - 288 = 736; 736 / 9 = 81.7777 =320 bytes = 80 words
     // 1024 - 288 - 80 * 8 = 96
-    pub const TX_FIFO_SIZE_WORDS: [u16; 9] = [80, 80, 80, 80, 80, 80, 80, 80, 
-    96];
+    pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [80, 80, 80, 80, 80, 80];
+    //  80, 80, 96];
 }
 
 
@@ -269,7 +269,7 @@ impl embassy_usb_driver::Driver<'_> for Driver {
     }
 }
 
-unsafe fn on_interrupt() {
+pub unsafe  fn on_interrupt() {
     let r = regs();
     // r.gahbcfg().modify(|w| w.set_dmaen(val));
     // r.gintmsk().write(|_w| {});
@@ -444,19 +444,29 @@ unsafe fn on_interrupt() {
 #[cfg(stm32u575)]
 #[interrupt]
 fn OTG_FS() {
-    info!("OTG_FS interrupt");
+    // info!("OTG_FS interrupt");
     unsafe {
         on_interrupt();
-        clock::delay_us(200);
+        // clock::delay_us(200);
     }
 }
-#[cfg(stm32u5a5)]
+// #[cfg(stm32u5a5)]
+// #[interrupt]
+// fn OTG_HS() {
+//     defmt::info!("OTG_HS interrupt");
+//     unsafe {
+//         // on_interrupt();
+//         clock::delay_us(200);
+//     }
+// }
+
 #[interrupt]
 fn OTG_HS() {
-    info!("OTG_HS interrupt");
+    // GREEN.toggle();
+    // defmt::info!("OTG_HS interrupt");
     unsafe {
         on_interrupt();
-        clock::delay_us(200);
+        // clock::delay_us(200);
     }
 }
 
