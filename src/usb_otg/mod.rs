@@ -23,21 +23,22 @@ mod bus;
 mod endpoint;
 mod control_pipe;
 mod phy_type;
+use defmt::{info, trace, error};
 
 // map info, debug, trace, error to nothing
 
-macro_rules! info {
-    ($($arg:tt)*) => {};
-}
-macro_rules! debug {
-    ($($arg:tt)*) => {};
-}
-macro_rules! trace {
-    ($($arg:tt)*) => {};
-}
-macro_rules! error {
-    ($($arg:tt)*) => {};
-}
+// macro_rules! info {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! debug {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! trace {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! error {
+//     ($($arg:tt)*) => {};
+// }
 
 
 #[cfg(stm32u575)]
@@ -62,7 +63,7 @@ pub mod fifo_const {
     pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288; // 32 * 9 = 288
     // 1024 - 288 = 736; 736 / 9 = 81.7777 =320 bytes = 80 words
     // 1024 - 288 - 80 * 8 = 96
-    pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [80, 80, 80, 80, 80, 80];
+    pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [64, 64, 64, 64, 64, 64];
     //  80, 80, 96];
 }
 
@@ -237,7 +238,7 @@ impl embassy_usb_driver::Driver<'_> for Driver {
             ep_type: EndpointType::Control,
             max_packet_size: control_max_packet_size,
         });
-        trace!("start");
+        defmt::trace!("start");
         (
             Bus {
                 config: self.config,

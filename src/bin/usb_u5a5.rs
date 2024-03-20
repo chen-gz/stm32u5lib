@@ -192,7 +192,7 @@ pub async fn usb_task() {
     let driver = usb_otg::Driver::new(config, gpio::USB_DM_PA11, gpio::USB_DP_PA12);
 
     // // Create embassy-usb Config
-    let mut config = embassy_usb::Config::new(0xabcd, 0xefba);
+    let mut config = embassy_usb::Config::new(0xaaaa, 0xefba);
     config.manufacturer = Some("ggeta");
     config.product = Some("USB-serial example");
     config.serial_number = Some("12345678");

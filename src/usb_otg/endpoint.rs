@@ -9,18 +9,18 @@ use embassy_usb_driver::{Direction, EndpointAddress, EndpointError, EndpointInfo
 use crate::usb_otg::{EP_OUT_BUFFER_EMPTY, state};
 use crate::usb_otg::regs;
 
-macro_rules! info {
-    ($($arg:tt)*) => {};
-}
-macro_rules! debug {
-    ($($arg:tt)*) => {};
-}
-macro_rules! trace {
-    ($($arg:tt)*) => {};
-}
-macro_rules! error {
-    ($($arg:tt)*) => {};
-}
+// macro_rules! info {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! debug {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! trace {
+//     ($($arg:tt)*) => {};
+// }
+// macro_rules! error {
+//     ($($arg:tt)*) => {};
+// }
 
 //
 // /// USB endpoint.
