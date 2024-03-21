@@ -164,8 +164,8 @@ impl Bus {
             #[cfg(stm32u575)]
             w.set_dspd(self.phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
             #[cfg(stm32u5a5)]
-            w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
-            // w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
+            // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
+            w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
         });
 
         r.diepmsk().write(|w| {
