@@ -1,20 +1,15 @@
 [package]
 name = "u5-lib"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
+authors = ["Guangzong Chen <chen@ggeta.com>"]
 
 [dependencies]
 defmt = { version = "0.3.6" }
 defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
 sdio-host = { version = "0.9.0" }
-embedded-sdmmc = { version = "0.6.0", default-features = false, features = [
-    "defmt-log",
-] }
 heapless = { version = "0.8.0"}
-
-# eb_cmds = { path = "C:/tmp/eb_cmds" }
-
 cortex-m = { version = "0.7.7", features = [
     "inline-asm",
     "critical-section-single-core",
@@ -27,11 +22,8 @@ futures = { version = "0.3.17", default-features = false, fetures = [
 ]}
 
 [dependencies.stm32-metapac]
-# git="https://github.com/embassy-rs/stm32-data-generated"
-#path = "../stm32-data-generated/stm32-metapac"
 path = "../stm32-data/build/stm32-metapac"
-features = [ "memory-x", "rt"] # ,"stm32u575ri"]
-#rev = "d63f931"
+features = [ "memory-x", "rt"] 
 
 [dependencies.embassy-sync]
 git = "https://github.com/embassy-rs/embassy"
@@ -55,48 +47,18 @@ features = ["defmt"]
 
 [profile.dev]
 lto = false
-# opt-level = 3
-debug = true
-
-
-# [lib]
-# name = "u5_lib"
-# path = "src/lib.rs"
-# test = false
-# bench = false
-
-# [[bin]]
-# name = "btn"
-# path = "src/bin/btn.rs"
-# test = false
-# bench = false
-
-# [[bin]]
-# name = "led"
-# path = "src/bin/led.rs"
-# test = false
-# bench = false
-
-# [[bin]]
-# name = "usb_sd_cam"
-# path = "src/bin/usb_sd_cam.rs"
-# test = false
-# bench = false
-
-[[bin]]
-name =  "usb_u575"
-path = "src/bin/usb_u575.rs"
-test = false
-bench = false
 opt-level = 3
 debug = true
 
 
-# add default features for all supported chips
+[lib]
+name = "u5_lib"
+path = "src/lib.rs"
+test = false
+bench = false
 
 [features]
 default = [
-    # "stm32u575ri",
     "stm32u5a5zj",
     "defmt",
 ]
