@@ -1,7 +1,7 @@
 [package]
 name = "u5-lib"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 authors = ["Guangzong Chen <chen@ggeta.com>"]
 
 [dependencies]
@@ -60,9 +60,8 @@ bench = false
 [features]
 default = [
     "stm32u5a5zj",
-    "defmt",
+    # "defmt",
 ]
-defmt = []
 #! ## Chip-selection features
 #! Select your chip by specifying the model as a feature, e.g. `stm32c011d6`.
 #! Check the `Cargo.toml` for the latest list of supported chips.
