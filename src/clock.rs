@@ -1,17 +1,40 @@
+//! There are alot of default settings are applied in the clock setting. Before changing the clock settings. Read these comments carefully. If update the default settings, please upate the comments first.
+//! Current only support working with HSE = 16Mhz and LSE = 32.768Khz other frequency is not supported. Check the hardare please.
+//! - pll1_r, pll1_p always set to 160Mhz
+//! Two clock scheme is supported:
+//! 1. without HSE.
+//!     - MSI 4Mhz as pll source, the pll output are vary depend on the system clock requirement. pll1_r is always set to system clock except when the system clock is 4Mhz.
+//!
+//! 2. with HSE.
+//!     - system start with MSI 4Mhz as clocck source. Then the system clock is set to HSE 16Mhz as default clock if system clock is less than 16Mhz. Otherwise the pll1_r is set to system clock.
+//!
 #![allow(dead_code)]
 use core::panic;
 
 use cortex_m::{self};
+// current system clock frequenciess
+/// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
+struct CLOCKS {
+    msis: u32,
+    msik: u32,
+    hse: u32,
+    pll1_p: u32,
+    pll1_q: u32,
+    pll1_r: u32,
+    hclk: u32, // aka system clock
+    iclk: u32,
+}
+const MSIS_FREQ: u32 = 4_000_000;
+const MSIK_FREQ: u32 = 4_000_000;
+const HSE_FREQ: u32 = 16_000_000;
+const PLL1_R_FREQ: u32 = 160_000_000;
+const PLL1_Q_FREQ: u32 = 160_000_000;
+const PLL1_P_FREQ: u32 = 0;
+static mut HSE_AVAILABLE: bool = false;
 
 struct ClockRef {
     hsi16: u32,
-    hse: u32,
-    pll1: u32,
-    pll2: u32,
-    pll3: u32,
     hsi48: u32,
-    msi: u32,
-    lsi: u32,
     kernel_freq_160mhz: u32,
     kernel_freq_80mhz: u32,
     kernel_freq_64mhz: u32,
@@ -19,19 +42,6 @@ struct ClockRef {
     kernel_freq_32mhz: u32,
     kernel_freq_16mhz: u32,
     kernel_freq_4mhz: u32,
-}
-pub fn hse_request() {
-    unsafe {
-        CLOCK_REF.hse += 1;
-    }
-    set_clock();
-}
-
-pub fn hse_release() {
-    unsafe {
-        CLOCK_REF.hse -= 1;
-    }
-    set_clock();
 }
 
 pub fn hsi16_request() {
@@ -98,16 +108,55 @@ where
         set_clock();
     }
 }
+static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
+enum ClockFreqs {
+    KernelFreq160Mhz, // 160Mhz
+    KernelFreq80Mhz,  // 80Mhz
+    KernelFreq64Mhz,  // 64Mhz
+    KernelFreq48Mhz,  // 48Mhz
+    KernelFreq40Mhz,  // 40Mhz
+    KernelFreq32Mhz,  // 32Mhz
+    KernelFreq24Mhz,  // 24Mhz
+    KernelFreq20Mhz,  // 20Mhz
+    KernelFreq16Mhz,  // 16Mhz
+    KernelFreq8Mhz,   // 8Mhz
+    KernelFreq4Mhz,   // 4Mhz
+    KernelFreq2Mhz,   // 2Mhz
+    KernelFreq1Mhz,   // 1Mhz
+}
+
+fn set_pll() {
+    if unsafe { HSE_AVAILABLE } {
+        RCC.pll1cfgr().modify(|w| {
+            w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::HSE);
+            w.set_pllm(stm32_metapac::rcc::vals::Pllm::DIV4);
+        });
+    } else {
+        RCC.pll1cfgr().modify(|w| {
+            w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::MSIS);
+            w.set_pllm(stm32_metapac::rcc::vals::Pllm::DIV1);
+        });
+    }
+    RCC.pll1divr().modify(|v| {
+        v.set_plln(stm32_metapac::rcc::vals::Plln::MUL80);
+        v.set_pllr(stm32_metapac::rcc::vals::Plldiv::DIV2);
+        v.set_pllq(stm32_metapac::rcc::vals::Plldiv::DIV2);
+        v.set_pllp(stm32_metapac::rcc::vals::Plldiv::DIV2);
+    });
+
+    RCC.pll1cfgr().modify(|w| {
+        w.set_pllren(true); // enable pll1_r
+        w.set_pllpen(true); // enable pll1_p
+    });
+    RCC.cr().modify(|w| {
+        w.set_pllon(0, true);
+    });
+    while !RCC.cr().read().pllrdy(0) {}
+}
 
 static mut CLOCK_REF: ClockRef = ClockRef {
     hsi16: 1,
-    hse: 0,
-    pll1: 0,
-    pll2: 0,
-    pll3: 0,
     hsi48: 1,
-    msi: 0,
-    lsi: 0,
     kernel_freq_160mhz: 0,
     kernel_freq_80mhz: 0,
     kernel_freq_64mhz: 0,
@@ -116,6 +165,9 @@ static mut CLOCK_REF: ClockRef = ClockRef {
     kernel_freq_16mhz: 0,
     kernel_freq_4mhz: 1,
 };
+fn clock_ref() -> &'static ClockRef {
+    unsafe { &CLOCK_REF }
+}
 
 use defmt::info;
 use stm32_metapac::{gpio, pwr, rcc, DBGMCU, FLASH, PWR, RCC};
@@ -194,7 +246,7 @@ pub fn delay_tick(n: u32) {
     }
 }
 
-pub fn set_gpio_clock(gpio: gpio::Gpio) {
+pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
     // todo check VDDIO2
     if gpio == stm32_metapac::GPIOA {
         RCC.ahb2enr1().modify(|v| v.set_gpioaen(true));
@@ -212,10 +264,14 @@ pub fn set_gpio_clock(gpio: gpio::Gpio) {
         panic!("Not supported gpio");
     }
 }
-pub fn set_sdmmc_clock() {
+
+pub fn set_sdmmc_clock(sdmmc: stm32_metapac::sdmmc::Sdmmc) {
+    // if clock_ref().has_hse {
+
+    // }
     // use hsi48 for sdmmc clock
-    RCC.ccipr2()
-        .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK));
+    // RCC.ccipr2()
+    //     .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK)); // use iclk as clock source
 
     // enable sdmmc clock
     RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
@@ -252,18 +308,23 @@ pub fn init_clock() {
     // set_gpio_clock(); // todo: remove this and add to gpio_setup
     set_clock();
 }
+
 pub fn init_clock_new(has_hse: bool, enable_dbg: bool) {
-    static mut called: bool = false;
-    if (unsafe { called }) {
+    // unsafe {CLOCK_REF.has_hse = has_hse;}
+    unsafe {
+        HSE_AVAILABLE = has_hse;
+    }
+    static mut CALLED: bool = false;
+    if unsafe { CALLED } {
         panic!("init_clock_new should only be called once");
     }
     unsafe {
-        called = true;
+        CALLED = true;
     }
 
-    if has_hse {
-        hse_request(); // default use hse; the frequency should be 16Mhz
-    }
+    // if has_hse {
+    // hse_request(); // default use hse; the frequency should be 16Mhz
+    // }
     if enable_dbg {
         DBGMCU.cr().modify(|cr| {
             cr.set_dbg_stop(true);
@@ -504,7 +565,8 @@ pub fn set_clock() {
             RCC.cr().modify(|w| w.set_hsion(true));
             while !RCC.cr().read().hsirdy() {}
         }
-        if CLOCK_REF.hse > 0 {
+        // if CLOCK_REF.hse > 0 {
+        if HSE_AVAILABLE {
             // enable hse
             RCC.cr().modify(|w| w.set_hseon(true));
             while !RCC.cr().read().hserdy() {}

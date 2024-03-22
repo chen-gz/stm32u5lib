@@ -29,7 +29,7 @@ const GREEN: gpio::GpioPort = gpio::PB7;
 
 fn setup() {
     clock::init_clock();
-    clock::set_gpio_clock();
+    // clock::set_gpio_clock();
     USART1.setup(USART_TX_PA9, USART_RX_PA10);
     GREEN.setup();
 }
