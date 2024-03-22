@@ -46,7 +46,7 @@ impl ExtiPort {
         self.gpio.setup();
         unsafe {
             // NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
-            NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
+            // NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
             NVIC::unmask(stm32_metapac::Interrupt::EXTI13);
         }
         // if self.line < 8 {
@@ -68,6 +68,7 @@ impl ExtiPort {
         else if self.line == 13 {
             EXTI13_SIGNAL.wait().await;
         }
+        // defmt::info!("exti port {} triggered", self.line);
     }
 }
 static EXTI2_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
@@ -78,6 +79,7 @@ static mut EXTI13_SIGNAL_VALUE: u32 = 0;
 use stm32_metapac::interrupt;
 #[interrupt]
 fn EXTI2(){
+    // defmt::info!("EXTI2");
     unsafe {
         let stat = (((stm32_metapac::EXTI.fpr(0).read().0 >> 2) & 1) << 1)
             | (stm32_metapac::EXTI.rpr(0).read().0 >> 2) & 1;

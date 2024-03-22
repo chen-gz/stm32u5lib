@@ -6,7 +6,7 @@ use embassy_usb_driver::{EndpointError, EndpointIn, EndpointOut};
 
 use crate::usb_otg::{quirk_setup_late_cnak, regs, state};
 use crate::usb_otg::endpoint::Endpoint;
-use defmt::{trace, error};
+use defmt::{trace};
 // macro_rules! info {
 //     ($($arg:tt)*) => {};
 // }
@@ -90,7 +90,7 @@ impl embassy_usb_driver::ControlPipe for ControlPipe {
 
     async fn data_in(
         &mut self,
-        mut data: &[u8],
+        data: &[u8],
         _first: bool,
         last: bool,
     ) -> Result<(), EndpointError> {

@@ -14,10 +14,10 @@ use embassy_usb::{
     class::cdc_acm::{CdcAcmClass, State},
     driver::EndpointError,
 };
-use futures::future::{join, select};
+use futures::future::{join};
 use stm32_metapac;
-use stm32_metapac::interrupt;
-use stm32_metapac::USB_OTG_HS;
+
+
 
 use u5_lib::{*, clock, gpio};
 use u5_lib::{

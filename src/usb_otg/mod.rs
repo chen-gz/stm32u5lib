@@ -285,7 +285,7 @@ pub unsafe  fn on_interrupt() {
         // the interrupt should be re-enabled by the bus after bus processing (in bus task functions)
     }
     // let state = &STATE;
-    let mut state: &mut State<MAX_EP_COUNT> = state();
+    let state: &mut State<MAX_EP_COUNT> = state();
 
     // Handle RX
     while r.gintsts().read().rxflvl() {
@@ -461,6 +461,7 @@ fn OTG_FS() {
 //     }
 // }
 
+#[cfg(stm32u5a5)]
 #[interrupt]
 fn OTG_HS() {
     // GREEN.toggle();

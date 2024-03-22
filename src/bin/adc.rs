@@ -20,8 +20,8 @@ fn setup() {
     ORANGE.setup();
     BLUE.setup();
 }
-use heapless::String;
-use core::fmt::Write;
+
+
 
 #[entry]
 fn main() -> ! {
@@ -73,7 +73,7 @@ u5_lib::gpio::ADC1_IN1_PC0.setup();
 
 use core::panic::PanicInfo;
 use u5_lib::adc::ADC1;
-use u5_lib::tim::Config;
+
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {

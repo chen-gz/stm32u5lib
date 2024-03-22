@@ -1,5 +1,5 @@
-use embassy_usb_driver::EndpointType;
-use crate::usb_otg::State;
+
+
 
 /// USB PHY type
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]

@@ -64,7 +64,7 @@ impl TimIns {
     pub fn init(&mut self, config: Config) -> Result<(), TimError> {
         // counter value is 0 -> arr (include 0 and arr).
         // So the tick is arr + 1;
-        if (self.init) {
+        if self.init {
             return Err(TimError::ReInitError);
         }
         self.init = true;

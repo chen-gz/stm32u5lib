@@ -20,6 +20,20 @@ struct ClockRef {
     kernel_freq_16mhz: u32,
     kernel_freq_4mhz: u32,
 }
+pub fn hse_request() {
+    unsafe {
+        CLOCK_REF.hse += 1;
+    }
+    set_clock();
+}
+
+pub fn hse_release() {
+    unsafe {
+        CLOCK_REF.hse -= 1;
+    }
+    set_clock();
+}
+
 pub fn hsi16_request() {
     unsafe {
         CLOCK_REF.hsi16 += 1;
@@ -302,25 +316,12 @@ pub fn init_clock() {
         cr.set_dbg_stop(true);
         cr.set_dbg_standby(true);
     });
-
-    // let mut config = embassy_stm32::Config::default();
-    // config.rcc.mux = ClockSrc::PLL1_R(PllConfig::hsi_160mhz());
-    // config.rcc.voltage_range = VoltageScale::RANGE1; // this is for high frquency. This should be
-    //                                                  // should better set in the rcc module. instead of here.
-    // let _p = embassy_stm32::init(config);
     delay_enable();
     set_gpio_clock();
     set_clock();
-    DBGMCU.cr().modify(|cr| {
-        cr.set_dbg_stop(true);
-        cr.set_dbg_standby(true);
-    });
-
-    // enable hse clock
-    RCC.cr().modify(|v| v.set_hseon(true));
-    // wait for hse ready
-    while !RCC.cr().read().hserdy() {}
-
+}
+pub fn init_clock_new(has_hse: bool) {
+    hse_request(); // default use hse; the frequency should be 16Mhz
 
 }
 /// set the cpu frequency to 160Mhz

@@ -34,6 +34,11 @@ features = ["nightly", "arch-cortex-m", "executor-thread"]
 git = "https://github.com/embassy-rs/embassy"
 rev = "35f284e"
 
+[dependencies.embassy-executor-macros]
+# features = ["nightly", "arch-cortex-m", "executor-thread"]
+git = "https://github.com/embassy-rs/embassy"
+rev = "35f284e"
+
 [dependencies.embassy-usb]
 git = "https://github.com/embassy-rs/embassy"
 rev = "35f284e"
@@ -59,7 +64,7 @@ bench = false
 
 [features]
 default = [
-    "stm32u5a5zj",
+    # "stm32u5a5zj",
     # "defmt",
 ]
 #! ## Chip-selection features

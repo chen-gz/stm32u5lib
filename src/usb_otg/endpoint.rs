@@ -3,7 +3,7 @@ use core::sync::atomic::Ordering;
 use core::task::Poll;
 
 use defmt::{debug, trace};
-use embassy_usb_driver::{Direction, EndpointAddress, EndpointError, EndpointInfo, EndpointType};
+use embassy_usb_driver::{EndpointError, EndpointInfo};
 // use stm32_metapac::USB_OTG_FS;
 
 use crate::usb_otg::{EP_OUT_BUFFER_EMPTY, state};

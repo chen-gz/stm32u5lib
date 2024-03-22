@@ -12,7 +12,7 @@ use embassy_usb::{
     driver::EndpointError,
     Builder,
 };
-use futures::future::{join, select};
+use futures::future::{join};
 use u5_lib::{clock, gpio, *};
 use u5_lib::{exti, low_power::mcu_no_deep_sleep};
 use u5_lib::gpio::{USART_RX_PA10, USART_TX_PA9};

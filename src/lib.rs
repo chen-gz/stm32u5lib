@@ -26,3 +26,11 @@ pub mod usart;
 pub mod adc;
 pub mod tim;
 // mod usb_otg;
+
+// pub use embassy_executor::main as main;
+// pub use embassy_executor::task as task;
+pub use embassy_executor::Spawner;
+// pub use embassy_executor;
+// pub use embassy_executor_macros::task;
+
+pub use embassy_executor_macros::task;

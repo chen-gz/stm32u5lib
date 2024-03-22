@@ -182,8 +182,11 @@ impl Executor {
                 self.configure_pwr();
                 crate::clock::set_clock();
                 asm!("wfe");
+                // get wake up event
+                // let mut w = self.scb.icsr.read();
                 self.configure_pwr();
                 crate::clock::set_clock();
+                defmt::info!("wake up from wfe");
             };
         }
     }
