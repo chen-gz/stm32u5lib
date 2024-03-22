@@ -7,6 +7,8 @@ pub use stm32_metapac::gpio::vals::Pupdr;
 use stm32_metapac::gpio::Gpio;
 use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
 
+use crate::clock;
+
 macro_rules! define_gpio_port {
         ($($name:ident: $port:ident, $pin:expr),*) => {
             $(
@@ -65,7 +67,8 @@ impl GpioPort {
         })
     }
     pub fn setup(&self) {
-        //  moder: Moder, otypte: Ot, pupd: Pupdr) {
+        // enable the clock
+        clock::set_gpio_clock(self.port);
         self.port
             .moder()
             .modify(|v| v.set_moder(self.pin, self.mode));
@@ -73,9 +76,9 @@ impl GpioPort {
         self.port
             .pupdr()
             .modify(|v| v.set_pupdr(self.pin, self.pupd));
-        // self.port
-        //     .ospeedr()
-        //     .modify(|v| v.set_ospeedr(self.pin, stm32_metapac::gpio::vals::Ospeedr::VERYHIGHSPEED));
+        self.port
+            .ospeedr()
+            .modify(|v| v.set_ospeedr(self.pin, stm32_metapac::gpio::vals::Ospeedr::VERYHIGHSPEED));
         if self.pin < 8 {
             self.port
                 .afr(0)
@@ -136,10 +139,10 @@ define_gpio_port_alt!(
 
     USART_TX_PA9: GPIOA, 9, 7, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
     USART_RX_PA10: GPIOA, 10, 7, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
-    // ADC1_IN3_PC2: GPIOC, 2, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
-    ADC1_IN1_PC0: GPIOC, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING
-    // ADC1_IN6_PC0: GPIOC, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::PULLUP,
-    // ADC1_IN2_PC1: GPIOC, 1, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
-    // ADC1_IN5_PA0: GPIOA, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING
+    ADC1_IN3_PC2: GPIOC, 2, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
+    ADC1_IN1_PC0: GPIOC, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
+    ADC1_IN6_PC0: GPIOC, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
+    ADC1_IN2_PC1: GPIOC, 1, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
+    ADC1_IN5_PA0: GPIOA, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING
 
 );
