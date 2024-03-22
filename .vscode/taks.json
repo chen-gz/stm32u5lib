@@ -6,7 +6,7 @@
 			"command": "build",
 			"args": [
 				"--bin",
-				"usb_u5a5"
+				"led"
 			],
 			"problemMatcher": [
 				"$rustc"

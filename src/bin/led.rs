@@ -18,7 +18,7 @@ fn setup() {
 
 #[entry]
 fn main() -> ! {
-    clock::init_clock();
+    clock::init_clock(true, false);
     // clock::kernel_freq_160mhz_request();
     mcu_no_deep_sleep();
     setup();
@@ -34,5 +34,14 @@ fn main() -> ! {
 use core::panic::PanicInfo;
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
+    defmt::info!("panic");
+    defmt::error!(
+        "Location file name: {:?}, line: {:?}, col: {:?}",
+        _info.location().unwrap().file(),
+        _info.location().unwrap().line(),
+        _info.location().unwrap().column()
+    );
+
+    loop {}
     loop {}
 }

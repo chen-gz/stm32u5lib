@@ -55,7 +55,7 @@ impl I2cPort {
         // dealyt for 6 tick
         delay_tick(6);
         // set timing
-        let kernel_freq = crate::clock::get_kernel_freq();
+        let kernel_freq = crate::clock::get_hclk();
 
         // TODO: HSI 16 is used as system clock for easy setup.
         // The values are from the reference menu

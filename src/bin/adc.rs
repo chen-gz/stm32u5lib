@@ -25,7 +25,7 @@ fn setup() {
 
 #[entry]
 fn main() -> ! {
-    clock::init_clock();
+    clock::init_clock(true, false);
     clock::kernel_freq_160mhz_request();
     mcu_no_deep_sleep();
     setup();

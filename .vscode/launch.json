@@ -27,9 +27,9 @@
           {
             "coreIndex": 0,
             //!MODIFY
-            "programBinary": "C:\\tmp\\u5_new\\U5-LIB\\target\\thumbv8m.main-none-eabihf\\debug\\usb_u5a5",
+            "programBinary": "${workspaceFolder}/target/thumbv8m.main-none-eabihf/debug/led",
             //!MODIFY
-            "svdFile": "stm32u5A5.svd",
+            "svdFile": "stm32u5a5.svd",
             "rttEnabled": true
           }
         ],

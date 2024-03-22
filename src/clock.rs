@@ -9,7 +9,7 @@
 //!     - system start with MSI 4Mhz as clocck source. Then the system clock is set to HSE 16Mhz as default clock if system clock is less than 16Mhz. Otherwise the pll1_r is set to system clock.
 //!
 #![allow(dead_code)]
-use core::panic;
+// use core::panic;
 
 use cortex_m::{self};
 // current system clock frequenciess
@@ -24,6 +24,11 @@ struct CLOCKS {
     hclk: u32, // aka system clock
     iclk: u32,
 }
+static mut HCLK: u32 = 4_000_000; // kerenl clock
+pub fn get_hclk() -> u32 {
+    unsafe { HCLK }
+}
+
 const MSIS_FREQ: u32 = 4_000_000;
 const MSIK_FREQ: u32 = 4_000_000;
 const HSE_FREQ: u32 = 16_000_000;
@@ -108,22 +113,6 @@ where
         set_clock();
     }
 }
-static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
-enum ClockFreqs {
-    KernelFreq160Mhz, // 160Mhz
-    KernelFreq80Mhz,  // 80Mhz
-    KernelFreq64Mhz,  // 64Mhz
-    KernelFreq48Mhz,  // 48Mhz
-    KernelFreq40Mhz,  // 40Mhz
-    KernelFreq32Mhz,  // 32Mhz
-    KernelFreq24Mhz,  // 24Mhz
-    KernelFreq20Mhz,  // 20Mhz
-    KernelFreq16Mhz,  // 16Mhz
-    KernelFreq8Mhz,   // 8Mhz
-    KernelFreq4Mhz,   // 4Mhz
-    KernelFreq2Mhz,   // 2Mhz
-    KernelFreq1Mhz,   // 1Mhz
-}
 
 fn set_pll() {
     if unsafe { HSE_AVAILABLE } {
@@ -171,15 +160,15 @@ fn clock_ref() -> &'static ClockRef {
 
 use defmt::info;
 use stm32_metapac::{gpio, pwr, rcc, DBGMCU, FLASH, PWR, RCC};
-pub static mut SYSTEM_CLOCK: u32 = 4_000_000; // this is default value when the system start
-pub fn get_kernel_freq() -> u32 {
-    unsafe { SYSTEM_CLOCK }
-}
-fn set_kernel_freq(freq: u32) {
-    unsafe {
-        SYSTEM_CLOCK = freq;
-    }
-}
+// pub static mut SYSTEM_CLOCK: u32 = 4_000_000; // this is default value when the system start
+// pub fn get_kernel_freq() -> u32 {
+//     unsafe { SYSTEM_CLOCK }
+// }
+// fn set_kernel_freq(freq: u32) {
+//     unsafe {
+//         SYSTEM_CLOCK = freq;
+//     }
+// }
 
 fn delay_enable() {
     unsafe {
@@ -195,7 +184,7 @@ pub fn delay_s(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = SYSTEM_CLOCK;
+        let interval = HCLK;
         for _i in 0..n {
             let start = dwt.cyccnt.read();
             let end = start.wrapping_add(interval);
@@ -210,7 +199,7 @@ pub fn delay_ms(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = SYSTEM_CLOCK / 1_000 * n;
+        let interval = HCLK / 1_000 * n;
         // 170 * (1e3 as u32) * n;
         let start = dwt.cyccnt.read();
         let end = start.wrapping_add(interval);
@@ -224,7 +213,7 @@ pub fn delay_us(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = SYSTEM_CLOCK / 1_000_000 * n;
+        let interval = HCLK / 1_000_000 * n;
         let start = dwt.cyccnt.read();
         let end = start.wrapping_add(interval);
         let mut now = dwt.cyccnt.read();
@@ -261,7 +250,7 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
     } else if gpio == stm32_metapac::GPIOG {
         RCC.ahb2enr1().modify(|v| v.set_gpiogen(true));
     } else {
-        panic!("Not supported gpio");
+        defmt::panic!("Not supported gpio");
     }
 }
 
@@ -299,237 +288,89 @@ pub fn set_adc_clock() {
     RCC.ahb2enr1().modify(|v| v.set_adc12en(true));
 }
 
-pub fn init_clock() {
-    DBGMCU.cr().modify(|cr| {
-        cr.set_dbg_stop(true);
-        cr.set_dbg_standby(true);
-    });
-    delay_enable();
-    // set_gpio_clock(); // todo: remove this and add to gpio_setup
-    set_clock();
-}
-
-pub fn init_clock_new(has_hse: bool, enable_dbg: bool) {
+pub fn init_clock(has_hse: bool, enable_dbg: bool) {
     // unsafe {CLOCK_REF.has_hse = has_hse;}
     unsafe {
         HSE_AVAILABLE = has_hse;
+        // switch on hse if available
+    }
+    if has_hse {
+        RCC.cr().modify(|w| w.set_hseon(true));
+        while !RCC.cr().read().hserdy() {}
     }
     static mut CALLED: bool = false;
-    if unsafe { CALLED } {
-        panic!("init_clock_new should only be called once");
-    }
     unsafe {
+        // this is safe because this function should only be called once
+        if CALLED {
+            defmt::panic!("init_clock_new should only be called once");
+        }
         CALLED = true;
     }
-
-    // if has_hse {
-    // hse_request(); // default use hse; the frequency should be 16Mhz
-    // }
     if enable_dbg {
         DBGMCU.cr().modify(|cr| {
             cr.set_dbg_stop(true);
             cr.set_dbg_standby(true);
         });
     }
+    set_pll();
     delay_enable();
+    unsafe {
+        CLOCK_REQUESTS[ClockFreqs::KernelFreq4Mhz.to_idx()] = 1;
+    }
     set_clock();
 }
-/// set the cpu frequency to 160Mhz
-/// this is the maximum frequency
-/// The pll take msis 4Mhz as input source
-/// m = 1, vco = 4Mhz * n (80) = 320Mhz, pll_p = 320 / p = 160Mhz, pll_q = 320 / q = 160Mhz, pll_r = 320 / r = 160Mhz
-/// pll1_r set to system clock
-fn set_cpu_freq_pll_msis_160mhz() {
-    // RCC.cr().modify(|w| {
-    //     w.set_pllon(0, false);
-    // });
-    // wait for disable pll1
-    // while RCC.cr().read().pllon() {}
 
-    // 1. set pllm and pllsrc
-    RCC.pll1cfgr().modify(|w| {
-        w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::MSIS); // set pll source to msis
-        w.set_pllm(stm32_metapac::rcc::vals::Pllm::DIV1); // set pllm to 1
-        w.set_pllren(true); // enable pll1_r
-    });
-    RCC.pll1divr().modify(|v| {
-        v.set_plln(stm32_metapac::rcc::vals::Plln::MUL80); // the default value is 129 (not valid )
-        v.set_pllr(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
-        v.set_pllq(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
-        v.set_pllp(stm32_metapac::rcc::vals::Plldiv::DIV2); // this is default value
-    });
-
-    // RCC.pll1cfgr().modify(|w| {
-    //     w.set_pllren(true); // enable pll1_r
-    // });
-
-    PWR.vosr().modify(|w| {
-        w.set_boosten(true);
-    });
-    while !PWR.vosr().read().boostrdy() {}
-
-    // turn on pll1
-    RCC.cr().modify(|w| {
-        w.set_pllon(0, true);
-    });
-
-    // wait for pll1 ready
-    while !RCC.cr().read().pllrdy(0) {}
-
-    // 2. set pll1 as system clock
-    RCC.cfgr1().modify(|w| {
-        w.set_sw(stm32_metapac::rcc::vals::Sw::PLL1_R);
-    });
-
-    while RCC.cfgr1().read().sws() != stm32_metapac::rcc::vals::Sw::PLL1_R {}
+static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
+enum ClockFreqs {
+    KernelFreq160Mhz, // 160Mhz
+    KernelFreq80Mhz,  // 80Mhz
+    KernelFreq40Mhz,  // 40Mhz
+    KernelFreq20Mhz,  // 20Mhz
+    KernelFreq16Mhz,  // 16Mhz
+    KernelFreq8Mhz,   // 8Mhz
+    KernelFreq4Mhz,   // 4Mhz
+    KernelFreq2Mhz,   // 2Mhz
+    KernelFreq1Mhz,   // 1Mhz
 }
-fn set_cpu_freq_pll_hse16m_160mhz() {}
-
-/// The default clock for the system
-/// msis is on when chip reset
-pub fn set_clock_to_msis_4mhz() {
-    RCC.cfgr1().modify(|w| {
-        w.set_sw(stm32_metapac::rcc::vals::Sw::MSIS);
-    });
-    while RCC.cfgr1().read().sws() != stm32_metapac::rcc::vals::Sw::MSIS {}
-}
-// pub fn set_master_clock()
-pub fn set_cpu_freq(freq: u32) {
-    // all base on highest voltage range (not dynamic voltage scaling supported)
-    /*
-     *  Increase the CPU frequency
-     * 1.  Program the new number of wait states to LATENCY bits in FLASH_ACR.
-     * 2.  Check that the new number of wait states is taken into account to access the flash memory by reading back FLASH_ACR.
-     * 3.  Modify the CPU clock source by writing SW bits in RCC_CFGR1.
-     * 4.  Modify the CPU clock prescaler, if needed, by writing HPRE bits in RCC_CFGR2.
-     * 5.  Check that the new CPU clock source or/and the new CPU clock prescaler value is/are taken into account by reading the clock source status (SWS bits) or/and the AHB prescaler value (HPRE bits), respectively, in RCC_CFGR1 and RCC_CFGR2
-     */
-
-    //enable flash prefetch
-    FLASH.acr().modify(|w| w.set_prften(true));
-    //enable pwr clock
-    RCC.ahb3enr().modify(|w| w.set_pwren(true));
-    // vos set to range 1
-    PWR.vosr().modify(|w| {
-        w.set_vos(pwr::vals::Vos::RANGE1);
-    });
-    while !PWR.vosr().read().vosrdy() {}
-
-    PWR.vosr().modify(|w| {
-        w.set_boosten(true);
-    });
-    // wait for boost ready
-    // while !PWR.vosr().read().boostrdy() {}
-
-    // EPOD (embedded power distribution) booster
-    // § 10.5.4: if we're targeting >= 55 MHz, we must configure PLL1MBOOST to a prescaler
-    // value that results in an output between 4 and 16 MHz for the PWR EPOD boost
-    // The EPOD booster input frequency is PLL1 input clock frequency/PLL1MBOOST (PLL1 input clock frquency is 16Mhz in our case)
-    RCC.pll1cfgr().modify(|w| {
-        w.set_pllmboost(rcc::vals::Pllmboost::DIV1);
-    });
-
-    // wait for vos ready
-    if freq > unsafe { SYSTEM_CLOCK } {
-        // 1. get new wait states and set it to flash
-        let wait_states = get_wait_states(freq, VoltageScale::RANGE1);
-        FLASH.acr().modify(|w| w.set_latency(wait_states));
-        // 2. check wait states
-        while FLASH.acr().read().latency() != wait_states {}
-        // 3. modify cpu clock source
-        if freq == 160_000_000 {
-            set_cpu_freq_pll_msis_160mhz();
-        } else {
-            panic!("Not supported frequency");
+impl ClockFreqs {
+    fn to_idx(&self) -> usize {
+        match self {
+            ClockFreqs::KernelFreq160Mhz => 0,
+            ClockFreqs::KernelFreq80Mhz => 1,
+            ClockFreqs::KernelFreq40Mhz => 2,
+            ClockFreqs::KernelFreq20Mhz => 3,
+            ClockFreqs::KernelFreq16Mhz => 4,
+            ClockFreqs::KernelFreq8Mhz => 5,
+            ClockFreqs::KernelFreq4Mhz => 6,
+            ClockFreqs::KernelFreq2Mhz => 7,
+            ClockFreqs::KernelFreq1Mhz => 8,
         }
-        // 4. modify cpu clock prescaler (not change)
-        // 5. check cpu clock source // done in set_cpu_freq_pll_msis_160mhz
     }
-    /*
-     * Decrease the CPU frequency
-     * 1. Modify the CPU clock source by writing SW bits in RCC_CFGR1.
-     * 2. Modify the CPU clock prescaler, if needed, by writing HPRE bits in RCC_CFGR2.
-     * 3. Check that the new CPU clock source or/and the new CPU clock prescaler value is/are taken into account by reading the clock source status (SWS bits) or/and the AHB prescaler value (HPRE bits), respectively, in RCC_CFGR1 and RCC_CFGR2.
-     * 4. Program the new number of wait states to LATENCY bits in FLASH_ACR.
-     * 5. Check that the new number of wait states is used to access the flash memory by reading back FLASH_ACR.
-     */
-    else if freq < unsafe { SYSTEM_CLOCK } {
-        // 1. modify cpu clock source
-        if freq == 160_000_000 {
-            set_cpu_freq_pll_msis_160mhz();
-        } else if freq == 4_000_000 {
-            set_clock_to_msis_4mhz();
+    fn to_freq(&self) -> u32 {
+        match self {
+            ClockFreqs::KernelFreq160Mhz => 160_000_000,
+            ClockFreqs::KernelFreq80Mhz => 80_000_000,
+            ClockFreqs::KernelFreq40Mhz => 40_000_000,
+            ClockFreqs::KernelFreq20Mhz => 20_000_000,
+            ClockFreqs::KernelFreq16Mhz => 16_000_000,
+            ClockFreqs::KernelFreq8Mhz => 8_000_000,
+            ClockFreqs::KernelFreq4Mhz => 4_000_000,
+            ClockFreqs::KernelFreq2Mhz => 2_000_000,
+            ClockFreqs::KernelFreq1Mhz => 1_000_000,
         }
-        // 2. modify cpu clock prescaler (not change)
-        // 3. check cpu clock source (done in set_cpu_freq_pll_msis_4mhz)
-        // 4. get new wait states and set it to flash
-        let wait_states = get_wait_states(freq, VoltageScale::RANGE1);
-        FLASH.acr().modify(|w| w.set_latency(wait_states));
-        // 5. check wait states
-        while FLASH.acr().read().latency() != wait_states {}
     }
-
-    unsafe {
-        SYSTEM_CLOCK = freq;
-    }
-}
-
-use stm32_metapac::pwr::vals::Vos as VoltageScale;
-pub fn get_wait_states(sys_clk: u32, voltage_range: VoltageScale) -> u8 {
-    FLASH.acr().modify(|w| w.set_prften(true));
-    // prefetch always enable for now
-    // from rm0456 rev4 table 54 (LPM = 0) Flash Low power mode is disabled
-    match voltage_range {
-        // VOS 1 range VCORE 1.26V - 1.40V
-        VoltageScale::RANGE1 => {
-            if sys_clk <= 32_000_000 {
-                0
-            } else if sys_clk <= 64_000_000 {
-                1
-            } else if sys_clk <= 96_000_000 {
-                2
-            } else if sys_clk <= 128_000_000 {
-                3
-            } else if sys_clk <= 160_000_000 {
-                4
-            } else {
-                panic!("sys_clk is too high")
-            }
-        }
-        // VOS 2 range VCORE 1.15V - 1.26V
-        VoltageScale::RANGE2 => {
-            if sys_clk <= 30_000_000 {
-                0
-            } else if sys_clk <= 60_000_000 {
-                1
-            } else if sys_clk <= 90_000_000 {
-                2
-            } else if sys_clk <= 110_000_000 {
-                3
-            } else {
-                panic!("sys_clk is too high")
-            }
-        }
-        // VOS 3 range VCORE 1.05V - 1.15V
-        VoltageScale::RANGE3 => {
-            if sys_clk <= 24_000_000 {
-                0
-            } else if sys_clk <= 48_000_000 {
-                1
-            } else if sys_clk <= 55_000_000 {
-                2
-            } else {
-                panic!("sys_clk is too high")
-            }
-        }
-        VoltageScale::RANGE4 => {
-            if sys_clk <= 12_000_000 {
-                0
-            } else if sys_clk <= 25_000_000 {
-                1
-            } else {
-                panic!("sys_clk is too high")
-            }
+    fn from_idx(idx: u16) -> Self {
+        match idx {
+            0 => ClockFreqs::KernelFreq160Mhz,
+            1 => ClockFreqs::KernelFreq80Mhz,
+            2 => ClockFreqs::KernelFreq40Mhz,
+            3 => ClockFreqs::KernelFreq20Mhz,
+            4 => ClockFreqs::KernelFreq16Mhz,
+            5 => ClockFreqs::KernelFreq8Mhz,
+            6 => ClockFreqs::KernelFreq4Mhz,
+            7 => ClockFreqs::KernelFreq2Mhz,
+            8 => ClockFreqs::KernelFreq1Mhz,
+            _ => defmt::panic!("Invalid index"),
         }
     }
 }
@@ -537,28 +378,17 @@ pub fn get_wait_states(sys_clk: u32, voltage_range: VoltageScale) -> u8 {
 pub fn set_clock() {
     // check the clock requirement to determine the kernel clock
     // default kernel clock is 4Mhz
-    let kernel_freq = unsafe {
-        if CLOCK_REF.kernel_freq_160mhz > 0 {
-            160_000_000
-        } else if CLOCK_REF.kernel_freq_80mhz > 0 {
-            80_000_000
-        } else if CLOCK_REF.kernel_freq_64mhz > 0 {
-            64_000_000
-        } else if CLOCK_REF.kernel_freq_48mhz > 0 {
-            48_000_000
-        } else if CLOCK_REF.kernel_freq_32mhz > 0 {
-            32_000_000
-        } else if CLOCK_REF.kernel_freq_16mhz > 0 {
-            16_000_000
-        } else if CLOCK_REF.kernel_freq_4mhz > 0 {
-            4_000_000
-        } else {
-            panic!("No kernel clock is set")
+    let mut clk_idx = 0;
+    unsafe {
+        for i in CLOCK_REQUESTS {
+            if i > 0 {
+                clk_idx = i;
+                break;
+            }
         }
-    };
-    // current only support for 160Mhz and 4Mhz
-    set_cpu_freq(kernel_freq);
-    info!("kernel freq: {}", kernel_freq);
+    }
+    set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
+
     unsafe {
         if CLOCK_REF.hsi16 > 0 {
             // enable hsi16
@@ -577,5 +407,168 @@ pub fn set_clock() {
             while !RCC.cr().read().hsi48rdy() {}
         }
     }
-    set_kernel_freq(kernel_freq);
+}
+
+use stm32_metapac::pwr::vals::Vos as VoltageScale;
+pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
+    // refter to rm0456 rev4 table 54 and p278
+    if sys_clk <= 12_000_000 {
+        return (0, VoltageScale::RANGE4);
+    } else if sys_clk <= 24_000_000 {
+        return (0, VoltageScale::RANGE3);
+    } else if sys_clk <= 48_000_000 {
+        return (1, VoltageScale::RANGE3);
+    } else if sys_clk <= 60_000_000 {
+        return (1, VoltageScale::RANGE2);
+    } else if sys_clk <= 90_000_000 {
+        return (2, VoltageScale::RANGE2);
+    } else if sys_clk <= 110_000_000 {
+        return (3, VoltageScale::RANGE2);
+    } else if sys_clk <= 128_000_000 {
+        return (3, VoltageScale::RANGE1);
+    } else if sys_clk <= 160_000_000 {
+        return (4, VoltageScale::RANGE1);
+    } else {
+        defmt::panic!("sys_clk is too high");
+    }
+}
+
+pub fn set_cpu_freq_new(freq: u32, lpm: bool) {
+    if unsafe { HCLK } > freq {
+        dec_kern_freq(freq);
+    } else if unsafe { HCLK } < freq {
+        inc_kern_freq(freq);
+    }
+}
+
+fn inc_kern_freq(freq: u32) {
+    // if unsafe { HSE_AVAILABLE } {
+    let (ws, vcore) = get_ws_and_vcore(freq);
+    if ws > 0 {
+        //enable flash prefetch
+        FLASH.acr().modify(|w| w.set_prften(true)); // prefetch must be set if at least one wait state is needed to access the flash memory
+    }
+    // update ws
+    FLASH.acr().modify(|w| w.set_latency(ws));
+    if freq >= 55_000_000 {
+        RCC.pll1cfgr().modify(|w| {
+            w.set_pllmboost(rcc::vals::Pllmboost::DIV1);
+        });
+        RCC.ahb3enr().modify(|w| w.set_pwren(true));
+        // enable boost
+        PWR.vosr().modify(|w| {
+            w.set_vos(vcore);
+            w.set_boosten(true);
+        });
+        // wait for boost ready
+        while !PWR.vosr().read().boostrdy() {}
+        while !PWR.vosr().read().vosrdy() {}
+        // disable pwr
+        RCC.ahb3enr().modify(|w| w.set_pwren(false));
+    }
+    // wait for pll
+    while !RCC.cr().read().pllrdy(0) {}
+    // hclk /2
+    #[cfg(any(stm32u595, stm32u5a5))]
+    RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2));
+
+    let hclk_source;
+    if freq <= 16_000_000 {
+        if unsafe { HSE_AVAILABLE } {
+            while !RCC.cr().read().hserdy() {}
+            RCC.cfgr1().modify(|w| {
+                w.set_sw(stm32_metapac::rcc::vals::Sw::HSE);
+            });
+        } else {
+            while !RCC.cr().read().hsirdy() {}
+            RCC.cfgr1().modify(|w| {
+                w.set_sw(stm32_metapac::rcc::vals::Sw::HSI);
+            });
+        }
+        hclk_source = 16_000_000;
+    } else {
+        // set pll as system clock
+        RCC.cfgr1().modify(|w| {
+            w.set_sw(stm32_metapac::rcc::vals::Sw::PLL1_R);
+        });
+        hclk_source = 160_000_000;
+    }
+    //calc hclk
+    let hclk = hclk_source / freq; // should be 2, 4, 8, 16, 32, 64, 128
+    if hclk_source % freq != 0 {
+        defmt::panic!("Invalid hclk");
+    }
+    match hclk {
+        2 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2)),
+        4 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV4)),
+        8 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV8)),
+        16 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV16)),
+        64 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV64)),
+        128 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV128)),
+        _ => defmt::panic!("Invalid hclk"),
+    }
+    unsafe {
+        HCLK = freq;
+    }
+}
+
+fn dec_kern_freq(freq: u32) {
+    #[cfg(any(stm32u595, stm32u5a5))]
+    RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2));
+
+    let hclk_source;
+
+    if freq <= 16_000_000 {
+        if unsafe { HSE_AVAILABLE } {
+            while !RCC.cr().read().hserdy() {}
+            RCC.cfgr1().modify(|w| {
+                w.set_sw(stm32_metapac::rcc::vals::Sw::HSE);
+            });
+        } else {
+            while !RCC.cr().read().hsirdy() {}
+            RCC.cfgr1().modify(|w| {
+                w.set_sw(stm32_metapac::rcc::vals::Sw::HSI);
+            });
+        }
+        hclk_source = 16_000_000;
+    } else {
+        // set pll as system clock
+        RCC.cfgr1().modify(|w| {
+            w.set_sw(stm32_metapac::rcc::vals::Sw::PLL1_R);
+        });
+        hclk_source = 160_000_000;
+    }
+    //calc hclk
+    let hclk = hclk_source / freq; // should be 2, 4, 8, 16, 32, 64, 128
+    match hclk {
+        2 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2)),
+        4 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV4)),
+        8 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV8)),
+        16 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV16)),
+        64 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV64)),
+        128 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV128)),
+        _ => defmt::panic!("Invalid hclk"),
+    }
+
+    let (ws, vcore) = get_ws_and_vcore(freq);
+    if ws == 0 {
+        FLASH.acr().modify(|w| w.set_prften(false));
+    }
+    FLASH.acr().modify(|w| w.set_latency(ws)); // update ws
+    if unsafe { HCLK } >= 55_000_000 && freq < 55_000_000 {
+        RCC.pll1cfgr().modify(|w| {
+            w.set_pllmboost(rcc::vals::Pllmboost::DIV1);
+        });
+        // enable boost
+        PWR.vosr().modify(|w| {
+            w.set_boosten(false);
+            w.set_vos(vcore);
+        });
+        while !PWR.vosr().read().vosrdy() {}
+        RCC.ahb3enr().modify(|w| w.set_pwren(false));
+    }
+
+    unsafe {
+        HCLK = freq;
+    }
 }

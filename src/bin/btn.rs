@@ -18,7 +18,7 @@ use u5_lib::rtc;
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
-    clock::init_clock();
+    clock::init_clock(true, false);
     mcu_no_deep_sleep();
     setup();
     defmt::info!("setup led finished!");
