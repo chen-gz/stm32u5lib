@@ -18,7 +18,7 @@ fn setup() {
 
 #[entry]
 fn main() -> ! {
-    clock::init_clock(true, false);
+    clock::init_clock(true, false, clock::ClockFreqs::KernelFreq160Mhz);
     mcu_no_deep_sleep();
     setup();
     USART1.setup(USART_TX_PA9, USART_RX_PA10);

@@ -11,108 +11,74 @@
 #![allow(dead_code)]
 // use core::panic;
 
-use cortex_m::{self};
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
-struct CLOCKS {
-    msis: u32,
-    msik: u32,
-    hse: u32,
-    pll1_p: u32,
-    pll1_q: u32,
-    pll1_r: u32,
-    hclk: u32, // aka system clock
-    iclk: u32,
-}
 static mut HCLK: u32 = 4_000_000; // kerenl clock
 pub fn get_hclk() -> u32 {
     unsafe { HCLK }
 }
 
-const MSIS_FREQ: u32 = 4_000_000;
-const MSIK_FREQ: u32 = 4_000_000;
-const HSE_FREQ: u32 = 16_000_000;
-const PLL1_R_FREQ: u32 = 160_000_000;
-const PLL1_Q_FREQ: u32 = 160_000_000;
-const PLL1_P_FREQ: u32 = 0;
+pub const MSIS_FREQ: u32 = 4_000_000;
+pub const MSIK_FREQ: u32 = 4_000_000;
+pub const HSE_FREQ: u32 = 16_000_000;
+pub const PLL1_R_FREQ: u32 = 160_000_000;
+pub const PLL1_Q_FREQ: u32 = 160_000_000;
+pub const PLL1_P_FREQ: u32 = 0;
 static mut HSE_AVAILABLE: bool = false;
 
-struct ClockRef {
-    hsi16: u32,
-    hsi48: u32,
-    kernel_freq_160mhz: u32,
-    kernel_freq_80mhz: u32,
-    kernel_freq_64mhz: u32,
-    kernel_freq_48mhz: u32,
-    kernel_freq_32mhz: u32,
-    kernel_freq_16mhz: u32,
-    kernel_freq_4mhz: u32,
-}
-
-pub fn hsi16_request() {
-    unsafe {
-        CLOCK_REF.hsi16 += 1;
-    }
-    set_clock();
-}
-pub fn hsi16_release() {
-    unsafe {
-        CLOCK_REF.hsi16 -= 1;
-    }
-    set_clock();
-}
-
-pub fn hsi48_request() {
-    unsafe {
-        CLOCK_REF.hsi48 += 1;
-    }
-    set_clock();
-}
-pub fn hsi48_release() {
-    unsafe {
-        CLOCK_REF.hsi48 -= 1;
-    }
-    set_clock();
-}
-pub fn kernel_freq_160mhz_request() {
-    unsafe {
-        CLOCK_REF.kernel_freq_160mhz += 1;
-    }
-    set_clock();
-}
-fn kernel_freq_160mhz_release() {
-    unsafe {
-        CLOCK_REF.kernel_freq_160mhz -= 1;
-    }
-    set_clock();
-}
-
-pub fn run_with_160mhz<F>(code: F)
+pub fn hclk_request<F>(freq: ClockFreqs, code: F)
 where
     F: FnOnce(),
 {
     unsafe {
-        CLOCK_REF.kernel_freq_160mhz += 1;
+        CLOCK_REQUESTS[freq.to_idx()] += 1;
         set_clock();
         code();
-        CLOCK_REF.kernel_freq_160mhz -= 1;
+        CLOCK_REQUESTS[freq.to_idx()] -= 1;
+        set_clock();
     }
 }
-pub async fn run_with_160mhz_async<F, R>(code: F)
+pub async fn hclk_request_async<F, R>(freq: ClockFreqs, code: F)
 where
     F: FnOnce() -> R,
     R: core::future::Future<Output = ()>,
 {
     unsafe {
-        CLOCK_REF.kernel_freq_160mhz += 1;
+        CLOCK_REQUESTS[freq.to_idx()] += 1;
         set_clock();
         let result = code();
         result.await;
-        kernel_freq_160mhz_release();
-        CLOCK_REF.kernel_freq_160mhz -= 1;
+        CLOCK_REQUESTS[freq.to_idx()] -= 1;
         set_clock();
     }
 }
+
+// pub fn run_with_160mhz<F>(code: F)
+// where
+//     F: FnOnce(),
+// {
+//     unsafe {
+//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
+//         set_clock();
+//         code();
+//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
+//         set_clock();
+//     }
+// }
+// pub async fn run_with_160mhz_async<F, R>(code: F)
+// where
+//     F: FnOnce() -> R,
+//     R: core::future::Future<Output = ()>,
+// {
+//     unsafe {
+//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
+//         set_clock();
+//         let result = code();
+//         result.await;
+//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
+//         set_clock();
+//     }
+// }
 
 fn set_pll() {
     if unsafe { HSE_AVAILABLE } {
@@ -143,32 +109,12 @@ fn set_pll() {
     while !RCC.cr().read().pllrdy(0) {}
 }
 
-static mut CLOCK_REF: ClockRef = ClockRef {
-    hsi16: 1,
-    hsi48: 1,
-    kernel_freq_160mhz: 0,
-    kernel_freq_80mhz: 0,
-    kernel_freq_64mhz: 0,
-    kernel_freq_48mhz: 0,
-    kernel_freq_32mhz: 0,
-    kernel_freq_16mhz: 0,
-    kernel_freq_4mhz: 1,
-};
-fn clock_ref() -> &'static ClockRef {
-    unsafe { &CLOCK_REF }
-}
+// static mut CLOCK_REF: ClockRef = ClockRef { hsi16: 1, hsi48: 1 };
+// fn clock_ref() -> &'static ClockRef {
+//     unsafe { &CLOCK_REF }
+// }
 
-use defmt::info;
-use stm32_metapac::{gpio, pwr, rcc, DBGMCU, FLASH, PWR, RCC};
-// pub static mut SYSTEM_CLOCK: u32 = 4_000_000; // this is default value when the system start
-// pub fn get_kernel_freq() -> u32 {
-//     unsafe { SYSTEM_CLOCK }
-// }
-// fn set_kernel_freq(freq: u32) {
-//     unsafe {
-//         SYSTEM_CLOCK = freq;
-//     }
-// }
+use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 
 fn delay_enable() {
     unsafe {
@@ -254,19 +200,31 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
     }
 }
 
-pub fn set_sdmmc_clock(sdmmc: stm32_metapac::sdmmc::Sdmmc) {
-    // if clock_ref().has_hse {
+pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
+pub fn set_sdmmc_clock(
+    sdmmc: stm32_metapac::sdmmc::Sdmmc,
+    clk_src: SdmmcClockSource,
+) -> Result<(), ()> {
+    // the clock source can only be set once
+    if RCC.ahb2enr1().read().sdmmc1en() || RCC.ahb2enr1().read().sdmmc2en() {
+        // check the clock source
+        let src = RCC.ccipr2().read().sdmmcsel();
+        if src != clk_src {
+            return Err(());
+        }
+    } else {
+        RCC.ccipr2().modify(|v| v.set_sdmmcsel(clk_src));
+    }
 
-    // }
-    // use hsi48 for sdmmc clock
-    // RCC.ccipr2()
-    //     .modify(|v| v.set_sdmmcsel(rcc::vals::Sdmmcsel::ICLK)); // use iclk as clock source
-
-    // enable sdmmc clock
-    RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
-
-    // enable sdmmc2 clock
-    RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
+    if sdmmc == stm32_metapac::SDMMC1 {
+        RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
+        Ok(())
+    } else if sdmmc == stm32_metapac::SDMMC2 {
+        RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
+        Ok(())
+    } else {
+        Err(())
+    }
 }
 pub fn set_usart_clock() {
     // set usart1 clock source to hsi
@@ -288,7 +246,7 @@ pub fn set_adc_clock() {
     RCC.ahb2enr1().modify(|v| v.set_adc12en(true));
 }
 
-pub fn init_clock(has_hse: bool, enable_dbg: bool) {
+pub fn init_clock(has_hse: bool, enable_dbg: bool, system_min_freq: ClockFreqs) {
     // unsafe {CLOCK_REF.has_hse = has_hse;}
     unsafe {
         HSE_AVAILABLE = has_hse;
@@ -313,15 +271,28 @@ pub fn init_clock(has_hse: bool, enable_dbg: bool) {
         });
     }
     set_pll();
+    // se hsi16 on
+    RCC.cr().modify(|w| w.set_hsion(true));
+    while !RCC.cr().read().hsirdy() {}
+
+    // set hsi48 on
+    RCC.cr().modify(|w| w.set_hsi48on(true));
+    while !RCC.cr().read().hsi48rdy() {}
+
+    // set hsi48 as clock source for iclk
+    RCC.ccipr1()
+        .modify(|v| v.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48));
+
     delay_enable();
     unsafe {
-        CLOCK_REQUESTS[ClockFreqs::KernelFreq4Mhz.to_idx()] = 1;
+        // CLOCK_REQUESTS[ClockFreqs::KernelFreq4Mhz.to_idx()] = 1;
+        CLOCK_REQUESTS[system_min_freq.to_idx()] = 1;
     }
     set_clock();
 }
 
 static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
-enum ClockFreqs {
+pub enum ClockFreqs {
     KernelFreq160Mhz, // 160Mhz
     KernelFreq80Mhz,  // 80Mhz
     KernelFreq40Mhz,  // 40Mhz
@@ -388,25 +359,6 @@ pub fn set_clock() {
         }
     }
     set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
-
-    unsafe {
-        if CLOCK_REF.hsi16 > 0 {
-            // enable hsi16
-            RCC.cr().modify(|w| w.set_hsion(true));
-            while !RCC.cr().read().hsirdy() {}
-        }
-        // if CLOCK_REF.hse > 0 {
-        if HSE_AVAILABLE {
-            // enable hse
-            RCC.cr().modify(|w| w.set_hseon(true));
-            while !RCC.cr().read().hserdy() {}
-        }
-        if CLOCK_REF.hsi48 > 0 {
-            // enable hsi48
-            RCC.cr().modify(|w| w.set_hsi48on(true));
-            while !RCC.cr().read().hsi48rdy() {}
-        }
-    }
 }
 
 use stm32_metapac::pwr::vals::Vos as VoltageScale;

@@ -1,5 +1,6 @@
 #![allow(unused)]
 
+use crate::clock;
 use crate::clock::delay_tick;
 use crate::gpio::GpioPort;
 use cortex_m::peripheral::NVIC;
@@ -52,7 +53,8 @@ impl DcmiPort {
 
     pub async fn capture(&self, dma: DmaChannel, buf: &[u8]) {
         // this function requires 160mhz clock and the deep sleep mode not allowed
-        crate::clock::run_with_160mhz_async(|| async {
+        // crate::clock::run_with_160mhz_async(|| async {
+            clock::hclk_request_async(clock::ClockFreqs::KernelFreq160Mhz, || async {
             crate::low_power::run_no_deep_sleep_async(|| async {
                 self.port.cr().modify(|v| {
                     v.set_jpeg(true);

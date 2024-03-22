@@ -27,7 +27,6 @@ pub enum I2cError {
 
 impl I2cPort {
     pub fn init(&self, freq: u32, scl_pin: GpioPort, sda_pin: GpioPort) {
-        crate::clock::hsi16_request();
 
         if self.port == stm32_metapac::I2C1 {
             // RCC.ccipr1() .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::Icsel::HSI)); // update to new version of stm32_metapac

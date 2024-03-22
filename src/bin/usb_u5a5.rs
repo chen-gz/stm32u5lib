@@ -37,7 +37,7 @@ pub enum UsbError {
 const GREEN: gpio::GpioPort = gpio::PB7;
 
 fn setup() {
-    clock::init_clock(true, false);
+    clock::init_clock(true, false, clock::ClockFreqs::KernelFreq4Mhz);
     // clock::set_gpio_clock();
     USART1.setup(USART_TX_PA9, USART_RX_PA10);
     GREEN.setup();
@@ -47,7 +47,6 @@ fn setup() {
 async fn main(spawner: Spawner) {
     setup();
     mcu_no_deep_sleep();
-    clock::kernel_freq_160mhz_request();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();
     // USART1.send("start task success!\n".as_bytes());
