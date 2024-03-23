@@ -1,3 +1,4 @@
+#![feature(type_alias_impl_trait)]
 #![feature(noop_waker)]
 #![no_std]
 #![allow(dead_code)]
@@ -34,3 +35,4 @@ pub use embassy_executor::Spawner;
 // pub use embassy_executor_macros::task;
 
 pub use embassy_executor_macros::task;
+pub mod com_interface;
