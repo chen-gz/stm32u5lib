@@ -10,10 +10,16 @@
 //!
 #![allow(dead_code)]
 // use core::panic;
+use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
+use stm32_metapac::pwr::vals::Vos as VoltageScale;
+pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
+use defmt::info;
 
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
-static mut HCLK: u32 = 4_000_000; // kerenl clock
+static mut HCLK: u32 = 4_000_000;
+
+// kerenl clock
 pub fn get_hclk() -> u32 {
     unsafe { HCLK }
 }
@@ -27,8 +33,8 @@ pub const PLL1_P_FREQ: u32 = 0;
 static mut HSE_AVAILABLE: bool = false;
 
 pub fn hclk_request<F>(freq: ClockFreqs, code: F)
-where
-    F: FnOnce(),
+    where
+        F: FnOnce(),
 {
     unsafe {
         CLOCK_REQUESTS[freq.to_idx()] += 1;
@@ -38,10 +44,11 @@ where
         set_clock();
     }
 }
+
 pub async fn hclk_request_async<F, R>(freq: ClockFreqs, code: F)
-where
-    F: FnOnce() -> R,
-    R: core::future::Future<Output = ()>,
+    where
+        F: FnOnce() -> R,
+        R: core::future::Future<Output=()>,
 {
     unsafe {
         CLOCK_REQUESTS[freq.to_idx()] += 1;
@@ -53,32 +60,6 @@ where
     }
 }
 
-// pub fn run_with_160mhz<F>(code: F)
-// where
-//     F: FnOnce(),
-// {
-//     unsafe {
-//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
-//         set_clock();
-//         code();
-//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
-//         set_clock();
-//     }
-// }
-// pub async fn run_with_160mhz_async<F, R>(code: F)
-// where
-//     F: FnOnce() -> R,
-//     R: core::future::Future<Output = ()>,
-// {
-//     unsafe {
-//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
-//         set_clock();
-//         let result = code();
-//         result.await;
-//         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
-//         set_clock();
-//     }
-// }
 
 fn set_pll() {
     if unsafe { HSE_AVAILABLE } {
@@ -114,7 +95,6 @@ fn set_pll() {
 //     unsafe { &CLOCK_REF }
 // }
 
-use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 
 fn delay_enable() {
     unsafe {
@@ -126,6 +106,7 @@ fn delay_enable() {
         dwt.cyccnt.modify(|_w| 0);
     }
 }
+
 pub fn delay_s(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
@@ -141,6 +122,7 @@ pub fn delay_s(n: u32) {
         }
     }
 }
+
 pub fn delay_ms(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
@@ -155,6 +137,7 @@ pub fn delay_ms(n: u32) {
         }
     }
 }
+
 pub fn delay_us(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
@@ -168,6 +151,7 @@ pub fn delay_us(n: u32) {
         }
     }
 }
+
 pub fn delay_tick(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
@@ -200,7 +184,7 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
     }
 }
 
-pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
+
 pub fn set_sdmmc_clock(
     sdmmc: stm32_metapac::sdmmc::Sdmmc,
     clk_src: SdmmcClockSource,
@@ -226,6 +210,7 @@ pub fn set_sdmmc_clock(
         Err(())
     }
 }
+
 pub fn set_usart_clock() {
     // set usart1 clock source to hsi
     RCC.ccipr1()
@@ -233,6 +218,7 @@ pub fn set_usart_clock() {
     // enable usart1 clock
     RCC.apb2enr().modify(|v| v.set_usart1en(true));
 }
+
 pub fn set_adc_clock() {
     RCC.ahb3enr().modify(|v| v.set_pwren(true));
     PWR.svmcr().modify(|v| v.set_asv(true));
@@ -252,6 +238,9 @@ pub fn init_clock(has_hse: bool, enable_dbg: bool, system_min_freq: ClockFreqs) 
         HSE_AVAILABLE = has_hse;
         // switch on hse if available
     }
+    RCC.ahb3enr().modify(|v|
+        v.set_pwren(true)
+    );
     if has_hse {
         RCC.cr().modify(|w| w.set_hseon(true));
         while !RCC.cr().read().hserdy() {}
@@ -292,17 +281,27 @@ pub fn init_clock(has_hse: bool, enable_dbg: bool, system_min_freq: ClockFreqs) 
 }
 
 static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
+
 pub enum ClockFreqs {
-    KernelFreq160Mhz, // 160Mhz
-    KernelFreq80Mhz,  // 80Mhz
-    KernelFreq40Mhz,  // 40Mhz
-    KernelFreq20Mhz,  // 20Mhz
-    KernelFreq16Mhz,  // 16Mhz
-    KernelFreq8Mhz,   // 8Mhz
-    KernelFreq4Mhz,   // 4Mhz
-    KernelFreq2Mhz,   // 2Mhz
+    KernelFreq160Mhz,
+    // 160Mhz
+    KernelFreq80Mhz,
+    // 80Mhz
+    KernelFreq40Mhz,
+    // 40Mhz
+    KernelFreq20Mhz,
+    // 20Mhz
+    KernelFreq16Mhz,
+    // 16Mhz
+    KernelFreq8Mhz,
+    // 8Mhz
+    KernelFreq4Mhz,
+    // 4Mhz
+    KernelFreq2Mhz,
+    // 2Mhz
     KernelFreq1Mhz,   // 1Mhz
 }
+
 impl ClockFreqs {
     fn to_idx(&self) -> usize {
         match self {
@@ -349,11 +348,11 @@ impl ClockFreqs {
 pub fn set_clock() {
     // check the clock requirement to determine the kernel clock
     // default kernel clock is 4Mhz
-    let mut clk_idx = 0;
+    let mut clk_idx: u16 = 0;
     unsafe {
-        for i in CLOCK_REQUESTS {
-            if i > 0 {
-                clk_idx = i;
+        for i in 0..CLOCK_REQUESTS.len() {
+            if CLOCK_REQUESTS[i] > 0 {
+                clk_idx = i as u16;
                 break;
             }
         }
@@ -361,7 +360,7 @@ pub fn set_clock() {
     set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
 }
 
-use stm32_metapac::pwr::vals::Vos as VoltageScale;
+
 pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
     // refter to rm0456 rev4 table 54 and p278
     if sys_clk <= 12_000_000 {
@@ -415,8 +414,6 @@ fn inc_kern_freq(freq: u32) {
         // wait for boost ready
         while !PWR.vosr().read().boostrdy() {}
         while !PWR.vosr().read().vosrdy() {}
-        // disable pwr
-        RCC.ahb3enr().modify(|w| w.set_pwren(false));
     }
     // wait for pll
     while !RCC.cr().read().pllrdy(0) {}
@@ -451,6 +448,7 @@ fn inc_kern_freq(freq: u32) {
         defmt::panic!("Invalid hclk");
     }
     match hclk {
+        1 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV1)),
         2 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2)),
         4 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV4)),
         8 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV8)),
@@ -493,6 +491,7 @@ fn dec_kern_freq(freq: u32) {
     //calc hclk
     let hclk = hclk_source / freq; // should be 2, 4, 8, 16, 32, 64, 128
     match hclk {
+        1 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV1)),
         2 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2)),
         4 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV4)),
         8 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV8)),
@@ -517,10 +516,117 @@ fn dec_kern_freq(freq: u32) {
             w.set_vos(vcore);
         });
         while !PWR.vosr().read().vosrdy() {}
-        RCC.ahb3enr().modify(|w| w.set_pwren(false));
     }
 
     unsafe {
         HCLK = freq;
     }
+}
+
+
+///////////////////////////////////////////////////////////
+/// USB power monitor
+use cortex_m::peripheral::NVIC;
+use embassy_executor::Spawner;
+use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+use embassy_sync::signal::Signal;
+
+#[embassy_executor::task]
+pub async fn vddusb_monitor_up() {
+    // exti line 19
+    unsafe {
+        NVIC::unmask(stm32_metapac::Interrupt::PVD_PVM);
+    }
+    loop {
+        static mut USB_POWER_UP: bool = false;
+        stm32_metapac::PWR.svmcr().modify(|w| {
+            w.set_uvmen(true);
+        });
+        stm32_metapac::EXTI.rtsr(0).modify(|v| v.set_line(19, true));
+        stm32_metapac::EXTI.ftsr(0).modify(|v| v.set_line(19, true));
+        stm32_metapac::EXTI.imr(0).modify(|v| v.set_line(19, true));
+        stm32_metapac::EXTI.emr(0).modify(|v| v.set_line(19, true));
+        // get vddusb status
+        let vddusb = stm32_metapac::PWR.svmsr().read().vddusbrdy();
+        if vddusb == unsafe { USB_POWER_UP } {
+            // do nothing
+        } else {
+            if vddusb {
+                info!("USB power up, call pwoer_up_init");
+
+                    unsafe {
+                        USB_POWER_UP = true;
+                        // request 160Mhz
+                        CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
+                        set_clock();
+                        // low_power::mcu_no_deep_sleep_request();
+                    }
+                crate::usb_otg::mod_new::power_up_init();
+                unsafe {
+                    bus_waker_pwr.wake();
+                }
+            }
+            // if vddusb {
+            //     // power up
+            //     defmt::info!("USB power up");
+            //     unsafe {
+            //         USB_POWER_UP = true;
+            //         // request 160Mhz
+            //         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
+            //         low_power::mcu_no_deep_sleep_request();
+            //     }
+            //     PWR.svmcr().modify(|w| {
+            //         w.set_usv(true); // remove power isolation
+            //     });
+            //
+            //     PWR.vosr().modify(|v| {
+            //         v.0 |= (1 << 19) | (1 << 20);
+            //         // SBPWREN and USBBOOSTEN in PWR_VOSR.
+            //         // v.boosten();
+            //     });
+            //     delay_us(100); // todo check the delay time
+            //
+            //     #[cfg(stm32u5a5)]
+            //     {
+            //         RCC.ccipr2().modify(|w| {
+            //             w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
+            //         });
+            //
+            //         RCC.apb3enr().modify(|w| {
+            //             w.set_syscfgen(true);
+            //         });
+            //         RCC.ahb2enr1().modify(|w| {
+            //             w.set_usb_otg_hs_phyen(true);
+            //             w.set_usb_otg_hsen(true);
+            //         });
+            //         SYSCFG.otghsphycr().modify(|v| {
+            //             v.set_clksel(0b11);
+            //             v.set_en(true);
+            //         });
+            //     }
+            //     defmt::info!("USB power up finished");
+            //     #[cfg(stm32u5a5)]
+            //     unsafe {
+            //         NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
+            //         crate::usb_otg::restore_irqs();
+            //         defmt::trace!("USB IRQs start");
+            //     }
+            // }
+        }
+        PVM_SIGNAL.wait().await;
+    }
+}
+
+static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+
+use stm32_metapac::interrupt;
+
+use crate::low_power;
+use crate::usb_otg::bus_waker_pwr;
+
+#[interrupt]
+fn PVD_PVM() {
+    PVM_SIGNAL.signal(1);
+    stm32_metapac::EXTI.fpr(0).write(|v| v.set_line(19, true));
+    stm32_metapac::EXTI.rpr(0).write(|v| v.set_line(19, true));
 }

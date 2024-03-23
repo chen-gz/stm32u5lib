@@ -2,6 +2,7 @@
 use core::default;
 
 use crate::{clock, gpio};
+use defmt::todo;
 use stm32_metapac::{
     common::R,
     usart::vals::{Over8, Stop, M0, M1},
@@ -161,13 +162,6 @@ impl<'a> ComInterface<'a> for UsartPort {
         todo!()
     }
 
-    async fn send_async(&mut self, message: Self::Message) -> Result<Self::Response, Self::Error> {
-        todo!()
-    }
-
-    async fn receive_async(&mut self) -> Result<Self::Message, Self::Error> {
-        todo!()
-    }
 
     fn enable(&mut self) -> Result<(), Self::Error> {
         todo!()
@@ -184,4 +178,13 @@ impl<'a> ComInterface<'a> for UsartPort {
     fn wait_connection(&mut self) -> Result<(), Self::Error> {
         todo!()
     }
+    
+    async fn send_async(&mut self, message: Self::Message) -> Result<(), Self::Error> {
+        todo!()
+    }
+    
+    async fn receive_async(&mut self) ->  Result<Self::Message, Self::Error> {
+        todo!()
+    }
+    
 }

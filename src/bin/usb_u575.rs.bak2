@@ -15,6 +15,8 @@ use embassy_usb::{
 use futures::future::{join};
 use u5_lib::{clock, gpio, *};
 use u5_lib::{exti, low_power::mcu_no_deep_sleep};
+use u5_lib::gpio::{USART_RX_PA10, USART_TX_PA9};
+use u5_lib::usart::USART1;
 
 // define defmt format
 #[derive(defmt::Format)]
@@ -28,7 +30,7 @@ const GREEN: gpio::GpioPort = gpio::PB7;
 fn setup() {
     clock::init_clock(true, false, clock::ClockFreqs::KernelFreq160Mhz);
     // clock::set_gpio_clock();
-    // USART1.setup(USART_TX_PA9, USART_RX_PA10);
+    USART1.setup(USART_TX_PA9, USART_RX_PA10);
     GREEN.setup();
 }
 
@@ -42,12 +44,12 @@ async fn main(spawner: Spawner) {
     spawner.spawn(usb_task()).unwrap();
     // loop {
         // rtc::rtc_interrupt().await;
-    // USART1.send("start task success!\n".as_bytes());
+    USART1.send("start task success!\n".as_bytes());
 
     loop {
         exti::EXTI13_PC13.wait_for_raising().await;
         GREEN.toggle();
-        // USART1.send("button clicked\n".as_bytes());
+        USART1.send("button clicked\n".as_bytes());
         // defmt::info!("button clicked");
     }
     // }
@@ -113,7 +115,7 @@ pub async fn usb_task() {
     let mut msos_descriptor = [0; 512];
 
     let mut state = State::new();
-    // USART1.send("starting usb task new!\n\n".as_bytes());
+    USART1.send("starting usb task new!\n\n".as_bytes());
 
     let mut builder = Builder::new(
         driver,
@@ -126,7 +128,7 @@ pub async fn usb_task() {
     );
 
     let mut class = CdcAcmClass::new(&mut builder, &mut state, 64);
-    // USART1.send("declare class success!\n".as_bytes());
+    USART1.send("declare class success!\n".as_bytes());
     // Build the builder.
     let mut usb = builder.build();
     // USART1.send("success!\n".as_bytes());
@@ -139,7 +141,7 @@ pub async fn usb_task() {
             defmt::info!("disconnected");
         }
     };
-    // USART1.send("start usb task success!\n".as_bytes());
+    USART1.send("start usb task success!\n".as_bytes());
     join(usb_fut, handler_fut).await; // Run everything concurrently.
 }
 

@@ -6,12 +6,7 @@ use u5_lib::clock;
 use u5_lib::gpio;
 use defmt_rtt as _;
 use gpio::GpioPort;
-use u5_lib::gpio::{
-    USART_TX_PA9,
-    USART_RX_PA10
-};
 use u5_lib::low_power::mcu_no_deep_sleep;
-use u5_lib::usart::USART1;
 const GREEN: GpioPort = gpio::PB7;
 const ORANGE: GpioPort = gpio::PC4;
 const BLUE: GpioPort = gpio::PC5;
@@ -30,16 +25,16 @@ fn main() -> ! {
     mcu_no_deep_sleep();
     setup();
 
-    USART1.setup(USART_TX_PA9, USART_RX_PA10);
+    // USART1.setup(USART_TX_PA9, USART_RX_PA10);
     // USART1.setup(USART_TX_PA9, u5_lib::gpio::USART_RX_PA10);
     // unsafe {
     //     u5_lib::tim::TIM1.init(Config::default());
     // }
 u5_lib::gpio::ADC1_IN1_PC0.setup();
 
-    USART1.send("usart init finished\n".as_bytes());
+    // USART1.send("usart init finished\n".as_bytes());
     ADC1.init();
-    USART1.send("adc init finished\n".as_bytes());
+    // USART1.send("adc init finished\n".as_bytes());
     // let rst = ADC1.start_conversion_sw(u5_lib::gpio::ADC1_IN2_PC1, 2);
     // defmt::info!("adc result: {}", rst);
     // for i in 0..10 {

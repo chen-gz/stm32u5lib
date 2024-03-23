@@ -5,6 +5,7 @@
 //! 
 
 
+
 pub trait ComInterface<'a> {
     // make Self sized
     type Error: core::fmt::Debug;
@@ -18,10 +19,14 @@ pub trait ComInterface<'a> {
 
 
     /// Send a message to the interface
-    async fn send_async(&mut self, message: Self::Message) -> Result<Self::Response, Self::Error>;
+    // fn send_async(&mut self, message: Self::Message) -> impl core::future::Future<Output = Result<(), Self::Error>>;
+    // Result<Self::Response, Self::Error>;
+    async fn send_async(&mut self, message: Self::Message) -> Result<(), Self::Error>;
 
     /// Receive a message from the interface until a message is received or an error occurs
-    async fn receive_async(&mut self) -> Result<Self::Message, Self::Error>;
+    // async fn receive_async(&mut self) -> Result<Self::Message, Self::Error>;
+    // supress warning
+    async fn receive_async(&mut self) ->  Result<Self::Message, Self::Error>;
 
     /// Temporary enable the interface
     fn enable(&mut self) -> Result<(), Self::Error>;

@@ -4,12 +4,7 @@
 use cortex_m_rt::entry;
 use u5_lib::clock;
 use u5_lib::com_interface::ComInterface;
-use u5_lib::gpio;
 use defmt_rtt as _;
-use gpio::GpioPort;
-const GREEN: GpioPort = gpio::PB7;
-const ORANGE: GpioPort = gpio::PC4;
-const BLUE: GpioPort = gpio::PC5;
 fn setup() {
 }
 
@@ -22,7 +17,7 @@ fn main() -> ! {
 
     defmt::info!("setup led finished!");
     loop {
-        uart.send("Hello, world!".as_bytes());
+        uart.send("Hello, world!".as_bytes()).unwrap();
         // USART1.send("Hello, world!".as_bytes());
         // GREEN.toggle();
         // ORANGE.toggle();

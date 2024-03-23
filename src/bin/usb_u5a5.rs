@@ -20,12 +20,7 @@ use stm32_metapac;
 
 
 use u5_lib::{*, clock, gpio};
-use u5_lib::{
-    clock::delay_ms,
-    gpio::{USART_RX_PA10, USART_TX_PA9},
-};
 use u5_lib::{exti, low_power::mcu_no_deep_sleep};
-use u5_lib::usart::USART1;
 
 // define defmt format
 #[derive(defmt::Format)]
@@ -39,7 +34,7 @@ const GREEN: gpio::GpioPort = gpio::PB7;
 fn setup() {
     clock::init_clock(true, false, clock::ClockFreqs::KernelFreq4Mhz);
     // clock::set_gpio_clock();
-    USART1.setup(USART_TX_PA9, USART_RX_PA10);
+    // USART1.setup(USART_TX_PA9, USART_RX_PA10);
     GREEN.setup();
 }
 
@@ -52,60 +47,60 @@ async fn main(spawner: Spawner) {
     // USART1.send("start task success!\n".as_bytes());
     // core initialisation
     // enable usb clock
-    let rcc = stm32_metapac::RCC;
-    let syscfg = stm32_metapac::SYSCFG;
-    let pwr = stm32_metapac::PWR;
-
-    unsafe {
-        NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
-    }
-
-    critical_section::with(|_| {
-        rcc.ahb3enr().modify(|v| {
-            v.set_pwren(true);
-        });
-        pwr.svmcr().modify(|w| {
-            w.set_usv(true);
-        });
-        // rcc.pll1cfgr().modify(|v| {
-        //     v.set_pllmboost(stm32_metapac::rcc::vals::Pllmboost::DIV2);
-        // });
-        pwr.vosr().modify(|v| {
-            v.0 |= (1 << 19) | (1 << 20);
-            // SBPWREN and USBBOOSTEN in PWR_VOSR.
-            // v.boosten();
-        });
-        delay_ms(100);
-        // wait fo USBBOOSTRDY
-        // while !pwr.vosr().read().usbboostrdy() {}
-
-        rcc.ccipr2().modify(|w| {
-            w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
-        });
-
-        rcc.apb3enr().modify(|w| {
-            w.set_syscfgen(true);
-        });
-        rcc.ahb2enr1().modify(|w| {
-            w.set_usb_otg_hs_phyen(true);
-            w.set_usb_otg_hsen(true);
-        });
-        unsafe {
-            syscfg.otghsphycr().modify(|v| {
-                v.set_clksel(0b11);
-                v.set_en(true);
-            });
-
-            // let addr1 = syscfg.as_ptr();
-            // // move to 0x74 next
-            // let addr = addr1.wrapping_offset(0x74) as *mut u32;
-            // addr.write_volatile(0b1100 as u32);
-            // let addr2 = addr1.wrapping_offset(0x7C) as *mut u32;
-            // addr2.write_volatile(0b101 as u32);
-            // addr.write_volatile(0b1101 as u32);
-        }
-    });
+    // let rcc = stm32_metapac::RCC;
+    // let syscfg = stm32_metapac::SYSCFG;
+    // let pwr = stm32_metapac::PWR;
+    //
+    // unsafe {
+    //     NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
+    // }
+    //
+    // critical_section::with(|_| {
+    //     rcc.ahb3enr().modify(|v| {
+    //         v.set_pwren(true);
+    //     });
+    //     pwr.svmcr().modify(|w| {
+    //         w.set_usv(true);
+    //     });
+    //     // rcc.pll1cfgr().modify(|v| {
+    //     //     v.set_pllmboost(stm32_metapac::rcc::vals::Pllmboost::DIV2);
+    //     // });
+    //     pwr.vosr().modify(|v| {
+    //         v.0 |= (1 << 19) | (1 << 20);
+    //         // SBPWREN and USBBOOSTEN in PWR_VOSR.
+    //         // v.boosten();
+    //     });
+    //     clock::delay_ms(100);
+    //     // wait fo USBBOOSTRDY
+    //     // while !pwr.vosr().read().usbboostrdy() {}
+    //
+    //     rcc.ccipr2().modify(|w| {
+    //         w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
+    //     });
+    //
+    //     rcc.apb3enr().modify(|w| {
+    //         w.set_syscfgen(true);
+    //     });
+    //     rcc.ahb2enr1().modify(|w| {
+    //         w.set_usb_otg_hs_phyen(true);
+    //         w.set_usb_otg_hsen(true);
+    //     });
+    //         syscfg.otghsphycr().modify(|v| {
+    //             v.set_clksel(0b11);
+    //             v.set_en(true);
+    //         });
+    //
+    //         // let addr1 = syscfg.as_ptr();
+    //         // // move to 0x74 next
+    //         // let addr = addr1.wrapping_offset(0x74) as *mut u32;
+    //         // addr.write_volatile(0b1100 as u32);
+    //         // let addr2 = addr1.wrapping_offset(0x7C) as *mut u32;
+    //         // addr2.write_volatile(0b101 as u32);
+    //         // addr.write_volatile(0b1101 as u32);
+    // });
+    spawner.spawn(clock::vddusb_monitor_up()).unwrap();
     spawner.spawn(usb_task()).unwrap();
+
 
     // let r = stm32_metapac::USB_OTG_HS;
     // r.gahbcfg().modify(|w| {
@@ -135,7 +130,7 @@ async fn main(spawner: Spawner) {
     loop {
         exti::EXTI13_PC13.wait_for_raising().await;
         GREEN.toggle();
-        USART1.send("button clicked\n".as_bytes());
+        // USART1.send("button clicked\n".as_bytes());
     }
 }
 
@@ -208,7 +203,7 @@ pub async fn usb_task() {
     let mut msos_descriptor = [0; 512];
 
     let mut state = State::new();
-    USART1.send("starting usb task new!\n\n".as_bytes());
+    // USART1.send("starting usb task new!\n\n".as_bytes());
 
     let mut builder = Builder::new(
         driver,
@@ -221,7 +216,7 @@ pub async fn usb_task() {
     );
 
     let mut class = CdcAcmClass::new(&mut builder, &mut state, 64);
-    USART1.send("declare class success!\n".as_bytes());
+    // USART1.send("declare class success!\n".as_bytes());
     // Build the builder.
     let mut usb = builder.build();
     // USART1.send("success!\n".as_bytes());
@@ -234,7 +229,7 @@ pub async fn usb_task() {
             defmt::info!("disconnected");
         }
     };
-    USART1.send("start usb task success!\n".as_bytes());
+    // USART1.send("start usb task success!\n".as_bytes());
     join(usb_fut, handler_fut).await; // Run everything concurrently.
 }
 

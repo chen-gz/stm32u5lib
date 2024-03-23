@@ -27,7 +27,7 @@
           {
             "coreIndex": 0,
             //!MODIFY
-            "programBinary": "${workspaceFolder}/target/thumbv8m.main-none-eabihf/debug/led",
+            "programBinary": "${workspaceFolder}/target/thumbv8m.main-none-eabihf/debug/usb_u5a5",
             //!MODIFY
             "svdFile": "stm32u5a5.svd",
             "rttEnabled": true

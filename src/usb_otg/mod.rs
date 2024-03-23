@@ -11,13 +11,13 @@ use stm32_metapac::{interrupt, otg};
 
 use fifo_const::*;
 
-use crate::{usart::USART1, *};
 use crate::usb_otg::{
     bus::Bus,
     control_pipe::ControlPipe,
     endpoint::Endpoint,
     phy_type::PhyType,
 };
+pub mod mod_new;
 
 mod bus;
 mod endpoint;
@@ -91,7 +91,7 @@ fn quirk_setup_late_cnak(r: stm32_metapac::otg::Otg) -> bool {
 
 static mut STATE: State<MAX_EP_COUNT> = State::new();
 
-fn state() -> &'static mut State<MAX_EP_COUNT> {
+pub fn state() -> &'static mut State<MAX_EP_COUNT> {
     // static STATE: State<MAX_EP_COUNT> = State::new();
     unsafe { &mut STATE }
 }
@@ -101,6 +101,21 @@ pub(crate) fn regs() -> otg::Otg {
     return stm32_metapac::USB_OTG_FS;
     #[cfg(stm32u5a5)]
     return stm32_metapac::USB_OTG_HS;
+}
+
+pub fn restore_irqs() {
+    info!("restore_irqs");
+    regs().gintmsk().write(|w| {
+        w.set_usbrst(true);
+        w.set_enumdnem(true);
+        w.set_usbsuspm(true);
+        w.set_wuim(true);
+        w.set_iepint(true);
+        w.set_oepint(true);
+        w.set_rxflvlm(true);
+        w.set_srqim(true);
+        w.set_otgint(true);
+    });
 }
 
 unsafe impl<const EP_COUNT: usize> Send for State<EP_COUNT> {}
@@ -126,6 +141,7 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
         }
     }
 }
+pub static mut bus_waker_pwr: AtomicWaker = AtomicWaker::new();
 
 pub struct State<const EP_COUNT: usize> {
     /// Holds received SETUP packets. Available if [State::ep0_setup_ready] is true.
@@ -147,15 +163,16 @@ pub struct Driver {
     phy_type: PhyType,
 }
 
+use crate::gpio;
 
 impl Driver {
     pub fn new(
         config: Config,
-        DP: gpio::GpioPort,
-        DM: gpio::GpioPort,
+        dp: gpio::GpioPort,
+        dm: gpio::GpioPort,
     ) -> Self {
-        DP.setup();
-        DM.setup();
+        dp.setup();
+        dm.setup();
         Self {
             config,
             ep_in: [None; MAX_EP_COUNT],
@@ -227,7 +244,7 @@ impl embassy_usb_driver::Driver<'_> for Driver {
     fn start(mut self, control_max_packet_size: u16) -> (Self::Bus, Self::ControlPipe) {
         // assert!(control_max_packet_size in );
         // control_max_packaet_size should be 8, 16, 32, 64
-        USART1.send("control_max_packet_size: \t\n".as_bytes());
+        // USART1.send("control_max_packet_size: \t\n".as_bytes());
         assert!(control_max_packet_size == 8 || control_max_packet_size == 16
             || control_max_packet_size == 32 || control_max_packet_size == 64);
         self.ep_in[0] = Some(EndpointData {
