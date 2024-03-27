@@ -6,9 +6,8 @@
 use core::default::Default;
 use core::panic::PanicInfo;
 
-use cortex_m::peripheral::NVIC;
 use defmt_rtt as _;
-use embassy_executor::Spawner;
+use embassy_executor::{Spawner};
 use embassy_usb::{
     Builder,
     class::cdc_acm::{CdcAcmClass, State},
@@ -17,10 +16,7 @@ use embassy_usb::{
 use futures::future::{join};
 use stm32_metapac;
 
-
-
-use u5_lib::{*, clock, gpio};
-use u5_lib::{exti, low_power::mcu_no_deep_sleep};
+use u5_lib::{*};
 
 // define defmt format
 #[derive(defmt::Format)]
@@ -41,91 +37,12 @@ fn setup() {
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     setup();
-    mcu_no_deep_sleep();
+    low_power::no_deep_sleep_request();
+    // mcu_no_deep_sleep();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();
-    // USART1.send("start task success!\n".as_bytes());
-    // core initialisation
-    // enable usb clock
-    // let rcc = stm32_metapac::RCC;
-    // let syscfg = stm32_metapac::SYSCFG;
-    // let pwr = stm32_metapac::PWR;
-    //
-    // unsafe {
-    //     NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
-    // }
-    //
-    // critical_section::with(|_| {
-    //     rcc.ahb3enr().modify(|v| {
-    //         v.set_pwren(true);
-    //     });
-    //     pwr.svmcr().modify(|w| {
-    //         w.set_usv(true);
-    //     });
-    //     // rcc.pll1cfgr().modify(|v| {
-    //     //     v.set_pllmboost(stm32_metapac::rcc::vals::Pllmboost::DIV2);
-    //     // });
-    //     pwr.vosr().modify(|v| {
-    //         v.0 |= (1 << 19) | (1 << 20);
-    //         // SBPWREN and USBBOOSTEN in PWR_VOSR.
-    //         // v.boosten();
-    //     });
-    //     clock::delay_ms(100);
-    //     // wait fo USBBOOSTRDY
-    //     // while !pwr.vosr().read().usbboostrdy() {}
-    //
-    //     rcc.ccipr2().modify(|w| {
-    //         w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
-    //     });
-    //
-    //     rcc.apb3enr().modify(|w| {
-    //         w.set_syscfgen(true);
-    //     });
-    //     rcc.ahb2enr1().modify(|w| {
-    //         w.set_usb_otg_hs_phyen(true);
-    //         w.set_usb_otg_hsen(true);
-    //     });
-    //         syscfg.otghsphycr().modify(|v| {
-    //             v.set_clksel(0b11);
-    //             v.set_en(true);
-    //         });
-    //
-    //         // let addr1 = syscfg.as_ptr();
-    //         // // move to 0x74 next
-    //         // let addr = addr1.wrapping_offset(0x74) as *mut u32;
-    //         // addr.write_volatile(0b1100 as u32);
-    //         // let addr2 = addr1.wrapping_offset(0x7C) as *mut u32;
-    //         // addr2.write_volatile(0b101 as u32);
-    //         // addr.write_volatile(0b1101 as u32);
-    // });
-    spawner.spawn(clock::vddusb_monitor_up()).unwrap();
+    spawner.spawn(pwr::vddusb_monitor_up()).unwrap();
     spawner.spawn(usb_task()).unwrap();
-
-
-    // let r = stm32_metapac::USB_OTG_HS;
-    // r.gahbcfg().modify(|w| {
-    //     w.set_gint(true);
-    //     w.set_txfelvl(true);
-    // });
-    // r.gintmsk().modify(|w| {
-    //     w.set_rxflvlm(true);
-    // });
-    // r.gusbcfg().modify(|v| {
-    //     v.set_tocal(0x7); //figure out what it is. timeout calibration
-    //     v.set_trdt(9); // turn around time
-    // });
-    // r.gintmsk().modify(|w| {
-    //     w.set_otgint(true);
-    //     w.set_mmism(true);
-    // });
-    // // force device mode
-    // r.gusbcfg().modify(|v| {
-    //     // v.set_fhnslow(true);
-    //     v.set_fdmod(true);
-    // });
-    // r.dctl().modify(|w| {
-    //     w.set_sdis(true);
-    // });
     defmt::info!("usb init finished!");
     loop {
         exti::EXTI13_PC13.wait_for_raising().await;
@@ -133,16 +50,6 @@ async fn main(spawner: Spawner) {
         // USART1.send("button clicked\n".as_bytes());
     }
 }
-
-// #[interrupt]
-// fn OTG_HS() {
-//     GREEN.toggle();
-//     defmt::info!("OTG_HS interrupt");
-//     unsafe {
-//         // on_interrupt();
-//         clock::delay_us(200);
-//     }
-// }
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -164,13 +71,11 @@ async fn btn() {
     loop {
         exti::EXTI13_PC13.wait_for_raising().await;
         GREEN.toggle();
-        // defmt::info!("button clicked");
-        //USB initsts
+        // USB initsts
         defmt::info!(
             "HS INITSTS: 0x{:x}",
             stm32_metapac::USB_OTG_HS.gintsts().read().0
         );
-        // :?}", stm32_metapac::USB_OTG_HS.  gintsts().read().0);
         defmt::info!(
             "HS INITSTS mask: 0x{:x}",
             stm32_metapac::USB_OTG_HS.gintmsk().read().0

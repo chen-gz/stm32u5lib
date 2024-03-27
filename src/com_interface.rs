@@ -1,22 +1,26 @@
 //! This is interface for low level communication with the device.
 //! It design for all protocol that can be used with this device.
 //! current protocol include i2c, spi, uart, usb
-//! 
-//! 
+//!
+//!
 
 
 
 pub trait ComInterface<'a> {
     // make Self sized
     type Error: core::fmt::Debug;
-    type Message;
-    type Response;
+    type Message: 'a;
+    // For send data
+    type Response: 'a;
     type Config: Default;
+
+    type ReceiveOption: 'a;
+
     fn new(config: Self::Config) -> Result<Self, Self::Error> where Self: Sized;
 
     fn send(&mut self, message: Self::Message) -> Result<(), Self::Error>;
-    fn receive(&mut self) -> Result<Self::Message, Self::Error>;
 
+    fn receive(&mut self, option: Self::ReceiveOption) -> Result<Self::Response, Self::Error>;
 
     /// Send a message to the interface
     // fn send_async(&mut self, message: Self::Message) -> impl core::future::Future<Output = Result<(), Self::Error>>;
@@ -26,7 +30,7 @@ pub trait ComInterface<'a> {
     /// Receive a message from the interface until a message is received or an error occurs
     // async fn receive_async(&mut self) -> Result<Self::Message, Self::Error>;
     // supress warning
-    async fn receive_async(&mut self) ->  Result<Self::Message, Self::Error>;
+    async fn receive_async(&mut self) -> Result<Self::Response, Self::Error>;
 
     /// Temporary enable the interface
     fn enable(&mut self) -> Result<(), Self::Error>;
@@ -36,7 +40,6 @@ pub trait ComInterface<'a> {
 
     /// Drop the interface. The low level resource will be released
     fn drop(&mut self) -> Result<(), Self::Error>;
-
 
     /// wait for connection
     /// after this function return Ok. The reand and write function can be used

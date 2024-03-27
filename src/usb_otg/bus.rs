@@ -6,13 +6,12 @@ use cortex_m::peripheral::NVIC;
 // use crate::usb_otg::usb::{EndpointData, PhyType, regs};
 use defmt::{info, trace};
 use embassy_usb_driver::{
-    Direction, EndpointAddress, EndpointIn, EndpointOut, EndpointType, Event, Unsupported,
+    Direction, EndpointAddress, EndpointType, Event, Unsupported,
 };
 use stm32_metapac::otg;
 
 use crate::usb_otg::fifo_const::*;
-use crate::usb_otg::{regs, state, Config, EndpointData, PhyType, bus_waker_pwr};
-use crate::usb_otg::mod_new::power_up_init;
+use crate::usb_otg::{regs, state, Config, EndpointData, PhyType, BUS_WAKER_PWR};
 
 macro_rules! trace_bus_event {
     ($($arg:tt)*) => {
@@ -373,9 +372,7 @@ impl Bus {
             NVIC::mask(stm32_metapac::Interrupt::OTG_FS);
         }
         #[cfg(stm32u5a5)]
-        unsafe {
-            NVIC::mask(stm32_metapac::Interrupt::OTG_HS);
-        }
+        NVIC::mask(stm32_metapac::Interrupt::OTG_HS);
         self.inited = false;
         // disable the power
 
@@ -408,7 +405,7 @@ impl embassy_usb_driver::Bus for Bus {
         poll_fn(move |cx| {
             unsafe {
                 state().bus_waker.register(cx.waker());
-                bus_waker_pwr.register(cx.waker());
+                BUS_WAKER_PWR.register(cx.waker());
             }
             defmt::info!("poll usb bus");
             // let vdd = stm32_metapac::PWR.svmsr().read().vddusbrdy();
@@ -509,7 +506,7 @@ impl embassy_usb_driver::Bus for Bus {
 
             Poll::Pending
         })
-        .await
+            .await
     }
 
     fn endpoint_set_enabled(&mut self, ep_addr: EndpointAddress, enabled: bool) {
@@ -552,9 +549,7 @@ impl embassy_usb_driver::Bus for Bus {
 
                 // Wake `Endpoint::wait_enabled()`
                 // T::state().ep_out_wakers[ep_addr.index()].wake();
-                unsafe {
-                    state().ep_out_wakers[ep_addr.index()].wake();
-                }
+                state().ep_out_wakers[ep_addr.index()].wake();
             }
             Direction::In => {
                 critical_section::with(|_| {
@@ -574,9 +569,7 @@ impl embassy_usb_driver::Bus for Bus {
 
                 // Wake `Endpoint::wait_enabled()`
                 // T::state().ep_in_wakers[ep_addr.index()].wake();
-                unsafe {
-                    state().ep_in_wakers[ep_addr.index()].wake();
-                }
+                state().ep_in_wakers[ep_addr.index()].wake();
             }
         }
     }
@@ -602,9 +595,7 @@ impl embassy_usb_driver::Bus for Bus {
                 });
 
                 // T::state().ep_out_wakers[ep_addr.index()].wake();
-                unsafe {
-                    state().ep_out_wakers[ep_addr.index()].wake();
-                }
+                state().ep_out_wakers[ep_addr.index()].wake();
             }
             Direction::In => {
                 critical_section::with(|_| {
@@ -614,9 +605,7 @@ impl embassy_usb_driver::Bus for Bus {
                 });
 
                 // T::state().ep_in_wakers[ep_addr.index()].wake();
-                unsafe {
-                    state().ep_in_wakers[ep_addr.index()].wake();
-                }
+                state().ep_in_wakers[ep_addr.index()].wake();
             }
         }
     }

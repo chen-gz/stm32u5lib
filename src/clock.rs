@@ -13,7 +13,6 @@
 use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
 pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
-use defmt::info;
 
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
@@ -280,7 +279,7 @@ pub fn init_clock(has_hse: bool, enable_dbg: bool, system_min_freq: ClockFreqs) 
     set_clock();
 }
 
-static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
+pub static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
 
 pub enum ClockFreqs {
     KernelFreq160Mhz,
@@ -303,7 +302,7 @@ pub enum ClockFreqs {
 }
 
 impl ClockFreqs {
-    fn to_idx(&self) -> usize {
+    pub fn to_idx(&self) -> usize {
         match self {
             ClockFreqs::KernelFreq160Mhz => 0,
             ClockFreqs::KernelFreq80Mhz => 1,
@@ -384,7 +383,7 @@ pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
     }
 }
 
-pub fn set_cpu_freq_new(freq: u32, lpm: bool) {
+pub fn set_cpu_freq_new(freq: u32, _lpm: bool) {
     if unsafe { HCLK } > freq {
         dec_kern_freq(freq);
     } else if unsafe { HCLK } < freq {
@@ -523,110 +522,3 @@ fn dec_kern_freq(freq: u32) {
     }
 }
 
-
-///////////////////////////////////////////////////////////
-/// USB power monitor
-use cortex_m::peripheral::NVIC;
-use embassy_executor::Spawner;
-use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
-use embassy_sync::signal::Signal;
-
-#[embassy_executor::task]
-pub async fn vddusb_monitor_up() {
-    // exti line 19
-    unsafe {
-        NVIC::unmask(stm32_metapac::Interrupt::PVD_PVM);
-    }
-    loop {
-        static mut USB_POWER_UP: bool = false;
-        stm32_metapac::PWR.svmcr().modify(|w| {
-            w.set_uvmen(true);
-        });
-        stm32_metapac::EXTI.rtsr(0).modify(|v| v.set_line(19, true));
-        stm32_metapac::EXTI.ftsr(0).modify(|v| v.set_line(19, true));
-        stm32_metapac::EXTI.imr(0).modify(|v| v.set_line(19, true));
-        stm32_metapac::EXTI.emr(0).modify(|v| v.set_line(19, true));
-        // get vddusb status
-        let vddusb = stm32_metapac::PWR.svmsr().read().vddusbrdy();
-        if vddusb == unsafe { USB_POWER_UP } {
-            // do nothing
-        } else {
-            if vddusb {
-                info!("USB power up, call pwoer_up_init");
-
-                    unsafe {
-                        USB_POWER_UP = true;
-                        // request 160Mhz
-                        CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
-                        set_clock();
-                        // low_power::mcu_no_deep_sleep_request();
-                    }
-                crate::usb_otg::mod_new::power_up_init();
-                unsafe {
-                    bus_waker_pwr.wake();
-                }
-            }
-            // if vddusb {
-            //     // power up
-            //     defmt::info!("USB power up");
-            //     unsafe {
-            //         USB_POWER_UP = true;
-            //         // request 160Mhz
-            //         CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1;
-            //         low_power::mcu_no_deep_sleep_request();
-            //     }
-            //     PWR.svmcr().modify(|w| {
-            //         w.set_usv(true); // remove power isolation
-            //     });
-            //
-            //     PWR.vosr().modify(|v| {
-            //         v.0 |= (1 << 19) | (1 << 20);
-            //         // SBPWREN and USBBOOSTEN in PWR_VOSR.
-            //         // v.boosten();
-            //     });
-            //     delay_us(100); // todo check the delay time
-            //
-            //     #[cfg(stm32u5a5)]
-            //     {
-            //         RCC.ccipr2().modify(|w| {
-            //             w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
-            //         });
-            //
-            //         RCC.apb3enr().modify(|w| {
-            //             w.set_syscfgen(true);
-            //         });
-            //         RCC.ahb2enr1().modify(|w| {
-            //             w.set_usb_otg_hs_phyen(true);
-            //             w.set_usb_otg_hsen(true);
-            //         });
-            //         SYSCFG.otghsphycr().modify(|v| {
-            //             v.set_clksel(0b11);
-            //             v.set_en(true);
-            //         });
-            //     }
-            //     defmt::info!("USB power up finished");
-            //     #[cfg(stm32u5a5)]
-            //     unsafe {
-            //         NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
-            //         crate::usb_otg::restore_irqs();
-            //         defmt::trace!("USB IRQs start");
-            //     }
-            // }
-        }
-        PVM_SIGNAL.wait().await;
-    }
-}
-
-static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-
-use stm32_metapac::interrupt;
-
-use crate::low_power;
-use crate::usb_otg::bus_waker_pwr;
-
-#[interrupt]
-fn PVD_PVM() {
-    PVM_SIGNAL.signal(1);
-    stm32_metapac::EXTI.fpr(0).write(|v| v.set_line(19, true));
-    stm32_metapac::EXTI.rpr(0).write(|v| v.set_line(19, true));
-}

@@ -1,4 +1,5 @@
 #![allow(unused)]
+
 // Module: adc
 /// Continuous conversion mode and discontinuous mode
 // the continuous conversion mode and discontinuous mode are not refer the same thing.
@@ -23,11 +24,10 @@ pub const ADC1: AdcPort = AdcPort {
 impl AdcPort {
     pub fn init(&self) {
         set_adc_clock(); // hsi16 set as adc clock (async clock)
-        unsafe { 
+        unsafe {
             let addr = 0x4202_8308 as *mut u32;
             // write value (1<<22) to the address 0x4202_8308
-            *addr = (1 << 22) | (1011 << 18 ) |(1<<23)| (1<<24);
-            
+            *addr = (1 << 22) | (1011 << 18) | (1 << 23) | (1 << 24);
         }
         self.port.cr().modify(|v| {
             v.set_deeppwd(false);
@@ -46,7 +46,7 @@ impl AdcPort {
             v.set_difsel(0);   // single ended mode
         });
         self.port.calfact().modify(|v| {
-            v.set_capture_coef(false); 
+            v.set_capture_coef(false);
             v.set_latch_coef(false);
         });
         // start calibration
@@ -76,14 +76,13 @@ impl AdcPort {
             self.port.smpr(0).modify(|v| {
                 v.set_smp(channel as usize, 0b111); // sete sample time to 640.5 cycles
             });
-        }
-        else {
+        } else {
             self.port.smpr(1).modify(|v| {
                 v.set_smp((channel - 10) as usize, 0b111); // sete sample time to 640.5 cycles
             });
         }
         delay_ms(50);
-       
+
         // enable adc
         self.port.cr().modify(|v| {
             v.set_aden(true);
@@ -110,17 +109,14 @@ impl AdcPort {
 
         return _result as u32;
     }
-    // pub fn get_vrefint_cal(&self) -> u32 {
-    //     let addr = 0x0bbfa_07a5 as *const u16;
-    //     unsafe { addr.read_volatile() as u32 }
-    // }
-    pub fn get_vref_int_raw (&self) -> u32 {
+    pub fn get_vref_int_raw(&self) -> u32 {
         let addr = 0x0BFA_07A5 as *const u16;
         let val = unsafe { addr.read_volatile() as u32 };
         return val;
     }
     // if use tim1 trgo as the trigger source, the trigger source is 9.
-    // pub fn start_conversion_ext(&self, pin: GpioPort, channel: u8, extsel: u8, &mut results: &mut [u16]) { self.port.cfgr().modify(|v| {
+    // pub fn start_conversion_ext(&self, pin: GpioPort, channel: u8, extsel: u8,
+    //                             &mut results: &mut [u16]) { self.port.cfgr().modify(|v| {
     //         v.set_cont(false); // disable continuous conversion mode
     //     });
     //     // start conversion with external trigger
@@ -162,3 +158,5 @@ impl AdcPort {
     //     });
     // }
 }
+
+

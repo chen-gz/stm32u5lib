@@ -17,12 +17,14 @@ use crate::usb_otg::{
     endpoint::Endpoint,
     phy_type::PhyType,
 };
+
 pub mod mod_new;
 
 mod bus;
 mod endpoint;
 mod control_pipe;
 mod phy_type;
+
 use defmt::{info, trace, error};
 
 // map info, debug, trace, error to nothing
@@ -59,8 +61,10 @@ pub mod fifo_const {
     pub const FIFO_DEPTH_WORDS: u16 = 1024;
     //4Kbtes = 4096 bytes = 1024 words
     // total fifo size in words
-    pub const RX_FIFO_SIZE_EACH: u16 = 128; // 128 bytes = 32 words
-    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288; // 32 * 9 = 288
+    pub const RX_FIFO_SIZE_EACH: u16 = 128;
+    // 128 bytes = 32 words
+    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288;
+    // 32 * 9 = 288
     // 1024 - 288 = 736; 736 / 9 = 81.7777 =320 bytes = 80 words
     // 1024 - 288 - 80 * 8 = 96
     pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [64, 64, 64, 64, 64, 64];
@@ -141,7 +145,8 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
         }
     }
 }
-pub static mut bus_waker_pwr: AtomicWaker = AtomicWaker::new();
+
+pub static mut BUS_WAKER_PWR: AtomicWaker = AtomicWaker::new();
 
 pub struct State<const EP_COUNT: usize> {
     /// Holds received SETUP packets. Available if [State::ep0_setup_ready] is true.
@@ -287,7 +292,7 @@ impl embassy_usb_driver::Driver<'_> for Driver {
     }
 }
 
-pub unsafe  fn on_interrupt() {
+pub unsafe fn on_interrupt() {
     let r = regs();
     // r.gahbcfg().modify(|w| w.set_dmaen(val));
     // r.gintmsk().write(|_w| {});
@@ -336,10 +341,8 @@ pub unsafe  fn on_interrupt() {
                 if state.ep0_setup_ready.load(Ordering::Relaxed) == false {
                     //                     // SAFETY: exclusive access ensured by atomic bool
                     // let data = unsafe { &mut *state.ep0_setup_data.get() };
-                    unsafe {
-                        state.ep0_setup_data[0..4].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
-                        state.ep0_setup_data[4..8].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
-                    }
+                    state.ep0_setup_data[0..4].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
+                    state.ep0_setup_data[4..8].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
                     // data[0..4].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
                     // data[4..8].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
                     state.ep0_setup_ready.store(true, Ordering::Release);

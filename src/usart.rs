@@ -108,11 +108,13 @@ static mut TAKEN: [bool; 8] = [false; 8];
 
 use crate::com_interface::ComInterface;
 
+
 impl<'a> ComInterface<'a> for UsartPort {
+    type Error = UsartError;
     type Message = &'a [u8];
     type Response = &'a [u8];
-    type Error = UsartError;
     type Config = Config;
+    type ReceiveOption = ();
     fn new(config: Self::Config) -> Result<Self, Self::Error> {
         if unsafe { TAKEN[config.port_num as usize] } {
             return Err(UsartError::TAKEN);
@@ -158,10 +160,22 @@ impl<'a> ComInterface<'a> for UsartPort {
         Ok(())
     }
 
-    fn receive(&mut self) -> Result<Self::Message, Self::Error> {
+    fn receive(&mut self, option: Self::ReceiveOption) -> Result<Self::Response, Self::Error> {
         todo!()
     }
 
+    // fn receive(&mut self) -> Result<Self::Message, Self::Error> {
+    //     todo!()
+    // }
+
+
+    async fn send_async(&mut self, message: Self::Message) -> Result<(), Self::Error> {
+        todo!()
+    }
+
+    async fn receive_async(&mut self) ->  Result<Self::Message, Self::Error> {
+        todo!()
+    }
 
     fn enable(&mut self) -> Result<(), Self::Error> {
         todo!()
@@ -176,14 +190,6 @@ impl<'a> ComInterface<'a> for UsartPort {
     }
 
     fn wait_connection(&mut self) -> Result<(), Self::Error> {
-        todo!()
-    }
-    
-    async fn send_async(&mut self, message: Self::Message) -> Result<(), Self::Error> {
-        todo!()
-    }
-    
-    async fn receive_async(&mut self) ->  Result<Self::Message, Self::Error> {
         todo!()
     }
     

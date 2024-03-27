@@ -20,7 +20,7 @@ pub static mut TIM1: TimIns = TimIns {
     // only capture and compare mode can be changed after the timer is enabled.
 };
 
-enum TimError {
+pub enum TimError {
     ReInitError,
 }
 

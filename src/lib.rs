@@ -3,7 +3,7 @@
 #![no_std]
 #![allow(dead_code)]
 pub mod clock;
-pub mod gi2c;
+pub mod i2c;
 
 pub mod dcmi;
 pub mod dma;
@@ -36,3 +36,4 @@ pub use embassy_executor::Spawner;
 
 pub use embassy_executor_macros::task;
 pub mod com_interface;
+pub mod pwr;
