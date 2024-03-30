@@ -16,6 +16,7 @@ pub mod exti;
 pub mod low_power;
 pub mod lptim;
 pub mod rtc;
+pub mod camera;
 
 // pub mod usb_otg{
     // pub mod usb;

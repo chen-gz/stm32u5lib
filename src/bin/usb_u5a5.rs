@@ -37,7 +37,7 @@ fn setup() {
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     setup();
-    low_power::no_deep_sleep_request();
+    // low_power::no_deep_sleep_request();
     // mcu_no_deep_sleep();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();

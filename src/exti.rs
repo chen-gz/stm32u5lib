@@ -46,7 +46,7 @@ impl ExtiPort {
         self.gpio.setup();
         unsafe {
             // NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
-            // NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
+            NVIC::unmask(stm32_metapac::Interrupt::EXTI2);
             NVIC::unmask(stm32_metapac::Interrupt::EXTI13);
         }
         // if self.line < 8 {

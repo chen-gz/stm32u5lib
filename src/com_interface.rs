@@ -18,7 +18,22 @@ pub trait ComInterface<'a> {
 
     fn new(config: Self::Config) -> Result<Self, Self::Error> where Self: Sized;
 
-    fn send(&mut self, message: Self::Message) -> Result<(), Self::Error>;
+    fn send(&mut self, message: &Self::Message) -> Result<(), Self::Error>;
+
+    fn send_retry(&mut self, message: Self::Message, retry: u8) -> Result<(), Self::Error> {
+        let mut count = 0;
+        loop {
+            match self.send(&message) {
+                Ok(_) => return Ok(()),
+                Err(e) => {
+                    count += 1;
+                    if count >= retry {
+                        return Err(e);
+                    }
+                }
+            }
+        }
+    }
 
     fn receive(&mut self, option: Self::ReceiveOption) -> Result<Self::Response, Self::Error>;
 

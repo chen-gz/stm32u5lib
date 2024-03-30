@@ -28,9 +28,10 @@ pub async fn vddusb_monitor_up() {
                 // do nothing
             } else {
                 unsafe {
-                    USB_POWER_UP = false;
-                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
-                    low_power::no_deep_sleep_release();
+                    // TODO: fix bug!
+                    // USB_POWER_UP = false;
+                    // CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
+                    // low_power::no_deep_sleep_release();
                 }
             }
         } else {

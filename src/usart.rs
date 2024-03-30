@@ -7,15 +7,15 @@ use stm32_metapac::{
     common::R,
     usart::vals::{Over8, Stop, M0, M1},
 };
-pub struct UsartPort {
+pub struct Usart {
     port: stm32_metapac::usart::Usart,
     port_num: u8,
 }
 
-pub const USART1: UsartPort = UsartPort {
-    port: stm32_metapac::USART1,
-    port_num: 1,
-};
+// pub const USART1: UsartPort = UsartPort {
+//     port: stm32_metapac::USART1,
+//     port_num: 1,
+// };
 
 const USART_CLOCK: u32 = 16_000_000; // default use HSI16
 pub struct Config {
@@ -109,7 +109,7 @@ static mut TAKEN: [bool; 8] = [false; 8];
 use crate::com_interface::ComInterface;
 
 
-impl<'a> ComInterface<'a> for UsartPort {
+impl<'a> ComInterface<'a> for Usart {
     type Error = UsartError;
     type Message = &'a [u8];
     type Response = &'a [u8];
@@ -147,11 +147,11 @@ impl<'a> ComInterface<'a> for UsartPort {
         port.brr().write(|v| {
             v.set_brr((USART_CLOCK / 115200) as u16);
         });
-        Ok(UsartPort { port, port_num: config.port_num })
+        Ok(Usart{ port, port_num: config.port_num })
     }
 
-    fn send(&mut self, message: Self::Message) -> Result<(), Self::Error> {
-        for &c in message {
+    fn send(&mut self, message: &Self::Message) -> Result<(), Self::Error> {
+        for &c in *message {
             while self.port.isr().read().txe() == false {}
             self.port.tdr().write(|v| {
                 v.set_dr(c as u16);

@@ -21,6 +21,12 @@ pub fn power_up_init() {
             // delay_ms(100);
             // wait fo USBBOOSTRDY
             // while !pwr.vosr().read().usbboostrdy() {}
+            // enable hse 
+            RCC.cr().modify(|w| {
+                w.set_hseon(true);
+            });
+            // wait for hse ready
+            while !RCC.cr().read().hserdy() {}
 
             RCC.ccipr2().modify(|w| {
                 w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
@@ -33,8 +39,9 @@ pub fn power_up_init() {
                 w.set_usb_otg_hs_phyen(true);
                 w.set_usb_otg_hsen(true);
             });
+            // TODO: update this clock settings
             SYSCFG.otghsphycr().modify(|v| {
-                v.set_clksel(0b11);
+                v.set_clksel(0b1110);
                 v.set_en(true);
             });
         });

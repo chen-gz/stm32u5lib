@@ -5,9 +5,11 @@ pub use stm32_metapac::gpio::vals::Odr;
 pub use stm32_metapac::gpio::vals::Ot;
 pub use stm32_metapac::gpio::vals::Pupdr;
 use stm32_metapac::gpio::Gpio;
-use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, GPIOF};
+use core::ptr as prt;
 
 use crate::clock;
+use crate::clock::delay_ms;
 
 macro_rules! define_gpio_port {
         ($($name:ident: $port:ident, $pin:expr),*) => {
@@ -99,8 +101,12 @@ define_gpio_port!(
     PC0: GPIOC, 0,PC1: GPIOC, 1, PC2: GPIOC, 2, PC3: GPIOC, 3,
     PC4: GPIOC, 4,PC5: GPIOC, 5, PC6: GPIOC, 6, PC7: GPIOC, 7,
     PC8: GPIOC, 8,PC9: GPIOC, 9, PC10: GPIOC, 10, PC11: GPIOC, 11,
-    PC12: GPIOC, 12,PC13: GPIOC, 13, PC14: GPIOC, 14, PC15: GPIOC, 15
+    PC12: GPIOC, 12,PC13: GPIOC, 13, PC14: GPIOC, 14, PC15: GPIOC, 15,
 
+    PD0: GPIOD, 0,PD1: GPIOD, 1, PD2: GPIOD, 2, PD3: GPIOD, 3,
+    PD4: GPIOD, 4,PD5: GPIOD, 5, PD6: GPIOD, 6, PD7: GPIOD, 7,
+    PD8: GPIOD, 8,PD9: GPIOD, 9, PD10: GPIOD, 10, PD11: GPIOD, 11,
+    PD12: GPIOD, 12,PD13: GPIOD, 13, PD14: GPIOD, 14, PD15: GPIOD, 15
 
 );
 define_gpio_port_alt!(
@@ -108,6 +114,10 @@ define_gpio_port_alt!(
     I2C1_SDA_PB7: GPIOB, 7, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
     I2C1_SCL_PB8: GPIOB, 8, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
     I2C1_SDA_PB9: GPIOB, 9, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
+    I2C2_SDA_PF0: GPIOF, 0, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::FLOATING,
+    I2C2_SCL_PF1: GPIOF, 1, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::FLOATING,
+    I2C2_SDA_PB10: GPIOB, 10, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
+    I2C2_SCL_PB11: GPIOB, 11, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
 
     I2C3_SCL_PC0: GPIOC, 0, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,
     I2C3_SDA_PB4: GPIOB, 4, 4, Moder::ALTERNATE, Ot::OPENDRAIN, Pupdr::PULLUP,

@@ -13,6 +13,7 @@
 use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
 pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
+use crate::gpio;
 
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
@@ -165,6 +166,7 @@ pub fn delay_tick(n: u32) {
 }
 
 pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
+    PWR.svmcr().modify(|v| v.set_io2sv(true));
     // todo check VDDIO2
     if gpio == stm32_metapac::GPIOA {
         RCC.ahb2enr1().modify(|v| v.set_gpioaen(true));
@@ -176,6 +178,9 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
         RCC.ahb2enr1().modify(|v| v.set_gpioden(true));
     } else if gpio == stm32_metapac::GPIOE {
         RCC.ahb2enr1().modify(|v| v.set_gpioeen(true));
+    } else if gpio == stm32_metapac::GPIOF {
+        RCC.ahb2enr1().modify(|v| v.set_gpiofen(true));
+        RCC.ahb2smenr1().modify(|v| v.set_gpiofsmen(true));
     } else if gpio == stm32_metapac::GPIOG {
         RCC.ahb2enr1().modify(|v| v.set_gpiogen(true));
     } else {
@@ -216,6 +221,30 @@ pub fn set_usart_clock() {
         .modify(|v| v.set_usart1sel(stm32_metapac::rcc::vals::Usart1sel::HSI));
     // enable usart1 clock
     RCC.apb2enr().modify(|v| v.set_usart1en(true));
+}
+
+pub fn set_i2c_clock(i2c_num: u8) {
+    // set i2c1 clock source to hsi
+    if (i2c_num == 1) {
+        RCC.ccipr1().modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::I2csel::HSI));
+        // enable i2c1 clock
+        RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
+    }
+    else if (i2c_num == 2) {
+        RCC.ccipr1().modify(|v| v.set_i2c2sel(stm32_metapac::rcc::vals::I2csel::HSI));
+        // enable i2c2 clock
+        RCC.apb1enr1().modify(|v| v.set_i2c2en(true));
+        RCC.apb1smenr1().modify(|v| v.set_i2c2smen(true));
+    }
+    else if (i2c_num == 3) {
+        RCC.ccipr3().modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::I2c3sel::HSI));
+        // enable i2c3 clock
+        RCC.apb3enr().modify(|v| v.set_i2c3en(true));
+    }
+    else {
+        defmt::panic!("Invalid i2c number");
+
+    }
 }
 
 pub fn set_adc_clock() {
@@ -522,3 +551,13 @@ fn dec_kern_freq(freq: u32) {
     }
 }
 
+pub use stm32_metapac::rcc::vals::Mcosel as Mcosel;
+pub use stm32_metapac::rcc::vals::Mcopre as Mcopre;
+
+pub fn set_mco(pin: gpio::GpioPort, clk: Mcosel, div: stm32_metapac::rcc::vals::Mcopre) {
+    pin.setup();
+    RCC.cfgr1().modify(|w| {
+        w.set_mcosel(clk);
+        w.set_mcopre(div);
+    });
+}

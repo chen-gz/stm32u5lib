@@ -1,7 +1,7 @@
 #![allow(unused)]
 
-use crate::clock::delay_tick;
-use stm32_metapac::{i2c::I2c, RCC};
+use crate::clock::{delay_ms, delay_tick};
+use stm32_metapac::{ RCC};
 use crate::clock;
 use crate::com_interface::ComInterface;
 
@@ -17,18 +17,28 @@ pub struct I2cConfig {
     pub sda_pin: crate::gpio::GpioPort,
 }
 
-pub struct I2cPort {
+pub struct I2c {
     port_num: u8,
     port: stm32_metapac::i2c::I2c,
 }
 
-impl Drop for I2cPort {
+impl I2cConfig {
+    pub fn new(port_num: u8, freq: u32, scl_pin: crate::gpio::GpioPort, sda_pin: crate::gpio::GpioPort) -> Self {
+        Self {
+            port_num,
+            freq,
+            scl_pin,
+            sda_pin,
+        }
+    }
+}
+
+impl Drop for I2c {
     fn drop(&mut self) {
         unsafe {
             TAKEN[self.port_num as usize] = false;
         }
         self.port.cr1().modify(|v| v.set_pe(false));
-
     }
 }
 
@@ -58,7 +68,7 @@ pub struct I2cMessage<'a> {
     pub data: &'a mut [u8],
 }
 
-impl I2cPort {
+impl I2c {
     pub fn write_read(
         &mut self,
         addr: u16,
@@ -71,7 +81,7 @@ impl I2cPort {
             addr,
             data: send_data,
         };
-        self.send(message)?;
+        self.send(&message)?;
         let option = I2cMessage {
             addr,
             data: read_data,
@@ -80,7 +90,7 @@ impl I2cPort {
     }
 }
 
-impl<'a> ComInterface<'a> for I2cPort {
+impl<'a> ComInterface<'a> for I2c {
     type Error = I2cError;
     type Message = I2cMessage<'a>;
     type Response = ();
@@ -96,14 +106,22 @@ impl<'a> ComInterface<'a> for I2cPort {
             }
             TAKEN[config.port_num as usize] = true;
         }
-        // clock::set_usart_clock();
-        // setup gpio ports
         config.scl_pin.setup();
         config.sda_pin.setup();
+        // delay_ms(10);
+        clock::set_i2c_clock(config.port_num);
+
+        clock::set_i2c_clock(2);
+        delay_ms(1);
+        // setup gpio ports
         let port = if config.port_num == 1 {
             stm32_metapac::I2C1
-        } else {
+        } else if config.port_num == 2 {
+            stm32_metapac::I2C2
+        } else if config.port_num == 3 {
             stm32_metapac::I2C3
+        } else {
+            panic!("invalid port number");
         };
 
         port.cr1().modify(|v| v.set_pe(false));
@@ -123,9 +141,15 @@ impl<'a> ComInterface<'a> for I2cPort {
             // v.set_sdadel(2);
             // v.set_scldel(3);
 
+            // v.set_presc(3);
+            // v.set_scll(0x13);
+            // v.set_sclh(0xF);
+            // v.set_sdadel(0x2);
+            // v.set_scldel(0x4);
+            // 10khz
             v.set_presc(3);
-            v.set_scll(0x13);
-            v.set_sclh(0xF);
+            v.set_scll(0xC7);
+            v.set_sclh(0xC3);
             v.set_sdadel(0x2);
             v.set_scldel(0x4);
         });
@@ -146,13 +170,13 @@ impl<'a> ComInterface<'a> for I2cPort {
             v.set_pe(true);
         });
         delay_tick(10);
-        Ok(I2cPort {
+        Ok(I2c {
             port: port,
             port_num: config.port_num,
         })
     }
 
-    fn send(&mut self, message: Self::Message) -> Result<(), Self::Error> {
+    fn send(&mut self, message: &Self::Message) -> Result<(), Self::Error> {
         let addr = message.addr;
         let data = message.data;
         assert!(data.len() <= 255);
