@@ -27,6 +27,19 @@ pub fn setup(
     period_wakup_s: u16,
     rtc_source: rcc::vals::Rtcsel,
 ) {
+    defmt::info!("rtc setup with year: {}, month: {}, day: {}, hour: {}, minute: {}, second: {}, period_wakup_s: {}", year, month, day, hour, minute, second, period_wakup_s);
+    match rtc_source {
+        rcc::vals::Rtcsel::LSE => {
+            defmt::info!("rtc source: LSE");
+        }
+        rcc::vals::Rtcsel::LSI => {
+            defmt::info!("rtc source: LSI");
+        }
+        _ => {
+            defmt::info!("rtc source: ???");
+        }
+    }
+
     //  rest backup domain
     RCC.bdcr().write(|v| v.set_bdrst(true));
     delay_ms(10);

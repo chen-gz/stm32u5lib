@@ -11,11 +11,12 @@
 #![allow(dead_code)]
 use core::panic;
 
+use stm32_metapac::rtc::Rtc;
 // use core::panic;
 use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
 pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
-use crate::gpio;
+use crate::{gpio, rtc};
 
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
@@ -33,6 +34,7 @@ pub const PLL1_R_FREQ: u32 = 160_000_000;
 pub const PLL1_Q_FREQ: u32 = 160_000_000;
 pub const PLL1_P_FREQ: u32 = 0;
 static mut HSE_AVAILABLE: bool = false;
+static mut LSE_AVAILABLE: bool = false;
 
 pub fn hclk_request<F, R>(freq: ClockFreqs, code: F) -> F::Output
     where
@@ -270,10 +272,14 @@ pub fn set_adc_clock() {
     RCC.ahb2enr1().modify(|v| v.set_adc12en(true));
 }
 
-pub fn init_clock(has_hse: bool, enable_dbg: bool, system_min_freq: ClockFreqs) {
+pub fn init_clock(has_hse: bool,
+                  has_lse: bool,
+                  enable_dbg: bool,
+                  system_min_freq: ClockFreqs) {
     // unsafe {CLOCK_REF.has_hse = has_hse;}
     unsafe {
         HSE_AVAILABLE = has_hse;
+        LSE_AVAILABLE = has_lse;
         // switch on hse if available
     }
     RCC.ahb3enr().modify(|v|
@@ -302,6 +308,23 @@ pub fn init_clock(has_hse: bool, enable_dbg: bool, system_min_freq: ClockFreqs) 
         CLOCK_REQUESTS[system_min_freq.to_idx()] = 1;
     }
     set_clock();
+    // check rtc is enabled or not. if enabled, do nothing
+    let rtc_en = RCC.bdcr().read().rtcen();
+    if !rtc_en {
+        if has_lse {
+            // RCC.bdcr().modify(|w| w.set_lseon(true));
+            // while !RCC.bdcr().read().lserdy() {}
+            // RCC.bdcr().modify(|w| w.set_rtcsel(stm32_metapac::rcc::vals::Rtcsel::LSE));
+            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
+        }
+        else {
+            // enable lsi
+            // RCC.bdcr().modify(|w| w.set_lsion(true));
+            // while !RCC.bdcr().read().lsirdy() {}
+            // RCC.bdcr().modify(|w| w.set_rtcsel(stm32_metapac::rcc::vals::Rtcsel::LSI));
+            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
+        }
+    }
 }
 
 pub static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
