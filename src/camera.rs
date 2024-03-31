@@ -75,6 +75,11 @@ pub fn setup_camera(i2c: &mut i2c::I2c) {
     // i2c.write(ov5640_reg::OV5640_I2C_ADDR, &write_val).unwrap();
     i2c.send_retry(write_val, 5).unwrap();
     defmt::info!("setup camera registers finished");
+
+    // soft sleep
+    let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, (1 << 6) | 0x02];
+    let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
+    i2c.send_retry(reg_val, 5).unwrap();
 }
 
 // use 4 byte in first block to store the number of image files
@@ -96,7 +101,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     }
     if !found {
         // TODO: return error code
-        defmt::error!("not find jpeg end");
+        defmt::panic!("not find jpeg end");
     }
     let date = rtc::get_date();
     let time = rtc::get_time();
@@ -137,6 +142,8 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     buf[1] = ((num >> 16) & 0xff) as u8;
     buf[2] = ((num >> 8) & 0xff) as u8;
     buf[3] = (num & 0xff) as u8;
+    // current picture number
+    defmt::info!("current picture number: {}", num);
     match sd.write_single_block_async(&buf, SIZE_BLOCK).await {
         Ok(_) => {
             defmt::info!("write picture number to sd card success");

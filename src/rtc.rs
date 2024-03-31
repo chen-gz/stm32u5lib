@@ -15,6 +15,7 @@ use stm32_metapac::common::W;
 use stm32_metapac::{pwr, rcc, rtc, rtc::Rtc, PWR, RCC, RTC};
 pub struct RtcPort;
 
+pub use rcc::vals::Rtcsel as RtcSource;
 // impl RtcPort {
 pub fn setup(
     year: u8,

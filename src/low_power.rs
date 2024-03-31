@@ -85,7 +85,7 @@ pub struct Executor {
     scb: SCB,
     // time_driver: &'static RtcDriver,
 }
-static mut REF_COUNT_DEEP: u32 = 0;
+pub static mut REF_COUNT_DEEP: u32 = 0;
 static mut _REF_COUNT_STOP1: u32 = 0;
 static mut _REF_COUNT_STOP2: u32 = 0;
 static mut _REF_COUNT_STOP3: u32 = 0;
@@ -197,7 +197,7 @@ impl Executor {
                 // let mut w = self.scb.icsr.read();
                 self.configure_pwr();
                 crate::clock::set_clock();
-                defmt::info!("wake up from wfe");
+                // defmt::info!("wake up from wfe");
             };
         }
     }

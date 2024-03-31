@@ -9,6 +9,8 @@
 //!     - system start with MSI 4Mhz as clocck source. Then the system clock is set to HSE 16Mhz as default clock if system clock is less than 16Mhz. Otherwise the pll1_r is set to system clock.
 //!
 #![allow(dead_code)]
+use core::panic;
+
 // use core::panic;
 use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
@@ -32,16 +34,18 @@ pub const PLL1_Q_FREQ: u32 = 160_000_000;
 pub const PLL1_P_FREQ: u32 = 0;
 static mut HSE_AVAILABLE: bool = false;
 
-pub fn hclk_request<F>(freq: ClockFreqs, code: F)
+pub fn hclk_request<F, R>(freq: ClockFreqs, code: F) -> F::Output
     where
-        F: FnOnce(),
+        F: FnOnce()-> R,
+
 {
     unsafe {
         CLOCK_REQUESTS[freq.to_idx()] += 1;
         set_clock();
-        code();
+        let res = code();
         CLOCK_REQUESTS[freq.to_idx()] -= 1;
         set_clock();
+        res
     }
 }
 
@@ -194,15 +198,21 @@ pub fn set_sdmmc_clock(
     clk_src: SdmmcClockSource,
 ) -> Result<(), ()> {
     // the clock source can only be set once
+    // use HSI48 as ICLK
+    RCC.ccipr1()
+        .modify(|v| v.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48));
+
     if RCC.ahb2enr1().read().sdmmc1en() || RCC.ahb2enr1().read().sdmmc2en() {
         // check the clock source
         let src = RCC.ccipr2().read().sdmmcsel();
         if src != clk_src {
-            return Err(());
+            panic!("Clock source can only be set once");
         }
     } else {
-        RCC.ccipr2().modify(|v| v.set_sdmmcsel(clk_src));
+        // panic!("SDMMC not enabled");
+        RCC.ccipr2().modify(|v| v.set_sdmmcsel(SdmmcClockSource::ICLK));
     }
+        // RCC.ccipr2().modify(|v| v.set_sdmmcsel(SdmmcClockSource::PLL1_P));
 
     if sdmmc == stm32_metapac::SDMMC1 {
         RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
@@ -211,7 +221,7 @@ pub fn set_sdmmc_clock(
         RCC.ahb2enr1().modify(|v| v.set_sdmmc2en(true));
         Ok(())
     } else {
-        Err(())
+        panic!("Not supported sdmmc");
     }
 }
 
@@ -287,20 +297,6 @@ pub fn init_clock(has_hse: bool, enable_dbg: bool, system_min_freq: ClockFreqs) 
             cr.set_dbg_standby(true);
         });
     }
-    set_pll();
-    // se hsi16 on
-    RCC.cr().modify(|w| w.set_hsion(true));
-    while !RCC.cr().read().hsirdy() {}
-
-    // set hsi48 on
-    RCC.cr().modify(|w| w.set_hsi48on(true));
-    while !RCC.cr().read().hsi48rdy() {}
-
-    // set hsi48 as clock source for iclk
-    RCC.ccipr1()
-        .modify(|v| v.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48));
-
-    delay_enable();
     unsafe {
         // CLOCK_REQUESTS[ClockFreqs::KernelFreq4Mhz.to_idx()] = 1;
         CLOCK_REQUESTS[system_min_freq.to_idx()] = 1;
@@ -385,6 +381,22 @@ pub fn set_clock() {
             }
         }
     }
+    set_pll();
+
+    // se hsi16 on
+    RCC.cr().modify(|w| w.set_hsion(true));
+    while !RCC.cr().read().hsirdy() {}
+
+    // set hsi48 on
+    RCC.cr().modify(|w| w.set_hsi48on(true));
+    while !RCC.cr().read().hsi48rdy() {}
+
+    // set hsi48 as clock source for iclk
+    RCC.ccipr1()
+        .modify(|v| v.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48));
+
+    delay_enable();
+
     set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
 }
 
@@ -415,7 +427,7 @@ pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
 pub fn set_cpu_freq_new(freq: u32, _lpm: bool) {
     if unsafe { HCLK } > freq {
         dec_kern_freq(freq);
-    } else if unsafe { HCLK } < freq {
+    } else if unsafe { HCLK } <= freq {
         inc_kern_freq(freq);
     }
 }

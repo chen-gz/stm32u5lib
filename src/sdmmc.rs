@@ -567,8 +567,6 @@ impl SdInstance {
             stat = stm32_metapac::sdmmc::regs::Star(SIGNAL2.wait().await);
         }
 
-        defmt::info!("cmdrend: {}, cmdsent: {}", stat.cmdrend(), stat.cmdsent());
-
         if cmd.response_len() == ResponseLen::Zero {
             return Ok(());
         }
@@ -583,7 +581,7 @@ impl SdInstance {
             || cmd.cmd == common_cmd::write_single_block(0).cmd
             || cmd.cmd == common_cmd::read_single_block(0).cmd
         {
-            defmt::info!("write multiple blocks");
+            // defmt::info!("write multiple blocks");
             while (stat.dataend() == false) {
                 self.error_test_async(stat)?;
                 stat = stm32_metapac::sdmmc::regs::Star(SIGNAL2.wait().await);
