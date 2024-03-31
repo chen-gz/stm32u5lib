@@ -23,17 +23,7 @@ pub async fn vddusb_monitor_up() {
         stm32_metapac::EXTI.emr(0).modify(|v| v.set_line(19, true));
         // get vddusb status
         let vddusb = stm32_metapac::PWR.svmsr().read().vddusbrdy();
-        if vddusb == unsafe { USB_POWER_UP } {
-            if USB_POWER_UP {
-                // do nothing
-            } else {
-                unsafe {
-                    USB_POWER_UP = false;
-                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
-                    low_power::no_deep_sleep_release();
-                }
-            }
-        } else {
+        if vddusb != unsafe { USB_POWER_UP } {
             if vddusb {
                 info!("USB power up, call pwoer_up_init");
                 unsafe {
@@ -45,6 +35,12 @@ pub async fn vddusb_monitor_up() {
                 crate::usb_otg::mod_new::power_up_init();
                 unsafe {
                     BUS_WAKER_PWR.wake();
+                }
+            } else {
+                unsafe {
+                    USB_POWER_UP = false;
+                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
+                    low_power::no_deep_sleep_release();
                 }
             }
         }
