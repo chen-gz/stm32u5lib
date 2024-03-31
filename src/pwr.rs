@@ -24,14 +24,13 @@ pub async fn vddusb_monitor_up() {
         // get vddusb status
         let vddusb = stm32_metapac::PWR.svmsr().read().vddusbrdy();
         if vddusb == unsafe { USB_POWER_UP } {
-            if vddusb {
+            if USB_POWER_UP {
                 // do nothing
             } else {
                 unsafe {
-                    // TODO: fix bug!
-                    // USB_POWER_UP = false;
-                    // CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
-                    // low_power::no_deep_sleep_release();
+                    USB_POWER_UP = false;
+                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
+                    low_power::no_deep_sleep_release();
                 }
             }
         } else {
