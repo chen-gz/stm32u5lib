@@ -64,7 +64,7 @@ bench = false
 
 [features]
 default = [
-    "stm32u5a5zj",
+#    "stm32u5a5zj",
     # "defmt",
 ]
 #! ## Chip-selection features

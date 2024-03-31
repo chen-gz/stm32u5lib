@@ -6,8 +6,8 @@ use u5_lib::clock;
 use u5_lib::gpio;
 use defmt_rtt as _;
 use gpio::GpioPort;
-use u5_lib::low_power::mcu_no_deep_sleep;
-const GREEN: GpioPort = gpio::PB7;
+// use u5_lib::low_power::mcu_no_deep_sleep;
+const GREEN: GpioPort = gpio::PD15;
 const ORANGE: GpioPort = gpio::PC4;
 const BLUE: GpioPort = gpio::PC5;
 fn setup() {
@@ -20,7 +20,7 @@ fn setup() {
 fn main() -> ! {
     clock::init_clock(true, false, clock::ClockFreqs::KernelFreq160Mhz);
     // clock::kernel_freq_160mhz_request();
-    mcu_no_deep_sleep();
+    // mcu_no_deep_sleep();
     setup();
 
     defmt::info!("setup led finished!");

@@ -71,9 +71,6 @@ impl GpioPort {
     pub fn setup(&self) {
         // enable the clock
         clock::set_gpio_clock(self.port);
-        self.port
-            .moder()
-            .modify(|v| v.set_moder(self.pin, self.mode));
         self.port.otyper().modify(|v| v.set_ot(self.pin, self.ot));
         self.port
             .pupdr()
@@ -90,6 +87,9 @@ impl GpioPort {
                 .afr(1)
                 .modify(|v| v.set_afr(self.pin - 8, self.alt_func));
         }
+        self.port
+            .moder()
+            .modify(|v| v.set_moder(self.pin, self.mode));
     }
 }
 define_gpio_port!(
@@ -136,6 +136,8 @@ define_gpio_port_alt!(
 
     SDMMC2_CK_PC1: GPIOC, 1, 12, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
     SDMMC2_CMD_PA0: GPIOA, 0, 12, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
+    SDMMC2_CK_PD6: GPIOD, 6, 11, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
+    SDMMC2_CMD_PD7: GPIOD, 7, 11, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::PULLUP,
     SDMMC2_D0_PB14: GPIOB, 14, 12, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::PULLUP,
 
     GPIO_MCO_PA8: GPIOA, 8, 0, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,

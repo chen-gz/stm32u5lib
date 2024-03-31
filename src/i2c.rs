@@ -178,20 +178,21 @@ impl<'a> ComInterface<'a> for I2c {
 
     fn send(&mut self, message: &Self::Message) -> Result<(), Self::Error> {
         let addr = message.addr;
-        let data = message.data;
-        assert!(data.len() <= 255);
+        // let data = &message.data;
+        // assert!(data.len() <= 255);
+        assert!(message.data.len() <= 255);
         // TODO: check hardware status. Whether it allows to send data.
         //       id not allowed, return error.
         // set slave address
         self.port.cr2().modify(|v| {
             v.set_sadd(addr);
-            v.set_nbytes(data.len() as u8);
+            v.set_nbytes(message.data.len() as u8);
             v.set_dir(stm32_metapac::i2c::vals::Dir::WRITE);
             v.set_start(true);
             // v.set_reload(stm32_metapac::i2c::vals::Reload::COMPLETED);
             // v.set_autoend(stm32_metapac::i2c::vals::Autoend::SOFTWARE);
         });
-        for i in data {
+        for i in &*message.data {
             // wait for the transfer complete
             while !self.port.isr().read().txis() {} // txdr register is empty
             // send data

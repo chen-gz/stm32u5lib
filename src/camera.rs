@@ -174,7 +174,7 @@ pub async fn capture(
     // let cam_i2c: gi2c::I2cPort = gi2c::I2C3;
     // pdwn.set_low(); // set power down to low. Enable camera
     clock::delay_ms(1);
-    let mut reg_val = [0u8; 3];
+    // let mut reg_val = [0u8; 3];
     let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, 0x02];
     let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
     cam_i2c.send_retry(reg_val, 5).unwrap();

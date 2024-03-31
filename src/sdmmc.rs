@@ -14,6 +14,7 @@ use futures::future::OkInto;
 use sdio_host::common_cmd::cmd;
 use stm32_metapac::rcc;
 use stm32_metapac::RCC;
+pub use stm32_metapac::SDMMC2;
 use stm32_metapac::{common, sdmmc::Sdmmc};
 // macro_rules! wait_for_event {
 //     ($fn_name:ident, $event:ident) => {
@@ -89,7 +90,9 @@ pub struct SdInstance {
     csd: sd::CSD<sd::SD>,
     rca: sd::RCA<sd::SD>,
 }
+
 unsafe impl Send for SdInstance {}
+
 unsafe impl Sync for SdInstance {}
 
 impl SdInstance {
@@ -158,6 +161,103 @@ impl SdInstance {
         Ok(())
     }
     pub fn init(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
+        self.init_emmc(clk, cmd, d0);
+    }
+
+    pub fn init_emmc(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
+        clk.setup();
+        cmd.setup();
+        d0.setup();
+        clock::set_sdmmc_clock(self.port, rcc::vals::Sdmmcsel::ICLK).unwrap();
+
+        delay_ms(10); // TODO: chekc this value
+
+        // setup gpio ports
+        // check clock 48Mhz as input clock
+        self.port.clkcr().modify(|v| {
+            v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            // v.set_clkdiv(24); // 48Mhz / (2 * clkdiv) = 48M / 48 = 1Mhz
+            // v.set_clkdiv(6); // 48Mhz / (2 * clkdiv) = 48M / 12 = 4Mhz
+            // v.set_clkdiv(3); // 48Mhz / (2 * clkdiv) = 48M / 4 = 12Mhz
+        });
+
+        self.port.power().modify(|v| v.set_pwrctrl(3));
+        delay_ms(1); // 400khz, 74clk = 185us
+        self.port.dtimer().modify(|v| {
+            v.0 = 5 * 400_0000; // 400khz, 8000clk = 20ms
+            // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
+        });
+        defmt::info!("start init sd card");
+        // initilize sd card
+        match self.send_cmd(common_cmd::idle()) {
+            Ok(_) => {}
+            Err(err) => defmt::panic!("init sd card error: {:?}", err),
+        }
+        // let cmd = sd_cmd::send_if_cond(0xF, 0xa);
+        let mut ok = false;
+        loop {
+            match self.send_cmd(emmc_cmd::send_op_cond((0x1FF << 15) | (1 << 7))) {
+                Ok(_) => {
+                    // read response
+                    let resp0 = self.port.respr(0).read().0;
+                    defmt::debug!("send if conf response: {:x}", resp0);
+                    if resp0 & (1 << 31) != 0 {
+                        defmt::info!("card is ready");
+                        ok = true;
+                        break;
+                    }
+                }
+                Err(err) => defmt::panic!("send if cond error {}", err),
+            }
+        }
+
+        match self.get_cid() {
+            Ok(_) => {
+                defmt::info!("cid: {}", self.cid.manufacturer_id());
+            }
+            Err(err) => defmt::error!(
+                    "get cid error: {:?}, sta: {:x}",
+                    err,
+                    self.port.star().read().0
+                ),
+        }
+        match self.get_rca() {
+            Ok(_) => {}
+            Err(err) => defmt::panic!("get rca error: {:?}", err),
+        }
+        defmt::info!("rca: {}", self.rca.address());
+
+        match self.get_csd() {
+            Ok(_) => {}
+            Err(err) => defmt::panic!("get csd error: {:?}", err),
+        }
+        defmt::info!("csd: {}", self.csd.block_count());
+
+        defmt::info!("select card");
+
+        match self.send_cmd(common_cmd::select_card(self.rca.address())) {
+            Ok(_) => {}
+            Err(err) => defmt::panic!("select card error: {:?}", err),
+        }
+
+        // test cmd 23, whether
+        defmt::info!("set block count");
+        match self.send_cmd(sd_cmd::set_block_count(1)) {
+            Ok(_) => {}
+            Err(err) => defmt::panic!("set block count error: {:?}", err),
+        }
+        defmt::info!(
+            "card version {}, The numbe of block of card: {}, self.port.dlenr: {}",
+            self.csd.version(),
+            self.csd.block_count(), // 125_042_688 * 500 =  62_521_344_000 = 62.5GB
+            self.port.dlenr().read().0,
+            // self.csd.block_length()
+        );
+        // self.send_cmd(common_cmd::send_csd(self.csd.rc))
+        // self.send_cmd(sd_cmd::send_scr());
+    }
+
+    pub fn init_sd_card(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
         clock::set_sdmmc_clock(self.port, rcc::vals::Sdmmcsel::ICLK).unwrap();
 
         clk.setup();
@@ -178,7 +278,7 @@ impl SdInstance {
         delay_ms(10); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
             v.0 = 5 * 400_0000; // 400khz, 8000clk = 20ms
-                                // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
+            // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
         });
         defmt::info!("start init sd card");
         // initilize sd card
@@ -324,7 +424,9 @@ impl SdInstance {
             ResponseLen::Zero => 0,
             ResponseLen::R48 => {
                 let mut val = 1;
-                if cmd.cmd == sd_cmd::sd_send_op_cond(true, false, false, 0).cmd {
+                if cmd.cmd == sd_cmd::sd_send_op_cond(true, false, false, 0).cmd
+                    || cmd.cmd == emmc_cmd::send_op_cond(0).cmd
+                {
                     val = 2; // no crc for this command
                 }
                 val
@@ -352,7 +454,7 @@ impl SdInstance {
         });
         while !self.port.star().read().cmdsent() && !self.port.star().read().cmdrend() {
             self.error_test()?;
-            delay_ms(1);
+            delay_us(10);
         }
         if cmd.response_len() == ResponseLen::Zero {
             return Ok(());
@@ -425,8 +527,8 @@ impl SdInstance {
     pub async fn send_cmd_async<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
         delay_us(1); // at least seven sdmmc_hcli clock peirod are needed between two write access
-                     // 7clk, 160mhz, 44.4ns, 444ns
-                     // to the cmdr register
+        // 7clk, 160mhz, 44.4ns, 444ns
+        // to the cmdr register
         self.port.argr().write(|w| w.0 = cmd.arg);
         let res_len = match cmd.response_len() {
             ResponseLen::Zero => 0,
@@ -572,8 +674,8 @@ impl SdInstance {
         let resp1 = self.port.respr(1).read().0;
         let resp2 = self.port.respr(2).read().0;
         let resp3 = self.port.respr(3).read().0;
-        // self.csd = sd::CSD::from([resp0, resp1, resp2, resp3]);
-        self.csd = sd::CSD::from([resp3, resp2, resp1, resp0]);
+        self.csd = sd::CSD::from([resp0, resp1, resp2, resp3]);
+        // self.csd = sd::CSD::from([resp3, resp2, resp1, resp0]);
         defmt::info!("csd: {:?}, {:?}, {:?}, {:?}", resp0, resp1, resp2, resp3);
         Ok(())
     }
@@ -798,6 +900,7 @@ impl SdInstance {
             .await?;
         Ok(())
     }
+
     pub async fn read_multiple_blocks_async(
         &self,
         buf: &[u8],
