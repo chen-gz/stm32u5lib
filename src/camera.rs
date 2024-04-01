@@ -77,9 +77,9 @@ pub fn setup_camera(i2c: &mut i2c::I2c) {
     defmt::info!("setup camera registers finished");
 
     // soft sleep
-    let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, (1 << 6) | 0x02];
-    let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
-    i2c.send_retry(reg_val, 5).unwrap();
+    // let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, (1 << 6) | 0x02];
+    // let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
+    // i2c.send_retry(reg_val, 5).unwrap();
 }
 
 // use 4 byte in first block to store the number of image files
@@ -99,10 +99,12 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
             break;
         }
     }
+    defmt::info!("first 100 bytes: {:x}", &pic_buf[0..100]);
     if !found {
         // TODO: return error code
         defmt::panic!("not find jpeg end");
     }
+    defmt::info!("find jpeg end at {}, = {}kb", pic_end, pic_end / 1024);
     let date = rtc::get_date();
     let time = rtc::get_time();
     pic_buf[0] = (pic_end >> 24) as u8;
@@ -182,9 +184,9 @@ pub async fn capture(
     // pdwn.set_low(); // set power down to low. Enable camera
     clock::delay_ms(1);
     // let mut reg_val = [0u8; 3];
-    let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, 0x02];
-    let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
-    cam_i2c.send_retry(reg_val, 5).unwrap();
+    // let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, 0x02];
+    // let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
+    // cam_i2c.send_retry(reg_val, 5).unwrap();
     // cam_i2c.write(OV5640_I2C_ADDR, &reg_val).unwrap();
     clock::delay_ms(200);
     dcmi.capture(dma::DCMI_DMA, &pic_buf[16..]).await;
@@ -192,7 +194,7 @@ pub async fn capture(
     // pdwn.set_high();
     // 0x3008
 
-    let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, (1 << 6) | 0x02];
-    let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
-    cam_i2c.send_retry(reg_val, 5).unwrap();
+    // let mut reg_val = [(OV5640_SYSTEM_CTROL0 >> 8) as u8, OV5640_SYSTEM_CTROL0 as u8, (1 << 6) | 0x02];
+    // let reg_val = I2cMessage { addr: OV5640_I2C_ADDR, data: &mut reg_val };
+    // cam_i2c.send_retry(reg_val, 5).unwrap();
 }
