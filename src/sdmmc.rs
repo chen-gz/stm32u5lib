@@ -160,14 +160,16 @@ impl SdInstance {
         }
         Ok(())
     }
-    pub fn init(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
-        self.init_emmc(clk, cmd, d0);
+    pub fn init(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort, d1: GpioPort, d2: GpioPort, d3: GpioPort, d4: GpioPort, d5: GpioPort, d6: GpioPort, d7: GpioPort) {
+        self.init_emmc(clk, cmd, d0, d1, d2, d3, d4, d5, d6, d7);
     }
 
-    pub fn init_emmc(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
+    pub fn init_emmc(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort, d1: GpioPort, d2: GpioPort, d3: GpioPort, d4: GpioPort, d5: GpioPort, d6: GpioPort, d7: GpioPort) {
         clk.setup();
         cmd.setup();
         d0.setup();
+        d1.setup();d2.setup();d3.setup();d4.setup();d5.setup();d6.setup();d7.setup();
+
         clock::set_sdmmc_clock(self.port, rcc::vals::Sdmmcsel::ICLK).unwrap();
 
         delay_ms(10); // TODO: chekc this value
@@ -175,10 +177,11 @@ impl SdInstance {
         // setup gpio ports
         // check clock 48Mhz as input clock
         self.port.clkcr().modify(|v| {
-            v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
+            // v.set_clkdiv(60); // 48Mhz / (2 * clkdiv) = 48M / 120 = 400Khz
             // v.set_clkdiv(24); // 48Mhz / (2 * clkdiv) = 48M / 48 = 1Mhz
             // v.set_clkdiv(6); // 48Mhz / (2 * clkdiv) = 48M / 12 = 4Mhz
             // v.set_clkdiv(3); // 48Mhz / (2 * clkdiv) = 48M / 4 = 12Mhz
+            v.set_clkdiv(1); // 48Mhz / (2 * clkdiv) = 48M / 2 = 24Mhz
         });
 
         self.port.power().modify(|v| v.set_pwrctrl(3));
@@ -255,6 +258,10 @@ impl SdInstance {
         );
         // self.send_cmd(common_cmd::send_csd(self.csd.rc))
         // self.send_cmd(sd_cmd::send_scr());
+
+        // now let's switch to 8 bits mode
+        self.send_cmd(sd_cmd::cmd6(0xcb70200)).unwrap();
+
     }
 
     pub fn init_sd_card(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {

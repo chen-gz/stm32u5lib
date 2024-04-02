@@ -113,7 +113,8 @@ impl Bus {
                     EndpointType::Interrupt => otg::vals::Eptyp::INTERRUPT,
                 };
                 r.diepctl(i).write(|w| {
-                    w.set_mpsiz(ep.max_packet_size);
+                    // w.set_mpsiz(ep.max_packet_size);
+                    w.set_mpsiz(512);
                     w.set_eptyp(ep_type);
                     w.set_sd0pid_sevnfrm(true);
                     w.set_txfnum(i as _);
@@ -140,7 +141,8 @@ impl Bus {
                     EndpointType::Interrupt => otg::vals::Eptyp::INTERRUPT,
                 };
                 r.doepctl(i).write(|w| {
-                    w.set_mpsiz(ep.max_packet_size);
+                    // w.set_mpsiz(ep.max_packet_size);
+                    w.set_mpsiz(512);
                     w.set_eptyp(ep_type);
                     w.set_sd0pid_sevnfrm(true);
                 });
