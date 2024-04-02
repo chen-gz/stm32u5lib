@@ -1,7 +1,7 @@
 fn main() {
     println!("cargo:rustc-link-arg-bins=--nmagic");
-    println!("cargo:rustc-link-arg-bins=-Tlink.x");
-    println!("cargo:rustc-link-arg-bins=-Tdefmt.x");
+    // println!("cargo:rustc-link-arg-bins=-Tlink.x"); // this is done in cortex-m-rt package
+    println!("cargo:rustc-link-arg-bins=-Tdefmt.x");   // required for defmt
     // enable cfg sdmmc
     println!("cargo:rustc-cfg=sdmmc");
     for (key, _value) in std::env::vars() {
