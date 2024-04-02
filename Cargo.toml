@@ -24,7 +24,7 @@ futures = { version = "0.3.17", default-features = false, fetures = [
 [dependencies.stm32-metapac]
 #path = "../stm32-data/build/stm32-metapac"
 git = "https://gitea.ggeta.com/guangzong/stm32-data-generated"
-features = [ "memory-x", "rt"] 
+features = ["rt"]
 
 [dependencies.embassy-sync]
 git = "https://github.com/embassy-rs/embassy"
@@ -43,7 +43,6 @@ rev = "35f284e"
 [dependencies.embassy-usb]
 git = "https://github.com/embassy-rs/embassy"
 rev = "35f284e"
-# features = ["defmt"]
 
 [dependencies.embassy-usb-driver]
 git = "https://github.com/embassy-rs/embassy"
@@ -66,6 +65,7 @@ bench = false
 [features]
 default = [
    "stm32u5a5zj",
+    "stm32-metapac/memory-x",
     # "defmt",
 ]
 #! ## Chip-selection features
