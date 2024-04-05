@@ -36,5 +36,7 @@ pub use embassy_executor::Spawner;
 // pub use embassy_executor_macros::task;
 
 pub use embassy_executor_macros::task;
+pub use embassy_executor;
 pub mod com_interface;
 pub mod pwr;
+pub mod usb_otg_hs;
