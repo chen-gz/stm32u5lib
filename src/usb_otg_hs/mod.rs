@@ -22,6 +22,7 @@ mod bus;
 mod endpoint;
 mod control_pipe;
 mod phy_type;
+mod descriptor;
 
 use defmt::{info, trace, error};
 
@@ -140,6 +141,7 @@ pub struct Driver {
 }
 
 use crate::gpio;
+use crate::usb_otg_hs::mod_new::{init_enumeration_done, init_reset, process_setup_packet, setup_data, setup_return_data};
 
 impl Driver {
     pub fn new(
@@ -267,15 +269,39 @@ pub unsafe fn on_interrupt() {
     let r = regs();
     // r.gahbcfg().modify(|w| w.set_dmaen(val));
     // r.gintmsk().write(|_w| {});
+    defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
+
     let ints = r.gintsts().read();
     if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
     {
-        // wakeup interrupt, suspend interrupt, enumeration speed done interrupt, OTG interrupt, Session request (SRQ) interrupt
-        // Mask interrupts and notify `Bus` to process them
-        info!("bus_waker wake and mask all interrupt");
-        r.gintmsk().write(|w| w.0 = 0); // 0 mask all
-        state().bus_waker.wake();
-        // the interrupt should be re-enabled by the bus after bus processing (in bus task functions)
+        if ints.wkupint() {
+            info!("wkupint");
+            r.gintsts().write(|w| w.set_wkupint(true)); // clear
+        }
+        else if  ints.usbsusp() {
+            info!("usbsusp");
+            r.gintsts().write(|w| w.set_usbsusp(true)); // clear
+        }
+        else if ints.enumdne() {
+            info!("enumdne");
+            init_enumeration_done();
+
+            r.gintsts().write(|w| w.set_enumdne(true)); // clear
+        }
+        else if ints.otgint() {
+            info!("otgint");
+            let otgints = r.gotgint().read();
+            r.gotgint().write_value(otgints); // clear all
+        }
+        else if ints.srqint() {
+            info!("srqint");
+            r.gintsts().write(|w| w.set_srqint(true)); // clear
+        }
+        else if ints.usbrst() {
+            info!("usbrst");
+            init_reset();
+            r.gintsts().write(|w| w.set_usbrst(true)); // clear
+        }
     }
     // let state = &STATE;
     let state: &mut State<MAX_EP_COUNT> = state();
@@ -295,58 +321,53 @@ pub unsafe fn on_interrupt() {
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
                 // received SETUP packet
-                trace!("SETUP_DATA_RX");
-                assert!(len == 8, "invalid SETUP packet length={}", len);
-                assert!(ep_num == 0, "invalid SETUP packet endpoint={}", ep_num);
+                trace!("SETUP_DATA_RX, with data {:08x}", setup_data);
+                // todo: handle the data
+                // pop the setup packet
+                // the data will be pop from the FIFO by dma
 
-                // flushing TX if something stuck in control endpoint
-                if r.dieptsiz(ep_num).read().pktcnt() != 0 {
-                    r.grstctl().modify(|w| {
-                        w.set_txfnum(ep_num as _);
-                        w.set_txfflsh(true);
-                    });
-                    while r.grstctl().read().txfflsh() {}
-                }
 
-                if state.ep0_setup_ready.load(Ordering::Relaxed) == false {
-                    //                     // SAFETY: exclusive access ensured by atomic bool
-                    // let data = unsafe { &mut *state.ep0_setup_data.get() };
-                    state.ep0_setup_data[0..4].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
-                    state.ep0_setup_data[4..8].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
-                    // data[0..4].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
-                    // data[4..8].copy_from_slice(&r.fifo(0).read().0.to_ne_bytes());
-                    state.ep0_setup_ready.store(true, Ordering::Release);
-                    trace!("SETUP packet received, waking up");
-                    state.ep_out_wakers[0].wake();
-                } else {
-                    error!("received SETUP before previous finished processing");
-                    // discard FIFO
-                    r.fifo(0).read();
-                    r.fifo(0).read();
-                }
+                // // flushing TX if something stuck in control endpoint
+                // if r.dieptsiz(ep_num).read().pktcnt() != 0 {
+                //     r.grstctl().modify(|w| {
+                //         w.set_txfnum(ep_num as _);
+                //         w.set_txfflsh(true);
+                //     });
+                //     while r.grstctl().read().txfflsh() {}
+                // }
+
+                // if state.ep0_setup_ready.load(Ordering::Relaxed) == false {
+                //     state.ep0_setup_ready.store(true, Ordering::Release);
+                //     trace!("SETUP packet received, waking up");
+                //     state.ep_out_wakers[0].wake();
+                // } else {
+                //     error!("received SETUP before previous finished processing");
+                //     // discard FIFO
+                //     r.fifo(0).read();
+                //     r.fifo(0).read();
+                // }
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
                 trace!("OUT_DATA_RX ep={} len={}", ep_num, len);
                 // received OUT data
                 if state.ep_out_size[ep_num].load(Ordering::Acquire) == EP_OUT_BUFFER_EMPTY {
                     // only n bytes of data are read from FIFO
-                    let buf = &mut state.ep_out_buffers[ep_num][0..len];
-
-                    for chunk in buf.chunks_mut(4) {
-                        // RX FIFO is shared so always read from fifo(0)
-                        let data = r.fifo(0).read().0;
-                        chunk.copy_from_slice(&data.to_ne_bytes()[0..chunk.len()]);
-                    }
+                    // let buf = &mut state.ep_out_buffers[ep_num][0..len];
+                    // for chunk in buf.chunks_mut(4) {
+                    //     // RX FIFO is shared so always read from fifo(0)
+                    //     let data = r.fifo(0).read().0;
+                    //     chunk.copy_from_slice(&data.to_ne_bytes()[0..chunk.len()]);
+                    // }
 
                     state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
                     state.ep_out_wakers[ep_num].wake();
                 } else {
                     error!("ep_out buffer overflow index={}", ep_num);
                     // discard FIFO data
-                    let len_words = (len + 3) / 4;
-                    for _ in 0..len_words {
-                        r.fifo(0).read().data();
-                    }
+                    // let len_words = (len + 3) / 4;
+                    // for _ in 0..len_words {
+                    //     r.fifo(0).read().data();
+                    // }
                 }
                 // todo: this function read the data from receive fifo and copy to the buffer (ep_out_buffers[ep_num])
                 // replease ep_out_wakers[ep_num] to as queue and remove locker
@@ -359,6 +380,10 @@ pub unsafe fn on_interrupt() {
 
                 // r.doepctl(ep_num).modify(|w| w.set_cnak(false));
                 // TODO: waht happen here ?
+
+                let addr = state.ep0_setup_data.as_ptr() as u32;
+                r.doepdma(0).write(|w| unsafe { w.set_dmaaddr(addr) });
+                trace!("ep0_setup_data addr: {:x}", addr);
                 if quirk_setup_late_cnak(r) {
                     // Clear NAK to indicate we are ready to receive more data
                     r.doepctl(ep_num).modify(|w| w.set_cnak(false));
@@ -385,20 +410,21 @@ pub unsafe fn on_interrupt() {
                     r.diepmsk().read().0
                 );
 
+                // mask
+                r.diepmsk().modify(|w| w.set_xfrcm(false));
                 let ep_ints = r.diepint(ep_num).read();
 
                 // clear all
-                r.diepint(ep_num).write_value(ep_ints);
+                // r.diepint(ep_num).write_value(ep_ints);
 
                 // TXFE is cleared in DIEPEMPMSK
-                if ep_ints.txfe() {
-                    critical_section::with(|_| {
-                        r.diepempmsk().modify(|w| {
-                            w.set_ineptxfem(w.ineptxfem() & !(1 << ep_num));
-                        });
-                    });
-                }
-
+                // if ep_ints.txfe() {
+                //     critical_section::with(|_| {
+                //         r.diepempmsk().modify(|w| {
+                //             w.set_ineptxfem(w.ineptxfem() & !(1 << ep_num));
+                //         });
+                //     });
+                // }
                 state.ep_in_wakers[ep_num].wake();
                 trace!("in ep={} irq val={:08x}", ep_num, ep_ints.0);
             }
@@ -409,47 +435,85 @@ pub unsafe fn on_interrupt() {
     }
 
 
-    // not needed? reception handled in rxflvl
     // OUT endpoint interrupt
-    // if ints.oepint() {
-    //     let mut ep_mask = r.daint().read().oepint();
-    //     let mut ep_num = 0;
+    if ints.oepint() {
+        let mut ep_mask = r.daint().read().oepint();
+        let mut ep_num = 0;
 
-    //     while ep_mask != 0 {
-    //         if ep_mask & 1 != 0 {
-    //             let ep_ints = r.doepint(ep_num).read();
-    //             // clear all
-    //             r.doepint(ep_num).write_value(ep_ints);
-    //             state.ep_out_wakers[ep_num].wake();
-    //             trace!("out ep={} irq val={:08x}", ep_num, ep_ints.0);
-    //         }
+        while ep_mask != 0 {
+            if ep_mask & 1 != 0 {
+                // show setup package
+                let ep_ints = r.doepint(ep_num).read();
+                if ep_ints.stup() {
+                    state.ep_out_wakers[0].wake();
+                    state.ep0_setup_ready.store(true, Ordering::Release);
+                    // process the setup package and reenable read for the next setup package
+                    // let res = process_setup_packet(setup_data);
+                    // if process_setup_packet(setup_data){
+                    //     // let tmp = setup_data[0..res[0]];
+                    //     r.diepdma(0).write(|w| unsafe { w.set_dmaaddr(setup_return_data.as_ptr() as u32) });
+                    //     r.dieptsiz(0).write(|v|{
+                    //         v.set_pktcnt(1);
+                    //         v.set_xfrsiz(setup_return_data[0] as u32);
+                    //     });
+                    //     r.diepctl(0).modify(|v|{
+                    //         v.set_epena(true);
+                    //         v.set_cnak(true);
+                    //     });
+                    //     defmt::info!("process setup data: {:x}, and send back data: {:x}", setup_data, setup_return_data[0..setup_return_data[0] as _]);
+                    // }
+                    // else {
+                    //     // send out an empty in package
+                    //     r.diepdma(0).write(|w| unsafe { w.set_dmaaddr(setup_return_data.as_ptr() as u32) });
+                    //     r.dieptsiz(0).write(|v|{
+                    //         v.set_pktcnt(1);
+                    //         v.set_xfrsiz(0);
+                    //     });
+                    //     r.diepctl(0).modify(|v|{
+                    //         v.set_epena(true);
+                    //         v.set_cnak(true);
+                    //     });
+                    //     defmt::info!("process setup data: {:x} no return data", setup_data);
+                    // }
 
-    //         ep_mask >>= 1;
-    //         ep_num += 1;
-    //     }
-    // }
-    // }
-}
+                    // r.doepmsk().modify(|w| w.set_stupm(false)); // mask the interrupt and wake up the waker
+                    r.doepint(0).write(|w| w.set_stup(true));
+                }
+                // donothing if is setup and xfrc
+                // clear all
+                // r.doepint(ep_num).write_value(ep_ints);
 
+                if (ep_ints.xfrc() ) {
+                    r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
+                    state.ep_out_wakers[0].wake();
+                }
 
-#[cfg(stm32u575)]
-#[interrupt]
-fn OTG_FS() {
-    // info!("OTG_FS interrupt");
-    unsafe {
-        on_interrupt();
-        // clock::delay_us(200);
+                // state.ep_out_wakers[ep_num].wake();
+                trace!("out ep={} irq val={:08x}", ep_num, ep_ints.0);
+                info!("setup data: {:x}", setup_data);
+                info!("dma addr: {:x}", r.doepdma(0).read().dmaaddr());
+                info!("intsts: {:08x}", r.doepint(0).read().0);
+                info!("doepctl: {:08x}", r.doepctl(0).read().0);
+                info!("doeptsiz: {:08x}", r.doeptsiz(0).read().0);
+                // // enable out endpoint again
+                // r.doepdma(0).modify(|v| {
+                //     v.set_dmaaddr(state.ep_out_buffers[0].as_ptr() as u32);
+                // });
+                // r.doeptsiz(0).modify(|v| {
+                //     v.set_xfrsiz(8);
+                //     v.set_pktcnt(1);
+                // });
+                // r.doepctl(0).modify(|v| {
+                //     v.set_cnak(true);
+                //     v.set_epena(true);
+                // });
+            }
+            ep_mask >>= 1;
+            ep_num += 1;
+        }
     }
 }
-// #[cfg(stm32u5a5)]
-// #[interrupt]
-// fn OTG_HS() {
-//     defmt::info!("OTG_HS interrupt");
-//     unsafe {
-//         // on_interrupt();
-//         clock::delay_us(200);
-//     }
-// }
+
 
 #[cfg(stm32u5a5)]
 #[interrupt]
@@ -472,3 +536,4 @@ pub(crate) struct EndpointData {
     pub(crate) max_packet_size: u16, // this should not exceed fifo size
     // pub(crate) fifo_size_words: u16,
 }
+

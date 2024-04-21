@@ -23,7 +23,7 @@ pub mod camera;
     // mod usb_otg;
 // }
 pub mod queue;
-pub mod usb_otg;
+// pub mod usb_otg;
 pub mod usart;
 pub mod adc;
 pub mod tim;

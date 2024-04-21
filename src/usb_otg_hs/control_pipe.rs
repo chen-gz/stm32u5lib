@@ -55,21 +55,39 @@ impl embassy_usb_driver::ControlPipe for ControlPipe {
                 data.copy_from_slice(&state.ep0_setup_data);
                 state.ep0_setup_ready.store(false, Ordering::Release);
 
+                /// setup_dma
+                // let addr = state.ep0_setup_data.as_ptr() as u32;
+                // r.doepdma(0).write(|w| unsafe { w.set_dmaaddr(addr) });
                 // EP0 should not be controlled by `Bus` so this RMW does not need a critical section
                 // Receive 1 SETUP packet
                 r.doeptsiz(self.ep_out.info.addr.index()).modify(|w| {
-                    w.set_rxdpid_stupcnt(1);
+                    // w.set_rxdpid_stupcnt(1);
+                    w.set_stupcnt(1);
+                    w.set_xfrsiz(8);
+                });
+                r.doepctl(0).modify(|v| {
+                    v.set_cnak(true);
+                    v.set_epena(true);
                 });
 
-                // Clear NAK to indicate we are ready to receive more data
-                if !quirk_setup_late_cnak(r) {
-                    r.doepctl(self.ep_out.info.addr.index())
-                        .modify(|w| w.set_cnak(true));
-                }
+                // // Clear NAK to indicate we are ready to receive more data
+                // if !quirk_setup_late_cnak(r) {
+                //     r.doepctl(self.ep_out.info.addr.index())
+                //         .modify(|w| w.set_cnak(true));
+                // }
 
                 trace!("SETUP received: {:?}", data);
                 Poll::Ready(data)
             } else {
+                r.doeptsiz(self.ep_out.info.addr.index()).modify(|w| {
+                    // w.set_rxdpid_stupcnt(1);
+                    w.set_stupcnt(1);
+                    w.set_xfrsiz(8);
+                });
+                r.doepctl(0).modify(|v| {
+                    v.set_cnak(true);
+                    v.set_epena(true);
+                });
                 trace!("SETUP waiting");
                 Poll::Pending
             }

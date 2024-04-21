@@ -11,7 +11,7 @@
 #![allow(dead_code)]
 use core::panic;
 
-use stm32_metapac::rtc::Rtc;
+// use stm32_metapac::rtc::Rtc;
 // use core::panic;
 use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
@@ -309,22 +309,22 @@ pub fn init_clock(has_hse: bool,
     }
     set_clock();
     // check rtc is enabled or not. if enabled, do nothing
-    let rtc_en = RCC.bdcr().read().rtcen();
-    if !rtc_en {
-        if has_lse {
-            // RCC.bdcr().modify(|w| w.set_lseon(true));
-            // while !RCC.bdcr().read().lserdy() {}
-            // RCC.bdcr().modify(|w| w.set_rtcsel(stm32_metapac::rcc::vals::Rtcsel::LSE));
-            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
-        }
-        else {
-            // enable lsi
-            // RCC.bdcr().modify(|w| w.set_lsion(true));
-            // while !RCC.bdcr().read().lsirdy() {}
-            // RCC.bdcr().modify(|w| w.set_rtcsel(stm32_metapac::rcc::vals::Rtcsel::LSI));
-            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
-        }
-    }
+    // let rtc_en = RCC.bdcr().read().rtcen();
+    // if !rtc_en {
+    //     if has_lse {
+    //         // RCC.bdcr().modify(|w| w.set_lseon(true));
+    //         // while !RCC.bdcr().read().lserdy() {}
+    //         // RCC.bdcr().modify(|w| w.set_rtcsel(stm32_metapac::rcc::vals::Rtcsel::LSE));
+    //         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
+    //     }
+    //     else {
+    //         // enable lsi
+    //         // RCC.bdcr().modify(|w| w.set_lsion(true));
+    //         // while !RCC.bdcr().read().lsirdy() {}
+    //         // RCC.bdcr().modify(|w| w.set_rtcsel(stm32_metapac::rcc::vals::Rtcsel::LSI));
+    //         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
+    //     }
+    // }
 }
 
 pub static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
@@ -518,7 +518,7 @@ fn inc_kern_freq(freq: u32) {
         16 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV16)),
         64 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV64)),
         128 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV128)),
-        _ => defmt::panic!("Invalid hclk"),
+        _ => defmt::panic!("Invalid hclk {}", hclk),
     }
     unsafe {
         HCLK = freq;

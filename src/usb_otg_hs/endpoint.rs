@@ -112,11 +112,14 @@ impl embassy_usb_driver::EndpointOut for Endpoint {
                 }
 
                 // SAFETY: exclusive access ensured by `ep_out_size` atomic variable
-                let data = unsafe {
-                    // core::slice::from_raw_parts(*state.ep_out_buffers[index].get(), len as usize)
-                    core::slice::from_raw_parts(state.ep_out_buffers[index].as_ptr(), len as usize)
-                };
-                buf[..len as usize].copy_from_slice(data);
+                // let data = unsafe {
+                //     // core::slice::from_raw_parts(*state.ep_out_buffers[index].get(), len as usize)
+                //     core::slice::from_raw_parts(state.ep_out_buffers[index].as_ptr(), len as usize)
+                // };
+                // buf[..len as usize].copy_from_slice(data);
+
+                let addr = buf.as_ptr() as u32;
+                r.doepdma(index).write(|w| unsafe { w.set_dmaaddr(addr) });
 
                 // Release buffer
                 state.ep_out_size[index].store(EP_OUT_BUFFER_EMPTY, Ordering::Release);
@@ -185,35 +188,39 @@ impl embassy_usb_driver::EndpointIn for Endpoint {
         })
             .await?;
 
-        if buf.len() > 0 {
-            poll_fn(|cx| {
-                state.ep_in_wakers[index].register(cx.waker());
+        // if buf.len() > 0 {
+        //     poll_fn(|cx| {
+        //         state.ep_in_wakers[index].register(cx.waker());
 
-                let size_words = (buf.len() + 3) / 4;
+        //         let size_words = (buf.len() + 3) / 4;
 
-                let fifo_space = r.dtxfsts(index).read().ineptfsav() as usize;
-                if size_words > fifo_space {
-                    // Not enough space in fifo, enable tx fifo empty interrupt
-                    critical_section::with(|_| {
-                        r.diepempmsk().modify(|w| {
-                            w.set_ineptxfem(w.ineptxfem() | (1 << index));
-                        });
-                    });
+        //         let fifo_space = r.dtxfsts(index).read().ineptfsav() as usize;
+        //         if size_words > fifo_space {
+        //             // Not enough space in fifo, enable tx fifo empty interrupt
+        //             critical_section::with(|_| {
+        //                 r.diepempmsk().modify(|w| {
+        //                     w.set_ineptxfem(w.ineptxfem() | (1 << index));
+        //                 });
+        //             });
 
-                    trace!("tx fifo for ep={} full, waiting for txfe", index);
+        //             trace!("tx fifo for ep={} full, waiting for txfe", index);
 
-                    Poll::Pending
-                } else {
-                    trace!("write ep={:?} wait for fifo: ready", self.info.addr);
-                    Poll::Ready(())
-                }
-            })
-                .await
-        }
+        //             Poll::Pending
+        //         } else {
+        //             trace!("write ep={:?} wait for fifo: ready", self.info.addr);
+        //             Poll::Ready(())
+        //         }
+        //     })
+        //         .await
+        // }
+
+        let addr = buf.as_ptr() as u32;
+        r.diepdma(index).write(|w| unsafe { w.set_dmaaddr(addr) });
+
 
         // Setup transfer size
         r.dieptsiz(index).write(|w| {
-            w.set_mcnt(1);
+            // w.set_mcnt(1);
             w.set_pktcnt(1);
             w.set_xfrsiz(buf.len() as _);
         });

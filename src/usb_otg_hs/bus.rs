@@ -90,8 +90,14 @@ impl Bus {
             w.set_mpsiz(ep0_mpsiz);
             // w.set_usbaep(true); not needed for control endpoint
         });
+
+        let addr = state().ep0_setup_data.as_ptr() as u32;
+        r.doepdma(0).write(|w| w.set_dmaaddr(addr) );
+
+        trace!("ep0_setup_data addr: {:x}, doepctl: {:x}", addr, r.doepctl(0).read().0);
         r.doeptsiz(0).write(|w| {
-            w.set_rxdpid_stupcnt(1);
+            // w.set_rxdpid_stupcnt(1);
+            w.set_stupcnt(1);
             w.set_xfrsiz(self.ep_out[0].unwrap().max_packet_size as _);
         });
         r.daintmsk().modify(|w| {
@@ -241,7 +247,7 @@ impl embassy_usb_driver::Bus for Bus {
                 trace!("vbus detected");
 
                 r.gintsts().write(|w| w.set_srqint(true)); // clear
-                crate::usb_otg::restore_irqs();
+                crate::usb_otg_hs::restore_irqs();
 
                 if self.config.vbus_detection {
                     return Poll::Ready(Event::PowerDetected);
@@ -253,7 +259,7 @@ impl embassy_usb_driver::Bus for Bus {
                 r.gotgint().write_value(otgints); // clear all
                 // Self::restore_irqs();
 
-                crate::usb_otg::restore_irqs();
+                crate::usb_otg_hs::restore_irqs();
 
                 if otgints.sedet() {
                     trace!("vbus removed");
@@ -279,7 +285,7 @@ impl embassy_usb_driver::Bus for Bus {
 
                 r.gintsts().write(|w| w.set_usbrst(true)); // clear
                 // Self::restore_irqs();
-                crate::usb_otg::restore_irqs();
+                crate::usb_otg_hs::restore_irqs();
             }
 
 
@@ -298,7 +304,7 @@ impl embassy_usb_driver::Bus for Bus {
                 r.gintsts().write(|w| w.set_enumdne(true)); // clear
                 // Self::restore_irqs();
 
-                crate::usb_otg::restore_irqs();
+                crate::usb_otg_hs::restore_irqs();
                 return Poll::Ready(Event::Reset);
             }
 
@@ -307,7 +313,7 @@ impl embassy_usb_driver::Bus for Bus {
                 r.gintsts().write(|w| w.set_usbsusp(true)); // clear
                 // Self::restore_irqs();
 
-                crate::usb_otg::restore_irqs();
+                crate::usb_otg_hs::restore_irqs();
                 return Poll::Ready(Event::Suspend);
             }
 
@@ -315,7 +321,7 @@ impl embassy_usb_driver::Bus for Bus {
                 trace!("resume");
                 r.gintsts().write(|w| w.set_wkupint(true)); // clear
                 // Self::restore_irqs();
-                crate::usb_otg::restore_irqs();
+                crate::usb_otg_hs::restore_irqs();
                 return Poll::Ready(Event::Resume);
             }
 

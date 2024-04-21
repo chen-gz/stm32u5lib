@@ -1,0 +1,131 @@
+                                            // get configuration descriptor
+                                            let mut configuration_descriptor = ConfigurationDescriptor {
+                                                b_length: 9,             // Descriptor size is 9 bytes
+                                                b_descriptor_type: 2,     // Configuration descriptor type is 2
+                                                w_total_length: 0x43,      // Total length of data returned for this configuration
+                                                b_num_interfaces: 2,     // One interface
+                                                b_configuration_value: 1, // Value to use as an argument to select this configuration
+                                                i_configuration: 0, // Index of string descriptor describing this configuration
+                                                bm_attributes: 0x80, // Configuration characteristics
+                                                b_max_power: 50,   // Maximum power consumption  (100mA)
+                                            };
+                                            let ida_descriptor = InterfaceAssociationDescriptor {
+                                                b_length: 8, // Size of this descriptor in bytes
+                                                b_descriptor_type: 0xB, // Interface association descriptor type (11)
+                                                b_first_interface: 0, // bFirstInterface: First interface number associated with this function
+                                                b_interface_count: 2, // The number of contiguous interfaces associated with this function
+                                                b_function_class: 0x02, // Class Code: Communication Interface Class
+                                                b_function_sub_class: 0x02, // Subclass Code: Abstract Control Model (ACM)
+                                                b_function_protocol: 0x01, // Protocol Code: AT Commands: V.250 etc
+                                                i_function: 0, // Index of string descriptor describing this function
+                                            };
+                                            // control interface
+                                            let interface_descriptor = InterfaceDescriptor {
+                                                b_length: 9,             // Descriptor size is 9 bytes
+                                                b_descriptor_type: 4,     // Interface descriptor type is 4
+                                                b_interface_number: 0,    // Interface number 0
+                                                b_alternate_setting: 0,   // Value used to select this alternate setting for the interface
+                                                b_num_endpoints: 1,      // One endpoint
+                                                b_interface_class: 0x02,  // Communication Interface Class (CDC)
+                                                b_interface_sub_class: 0x02, // Abstract Control Model (ACM)
+                                                b_interface_protocol: 0x01,  // AT Commands: V.250 etc
+                                                i_interface: 0, // Index of string descriptor describing this interface
+                                            };
+                                            // cdc header functional descriptor
+                                            let header_functional_descriptor = [0x05, 0x24, 0x00, 0x10, 0x01];
+                                            let cdc_call_management_functional_descriptor = [0x05, 0x24, 0x01, 0x03, 0x01];
+                                            let cdc_acm_functional_descriptor = [0x04, 0x24, 0x02, 0x00];
+                                            let cdc_union_functional_descriptor = [0x05, 0x24, 0x06, 0x00, 0x01];
+                                            // notification endpoint
+                                            let endpoint_descriptor = EndpointDescriptor {
+                                                b_length: 7,             // Descriptor size is 7 bytes
+                                                b_descriptor_type: 5,     // Endpoint descriptor type is 5
+                                                b_endpoint_address: 0x81, // Endpoint 1 IN
+                                                bm_attributes: 0x03, // Interrupt endpoint
+                                                w_max_packet_size: 0x08, // 8 bytes max packet size
+                                                b_interval: 0x0A, // Poll every 10ms
+                                            };
+                                            let data_interface_descriptor = InterfaceDescriptor {
+                                                b_length: 9,             // Descriptor size is 9 bytes
+                                                b_descriptor_type: 4,     // Interface descriptor type is 4
+                                                b_interface_number: 1,    // Interface number 1
+                                                b_alternate_setting: 0,   // Value used to select this alternate setting for the interface
+                                                b_num_endpoints: 2,      // Two endpoints
+                                                b_interface_class: 0x0A,  // Data Interface Class (CDC)
+                                                b_interface_sub_class: 0x00, // No subclass
+                                                b_interface_protocol: 0x00,  // No protocol
+                                                i_interface: 0, // Index of string descriptor describing this interface
+                                            };
+                                            // data endpoints
+                                            let data_in_endpoint_descriptor = EndpointDescriptor {
+                                                b_length: 7,             // Descriptor size is 7 bytes
+                                                b_descriptor_type: 5,     // Endpoint descriptor type is 5
+                                                b_endpoint_address: 0x82, // Endpoint 2 IN
+                                                bm_attributes: 0x02, // Bulk endpoint
+                                                w_max_packet_size: 0x40, // 64 bytes max packet size
+                                                b_interval: 0x00, // No polling interval
+                                            };
+                                            let data_out_endpoint_descriptor = EndpointDescriptor {
+                                                b_length: 7,             // Descriptor size is 7 bytes
+                                                b_descriptor_type: 5,     // Endpoint descriptor type is 5
+                                                b_endpoint_address: 0x02, // Endpoint 2 OUT
+                                                bm_attributes: 0x02, // Bulk endpoint
+                                                w_max_packet_size: 0x40, // 64 bytes max packet size
+                                                b_interval: 0x00, // No polling interval
+                                            };
+                                            // get total length
+                                            let total_length = configuration_descriptor.b_length +
+                                                ida_descriptor.b_length +
+                                                interface_descriptor.b_length +
+                                                // 5 + // header_functional_descriptor
+                                                // 5 + // cdc_call_management_functional_descriptor
+                                                // 4 + // cdc_acm_functional_descriptor
+                                                // 5 + // cdc_union_functional_descriptor
+                                                endpoint_descriptor.b_length +
+                                                data_interface_descriptor.b_length +
+                                                data_in_endpoint_descriptor.b_length +
+                                                data_out_endpoint_descriptor.b_length;
+                                            configuration_descriptor.w_total_length = total_length as u16; // total length
+                                            let tmp = configuration_descriptor.as_bytes();
+                                            unsafe {
+                                                for i in 0..9 {
+                                                    setup_return_data[i] = tmp[i];
+                                                }
+                                                let tmp = ida_descriptor.as_bytes();
+                                                for i in 0..8 {
+                                                    setup_return_data[i + 9] = tmp[i];
+                                                }
+                                                let tmp = interface_descriptor.as_bytes();
+                                                for i in 0..9 {
+                                                    setup_return_data[i + 17] = tmp[i];
+                                                }
+                                                for i in 0..5 {
+                                                    setup_return_data[i + 26] = header_functional_descriptor[i];
+                                                }
+                                                for i in 0..5 {
+                                                    setup_return_data[i + 31] = cdc_call_management_functional_descriptor[i];
+                                                }
+                                                for i in 0..4 {
+                                                    setup_return_data[i + 36] = cdc_acm_functional_descriptor[i];
+                                                }
+                                                for i in 0..5 {
+                                                    setup_return_data[i + 40] = cdc_union_functional_descriptor[i];
+                                                }
+                                                let tmp = endpoint_descriptor.as_bytes();
+                                                for i in 0..7 {
+                                                    setup_return_data[i + 45] = tmp[i];
+                                                }
+                                                let tmp = data_interface_descriptor.as_bytes();
+                                                for i in 0..9 {
+                                                    setup_return_data[i + 52] = tmp[i];
+                                                }
+                                                let tmp = data_in_endpoint_descriptor.as_bytes();
+                                                for i in 0..7 {
+                                                    setup_return_data[i + 61] = tmp[i];
+                                                }
+
+                                                let tmp = data_out_endpoint_descriptor.as_bytes();
+                                                for i in 0..7 {
+                                                    setup_return_data[i + 68] = tmp[i];
+                                                }
+                                            }
