@@ -443,14 +443,14 @@ impl StringDescriptor {
 pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescriptor {
     b_length: 18,
     b_descriptor_type: 1,
-    bcd_usb: 0x0200,             // modify to match the USB version
+    bcd_usb: 0x0110,             // modify to match the USB version
     b_device_class: 0x02,        // CDC class
     b_device_sub_class: 0x00,
     b_device_protocol: 0x00,
     b_max_packet_size0: 64,
     id_vendor: 0x1234,           // STMicroelectronics
     id_product: 0x5678,          // Virtual COM Port
-    bcd_device: 0x0200,          // device release number
+    bcd_device: 0x0100,          // device release number
     i_manufacturer: 0x01,
     i_product: 0x02,
     i_serial_number: 0x03,
@@ -459,7 +459,7 @@ pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescript
 pub const USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR: DeviceQualifierDescriptor = DeviceQualifierDescriptor {
     b_length: 10,
     b_descriptor_type: 6,
-    bcd_usb: 0x0200,             // modify to match the USB version
+    bcd_usb: 0x0110,             // modify to match the USB version
     b_device_class: 0x02,        // CDC class
     b_device_sub_class: 0x00,
     b_device_protocol: 0x00,

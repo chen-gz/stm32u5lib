@@ -152,8 +152,8 @@ pub fn power_up_init() {
         #[cfg(stm32u575)]
         w.set_dspd(self.phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
         #[cfg(stm32u5a5)]
-        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
-        w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
+        w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
+        // w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
     });
 
     // r.diepmsk().write(|w| {
@@ -311,6 +311,7 @@ pub fn process_setup_packet_new(buf: &[u8; 8]) -> SetupResponse {
                     response.data[i] = desc[i];
                 }
                 response.len = len;
+                defmt::info!("GetDeviceDescriptor, len={}", len);
             }
             Request::GetConfigurationDescriptor(len) => {
                 let desc = CDC_CONIG_DESC_FULL();
@@ -319,6 +320,7 @@ pub fn process_setup_packet_new(buf: &[u8; 8]) -> SetupResponse {
                     response.data[i] = desc[i];
                 }
                 response.len = len;
+                defmt::info!("GetConfigurationDescriptor, len={}", len);
             }
             Request::GetStringLangDescriptor(len) => {
                 let val = StringDescriptor::language();
@@ -326,6 +328,7 @@ pub fn process_setup_packet_new(buf: &[u8; 8]) -> SetupResponse {
                     response.data[i] = val[i];
                 }
                 response.len = val[0] as usize;
+                defmt::info!("GetStringLangDescriptor, len={}", len);
             }
             Request::GetStringManufacturerDescriptor(len) => {
                 let val = StringDescriptor::manufacturer("GGETA");
