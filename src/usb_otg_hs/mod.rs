@@ -23,6 +23,7 @@ mod endpoint;
 mod control_pipe;
 mod phy_type;
 mod descriptor;
+mod endpoint_new;
 
 use defmt::{info, trace, error};
 
@@ -141,7 +142,7 @@ pub struct Driver {
 }
 
 use crate::gpio;
-use crate::usb_otg_hs::mod_new::{init_enumeration_done, init_reset, process_setup_packet, setup_data, setup_return_data};
+use crate::usb_otg_hs::mod_new::{init_enumeration_done, init_reset,setup_data, setup_return_data};
 
 impl Driver {
     pub fn new(
@@ -270,6 +271,7 @@ pub unsafe fn on_interrupt() {
     // r.gahbcfg().modify(|w| w.set_dmaen(val));
     // r.gintmsk().write(|_w| {});
     defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
+    defmt::info!("doepint0: {:08x}", r.doepint(0).read().0);
 
     let ints = r.gintsts().read();
     if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
@@ -412,7 +414,9 @@ pub unsafe fn on_interrupt() {
 
                 // mask
                 r.diepmsk().modify(|w| w.set_xfrcm(false));
+                // r.diepmsk().modify(|w| w.set_tom(false));
                 let ep_ints = r.diepint(ep_num).read();
+                r.diepint(ep_num).write(|w| w.set_toc(true));
 
                 // clear all
                 // r.diepint(ep_num).write_value(ep_ints);
@@ -440,61 +444,35 @@ pub unsafe fn on_interrupt() {
         let mut ep_mask = r.daint().read().oepint();
         let mut ep_num = 0;
 
+
         while ep_mask != 0 {
             if ep_mask & 1 != 0 {
                 // show setup package
+                defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
+                defmt::info!("setup data: {:x}", setup_data);
                 let ep_ints = r.doepint(ep_num).read();
                 if ep_ints.stup() {
-                    state.ep_out_wakers[0].wake();
+                    state.ep_out_wakers[ep_num].wake();
                     state.ep0_setup_ready.store(true, Ordering::Release);
-                    // process the setup package and reenable read for the next setup package
-                    // let res = process_setup_packet(setup_data);
-                    // if process_setup_packet(setup_data){
-                    //     // let tmp = setup_data[0..res[0]];
-                    //     r.diepdma(0).write(|w| unsafe { w.set_dmaaddr(setup_return_data.as_ptr() as u32) });
-                    //     r.dieptsiz(0).write(|v|{
-                    //         v.set_pktcnt(1);
-                    //         v.set_xfrsiz(setup_return_data[0] as u32);
-                    //     });
-                    //     r.diepctl(0).modify(|v|{
-                    //         v.set_epena(true);
-                    //         v.set_cnak(true);
-                    //     });
-                    //     defmt::info!("process setup data: {:x}, and send back data: {:x}", setup_data, setup_return_data[0..setup_return_data[0] as _]);
-                    // }
-                    // else {
-                    //     // send out an empty in package
-                    //     r.diepdma(0).write(|w| unsafe { w.set_dmaaddr(setup_return_data.as_ptr() as u32) });
-                    //     r.dieptsiz(0).write(|v|{
-                    //         v.set_pktcnt(1);
-                    //         v.set_xfrsiz(0);
-                    //     });
-                    //     r.diepctl(0).modify(|v|{
-                    //         v.set_epena(true);
-                    //         v.set_cnak(true);
-                    //     });
-                    //     defmt::info!("process setup data: {:x} no return data", setup_data);
-                    // }
-
-                    // r.doepmsk().modify(|w| w.set_stupm(false)); // mask the interrupt and wake up the waker
-                    r.doepint(0).write(|w| w.set_stup(true));
+                    r.doepint(ep_num).write(|w| w.set_stup(true));
+                    defmt::info!("setup package");
                 }
                 // donothing if is setup and xfrc
                 // clear all
                 // r.doepint(ep_num).write_value(ep_ints);
 
-                if (ep_ints.xfrc() ) {
+                if ep_ints.xfrc() {
                     r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
-                    state.ep_out_wakers[0].wake();
+                    state.ep_out_wakers[ep_num].wake();
                 }
 
                 // state.ep_out_wakers[ep_num].wake();
-                trace!("out ep={} irq val={:08x}", ep_num, ep_ints.0);
-                info!("setup data: {:x}", setup_data);
-                info!("dma addr: {:x}", r.doepdma(0).read().dmaaddr());
-                info!("intsts: {:08x}", r.doepint(0).read().0);
-                info!("doepctl: {:08x}", r.doepctl(0).read().0);
-                info!("doeptsiz: {:08x}", r.doeptsiz(0).read().0);
+                // trace!("out ep={} irq val={:08x}", ep_num, ep_ints.0);
+                // info!("setup data: {:x}", setup_data);
+                // info!("dma addr: {:x}", r.doepdma(0).read().dmaaddr());
+                // info!("intsts: {:08x}", r.doepint(0).read().0);
+                // info!("doepctl: {:08x}", r.doepctl(0).read().0);
+                // info!("doeptsiz: {:08x}", r.doeptsiz(0).read().0);
                 // // enable out endpoint again
                 // r.doepdma(0).modify(|v| {
                 //     v.set_dmaaddr(state.ep_out_buffers[0].as_ptr() as u32);

@@ -152,8 +152,8 @@ pub fn power_up_init() {
         #[cfg(stm32u575)]
         w.set_dspd(self.phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
         #[cfg(stm32u5a5)]
-        w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
-        // w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
+        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
+        w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
     });
 
     // r.diepmsk().write(|w| {
@@ -207,6 +207,7 @@ pub fn init_reset() {
     //     w.set_pktcnt(1);
     //     w.set_xfrsiz(8);
     // });
+    crate::usb_otg_hs::endpoint_new::init_endpoint();
 }
 
 pub static mut setup_data: [u8; 8] = [0; 8];
@@ -281,265 +282,85 @@ use usb_device::UsbDirection;
 use crate::usb_otg_hs::descriptor::*;
 
 
-pub fn process_setup_packet(buf: &[u8; 8]) -> (bool, usize) {
-    unsafe {
+pub struct SetupResponse {
+    setup: SetupPacket,
+    request: Request,
+    data_stage_direction: Direction,
+    has_data_stage: bool,
+    data: [u8; 256],
+    len: usize,
+}
 
-        // get the setup packet
-        // let setup = usb_device::control::Request::parse(&buf).unwrap();
-        // let buf = [0u8; 64];
-
-        let rt = buf[0];
-        let recipient = rt & 0b11111;
-
-        let setup = usb_device::control::Request {
-            direction: rt.into(),
-            // request_type: unsafe { mem::transmute((rt >> 5) & 0b11) },
-            request_type: if (rt >> 5) & 0b11 == 0 {
-                RequestType::Standard
-            } else if (rt >> 5) & 0b11 == 1 {
-                RequestType::Class
-            } else if (rt >> 5) & 0b11 == 2 {
-                RequestType::Vendor
-            } else {
-                RequestType::Reserved
-            },
-            recipient: if recipient <= 3 {
-                // unsafe { mem::transmute(recipient) }
-                if recipient == 0 {
-                    Recipient::Device
-                } else if recipient == 1 {
-                    Recipient::Interface
-                } else if recipient == 2 {
-                    Recipient::Endpoint
-                } else {
-                    Recipient::Other
+pub fn process_setup_packet_new(buf: &[u8; 8]) -> SetupResponse {
+    defmt::info!("process_setup_packet, {:x}", buf);
+    let setup = SetupPacket::from_bytes(buf);
+    let mut response = SetupResponse {
+        setup,
+        request: Request::from_setup(&setup),
+        data_stage_direction: setup.direction,
+        has_data_stage: setup.length != 0,
+        data: [0; 256],
+        len: setup.length as usize
+    };
+    if setup.direction == Direction::In {
+        match response.request {
+            Request::GetDeviceDescriptor(len) => {
+                let desc = USB_CDC_ACM_DEVICE_DESCRIPTOR.as_bytes();
+                let len = core::cmp::min(len as usize, desc.len());
+                for i in 0..len {
+                    response.data[i] = desc[i];
                 }
-            } else {
-                Recipient::Reserved
-            },
-            request: buf[1],
-            value: (buf[2] as u16) | ((buf[3] as u16) << 8),
-            index: (buf[4] as u16) | ((buf[5] as u16) << 8),
-            length: (buf[6] as u16) | ((buf[7] as u16) << 8),
-        };
-        match setup.direction {
-            UsbDirection::Out => {
-                match setup.request_type {
-                    RequestType::Standard => {
-                        match setup.recipient {
-                            Recipient::Device => {
-                                // set address
-                                init_setaddress(setup.value as u8);
-                            }
-                            // Recipient::Interface => {}
-                            // Recipient::Endpoint => {}
-                            // Recipient::Other => {}
-                            // Recipient::Reserved => {}
-                            _ => {
-                                defmt::panic!("Recipient not supported");
-                            }
-                        }
-                    }
-                    // RequestType::Class => {}
-                    // RequestType::Vendor => {}
-                    // RequestType::Reserved => {}
-                    _ => {
-                        defmt::panic!("Request type not supported");
-                    }
-                }
+                response.len = len;
             }
-            UsbDirection::In => {
-                match setup.request_type {
-                    RequestType::Standard => {
-                        match setup.recipient {
-                            Recipient::Device => {
-                                match setup.request {
-                                    usb_device::control::Request::GET_DESCRIPTOR => {
-                                        match setup.value {
-                                            0x0100 => {
-                                                let tmp = USB_CDC_ACM_DEVICE_DESCRIPTOR.as_bytes();
-                                                unsafe {
-                                                    for i in 0..18 {
-                                                        setup_return_data[i] = tmp[i];
-                                                    }
-                                                }
-
-                                                return (true, core::cmp::min(18, setup.value) as usize);
-                                            }
-                                            0x0200 => {
-                                                //get configuration descriptor
-                                                let desc = CDC_CONIG_DESC_FULL();
-                                                let len = core::cmp::min(setup.length as usize, desc.len());
-                                                unsafe {
-                                                    for i in 0..len {
-                                                        setup_return_data[i] = desc[i];
-                                                    }
-                                                }
-                                                return (true, len);
-
-                                                // return (true, setup.length as usize);
-                                            }
-                                            0x0300 => {
-                                                // get string descriptor
-                                                match setup.index {
-                                                    // language descriptor
-                                                    0x0000 => {
-                                                        let val = StringDescriptor::language();
-                                                        for i in 0..val[0] {
-                                                            setup_return_data[i] = val[i];
-                                                        }
-                                                        return (true, val[0] as usize);
-                                                        let tmp = [0x04, 0x03, 0x09, 0x04];
-                                                        unsafe {
-                                                            for i in 0..4 {
-                                                                setup_return_data[i] = tmp[i];
-                                                            }
-                                                        }
-                                                        return (true, 4);
-                                                    }
-
-                                                    _ => {
-                                                        // defmt::error!("Unknown string descriptor index, {}", setup.index);
-                                                        defmt::panic!("Unknown string descriptor index, {:x}", setup.index);
-                                                    }
-                                                }
-                                            }
-                                            0x0301 => {
-                                                // string descriptor for manufacturer string descriptor
-                                                // USB String Descriptor for "Rust" in Rust
-                                                let usb_string_descriptor: [u8; 10] = [
-                                                    14, // bLength: Length of descriptor in bytes
-                                                    0x03, // bDescriptorType: String descriptor type
-                                                    // UTF-16LE encoding of "Rust"
-                                                    0x52, 0x00, // 'R'
-                                                    0x75, 0x00, // 'u'
-                                                    0x73, 0x00, // 's'
-                                                    0x74, 0x00, // 't'
-                                                ];
-                                                unsafe {
-                                                    for i in 0..10 {
-                                                        setup_return_data[i] = usb_string_descriptor[i];
-                                                    }
-                                                }
-                                                return (true, 10);
-                                            }
-                                            0x0302 => {
-                                                let val = StringDescriptor::product("USB Example Device");
-                                                for i in 0..val[0] {
-                                                    setup_return_data[i] = val[i];
-                                                }
-                                                return (true, val[0] as usize);
-                                                // string descriptor for product string descriptor
-                                                // USB String Descriptor for "USB Example Device" in Rust
-                                                let usb_string_descriptor: [u8; 38] = [
-                                                    38, // bLength: Length of descriptor in bytes
-                                                    0x03, // bDescriptorType: String descriptor type
-                                                    // UTF-16LE encoding of "USB Example Device"
-                                                    0x55, 0x00, // 'U'
-                                                    0x53, 0x00, // 'S'
-                                                    0x42, 0x00, // 'B'
-                                                    0x20, 0x00, // ' '
-                                                    0x45, 0x00, // 'E'
-                                                    0x78, 0x00, // 'x'
-                                                    0x61, 0x00, // 'a'
-                                                    0x6D, 0x00, // 'm'
-                                                    0x70, 0x00, // 'p'
-                                                    0x6C, 0x00, // 'l'
-                                                    0x65, 0x00, // 'e'
-                                                    0x20, 0x00, // ' '
-                                                    0x44, 0x00, // 'D'
-                                                    0x65, 0x00, // 'e'
-                                                    0x76, 0x00, // 'v'
-                                                    0x69, 0x00, // 'i'
-                                                    0x63, 0x00, // 'c'
-                                                    0x65, 0x00, // 'e'
-                                                ];
-                                                unsafe {
-                                                    for i in 0..38 {
-                                                        setup_return_data[i] = usb_string_descriptor[i];
-                                                    }
-                                                }
-                                                return (true, 38);
-                                            }
-                                            0x0303 => {
-                                                let val = StringDescriptor::serial_number("123456");
-                                                // copy the serial number string descriptor to the setup_return_data
-                                                for i in 0..val[0] {
-                                                    setup_return_data[i] = val[i];
-                                                }
-                                                return (true, val[0] as usize);
-                                                // serial number string descriptor
-                                                // USB String Descriptor for "123456" in Rust
-                                                let usb_string_descriptor: [u8; 14] = [
-                                                    14, // bLength: Length of descriptor in bytes
-                                                    0x03, // bDescriptorType: String descriptor type
-                                                    // UTF-16LE encoding of "123456"
-                                                    0x31, 0x00, // '1'
-                                                    0x32, 0x00, // '2'
-                                                    0x33, 0x00, // '3'
-                                                    0x34, 0x00, // '4'
-                                                    0x35, 0x00, // '5'
-                                                    0x36, 0x00, // '6'
-                                                ];
-                                                unsafe {
-                                                    for i in 0..14 {
-                                                        setup_return_data[i] = usb_string_descriptor[i];
-                                                    }
-                                                }
-                                                return (true, 14);
-                                            }
-                                            0x0600 => {
-                                                // get device qualifier descriptor
-                                                let device_qualifier_descriptor = DeviceQualifierDescriptor {
-                                                    b_length: 10,             // Descriptor size is 10 bytes
-                                                    b_descriptor_type: 6,     // Device qualifier descriptor type is 6
-                                                    bcd_usb: 0x0110,          // USB 2.0
-                                                    b_device_class: 0x00,     // Defined at interface level
-                                                    b_device_sub_class: 0x00, // No subclass
-                                                    b_device_protocol: 0x00,  // No protocol
-                                                    b_max_packet_size0: 64, // 64 bytes for endpoint zero (typical for USB 2.0)
-                                                    b_num_configurations: 1, // One configuration
-                                                    b_reserved: 0, // Reserved
-                                                };
-                                                let tmp = device_qualifier_descriptor.as_bytes();
-                                                unsafe {
-                                                    for i in 0..10 {
-                                                        setup_return_data[i] = tmp[i];
-                                                    }
-                                                }
-                                                return (true, 10);
-                                            }
-                                            _ => {
-                                                // defmt::error!("Unknown request value, {}", setup.value);
-                                                defmt::panic!("Unknown request value, {:x}", setup.value);
-                                            }
-                                        }
-                                    }
-                                    _ => {
-                                        panic!("Unknown request");
-                                    }
-                                }
-                            }
-                            // Recipient::Interface => {}
-                            // Recipient::Endpoint => {}
-                            // Recipient::Other => {}
-                            // Recipient::Reserved => {}
-                            _ => {
-                                defmt::panic!("Recipient not supported");
-                            }
-                        }
-                    }
-                    // RequestType::Class => {}
-                    // RequestType::Vendor => {}
-                    // RequestType::Reserved => {}
-                    _ => {
-                        defmt::panic!("Request type not supported");
-                    }
+            Request::GetConfigurationDescriptor(len) => {
+                let desc = CDC_CONIG_DESC_FULL();
+                let len = core::cmp::min(len as usize, desc.len());
+                for i in 0..len {
+                    response.data[i] = desc[i];
                 }
+                response.len = len;
+            }
+            Request::GetStringLangDescriptor(len) => {
+                let val = StringDescriptor::language();
+                for i in 0..val[0] as _ {
+                    response.data[i] = val[i];
+                }
+                response.len = val[0] as usize;
+            }
+            Request::GetStringManufacturerDescriptor(len) => {
+                let val = StringDescriptor::manufacturer("GGETA");
+                for i in 0..val[0] as _ {
+                    response.data[i] = val[i];
+                }
+                response.len = val[0] as usize;
+            }
+            Request::GetStringProductDescriptor(len) => {
+                let val = StringDescriptor::product("USB Example Device");
+                for i in 0..val[0] as _ {
+                    response.data[i] = val[i];
+                }
+                response.len = val[0] as usize;
+            }
+            Request::GetSerialNumberDescriptor(len) => {
+                let val = StringDescriptor::serial_number("123456");
+                for i in 0..val[0] as _ {
+                    response.data[i] = val[i];
+                }
+                response.len = val[0] as usize;
+            }
+            Request::GetDeviceQualifierDescriptor(len) => {
+                let val = USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR.as_bytes();
+                for i in 0..10 {
+                    response.data[i] = val[i];
+                }
+                response.len = 10;
+            }
+            _ => {
+                defmt::panic!("Unknown request");
             }
         }
-        return (false, 0);
     }
+    return response;
 }
 
 pub struct EndpointGG;
@@ -549,13 +370,18 @@ async fn read0(buf: &mut [u8]) {
     let r = regs();
 
     r.doepdma(0)
-        .write(|w| unsafe { w.set_dmaaddr(setup_data.as_ptr() as u32) });
+        .write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
     info!("doepdma0: {:x}", r.doepdma(0).read().0);
 
     r.doeptsiz(0).modify(|w| {
         w.set_xfrsiz(buf.len() as _);
         w.set_pktcnt(1);
-        w.set_stupcnt(3);
+        if buf.len() == 0 {
+            w.set_stupcnt(3);
+        } else {
+            w.set_stupcnt(1);
+        }
+        // w.set_stupcnt(3);
     });
 
     // for dma this is required
@@ -569,6 +395,7 @@ async fn read0(buf: &mut [u8]) {
         if r.doepint(0).read().xfrc() {
             r.doepint(0).write(|w| w.set_xfrc(true)); // clear xfrc
             r.doepmsk().modify(|w| w.set_xfrcm(true)); // unmask
+            trace!("read done len={}", buf.len());
             Poll::Ready(())
         } else {
             Poll::Pending
@@ -606,6 +433,7 @@ async fn write0(buf: &[u8]) {
         if r.diepint(0).read().xfrc() {
             r.diepint(0).write(|w| w.set_xfrc(true)); // clear xfrc
             r.diepmsk().modify(|w| w.set_xfrcm(true)); // unmask
+            trace!("write done len={}", buf.len());
             Poll::Ready(())
         } else {
             Poll::Pending
@@ -631,28 +459,71 @@ pub async fn setup_process() {
                 state().ep_out_wakers[0].register(cx.waker());
                 if state().ep0_setup_ready.load(Ordering::Relaxed) {
                     state().ep0_setup_ready.store(false, Ordering::Release);
+                    // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
                     Poll::Ready(())
                 } else {
                     Poll::Pending
                 }
             })
                 .await;
-
+            // regs().doepctl(0).modify(|v| v.set_snak(true));
             defmt::info!(
                 "setup packet ready, processing package **********{:x}",
                 setup_data
             );
-            let (res, size) = process_setup_packet(&setup_data);
-            defmt::info!("process_setup packet  res: {}", res);
-            if res {
-                // send data
-                unsafe {
-                    write0(&setup_return_data[0..size]).await;
+            // let (res, size) = process_setup_packet(&setup_data);
+            let mut tmp = process_setup_packet_new(&setup_data);
+            if tmp.has_data_stage {
+                match tmp.data_stage_direction {
+                    Direction::In => {
+                        write0(&tmp.data[0..tmp.len]).await;
+                        read0(&mut buf[0..0]).await; // status stage no data
+                        continue;
+                    }
+                    Direction::Out => {
+                            read0(&mut tmp.data[0..tmp.len]).await;
+                        write0(&[0u8; 0]).await; // status stage no data
+                    }
                 }
-                read0(&mut buf[0..0]).await; // status stage no data
             } else {
-                write0(&[0u8; 0]).await; // status stage no data
+                    write0(&[0u8; 0]).await; // status stage no data
             }
+            // end of data stage
+
+            match tmp.request {
+                Request::SetAddress(addr) => {
+                    init_setaddress(addr);
+                }
+                Request::SetConfiguration(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("SetConfiguration");
+                }
+                Request::SetLineCoding(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("SetLineCoding");
+                }
+                Request::SetControlLineState(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("SetControlLineState");
+                }
+                _ => {
+                    defmt::error!("Unknown request");
+                }
+            }
+
+            // defmt::info!("process_setup packet  res: {}", res);
+            // if res {
+            //     // send data
+            //     unsafe {
+            //         write0(&setup_return_data[0..size]).await;
+            //     }
+            //     read0(&mut buf[0..0]).await; // status stage no data
+            // } else {
+            //     write0(&[0u8; 0]).await; // status stage no data
+            // }
         }
     }
 }

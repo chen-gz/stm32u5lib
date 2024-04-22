@@ -1,16 +1,20 @@
-
+#[derive(Copy, Clone, PartialEq)]
 pub enum Direction {
     /// Host to device
     Out,
     /// Device to host
     In,
 }
+
+#[derive(Copy, Clone)]
 pub enum RequestType {
     Standard,
     Class,
     Vendor,
     Reserved,
 }
+
+#[derive(Copy, Clone)]
 pub enum Recipient {
     Device,
     Interface,
@@ -19,68 +23,145 @@ pub enum Recipient {
     Reserved,
 }
 
-pub struct USBRequest {
+#[derive(Copy, Clone)]
+pub struct SetupPacket {
     pub direction: Direction,
     pub request_type: RequestType,
     pub recipient: Recipient,
-    pub request: Request,
-    // pub value: u16,
-    // pub index: u16,
-    // pub length: u16,
+    pub request: u8,
+    pub value: u16,
+    pub index: u16,
+    pub length: u16,
 }
 
 pub enum Request {
-    GetStatus(u16, u16, u16),
-    ClearFeature(u16, u16, u16),
-    SetFeature(u16, u16, u16),
-    SetAddress(u16, u16, u16),
-    GetDescriptor(u16, u16, u16),
-    SetConfiguration(u16, u16, u16),
-    GetConfiguration(u16, u16, u16),
-    SetInterface(u16, u16, u16),
-    GetInterface(u16, u16, u16),
-    SyncFrame(u16, u16, u16),
+    GetDeviceDescriptor(u8),
+    GetConfigurationDescriptor(u8),
+    GetStringLangDescriptor(u8),
+    GetStringManufacturerDescriptor(u8),
+    GetStringProductDescriptor(u8),
+    GetSerialNumberDescriptor(u8),
+    GetDeviceQualifierDescriptor(u8),
+
+
+    SetAddress(u8),
+    SetConfiguration(u8),
+
+
+    // CDC
+    // SetLineCoding(u8, u32, u8, u8, u8),// (length, baudrate, stopbits, parity, databits)
+    SetLineCoding(u8),  // , u32, u8, u8, u8),// (length, baudrate, stopbits, parity, databits)
+    SetControlLineState(u8),
 }
 
-impl USBRequest {
-    pub fn from_bytes(data: [u8; 8]) -> USBRequest {
-        let b_request = data[1];
-        let w_value = u16::from_le_bytes([data[2], data[3]]);
-        let w_index = u16::from_le_bytes([data[4], data[5]]);
-        let w_length = u16::from_le_bytes([data[6], data[7]]);
+const REQUEST_GET_DESCRIPTOR: u8 = 0x06;
 
-        USBRequest {
-            direction: if data[0] & 0x80 == 0 { Direction::Out } else { Direction::In },
-            request_type: match data[0] & 0x60 {
-                0x00 => RequestType::Standard,
-                0x20 => RequestType::Class,
-                0x40 => RequestType::Vendor,
-                _ => RequestType::Reserved,
-            },
-            recipient: match data[0] & 0x1F {
-                0x00 => Recipient::Device,
-                0x01 => Recipient::Interface,
-                0x02 => Recipient::Endpoint,
-                0x03 => Recipient::Other,
-                _ => Recipient::Reserved,
-            },
-            request: match b_request {
-                0x00 => Request::GetStatus(w_value, w_index, w_length),
-                0x01 => Request::ClearFeature(w_value, w_index, w_length),
-                0x03 => Request::SetFeature(w_value, w_index, w_length),
-                0x05 => Request::SetAddress(w_value, w_index, w_length),
-                0x06 => Request::GetDescriptor(w_value, w_index, w_length),
-                0x09 => Request::SetConfiguration(w_value, w_index, w_length),
-                0x08 => Request::GetConfiguration(w_value, w_index, w_length),
-                0x0B => Request::SetInterface(w_value, w_index, w_length),
-                0x0A => Request::GetInterface(w_value, w_index, w_length),
-                0x0C => Request::SyncFrame(w_value, w_index, w_length),
-                _ => panic!("Unsupported or unknown USB request"),
-            },
+impl Request {
+    pub fn from_setup(setup: &SetupPacket) -> Request {
+        match setup.direction {
+            Direction::Out => {
+                match setup.request_type {
+                    RequestType::Standard => {
+                        match setup.recipient {
+                            Recipient::Device => {
+                                match setup.request {
+                                    0x05 => Request::SetAddress(setup.value as u8),
+                                    0x09 => Request::SetConfiguration(setup.value as u8),
+                                    _ => defmt::panic!("Unknown request"),
+                                }
+                            }
+                            _ => defmt::panic!("Unknown recipient"),
+                        }
+                    }
+                    RequestType::Class => {
+                        match setup.recipient {
+                            Recipient::Interface => {
+                                match setup.request {
+                                    0x20 => Request::SetLineCoding(setup.length as u8),
+                                    0x22 => Request::SetControlLineState(setup.length as u8),
+                                    _ => defmt::panic!("Unknown request"),
+                                }
+                            }
+                            _ => defmt::panic!("Unknown recipient"),
+                        }
+                    }
+                    _ => defmt::panic!("Unknown request type"),
+                }
+            }
+            Direction::In => {
+                match setup.request_type {
+                    RequestType::Standard => {
+                        match setup.recipient {
+                            Recipient::Device => {
+                                match setup.request {
+                                    REQUEST_GET_DESCRIPTOR => {
+                                        match setup.value {
+                                            0x0100 => Request::GetDeviceDescriptor(setup.length as u8),
+                                            0x0200 => Request::GetConfigurationDescriptor(setup.length as u8),
+                                            0x0300 => Request::GetStringLangDescriptor(setup.length as u8),
+                                            0x0301 => Request::GetStringManufacturerDescriptor(setup.length as u8),
+                                            0x0302 => Request::GetStringProductDescriptor(setup.length as u8),
+                                            0x0303 => Request::GetSerialNumberDescriptor(setup.length as u8),
+                                            0x0600 => Request::GetDeviceQualifierDescriptor(setup.length as u8),
+                                            _ => defmt::panic!("Unknown descriptor"),
+                                        }
+                                    }
+                                    _ => defmt::panic!("Unknown request"),
+                                }
+                            }
+                            // Recipient::Interface => {}
+                            // Recipient::Endpoint => {}
+                            // Recipient::Other => {}
+                            // Recipient::Reserved => {}
+                            _ => defmt::panic!("No support for other recipient"),
+                        }
+                    }
+
+                    // RequestType::Class => {}
+                    // RequestType::Vendor => {}
+                    // RequestType::Reserved => {}
+                    _ => defmt::panic!("no support for other request type"),
+                }
+            }
         }
     }
 }
 
+impl SetupPacket {
+    pub fn from_bytes(data: &[u8; 8]) -> SetupPacket {
+        let direction = if data[0] & 0x80 == 0x80 {
+            Direction::In
+        } else {
+            Direction::Out
+        };
+        let request_type = match data[0] & 0x60 {
+            0x00 => RequestType::Standard,
+            0x20 => RequestType::Class,
+            0x40 => RequestType::Vendor,
+            _ => RequestType::Reserved,
+        };
+        let recipient = match data[0] & 0x1F {
+            0x00 => Recipient::Device,
+            0x01 => Recipient::Interface,
+            0x02 => Recipient::Endpoint,
+            0x03 => Recipient::Other,
+            _ => Recipient::Reserved,
+        };
+        let request = data[1];
+        let value = u16::from_le_bytes([data[2], data[3]]);
+        let index = u16::from_le_bytes([data[4], data[5]]);
+        let length = u16::from_le_bytes([data[6], data[7]]);
+        SetupPacket {
+            direction,
+            request_type,
+            recipient,
+            request,
+            value,
+            index,
+            length,
+        }
+    }
+}
 
 
 pub struct USBDeviceDescriptor {
@@ -99,6 +180,7 @@ pub struct USBDeviceDescriptor {
     pub i_serial_number: u8,
     pub b_num_configurations: u8,
 }
+
 impl USBDeviceDescriptor {
     pub fn as_bytes(&self) -> [u8; 18] {
         // length is 18
@@ -156,13 +238,20 @@ impl DeviceQualifierDescriptor {
 }
 
 pub struct ConfigurationDescriptor {
-    pub b_length: u8, // Size of this descriptor in bytes
-    pub b_descriptor_type: u8, // Configuration descriptor type (2)
-    pub w_total_length: u16, // Total length of data returned for this configuration
-    pub b_num_interfaces: u8, // Number of interfaces in this configuration
-    pub b_configuration_value: u8, // Value to use as an argument to select this configuration
-    pub i_configuration: u8, // Index of string descriptor describing this configuration
-    pub bm_attributes: u8, // Configuration characteristics
+    pub b_length: u8,
+    // Size of this descriptor in bytes
+    pub b_descriptor_type: u8,
+    // Configuration descriptor type (2)
+    pub w_total_length: u16,
+    // Total length of data returned for this configuration
+    pub b_num_interfaces: u8,
+    // Number of interfaces in this configuration
+    pub b_configuration_value: u8,
+    // Value to use as an argument to select this configuration
+    pub i_configuration: u8,
+    // Index of string descriptor describing this configuration
+    pub bm_attributes: u8,
+    // Configuration characteristics
     pub b_max_power: u8,   // Maximum power consumption  (2mA units)
     // the configuration descriptor is followed by the interface descriptor and endpoint descriptor
 }
@@ -185,14 +274,22 @@ impl ConfigurationDescriptor {
 }
 
 pub struct InterfaceDescriptor {
-    pub b_length: u8, // Size of this descriptor in bytes
-    pub b_descriptor_type: u8, // Interface descriptor type (4)
-    pub b_interface_number: u8, // Number of this interface
-    pub b_alternate_setting: u8, // Value used to select this alternate setting for the interface
-    pub b_num_endpoints: u8, // Number of endpoints used by this interface (excluding endpoint zero)
-    pub b_interface_class: u8, // Class code (assigned by the USB-IF). 0xFF is vendor-specific
-    pub b_interface_sub_class: u8, // Sub class code (assigned by the USB-IF)
-    pub b_interface_protocol: u8, // Protocol code (assigned by the USB). 0xFF is vendor-specific
+    pub b_length: u8,
+    // Size of this descriptor in bytes
+    pub b_descriptor_type: u8,
+    // Interface descriptor type (4)
+    pub b_interface_number: u8,
+    // Number of this interface
+    pub b_alternate_setting: u8,
+    // Value used to select this alternate setting for the interface
+    pub b_num_endpoints: u8,
+    // Number of endpoints used by this interface (excluding endpoint zero)
+    pub b_interface_class: u8,
+    // Class code (assigned by the USB-IF). 0xFF is vendor-specific
+    pub b_interface_sub_class: u8,
+    // Sub class code (assigned by the USB-IF)
+    pub b_interface_protocol: u8,
+    // Protocol code (assigned by the USB). 0xFF is vendor-specific
     pub i_interface: u8, // Index of string descriptor describing this interface
 }
 
@@ -214,11 +311,16 @@ impl InterfaceDescriptor {
 }
 
 pub struct EndpointDescriptor {
-    pub b_length: u8, // Size of this descriptor in bytes
-    pub b_descriptor_type: u8, // Endpoint descriptor type (5)
-    pub b_endpoint_address: u8, // The address of the endpoint on the USB device described by this descriptor
-    pub bm_attributes: u8, // The endpoint's attributes when it is configured using the bEndpointAddress
-    pub w_max_packet_size: u16, // Maximum packet size this endpoint is capable of sending or receiving
+    pub b_length: u8,
+    // Size of this descriptor in bytes
+    pub b_descriptor_type: u8,
+    // Endpoint descriptor type (5)
+    pub b_endpoint_address: u8,
+    // The address of the endpoint on the USB device described by this descriptor
+    pub bm_attributes: u8,
+    // The endpoint's attributes when it is configured using the bEndpointAddress
+    pub w_max_packet_size: u16,
+    // Maximum packet size this endpoint is capable of sending or receiving
     pub b_interval: u8, // Interval for polling endpoint for data transfers
 }
 
@@ -238,13 +340,20 @@ impl EndpointDescriptor {
 }
 
 pub struct InterfaceAssociationDescriptor {
-    pub b_length: u8, // Size of this descriptor in bytes
-    pub b_descriptor_type: u8, // Interface association descriptor type (11)
-    pub b_first_interface: u8, // The first interface number associated with this function
-    pub b_interface_count: u8, // The number of contiguous interfaces associated with this function
-    pub b_function_class: u8, // Class code (assigned by the USB-IF). 0xFF is vendor-specific
-    pub b_function_sub_class: u8, // Sub class code (assigned by the USB-IF)
-    pub b_function_protocol: u8, // Protocol code (assigned by the USB). 0xFF is vendor-specific
+    pub b_length: u8,
+    // Size of this descriptor in bytes
+    pub b_descriptor_type: u8,
+    // Interface association descriptor type (11)
+    pub b_first_interface: u8,
+    // The first interface number associated with this function
+    pub b_interface_count: u8,
+    // The number of contiguous interfaces associated with this function
+    pub b_function_class: u8,
+    // Class code (assigned by the USB-IF). 0xFF is vendor-specific
+    pub b_function_sub_class: u8,
+    // Sub class code (assigned by the USB-IF)
+    pub b_function_protocol: u8,
+    // Protocol code (assigned by the USB). 0xFF is vendor-specific
     pub i_function: u8, // Index of string descriptor describing this function
 }
 
@@ -273,13 +382,12 @@ pub struct StringDescriptor {
 }
 
 impl StringDescriptor {
-
     pub fn as_bytes(&self) -> [u8; 64] {
         // length is 64
         let mut buf = [0u8; 64];
         buf[0] = self.b_length;
         buf[1] = self.b_descriptor_type;
-        for i in 0..32 {
+        for i in 0..20 {
             buf[2 + 2 * i] = self.w_data[i] as u8;
             buf[3 + 2 * i] = (self.w_data[i] >> 8) as u8;
         }
@@ -328,30 +436,36 @@ impl StringDescriptor {
     pub fn language() -> [u8; 4] {
         [4, 3, 0x09, 0x04] // english
     }
-
 }
-
-
-
-
 
 
 /////////////////////////// descriptors for cdc ///////////////////////////
 pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescriptor {
     b_length: 18,
     b_descriptor_type: 1,
-    bcd_usb: 0x0110,             // modify to match the USB version
+    bcd_usb: 0x0200,             // modify to match the USB version
     b_device_class: 0x02,        // CDC class
     b_device_sub_class: 0x00,
     b_device_protocol: 0x00,
     b_max_packet_size0: 64,
-    id_vendor: 0x0483,           // STMicroelectronics
-    id_product: 0x5740,          // Virtual COM Port
+    id_vendor: 0x1234,           // STMicroelectronics
+    id_product: 0x5678,          // Virtual COM Port
     bcd_device: 0x0200,          // device release number
     i_manufacturer: 0x01,
     i_product: 0x02,
     i_serial_number: 0x03,
     b_num_configurations: 0x01,
+};
+pub const USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR: DeviceQualifierDescriptor = DeviceQualifierDescriptor {
+    b_length: 10,
+    b_descriptor_type: 6,
+    bcd_usb: 0x0200,             // modify to match the USB version
+    b_device_class: 0x02,        // CDC class
+    b_device_sub_class: 0x00,
+    b_device_protocol: 0x00,
+    b_max_packet_size0: 64,
+    b_num_configurations: 0x01,
+    b_reserved: 0x00,
 };
 const CDC_ACM_CONFIGURATION_DESCRIPTOR: ConfigurationDescriptor = ConfigurationDescriptor {
     b_length: 9,
@@ -386,7 +500,8 @@ const CDC_ACM_INTERFACE_DESCRIPTOR: InterfaceDescriptor = InterfaceDescriptor {
 };
 const CDC_ACM_HEADER_FUNCTIONAL_DESCRIPTOR: [u8; 5] = [0x05, 0x24, 0x00, 0x10, 0x01];
 const CDC_ACM_CALL_MANAGEMENT_FUNCTIONAL_DESCRIPTOR: [u8; 5] = [0x05, 0x24, 0x01, 0x03, 0x01];
-const CDC_ACM_FUNCTIONAL_DESCRIPTOR: [u8; 4] = [0x04, 0x24, 0x02, 0x00]; // chcek the last byte
+const CDC_ACM_FUNCTIONAL_DESCRIPTOR: [u8; 4] = [0x04, 0x24, 0x02, 0x00];
+// chcek the last byte
 const CDC_ACM_UNION_FUNCTIONAL_DESCRIPTOR: [u8; 5] = [0x05, 0x24, 0x06, 0x00, 0x01];
 
 const CDC_ACM_ENDPOINT_DESCRIPTOR: EndpointDescriptor = EndpointDescriptor {
@@ -395,7 +510,7 @@ const CDC_ACM_ENDPOINT_DESCRIPTOR: EndpointDescriptor = EndpointDescriptor {
     b_endpoint_address: 0x81,
     bm_attributes: 0x03,
     w_max_packet_size: 64,
-    b_interval: 0x00,
+    b_interval: 10,
 };
 const CDC_ACM_INTERFACE_DESCRIPTOR_2: InterfaceDescriptor = InterfaceDescriptor {
     b_length: 9,
@@ -424,7 +539,9 @@ const CDC_ACM_DATA_ENDPOINT_DESCRIPTOR_OUT: EndpointDescriptor = EndpointDescrip
     w_max_packet_size: 64,
     b_interval: 0x00,
 };
-const CDC_CONFIG_DESC_LEN: usize = 9 + 8 + 9 + 5 + 5 + 4 + 5 + 7 + 9 + 7 + 7; // 75 this can be finish in one packet
+const CDC_CONFIG_DESC_LEN: usize = 9 + 8 + 9 + 5 + 5 + 4 + 5 + 7 + 9 + 7 + 7;
+
+// 75 this can be finish in one packet
 pub fn CDC_CONIG_DESC_FULL() -> [u8; CDC_CONFIG_DESC_LEN] {
     // return the full configuration descriptor
     let mut buf = [0u8; CDC_CONFIG_DESC_LEN];
