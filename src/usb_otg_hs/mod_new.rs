@@ -468,17 +468,20 @@ async fn write0(buf: &[u8]) {
 // #[embassy_executor::task]
 pub async fn cdc_acm_ep2_read() {
     defmt::info!("cdc_acm_ep2_read start");
-    let ep2_in = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+    // let ep2_in = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+    let ep2_out = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
     // let mut buf : [u8; 16] =
     //     let buf = "Hello, World!".as_bytes();
     // generate a buf with 100_000  bytes
-    let mut buf = [08u8; 30_000];
-    // last byte is 0
-    buf[29_998] = 0;
-    buf[29_999] = 0;
+    let mut buf = [08u8; 64];
+    // // last byte is 0
+    // buf[29_998] = 0;
+    // buf[29_999] = 0;
 
-        ep2_in.write(&buf).await;
-        defmt::info!("ep2 write done, data={:x}", buf);
+        // ep2_in.write(&buf).await;
+        // defmt::info!("ep2 write done, data={:x}", buf);
+    ep2_out.read(&mut buf).await;
+    defmt::info!("ep2 read done, data={:x}", buf);
 }
 
 #[embassy_executor::task]
@@ -720,8 +723,8 @@ pub unsafe fn on_interrupt() {
                 defmt::info!("------------------------------------------");
                 defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
                 defmt::info!("setup data: {:x}", setup_data);
-                defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
-                defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+                defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
+                defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
                 let ep_ints = r.doepint(ep_num).read();
                 if ep_ints.stup() {
                     state.ep_out_wakers[ep_num].wake();
@@ -740,10 +743,9 @@ pub unsafe fn on_interrupt() {
 
                 if ep_ints.xfrc() {
                     r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
-                    state.ep_out_wakers[ep_num].wake();
                     // pop ?
-
                 }
+                state.ep_out_wakers[ep_num].wake();
             }
             ep_mask >>= 1;
             ep_num += 1;

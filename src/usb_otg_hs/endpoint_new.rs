@@ -166,13 +166,11 @@ impl Endpoint{
         });
 
         // clear endpoint 2 interrupt
-        r.doepint(2).write(|w| {
-            w.set_xfrc(true);
-        });
-        r.daintmsk().modify(|w| {
-            w.set_iepm(1);
-            w.set_oepm(1);
-            w.set_oepm(2);
+        // r.doepint(2).write(|w| {
+        //     w.set_xfrc(true);
+        // });
+        r.daintmsk().modify(|v| {
+            v.set_oepm(v.oepm() | (1 << index));
         });
 
         // for dma this is required
