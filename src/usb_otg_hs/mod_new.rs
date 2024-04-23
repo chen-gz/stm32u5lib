@@ -170,7 +170,6 @@ pub fn power_up_init() {
     r.dctl().write(|w| w.set_sdis(false));
 }
 
-pub struct Endpoint {}
 
 pub fn init_reset() {
     // Rm0456 Rev 5, p3423
@@ -207,6 +206,11 @@ pub fn init_reset() {
     //     // w.set_xfrsiz(8);
     // });
     crate::usb_otg_hs::endpoint_new::init_endpoint();
+    r.daintmsk().write(|w| {
+        w.set_iepm(1);
+        w.set_oepm(1);
+        // w.set_oepm(2);
+    });
 }
 
 pub static mut setup_data: [u8; 64] = [0; 64];
@@ -279,6 +283,7 @@ use usb_device::{self, device};
 use usb_device::control::{Recipient, RequestType};
 use usb_device::UsbDirection;
 use crate::usb_otg_hs::descriptor::*;
+use crate::usb_otg_hs::endpoint_new::{Endpoint, EpType, MaxPacketSize};
 
 
 pub struct SetupResponse {
@@ -389,10 +394,10 @@ async fn read0(buf: &mut [u8]) {
         w.set_xfrsiz(buf.len() as _);
         if buf.len() == 8 {
             w.set_stupcnt(1);
-            w.set_pktcnt(3);
+            w.set_pktcnt(1);
         } else {
             w.set_pktcnt(1);
-            w.set_stupcnt(3);
+            w.set_stupcnt(1);
         }
     });
     r.doepmsk().modify(|w| w.set_stsphsrxm(true)); // unmask
@@ -460,11 +465,25 @@ async fn write0(buf: &[u8]) {
         .await;
     trace!("write len={} done", buf.len());
 }
+// #[embassy_executor::task]
+pub async fn cdc_acm_ep2_read() {
+    defmt::info!("cdc_acm_ep2_read start");
+    let ep2_in = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+    // let mut buf : [u8; 16] =
+    //     let buf = "Hello, World!".as_bytes();
+    // generate a buf with 100_000  bytes
+    let mut buf = [08u8; 30_000];
+    // last byte is 0
+    buf[29_998] = 0;
+    buf[29_999] = 0;
+
+        ep2_in.write(&buf).await;
+        defmt::info!("ep2 write done, data={:x}", buf);
+}
 
 #[embassy_executor::task]
 pub async fn setup_process() {
-    // wait for STUP interrupt
-    // process interrupt
+    // this only enabled after reset and power up
     let mut buf = [0u8; 8];
     loop {
         unsafe {
