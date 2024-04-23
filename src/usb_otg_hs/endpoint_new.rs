@@ -1,78 +1,9 @@
 use core::{future::poll_fn, task::Poll};
 use defmt::trace;
 use stm32_metapac::otg::vals::Eptyp;
+use crate::usb_otg_hs::global_states::{regs, state};
 // use core::task::{Poll, poll_fn};
-use crate::usb_otg_hs::{regs, state};
 
-async fn read0(buf: &mut [u8]) {
-    trace!("read start len={}", buf.len());
-    let r = regs();
-
-    r.doepdma(0).write(|w| unsafe { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
-    trace!("doepdma0: {:x}", r.doepdma(0).read().0);
-
-    r.doeptsiz(0).modify(|w| {
-        w.set_xfrsiz(buf.len() as _);
-        // w.set_pktcnt(pktcnt as _);
-        w.set_pktcnt(1); // for control endpoint, pktcnt always 1 (only 1 bit in register)
-        w.set_stupcnt(3);
-    });
-
-    // for dma this is required
-    r.doepctl(0).modify(|w| {
-        w.set_epena(true);
-        w.set_cnak(true);
-    });
-    // wait for transfer complete interrupt
-    poll_fn(|cx| {
-        state().ep_out_wakers[0].register(cx.waker());
-        if r.doepint(0).read().xfrc() {
-            r.doepint(0).write(|w| w.set_xfrc(true));  // clear xfrc
-            // In the interrupt handler, the `xfrc`  was masked to avoid re-entering the interrupt.
-            r.doepmsk().modify(|w| w.set_xfrcm(true));
-            Poll::Ready(())
-        } else {
-            Poll::Pending
-        }
-    }).await;
-}
-
-async fn write0(buf: &[u8]) {
-    trace!("write start len={}", buf.len());
-    let r = regs();
-    r.diepdma(0).write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
-
-    let pktcnt;
-    if buf.len() == 0 {
-        pktcnt = 1;
-    } else {
-        pktcnt = (buf.len() + 63) / 64;
-    }
-    r.dieptsiz(0).modify(|w| {
-        w.set_xfrsiz(buf.len() as u32);
-        w.set_pktcnt(pktcnt as _);
-    });
-
-    r.diepctl(0).modify(|w| {
-        w.set_epena(true);
-        w.set_cnak(true);
-    });
-    // wait for transfer complete interrupt
-    poll_fn(|cx| {
-        state().ep_in_wakers[0].register(cx.waker());
-        // defmt::info!("write0 poll_fn with
-        if r.diepint(0).read().xfrc() {
-            r.diepint(0).write(|w| w.set_xfrc(true)); // clear xfrc
-            // In the interrupt handler, the `xfrc` was masked to avoid re-entering the interrupt.
-            r.diepmsk().modify(|w| w.set_xfrcm(true));
-            Poll::Ready(())
-        } else {
-            Poll::Pending
-        }
-    })
-        .await;
-    trace!("write len={} done", buf.len());
-}
 
 
 pub enum Direction {
@@ -199,7 +130,7 @@ impl Endpoint{
         trace!("write ep={:?}, data={:?}", self.addr, buf);
         let r = regs();
         let index = self.addr as usize;
-        r.diepdma(index).write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
+        r.diepdma(index).write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
         let pktcnt;
         if buf.len() == 0 {
             pktcnt = 1;

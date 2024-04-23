@@ -52,8 +52,9 @@ pub async fn vddusb_monitor_up() {
 
 static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
-use crate::usb_otg_hs::BUS_WAKER_PWR;
+
 use stm32_metapac::interrupt;
+use crate::usb_otg_hs::global_states::BUS_WAKER_PWR;
 
 #[interrupt]
 fn PVD_PVM() {

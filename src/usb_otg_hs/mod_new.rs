@@ -6,7 +6,7 @@ use defmt::export::{panic, write};
 use defmt::{info, trace};
 use stm32_metapac::{interrupt, otg::{self, regs::Doepctl}, PWR, RCC, SYSCFG};
 
-use crate::usb_otg_hs::{regs, restore_irqs, state, RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS, EP_OUT_BUFFER_EMPTY, State};
+// use crate::usb_otg_hs::{regs, restore_irqs, state, RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS, EP_OUT_BUFFER_EMPTY, State};
 
 pub fn power_up_init() {
     trace!("init");
@@ -171,7 +171,13 @@ pub fn power_up_init() {
 }
 
 
+
 pub fn init_reset() {
+    // wake up all related task and send stall to all endpoints
+
+    // in control pipe task, the control pipe will be waked up and set again
+
+
     // Rm0456 Rev 5, p3423
     let r = regs();
     // 1. set the NAK -- SNAK = 1 in OTG_DOEPCTLx register
@@ -194,27 +200,12 @@ pub fn init_reset() {
     });
     // 3. set up data fifo ram for each of the fifo
     init_fifo();
-    // r.doepctl(0).modify(|w| w.set_cnak(true));
-
-    // 4 and 5 in RM0456 Rev 5, p3423
-    // goto setup processing stage
-    // r.doepdma(0)
-    //     .write(|w| w.set_dmaaddr(unsafe { &setup_data as *const u8 as u32 }));
-    // r.doeptsiz(0).write(|w| {
-    //     w.set_stupcnt(3);
-    //     w.set_pktcnt(1);
-    //     // w.set_xfrsiz(8);
-    // });
     crate::usb_otg_hs::endpoint_new::init_endpoint();
-    r.daintmsk().write(|w| {
-        w.set_iepm(1);
-        w.set_oepm(1);
-        // w.set_oepm(2);
-    });
+    // the task should be start after this
 }
 
-pub static mut setup_data: [u8; 64] = [0; 64];
-pub static mut setup_return_data: [u8; 256] = [0; 256];
+pub static mut SETUP_DATA: [u8; 64] = [0; 64];
+pub static mut SETUP_RETURN_DATA: [u8; 256] = [0; 256];
 
 /// Initializes FIFOs based on the fifo_const.
 pub fn init_fifo() {
@@ -249,7 +240,7 @@ pub fn init_fifo() {
 pub fn init_enumeration_done() {
     // RM0456 Rev 5, p3423
     // 1. On the enumeration done interrupt, (ENUMDNE bit in OTG_GINTSTS register), read the otg_dsts register to get the speed of the enumeration.
-    let spd = regs().dsts().read().enumspd();
+    let _spd = regs().dsts().read().enumspd();
     // 2. program the mpsiz field in the otg_diepctl0 to set the maximum packet size. This step configures control endpoint 0.. The maximum packet size for a control depends on the enumeration speed.
     // todo: for now, we only support full speed and high speed
     // let mpsiz = match spd {
@@ -277,13 +268,15 @@ fn init_setaddress(address: u8) {
     regs().dcfg().modify(|w| w.set_dad(address));
 }
 
-// let res = process_setup_packet(setup_data);
+// let res = process_setup_packet(SETUP_DATA);
 
 use usb_device::{self, device};
 use usb_device::control::{Recipient, RequestType};
 use usb_device::UsbDirection;
 use crate::usb_otg_hs::descriptor::*;
 use crate::usb_otg_hs::endpoint_new::{Endpoint, EpType, MaxPacketSize};
+use crate::usb_otg_hs::global_states::{regs, restore_irqs, state, State};
+use crate::usb_otg_hs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
 
 
 pub struct SetupResponse {
@@ -318,7 +311,7 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
                 defmt::info!("GetDeviceDescriptor, len={}", len);
             }
             Request::GetConfigurationDescriptor(len) => {
-                let desc = CDC_CONIG_DESC_FULL();
+                let desc = cdc_conig_desc_full();
                 let len = core::cmp::min(len as usize, desc.len());
                 for i in 0..len {
                     response.data[i] = desc[i];
@@ -334,28 +327,28 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
                 response.len = val[0] as usize;
                 defmt::info!("GetStringLangDescriptor, len={}", len);
             }
-            Request::GetStringManufacturerDescriptor(len) => {
+            Request::GetStringManufacturerDescriptor(_len) => {
                 let val = StringDescriptor::manufacturer("GGETA");
                 for i in 0..val[0] as _ {
                     response.data[i] = val[i];
                 }
                 response.len = val[0] as usize;
             }
-            Request::GetStringProductDescriptor(len) => {
+            Request::GetStringProductDescriptor(_len) => {
                 let val = StringDescriptor::product("USB Example Device");
                 for i in 0..val[0] as _ {
                     response.data[i] = val[i];
                 }
                 response.len = val[0] as usize;
             }
-            Request::GetSerialNumberDescriptor(len) => {
+            Request::GetSerialNumberDescriptor(_len) => {
                 let val = StringDescriptor::serial_number("123456");
                 for i in 0..val[0] as _ {
                     response.data[i] = val[i];
                 }
                 response.len = val[0] as usize;
             }
-            Request::GetDeviceQualifierDescriptor(len) => {
+            Request::GetDeviceQualifierDescriptor(_len) => {
                 let val = USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR.as_bytes();
                 for i in 0..10 {
                     response.data[i] = val[i];
@@ -375,7 +368,7 @@ pub struct EndpointGG;
 async fn read0(buf: &mut [u8]) {
     trace!("read start len={}", buf.len());
     let r = regs();
-    r.doepdma(0) .write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
+    r.doepdma(0) .write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
     info!("doepdma0: {:x}", r.doepdma(0).read().0);
 
     defmt::info!("*************************************");
@@ -418,7 +411,7 @@ async fn read0(buf: &mut [u8]) {
                 w.set_xfrc(true);
             });
             // clear xfrc
-            trace!("read done len={}", buf.len());
+            trace!("read done len={}", buf.len() as u32 - regs().doeptsiz(0).read().xfrsiz());
             Poll::Ready(())
         } else {
             Poll::Pending
@@ -430,7 +423,7 @@ async fn write0(buf: &[u8]) {
     trace!("write start len={}, data={:x}", buf.len(), buf);
     let r = regs();
     r.diepdma(0)
-        .write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
+        .write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
 
     let pktcnt;
     if buf.len() == 0 {
@@ -477,9 +470,8 @@ pub async fn cdc_acm_ep2_read() {
     // // last byte is 0
     // buf[29_998] = 0;
     // buf[29_999] = 0;
-
-        // ep2_in.write(&buf).await;
-        // defmt::info!("ep2 write done, data={:x}", buf);
+    // ep2_in.write(&buf).await;
+    // defmt::info!("ep2 write done, data={:x}", buf);
     ep2_out.read(&mut buf).await;
     defmt::info!("ep2 read done, data={:x}", buf);
 }
@@ -487,10 +479,20 @@ pub async fn cdc_acm_ep2_read() {
 #[embassy_executor::task]
 pub async fn setup_process() {
     // this only enabled after reset and power up
-    let mut buf = [0u8; 8];
+    let _buf = [0u8; 8];
+    // wait for device enabled
+    // poll_fn(|cx| {
+    //     state().ep_out_wakers[0].register(cx.waker());
+    //     if regs().doepint()
+    //
+    // });
+
+
+
+
     loop {
         unsafe {
-            read0(&mut setup_data[0..8]).await; // status stage no data
+            read0(&mut SETUP_DATA[0..64]).await; // status stage no data
             defmt::info!("wait for setup packet ready");
             defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
             defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
@@ -506,19 +508,19 @@ pub async fn setup_process() {
             })
                 .await;
             // regs().doepctl(0).modify(|v| v.set_snak(true));
-            defmt::info!( "setup packet ready, processing package **********{:x}", setup_data
+            defmt::info!( "setup packet ready, processing package **********{:x}", SETUP_DATA
             );
-            // let (res, size) = process_setup_packet(&setup_data);
-            let mut tmp = process_setup_packet_new(&setup_data[0..8]);
+            // let (res, size) = process_setup_packet(&SETUP_DATA);
+            let mut tmp = process_setup_packet_new(&SETUP_DATA[0..8]);
             if tmp.has_data_stage {
                 match tmp.data_stage_direction {
                     Direction::In => {
                         write0(&tmp.data[0..tmp.len]).await;
-                        read0(&mut buf[0..0]).await; // status stage no data
+                        read0(&mut tmp.data[0..64]).await; // status stage no data
                         continue;
                     }
                     Direction::Out => {
-                        read0(&mut tmp.data[0..tmp.len]).await;
+                        read0(&mut tmp.data[0..64]).await;
                         write0(&[0u8; 0]).await; // status stage no data
                     }
                 }
@@ -526,7 +528,8 @@ pub async fn setup_process() {
                 // status stage no data
                 match tmp.setup.direction {
                     Direction::In => {
-                        read0(&mut buf[0..0]).await; // status stage no data
+                        // read0(&mut buf[0..0]).await; // status stage no data
+                        read0(&mut tmp.data[0..64]).await; // status stage no data
                     }
                     Direction::Out => {
                         write0(&[0u8; 0]).await; // status stage no data
@@ -568,7 +571,7 @@ pub async fn setup_process() {
             // if res {
             //     // send data
             //     unsafe {
-            //         write0(&setup_return_data[0..size]).await;
+            //         write0(&SETUP_RETURN_DATA[0..size]).await;
             //     }
             //     read0(&mut buf[0..0]).await; // status stage no data
             // } else {
@@ -580,8 +583,6 @@ pub async fn setup_process() {
 
 pub unsafe fn on_interrupt() {
     let r = regs();
-    // r.gahbcfg().modify(|w| w.set_dmaen(val));
-    // r.gintmsk().write(|_w| {});
     defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
     let ints = r.gintsts().read();
     if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
@@ -629,20 +630,20 @@ pub unsafe fn on_interrupt() {
 
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
-                // get setup_data
+                // get SETUP_DATA
                 let data: u32= r.fifo(0).read().0;
                 let data2: u32 = r.fifo(0).read().0;
                 for i in 0..4 {
-                    setup_data[i] = (data >> (i * 8)) as u8;
-                    setup_data[i + 4] = (data2 >> (i * 8)) as u8;
+                    SETUP_DATA[i] = (data >> (i * 8)) as u8;
+                    SETUP_DATA[i + 4] = (data2 >> (i * 8)) as u8;
                 }
-                trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, setup_data[0..8]);
+                trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, SETUP_DATA[0..8]);
                 state.ep_out_wakers[ep_num].wake();
                 state.ep0_setup_ready.store(true, Ordering::Release);
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
                 // received OUT data
-                state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
+                // state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
                 state.ep_out_wakers[ep_num].wake();
                 let len_words = (len + 3) / 4;
                 let mut data = [0u8; 64];
@@ -722,7 +723,7 @@ pub unsafe fn on_interrupt() {
 
                 defmt::info!("------------------------------------------");
                 defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
-                defmt::info!("setup data: {:x}", setup_data);
+                defmt::info!("setup data: {:x}", SETUP_DATA);
                 defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
                 defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
                 let ep_ints = r.doepint(ep_num).read();
@@ -757,10 +758,7 @@ pub unsafe fn on_interrupt() {
 #[cfg(stm32u5a5)]
 #[interrupt]
 fn OTG_HS() {
-    // GREEN.toggle();
-    // defmt::info!("OTG_HS interrupt");
     unsafe {
         on_interrupt();
-        // clock::delay_us(200);
     }
 }

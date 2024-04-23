@@ -42,6 +42,7 @@ pub trait ComInterface<'a> {
     // Result<Self::Response, Self::Error>;
     async fn send_async(&mut self, message: Self::Message) -> Result<(), Self::Error>;
 
+
     /// Receive a message from the interface until a message is received or an error occurs
     // async fn receive_async(&mut self) -> Result<Self::Message, Self::Error>;
     // supress warning

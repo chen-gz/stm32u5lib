@@ -89,43 +89,43 @@
                                             let tmp = configuration_descriptor.as_bytes();
                                             unsafe {
                                                 for i in 0..9 {
-                                                    setup_return_data[i] = tmp[i];
+                                                    SETUP_RETURN_DATA[i] = tmp[i];
                                                 }
                                                 let tmp = ida_descriptor.as_bytes();
                                                 for i in 0..8 {
-                                                    setup_return_data[i + 9] = tmp[i];
+                                                    SETUP_RETURN_DATA[i + 9] = tmp[i];
                                                 }
                                                 let tmp = interface_descriptor.as_bytes();
                                                 for i in 0..9 {
-                                                    setup_return_data[i + 17] = tmp[i];
+                                                    SETUP_RETURN_DATA[i + 17] = tmp[i];
                                                 }
                                                 for i in 0..5 {
-                                                    setup_return_data[i + 26] = header_functional_descriptor[i];
+                                                    SETUP_RETURN_DATA[i + 26] = header_functional_descriptor[i];
                                                 }
                                                 for i in 0..5 {
-                                                    setup_return_data[i + 31] = cdc_call_management_functional_descriptor[i];
+                                                    SETUP_RETURN_DATA[i + 31] = cdc_call_management_functional_descriptor[i];
                                                 }
                                                 for i in 0..4 {
-                                                    setup_return_data[i + 36] = cdc_acm_functional_descriptor[i];
+                                                    SETUP_RETURN_DATA[i + 36] = cdc_acm_functional_descriptor[i];
                                                 }
                                                 for i in 0..5 {
-                                                    setup_return_data[i + 40] = cdc_union_functional_descriptor[i];
+                                                    SETUP_RETURN_DATA[i + 40] = cdc_union_functional_descriptor[i];
                                                 }
                                                 let tmp = endpoint_descriptor.as_bytes();
                                                 for i in 0..7 {
-                                                    setup_return_data[i + 45] = tmp[i];
+                                                    SETUP_RETURN_DATA[i + 45] = tmp[i];
                                                 }
                                                 let tmp = data_interface_descriptor.as_bytes();
                                                 for i in 0..9 {
-                                                    setup_return_data[i + 52] = tmp[i];
+                                                    SETUP_RETURN_DATA[i + 52] = tmp[i];
                                                 }
                                                 let tmp = data_in_endpoint_descriptor.as_bytes();
                                                 for i in 0..7 {
-                                                    setup_return_data[i + 61] = tmp[i];
+                                                    SETUP_RETURN_DATA[i + 61] = tmp[i];
                                                 }
 
                                                 let tmp = data_out_endpoint_descriptor.as_bytes();
                                                 for i in 0..7 {
-                                                    setup_return_data[i + 68] = tmp[i];
+                                                    SETUP_RETURN_DATA[i + 68] = tmp[i];
                                                 }
                                             }

@@ -420,10 +420,10 @@ impl StringDescriptor {
             b_descriptor_type: 3,
             w_data: [0; 32],
         };
-        let mut index = 0;
+        let mut _index = 0;
         for (i, c) in str.chars().enumerate() {
             descriptor.w_data[i] = c as u16;
-            index += 1;
+            _index += 1;
         }
         descriptor.as_bytes()
     }
@@ -433,10 +433,10 @@ impl StringDescriptor {
             b_descriptor_type: 3,
             w_data: [0; 32],
         };
-        let mut index = 0;
+        let mut _index = 0;
         for (i, c) in str.chars().enumerate() {
             descriptor.w_data[i] = c as u16;
-            index += 1;
+            _index += 1;
         }
         descriptor.as_bytes()
     }
@@ -550,7 +550,7 @@ const CDC_ACM_DATA_ENDPOINT_DESCRIPTOR_OUT: EndpointDescriptor = EndpointDescrip
 const CDC_CONFIG_DESC_LEN: usize = 9 + 8 + 9 + 5 + 5 + 4 + 5 + 7 + 9 + 7 + 7;
 
 // 75 this can be finish in one packet
-pub fn CDC_CONIG_DESC_FULL() -> [u8; CDC_CONFIG_DESC_LEN] {
+pub fn cdc_conig_desc_full() -> [u8; CDC_CONFIG_DESC_LEN] {
     // return the full configuration descriptor
     let mut buf = [0u8; CDC_CONFIG_DESC_LEN];
     let mut index = 0;
