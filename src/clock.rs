@@ -237,18 +237,18 @@ pub fn set_usart_clock() {
 
 pub fn set_i2c_clock(i2c_num: u8) {
     // set i2c1 clock source to hsi
-    if (i2c_num == 1) {
+    if i2c_num == 1 {
         RCC.ccipr1().modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::I2csel::HSI));
         // enable i2c1 clock
         RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
     }
-    else if (i2c_num == 2) {
+    else if i2c_num == 2 {
         RCC.ccipr1().modify(|v| v.set_i2c2sel(stm32_metapac::rcc::vals::I2csel::HSI));
         // enable i2c2 clock
         RCC.apb1enr1().modify(|v| v.set_i2c2en(true));
         RCC.apb1smenr1().modify(|v| v.set_i2c2smen(true));
     }
-    else if (i2c_num == 3) {
+    else if i2c_num == 3 {
         RCC.ccipr3().modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::I2c3sel::HSI));
         // enable i2c3 clock
         RCC.apb3enr().modify(|v| v.set_i2c3en(true));

@@ -269,7 +269,7 @@ fn init_setaddress(address: u8) {
 
 // let res = process_setup_packet(SETUP_DATA);
 
-use usb_device::{self};
+
 use crate::usb_otg_hs::descriptor::*;
 use crate::usb_otg_hs::endpoint_new::{Endpoint, EpType, MaxPacketSize};
 use crate::usb_otg_hs::global_states::{regs, restore_irqs, state, State};
