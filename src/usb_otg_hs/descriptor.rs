@@ -52,6 +52,7 @@ pub enum Request {
     // SetLineCoding(u8, u32, u8, u8, u8),// (length, baudrate, stopbits, parity, databits)
     SetLineCoding(u8),  // , u32, u8, u8, u8),// (length, baudrate, stopbits, parity, databits)
     SetControlLineState(u8),
+    ClearFeature(u16),
 }
 
 const REQUEST_GET_DESCRIPTOR: u8 = 0x06;
@@ -67,6 +68,12 @@ impl Request {
                                 match setup.request {
                                     0x05 => Request::SetAddress(setup.value as u8),
                                     0x09 => Request::SetConfiguration(setup.value as u8),
+                                    _ => defmt::panic!("Unknown request"),
+                                }
+                            }
+                            Recipient::Endpoint => {
+                                match setup.request {
+                                    0x01 => Request::ClearFeature(setup.value),
                                     _ => defmt::panic!("Unknown request"),
                                 }
                             }
@@ -128,7 +135,7 @@ impl Request {
 }
 
 impl SetupPacket {
-    pub fn from_bytes(data: &[u8; 8]) -> SetupPacket {
+    pub fn from_bytes(data: &[u8]) -> SetupPacket {
         let direction = if data[0] & 0x80 == 0x80 {
             Direction::In
         } else {
@@ -445,11 +452,12 @@ pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescript
     b_descriptor_type: 1,
     bcd_usb: 0x0110,             // modify to match the USB version
     b_device_class: 0x02,        // CDC class
-    b_device_sub_class: 0x00,
-    b_device_protocol: 0x00,
+    b_device_sub_class: 0x02,
+    b_device_protocol: 0x01,
     b_max_packet_size0: 64,
-    id_vendor: 0x1234,           // STMicroelectronics
-    id_product: 0x5678,          // Virtual COM Port
+    id_vendor: 0x0483,           // STMicroelectronics
+    id_product: 0x5740,
+    // Virtual COM Port
     bcd_device: 0x0100,          // device release number
     i_manufacturer: 0x01,
     i_product: 0x02,
@@ -461,8 +469,8 @@ pub const USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR: DeviceQualifierDescriptor = Devic
     b_descriptor_type: 6,
     bcd_usb: 0x0110,             // modify to match the USB version
     b_device_class: 0x02,        // CDC class
-    b_device_sub_class: 0x00,
-    b_device_protocol: 0x00,
+    b_device_sub_class: 0x02,
+    b_device_protocol: 0x01,
     b_max_packet_size0: 64,
     b_num_configurations: 0x01,
     b_reserved: 0x00,
@@ -500,7 +508,7 @@ const CDC_ACM_INTERFACE_DESCRIPTOR: InterfaceDescriptor = InterfaceDescriptor {
 };
 const CDC_ACM_HEADER_FUNCTIONAL_DESCRIPTOR: [u8; 5] = [0x05, 0x24, 0x00, 0x10, 0x01];
 const CDC_ACM_CALL_MANAGEMENT_FUNCTIONAL_DESCRIPTOR: [u8; 5] = [0x05, 0x24, 0x01, 0x03, 0x01];
-const CDC_ACM_FUNCTIONAL_DESCRIPTOR: [u8; 4] = [0x04, 0x24, 0x02, 0x00];
+const CDC_ACM_FUNCTIONAL_DESCRIPTOR: [u8; 4] = [0x04, 0x24, 0x02, 0x02];
 // chcek the last byte
 const CDC_ACM_UNION_FUNCTIONAL_DESCRIPTOR: [u8; 5] = [0x05, 0x24, 0x06, 0x00, 0x01];
 

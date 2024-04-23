@@ -4,12 +4,9 @@ use core::task::Poll;
 use cortex_m::peripheral::NVIC;
 use defmt::export::{panic, write};
 use defmt::{info, trace};
-use stm32_metapac::{
-    otg::{self, regs::Doepctl},
-    PWR, RCC, SYSCFG,
-};
+use stm32_metapac::{interrupt, otg::{self, regs::Doepctl}, PWR, RCC, SYSCFG};
 
-use crate::usb_otg_hs::{regs, restore_irqs, state, RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
+use crate::usb_otg_hs::{regs, restore_irqs, state, RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS, EP_OUT_BUFFER_EMPTY, State};
 
 pub fn power_up_init() {
     trace!("init");
@@ -198,6 +195,8 @@ pub fn init_reset() {
     });
     // 3. set up data fifo ram for each of the fifo
     init_fifo();
+    // r.doepctl(0).modify(|w| w.set_cnak(true));
+
     // 4 and 5 in RM0456 Rev 5, p3423
     // goto setup processing stage
     // r.doepdma(0)
@@ -205,12 +204,12 @@ pub fn init_reset() {
     // r.doeptsiz(0).write(|w| {
     //     w.set_stupcnt(3);
     //     w.set_pktcnt(1);
-    //     w.set_xfrsiz(8);
+    //     // w.set_xfrsiz(8);
     // });
-    crate::usb_otg_hs::endpoint_new::init_endpoint();
+    // crate::usb_otg_hs::endpoint_new::init_endpoint();
 }
 
-pub static mut setup_data: [u8; 8] = [0; 8];
+pub static mut setup_data: [u8; 64] = [0; 64];
 pub static mut setup_return_data: [u8; 256] = [0; 256];
 
 /// Initializes FIFOs based on the fifo_const.
@@ -260,7 +259,7 @@ pub fn init_enumeration_done() {
     trace!("doepdma0: {:x}", regs().doepdma(0).read().0);
     trace!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
     trace!("irq mask 0: {:x}", regs().gintmsk().read().0);
-    restore_irqs();
+    // restore_irqs();
     // 3. for usb otg_hs in dma mode,  program the otg_doepctl0 register to enable control OUT endpoint 0, to receive a setup packet.
     // regs().doepctl(0).modify(|w| {
     //     w.set_cnak(true);
@@ -291,7 +290,7 @@ pub struct SetupResponse {
     len: usize,
 }
 
-pub fn process_setup_packet_new(buf: &[u8; 8]) -> SetupResponse {
+pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
     defmt::info!("process_setup_packet, {:x}", buf);
     let setup = SetupPacket::from_bytes(buf);
     let mut response = SetupResponse {
@@ -300,7 +299,7 @@ pub fn process_setup_packet_new(buf: &[u8; 8]) -> SetupResponse {
         data_stage_direction: setup.direction,
         has_data_stage: setup.length != 0,
         data: [0; 256],
-        len: setup.length as usize
+        len: setup.length as usize,
     };
     if setup.direction == Direction::In {
         match response.request {
@@ -371,44 +370,59 @@ pub struct EndpointGG;
 async fn read0(buf: &mut [u8]) {
     trace!("read start len={}", buf.len());
     let r = regs();
-
-    r.doepdma(0)
-        .write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
+    r.doepdma(0) .write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
     info!("doepdma0: {:x}", r.doepdma(0).read().0);
 
+    defmt::info!("*************************************");
+    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+    if regs().doepctl(0).read().epena() {
+        defmt::error!("epena is set -- this should not happen");
+        // clear epena
+        r.doepctl(0).modify(|w| {
+            w.set_epena(false);
+        });
+        // return;
+    }
+    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
     r.doeptsiz(0).modify(|w| {
         w.set_xfrsiz(buf.len() as _);
-        w.set_pktcnt(1);
-        if buf.len() == 0 {
-            w.set_stupcnt(3);
-        } else {
+        if buf.len() == 8 {
             w.set_stupcnt(1);
+            w.set_pktcnt(3);
+        } else {
+            w.set_pktcnt(1);
+            w.set_stupcnt(3);
         }
-        // w.set_stupcnt(3);
     });
+    r.doepmsk().modify(|w| w.set_stsphsrxm(true)); // unmask
 
     // for dma this is required
     r.doepctl(0).modify(|w| {
         w.set_epena(true);
         w.set_cnak(true);
     });
+    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+    r.doepmsk().modify(|w| w.set_xfrcm(true)); // unmask
     // wait for transfer complete interrupt
     poll_fn(|cx| {
         state().ep_out_wakers[0].register(cx.waker());
         if r.doepint(0).read().xfrc() {
-            r.doepint(0).write(|w| w.set_xfrc(true)); // clear xfrc
-            r.doepmsk().modify(|w| w.set_xfrcm(true)); // unmask
+            r.doepint(0).write(|w| {
+                w.set_xfrc(true);
+            });
+            // clear xfrc
             trace!("read done len={}", buf.len());
             Poll::Ready(())
         } else {
             Poll::Pending
         }
-    })
-        .await;
+    }) .await;
 }
 
 async fn write0(buf: &[u8]) {
-    trace!("write start len={}", buf.len());
+    trace!("write start len={}, data={:x}", buf.len(), buf);
     let r = regs();
     r.diepdma(0)
         .write(|w| unsafe { w.set_dmaaddr(buf.as_ptr() as u32) });
@@ -435,7 +449,8 @@ async fn write0(buf: &[u8]) {
         // defmt::info!("write0 poll_fn with
         if r.diepint(0).read().xfrc() {
             r.diepint(0).write(|w| w.set_xfrc(true)); // clear xfrc
-            r.diepmsk().modify(|w| w.set_xfrcm(true)); // unmask
+            r.diepmsk().modify(|w| w.set_xfrcm(true));
+            // unmask
             trace!("write done len={}", buf.len());
             Poll::Ready(())
         } else {
@@ -453,11 +468,10 @@ pub async fn setup_process() {
     let mut buf = [0u8; 8];
     loop {
         unsafe {
-            defmt::info!("wait for setup packet transfer");
-            read0(&mut setup_data).await;
-            // wait for xfrc interrupt
-            // wait for a setup packet
+            read0(&mut setup_data[0..8]).await; // status stage no data
             defmt::info!("wait for setup packet ready");
+            defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+            defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
             poll_fn(|cx| {
                 state().ep_out_wakers[0].register(cx.waker());
                 if state().ep0_setup_ready.load(Ordering::Relaxed) {
@@ -470,12 +484,10 @@ pub async fn setup_process() {
             })
                 .await;
             // regs().doepctl(0).modify(|v| v.set_snak(true));
-            defmt::info!(
-                "setup packet ready, processing package **********{:x}",
-                setup_data
+            defmt::info!( "setup packet ready, processing package **********{:x}", setup_data
             );
             // let (res, size) = process_setup_packet(&setup_data);
-            let mut tmp = process_setup_packet_new(&setup_data);
+            let mut tmp = process_setup_packet_new(&setup_data[0..8]);
             if tmp.has_data_stage {
                 match tmp.data_stage_direction {
                     Direction::In => {
@@ -484,12 +496,20 @@ pub async fn setup_process() {
                         continue;
                     }
                     Direction::Out => {
-                            read0(&mut tmp.data[0..tmp.len]).await;
+                        read0(&mut tmp.data[0..tmp.len]).await;
                         write0(&[0u8; 0]).await; // status stage no data
                     }
                 }
             } else {
-                    write0(&[0u8; 0]).await; // status stage no data
+                // status stage no data
+                match tmp.setup.direction {
+                    Direction::In => {
+                        read0(&mut buf[0..0]).await; // status stage no data
+                    }
+                    Direction::Out => {
+                        write0(&[0u8; 0]).await; // status stage no data
+                    }
+                }
             }
             // end of data stage
 
@@ -512,6 +532,11 @@ pub async fn setup_process() {
                     // do nothing here
                     defmt::info!("SetControlLineState");
                 }
+                Request::ClearFeature(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("ClearFeature");
+                }
                 _ => {
                     defmt::error!("Unknown request");
                 }
@@ -528,5 +553,193 @@ pub async fn setup_process() {
             //     write0(&[0u8; 0]).await; // status stage no data
             // }
         }
+    }
+}
+
+pub unsafe fn on_interrupt() {
+    let r = regs();
+    // r.gahbcfg().modify(|w| w.set_dmaen(val));
+    // r.gintmsk().write(|_w| {});
+    defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
+    let ints = r.gintsts().read();
+    if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
+    {
+        if ints.wkupint() {
+            info!("wkupint");
+            r.gintsts().write(|w| w.set_wkupint(true)); // clear
+        }
+        else if  ints.usbsusp() {
+            info!("usbsusp");
+            r.gintsts().write(|w| w.set_usbsusp(true)); // clear
+        }
+        else if ints.enumdne() {
+            info!("enumdne");
+            init_enumeration_done();
+
+            r.gintsts().write(|w| w.set_enumdne(true)); // clear
+        }
+        else if ints.otgint() {
+            info!("otgint");
+            let otgints = r.gotgint().read();
+            r.gotgint().write_value(otgints); // clear all
+        }
+        else if ints.srqint() {
+            info!("srqint");
+            r.gintsts().write(|w| w.set_srqint(true)); // clear
+        }
+        else if ints.usbrst() {
+            info!("usbrst");
+            init_reset();
+            r.gintsts().write(|w| w.set_usbrst(true)); // clear
+        }
+    }
+    // let state = &STATE;
+    let state: &mut State<6> = state();
+
+    // Handle RX
+    while r.gintsts().read().rxflvl() {
+        // RX FIFO non-empty
+        let status = r.grxstsp().read();
+        // status read and popo pop register
+        let ep_num = status.epnum() as usize;
+        let len = status.bcnt() as usize;
+        info!("rxflvl with ep_num: {}, len: {}", ep_num, len);
+
+        match status.pktstsd() {
+            stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
+                // get setup_data
+                let data: u32= r.fifo(0).read().0;
+                let data2: u32 = r.fifo(0).read().0;
+                for i in 0..4 {
+                    setup_data[i] = (data >> (i * 8)) as u8;
+                    setup_data[i + 4] = (data2 >> (i * 8)) as u8;
+                }
+                trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, setup_data[0..8]);
+                state.ep_out_wakers[ep_num].wake();
+                state.ep0_setup_ready.store(true, Ordering::Release);
+            }
+            stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
+                // received OUT data
+                state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
+                state.ep_out_wakers[ep_num].wake();
+                let len_words = (len + 3) / 4;
+                let mut data = [0u8; 64];
+                let mut index = 0;
+                for _ in 0..len_words {
+                    let tmp = r.fifo(0).read().data();
+                    for i in 0..4 {
+                        data[index] = (tmp >> (i * 8)) as u8;
+                        index += 1;
+                    }
+                }
+                trace!("OUT_DATA_RX ep={} len={}, data={:x}", ep_num, len, data[0..len]);
+            }
+            stm32_metapac::otg::vals::Pktstsd::OUT_DATA_DONE => {
+                trace!("OUT_DATA_DONE ep={}", ep_num);
+                r.doepctl(0).modify(|w| w.set_cnak(true));
+            }
+            stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_DONE => {
+                trace!("SETUP_DATA_DONE ep={}", ep_num);
+                r.doepctl(0).modify(|w| w.set_cnak(true));
+            }
+            x => {
+                trace!("unknown PKTSTS: {}", x.to_bits());
+            }
+        }
+    }
+
+    // IN endpoint interrupt
+    if ints.iepint() {
+        info!("iepint");
+        let mut ep_mask = r.daint().read().iepint();
+        let mut ep_num = 0;
+
+        // Iterate over endpoints while there are non-zero bits in the mask
+        while ep_mask != 0 {
+            if ep_mask & 1 != 0 {
+                // get the interrupt mask
+                info!(
+                    "device in endpoint interrupt mask: {:08x}",
+                    r.diepmsk().read().0
+                );
+
+                // mask
+                r.diepmsk().modify(|w| w.set_xfrcm(false));
+                // r.diepmsk().modify(|w| w.set_tom(false));
+                let ep_ints = r.diepint(ep_num).read();
+                r.diepint(ep_num).write(|w| w.set_toc(true));
+
+                // clear all
+                // r.diepint(ep_num).write_value(ep_ints);
+
+                // TXFE is cleared in DIEPEMPMSK
+                // if ep_ints.txfe() {
+                //     critical_section::with(|_| {
+                //         r.diepempmsk().modify(|w| {
+                //             w.set_ineptxfem(w.ineptxfem() & !(1 << ep_num));
+                //         });
+                //     });
+                // }
+                state.ep_in_wakers[ep_num].wake();
+                trace!("in ep={} irq val={:08x}", ep_num, ep_ints.0);
+            }
+
+            ep_mask >>= 1;
+            ep_num += 1;
+        }
+    }
+
+
+    // OUT endpoint interrupt
+    if ints.oepint() {
+        let mut ep_mask = r.daint().read().oepint();
+        let mut ep_num = 0;
+        while ep_mask != 0 {
+            if ep_mask & 1 != 0 {
+                // show setup package
+
+                defmt::info!("------------------------------------------");
+                defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
+                defmt::info!("setup data: {:x}", setup_data);
+                defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+                defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+                let ep_ints = r.doepint(ep_num).read();
+                if ep_ints.stup() {
+                    state.ep_out_wakers[ep_num].wake();
+                    state.ep0_setup_ready.store(true, Ordering::Release);
+                    r.doepint(ep_num).write(|w| w.set_stup(true));
+                    defmt::info!("setup package");
+                }
+                else if ep_ints.stsphsrx() {
+                    // let status = r.grxstsp().read();
+                    r.doepint(ep_num).write(|w| w.set_stsphsrx(true));
+                    defmt::info!("clear stsphsrx+++++++++++++++++++++++++++++++++++++++");
+                }
+                // donothing if is setup and xfrc
+                // clear all
+                // r.doepint(ep_num).write_value(ep_ints);
+
+                if ep_ints.xfrc() {
+                    r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
+                    state.ep_out_wakers[ep_num].wake();
+                    // pop ?
+
+                }
+            }
+            ep_mask >>= 1;
+            ep_num += 1;
+        }
+    }
+}
+
+
+#[cfg(stm32u5a5)]
+#[interrupt]
+fn OTG_HS() {
+    // GREEN.toggle();
+    // defmt::info!("OTG_HS interrupt");
+    unsafe {
+        on_interrupt();
+        // clock::delay_us(200);
     }
 }
