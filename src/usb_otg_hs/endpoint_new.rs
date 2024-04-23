@@ -233,6 +233,7 @@ impl Endpoint{
                     w.set_stall(false);
                     w.set_txfnum(index as _);
                     w.set_snak(true);
+                    w.set_epena(true);
                 });
             }
             Direction::Out => {
@@ -242,6 +243,7 @@ impl Endpoint{
                     v.set_eptyp(self.ep_type.to_stm32());
                     v.set_stall(false);
                     v.set_snak(true);
+                    v.set_epena(true);
                 });
             }
         }
@@ -254,8 +256,8 @@ pub fn init_endpoint() {
     defmt::info!("init_endpoints");
     // this is for cdc for now
     let ep1 = Endpoint::new(Direction::In, 1, EpType::Interrupt, MaxPacketSize::Size64, 10).unwrap();
-    let ep2_in = Endpoint::new(Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size256, 0).unwrap();
-    let ep2_out = Endpoint::new(Direction::In, 2, EpType::Bulk, MaxPacketSize::Size256, 0).unwrap();
+    let ep2_in = Endpoint::new(Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+    let ep2_out = Endpoint::new(Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
 
     // configure the endpoint
     ep1.init();

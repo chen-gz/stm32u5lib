@@ -206,7 +206,7 @@ pub fn init_reset() {
     //     w.set_pktcnt(1);
     //     // w.set_xfrsiz(8);
     // });
-    // crate::usb_otg_hs::endpoint_new::init_endpoint();
+    crate::usb_otg_hs::endpoint_new::init_endpoint();
 }
 
 pub static mut setup_data: [u8; 64] = [0; 64];
