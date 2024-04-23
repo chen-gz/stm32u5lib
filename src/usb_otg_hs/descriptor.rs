@@ -406,10 +406,10 @@ impl StringDescriptor {
             b_descriptor_type: 3,
             w_data: [0; 32],
         };
-        let mut index = 0;
+        let mut _index = 0;
         for (i, c) in str.chars().enumerate() {
             descriptor.w_data[i] = c as u16;
-            index += 1;
+            _index += 1;
         }
         descriptor.as_bytes()
     }

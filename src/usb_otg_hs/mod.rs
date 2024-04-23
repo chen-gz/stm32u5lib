@@ -24,5 +24,4 @@ mod descriptor;
 mod endpoint_new;
 pub mod global_states;
 
-use defmt::{info, trace, error};
 

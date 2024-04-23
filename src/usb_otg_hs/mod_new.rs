@@ -2,9 +2,8 @@ use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
 use cortex_m::peripheral::NVIC;
-use defmt::export::{panic, write};
 use defmt::{info, trace};
-use stm32_metapac::{interrupt, otg::{self, regs::Doepctl}, PWR, RCC, SYSCFG};
+use stm32_metapac::{interrupt, otg::{self}, PWR, RCC, SYSCFG};
 
 // use crate::usb_otg_hs::{regs, restore_irqs, state, RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS, EP_OUT_BUFFER_EMPTY, State};
 
@@ -270,9 +269,7 @@ fn init_setaddress(address: u8) {
 
 // let res = process_setup_packet(SETUP_DATA);
 
-use usb_device::{self, device};
-use usb_device::control::{Recipient, RequestType};
-use usb_device::UsbDirection;
+use usb_device::{self};
 use crate::usb_otg_hs::descriptor::*;
 use crate::usb_otg_hs::endpoint_new::{Endpoint, EpType, MaxPacketSize};
 use crate::usb_otg_hs::global_states::{regs, restore_irqs, state, State};

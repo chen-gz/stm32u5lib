@@ -80,7 +80,7 @@ impl Endpoint{
         let r = regs();
 
         trace!("index: {:?}, doepdma: {:x}", index, r.doepdma(index).read().0);
-        r.doepdma(index).write(|w| unsafe { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
+        r.doepdma(index).write(|w| { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
 
         let pktcnt: u16;
         if buf.len() == 0 {

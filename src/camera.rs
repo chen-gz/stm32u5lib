@@ -175,7 +175,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
 
 pub async fn capture(
     _pdwn: &gpio::GpioPort,
-    cam_i2c: &mut i2c::I2c,
+    _cam_i2c: &mut i2c::I2c,
     dcmi: &dcmi::DcmiPort,
     pic_buf: &mut [u8],
     // sd: &SdInstance,
