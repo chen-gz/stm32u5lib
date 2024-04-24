@@ -1,9 +1,11 @@
 use core::sync::atomic::Ordering;
+use crate::clock::set_cpu_freq_new;
 use crate::usb_otg_hs::mod_new::SETUP_DATA;
 use defmt::{info, trace};
 use stm32_metapac::interrupt;
 use crate::usb_otg_hs::global_states::{regs, State, state};
 use crate::usb_otg_hs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
+
 pub fn wakeup_all() {
     let state = state();
     for waker in state.ep_in_wakers.iter() {
@@ -14,6 +16,8 @@ pub fn wakeup_all() {
     }
     state.bus_waker.wake();
 }
+
+pub static mut RESET: bool = false;
 
 pub unsafe fn on_interrupt() {
     let r = regs();
@@ -46,7 +50,10 @@ pub unsafe fn on_interrupt() {
         }
         else if ints.usbrst() {
             info!("usbrst");
+            unsafe {RESET = true};
             init_reset();
+            // restart the control pipe task
+            wakeup_all();
             r.gintsts().write(|w| w.set_usbrst(true)); // clear
             // mask this and
         }
@@ -67,7 +74,7 @@ pub unsafe fn on_interrupt() {
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
                 // get SETUP_DATA
-                let data: u32= r.fifo(0).read().0;
+                let data: u32 = r.fifo(0).read().0;
                 let data2: u32 = r.fifo(0).read().0;
                 for i in 0..4 {
                     SETUP_DATA[i] = (data >> (i * 8)) as u8;
@@ -168,8 +175,7 @@ pub unsafe fn on_interrupt() {
                     state.ep0_setup_ready.store(true, Ordering::Release);
                     r.doepint(ep_num).write(|w| w.set_stup(true));
                     defmt::info!("setup package");
-                }
-                else if ep_ints.stsphsrx() {
+                } else if ep_ints.stsphsrx() {
                     // let status = r.grxstsp().read();
                     r.doepint(ep_num).write(|w| w.set_stsphsrx(true));
                     defmt::info!("clear stsphsrx+++++++++++++++++++++++++++++++++++++++");

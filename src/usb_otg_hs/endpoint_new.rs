@@ -124,6 +124,9 @@ impl Endpoint {
             if r.dsts().read().suspsts() {
                 return Poll::Ready(PhyState::Suspend);
             }
+            if !r.doepctl(index).read().usbaep() {
+                return Poll::Ready(PhyState::Error);
+            }
             if r.doepint(index).read().xfrc() {
                 r.doepint(index).write(|w| w.set_xfrc(true));  // clear xfrc
                 // In the interrupt handler, the `xfrc`  was masked to avoid re-entering the interrupt.
@@ -177,6 +180,10 @@ impl Endpoint {
             if r.dsts().read().suspsts() {
                 return Poll::Ready(PhyState::Suspend);
             }
+            if !r.diepctl(index).read().usbaep() {
+                return Poll::Ready(PhyState::Error);
+            }
+            // if the endpoint is not enabled, and nak been set, return error
             if r.diepint(index).read().xfrc() {
                 r.diepint(index).write(|w| w.set_xfrc(true)); // clear xfrc
                 // In the interrupt handler, the `xfrc` was masked to avoid re-entering the interrupt.

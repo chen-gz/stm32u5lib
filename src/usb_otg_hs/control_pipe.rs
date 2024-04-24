@@ -2,15 +2,19 @@ use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
 use defmt::{trace, info};
+use futures::{future};
+use future::select;
+use futures::pin_mut;
 use crate::usb_otg_hs::descriptor::{Direction, Request};
 use crate::usb_otg_hs::endpoint_new::PhyState;
 use crate::usb_otg_hs::global_states::{regs, state};
+use crate::usb_otg_hs::interrupt::{init_reset, RESET};
 use crate::usb_otg_hs::mod_new::{init_setaddress, process_setup_packet_new, SETUP_DATA};
 
-async fn read0(buf: &mut [u8])  -> Result<PhyState, PhyState> {
+async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
     trace!("read start len={}", buf.len());
     let r = regs();
-    r.doepdma(0) .write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
+    r.doepdma(0).write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
     info!("doepdma0: {:x}", r.doepdma(0).read().0);
 
     defmt::info!("*************************************");
@@ -48,11 +52,12 @@ async fn read0(buf: &mut [u8])  -> Result<PhyState, PhyState> {
     // wait for transfer complete interrupt
     match poll_fn(|cx| {
         state().ep_out_wakers[0].register(cx.waker());
-
+        if unsafe { RESET } {
+            return Poll::Ready(PhyState::Reset);
+        }
         if r.dsts().read().suspsts() {
             return Poll::Ready(PhyState::Suspend);
         }
-
         if r.doepint(0).read().xfrc() {
             r.doepint(0).write(|w| {
                 w.set_xfrc(true);
@@ -64,17 +69,17 @@ async fn read0(buf: &mut [u8])  -> Result<PhyState, PhyState> {
         } else {
             Poll::Pending
         }
-    }) .await {
+    }).await {
         PhyState::Active => {
             trace!("read len={} done", buf.len());
             Ok(PhyState::Active)
         }
         PhyState::Suspend => {
-            trace!("read len={} suspend", buf.len());
+            defmt::error!("read len={} suspend", buf.len());
             Err(PhyState::Suspend)
         }
         _ => {
-            trace!("read len={} error", buf.len());
+            defmt::error!("read len={} error", buf.len());
             Err(PhyState::Error)
         }
     }
@@ -106,7 +111,12 @@ async fn write0(buf: &[u8]) -> Result<PhyState, PhyState> {
     match poll_fn(|cx| {
         state().ep_in_wakers[0].register(cx.waker());
         if r.dsts().read().suspsts() {
+            defmt::error!("write len={} suspend", buf.len());
             return Poll::Ready(PhyState::Suspend);
+        }
+        if unsafe { RESET } {
+            defmt::error!("write len={} reset", buf.len());
+            return Poll::Ready(PhyState::Reset);
         }
         if r.diepint(0).read().xfrc() {
             r.diepint(0).write(|w| w.set_xfrc(true)); // clear xfrc
@@ -125,63 +135,79 @@ async fn write0(buf: &[u8]) -> Result<PhyState, PhyState> {
             Ok(PhyState::Active)
         }
         PhyState::Suspend => {
-            trace!("write len={} suspend", buf.len());
+            defmt::error!("write len={} suspend", buf.len());
             Err(PhyState::Suspend)
         }
         _ => {
-            trace!("write len={} error", buf.len());
+            defmt::error!("write len={} error", buf.len());
             Err(PhyState::Error)
         }
     }
     // trace!("write len={} done", buf.len());
 }
+
+pub enum BusEvent {
+    Reset,
+    Suspend,
+    Resume,
+    Disconnect,
+}
+
+pub fn wakeup_all() {
+    let state = state();
+    for waker in state.ep_in_wakers.iter() {
+        waker.wake();
+    }
+    for waker in state.ep_out_wakers.iter() {
+        waker.wake();
+    }
+    state.bus_waker.wake();
+}
+
 #[embassy_executor::task]
-pub async fn setup_process(){
-    // this only enabled after reset and power up
-    let _buf = [0u8; 8];
-    // wait for usb suspend to be cleared
-    // poll_fn(|cv| {
-    //     state().bus_waker.register(cv.waker());
-    //     if regs().dsts().read().suspsts() {
-    //         Poll::Pending
-    //     } else {
-    //         Poll::Ready(())
-    //     }
-    // }).await;
-    // poll_fn(|cx| {
-    //     state().bus_waker.register(cx.waker());
-    //     if regs().gintsts().read().usbrst() {
-    //         Poll::Ready(())
-    //     } else {
-    //         Poll::Pending
-    //     }
-    // }).await;
-
+pub async fn setup_process() {
+    // wait for suspend clear
     loop {
-        if setup_process_inner().await.is_err() {
-            defmt::error!("setup_process_inner error");
-            break;
-        }
+        poll_fn(|cx| {
+            state().bus_waker.register(cx.waker());
+            if !regs().dsts().read().suspsts() {
+                Poll::Ready(())
+            } else {
+                Poll::Pending
+            }
+        }).await;
 
+        unsafe { RESET = false };
+        defmt::info!("restart setup_process");
+        loop {
+            if setup_process_inner().await.is_err() {
+                defmt::error!("setup_process_inner error");
+                break;
+            }
+        }
     }
 }
+
 pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
     unsafe {
-        read0(&mut SETUP_DATA[0..64]).await?;
+        read0(&mut SETUP_DATA[0..8]).await?;
         defmt::info!("wait for setup packet ready");
         defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
         defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
         poll_fn(|cx| {
             state().ep_out_wakers[0].register(cx.waker());
+            if unsafe { RESET } {
+                return Poll::Ready(Err(PhyState::Reset));
+            }
             if state().ep0_setup_ready.load(Ordering::Relaxed) {
                 state().ep0_setup_ready.store(false, Ordering::Release);
                 // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
-                Poll::Ready(())
+                return Poll::Ready(Ok(PhyState::Active));
             } else {
                 Poll::Pending
             }
         })
-            .await;
+            .await?;
         // regs().doepctl(0).modify(|v| v.set_snak(true));
         defmt::info!( "setup packet ready, processing package **********{:x}", SETUP_DATA
             );
@@ -191,11 +217,11 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             match tmp.data_stage_direction {
                 Direction::In => {
                     write0(&tmp.data[0..tmp.len]).await?;
-                    read0(&mut tmp.data[0..64]).await?; // status stage no data
+                    read0(&mut tmp.data[0..0]).await?; // status stage no data
                     return Ok(PhyState::Active);
                 }
                 Direction::Out => {
-                    read0(&mut tmp.data[0..64]).await?;
+                    read0(&mut tmp.data[0..tmp.len]).await?;
                     write0(&[0u8; 0]).await? // status stage no data
                 }
             };
@@ -204,7 +230,7 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             match tmp.setup.direction {
                 Direction::In => {
                     // read0(&mut buf[0..0]).await; // status stage no data
-                    read0(&mut tmp.data[0..64]).await? // status stage no data
+                    read0(&mut tmp.data[0..0]).await? // status stage no data
                 }
                 Direction::Out => {
                     write0(&[0u8; 0]).await? // status stage no data
@@ -218,8 +244,7 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
                 init_setaddress(addr);
             }
             Request::SetConfiguration(_) => {
-                // not sure what it is
-                // do nothing here
+                // init all endpoints
                 defmt::info!("SetConfiguration");
             }
             Request::SetLineCoding(_) => {
@@ -254,5 +279,4 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
         // }
     }
     Ok(PhyState::Active)
-
 }
