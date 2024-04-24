@@ -1,6 +1,7 @@
 use core::cell::UnsafeCell;
 use core::sync::atomic::{AtomicBool, AtomicU16};
 use embassy_sync::waitqueue::AtomicWaker;
+use stm32_metapac::otg;
 
 #[cfg(stm32u5a5)]
 pub mod fifo_const {
@@ -53,7 +54,6 @@ pub fn state() -> &'static mut State<MAX_EP_COUNT> {
     unsafe { &mut STATE }
 }
 
-use stm32_metapac::otg;
 pub(crate) fn regs() -> otg::Otg {
     #[cfg(stm32u575)]
     return stm32_metapac::USB_OTG_FS;

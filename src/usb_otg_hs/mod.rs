@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 pub mod mod_new;
 // mod bus;
 // mod endpoint;
@@ -14,5 +6,7 @@ mod phy_type;
 mod descriptor;
 mod endpoint_new;
 pub mod global_states;
-
+pub mod control_pipe;
+pub mod power;
+mod interrupt;
 

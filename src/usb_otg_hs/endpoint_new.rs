@@ -44,13 +44,14 @@ impl MaxPacketSize {
         *self as u16
     }
 }
-pub struct Endpoint {
+pub struct Endpoint{
     pub direction: Direction,
     pub addr: u8,
     pub ep_type: EpType,
     pub max_packet_size: MaxPacketSize,
     pub interval: u8,
 }
+
 impl Endpoint {
     pub fn new(direction: Direction, addr: u8, ep_type: EpType, max_packet_size: MaxPacketSize, interval: u8) -> Result<Self, &'static str> {
         // Check the condition: if addr is 0, max_packet_size should be <= 64

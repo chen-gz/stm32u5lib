@@ -1,168 +1,205 @@
 use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
+use defmt::{trace, info};
+use crate::usb_otg_hs::descriptor::{Direction, Request};
+use crate::usb_otg_hs::global_states::{regs, state};
+use crate::usb_otg_hs::mod_new::{init_setaddress, process_setup_packet_new, SETUP_DATA};
 
-use embassy_usb_driver::{EndpointError, EndpointIn, EndpointOut};
+async fn read0(buf: &mut [u8]) {
+    trace!("read start len={}", buf.len());
+    let r = regs();
+    r.doepdma(0) .write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
+    info!("doepdma0: {:x}", r.doepdma(0).read().0);
 
-// use crate::usb_otg_hs::{quirk_setup_late_cnak, regs, state};
-// use crate::usb_otg_hs::endpoint::Endpoint;
-use defmt::{trace};
-// macro_rules! info {
-//     ($($arg:tt)*) => {};
-// }
-// macro_rules! debug {
-//     ($($arg:tt)*) => {};
-// }
-// macro_rules! trace {
-//     ($($arg:tt)*) => {};
-// }
-// macro_rules! error {
-//     ($($arg:tt)*) => {};
-// }
+    defmt::info!("*************************************");
+    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+    if regs().doepctl(0).read().epena() {
+        defmt::error!("epena is set -- this should not happen");
+        // clear epena
+        r.doepctl(0).modify(|w| {
+            w.set_epena(false);
+        });
+        // return;
+    }
+    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    r.doeptsiz(0).modify(|w| {
+        w.set_xfrsiz(buf.len() as _);
+        if buf.len() == 8 {
+            w.set_stupcnt(1);
+            w.set_pktcnt(1);
+        } else {
+            w.set_pktcnt(1);
+            w.set_stupcnt(1);
+        }
+    });
+    r.doepmsk().modify(|w| w.set_stsphsrxm(true)); // unmask
 
-//
-// /// USB control pipe.
-// pub struct ControlPipe {
-//     // _phantom: PhantomData<&'d mut T>,
-//     pub(crate) max_packet_size: u16,
-//     pub(crate) ep_in: Endpoint,
-//     pub(crate) ep_out: Endpoint,
-// }
-//
-// impl embassy_usb_driver::ControlPipe for ControlPipe {
-//     /// Maximum packet size for the control pipe
-//     fn max_packet_size(&self) -> usize {
-//         usize::from(self.max_packet_size)
-//     }
-//
-//     async fn setup(&mut self) -> [u8; 8] {
-//         trace!("control: setup start");
-//         poll_fn(|cx| {
-//             // let state = T::state();
-//             let state = state();
-//
-//             state.ep_out_wakers[0].register(cx.waker());
-//
-//             // let r = T::regs();
-//             let r = regs();
-//
-//             if state.ep0_setup_ready.load(Ordering::Relaxed) {
-//                 // let data = unsafe { *state.ep0_setup_data.get() };
-//                 // let data = unsafe {STATE.ep0_setup_data.co
-//                 // let data = unsafe { state.ep0_setup_data.as_ptr().read() };
-//                 // copy data from the buffer (state.ep0_setup_data) to a new array
-//                 let mut data = [0; 8];
-//                 data.copy_from_slice(&state.ep0_setup_data);
-//                 state.ep0_setup_ready.store(false, Ordering::Release);
-//
-//                 /// setup_dma
-//                 // let addr = state.ep0_setup_data.as_ptr() as u32;
-//                 // r.doepdma(0).write(|w| unsafe { w.set_dmaaddr(addr) });
-//                 // EP0 should not be controlled by `Bus` so this RMW does not need a critical section
-//                 // Receive 1 SETUP packet
-//                 r.doeptsiz(self.ep_out.info.addr.index()).modify(|w| {
-//                     // w.set_rxdpid_stupcnt(1);
-//                     w.set_stupcnt(1);
-//                     w.set_xfrsiz(8);
-//                 });
-//                 r.doepctl(0).modify(|v| {
-//                     v.set_cnak(true);
-//                     v.set_epena(true);
-//                 });
-//
-//                 // // Clear NAK to indicate we are ready to receive more data
-//                 // if !quirk_setup_late_cnak(r) {
-//                 //     r.doepctl(self.ep_out.info.addr.index())
-//                 //         .modify(|w| w.set_cnak(true));
-//                 // }
-//
-//                 trace!("SETUP received: {:?}", data);
-//                 Poll::Ready(data)
-//             } else {
-//                 r.doeptsiz(self.ep_out.info.addr.index()).modify(|w| {
-//                     // w.set_rxdpid_stupcnt(1);
-//                     w.set_stupcnt(1);
-//                     w.set_xfrsiz(8);
-//                 });
-//                 r.doepctl(0).modify(|v| {
-//                     v.set_cnak(true);
-//                     v.set_epena(true);
-//                 });
-//                 trace!("SETUP waiting");
-//                 Poll::Pending
-//             }
-//         }).await
-//     }
-//
-//     async fn data_out(
-//         &mut self,
-//         buf: &mut [u8],
-//         _first: bool,
-//         _last: bool,
-//     ) -> Result<usize, EndpointError> {
-//         trace!("control: data_out");
-//         let len = self.ep_out.read(buf).await?;
-//         trace!("control: data_out read: {:?}", &buf[..len]);
-//         Ok(len)
-//     }
-//
-//     async fn data_in(
-//         &mut self,
-//         data: &[u8],
-//         _first: bool,
-//         last: bool,
-//     ) -> Result<(), EndpointError> {
-//         // // trace!("control: data_in write: {:?}", data);
-//         // let tmp_dat = [0x09,0x02,0x30,0x00,0x02,0x01,0x00,0x80,0x32,0x09,0x04,0x00,0x00,0x01,0x02,0x02,0x00,0x00,0x07,0x05,0x80,0x03,0x08,0x00,0xFF,0x09,0x04,0x01,0x00,0x02,0x0A,0x00,0x00,0x00,0x07,0x05,0x01,0x02,0x40,0x00,0x00,0x07,0x05,0x82,0x02,0x40,0x00,0x00];
-//
-//         // if data[0] == 0x09 && data[1] ==0x02 {
-//         //     trace!("control: data_in write: {:?}", data);
-//         //     data = &tmp_dat;
-//         // }
-//
-//         self.ep_in.write(data).await?;
-//
-//         // wait for status response from host after sending the last packet
-//         if last {
-//             trace!("control: data_in waiting for status");
-//             self.ep_out.read(&mut []).await?;
-//             trace!("control: complete");
-//         }
-//
-//         Ok(())
-//     }
-//
-//     async fn accept(&mut self) {
-//         trace!("control: accept");
-//
-//         self.ep_in.write(&[]).await.ok();
-//
-//         trace!("control: accept OK");
-//     }
-//
-//     async fn reject(&mut self) {
-//         trace!("control: reject");
-//
-//         // EP0 should not be controlled by `Bus` so this RMW does not need a critical section
-//         // let regs = T::regs();
-//         let regs = regs();
-//         regs.diepctl(self.ep_in.info.addr.index()).modify(|w| {
-//             w.set_stall(true);
-//         });
-//         regs.doepctl(self.ep_out.info.addr.index()).modify(|w| {
-//             w.set_stall(true);
-//         });
-//     }
-//
-//     async fn accept_set_address(&mut self, addr: u8) {
-//         trace!("setting addr: {}", addr);
-//         critical_section::with(|_| {
-//             regs().dcfg().modify(|w| {
-//                 w.set_dad(addr);
-//             });
-//         });
-//
-//         // synopsys driver requires accept to be sent after changing address
-//         self.accept().await
-//     }
-// }
+    // for dma this is required
+    r.doepctl(0).modify(|w| {
+        w.set_epena(true);
+        w.set_cnak(true);
+    });
+    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+    r.doepmsk().modify(|w| w.set_xfrcm(true)); // unmask
+    // wait for transfer complete interrupt
+    poll_fn(|cx| {
+        state().ep_out_wakers[0].register(cx.waker());
+        if r.doepint(0).read().xfrc() {
+            r.doepint(0).write(|w| {
+                w.set_xfrc(true);
+            });
+            // clear xfrc
+            trace!("read done len={}", buf.len() as u32 - regs().doeptsiz(0).read().xfrsiz());
+            Poll::Ready(())
+        } else {
+            Poll::Pending
+        }
+    }) .await;
+}
+
+async fn write0(buf: &[u8]) {
+    trace!("write start len={}, data={:x}", buf.len(), buf);
+    let r = regs();
+    r.diepdma(0)
+        .write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
+
+    let pktcnt;
+    if buf.len() == 0 {
+        pktcnt = 1;
+    } else {
+        pktcnt = (buf.len() + 63) / 64;
+    }
+    r.dieptsiz(0).modify(|w| {
+        w.set_xfrsiz(buf.len() as u32);
+        // w.set_pktcnt(buf.len() + 63 / 64);
+        w.set_pktcnt(pktcnt as _);
+    });
+
+    r.diepctl(0).modify(|w| {
+        w.set_epena(true);
+        w.set_cnak(true);
+    });
+    // wait for transfer complete interrupt
+    poll_fn(|cx| {
+        state().ep_in_wakers[0].register(cx.waker());
+        // defmt::info!("write0 poll_fn with
+        if r.diepint(0).read().xfrc() {
+            r.diepint(0).write(|w| w.set_xfrc(true)); // clear xfrc
+            r.diepmsk().modify(|w| w.set_xfrcm(true));
+            // unmask
+            trace!("write done len={}", buf.len());
+            Poll::Ready(())
+        } else {
+            Poll::Pending
+        }
+    })
+        .await;
+    trace!("write len={} done", buf.len());
+}
+#[embassy_executor::task]
+pub async fn setup_process() {
+    // this only enabled after reset and power up
+    let _buf = [0u8; 8];
+    // wait for device enabled
+    // poll_fn(|cx| {
+    //     state().ep_out_wakers[0].register(cx.waker());
+    //     if regs().doepint()
+    //
+    // });
+
+
+
+
+    loop {
+        unsafe {
+            read0(&mut SETUP_DATA[0..64]).await; // status stage no data
+            defmt::info!("wait for setup packet ready");
+            defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+            defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+            poll_fn(|cx| {
+                state().ep_out_wakers[0].register(cx.waker());
+                if state().ep0_setup_ready.load(Ordering::Relaxed) {
+                    state().ep0_setup_ready.store(false, Ordering::Release);
+                    // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
+                    Poll::Ready(())
+                } else {
+                    Poll::Pending
+                }
+            })
+                .await;
+            // regs().doepctl(0).modify(|v| v.set_snak(true));
+            defmt::info!( "setup packet ready, processing package **********{:x}", SETUP_DATA
+            );
+            // let (res, size) = process_setup_packet(&SETUP_DATA);
+            let mut tmp = process_setup_packet_new(&SETUP_DATA[0..8]);
+            if tmp.has_data_stage {
+                match tmp.data_stage_direction {
+                    Direction::In => {
+                        write0(&tmp.data[0..tmp.len]).await;
+                        read0(&mut tmp.data[0..64]).await; // status stage no data
+                        continue;
+                    }
+                    Direction::Out => {
+                        read0(&mut tmp.data[0..64]).await;
+                        write0(&[0u8; 0]).await; // status stage no data
+                    }
+                }
+            } else {
+                // status stage no data
+                match tmp.setup.direction {
+                    Direction::In => {
+                        // read0(&mut buf[0..0]).await; // status stage no data
+                        read0(&mut tmp.data[0..64]).await; // status stage no data
+                    }
+                    Direction::Out => {
+                        write0(&[0u8; 0]).await; // status stage no data
+                    }
+                }
+            }
+            // end of data stage
+
+            match tmp.request {
+                Request::SetAddress(addr) => {
+                    init_setaddress(addr);
+                }
+                Request::SetConfiguration(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("SetConfiguration");
+                }
+                Request::SetLineCoding(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("SetLineCoding");
+                }
+                Request::SetControlLineState(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("SetControlLineState");
+                }
+                Request::ClearFeature(_) => {
+                    // not sure what it is
+                    // do nothing here
+                    defmt::info!("ClearFeature");
+                }
+                _ => {
+                    defmt::error!("Unknown request");
+                }
+            }
+
+            // defmt::info!("process_setup packet  res: {}", res);
+            // if res {
+            //     // send data
+            //     unsafe {
+            //         write0(&SETUP_RETURN_DATA[0..size]).await;
+            //     }
+            //     read0(&mut buf[0..0]).await; // status stage no data
+            // } else {
+            //     write0(&[0u8; 0]).await; // status stage no data
+            // }
+        }
+    }
+}

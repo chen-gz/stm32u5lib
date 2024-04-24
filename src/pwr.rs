@@ -34,7 +34,9 @@ pub async fn vddusb_monitor_up() {
                     set_clock();
                     low_power::no_deep_sleep_request();
                 }
-                crate::usb_otg_hs::mod_new::power_up_init();
+                // crate::usb_otg_hs::mod_new::power_up_init();
+                // crate::usb_otg_hs::po
+                power_up_init();
                 unsafe {
                     BUS_WAKER_PWR.wake();
                 }
@@ -55,6 +57,7 @@ static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
 use stm32_metapac::interrupt;
 use crate::usb_otg_hs::global_states::BUS_WAKER_PWR;
+use crate::usb_otg_hs::power::power_up_init;
 
 #[interrupt]
 fn PVD_PVM() {
