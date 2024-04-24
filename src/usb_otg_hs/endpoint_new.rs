@@ -5,19 +5,19 @@ use crate::usb_otg_hs::global_states::{regs, state};
 // use core::task::{Poll, poll_fn};
 
 
-
 pub enum Direction {
     In,
     Out,
 }
+
 pub enum EpType {
     Control,
     Isochronous,
     Bulk,
     Interrupt,
 }
-impl EpType {
 
+impl EpType {
     pub fn to_stm32(&self) -> Eptyp {
         match self {
             EpType::Control => Eptyp::CONTROL,
@@ -27,6 +27,7 @@ impl EpType {
         }
     }
 }
+
 #[derive(Copy, Clone)]
 pub enum MaxPacketSize {
     Size8 = 8,
@@ -44,7 +45,8 @@ impl MaxPacketSize {
         *self as u16
     }
 }
-pub struct Endpoint{
+
+pub struct Endpoint {
     pub direction: Direction,
     pub addr: u8,
     pub ep_type: EpType,
@@ -69,9 +71,17 @@ impl Endpoint {
     }
 }
 
+pub enum PhyState {
+    Active,
+    Reset,
+    Init,
+    Suspend,
+    Sleep,
+    Error,
+}
 
-impl Endpoint{
-    pub async fn read(&self, buf: &mut [u8]) {
+impl Endpoint {
+    pub async fn read(&self, buf: &mut [u8]) -> Result<PhyState, PhyState> {
         trace!("read ep={:?}, len={:?}", self.addr, buf.len());
         // for control endpoint, pktcnt always 1 (only 1 bit in register) check the buf
         if self.addr == 0 && buf.len() > self.max_packet_size as usize {
@@ -96,11 +106,6 @@ impl Endpoint{
                 w.set_stupcnt(3);
             }
         });
-
-        // clear endpoint 2 interrupt
-        // r.doepint(2).write(|w| {
-        //     w.set_xfrc(true);
-        // });
         r.daintmsk().modify(|v| {
             v.set_oepm(v.oepm() | (1 << index));
         });
@@ -114,20 +119,36 @@ impl Endpoint{
         // enable interrupt
         // r.daintmsk().modify(|w| w.set_oepint(index as _)); // r.daintmsk().write(|w| { w.set_oepm((w.oepm() | index as u16) as _); });
         // wait for transfer complete interrupt
-        poll_fn(|cx| {
+        match poll_fn(|cx| {
             state().ep_out_wakers[index].register(cx.waker());
+            if r.dsts().read().suspsts() {
+                return Poll::Ready(PhyState::Suspend);
+            }
             if r.doepint(index).read().xfrc() {
                 r.doepint(index).write(|w| w.set_xfrc(true));  // clear xfrc
                 // In the interrupt handler, the `xfrc`  was masked to avoid re-entering the interrupt.
                 r.doepmsk().modify(|w| w.set_xfrcm(true));
-                Poll::Ready(())
+                Poll::Ready(PhyState::Active)
             } else {
                 Poll::Pending
             }
-        }).await;
+        }).await {
+            PhyState::Active => {
+                trace!("read len={} done", buf.len());
+                Ok(PhyState::Active)
+            }
+            PhyState::Suspend => {
+                trace!("read len={} suspend", buf.len());
+                Err(PhyState::Suspend)
+            }
+            _ => {
+                trace!("read len={} error", buf.len());
+                Err(PhyState::Error)
+            }
+        }
     }
 
-    pub async fn write(&self, buf: &[u8]) {
+    pub async fn write(&self, buf: &[u8]) -> Result<PhyState, PhyState> {
         trace!("write ep={:?}, data={:?}", self.addr, buf);
         let r = regs();
         let index = self.addr as usize;
@@ -149,28 +170,43 @@ impl Endpoint{
             w.set_cnak(true);
             w.set_epena(true);
         });
-        
+
         // wait for transfer complete interrupt
-        poll_fn(|cx| {
+        match poll_fn(|cx| {
             state().ep_in_wakers[index].register(cx.waker());
-            // defmt::info!("write0 poll_fn with
+            if r.dsts().read().suspsts() {
+                return Poll::Ready(PhyState::Suspend);
+            }
             if r.diepint(index).read().xfrc() {
                 r.diepint(index).write(|w| w.set_xfrc(true)); // clear xfrc
                 // In the interrupt handler, the `xfrc` was masked to avoid re-entering the interrupt.
                 r.diepmsk().modify(|w| w.set_xfrcm(true));
-                Poll::Ready(())
+                // Poll::Ready(())
+                Poll::Ready(PhyState::Active)
             } else {
                 Poll::Pending
             }
         })
-            .await;
-        trace!("write len={} done", buf.len());
+            .await {
+            PhyState::Active => {
+                trace!("write len={} done", buf.len());
+                Ok(PhyState::Active)
+            }
+            PhyState::Suspend => {
+                trace!("write len={} suspend", buf.len());
+                Err(PhyState::Suspend)
+            }
+            _ => {
+                trace!("write len={} error", buf.len());
+                Err(PhyState::Error)
+            }
+        }
     }
     fn init(&self) {
         // this function can not be used for endpoint 0 for now.
         let index = self.addr as usize;
         let r = regs();
-        match self.direction{
+        match self.direction {
             Direction::In => {
                 r.diepctl(index).modify(|w| {
                     w.set_usbaep(true);
@@ -193,7 +229,6 @@ impl Endpoint{
                 });
             }
         }
-
     }
 }
 

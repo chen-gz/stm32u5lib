@@ -15,7 +15,6 @@ pub fn init_setaddress(address: u8) {
 
 // let res = process_setup_packet(SETUP_DATA);
 
-
 use crate::usb_otg_hs::descriptor::*;
 use crate::usb_otg_hs::endpoint_new::{Endpoint, EpType, MaxPacketSize};
 use crate::usb_otg_hs::global_states::{regs};
@@ -122,7 +121,7 @@ pub async fn cdc_acm_ep2_read() {
     // buf[29_999] = 0;
     // ep2_in.write(&buf).await;
     // defmt::info!("ep2 write done, data={:x}", buf);
-    ep2_out.read(&mut buf).await;
+    let _ = ep2_out.read(&mut buf).await;
     defmt::info!("ep2 read done, data={:x}", buf);
 }
 

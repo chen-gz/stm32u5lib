@@ -4,6 +4,16 @@ use defmt::{info, trace};
 use stm32_metapac::interrupt;
 use crate::usb_otg_hs::global_states::{regs, State, state};
 use crate::usb_otg_hs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
+pub fn wakeup_all() {
+    let state = state();
+    for waker in state.ep_in_wakers.iter() {
+        waker.wake();
+    }
+    for waker in state.ep_out_wakers.iter() {
+        waker.wake();
+    }
+    state.bus_waker.wake();
+}
 
 pub unsafe fn on_interrupt() {
     let r = regs();
@@ -38,6 +48,7 @@ pub unsafe fn on_interrupt() {
             info!("usbrst");
             init_reset();
             r.gintsts().write(|w| w.set_usbrst(true)); // clear
+            // mask this and
         }
     }
     // let state = &STATE;
