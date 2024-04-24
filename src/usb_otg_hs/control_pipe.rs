@@ -17,9 +17,9 @@ async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
     r.doepdma(0).write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
     info!("doepdma0: {:x}", r.doepdma(0).read().0);
 
-    defmt::info!("*************************************");
-    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
-    defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+    // defmt::info!("*************************************");
+    // defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    // defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
     if regs().doepctl(0).read().epena() {
         defmt::error!("epena is set -- this should not happen");
         // clear epena
@@ -28,7 +28,7 @@ async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
         });
         // return;
     }
-    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    // defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
     r.doeptsiz(0).modify(|w| {
         w.set_xfrsiz(buf.len() as _);
         if buf.len() == 8 {
@@ -46,13 +46,14 @@ async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
         w.set_epena(true);
         w.set_cnak(true);
     });
-    defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
-    defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+    // defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    // defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
     r.doepmsk().modify(|w| w.set_xfrcm(true)); // unmask
     // wait for transfer complete interrupt
     match poll_fn(|cx| {
         state().ep_out_wakers[0].register(cx.waker());
         if unsafe { RESET } {
+            defmt::error!("read len={} reset", buf.len());
             return Poll::Ready(PhyState::Reset);
         }
         if r.dsts().read().suspsts() {
@@ -63,7 +64,8 @@ async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
                 w.set_xfrc(true);
             });
             // clear xfrc
-            trace!("read done len={}", buf.len() as u32 - regs().doeptsiz(0).read().xfrsiz());
+            trace!("read done, buf.len()={}, xfrsiz={}", buf.len(), regs().doeptsiz(0).read().xfrsiz());
+            // trace!("read done len={}", buf.len() as u64 - regs().doeptsiz(0).read().xfrsiz() as u64);
             // Poll::Ready(())
             Poll::Ready(PhyState::Active)
         } else {
@@ -190,7 +192,7 @@ pub async fn setup_process() {
 
 pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
     unsafe {
-        read0(&mut SETUP_DATA[0..8]).await?;
+        read0(&mut SETUP_DATA[0..64]).await?;
         defmt::info!("wait for setup packet ready");
         defmt::info!("doepctl0: {:x}", regs().doepctl(0).read().0);
         defmt::info!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
@@ -221,7 +223,7 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
                     return Ok(PhyState::Active);
                 }
                 Direction::Out => {
-                    read0(&mut tmp.data[0..tmp.len]).await?;
+                    read0(&mut tmp.data[0..64]).await?;
                     write0(&[0u8; 0]).await? // status stage no data
                 }
             };

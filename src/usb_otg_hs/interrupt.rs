@@ -21,7 +21,7 @@ pub static mut RESET: bool = false;
 
 pub unsafe fn on_interrupt() {
     let r = regs();
-    defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
+    // defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
     let ints = r.gintsts().read();
     if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
     {
@@ -164,11 +164,11 @@ pub unsafe fn on_interrupt() {
             if ep_mask & 1 != 0 {
                 // show setup package
 
-                defmt::info!("------------------------------------------");
-                defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
-                defmt::info!("setup data: {:x}", SETUP_DATA);
-                defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
-                defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
+                // defmt::info!("------------------------------------------");
+                // defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
+                // defmt::info!("setup data: {:x}", SETUP_DATA);
+                // defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
+                // defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
                 let ep_ints = r.doepint(ep_num).read();
                 if ep_ints.stup() {
                     state.ep_out_wakers[ep_num].wake();
@@ -218,10 +218,10 @@ pub fn init_enumeration_done() {
     // };
     regs().diepctl(0).modify(|w| w.set_mpsiz(00));
     //
-    trace!("doepctl0: {:x}", regs().doepctl(0).read().0);
-    trace!("doepdma0: {:x}", regs().doepdma(0).read().0);
-    trace!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
-    trace!("irq mask 0: {:x}", regs().gintmsk().read().0);
+    // trace!("doepctl0: {:x}", regs().doepctl(0).read().0);
+    // trace!("doepdma0: {:x}", regs().doepdma(0).read().0);
+    // trace!("doeptsiz0: {:x}", regs().doeptsiz(0).read().0);
+    // trace!("irq mask 0: {:x}", regs().gintmsk().read().0);
     // restore_irqs();
     // 3. for usb otg_hs in dma mode,  program the otg_doepctl0 register to enable control OUT endpoint 0, to receive a setup packet.
     // regs().doepctl(0).modify(|w| {

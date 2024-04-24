@@ -450,7 +450,7 @@ impl StringDescriptor {
 pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescriptor {
     b_length: 18,
     b_descriptor_type: 1,
-    bcd_usb: 0x0110,             // modify to match the USB version
+    bcd_usb: 0x0200,             // modify to match the USB version
     b_device_class: 0x02,        // CDC class
     b_device_sub_class: 0x02,
     b_device_protocol: 0x01,
@@ -467,7 +467,7 @@ pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescript
 pub const USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR: DeviceQualifierDescriptor = DeviceQualifierDescriptor {
     b_length: 10,
     b_descriptor_type: 6,
-    bcd_usb: 0x0110,             // modify to match the USB version
+    bcd_usb: 0x0200,             // modify to match the USB version
     b_device_class: 0x02,        // CDC class
     b_device_sub_class: 0x02,
     b_device_protocol: 0x01,
