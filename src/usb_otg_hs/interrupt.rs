@@ -31,6 +31,7 @@ pub unsafe fn on_interrupt() {
         }
         else if  ints.usbsusp() {
             info!("usbsusp");
+            wakeup_all();
             r.gintsts().write(|w| w.set_usbsusp(true)); // clear
         }
         else if ints.enumdne() {

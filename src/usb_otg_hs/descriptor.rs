@@ -455,8 +455,10 @@ pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescript
     b_device_sub_class: 0x02,
     b_device_protocol: 0x01,
     b_max_packet_size0: 64,
-    id_vendor: 0x0483,           // STMicroelectronics
-    id_product: 0x5740,
+    // id_vendor: 0x0483,           // STMicroelectronics
+    // id_product: 0x5740,
+    id_vendor: 0x05e1,
+    id_product: 0x16c0,
     // Virtual COM Port
     bcd_device: 0x0100,          // device release number
     i_manufacturer: 0x01,
