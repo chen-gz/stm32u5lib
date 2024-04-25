@@ -51,12 +51,6 @@ async fn main(spawner: Spawner) {
         // defmt::info!("button clicked");
     }
     // }
-
-    // loop {
-    //     GREEN.toggle();
-    //     // ORANGE.toggle();
-    //     clock::delay_ms(300);
-    // }
 }
 
 #[panic_handler]

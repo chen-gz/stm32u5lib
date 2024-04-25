@@ -1,11 +1,5 @@
-
-
-
 pub static mut SETUP_DATA: [u8; 64] = [0; 64];
 pub static mut SETUP_RETURN_DATA: [u8; 256] = [0; 256];
-
-/// Initializes FIFOs based on the fifo_const.
-
 
 pub fn init_setaddress(address: u8) {
     // RM0456 Rev 5, p3423
@@ -107,22 +101,11 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
 pub struct EndpointGG;
 
 
-// #[embassy_executor::task]
-pub async fn cdc_acm_ep2_read() {
-    defmt::info!("cdc_acm_ep2_read start");
-    // let ep2_in = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+pub async fn cdc_acm_ep2_read() -> [u8; 64] {
     let ep2_out = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
-    // let mut buf : [u8; 16] =
-    //     let buf = "Hello, World!".as_bytes();
-    // generate a buf with 100_000  bytes
     let mut buf = [08u8; 64];
-    // // last byte is 0
-    // buf[29_998] = 0;
-    // buf[29_999] = 0;
-    // ep2_in.write(&buf).await;
-    // defmt::info!("ep2 write done, data={:x}", buf);
     let _ = ep2_out.read(&mut buf).await;
-    defmt::info!("ep2 read done, data={:x}", buf);
+    return buf;
 }
 
 
