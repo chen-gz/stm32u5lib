@@ -89,6 +89,16 @@ impl Endpoint {
         }
         let index = self.addr as usize;
         let r = regs();
+        poll_fn(|cv|{
+            state().ep_out_wakers[index].register(cv.waker());
+
+            let r = regs();
+            if !r.doepctl(index).read().usbaep()  || r.dsts().read().suspsts() {
+                return Poll::Pending;
+            } else {
+                return Poll::Ready(PhyState::Active);
+            }
+        }).await;
 
         trace!("index: {:?}, doepdma: {:x}", index, r.doepdma(index).read().0);
         r.doepdma(index).write(|w| { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
@@ -121,12 +131,14 @@ impl Endpoint {
         // wait for transfer complete interrupt
         match poll_fn(|cx| {
             state().ep_out_wakers[index].register(cx.waker());
+            defmt::info!("read ep={:?}, doepctl: {:x}", self.addr, r.doepctl(index).read().0);
             if r.dsts().read().suspsts() {
                 return Poll::Ready(PhyState::Suspend);
             }
-            if !r.doepctl(index).read().usbaep() {
-                return Poll::Ready(PhyState::Error);
-            }
+            // if !r.doepctl(index).read().epena() {
+            //     // || r.doepctl(index).read().snak(){
+            //     return Poll::Ready(PhyState::Error);
+            // }
             if r.doepint(index).read().xfrc() {
                 r.doepint(index).write(|w| w.set_xfrc(true));  // clear xfrc
                 // In the interrupt handler, the `xfrc`  was masked to avoid re-entering the interrupt.
@@ -137,15 +149,15 @@ impl Endpoint {
             }
         }).await {
             PhyState::Active => {
-                trace!("read len={} done", buf.len());
+                trace!("read ep={:?}, len={} done", self.addr, buf.len());
                 Ok(PhyState::Active)
             }
             PhyState::Suspend => {
-                trace!("read len={} suspend", buf.len());
+                trace!("read ep={:?}, len={} suspend", self.addr, buf.len());
                 Err(PhyState::Suspend)
             }
             _ => {
-                trace!("read len={} error", buf.len());
+                trace!("read ep={:?}, len={} error", self.addr, buf.len());
                 Err(PhyState::Error)
             }
         }
@@ -215,25 +227,39 @@ impl Endpoint {
         let r = regs();
         match self.direction {
             Direction::In => {
+                defmt::info!("init endpoint {:?} in, doepctl: {:x}", self.addr, r.diepctl(index).read().0);
                 r.diepctl(index).modify(|w| {
                     w.set_usbaep(true);
                     w.set_mpsiz(self.max_packet_size.to_u16());
                     w.set_eptyp(self.ep_type.to_stm32());
                     w.set_stall(false);
                     w.set_txfnum(index as _);
-                    w.set_snak(true);
+                    // w.set_snak(true);
                     // w.set_epena(true);
                 });
+                if r.diepctl(index).read().epena() {
+                    r.diepctl(index).modify(|w| {
+                        w.set_cnak(true);
+                    });
+                }
+                defmt::info!("init endpoint {:?} in, doepctl: {:x}", self.addr, r.diepctl(index).read().0);
             }
             Direction::Out => {
+                defmt::info!("init endpoint {:?} out, doepctl: {:x}", self.addr, r.doepctl(index).read().0);
                 r.doepctl(index).modify(|v| {
                     v.set_usbaep(true);
                     v.set_mpsiz(self.max_packet_size.to_u16());
                     v.set_eptyp(self.ep_type.to_stm32());
                     v.set_stall(false);
-                    v.set_snak(true);
+                    // v.set_snak(true);
                     // v.set_epena(true);
                 });
+                if r.doepctl(index).read().epena() {
+                    r.doepctl(index).modify(|w| {
+                        w.set_cnak(true);
+                    });
+                }
+                defmt::info!("init endpoint {:?} out, doepctl: {:x}", self.addr, r.doepctl(index).read().0);
             }
         }
     }

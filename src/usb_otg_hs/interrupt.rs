@@ -57,6 +57,7 @@ pub unsafe fn on_interrupt() {
             wakeup_all();
             r.gintsts().write(|w| w.set_usbrst(true)); // clear
             // mask this and
+            crate::usb_otg_hs::endpoint_new::init_endpoint();
         }
     }
     // let state = &STATE;
@@ -241,14 +242,31 @@ pub fn init_reset() {
     // Rm0456 Rev 5, p3423
     let r = regs();
     // 1. set the NAK -- SNAK = 1 in OTG_DOEPCTLx register
-    for i in 0..8 {
-        r.doepctl(i).modify(|w| w.set_snak(true));
-        r.diepctl(i).modify(|w| w.set_snak(true));
-    }
+    // r.doepctl(0).modify(|w| w.set_snak(true));
+    // r.diepctl(0).modify(|w| w.set_snak(true));
+    // for i in 0..6{
+    //     r.doepctl(i).modify(|w| w.set_snak(true));
+    //     r.diepctl(i).modify(|w| w.set_snak(true));
+    // }
+    // disable all the endpoint
+    // r.dctl().modify(|w| w.set_sgonak(true));
+    // for i in 1..6 {
+    //     r.doepctl(i).modify(|w| w.set_epdis(true));
+    //     r.diepctl(i).modify(|w| w.set_epdis(true));
+    //     // r.diepctl(i).modify(|w| w.set_epdis(true));
+    // }
+    // // wait for the endpoint to be disabled
+    // for i in 1..6 {
+    //     while r.doepctl(i).read().epena() {}
+    //     while r.diepctl(i).read().epena() {}
+    // }
+    // r.dctl().modify(|w| w.set_cgonak(false));
+
+    // defmt::info!("ep=2, doepctl: {:x}", r.doepctl(2).read().0);
     // 2. unmask interrupt bits
-    r.daintmsk().write(|w| {
-        w.set_iepm(1);
-        w.set_oepm(1);
+    r.daintmsk().modify(|w| {
+        w.set_iepm(w.iepm() | 1);
+        w.set_oepm(w.oepm() | 1);
     });
     r.doepmsk().write(|w| {
         w.set_stupm(true);
@@ -260,7 +278,6 @@ pub fn init_reset() {
     });
     // 3. set up data fifo ram for each of the fifo
     init_fifo();
-    crate::usb_otg_hs::endpoint_new::init_endpoint();
     // the task should be start after this
 }
 
