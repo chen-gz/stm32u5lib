@@ -35,6 +35,7 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
         len: setup.length as usize,
     };
     if setup.direction == Direction::In {
+        defmt::info!("IN");
         match response.request {
             Request::GetDeviceDescriptor(len) => {
                 let desc = USB_CDC_ACM_DEVICE_DESCRIPTOR.as_bytes();
@@ -68,6 +69,7 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
                     response.data[i] = val[i];
                 }
                 response.len = val[0] as usize;
+                defmt::info!("GetStringManufacturerDescriptor, len={}", _len);
             }
             Request::GetStringProductDescriptor(_len) => {
                 let val = StringDescriptor::product("USB Example Device");
@@ -75,6 +77,7 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
                     response.data[i] = val[i];
                 }
                 response.len = val[0] as usize;
+                defmt::info!("GetStringProductDescriptor, len={}", _len);
             }
             Request::GetSerialNumberDescriptor(_len) => {
                 let val = StringDescriptor::serial_number("123456");
@@ -82,6 +85,7 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
                     response.data[i] = val[i];
                 }
                 response.len = val[0] as usize;
+                defmt::info!("GetSerialNumberDescriptor, len={}", _len);
             }
             Request::GetDeviceQualifierDescriptor(_len) => {
                 let val = USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR.as_bytes();
@@ -89,9 +93,19 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
                     response.data[i] = val[i];
                 }
                 response.len = 10;
+                defmt::info!("GetDeviceQualifierDescriptor, len={}", _len);
+            }
+            Request::GetLineCoding(_len) => {
+                // 115200 8N1
+                let val = [0x00, 0xc2, 0x01, 0x00, 0x00, 0x00, 0x08];
+                for i in 0..7 {
+                    response.data[i] = val[i];
+                }
+                response.len = 7;
+                defmt::info!("GetLineCoding, len={}", _len);
             }
             _ => {
-                defmt::panic!("Unknown request");
+                panic!("Unknown request");
             }
         }
     }

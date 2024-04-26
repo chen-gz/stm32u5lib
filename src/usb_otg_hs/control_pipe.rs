@@ -51,7 +51,12 @@ async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
                 w.set_xfrc(true);
             });
             return Poll::Ready(Ok(PhyState::Active));
-        } else {
+        } else if state().ep0_setup_ready.load(Ordering::Relaxed) {
+            // setup packet received
+            // state().ep0_setup_ready.store(false, Ordering::Release);
+            return Poll::Ready(Ok(PhyState::Active));
+        }
+        else {
             Poll::Pending
         }
     }).await;
@@ -143,6 +148,9 @@ pub async fn setup_process() {
 
 pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
     unsafe {
+        if state().ep0_setup_ready.load(Ordering::Relaxed) {
+                state().ep0_setup_ready.store(false, Ordering::Release);
+        }else {
         read0(&mut SETUP_DATA[0..64]).await?;
         poll_fn(|cx| {
             state().ep_out_wakers[0].register(cx.waker());
@@ -158,13 +166,15 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             }
         })
             .await?;
+        }
         defmt::info!( "setup packet ready, processing package {:x}", SETUP_DATA[0..8]);
         let mut tmp = process_setup_packet_new(&SETUP_DATA[0..8]);
         if tmp.has_data_stage {
             match tmp.data_stage_direction {
                 Direction::In => {
                     write0(&tmp.data[0..tmp.len]).await?;
-                    read0(&mut tmp.data[0..0]).await?; // status stage no data
+                    // read0(&mut tmp.data[0..64]).await?; // status stage no data
+                    read0(&mut SETUP_DATA[0..64]).await?;
                     return Ok(PhyState::Active);
                 }
                 Direction::Out => {
@@ -177,7 +187,7 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             match tmp.setup.direction {
                 Direction::In => {
                     // read0(&mut buf[0..0]).await; // status stage no data
-                    read0(&mut tmp.data[0..0]).await? // status stage no data
+                    read0(&mut tmp.data[0..64]).await? // status stage no data
                 }
                 Direction::Out => {
                     write0(&[0u8; 0]).await? // status stage no data

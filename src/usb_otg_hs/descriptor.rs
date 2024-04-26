@@ -44,6 +44,8 @@ pub enum Request {
     GetDeviceQualifierDescriptor(u8),
 
 
+
+
     SetAddress(u8),
     SetConfiguration(u8),
 
@@ -53,6 +55,7 @@ pub enum Request {
     SetLineCoding(u8),  // , u32, u8, u8, u8),// (length, baudrate, stopbits, parity, databits)
     SetControlLineState(u8),
     ClearFeature(u16),
+    GetLineCoding(u8),
 }
 
 const REQUEST_GET_DESCRIPTOR: u8 = 0x06;
@@ -124,7 +127,22 @@ impl Request {
                         }
                     }
 
-                    // RequestType::Class => {}
+                    RequestType::Class => {
+                        match setup.recipient {
+                            Recipient::Interface => {
+                                match setup.request {
+                                    0x21 => Request::GetLineCoding(setup.length as u8),
+                                    _ => defmt::panic!("Unknown request"),
+                                }
+                            }
+                            // Recipient::Device => {}
+                            // Recipient::Endpoint => {}
+                            // Recipient::Other => {}
+                            // Recipient::Reserved => {}
+                            _ => defmt::panic!("No support for other recipient"),
+
+                        }
+                    }
                     // RequestType::Vendor => {}
                     // RequestType::Reserved => {}
                     _ => defmt::panic!("no support for other request type"),
@@ -450,8 +468,8 @@ impl StringDescriptor {
 pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescriptor {
     b_length: 18,
     b_descriptor_type: 1,
-    bcd_usb: 0x0200,             // modify to match the USB version
-    b_device_class: 0x02,        // CDC class
+    bcd_usb: 0x0110,             // modify to match the USB version
+    b_device_class: 0xEF,        // CDC class
     b_device_sub_class: 0x02,
     b_device_protocol: 0x01,
     b_max_packet_size0: 64,
@@ -469,8 +487,8 @@ pub const USB_CDC_ACM_DEVICE_DESCRIPTOR: USBDeviceDescriptor = USBDeviceDescript
 pub const USB_CDC_DEVICE_QUALIFIER_DESCRIPTOR: DeviceQualifierDescriptor = DeviceQualifierDescriptor {
     b_length: 10,
     b_descriptor_type: 6,
-    bcd_usb: 0x0200,             // modify to match the USB version
-    b_device_class: 0x02,        // CDC class
+    bcd_usb: 0x0110,             // modify to match the USB version
+    b_device_class: 0xEF,        // CDC class
     b_device_sub_class: 0x02,
     b_device_protocol: 0x01,
     b_max_packet_size0: 64,
