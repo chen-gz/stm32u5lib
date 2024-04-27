@@ -136,11 +136,7 @@ pub async fn cdc_acm_ep2_read() -> (Aligned<aligned::A4, [u8; 64]>, usize) {
     }
 }
 pub async fn cdc_acm_ep2_write(buf: &[u8]) {
-    // the buf should be u32 aligned
-    // todo: add assert to check
     let ep2_in = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
-    // convert u32 to u8 using unsafe a pointer
-    // let buf = unsafe { core::mem::transmute::<[u32], [u8]>(*buf) };
     let _ = ep2_in.write(buf).await;
 }
 

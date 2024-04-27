@@ -86,16 +86,15 @@ pub enum PhyState {
 impl Endpoint {
     // pub async fn read(&self, buf: &mut [u8]) -> Result<usize, PhyState> {
     pub async fn read(&self, buf: &mut [u8]) -> Result<usize, PhyState> {
-        trace!("read ep={:?}, len={:?}", self.addr, buf.len());
-        // for control endpoint, pktcnt always 1 (only 1 bit in register) check the buf
-        if self.addr == 0 && buf.len() > self.max_packet_size as usize {
-            defmt::panic!("Endpoint 0 read error, buf.len() > max_packet_size");
-        }
+        let buf_addr = buf.as_mut_ptr() as u32;
+        let len = buf.len();
         let index = self.addr as usize;
+        let pktcnt = if len == 0 { 1 } else { (len + 63) / 64 };
+        self.transfer_parameter_check(buf_addr, len);
+
         let r = regs();
         poll_fn(|cv| {
             state().ep_out_wakers[index].register(cv.waker());
-
             let r = regs();
             if !r.doepctl(index).read().usbaep() || r.dsts().read().suspsts() {
                 return Poll::Pending;
@@ -104,21 +103,10 @@ impl Endpoint {
             }
         }).await;
 
-        trace!("index: {:?}, doepdma: {:x}", index, r.doepdma(index).read().0);
         r.doepdma(index).write(|w| { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
-
-        let pktcnt: u16;
-        if buf.len() == 0 {
-            pktcnt = 1;
-        } else {
-            pktcnt = (buf.len() + 63) as u16 / 64u16
-        }
         r.doeptsiz(index).modify(|w| {
             w.set_xfrsiz(buf.len() as _);
             w.set_pktcnt(pktcnt);
-            if index == 0 {
-                w.set_stupcnt(3);
-            }
         });
         r.daintmsk().modify(|v| {
             v.set_oepm(v.oepm() | (1 << index));
@@ -129,20 +117,12 @@ impl Endpoint {
             w.set_epena(true);
             w.set_cnak(true);
         });
-
-        // enable interrupt
-        // r.daintmsk().modify(|w| w.set_oepint(index as _)); // r.daintmsk().write(|w| { w.set_oepm((w.oepm() | index as u16) as _); });
-        // wait for transfer complete interrupt
         return poll_fn(|cx| {
             state().ep_out_wakers[index].register(cx.waker());
             defmt::info!("read ep={:?}, doepctl: {:x}", self.addr, r.doepctl(index).read().0);
             if r.dsts().read().suspsts() {
                 return Poll::Ready(Err(PhyState::Suspend));
             }
-            // if !r.doepctl(index).read().epena() {
-            //     // || r.doepctl(index).read().snak(){
-            //     return Poll::Ready(PhyState::Error);
-            // }
             if r.doepint(index).read().xfrc() {
                 r.doepint(index).write(|w| w.set_xfrc(true));  // clear xfrc
                 // In the interrupt handler, the `xfrc`  was masked to avoid re-entering the interrupt.
@@ -155,58 +135,32 @@ impl Endpoint {
                 Poll::Pending
             }
         }).await;
-        // {
-        //     PhyState::Active => {
-        //         trace!("read ep={:?}, len={} done", self.addr, buf.len());
-        //         Ok(PhyState::Active)
-        //     }
-        //     PhyState::Suspend => {
-        //         trace!("read ep={:?}, len={} suspend", self.addr, buf.len());
-        //         Err(PhyState::Suspend)
-        //     }
-        //     _ => {
-        //         trace!("read ep={:?}, len={} error", self.addr, buf.len());
-        //         Err(PhyState::Error)
-        //     }
-        // }
     }
 
+    fn transfer_parameter_check(&self, addr: u32, len: usize) {
+        // the buffer should be aligned to 32 bits (4 bytes)
+        if addr % 4 != 0 {
+            defmt::panic!("Buffer is not aligned to 32 bits");
+        }
+        if len > 0x7FFFF {
+            defmt::panic!("Buffer size is too large");
+        }
+    }
     // pub async fn write(&self, addr: u32, len: usize) -> Result<PhyState, PhyState> {
     pub async fn write(&self, buf: &[u8]) -> Result<PhyState, PhyState> {
+        // todo: if transfer size equals to max_packet_size, send a zero length packet to indicate the end of the transfer
         let len = buf.len();
         let addr = buf.as_ptr() as u32;
-        #[cfg(debug_assertions)]
-        {
-            // the buffer should be aligned to 32 bits (4 bytes)
-            if addr % 4 != 0 {
-                defmt::panic!("Buffer is not aligned to 32 bits");
-            }
-        }
+        let index = self.addr as usize;
+        let pktcnt = if len == 0 { 1 } else { (len + 63) / 64 };
+        self.transfer_parameter_check(addr, len);
         trace!("write ep={:?}, data={:?}", self.addr, buf);
         let r = regs();
-        let index = self.addr as usize;
-        // let buf_addr = buf as *const _ as u32;
-        // r.diepdma(index).write(|w| { w.set_dmaaddr(buf_addr) });
-        // r.diepdma(index).write(|w| { w.set_dmaaddr(buf.as_ptr() as *const u8 as u32) });
-        // r.diepdma(index).write(|w| { w.set_dmaaddr(&tmp_buf as *const _ as u32) });
-        r.diepdma(index).write(|w| { w.set_dmaaddr(addr) });
-        // get value of buf.ptr
-        // defmt::info!("write value of content in buf: {:?}", unsafe { *buf.as_ptr() });
-        let pktcnt;
-        // if buf.len() == 0 {
-        if len == 0 {
-            pktcnt = 1;
-        } else {
-            pktcnt = (buf.len() + 63) / 64;
-        }
         r.dieptsiz(index).modify(|w| {
-            // w.set_xfrsiz(buf.len() as u32);
             w.set_xfrsiz(len as u32);
             w.set_pktcnt(pktcnt as _);
         });
-        r.daintmsk().modify(|v| {
-            v.set_iepm(v.iepm() | (1 << index));
-        });
+        r.daintmsk().modify(|v| { v.set_iepm(v.iepm() | (1 << index)); });
         r.diepctl(index).modify(|w| {
             w.set_cnak(true);
             w.set_epena(true);
