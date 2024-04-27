@@ -17,4 +17,7 @@ The in dndpint will not give the transfer complete interrupt although the transf
 
 * the endpoints will not reset after "reset" signal, I think it should be reset by the hardware since usbaep is been reset.
 * current solutions is just leave the nak unchanged
-* 
+
+### windows does not following the usb standard
+
+the setup packet may not have status stage. So we should not 

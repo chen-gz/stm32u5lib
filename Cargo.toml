@@ -10,6 +10,7 @@ defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
 sdio-host = { version = "0.9.0" }
 heapless = { version = "0.8.0"}
+aligned = "0.4.2"
 cortex-m = { version = "0.7.7", features = [
     "inline-asm",
     "critical-section-single-core",

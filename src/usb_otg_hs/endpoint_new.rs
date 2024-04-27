@@ -3,6 +3,8 @@ use defmt::trace;
 use stm32_metapac::otg::vals::Eptyp;
 use crate::usb_otg_hs::global_states::{regs, state};
 // use core::task::{Poll, poll_fn};
+use aligned;
+use aligned::Aligned;
 
 
 pub enum Direction {
@@ -80,8 +82,10 @@ pub enum PhyState {
     Error,
 }
 
+
 impl Endpoint {
-    pub async fn read(&self, buf: &mut [u8]) -> Result<PhyState, PhyState> {
+    // pub async fn read(&self, buf: &mut [u8]) -> Result<usize, PhyState> {
+    pub async fn read(&self, buf: &mut [u8]) -> Result<usize, PhyState> {
         trace!("read ep={:?}, len={:?}", self.addr, buf.len());
         // for control endpoint, pktcnt always 1 (only 1 bit in register) check the buf
         if self.addr == 0 && buf.len() > self.max_packet_size as usize {
@@ -89,11 +93,11 @@ impl Endpoint {
         }
         let index = self.addr as usize;
         let r = regs();
-        poll_fn(|cv|{
+        poll_fn(|cv| {
             state().ep_out_wakers[index].register(cv.waker());
 
             let r = regs();
-            if !r.doepctl(index).read().usbaep()  || r.dsts().read().suspsts() {
+            if !r.doepctl(index).read().usbaep() || r.dsts().read().suspsts() {
                 return Poll::Pending;
             } else {
                 return Poll::Ready(PhyState::Active);
@@ -129,11 +133,11 @@ impl Endpoint {
         // enable interrupt
         // r.daintmsk().modify(|w| w.set_oepint(index as _)); // r.daintmsk().write(|w| { w.set_oepm((w.oepm() | index as u16) as _); });
         // wait for transfer complete interrupt
-        match poll_fn(|cx| {
+        return poll_fn(|cx| {
             state().ep_out_wakers[index].register(cx.waker());
             defmt::info!("read ep={:?}, doepctl: {:x}", self.addr, r.doepctl(index).read().0);
             if r.dsts().read().suspsts() {
-                return Poll::Ready(PhyState::Suspend);
+                return Poll::Ready(Err(PhyState::Suspend));
             }
             // if !r.doepctl(index).read().epena() {
             //     // || r.doepctl(index).read().snak(){
@@ -143,39 +147,61 @@ impl Endpoint {
                 r.doepint(index).write(|w| w.set_xfrc(true));  // clear xfrc
                 // In the interrupt handler, the `xfrc`  was masked to avoid re-entering the interrupt.
                 r.doepmsk().modify(|w| w.set_xfrcm(true));
-                Poll::Ready(PhyState::Active)
+                // get the length of the data
+                let len_rest = r.doeptsiz(index).read().xfrsiz() as usize;
+                return Poll::Ready(Ok(buf.len() - len_rest));
+                // Poll::Ready(Ok(buf.len()));
             } else {
                 Poll::Pending
             }
-        }).await {
-            PhyState::Active => {
-                trace!("read ep={:?}, len={} done", self.addr, buf.len());
-                Ok(PhyState::Active)
-            }
-            PhyState::Suspend => {
-                trace!("read ep={:?}, len={} suspend", self.addr, buf.len());
-                Err(PhyState::Suspend)
-            }
-            _ => {
-                trace!("read ep={:?}, len={} error", self.addr, buf.len());
-                Err(PhyState::Error)
-            }
-        }
+        }).await;
+        // {
+        //     PhyState::Active => {
+        //         trace!("read ep={:?}, len={} done", self.addr, buf.len());
+        //         Ok(PhyState::Active)
+        //     }
+        //     PhyState::Suspend => {
+        //         trace!("read ep={:?}, len={} suspend", self.addr, buf.len());
+        //         Err(PhyState::Suspend)
+        //     }
+        //     _ => {
+        //         trace!("read ep={:?}, len={} error", self.addr, buf.len());
+        //         Err(PhyState::Error)
+        //     }
+        // }
     }
 
+    // pub async fn write(&self, addr: u32, len: usize) -> Result<PhyState, PhyState> {
     pub async fn write(&self, buf: &[u8]) -> Result<PhyState, PhyState> {
+        let len = buf.len();
+        let addr = buf.as_ptr() as u32;
+        #[cfg(debug_assertions)]
+        {
+            // the buffer should be aligned to 32 bits (4 bytes)
+            if addr % 4 != 0 {
+                defmt::panic!("Buffer is not aligned to 32 bits");
+            }
+        }
         trace!("write ep={:?}, data={:?}", self.addr, buf);
         let r = regs();
         let index = self.addr as usize;
-        r.diepdma(index).write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
+        // let buf_addr = buf as *const _ as u32;
+        // r.diepdma(index).write(|w| { w.set_dmaaddr(buf_addr) });
+        // r.diepdma(index).write(|w| { w.set_dmaaddr(buf.as_ptr() as *const u8 as u32) });
+        // r.diepdma(index).write(|w| { w.set_dmaaddr(&tmp_buf as *const _ as u32) });
+        r.diepdma(index).write(|w| { w.set_dmaaddr(addr) });
+        // get value of buf.ptr
+        // defmt::info!("write value of content in buf: {:?}", unsafe { *buf.as_ptr() });
         let pktcnt;
-        if buf.len() == 0 {
+        // if buf.len() == 0 {
+        if len == 0 {
             pktcnt = 1;
         } else {
             pktcnt = (buf.len() + 63) / 64;
         }
         r.dieptsiz(index).modify(|w| {
-            w.set_xfrsiz(buf.len() as u32);
+            // w.set_xfrsiz(buf.len() as u32);
+            w.set_xfrsiz(len as u32);
             w.set_pktcnt(pktcnt as _);
         });
         r.daintmsk().modify(|v| {
@@ -208,15 +234,15 @@ impl Endpoint {
         })
             .await {
             PhyState::Active => {
-                trace!("write len={} done", buf.len());
+                // trace!("write len={} done", buf.len());
                 Ok(PhyState::Active)
             }
             PhyState::Suspend => {
-                trace!("write len={} suspend", buf.len());
+                // trace!("write len={} suspend", buf.len());
                 Err(PhyState::Suspend)
             }
             _ => {
-                trace!("write len={} error", buf.len());
+                // trace!("write len={} error", buf.len());
                 Err(PhyState::Error)
             }
         }
@@ -243,7 +269,13 @@ impl Endpoint {
                     });
                 }
                 defmt::info!("init endpoint {:?} in, doepctl: {:x}", self.addr, r.diepctl(index).read().0);
+                // flush the fifo
+                r.grstctl().modify(|w| {
+                    w.set_txfnum(index as _);
+                    w.set_txfflsh(true);
+                });
             }
+
             Direction::Out => {
                 defmt::info!("init endpoint {:?} out, doepctl: {:x}", self.addr, r.doepctl(index).read().0);
                 r.doepctl(index).modify(|v| {

@@ -9,6 +9,7 @@ pub fn init_setaddress(address: u8) {
 
 // let res = process_setup_packet(SETUP_DATA);
 
+use aligned::Aligned;
 use crate::usb_otg_hs::descriptor::*;
 use crate::usb_otg_hs::endpoint_new::{Endpoint, EpType, MaxPacketSize};
 use crate::usb_otg_hs::global_states::{regs};
@@ -115,11 +116,32 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
 pub struct EndpointGG;
 
 
-pub async fn cdc_acm_ep2_read() -> [u8; 64] {
+pub async fn cdc_acm_ep2_read() -> (Aligned<aligned::A4, [u8; 64]>, usize) {
     let ep2_out = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
-    let mut buf = [08u8; 64];
-    let _ = ep2_out.read(&mut buf).await;
-    return buf;
+    let mut buf = [0u32; 16];
+    // convert u32 to u8 using unsafe a pointer
+    // let mut _buf = unsafe { core::mem::transmute::<[u32; 16], [u8; 64]>(buf) };
+    // let mut _buf = unsafe { core::mem::transmute(&mut buf) };
+    // let mut _buf: &mut [u8; 64] = unsafe { core::mem::transmute(&mut buf) };
+    let mut buf : Aligned<aligned::A4, [u8; 64]> = Aligned([0u8; 64]);
+    match ep2_out.read(&mut buf[0..64]).await {
+        Ok(len) => {
+            defmt::info!("cdc_acm_ep2_read, {:?}, len={}", &buf[0..len], len);
+            return (buf, len);
+        }
+        Err(e) => {
+            // defmt::info!("cdc_acm_ep2_read, {:?}", e);
+            return (buf, 0);
+        }
+    }
+}
+pub async fn cdc_acm_ep2_write(buf: &[u8]) {
+    // the buf should be u32 aligned
+    // todo: add assert to check
+    let ep2_in = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+    // convert u32 to u8 using unsafe a pointer
+    // let buf = unsafe { core::mem::transmute::<[u32], [u8]>(*buf) };
+    let _ = ep2_in.write(buf).await;
 }
 
 
