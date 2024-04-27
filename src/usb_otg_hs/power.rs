@@ -41,8 +41,15 @@ pub fn power_up_init() {
             });
             // TODO: update this clock settings
             SYSCFG.otghsphycr().modify(|v| {
-                v.set_clksel(0b1110);   // 26Mhz HSE
-                // v.set_clksel(0b0011); // 16Mhz HSE
+                let hse_freq = unsafe { crate::clock::HSE_FREQ };
+                if hse_freq == 26_000_000 {
+                    v.set_clksel(0b1110);   // 26Mhz HSE
+                } else if hse_freq == 16_000_000 {
+                    v.set_clksel(0b0011); // 16Mhz HSE
+                } else {
+                    defmt::panic!("HSE frequency not supported");
+                }
+
                 v.set_en(true);
             });
         });
@@ -145,8 +152,8 @@ pub fn power_up_init() {
         #[cfg(stm32u575)]
         w.set_dspd(self.phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
         #[cfg(stm32u5a5)]
-        w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
-        // w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
+        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
+        w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
     });
 
     // r.diepmsk().write(|w| {

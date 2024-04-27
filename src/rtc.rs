@@ -42,7 +42,7 @@ pub fn setup(
 
     //  rest backup domain
     RCC.bdcr().write(|v| v.set_bdrst(true));
-    delay_ms(10);
+    delay_tick(10); // check the minimum time,
     // disable BDRST
     RCC.bdcr().modify(|v| v.set_bdrst(false));
     // record the current rtc mask and pend status 
@@ -173,13 +173,11 @@ pub fn setup(
     // RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::FREERUNNINGMODE)); // exit init mode
     RTC.icsr().modify(|v| v.set_init(false)); // exit init mode
 
+    RCC.bdcr().modify(|v| { v.set_rtcen(true); });
+
     PWR.dbpcr().modify(|v| v.set_dbp(false)); // disable backup domain write
     RTC.wpr().write(|w| unsafe { w.0 = 0xFF }); // write protection enable
 
-
-    RCC.bdcr().modify(|v| {
-        v.set_rtcen(true);
-    });
 
     if rtc_it_enabled {
         unsafe { NVIC::unmask(stm32_metapac::Interrupt::RTC) };

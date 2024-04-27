@@ -1,5 +1,4 @@
 use core::sync::atomic::Ordering;
-use crate::clock::set_cpu_freq_new;
 use crate::usb_otg_hs::mod_new::SETUP_DATA;
 use defmt::{info, trace};
 use stm32_metapac::interrupt;

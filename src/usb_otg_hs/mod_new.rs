@@ -20,7 +20,8 @@ pub struct SetupResponse {
     pub(crate) request: Request,
     pub(crate) data_stage_direction: Direction,
     pub(crate) has_data_stage: bool,
-    pub(crate) data: [u8; 256],
+    // pub(crate) data: [u8; 256],
+    pub(crate) data: Aligned<aligned::A4, [u8; 256]>,
     pub(crate) len: usize,
 }
 
@@ -32,7 +33,7 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
         request: Request::from_setup(&setup),
         data_stage_direction: setup.direction,
         has_data_stage: setup.length != 0,
-        data: [0; 256],
+        data: Aligned([0u8; 256]),
         len: setup.length as usize,
     };
     if setup.direction == Direction::In {
@@ -118,7 +119,7 @@ pub struct EndpointGG;
 
 pub async fn cdc_acm_ep2_read() -> (Aligned<aligned::A4, [u8; 64]>, usize) {
     let ep2_out = Endpoint::new(crate::usb_otg_hs::endpoint_new::Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
-    let mut buf = [0u32; 16];
+    let _buf = [0u32; 16];
     // convert u32 to u8 using unsafe a pointer
     // let mut _buf = unsafe { core::mem::transmute::<[u32; 16], [u8; 64]>(buf) };
     // let mut _buf = unsafe { core::mem::transmute(&mut buf) };
@@ -129,7 +130,7 @@ pub async fn cdc_acm_ep2_read() -> (Aligned<aligned::A4, [u8; 64]>, usize) {
             defmt::info!("cdc_acm_ep2_read, {:?}, len={}", &buf[0..len], len);
             return (buf, len);
         }
-        Err(e) => {
+        Err(_e) => {
             // defmt::info!("cdc_acm_ep2_read, {:?}", e);
             return (buf, 0);
         }

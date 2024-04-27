@@ -41,12 +41,12 @@ macro_rules! define_gpio_port_alt {
 
 pub struct GpioPort {
     pub port: Gpio,
-    pin: usize,
+    pub pin: usize,
     /// Alternate function
-    alt_func: u8,
-    mode: Moder,
-    ot: Ot,
-    pupd: Pupdr,
+    pub alt_func: u8,
+    pub mode: Moder,
+    pub ot: Ot,
+    pub pupd: Pupdr,
 }
 
 impl GpioPort {

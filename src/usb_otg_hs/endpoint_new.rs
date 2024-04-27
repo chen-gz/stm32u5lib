@@ -3,8 +3,6 @@ use defmt::trace;
 use stm32_metapac::otg::vals::Eptyp;
 use crate::usb_otg_hs::global_states::{regs, state};
 // use core::task::{Poll, poll_fn};
-use aligned;
-use aligned::Aligned;
 
 
 pub enum Direction {
@@ -90,7 +88,7 @@ impl Endpoint {
         let len = buf.len();
         let index = self.addr as usize;
         let pktcnt = if len == 0 { 1 } else { (len + 63) / 64 };
-        self.transfer_parameter_check(buf_addr, len);
+        self.transfer_parameter_check(buf_addr, len, pktcnt as u32);
 
         let r = regs();
         poll_fn(|cv| {
@@ -106,7 +104,7 @@ impl Endpoint {
         r.doepdma(index).write(|w| { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
         r.doeptsiz(index).modify(|w| {
             w.set_xfrsiz(buf.len() as _);
-            w.set_pktcnt(pktcnt);
+            w.set_pktcnt(pktcnt as _);
         });
         r.daintmsk().modify(|v| {
             v.set_oepm(v.oepm() | (1 << index));
@@ -137,12 +135,12 @@ impl Endpoint {
         }).await;
     }
 
-    fn transfer_parameter_check(&self, addr: u32, len: usize) {
+    fn transfer_parameter_check(&self, addr: u32, len: usize, pktcnt: u32) {
         // the buffer should be aligned to 32 bits (4 bytes)
         if addr % 4 != 0 {
             defmt::panic!("Buffer is not aligned to 32 bits");
         }
-        if len > 0x7FFFF {
+        if len > 0x7FFFF || pktcnt > 0x3FF {
             defmt::panic!("Buffer size is too large");
         }
     }
@@ -153,13 +151,14 @@ impl Endpoint {
         let addr = buf.as_ptr() as u32;
         let index = self.addr as usize;
         let pktcnt = if len == 0 { 1 } else { (len + 63) / 64 };
-        self.transfer_parameter_check(addr, len);
+        self.transfer_parameter_check(addr, len, pktcnt as u32);
         trace!("write ep={:?}, data={:?}", self.addr, buf);
         let r = regs();
         r.dieptsiz(index).modify(|w| {
             w.set_xfrsiz(len as u32);
             w.set_pktcnt(pktcnt as _);
         });
+        r.diepdma(index).write(|w| { w.set_dmaaddr(addr) });
         r.daintmsk().modify(|v| { v.set_iepm(v.iepm() | (1 << index)); });
         r.diepctl(index).modify(|w| {
             w.set_cnak(true);

@@ -203,7 +203,7 @@ impl SdInstance {
                 Ok(_) => {
                     // read response
                     let resp0 = self.port.respr(0).read().0;
-                    defmt::debug!("send if conf response: {:x}", resp0);
+                    // defmt::debug!("send if conf response: {:x}", resp0);
                     if resp0 & (1 << 31) != 0 {
                         defmt::info!("card is ready");
                         ok = true;

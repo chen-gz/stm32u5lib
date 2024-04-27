@@ -8,7 +8,8 @@ pub mod i2c;
 pub mod dcmi;
 pub mod dma;
 pub mod gpio;
-pub mod ov5640_reg;
+// #[path = "drivers/ov5640/ov5640_reg.rs"]
+// pub mod ov5640_reg;
 pub mod sd_device;
 pub mod sdmmc;
 
@@ -40,3 +41,4 @@ pub use embassy_executor;
 pub mod com_interface;
 pub mod pwr;
 pub mod usb_otg_hs;
+pub mod drivers;

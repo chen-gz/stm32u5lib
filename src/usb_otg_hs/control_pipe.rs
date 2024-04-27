@@ -154,7 +154,7 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
         read0(&mut SETUP_DATA[0..64]).await?;
         poll_fn(|cx| {
             state().ep_out_wakers[0].register(cx.waker());
-            if unsafe { RESET } {
+            if RESET  {
                 return Poll::Ready(Err(PhyState::Reset));
             }
             if state().ep0_setup_ready.load(Ordering::Relaxed) {
