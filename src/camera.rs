@@ -19,7 +19,7 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     for i in 0..len - 1 {
         if pic_buf[i] == 0xff && pic_buf[i + 1] == 0xd9 {
             found = true;
-            pic_end = i;
+            pic_end = i + 2;
             break;
         }
     }
@@ -58,7 +58,6 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
             defmt::panic!("read picture number from sd card fail: {:?}", err);
         }
     }
-    // .unwrap();
     let mut num = ((buf[0] as u32) << 24)
         | ((buf[1] as u32) << 16)
         | ((buf[2] as u32) << 8)

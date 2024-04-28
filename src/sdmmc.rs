@@ -243,12 +243,12 @@ impl SdInstance {
             Err(err) => defmt::panic!("select card error: {:?}", err),
         }
 
-        // test cmd 23, whether
-        defmt::info!("set block count");
-        match self.send_cmd(sd_cmd::set_block_count(1)) {
-            Ok(_) => {}
-            Err(err) => defmt::panic!("set block count error: {:?}", err),
-        }
+        // // test cmd 23, whether
+        // defmt::info!("set block count");
+        // match self.send_cmd(sd_cmd::set_block_count(1)) {
+        //     Ok(_) => {}
+        //     Err(err) => defmt::panic!("set block count error: {:?}", err),
+        // }
         defmt::info!(
             "card version {}, The numbe of block of card: {}, self.port.dlenr: {}",
             self.csd.version(),
@@ -452,6 +452,7 @@ impl SdInstance {
         if cmd.cmd == common_cmd::idle().cmd || cmd.cmd == common_cmd::stop_transmission().cmd {
             stop = true;
         }
+        // defmt::info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
         self.port.cmdr().write(|v| {
             v.set_cmdindex(cmd.cmd);
             v.set_waitresp(res_len);
@@ -728,9 +729,9 @@ impl SdInstance {
         block_addr: u32,
         block_count: u32,
     ) -> Result<(), SdError> {
-        if (block_count + block_addr) > self.csd.block_count() as u32 {
-            return Err(SdError::ReadBlockCountError);
-        }
+        // if (block_count + block_addr) > self.csd.block_count() as u32 {
+        //     return Err(SdError::ReadBlockCountError);
+        // }
         // self.send_cmd(common_cmd::idle())?;
         // TODO: check
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
@@ -912,9 +913,15 @@ impl SdInstance {
         block_addr: u32,
         block_count: u32,
     ) -> Result<(), SdError> {
-        if (block_count + block_addr) > self.csd.block_count() as u32 {
-            return Err(SdError::ReadBlockCountError);
+        // if (block_count + block_addr) > self.csd.block_count() as u32 {
+        //     return Err(SdError::ReadBlockCountError);
+        // }
+        unsafe {
+            NVIC::unmask(stm32_metapac::Interrupt::SDMMC2);
         }
+        // we should not clear interrupt here
+        self.clear_interrupt();
+        self.error_interrupt_enable();
         // self.send_cmd(common_cmd::idle())?;
         // TODO: check
         self.port.idmabase0r().write(|v| v.0 = buf.as_ptr() as u32);
