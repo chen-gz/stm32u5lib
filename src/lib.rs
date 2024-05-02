@@ -12,6 +12,8 @@ pub mod gpio;
 // #[path = "drivers/ov5640/ov5640_reg.rs"]
 // pub mod ov5640_reg;
 pub mod sd_device;
+
+#[cfg(feature = "stm32u5a5")]
 pub mod sdmmc;
 
 pub mod exti;
