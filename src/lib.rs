@@ -5,7 +5,7 @@
 #![allow(dead_code)]
 pub mod clock;
 pub mod i2c;
-
+#[cfg(feature = "stm32u5a5")]
 pub mod dcmi;
 pub mod dma;
 pub mod gpio;
@@ -20,6 +20,7 @@ pub mod exti;
 pub mod low_power;
 pub mod lptim;
 pub mod rtc;
+#[cfg(feature = "stm32u5a5")]
 pub mod camera;
 
 // pub mod usb_otg{
