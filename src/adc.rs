@@ -84,10 +84,11 @@ impl AdcPort {
         self.port.cr().modify(|v| {
             v.set_aden(true);
         });
+        delay_ms(5);
         self.port.cr().modify(|v| {
             v.set_adstart(true); // start conversion
         });
-        delay_ms(3);
+        // delay_ms(3);
         // wait for conversion finish
         while !self.port.isr().read().eoc() {}
         // read the conversion result
