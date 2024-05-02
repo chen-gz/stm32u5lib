@@ -25,6 +25,7 @@ impl AdcPort {
     pub fn init(&self) {
         set_adc_clock(); // hsi16 set as adc clock (async clock)
         unsafe {
+            // adc12 common register
             let addr = 0x4202_8308 as *mut u32;
             // write value (1<<22) to the address 0x4202_8308
             *addr = (1 << 22) | (1011 << 18) | (1 << 23) | (1 << 24);
@@ -55,7 +56,7 @@ impl AdcPort {
         });
         while self.port.cr().read().adcal() {} // wait for calibration finish
     }
-    pub fn start_conversion_sw(&self, pin: GpioPort, channel: u8) -> u32 {
+    pub fn start_conversion_sw(&self, channel: u8) -> u32 {
         self.port.pcsel().modify(|v| {
             v.set_pcsel(channel as usize, true); // select the channel "ch" as the input
         });
@@ -66,12 +67,10 @@ impl AdcPort {
         self.port.sqr1().modify(|v| {
             v.set_l(0b0000); // 1 conversion
         });
-        delay_ms(50);
         self.port.sqr1().modify(|v| {
             // v.set_sq1(channel); // channel "ch"
             v.set_sq(0, channel);
         });
-        delay_ms(50);
         if (channel < 10) {
             self.port.smpr(0).modify(|v| {
                 v.set_smp(channel as usize, 0b111); // sete sample time to 640.5 cycles
@@ -81,19 +80,14 @@ impl AdcPort {
                 v.set_smp((channel - 10) as usize, 0b111); // sete sample time to 640.5 cycles
             });
         }
-        delay_ms(50);
-
         // enable adc
         self.port.cr().modify(|v| {
             v.set_aden(true);
         });
-        delay_ms(20);
-        delay_ms(50);
         self.port.cr().modify(|v| {
             v.set_adstart(true); // start conversion
         });
-        delay_ms(50);
-        // delay_ms(10);
+        delay_ms(3);
         // wait for conversion finish
         while !self.port.isr().read().eoc() {}
         // read the conversion result
