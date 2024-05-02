@@ -66,12 +66,13 @@ test = false
 bench = false
 
 [features]
+utils = []
 default = [
-   "stm32u5a5zj",
-    "memory-x",
+#   "stm32u5a5zj",
+#    "memory-x",
     # "defmt",
 ]
-memory-x = [ "stm32-metapac/memory-x", ]
+#memory-x = [ "stm32-metapac/memory-x", ]
 #! ## Chip-selection features
 #! Select your chip by specifying the model as a feature, e.g. `stm32c011d6`.
 #! Check the `Cargo.toml` for the latest list of supported chips.

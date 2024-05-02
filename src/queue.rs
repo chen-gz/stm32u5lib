@@ -1,18 +1,18 @@
 #![allow(dead_code)]
 
 
-struct Queue<T, const N: usize> {
-    data: [T; N],
-    start: usize, // start always point to the first element (exept when queue is empty, then start == end)
-    end: usize,   // end always point to the next empty slot
-    len: usize,   // len is the number of elements in the queue
+pub struct Queue<T, const N: usize> {
+    pub data: [T; N],
+    pub start: usize, // start always point to the first element (exept when queue is empty, then start == end)
+    pub end: usize,   // end always point to the next empty slot
+    pub len: usize,   // len is the number of elements in the queue
 }
-enum QueueError {
+pub enum QueueError {
     Full,
     Empty,
 }
 
-impl<T: Default + Copy, const N: usize> Queue<T, N> {
+impl<T: Default + Copy + core::cmp::PartialOrd, const N: usize> Queue<T, N> {
     pub fn new() -> Self {
         Queue {
             data: [Default::default(); N],
@@ -30,6 +30,26 @@ impl<T: Default + Copy, const N: usize> Queue<T, N> {
         if self.end == N {
             self.end = 0;
         }
+        Ok(())
+    }
+    pub fn push_sort(&mut self, value: T) -> Result<(), QueueError> {
+        // the smallest value will be at the start
+        if self.len == N {
+            return Err(QueueError::Full);
+        }
+        // move all elemnts that are bigger than value to the right
+        let mut i = self.len;
+        while i > 0 && self.data[(self.start + i - 1) % N] > value {
+            self.data[(self.start + i) % N] = self.data[(self.start + i - 1) % N];
+            i -= 1;
+        }
+        // insert the value
+        self.data[(self.start + i) % N] = value;
+        self.end += 1;
+        if self.end == N {
+            self.end = 0;
+        }
+        self.len += 1;
         Ok(())
     }
     pub fn pop(&mut self) -> Result<T, QueueError> {

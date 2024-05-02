@@ -256,6 +256,28 @@ pub fn set_i2c_clock(i2c_num: u8) {
 
     }
 }
+/// enable lptim for all mode and use LSE as clock source
+pub fn set_lptim_clock(num: u8) {
+    match num {
+        1 => {
+            RCC.apb3enr().modify(|v| v.set_lptim1en(true));
+            RCC.ccipr3().modify(|v| v.set_lptim1sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
+        },
+        2 => {
+            RCC.apb1enr2().modify(|v| v.set_lptim2en(true));
+            RCC.ccipr1().modify(|v| v.set_lptim2sel(stm32_metapac::rcc::vals::Lptim2sel::LSE));
+        }
+        3 => {
+            RCC.apb3enr().modify(|v| v.set_lptim3en(true));
+            RCC.ccipr3().modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
+        },
+        4 => {
+            RCC.apb3enr().modify(|v| v.set_lptim4en(true));
+            RCC.ccipr3().modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
+        },
+        _ => defmt::panic!("Invalid lptim number"),
+    }
+}
 
 pub fn set_adc_clock() {
     RCC.ahb3enr().modify(|v| v.set_pwren(true));
