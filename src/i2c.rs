@@ -1,6 +1,5 @@
 #![allow(unused)]
 
-use crate::clock::{delay_ms, delay_tick};
 use stm32_metapac::{ RCC};
 use crate::clock;
 use crate::com_interface::ComInterface;
@@ -112,7 +111,7 @@ impl<'a> ComInterface<'a> for I2c {
         clock::set_i2c_clock(config.port_num);
 
         clock::set_i2c_clock(2);
-        delay_ms(1);
+        // delay_ms(1);
         // setup gpio ports
         let port = if config.port_num == 1 {
             stm32_metapac::I2C1
@@ -126,7 +125,7 @@ impl<'a> ComInterface<'a> for I2c {
 
         port.cr1().modify(|v| v.set_pe(false));
         // dealyt for 6 tick
-        delay_tick(6);
+        clock::delay_tick(6);
         // set timing
         let kernel_freq = crate::clock::get_hclk();
 
@@ -169,7 +168,7 @@ impl<'a> ComInterface<'a> for I2c {
             v.set_anfoff(false);
             v.set_pe(true);
         });
-        delay_tick(10);
+        clock::delay_tick(10);
         Ok(I2c {
             port: port,
             port_num: config.port_num,

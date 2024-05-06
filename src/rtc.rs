@@ -1,6 +1,5 @@
 #![allow(unused)]
 use crate::clock;
-use crate::clock::delay_ms;
 use crate::clock::delay_tick;
 use crate::gpio;
 use cortex_m::delay;
@@ -69,7 +68,7 @@ pub fn setup(
         if rs != rtc_source {
             // update rtc source - update rtc source requires reset 
             RCC.bdcr().write(|v| v.set_bdrst(true));  // reset backup domain
-            clock::delay_us(100); // wait for reset TODO: get the minimum time
+            clock::delay_tick(100); // wait for reset TODO: get the minimum time
             // disable BDRST
             RCC.bdcr().modify(|v| v.set_bdrst(false)); // reset finished
             match rtc_source {

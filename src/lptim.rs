@@ -1,12 +1,10 @@
 use core::future::poll_fn;
-
+use stm32_metapac::interrupt;
 use crate::{clock};
-
 pub struct Lptim {
     num: u8,
     ins: stm32_metapac::lptim::LptimAdv,
 }
-
 static mut TAKEN: [bool; 8] = [false; 8]; // first bit will be ignored
 
 impl Lptim {
@@ -54,6 +52,9 @@ impl Lptim {
         // start the counter
         self.ins.cr().modify(|v| v.set_enable(true));
     }
+    pub fn get_cnt(&self) -> u32 {
+        self.ins.cnt().read().0
+    }
 }
 
 pub fn read_tim1() -> u32 {
@@ -70,10 +71,6 @@ impl Drop for Lptim {
 
 use embassy_sync::waitqueue::AtomicWaker;
 
-const NEW_AW: AtomicWaker = AtomicWaker::new();
-static mut WAKER: [AtomicWaker; 8] = [NEW_AW; 8];
-static mut GLOBAL_SECOND: u128 = 0;
-static mut USED: [bool; 8] = [false; 8];
 
 async fn after(_duration: core::time::Duration) {
     // convert to ticks
@@ -126,22 +123,86 @@ fn wake_all() {
     }
 }
 
-use stm32_metapac::interrupt;
+
+
+// this will use two timmer to implement the global timer
+// TIM1 is free running timer, and the LPTIM1 is the global timer
+// TIM2 used to set alarm, then we can wake up the task
+pub struct LptimGlobalTimer;
+
+const NEW_AW: AtomicWaker = AtomicWaker::new();
+static mut WAKER: [AtomicWaker; 32] = [NEW_AW; 32];
+static mut GLOBAL_SECOND: u128 = 0;
+static mut USED: [bool; 8] = [false; 8];
+static mut NEXT_INDEX: usize = USIZE_MAX;
+
+pub trait GlobalTimer {
+    fn init();
+    static async fn after(duration: core::time::Duration);
+    static fn now() -> core::time::Duration;
+    fn resolution() -> core::time::Duration;
+}
+impl GlobalTimer for LptimGlobalTimer{
+    fn now() -> core::time::Duration {
+        let cnt = read_tim1();
+        let sec = GLOBAL_SECOND;
+        let cnt = cnt * 1_000_000_000 / 32_768;  // convert to nano seconds
+        core::time::Duration::from_nanos((sec * 1_000_000_000 + cnt) as u64)
+    }
+    fn resolution() -> core::time::Duration {
+        core::time::Duration::from_nanos(1_000_000_000 / 32_768)
+    }
+    aysnc fn after(duration: core::time::Duration) {
+        let cur = Self::now();
+        let target = cur + duration;
+        let unused = USED.iter().position(|&x| !x).unwrap();
+        USED[unused] = true;
+        poll_fn(|cx| {
+            WAKER[unused].register(cx.waker());
+            let cur = Self::now();
+            if cur >= target {
+                USED[unused] = false;
+                core::task::Poll::Ready(())
+            } else if {
+                // rest less than 1 second
+                let rest = target - cur;
+                // convert to ticks (1/32_768) (round up)
+                let tick = (rest.as_nanos() + 32_768 - 1) / 32_768;
+                // set the arr to the tick and enable the interrupt (LPTIM2)
+                stm32_metapac::LPTIM2.arr().write(|v| v.0 = tick as u16);
+                stm32_metapac::LPTIM2.cntr().write(|v| v.0 = 0);
+                stm32_metapac::LPTIM2.dier().modify(|v| v.set_ueie(true));
+                stm32_metapac::LPTIM2.cr().modify(|v| v.set_enable(true));
+            }
+            else {
+                NEXT_INDEX = unused;
+                core::task::Poll::Pending
+            }
+        }).await;
+    }
+}
+
 
 #[interrupt]
 fn LPTIM1() {
-    // clear the interrupt flag
-    // if stm32_metapac::LPTIM1.isr().read().
     unsafe {
         if stm32_metapac::LPTIM1.isr().read().ue() {
             GLOBAL_SECOND += 1;
         }
         stm32_metapac::LPTIM1.icr().modify(|v| {
-            v.set_cccf(0, true);
             v.set_uecf(true);
         });
-        // disable the compare interrupt
-        stm32_metapac::LPTIM1.dier().modify(|v| v.set_ccie(0, false));
+        WAKER[NEXT_INDEX].wake();
     }
-    wake_all();
+}
+#[interrupt]
+fn LPTIM2() {
+    unsafe {
+        stm32_metapac::LPTIM2.icr().modify(|v| {
+            v.set_uecf(true);
+        });
+        // disable the counter
+        stm32_metapac::LPTIM2.cr().modify(|v| v.set_enable(false));
+        WAKER[NEXT_INDEX].wake();
+    }
 }

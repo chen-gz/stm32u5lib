@@ -10,7 +10,7 @@
 
 use stm32_metapac::adc::Adc;
 
-use crate::clock::{delay_ms, delay_us, set_adc_clock};
+use crate::clock::{set_adc_clock};
 use crate::gpio::GpioPort;
 
 pub struct AdcPort {
@@ -34,7 +34,7 @@ impl AdcPort {
             v.set_deeppwd(false);
             v.set_advregen(true); // enable adc voltage regulator
         });
-        delay_us(30);
+        // delay_us(30);
         // wait for adc voltage regulator to be ready
         while !self.port.isr().read().ldordy() {}
         // while !self.port.cr().read().advregen() {}
@@ -84,7 +84,7 @@ impl AdcPort {
         self.port.cr().modify(|v| {
             v.set_aden(true);
         });
-        delay_ms(5);
+        // delay_ms(5);
         self.port.cr().modify(|v| {
             v.set_adstart(true); // start conversion
         });

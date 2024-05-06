@@ -94,72 +94,65 @@ fn set_pll() {
 }
 
 
-fn delay_enable() {
-    unsafe {
-        // SYSTEM_CLOCK = system_clock;
-        let mut p = cortex_m::Peripherals::steal();
-        p.DCB.enable_trace(); // enable trace
-        let dwt = &mut p.DWT;
-        dwt.enable_cycle_counter();
-        dwt.cyccnt.modify(|_w| 0);
-    }
-}
+// fn delay_enable() {
+//     unsafe {
+//         // SYSTEM_CLOCK = system_clock;
+//         let mut p = cortex_m::Peripherals::steal();
+//         p.DCB.enable_trace(); // enable trace
+//         let dwt = &mut p.DWT;
+//         dwt.enable_cycle_counter();
+//         dwt.cyccnt.modify(|_w| 0);
+//     }
+// }
 
-pub fn delay_s(n: u32) {
-    unsafe {
-        let p = cortex_m::Peripherals::steal();
-        let dwt = &p.DWT;
-        let interval = HCLK;
-        for _i in 0..n {
-            let start = dwt.cyccnt.read();
-            let end = start.wrapping_add(interval);
-            let mut now = dwt.cyccnt.read();
-            while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
-                now = dwt.cyccnt.read();
-            }
-        }
-    }
-}
+// pub fn delay_s(n: u32) {
+//     unsafe {
+//         let p = cortex_m::Peripherals::steal();
+//         let dwt = &p.DWT;
+//         let interval = HCLK;
+//         for _i in 0..n {
+//             let start = dwt.cyccnt.read();
+//             let end = start.wrapping_add(interval);
+//             let mut now = dwt.cyccnt.read();
+//             while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
+//                 now = dwt.cyccnt.read();
+//             }
+//         }
+//     }
+// }
 
-pub fn delay_ms(n: u32) {
-    unsafe {
-        let p = cortex_m::Peripherals::steal();
-        let dwt = &p.DWT;
-        let interval = HCLK / 1_000 * n;
-        // 170 * (1e3 as u32) * n;
-        let start = dwt.cyccnt.read();
-        let end = start.wrapping_add(interval);
-        let mut now = dwt.cyccnt.read();
-        while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
-            now = dwt.cyccnt.read();
-        }
-    }
-}
+// pub fn delay_ms(n: u32) {
+//     unsafe {
+//         let p = cortex_m::Peripherals::steal();
+//         let dwt = &p.DWT;
+//         let interval = HCLK / 1_000 * n;
+//         // 170 * (1e3 as u32) * n;
+//         let start = dwt.cyccnt.read();
+//         let end = start.wrapping_add(interval);
+//         let mut now = dwt.cyccnt.read();
+//         while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
+//             now = dwt.cyccnt.read();
+//         }
+//     }
+// }
 
-pub fn delay_us(n: u32) {
-    unsafe {
-        let p = cortex_m::Peripherals::steal();
-        let dwt = &p.DWT;
-        let interval = HCLK / 1_000_000 * n;
-        let start = dwt.cyccnt.read();
-        let end = start.wrapping_add(interval);
-        let mut now = dwt.cyccnt.read();
-        while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
-            now = dwt.cyccnt.read();
-        }
-    }
-}
+// pub fn delay_us(n: u32) {
+//     unsafe {
+//         let p = cortex_m::Peripherals::steal();
+//         let dwt = &p.DWT;
+//         let interval = HCLK / 1_000_000 * n;
+//         let start = dwt.cyccnt.read();
+//         let end = start.wrapping_add(interval);
+//         let mut now = dwt.cyccnt.read();
+//         while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
+//             now = dwt.cyccnt.read();
+//         }
+//     }
+// }
 
 pub fn delay_tick(n: u32) {
-    unsafe {
-        let p = cortex_m::Peripherals::steal();
-        let dwt = &p.DWT;
-        let start = dwt.cyccnt.read();
-        let end = start.wrapping_add(n);
-        let mut now = dwt.cyccnt.read();
-        while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
-            now = dwt.cyccnt.read();
-        }
+    for _i in 0..n {
+        cortex_m::asm::nop();
     }
 }
 
@@ -431,7 +424,7 @@ pub fn set_clock() {
     RCC.ccipr1()
         .modify(|v| v.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48));
 
-    delay_enable();
+    // delay_enable();
 
     set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
 }

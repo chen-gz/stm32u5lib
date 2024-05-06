@@ -9,7 +9,6 @@ use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, GPIOF};
 use core::ptr as prt;
 
 use crate::clock;
-use crate::clock::delay_ms;
 
 macro_rules! define_gpio_port {
         ($($name:ident: $port:ident, $pin:expr),*) => {
