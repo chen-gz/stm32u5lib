@@ -6,13 +6,13 @@
   "shell": {
     "init_hook": [
       "echo 'Welcome to devbox!' ",
-      "rustup install nightly-2024-05-03",
-      "rustup default nightly-2024-05-03",
-      "rustup target add thumbv8m.main-none-eabihf"
+      "rustup install nightly-2024-05-03 &> /dev/null",
+      "rustup default nightly-2024-05-03 &> /dev/null",
+      "rustup target add thumbv8m.main-none-eabihf &> /dev/null"
     ],
     "scripts": {
       "test": [
-        "echo \"Error: no test specified\" && exit 1"
+        "echo \"Error: no test specified\" "
       ]
     }
   }
