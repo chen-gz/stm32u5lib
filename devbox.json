@@ -13,6 +13,12 @@
     "scripts": {
       "test": [
         "echo \"Error: no test specified\" "
+      ],
+      "check": [
+        "cargo check --lib --features stm32u575ci"
+      ],
+      "build": [
+        "cargo build --lib --release --features stm32u575ci"
       ]
     }
   }
