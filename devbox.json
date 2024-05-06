@@ -1,8 +1,14 @@
 {
-  "packages": ["rustup@1.26.0"],
+  "packages": [
+    "rustup@1.26.0",
+    "probe-rs@0.23.0"
+  ],
   "shell": {
     "init_hook": [
-      "echo 'Welcome to devbox!' > /dev/null"
+      "echo 'Welcome to devbox!' ",
+      "rustup install nightly-2024-05-03",
+      "rustup default nightly-2024-05-03",
+      "rustup target add thumbv8m.main-none-eabihf"
     ],
     "scripts": {
       "test": [
