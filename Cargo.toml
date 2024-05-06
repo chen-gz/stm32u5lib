@@ -68,10 +68,11 @@ bench = false
 [features]
 utils = []
 default = [
-#   "stm32u5a5zj",
+   "stm32u575ci",
 #    "memory-x",
     # "defmt",
 ]
+# when
 #memory-x = [ "stm32-metapac/memory-x", ]
 #! ## Chip-selection features
 #! Select your chip by specifying the model as a feature, e.g. `stm32c011d6`.

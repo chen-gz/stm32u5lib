@@ -1,5 +1,3 @@
-use core::panic::PanicInfo;
-
 #[cfg(feature = "utils")]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {

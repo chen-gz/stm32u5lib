@@ -9,10 +9,7 @@
 //!     - system start with MSI 4Mhz as clocck source. Then the system clock is set to HSE 16Mhz as default clock if system clock is less than 16Mhz. Otherwise the pll1_r is set to system clock.
 //!
 #![allow(dead_code)]
-use core::panic;
 
-// use stm32_metapac::rtc::Rtc;
-// use core::panic;
 use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
 pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
