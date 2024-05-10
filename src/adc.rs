@@ -1,5 +1,6 @@
 #![allow(unused)]
 
+use defmt::unwrap;
 // Module: adc
 /// Continuous conversion mode and discontinuous mode
 // the continuous conversion mode and discontinuous mode are not refer the same thing.
@@ -106,9 +107,13 @@ impl AdcPort {
         return _result as u32;
     }
     pub fn get_vref_int_raw(&self) -> u32 {
-        let addr = 0x0BFA_07A5 as *const u16;
-        let val = unsafe { addr.read_volatile() as u32 };
-        return val;
+        let addr = 0x0BFA_07A5 as *const u8;
+        let val = unsafe { addr.read_volatile() as u8 } as u32;
+        let addr = 0x0BFA_07A6 as *const u8;
+        // let val = val as u16 | (unsafe { addr.read_volatile() as u16 } << 8);
+        let val2 = unsafe { addr.read_volatile() as u8 } as u32;
+        // return val2 << 8 | val;
+        return val << 8 | val2;
     }
     // if use tim1 trgo as the trigger source, the trigger source is 9.
     // pub fn start_conversion_ext(&self, pin: GpioPort, channel: u8, extsel: u8,
