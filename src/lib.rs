@@ -1,6 +1,7 @@
 #![feature(type_alias_impl_trait, const_trait_impl)]
 // #![feature(const_trait_impl)]
 #![feature(noop_waker)]
+#![feature(panic_info_message)]
 #![no_std]
 #![allow(dead_code)]
 pub mod clock;

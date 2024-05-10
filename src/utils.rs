@@ -1,3 +1,6 @@
+
+use core::panic::PanicInfo;
+
 #[cfg(feature = "utils")]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -8,5 +11,7 @@ fn panic(_info: &PanicInfo) -> ! {
         _info.location().unwrap().line(),
         _info.location().unwrap().column()
     );
+    // reason
+    // defmt::error!("{:?}", _info.message().unwrap());
     loop {}
 }

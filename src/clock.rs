@@ -35,7 +35,7 @@ static mut LSE_AVAILABLE: bool = false;
 
 pub fn hclk_request<F, R>(freq: ClockFreqs, code: F) -> F::Output
     where
-        F: FnOnce()-> R,
+        F: FnOnce() -> R,
 
 {
     unsafe {
@@ -94,61 +94,61 @@ fn set_pll() {
 }
 
 
-// fn delay_enable() {
-//     unsafe {
-//         // SYSTEM_CLOCK = system_clock;
-//         let mut p = cortex_m::Peripherals::steal();
-//         p.DCB.enable_trace(); // enable trace
-//         let dwt = &mut p.DWT;
-//         dwt.enable_cycle_counter();
-//         dwt.cyccnt.modify(|_w| 0);
-//     }
-// }
+fn delay_enable() {
+    unsafe {
+        // SYSTEM_CLOCK = system_clock;
+        let mut p = cortex_m::Peripherals::steal();
+        p.DCB.enable_trace(); // enable trace
+        let dwt = &mut p.DWT;
+        dwt.enable_cycle_counter();
+        dwt.cyccnt.modify(|_w| 0);
+    }
+}
 
-// pub fn delay_s(n: u32) {
-//     unsafe {
-//         let p = cortex_m::Peripherals::steal();
-//         let dwt = &p.DWT;
-//         let interval = HCLK;
-//         for _i in 0..n {
-//             let start = dwt.cyccnt.read();
-//             let end = start.wrapping_add(interval);
-//             let mut now = dwt.cyccnt.read();
-//             while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
-//                 now = dwt.cyccnt.read();
-//             }
-//         }
-//     }
-// }
+pub fn delay_s(n: u32) {
+    unsafe {
+        let p = cortex_m::Peripherals::steal();
+        let dwt = &p.DWT;
+        let interval = HCLK;
+        for _i in 0..n {
+            let start = dwt.cyccnt.read();
+            let end = start.wrapping_add(interval);
+            let mut now = dwt.cyccnt.read();
+            while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
+                now = dwt.cyccnt.read();
+            }
+        }
+    }
+}
 
-// pub fn delay_ms(n: u32) {
-//     unsafe {
-//         let p = cortex_m::Peripherals::steal();
-//         let dwt = &p.DWT;
-//         let interval = HCLK / 1_000 * n;
-//         // 170 * (1e3 as u32) * n;
-//         let start = dwt.cyccnt.read();
-//         let end = start.wrapping_add(interval);
-//         let mut now = dwt.cyccnt.read();
-//         while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
-//             now = dwt.cyccnt.read();
-//         }
-//     }
-// }
+pub fn delay_ms(n: u32) {
+    unsafe {
+        let p = cortex_m::Peripherals::steal();
+        let dwt = &p.DWT;
+        let interval = HCLK / 1_000 * n;
+        // 170 * (1e3 as u32) * n;
+        let start = dwt.cyccnt.read();
+        let end = start.wrapping_add(interval);
+        let mut now = dwt.cyccnt.read();
+        while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
+            now = dwt.cyccnt.read();
+        }
+    }
+}
 
-// pub fn delay_us(n: u32) {
-//     unsafe {
-//         let p = cortex_m::Peripherals::steal();
-//         let dwt = &p.DWT;
-//         let interval = HCLK / 1_000_000 * n;
-//         let start = dwt.cyccnt.read();
-//         let end = start.wrapping_add(interval);
-//         let mut now = dwt.cyccnt.read();
-//         while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
-//             now = dwt.cyccnt.read();
-//         }
-//     }
-// }
+pub fn delay_us(n: u32) {
+    unsafe {
+        let p = cortex_m::Peripherals::steal();
+        let dwt = &p.DWT;
+        let interval = HCLK / 1_000_000 * n;
+        let start = dwt.cyccnt.read();
+        let end = start.wrapping_add(interval);
+        let mut now = dwt.cyccnt.read();
+        while (now >= start && (now <= end || start > end)) || (now <= end && end < start) {
+            now = dwt.cyccnt.read();
+        }
+    }
+}
 
 pub fn delay_tick(n: u32) {
     for _i in 0..n {
@@ -203,7 +203,7 @@ pub fn set_sdmmc_clock(
         // panic!("SDMMC not enabled");
         RCC.ccipr2().modify(|v| v.set_sdmmcsel(SdmmcClockSource::ICLK));
     }
-        // RCC.ccipr2().modify(|v| v.set_sdmmcsel(SdmmcClockSource::PLL1_P));
+    // RCC.ccipr2().modify(|v| v.set_sdmmcsel(SdmmcClockSource::PLL1_P));
 
     if sdmmc == stm32_metapac::SDMMC1 {
         RCC.ahb2enr1().modify(|v| v.set_sdmmc1en(true));
@@ -230,42 +230,43 @@ pub fn set_i2c_clock(i2c_num: u8) {
         RCC.ccipr1().modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::I2csel::HSI));
         // enable i2c1 clock
         RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
-    }
-    else if i2c_num == 2 {
+    } else if i2c_num == 2 {
         RCC.ccipr1().modify(|v| v.set_i2c2sel(stm32_metapac::rcc::vals::I2csel::HSI));
         // enable i2c2 clock
         RCC.apb1enr1().modify(|v| v.set_i2c2en(true));
         RCC.apb1smenr1().modify(|v| v.set_i2c2smen(true));
-    }
-    else if i2c_num == 3 {
+    } else if i2c_num == 3 {
         RCC.ccipr3().modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::I2c3sel::HSI));
         // enable i2c3 clock
         RCC.apb3enr().modify(|v| v.set_i2c3en(true));
-    }
-    else {
+    } else {
         defmt::panic!("Invalid i2c number");
-
     }
 }
+
 /// enable lptim for all mode and use LSE as clock source
 pub fn set_lptim_clock(num: u8) {
+    RCC.cr().modify(|v| v.set_hsikeron(true));
     match num {
         1 => {
+            RCC.ccipr3().modify(|v| v.set_lptim1sel(stm32_metapac::rcc::vals::Lptimsel::HSI));
             RCC.apb3enr().modify(|v| v.set_lptim1en(true));
-            RCC.ccipr3().modify(|v| v.set_lptim1sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
-        },
+            RCC.apb3smenr().modify(|v| v.set_lptim1smen(true));
+            RCC.srdamr().modify(|v| v.set_lptim1amen(true));
+        }
         2 => {
+            RCC.ccipr1().modify(|v| v.set_lptim2sel(stm32_metapac::rcc::vals::Lptim2sel::HSI));
             RCC.apb1enr2().modify(|v| v.set_lptim2en(true));
-            RCC.ccipr1().modify(|v| v.set_lptim2sel(stm32_metapac::rcc::vals::Lptim2sel::LSE));
+            RCC.apb3smenr().modify(|v| v.set_lptim1smen(true));
         }
         3 => {
+            RCC.ccipr3().modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
             RCC.apb3enr().modify(|v| v.set_lptim3en(true));
-            RCC.ccipr3().modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
-        },
+        }
         4 => {
-            RCC.apb3enr().modify(|v| v.set_lptim4en(true));
             RCC.ccipr3().modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
-        },
+            RCC.apb3enr().modify(|v| v.set_lptim4en(true));
+        }
         _ => defmt::panic!("Invalid lptim number"),
     }
 }
@@ -326,8 +327,7 @@ pub fn init_clock(has_hse: bool,
         defmt::info!("RTC not enabled, enable RTC");
         if has_lse {
             rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
-        }
-        else {
+        } else {
             rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
         }
     }
@@ -424,7 +424,7 @@ pub fn set_clock() {
     RCC.ccipr1()
         .modify(|v| v.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48));
 
-    // delay_enable();
+    delay_enable();
 
     set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
 }
