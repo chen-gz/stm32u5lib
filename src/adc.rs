@@ -1,6 +1,8 @@
 #![allow(unused)]
 
+use defmt::export::panic;
 use defmt::unwrap;
+use embassy_sync::channel::Channel;
 // Module: adc
 /// Continuous conversion mode and discontinuous mode
 // the continuous conversion mode and discontinuous mode are not refer the same thing.
@@ -16,11 +18,67 @@ use crate::gpio::GpioPort;
 
 pub struct AdcPort {
     port: Adc,
+    num_chs: u8, // number of convert channels
 }
 
 pub const ADC1: AdcPort = AdcPort {
     port: stm32_metapac::ADC1,
+    num_chs: 0,
 };
+
+static mut ADC1_CALIBRATION: u16 = 0; // this value will be change only once when init the adc
+
+pub fn set_adc1_calibration(calibration: u16) {
+    let mut called = false;
+    if called {
+        return;
+    }
+    called = true;
+    unsafe {
+        ADC1_CALIBRATION = calibration;
+    }
+}
+
+pub fn get_adc1_calibration() -> u16 {
+    unsafe {
+        return ADC1_CALIBRATION;
+    }
+}
+
+// 000: 5 ADC clock cycles
+// 001: 6 ADC clock cycles
+// 010: 12 ADC clock cycles
+// 011: 20 ADC clock cycles
+// 100: 36 ADC clock cycles
+// 101: 68 ADC clock cycles
+// 110: 391 ADC clock cycles
+// 111: 814 ADC clock cycles
+pub enum SampleTime {
+    Cycles5 = 0,
+    Cycles6 = 1,
+    Cycles12 = 2,
+    Cycles20 = 3,
+    Cycles36 = 4,
+    Cycles68 = 5,
+    Cycles391 = 6,
+    Cycles814 = 7,
+}
+
+impl SampleTime {
+    pub fn to_duration(&self) -> core::time::Duration {
+        // the adc clock is 16MHz
+        match self {
+            SampleTime::Cycles5 => core::time::Duration::from_nanos(5 * 1_000 / 16),
+            SampleTime::Cycles6 => core::time::Duration::from_nanos(6 * 1_000 / 16),
+            SampleTime::Cycles12 => core::time::Duration::from_nanos(12 * 1_000 / 16),
+            SampleTime::Cycles20 => core::time::Duration::from_nanos(20 * 1_000 / 16),
+            SampleTime::Cycles36 => core::time::Duration::from_nanos(36 * 1_000 / 16),
+            SampleTime::Cycles68 => core::time::Duration::from_nanos(68 * 1_000 / 16),
+            SampleTime::Cycles391 => core::time::Duration::from_nanos(391 * 1_000 / 16),
+            SampleTime::Cycles814 => core::time::Duration::from_nanos(814 * 1_000 / 16),
+        }
+    }
+}
 
 impl AdcPort {
     pub fn init(&self) {
@@ -60,6 +118,28 @@ impl AdcPort {
         // enable adc
         self.port.cr().modify(|v| {
             v.set_aden(true);
+        });
+    }
+
+    pub fn add_channel(&mut self, channel: u8, sample_time: SampleTime) {
+        self.port.pcsel().modify(|v| {
+            v.set_pcsel(channel as usize, true); // select the channel "ch" as the input
+        });
+        self.port.cfgr().modify(|v| {
+            v.set_cont(false); // disable continuous conversion mode
+        });
+        self.num_chs += 1;
+        self.port.sqr1().modify(|v| { v.set_l(self.num_chs - 1); });
+        // sqrt1 from 1 to 4
+        if self.num_chs <= 4 {
+            self.port.sqr1().modify(|v| { v.set_sq((self.num_chs - 1) as _, channel); });
+        } else if self.num_chs <= 9 {
+            self.port.sqr2().modify(|v| { v.set_sq((self.num_chs - 5) as _, channel); });
+        } else {
+            todo!();
+        }
+        self.port.smpr((channel / 10) as _ ).modify(|v| {
+            v.set_smp(channel as usize, sample_time as u8); // sete sample time to 640.5 cycles
         });
     }
     pub fn start_conversion_sw(&self, channel: u8) -> u32 {
