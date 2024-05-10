@@ -61,8 +61,17 @@ impl Lptim {
         self.ins.cnt().read().0
     }
     pub async fn after(&self, duration: Duration) {
+        let mut duration = duration;
+        while duration > Duration::from_millis(100) {
+            self.after_limit(Duration::from_millis(100)).await;
+            duration -= Duration::from_millis(100);
+        }
+        self.after_limit(duration).await;
+    }
+    async fn after_limit(&self, duration: Duration) {
+        // the maximum duration is 1 << 16 tick. Each tick is 1/500KHz = 2us
+        // maximum duration is 131072us = 131ms
         unsafe {
-
             // stm32_metapac::LPTIM2.cr().modify(|v| v.set_sngstrt(true));
             let tick = duration.as_micros() as u32 / 2;
             if tick == 0 {

@@ -55,6 +55,11 @@ impl AdcPort {
             v.set_adcal(true);
         });
         while self.port.cr().read().adcal() {} // wait for calibration finish
+
+        // enable adc
+        self.port.cr().modify(|v| {
+            v.set_aden(true);
+        });
     }
     pub fn start_conversion_sw(&self, channel: u8) -> u32 {
         self.port.pcsel().modify(|v| {
@@ -80,10 +85,6 @@ impl AdcPort {
                 v.set_smp((channel - 10) as usize, 0b111); // sete sample time to 640.5 cycles
             });
         }
-        // enable adc
-        self.port.cr().modify(|v| {
-            v.set_aden(true);
-        });
         // delay_ms(5);
         self.port.cr().modify(|v| {
             v.set_adstart(true); // start conversion
@@ -98,9 +99,9 @@ impl AdcPort {
             v.set_adstp(true);
         });
         // disable adc
-        self.port.cr().modify(|v| {
-            v.set_addis(true);
-        });
+        // self.port.cr().modify(|v| {
+        //     v.set_addis(true);
+        // });
 
         return _result as u32;
     }
