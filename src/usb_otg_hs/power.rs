@@ -150,7 +150,7 @@ pub fn power_up_init() {
     r.dcfg().write(|w| {
         w.set_pfivl(otg::vals::Pfivl::FRAME_INTERVAL_80); // set period frame interval TODO: figure out what is this
         #[cfg(stm32u575)]
-        w.set_dspd(self.phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
+        w.set_dspd(phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
         #[cfg(stm32u5a5)]
         // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
         w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
