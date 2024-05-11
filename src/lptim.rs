@@ -1,7 +1,6 @@
 use core::future::poll_fn;
 use core::sync::atomic::AtomicBool;
 use core::time::Duration;
-use cortex_m::asm::delay;
 use cortex_m::peripheral::NVIC;
 use stm32_metapac::interrupt;
 use crate::{clock};
@@ -13,7 +12,6 @@ pub struct Lptim {
 }
 
 static mut TAKEN: [bool; 8] = [false; 8]; // first bit will be ignored
-const RELOAD_VALUE: u32 = 62_500;  // half second, the clock is 16_000_000 / 128 = 125_000
 const ARRAY_REPEAT_VALUE: AtomicBool = AtomicBool::new(false);
 static mut TIMER_LOCKER: [AtomicBool; 4] = [ARRAY_REPEAT_VALUE; 4]; // true means the timer is running
 const NEW_AW: AtomicWaker = AtomicWaker::new();
@@ -22,18 +20,9 @@ static mut WAKER: [AtomicWaker; 4] = [NEW_AW; 4];
 impl Lptim {
     pub fn new(num: u8) -> Self {
         let ret = match num {
-            1 => Self {
-                num,
-                ins: stm32_metapac::LPTIM1,
-            },
-            2 => Self {
-                num,
-                ins: stm32_metapac::LPTIM2,
-            },
-            3 => Self {
-                num,
-                ins: stm32_metapac::LPTIM3,
-            },
+            1 => Self { num, ins: stm32_metapac::LPTIM1 },
+            2 => Self { num, ins: stm32_metapac::LPTIM2 },
+            3 => Self { num, ins: stm32_metapac::LPTIM3 },
             // 4 => { Self { num, ins: stm32_metapac::LPTIM4 } }
             _ => panic!("not supported LPTIM"),
         };
@@ -47,15 +36,17 @@ impl Lptim {
     }
     pub fn init(&self) {
         clock::set_lptim_clock(self.num);
-        self.ins.cr().modify(|v| { v.set_enable(true); });
-        self.ins.arr().write(|v| v.0 = 62_500);
-        self.ins.cfgr().modify(|v| { v.set_presc(stm32_metapac::lptim::vals::Presc::DIV32); });
-        self.ins.dier().modify(|v| { v.set_ueie(true); });
-        self.ins.cr().modify(|v| { v.set_cntstrt(true); });
+        self.ins.cr().modify(|v| v.set_enable(true));
+        self.ins.cfgr().modify(|v| v.set_presc(stm32_metapac::lptim::vals::Presc::DIV32));
+        self.ins.dier().modify(|v| v.set_ueie(true));
         unsafe {
             NVIC::unmask(stm32_metapac::Interrupt::LPTIM1);
             NVIC::unmask(stm32_metapac::Interrupt::LPTIM2);
         }
+    }
+    pub fn get_resolution(&self) -> Duration {
+        // 16MHz / 32 = 500KHz = 2us
+        Duration::from_micros(2)
     }
     pub fn get_cnt(&self) -> u32 {
         self.ins.cnt().read().0
@@ -69,19 +60,15 @@ impl Lptim {
         self.after_limit(duration).await;
     }
     async fn after_limit(&self, duration: Duration) {
-        // the maximum duration is 1 << 16 tick. Each tick is 1/500KHz = 2us
-        // maximum duration is 131072us = 131ms
         unsafe {
-            // stm32_metapac::LPTIM2.cr().modify(|v| v.set_sngstrt(true));
-            let tick = duration.as_micros() as u32 / 2;
-            if tick == 0 {
-                return;
-            }
-            // set arr and start the counter
-            // stm32_metapac::LPTIM2.arr().write(|v| v.0 = tick);
-            self.ins.arr().write(|v| v.0 = tick);
+            let tick = duration.as_micros() as u32 / self.get_resolution().as_micros() as u32;
+            if tick == 0 { return; }
             let index = self.num as usize - 1;
+            if TIMER_LOCKER[index].load(core::sync::atomic::Ordering::Relaxed) {
+                panic!("LPTIM{} is already running", self.num);
+            }
             TIMER_LOCKER[index].store(true, core::sync::atomic::Ordering::Relaxed);
+            self.ins.arr().write(|v| v.0 = tick);
             // enable update event interrupt
             self.ins.dier().modify(|v| v.set_ueie(true));
             self.ins.cr().modify(|v| v.set_sngstrt(true));
@@ -102,22 +89,10 @@ impl Lptim {
             WAKER[index].wake();
             // clear update event flag
             match timer_num {
-                1 => {
-                    stm32_metapac::LPTIM1.icr().modify(|v| {
-                        v.set_uecf(true);
-                    });
-                }
-                2 => {
-                    stm32_metapac::LPTIM2.icr().modify(|v| {
-                        v.set_uecf(true);
-                    });
-                }
-                3 => {
-                    stm32_metapac::LPTIM3.icr().modify(|v| {
-                        v.set_uecf(true);
-                    });
-                }
-                _ => {}
+                1 => stm32_metapac::LPTIM1.icr().modify(|v| v.set_uecf(true)),
+                2 => stm32_metapac::LPTIM2.icr().modify(|v| v.set_uecf(true)),
+                3 => stm32_metapac::LPTIM3.icr().modify(|v| v.set_uecf(true)),
+                _ => todo!("not supported LPTIM"),
             }
         }
     }
@@ -126,9 +101,7 @@ impl Lptim {
 
 impl Drop for Lptim {
     fn drop(&mut self) {
-        unsafe {
-            TAKEN[self.num as usize] = false;
-        }
+        unsafe { TAKEN[self.num as usize] = false; }
     }
 }
 
