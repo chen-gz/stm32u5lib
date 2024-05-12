@@ -6,7 +6,7 @@
 #![allow(dead_code)]
 pub mod clock;
 pub mod i2c;
-#[cfg(feature = "stm32u5a5")]
+#[cfg(feature = "stm32u5a5zj")]
 pub mod dcmi;
 pub mod dma;
 pub mod gpio;
@@ -14,14 +14,14 @@ pub mod gpio;
 // pub mod ov5640_reg;
 pub mod sd_device;
 
-#[cfg(feature = "stm32u5a5")]
+#[cfg(feature = "stm32u5a5zj")]
 pub mod sdmmc;
 
 pub mod exti;
 pub mod low_power;
 pub mod lptim;
 pub mod rtc;
-#[cfg(feature = "stm32u5a5")]
+#[cfg(feature = "stm32u5a5zj")]
 pub mod camera;
 
 // pub mod usb_otg{
@@ -43,9 +43,11 @@ pub use embassy_executor::Spawner;
 pub use embassy_executor_macros::task;
 pub use embassy_executor;
 pub mod com_interface;
-#[cfg(feature = "stm32u5a5")]
+#[cfg(feature = "stm32u5a5zj")]
 pub mod pwr;
-#[cfg(feature = "stm32u5a5")]
+
+#[cfg(otg_hs)]
 pub mod usb_otg_hs;
+
 pub mod drivers;
 pub mod utils;

@@ -183,7 +183,7 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
 }
 
 
-#[cfg(feature = "stm32u5a5")]
+#[cfg(feature = "stm32u5a5zj")]
 pub fn set_sdmmc_clock(
     sdmmc: stm32_metapac::sdmmc::Sdmmc,
     clk_src: SdmmcClockSource,
