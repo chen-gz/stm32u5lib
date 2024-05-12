@@ -3,7 +3,11 @@ use defmt::{trace};
 use stm32_metapac::{PWR, RCC, SYSCFG, otg};
 use crate::usb_otg_hs::global_states::{regs, restore_irqs};
 
-
+pub fn usb_power_down() {
+    PWR.svmcr().modify(|w| {
+        w.set_usv(false); // RM0456 (rev 4) p 404. Romove Vddusb isolation
+    });
+}
 pub fn power_up_init() {
     trace!("init");
     PWR.svmcr().modify(|w| {

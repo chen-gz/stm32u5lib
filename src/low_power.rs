@@ -92,21 +92,12 @@ static mut _REF_COUNT_STOP3: u32 = 0;
 static mut _REF_COUNT_STANDBY: u32 = 0;
 
 /// NO DEEP SLEEP if this function is called, the mcu will not go deep sleep
-// pub fn mcu_no_deep_sleep() {
-//     unsafe {
-//         REF_COUNT_DEEP += 1;
-//     }
-// }
-pub fn no_deep_sleep_request() {
-    unsafe {
+pub unsafe fn no_deep_sleep_request() {
         REF_COUNT_DEEP += 1;
-    }
 }
 
-pub fn no_deep_sleep_release() {
-    unsafe {
+pub unsafe fn no_deep_sleep_release() {
         REF_COUNT_DEEP -= 1;
-    }
 }
 
 pub fn run_no_deep_sleep<F>(code: F)

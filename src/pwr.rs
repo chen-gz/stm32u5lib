@@ -4,6 +4,13 @@ use cortex_m::peripheral::NVIC;
 use defmt::info;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use embassy_sync::signal::Signal;
+static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
+
+use stm32_metapac::interrupt;
+use crate::gpio::PD15;
+use crate::usb_otg_hs::global_states::BUS_WAKER_PWR;
+// use crate::usb_otg_hs::power::power_up_init;
+use crate::usb_otg_hs::*;
 
 use crate::clock::{set_clock, ClockFreqs, CLOCK_REQUESTS};
 use crate::low_power;
@@ -36,7 +43,7 @@ pub async fn vddusb_monitor_up() {
                 }
                 // crate::usb_otg_hs::mod_new::power_up_init();
                 // crate::usb_otg_hs::po
-                power_up_init();
+                power::power_up_init();
                 PD15.set_high();
                 unsafe {
                     BUS_WAKER_PWR.wake();
@@ -47,6 +54,8 @@ pub async fn vddusb_monitor_up() {
                     CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
                     low_power::no_deep_sleep_release();
                     PD15.set_low();
+                    // todo: add usb power down 
+                    power::usb_power_down();
                 }
             }
         }
@@ -54,13 +63,6 @@ pub async fn vddusb_monitor_up() {
     }
 }
 
-static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
-
-
-use stm32_metapac::interrupt;
-use crate::gpio::PD15;
-use crate::usb_otg_hs::global_states::BUS_WAKER_PWR;
-use crate::usb_otg_hs::power::power_up_init;
 
 #[interrupt]
 fn PVD_PVM() {

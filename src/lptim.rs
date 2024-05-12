@@ -1,7 +1,9 @@
-use core::future::poll_fn;
-use core::sync::atomic::AtomicBool;
-use core::time::Duration;
-use cortex_m::peripheral::NVIC;
+use core::{
+    future::poll_fn,
+    sync::atomic::AtomicBool,
+    time::Duration,
+};
+use cortex_m::{peripheral::NVIC};
 use stm32_metapac::interrupt;
 use crate::{clock};
 use embassy_sync::waitqueue::AtomicWaker;

@@ -149,22 +149,22 @@ pub async fn setup_process() {
 pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
     unsafe {
         if state().ep0_setup_ready.load(Ordering::Relaxed) {
-                state().ep0_setup_ready.store(false, Ordering::Release);
+            state().ep0_setup_ready.store(false, Ordering::Release);
         }else {
-        read0(&mut SETUP_DATA[0..64]).await?;
-        poll_fn(|cx| {
-            state().ep_out_wakers[0].register(cx.waker());
-            if RESET  {
-                return Poll::Ready(Err(PhyState::Reset));
-            }
-            if state().ep0_setup_ready.load(Ordering::Relaxed) {
-                state().ep0_setup_ready.store(false, Ordering::Release);
-                // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
-                return Poll::Ready(Ok(PhyState::Active));
-            } else {
-                Poll::Pending
-            }
-        })
+            read0(&mut SETUP_DATA[0..64]).await?;
+            poll_fn(|cx| {
+                state().ep_out_wakers[0].register(cx.waker());
+                if RESET  {
+                    return Poll::Ready(Err(PhyState::Reset));
+                }
+                if state().ep0_setup_ready.load(Ordering::Relaxed) {
+                    state().ep0_setup_ready.store(false, Ordering::Release);
+                    // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
+                    return Poll::Ready(Ok(PhyState::Active));
+                } else {
+                    Poll::Pending
+                }
+            })
             .await?;
         }
         defmt::info!( "setup packet ready, processing package {:x}", SETUP_DATA[0..8]);
