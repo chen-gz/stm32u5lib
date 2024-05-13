@@ -51,13 +51,16 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
 }
 pub fn state() -> &'static mut State<MAX_EP_COUNT> {
     // static STATE: State<MAX_EP_COUNT> = State::new();
+    // disable warning for following line
+    #[allow(static_mut_refs)]
     unsafe { &mut STATE }
+    // unsafe {addr_of_mut!(STATE)}
 }
 
 pub(crate) fn regs() -> otg::Otg {
-    #[cfg(stm32u575)]
+    #[cfg(otg_fs)]
     return stm32_metapac::USB_OTG_FS;
-    #[cfg(stm32u5a5)]
+    #[cfg(otg_hs)]
     return stm32_metapac::USB_OTG_HS;
 }
 use defmt;

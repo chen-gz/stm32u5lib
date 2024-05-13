@@ -6,7 +6,7 @@
 #![allow(dead_code)]
 pub mod clock;
 pub mod i2c;
-#[cfg(feature = "stm32u5a5zj")]
+#[cfg(dcmi)]
 pub mod dcmi;
 pub mod dma;
 pub mod gpio;
@@ -14,14 +14,16 @@ pub mod gpio;
 // pub mod ov5640_reg;
 pub mod sd_device;
 
-#[cfg(feature = "stm32u5a5zj")]
+#[cfg(sdmmc)]
 pub mod sdmmc;
 
 pub mod exti;
 pub mod low_power;
 pub mod lptim;
 pub mod rtc;
-#[cfg(feature = "stm32u5a5zj")]
+
+// only when sdmmc and dcmi and ov5640 are enabled
+#[cfg(all(sdmmc, dcmi))]
 pub mod camera;
 
 // pub mod usb_otg{

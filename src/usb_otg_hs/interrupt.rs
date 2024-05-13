@@ -198,7 +198,7 @@ pub unsafe fn on_interrupt() {
 }
 
 
-#[cfg(stm32u5a5)]
+#[cfg(otg_hs)]
 #[interrupt]
 fn OTG_HS() {
     unsafe {

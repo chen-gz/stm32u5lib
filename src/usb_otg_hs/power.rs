@@ -13,7 +13,7 @@ pub fn power_up_init() {
     PWR.svmcr().modify(|w| {
         w.set_usv(true); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
-    #[cfg(stm32u5a5)]
+    #[cfg(otg_hs)]
     {
         critical_section::with(|_| {
             PWR.vosr().modify(|v| {
@@ -63,33 +63,33 @@ pub fn power_up_init() {
     trace!("USB power stabilized");
 
     // Select HSI48 as USB clock source.
-    #[cfg(stm32u575)]
-    critical_section::with(|_| {
-        stm32_metapac::RCC.ccipr1().modify(|w| {
-            w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
-        })
-    });
-    #[cfg(stm32u5a5)]
+    // #[cfg(stm32u575)]
+    // critical_section::with(|_| {
+    //     stm32_metapac::RCC.ccipr1().modify(|w| {
+    //         w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
+    //     })
+    // });
+    #[cfg(otg_hs)]
     critical_section::with(|_| {
         stm32_metapac::RCC.ccipr2().modify(|w| {
             w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
         })
     });
-    #[cfg(stm32u575)]
-    stm32_metapac::RCC
-        .ahb2enr1()
-        .modify(|w| w.set_usb_otg_fsen(true));
+    // #[cfg(stm32u575)]
+    // stm32_metapac::RCC
+    //     .ahb2enr1()
+    //     .modify(|w| w.set_usb_otg_fsen(true));
+    //
+    // #[cfg(stm32u575)]
+    // unsafe {
+    //     NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
+    //     NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
+    //     // start_irq();
+    //     Self::restore_irqs();
+    //     trace!("USB IRQs start");
+    // }
 
-    #[cfg(stm32u575)]
-    unsafe {
-        NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
-        NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
-        // start_irq();
-        Self::restore_irqs();
-        trace!("USB IRQs start");
-    }
-
-    #[cfg(stm32u5a5)]
+    #[cfg(otg_hs)]
     unsafe {
         NVIC::unpend(stm32_metapac::Interrupt::OTG_HS);
         NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
@@ -153,9 +153,9 @@ pub fn power_up_init() {
     // Set speed.
     r.dcfg().write(|w| {
         w.set_pfivl(otg::vals::Pfivl::FRAME_INTERVAL_80); // set period frame interval TODO: figure out what is this
-        #[cfg(stm32u575)]
-        w.set_dspd(phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
-        #[cfg(stm32u5a5)]
+        // #[cfg(stm32u575)]
+        // w.set_dspd(phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
+        #[cfg(otg_hs)]
         // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
         w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
     });
