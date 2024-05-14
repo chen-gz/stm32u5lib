@@ -35,17 +35,13 @@ pub struct SetupPacket {
 }
 
 pub enum Request {
-    GetDeviceDescriptor(u8),
-    GetConfigurationDescriptor(u8),
-    GetStringLangDescriptor(u8),
+    GetDeviceDescriptor(u8), // length
+    GetConfigurationDescriptor(u8),  // length
+    GetStringLangDescriptor(u8), 
     GetStringManufacturerDescriptor(u8),
     GetStringProductDescriptor(u8),
     GetSerialNumberDescriptor(u8),
     GetDeviceQualifierDescriptor(u8),
-
-
-
-
     SetAddress(u8),
     SetConfiguration(u8),
 
@@ -230,6 +226,13 @@ impl USBDeviceDescriptor {
         buf[17] = self.b_num_configurations;
         buf
     }
+    pub fn copy_to_buf(&self, buf: &mut [u8]) -> usize {
+        let temp = self.as_bytes();
+        for i in 0..temp.len() {
+            buf[i] = temp[i];
+        }
+        temp.len()
+    }
 }
 
 pub struct DeviceQualifierDescriptor {
@@ -259,6 +262,13 @@ impl DeviceQualifierDescriptor {
         buf[8] = self.b_num_configurations;
         buf[9] = self.b_reserved;
         buf
+    }
+    pub fn copy_to_buf(&self, buf: &mut [u8]) -> usize {
+        let temp = self.as_bytes();
+        for i in 0..temp.len() {
+            buf[i] = temp[i];
+        }
+        temp.len()
     }
 }
 
@@ -295,6 +305,13 @@ impl ConfigurationDescriptor {
         buf[7] = self.bm_attributes;
         buf[8] = self.b_max_power;
         buf
+    }
+    pub fn copy_to_buf(&self, buf: &mut [u8]) -> usize {
+        let temp = self.as_bytes();
+        for i in 0..temp.len() {
+            buf[i] = temp[i];
+        }
+        temp.len()
     }
 }
 
@@ -333,6 +350,13 @@ impl InterfaceDescriptor {
         buf[8] = self.i_interface;
         buf
     }
+    pub fn copy_to_buf(&self, buf: &mut [u8]) -> usize {
+        let temp = self.as_bytes();
+        for i in 0..temp.len() {
+            buf[i] = temp[i];
+        }
+        temp.len()
+    }
 }
 
 pub struct EndpointDescriptor {
@@ -361,6 +385,13 @@ impl EndpointDescriptor {
         buf[5] = (self.w_max_packet_size >> 8) as u8;
         buf[6] = self.b_interval;
         buf
+    }
+    pub fn copy_to_buf(&self, buf: &mut [u8]) -> usize {
+        let temp = self.as_bytes();
+        for i in 0..temp.len() {
+            buf[i] = temp[i];
+        }
+        temp.len()
     }
 }
 
@@ -396,6 +427,13 @@ impl InterfaceAssociationDescriptor {
         buf[7] = self.i_function;
         buf
     }
+    pub fn copy_to_buf(&self, buf: &mut [u8]) -> usize {
+        let temp = self.as_bytes();
+        for i in 0..temp.len() {
+            buf[i] = temp[i];
+        }
+        temp.len()
+    }
 }
 
 pub struct StringDescriptor {
@@ -418,6 +456,7 @@ impl StringDescriptor {
         }
         buf
     }
+
     pub fn manufacturer(str: &str) -> [u8; 64] {
         let mut descriptor = StringDescriptor {
             b_length: str.len() as u8 * 2 + 2,

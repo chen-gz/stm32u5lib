@@ -17,18 +17,18 @@ use crate::usb_otg_hs::global_states::{regs};
 use crate::usb_common::descriptor::*;
 
 pub struct SetupResponse {
-    pub(crate) setup: SetupPacket,
-    pub(crate) request: Request,
-    pub(crate) data_stage_direction: Direction,
-    pub(crate) has_data_stage: bool,
-    // pub(crate) data: [u8; 256],
-    pub(crate) data: Aligned<aligned::A4, [u8; 256]>,
-    pub(crate) len: usize,
+    pub setup: SetupPacket,
+    pub request: Request,
+    pub data_stage_direction: Direction,
+    pub has_data_stage: bool,
+    pub data: Aligned<aligned::A4, [u8; 256]>,
+    pub len: usize,
 }
 use crate::usb_common;
 
-pub trait DescriptorForUsb {
+pub trait BasicDescriptor {
     fn device_descriptor(&self) -> usb_common::descriptor::USBDeviceDescriptor;
+    /// Returns the configuration descriptor for the device.
     fn configuration_descriptor(&self) -> usb_common::descriptor::ConfigurationDescriptor;
     fn string_lang_descriptor(&self) -> usb_common::descriptor::StringDescriptor;
     fn string_manufacturer_descriptor(&self) -> usb_common::descriptor::StringDescriptor;
@@ -36,6 +36,7 @@ pub trait DescriptorForUsb {
     fn string_serial_number_descriptor(&self) -> usb_common::descriptor::StringDescriptor;
     fn device_qualifier_descriptor(&self) -> usb_common::descriptor::DeviceQualifierDescriptor;
 }
+
 pub trait CdcSetup {
     fn get_line_coding(&self) -> [u8; 7];
     fn set_line_coding(&self, data: &[u8; 7]);
@@ -45,6 +46,7 @@ pub trait CdcSetup {
 
 
 pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
+    assert!(buf.len() >= 8);
     defmt::info!("process_setup_packet, {:x}", buf);
     let setup = SetupPacket::from_bytes(buf);
     let mut response = SetupResponse {
