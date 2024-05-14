@@ -182,3 +182,19 @@ define_gpio_port_alt!(
     ADC1_IN5_PA0: GPIOA, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING
 
 );
+/// Implement the Pin trait for GpioPort
+use crate::hal;
+impl hal::Pin for GpioPort {
+    fn setup(&self) {
+        self.setup();
+    }
+    fn set_high(&self) {
+        self.set_high();
+    }
+    fn set_low(&self) {
+        self.set_low();
+    }
+    fn toggle(&self) {
+        self.toggle();
+    }
+}

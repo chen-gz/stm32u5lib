@@ -53,3 +53,6 @@ pub mod usb_otg_hs;
 
 pub mod drivers;
 pub mod utils;
+pub mod usb_common;
+
+pub mod hal;

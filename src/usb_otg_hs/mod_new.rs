@@ -10,10 +10,11 @@ pub fn init_setaddress(address: u8) {
 // let res = process_setup_packet(SETUP_DATA);
 
 use aligned::Aligned;
-use crate::usb_otg_hs::descriptor::*;
+// use crate::usb_otg_hs::descriptor::*;
 use crate::usb_otg_hs::endpoint_new::{Endpoint, EpType, MaxPacketSize};
 use crate::usb_otg_hs::global_states::{regs};
 
+use crate::usb_common::descriptor::*;
 
 pub struct SetupResponse {
     pub(crate) setup: SetupPacket,
