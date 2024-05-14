@@ -8,9 +8,9 @@ static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
 use stm32_metapac::interrupt;
 use crate::gpio::PD15;
-use crate::usb_otg_hs::global_states::BUS_WAKER_PWR;
-// use crate::usb_otg_hs::power::power_up_init;
-use crate::usb_otg_hs::*;
+use crate::otg_hs::global_states::BUS_WAKER_PWR;
+// use crate::otg_hs::power::power_up_init;
+use crate::otg_hs::*;
 
 use crate::clock::{set_clock, ClockFreqs, CLOCK_REQUESTS};
 use crate::low_power;

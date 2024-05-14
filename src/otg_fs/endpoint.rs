@@ -76,7 +76,6 @@ pub enum PhyState {
     Reset,
     Init,
     Suspend,
-    Sleep,
     Error,
 }
 

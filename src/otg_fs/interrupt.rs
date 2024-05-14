@@ -1,5 +1,5 @@
 use core::sync::atomic::Ordering;
-use crate::usb_otg_hs::mod_new::SETUP_DATA;
+// use crate::usb_otg_hs::mod_new::SETUP_DATA;
 use defmt::{info, trace};
 use stm32_metapac::interrupt;
 use crate::usb_otg_hs::global_states::{regs, State, state};
@@ -56,13 +56,14 @@ pub unsafe fn on_interrupt() {
             wakeup_all();
             r.gintsts().write(|w| w.set_usbrst(true)); // clear
             // mask this and
-            crate::usb_otg_hs::endpoint_new::init_endpoint();
+            crate::usb_otg_hs::endpoint::init_endpoint();
         }
     }
     // let state = &STATE;
     let state: &mut State<6> = state();
 
     // Handle RX
+    #[cfg(otg_fs)]
     while r.gintsts().read().rxflvl() {
         // RX FIFO non-empty
         let status = r.grxstsp().read();

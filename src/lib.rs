@@ -49,7 +49,7 @@ pub mod com_interface;
 pub mod pwr;
 
 #[cfg(otg_hs)]
-pub mod usb_otg_hs;
+pub mod otg_hs;
 
 pub mod drivers;
 pub mod utils;

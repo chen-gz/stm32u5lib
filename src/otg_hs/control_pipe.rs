@@ -2,23 +2,32 @@ use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
 use defmt::{trace};
-// use crate::usb_otg_hs::descriptor::{Direction, Request};
-use crate::usb_common::descriptor::{Direction, Request};
-use crate::usb_otg_hs::endpoint_new::PhyState;
-use crate::usb_otg_hs::global_states::{regs, state};
-use crate::usb_otg_hs::interrupt::{RESET};
-use crate::usb_otg_hs::mod_new::{init_setaddress, process_setup_packet_new, SETUP_DATA};
+// use crate::otg_hs::descriptor::{Direction, Request};
+use crate::usb_common::{
+    descriptor::{Direction, Request},
+    process_setup_packet_new,
+};
+use crate::otg_hs::endpoint::PhyState;
+use crate::otg_hs::global_states::{regs, state};
+use crate::otg_hs::interrupt::{RESET};
 
+pub fn init_setaddress(address: u8) {
+    // RM0456 Rev 5, p3423
+    // 1. program the otg_dcfg register to set the device address.
+    regs().dcfg().modify(|w| w.set_dad(address));
+}
+
+/// endpoint 0 read function
 async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
     trace!("read start len={}", buf.len());
     let r = regs();
     r.doepdma(0).write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
     if regs().doepctl(0).read().epena() {
         defmt::error!("epena is set -- this should not happen");
-        // clear epena
-        r.doepctl(0).modify(|v| {
-            v.set_epena(false);
-        });
+    //     // clear epena
+    //     r.doepctl(0).modify(|v| {
+    //         v.set_epena(false);
+    //     });
     }
     r.doeptsiz(0).modify(|v| {
         v.set_xfrsiz(buf.len() as _);
@@ -105,23 +114,23 @@ async fn write0(buf: &[u8]) -> Result<PhyState, PhyState> {
         .await;
 }
 
-pub enum BusEvent {
-    Reset,
-    Suspend,
-    Resume,
-    Disconnect,
-}
+// pub enum BusEvent {
+//     Reset,
+//     Suspend,
+//     Resume,
+//     Disconnect,
+// }
 
-pub fn wakeup_all() {
-    let state = state();
-    for waker in state.ep_in_wakers.iter() {
-        waker.wake();
-    }
-    for waker in state.ep_out_wakers.iter() {
-        waker.wake();
-    }
-    state.bus_waker.wake();
-}
+// pub fn wakeup_all() {
+//     let state = state();
+//     for waker in state.ep_in_wakers.iter() {
+//         waker.wake();
+//     }
+//     for waker in state.ep_out_wakers.iter() {
+//         waker.wake();
+//     }
+//     state.bus_waker.wake();
+// }
 
 #[embassy_executor::task]
 pub async fn setup_process() {
@@ -147,12 +156,14 @@ pub async fn setup_process() {
     }
 }
 
+use aligned::Aligned;
 pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
+    let mut setup_data: Aligned<aligned::A4, [u8; 64]> = Aligned([0u8; 64]);
     unsafe {
         if state().ep0_setup_ready.load(Ordering::Relaxed) {
             state().ep0_setup_ready.store(false, Ordering::Release);
         }else {
-            read0(&mut SETUP_DATA[0..64]).await?;
+            read0(&mut setup_data[0..64]).await?;
             poll_fn(|cx| {
                 state().ep_out_wakers[0].register(cx.waker());
                 if RESET  {
@@ -168,14 +179,14 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             })
             .await?;
         }
-        defmt::info!( "setup packet ready, processing package {:x}", SETUP_DATA[0..8]);
-        let mut tmp = process_setup_packet_new(&SETUP_DATA[0..8]);
+        defmt::info!( "setup packet ready, processing package {:x}", setup_data[0..8]);
+        let mut tmp = process_setup_packet_new(&setup_data[0..8]);
         if tmp.has_data_stage {
             match tmp.data_stage_direction {
                 Direction::In => {
                     write0(&tmp.data[0..tmp.len]).await?;
                     // read0(&mut tmp.data[0..64]).await?; // status stage no data
-                    read0(&mut SETUP_DATA[0..64]).await?;
+                    read0(&mut setup_data[0..64]).await?;
                     return Ok(PhyState::Active);
                 }
                 Direction::Out => {
@@ -188,10 +199,10 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             match tmp.setup.direction {
                 Direction::In => {
                     // read0(&mut buf[0..0]).await; // status stage no data
-                    read0(&mut tmp.data[0..64]).await? // status stage no data
+                    read0(&mut tmp.data[0..64]).await?; // status stage no data
                 }
                 Direction::Out => {
-                    write0(&[0u8; 0]).await? // status stage no data
+                    write0(&[0u8; 0]).await?; // status stage no data
                 }
             };
         }
@@ -219,3 +230,4 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
     }
     Ok(PhyState::Active)
 }
+
