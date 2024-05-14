@@ -4,7 +4,7 @@
 /// The address should be implemented as a 7-bit address, the 8th bit is the read/write bit
 /// for example, the address of the device is 0x50, the read address is 0xA0, the write address is 0xA1
 pub trait Pin: Drop {
-    fn setup();  // initialize the pin, this function can only been called once before `Drop` is called
+    fn setup(&self);  // initialize the pin, this function can only been called once before `Drop` is called
     fn set_high(&self);
     fn set_low(&self);
     fn toggle(&self);

@@ -47,6 +47,13 @@ pub struct GpioPort {
     pub ot: Ot,
     pub pupd: Pupdr,
 }
+impl Drop for GpioPort {
+    fn drop(&mut self) {
+        // set the pin to floating
+        // self.port.moder().modify(|v| v.set_moder(self.pin, Moder::INPUT));
+        // self.port.pupdr().modify(|v| v.set_pupdr(self.pin, Pupdr::FLOATING));
+    }
+}
 
 impl GpioPort {
     pub fn set_high(&self) {

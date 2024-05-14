@@ -25,6 +25,24 @@ pub struct SetupResponse {
     pub(crate) data: Aligned<aligned::A4, [u8; 256]>,
     pub(crate) len: usize,
 }
+use crate::usb_common;
+
+pub trait DescriptorForUsb {
+    fn device_descriptor(&self) -> usb_common::descriptor::USBDeviceDescriptor;
+    fn configuration_descriptor(&self) -> usb_common::descriptor::ConfigurationDescriptor;
+    fn string_lang_descriptor(&self) -> usb_common::descriptor::StringDescriptor;
+    fn string_manufacturer_descriptor(&self) -> usb_common::descriptor::StringDescriptor;
+    fn string_product_descriptor(&self) -> usb_common::descriptor::StringDescriptor;
+    fn string_serial_number_descriptor(&self) -> usb_common::descriptor::StringDescriptor;
+    fn device_qualifier_descriptor(&self) -> usb_common::descriptor::DeviceQualifierDescriptor;
+}
+pub trait CdcSetup {
+    fn get_line_coding(&self) -> [u8; 7];
+    fn set_line_coding(&self, data: &[u8; 7]);
+    fn set_control_line_state(&self, data: u16);
+    fn send_break(&self, data: u16);
+}
+
 
 pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
     defmt::info!("process_setup_packet, {:x}", buf);

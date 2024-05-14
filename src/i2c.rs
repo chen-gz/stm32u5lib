@@ -88,6 +88,10 @@ impl I2c {
         self.receive(option)
     }
 }
+impl I2c {
+
+}
+
 
 impl<'a> ComInterface<'a> for I2c {
     type Error = I2cError;
@@ -256,53 +260,53 @@ impl<'a> ComInterface<'a> for I2c {
         todo!()
     }
 }
-////// hal for i2c
-use crate::hal;
-use crate::gpio::GpioPort;
-impl hal::I2c<GpioPort> for I2c {
-    fn new(freq: hal::I2cFrequency, sda: GpioPort, scl: GpioPort) -> Self {
-        let config = I2cConfig {
-            port_num: 1,
-            freq: match freq {
-                hal::I2cFrequency::Freq100khz => 100_000,
-                hal::I2cFrequency::Freq400khz => 400_000,
-                hal::I2cFrequency::Freq1Mhz => 1_000_000,
-            },
-            scl_pin: scl,
-            sda_pin: sda,
-        };
-        I2c::new(config).unwrap()
-    }
-
-    fn write(&self, addr: u16, data: &[u8]) -> Result<(), I2cError> {
-        let message = I2cMessage {
-            addr,
-            data: data,
-        };
-        self.send(&message)
-    }
-
-    fn read(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError> {
-        let option = I2cMessage {
-            addr,
-            data,
-        };
-        self.receive(option)
-    }
-
-    fn write_read(&self, addr: u16, write_data: &[u8], read_data: &mut [u8]) -> Result<(), I2cError> {
-        let message = I2cMessage {
-            addr,
-            data: read_data,
-        };
-        self.write_read(addr, read_data, read_data)
-    }
-
-    fn capacity(&self) -> hal::I2cFrequency {
-        todo!()
-    }
-
-    fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), I2cError> {
-        todo!()
-    }
-}
+/////////////////////////// HAL implementation /////////////////////////////
+// use crate::hal
+// use crate::gpio::GpioPort;
+// impl hal::I2c<GpioPort> for I2c {
+//     fn new(freq: hal::I2cFrequency, sda: GpioPort, scl: GpioPort) -> Self {
+//         let config = I2cConfig {
+//             port_num: 1,
+//             freq: match freq {
+//                 hal::I2cFrequency::Freq100khz => 100_000,
+//                 hal::I2cFrequency::Freq400khz => 400_000,
+//                 hal::I2cFrequency::Freq1Mhz => 1_000_000,
+//             },
+//             scl_pin: scl,
+//             sda_pin: sda,
+//         };
+//         I2c::new(config).unwrap()
+//     }
+//
+//     fn write(&self, addr: u16, data: &[u8]) -> Result<(), I2cError> {
+//         let message = I2cMessage {
+//             addr,
+//             data: data,
+//         };
+//         self.send(&message)
+//     }
+//
+//     fn read(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError> {
+//         let option = I2cMessage {
+//             addr,
+//             data,
+//         };
+//         self.receive(option)
+//     }
+//
+//     fn write_read(&self, addr: u16, write_data: &[u8], read_data: &mut [u8]) -> Result<(), I2cError> {
+//         let message = I2cMessage {
+//             addr,
+//             data: read_data,
+//         };
+//         self.write_read(addr, read_data, read_data)
+//     }
+//
+//     fn capacity(&self) -> hal::I2cFrequency {
+//         todo!()
+//     }
+//
+//     fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), I2cError> {
+//         todo!()
+//     }
+// }
