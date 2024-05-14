@@ -8,6 +8,11 @@ pub fn usb_power_down() {
         w.set_usv(false); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
 }
+
+pub fn usb_clock() {
+
+}
+
 pub fn power_up_init() {
     trace!("init");
     PWR.svmcr().modify(|w| {

@@ -114,24 +114,6 @@ async fn write0(buf: &[u8]) -> Result<PhyState, PhyState> {
         .await;
 }
 
-// pub enum BusEvent {
-//     Reset,
-//     Suspend,
-//     Resume,
-//     Disconnect,
-// }
-
-// pub fn wakeup_all() {
-//     let state = state();
-//     for waker in state.ep_in_wakers.iter() {
-//         waker.wake();
-//     }
-//     for waker in state.ep_out_wakers.iter() {
-//         waker.wake();
-//     }
-//     state.bus_waker.wake();
-// }
-
 #[embassy_executor::task]
 pub async fn setup_process() {
     // wait for suspend clear
