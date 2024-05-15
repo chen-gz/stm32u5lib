@@ -3,8 +3,8 @@ use core::sync::atomic::{AtomicBool, AtomicU16};
 use embassy_sync::waitqueue::AtomicWaker;
 use stm32_metapac::otg;
 
-#[cfg(stm32u5a5)]
 pub mod fifo_const {
+    // todo!("fix thsese constants");
     pub const MAX_EP_COUNT: usize = 6;
     pub const FIFO_DEPTH_WORDS: u16 = 1024;
     pub const RX_FIFO_SIZE_EACH: u16 = 128;
@@ -38,6 +38,7 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
 
         Self {
             // ep0_setup_data: UnsafeCell::new([0u8; 8]),
+
             ep0_setup_data: [0u8; 8],
             ep0_setup_ready: AtomicBool::new(false),
             ep_in_wakers: [NEW_AW; EP_COUNT],

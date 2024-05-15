@@ -1,7 +1,7 @@
 use cortex_m::peripheral::NVIC;
 use defmt::{trace};
 use stm32_metapac::{PWR, RCC, SYSCFG, otg};
-use crate::usb_otg_hs::global_states::{regs, restore_irqs};
+use crate::otg_fs::global_states::{regs, restore_irqs};
 
 pub fn usb_power_down() {
     PWR.svmcr().modify(|w| {

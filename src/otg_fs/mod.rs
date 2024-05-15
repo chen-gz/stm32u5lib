@@ -13,9 +13,9 @@ mod interrupt;
 // let res = process_setup_packet(SETUP_DATA);
 
 use aligned::Aligned;
-// use crate::usb_otg_hs::descriptor::*;
-use crate::usb_otg_hs::endpoint::{Endpoint, EpType, MaxPacketSize};
-use crate::usb_otg_hs::global_states::{regs};
+// use crate::otg_fs::descriptor::*;
+use crate::otg_fs::endpoint::{Endpoint, EpType, MaxPacketSize};
+use crate::otg_fs::global_states::{regs};
 
 use crate::usb_common::descriptor::*;
 
@@ -26,7 +26,7 @@ pub struct EndpointGG;
 
 
 pub async fn cdc_acm_ep2_read() -> (Aligned<aligned::A4, [u8; 64]>, usize) {
-    let ep2_out = Endpoint::new(crate::usb_otg_hs::endpoint::Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+    let ep2_out = Endpoint::new(crate::otg_fs::endpoint::Direction::Out, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
     let _buf = [0u32; 16];
     // convert u32 to u8 using unsafe a pointer
     // let mut _buf = unsafe { core::mem::transmute::<[u32; 16], [u8; 64]>(buf) };
@@ -45,7 +45,7 @@ pub async fn cdc_acm_ep2_read() -> (Aligned<aligned::A4, [u8; 64]>, usize) {
     }
 }
 pub async fn cdc_acm_ep2_write(buf: &[u8]) {
-    let ep2_in = Endpoint::new(crate::usb_otg_hs::endpoint::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
+    let ep2_in = Endpoint::new(crate::otg_fs::endpoint::Direction::In, 2, EpType::Bulk, MaxPacketSize::Size64, 0).unwrap();
     let _ = ep2_in.write(buf).await;
 }
 

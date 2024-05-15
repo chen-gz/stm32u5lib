@@ -1,9 +1,9 @@
 use core::sync::atomic::Ordering;
-// use crate::usb_otg_hs::mod_new::SETUP_DATA;
+// use crate::otg_fs::mod_new::SETUP_DATA;
 use defmt::{info, trace};
 use stm32_metapac::interrupt;
-use crate::usb_otg_hs::global_states::{regs, State, state};
-use crate::usb_otg_hs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
+use crate::otg_fs::global_states::{regs, State, state};
+use crate::otg_fs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
 
 pub fn wakeup_all() {
     let state = state();
@@ -56,7 +56,7 @@ pub unsafe fn on_interrupt() {
             wakeup_all();
             r.gintsts().write(|w| w.set_usbrst(true)); // clear
             // mask this and
-            crate::usb_otg_hs::endpoint::init_endpoint();
+            crate::otg_fs::endpoint::init_endpoint();
         }
     }
     // let state = &STATE;

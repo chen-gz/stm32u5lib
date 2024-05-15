@@ -2,14 +2,14 @@ use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
 use defmt::{trace};
-// use crate::usb_otg_hs::descriptor::{Direction, Request};
+// use crate::otg_fs::descriptor::{Direction, Request};
 use crate::usb_common::{
     descriptor::{Direction, Request},
     process_setup_packet_new,
 };
-use crate::usb_otg_hs::endpoint::PhyState;
-use crate::usb_otg_hs::global_states::{regs, state};
-use crate::usb_otg_hs::interrupt::{RESET};
+use crate::otg_fs::endpoint::PhyState;
+use crate::otg_fs::global_states::{regs, state};
+use crate::otg_fs::interrupt::{RESET};
 
 pub fn init_setaddress(address: u8) {
     // RM0456 Rev 5, p3423

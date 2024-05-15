@@ -1,7 +1,7 @@
 use core::{future::poll_fn, task::Poll};
 use defmt::trace;
 use stm32_metapac::otg::vals::Eptyp;
-use crate::usb_otg_hs::global_states::{regs, state};
+use crate::otg_fs::global_states::{regs, state};
 // use core::task::{Poll, poll_fn};
 
 
