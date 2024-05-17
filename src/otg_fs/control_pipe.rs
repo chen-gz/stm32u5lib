@@ -165,41 +165,8 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
 
         while !state().ep0_setup_ready.load(Ordering::Relaxed) {
             read0(&mut SETUP_DATA[0..8]).await?;
-            // poll_fn(|cx| {
-            //     state().ep_out_wakers[0].register(cx.waker());
-            //     if unsafe { RESET } {
-            //         // return Poll::Ready(Err(PhyState::Reset));
-            //         // Poll::Ready(Err(PhyState::Reset))
-            //         return Poll::Ready(Err(PhyState::Reset));
-            //     }
-            //     if state().ep0_setup_ready.load(Ordering::Relaxed) {
-            //         // state().ep0_setup_ready.store(false, Ordering::Release);
-            //         // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
-            //         return Poll::Ready(Ok(PhyState::Active));
-            //     }
-            //     Poll::Pending
-            // }).await?;
         }
         state().ep0_setup_ready.store(false, Ordering::Release);
-        // if state().ep0_setup_ready.load(Ordering::Relaxed) {
-        //     state().ep0_setup_ready.store(false, Ordering::Release);
-        // }else {
-        //     read0(&mut setup_data[0..64]).await?;
-        //     poll_fn(|cx| {
-        //         state().ep_out_wakers[0].register(cx.waker());
-        //         if RESET  {
-        //             return Poll::Ready(Err(PhyState::Reset));
-        //         }
-        //         if state().ep0_setup_ready.load(Ordering::Relaxed) {
-        //             state().ep0_setup_ready.store(false, Ordering::Release);
-        //             // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
-        //             return Poll::Ready(Ok(PhyState::Active));
-        //         } else {
-        //             Poll::Pending
-        //         }
-        //     })
-        //     .await?;
-        // }
         defmt::info!( "setup packet ready, processing package {:x}", SETUP_DATA[0..8]);
         let mut tmp = process_setup_packet_new(&SETUP_DATA[0..8]);
         if tmp.has_data_stage {
