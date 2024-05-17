@@ -100,7 +100,7 @@ impl Endpoint {
             }
         }).await;
 
-        r.doepdma(index).write(|w| { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
+        // r.doepdma(index).write(|w| { w.set_dmaaddr(buf.as_mut_ptr() as u32) });
         r.doeptsiz(index).modify(|w| {
             w.set_xfrsiz(buf.len() as _);
             w.set_pktcnt(pktcnt as _);
@@ -157,7 +157,7 @@ impl Endpoint {
             w.set_xfrsiz(len as u32);
             w.set_pktcnt(pktcnt as _);
         });
-        r.diepdma(index).write(|w| { w.set_dmaaddr(addr) });
+        // r.diepdma(index).write(|w| { w.set_dmaaddr(addr) });
         r.daintmsk().modify(|v| { v.set_iepm(v.iepm() | (1 << index)); });
         r.diepctl(index).modify(|w| {
             w.set_cnak(true);

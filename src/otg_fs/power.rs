@@ -8,96 +8,45 @@ pub fn usb_power_down() {
         w.set_usv(false); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
 }
+
+use crate::clock;
 pub fn power_up_init() {
     trace!("init");
     PWR.svmcr().modify(|w| {
         w.set_usv(true); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
-    #[cfg(otg_hs)]
-    {
-        critical_section::with(|_| {
-            PWR.vosr().modify(|v| {
-                v.0 |= (1 << 19) | (1 << 20);
-                // SBPWREN and USBBOOSTEN in PWR_VOSR.
-                // v.boosten();
-            });
-            crate::clock::delay_us(100);
-            // delay_ms(100);
-            // wait fo USBBOOSTRDY
-            // while !pwr.vosr().read().usbboostrdy() {}
-            // enable hse
-            RCC.cr().modify(|w| {
-                w.set_hseon(true);
-            });
-            // wait for hse ready
-            while !RCC.cr().read().hserdy() {}
+    stm32_metapac::RCC
+        .ahb2enr1()
+        .modify(|w| w.set_usb_otg_fsen(true));
 
-            RCC.ccipr2().modify(|w| {
-                w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
-            });
+    // enable usb uvm
+    stm32_metapac::PWR.svmcr().modify(|w| {
+        w.set_uvmen(true);
+    });
 
-            RCC.apb3enr().modify(|w| {
-                w.set_syscfgen(true);
-            });
-            RCC.ahb2enr1().modify(|w| {
-                w.set_usb_otg_hs_phyen(true);
-                w.set_usb_otg_hsen(true);
-            });
-            // TODO: update this clock settings
-            SYSCFG.otghsphycr().modify(|v| {
-                let hse_freq = unsafe { crate::clock::HSE_FREQ };
-                if hse_freq == 26_000_000 {
-                    v.set_clksel(0b1110);   // 26Mhz HSE
-                } else if hse_freq == 16_000_000 {
-                    v.set_clksel(0b0011); // 16Mhz HSE
-                } else {
-                    defmt::panic!("HSE frequency not supported");
-                }
-
-                v.set_en(true);
-            });
-        });
-    }
-    // Wait for USB power to stabilize
+    //Wait for USB power to stabilize
     while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
     trace!("USB power stabilized");
 
+
     // Select HSI48 as USB clock source.
-    // #[cfg(stm32u575)]
-    // critical_section::with(|_| {
-    //     stm32_metapac::RCC.ccipr1().modify(|w| {
-    //         w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
-    //     })
-    // });
-    #[cfg(otg_hs)]
+    #[cfg(stm32u575)]
     critical_section::with(|_| {
-        stm32_metapac::RCC.ccipr2().modify(|w| {
-            w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
+        stm32_metapac::RCC.ccipr1().modify(|w| {
+            w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
         })
     });
-    // #[cfg(stm32u575)]
-    // stm32_metapac::RCC
-    //     .ahb2enr1()
-    //     .modify(|w| w.set_usb_otg_fsen(true));
-    //
-    // #[cfg(stm32u575)]
-    // unsafe {
-    //     NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
-    //     NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
-    //     // start_irq();
-    //     Self::restore_irqs();
-    //     trace!("USB IRQs start");
-    // }
 
-    #[cfg(otg_hs)]
+    defmt::info!("USB clock source selected");
+
     unsafe {
-        NVIC::unpend(stm32_metapac::Interrupt::OTG_HS);
-        NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
+        NVIC::unpend(stm32_metapac::Interrupt::OTG_FS);
+        NVIC::unmask(stm32_metapac::Interrupt::OTG_FS);
         // start_irq();
+        // Self::restore_irqs();
         restore_irqs();
         trace!("USB IRQs start");
     }
-
     let r = regs();
     let core_id = r.cid().read().0;
     trace!("Core id {:08x}", core_id);
@@ -111,37 +60,10 @@ pub fn power_up_init() {
         // Enable internal full-speed PHY
     });
 
-    match core_id {
-        // this is used to distinguish differnet stm32 chips
-        0x0000_2000 | 0x0000_2100 | 0x0000_2300 | 0x0000_3000 | 0x0000_3100 => {
-            // F446-like chips have the GCCFG.VBDEN bit with the opposite meaning
             r.gccfg_v2().modify(|w| {
                 w.set_pwrdwn(true); // Enable internal full-speed PHY,
                 // w.set_vbden(val: true); // vbus detect. these can used to save power.
             });
-            // todo: vbus detection
-
-            // Force B-peripheral session
-            // r.gotgctl().modify(|w| {
-            //     w.set_bvaloen(!self.config.vbus_detection); // B-peripheral session valid. Only  used as device
-            //     w.set_bvaloval(true);
-            // });
-        }
-        0x0000_5000 => {
-            // U5A5
-            r.gccfg_v2().modify(|w| {
-                // w.set_pwrdwn(true);
-                // w.set_vbden(self.config.vbus_detection);   // vbus detect. these can used to save power.
-                // w.set_vbden(true);
-                // w.set_phyhsen(true);
-                w.0 = (1 << 24) | (1 << 23);
-            });
-
-            // Force B-peripheral session
-            r.gusbcfg().modify(|w| w.set_trdt(0x09));
-        }
-        _ => unimplemented!("Unknown USB core id {:X}", core_id),
-    }
     r.gotgctl().modify(|w| {
         w.set_bvaloen(true);
         w.set_bvaloval(true);
@@ -154,7 +76,8 @@ pub fn power_up_init() {
     r.dcfg().write(|w| {
         w.set_pfivl(otg::vals::Pfivl::FRAME_INTERVAL_80); // set period frame interval TODO: figure out what is this
         // #[cfg(stm32u575)]
-        // w.set_dspd(phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
+        w.set_dspd(otg::vals::Dspd::FULL_SPEED_INTERNAL);
+        // todo: for u5a5, this is different. 11 is reserved
         #[cfg(otg_hs)]
         // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
         w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
@@ -169,10 +92,13 @@ pub fn power_up_init() {
     // Unmask global interrupt
     r.gahbcfg().write(|w| {
         w.set_dmaen(true); // Enable DMA
-        w.set_gintmsk(true); // unmask global interrupt
+        // w.set_gintmsk(true); // unmask global interrupt
+        w.set_gint(true); // unmask global interrupt
         //
     });
 
+    defmt::info!("USB power up done");
+    // clock::delay_ms(100);
     // Connect
     r.dctl().write(|w| w.set_sdis(false));
 }

@@ -73,8 +73,8 @@ pub fn restore_irqs() {
         w.set_usbsuspm(true);
         w.set_wuim(true);
         w.set_iepint(true);
-        w.set_oepint(true);
-        // w.set_rxflvlm(true);
+        // w.set_oepint(true);
+        w.set_rxflvlm(true);
         w.set_srqim(true);
         w.set_otgint(true);
     });
