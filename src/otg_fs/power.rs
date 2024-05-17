@@ -28,6 +28,9 @@ pub fn power_up_init() {
     while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
     trace!("USB power stabilized");
 
+    // enable HSI48
+    stm32_metapac::RCC.cr().modify(|w| w.set_hsi48on(true));
+    while !stm32_metapac::RCC.cr().read().hsi48rdy() {}
 
     // Select HSI48 as USB clock source.
     #[cfg(stm32u575)]

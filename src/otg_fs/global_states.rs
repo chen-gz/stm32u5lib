@@ -9,7 +9,7 @@ pub mod fifo_const {
     pub const FIFO_DEPTH_WORDS: u16 = 1024;
     pub const RX_FIFO_SIZE_EACH: u16 = 128;
     pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288;
-    pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [64, 64, 64, 64, 64, 64];
+    pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [16, 16, 16, 16, 16, 16];
     //  80, 80, 96];
 }
 use fifo_const::*;
@@ -21,9 +21,10 @@ pub struct State<const EP_COUNT: usize> {
     pub(crate) ep0_setup_ready: AtomicBool,
     pub(crate) ep_in_wakers: [AtomicWaker; EP_COUNT],
     pub(crate) ep_out_wakers: [AtomicWaker; EP_COUNT],
-    // pub(crate) ep_out_buffers: [[u8; 1024]; EP_COUNT],
+    pub(crate) ep_out_buffers: [[u8; 64]; EP_COUNT],
     // pub(crate) ep_out_size: [AtomicU16; EP_COUNT],
     pub(crate) bus_waker: AtomicWaker,
+    // pub(crate) out_bufs:[UnsafeCell<*mut u8>; EP_COUNT],
 }
 
 
@@ -43,7 +44,9 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
             ep0_setup_ready: AtomicBool::new(false),
             ep_in_wakers: [NEW_AW; EP_COUNT],
             ep_out_wakers: [NEW_AW; EP_COUNT],
-            // ep_out_buffers: [[0u8; 1024]; EP_COUNT],
+            ep_out_buffers: [[0u8; 64]; EP_COUNT],
+            // use heapless::Queue
+            // the capacity is 1023
             // ep_out_size: [NEW_SIZE; EP_COUNT],
             // ep_out_buffers: [],
             bus_waker: NEW_AW,

@@ -3,6 +3,7 @@ use defmt::trace;
 use stm32_metapac::otg::vals::Eptyp;
 use crate::otg_fs::global_states::{regs, state};
 // use core::task::{Poll, poll_fn};
+use stm32_metapac::otg::regs;
 
 
 pub enum Direction {
@@ -83,6 +84,8 @@ pub enum PhyState {
 impl Endpoint {
     // pub async fn read(&self, buf: &mut [u8]) -> Result<usize, PhyState> {
     pub async fn read(&self, buf: &mut [u8]) -> Result<usize, PhyState> {
+        // limit to a single packet for now
+        assert!(buf.len() <= 64);
         let buf_addr = buf.as_mut_ptr() as u32;
         let len = buf.len();
         let index = self.addr as usize;
@@ -121,10 +124,13 @@ impl Endpoint {
                 return Poll::Ready(Err(PhyState::Suspend));
             }
             if r.doepint(index).read().xfrc() {
+
                 r.doepint(index).write(|w| w.set_xfrc(true));  // clear xfrc
                 // In the interrupt handler, the `xfrc`  was masked to avoid re-entering the interrupt.
                 r.doepmsk().modify(|w| w.set_xfrcm(true));
                 // get the length of the data
+                // copy from state
+                buf.copy_from_slice(&state().ep_out_buffers[index][0..len]);
                 let len_rest = r.doeptsiz(index).read().xfrsiz() as usize;
                 return Poll::Ready(Ok(buf.len() - len_rest));
                 // Poll::Ready(Ok(buf.len()));
@@ -151,53 +157,72 @@ impl Endpoint {
         let index = self.addr as usize;
         let pktcnt = if len == 0 { 1 } else { (len + 63) / 64 };
         self.transfer_parameter_check(addr, len, pktcnt as u32);
-        trace!("write ep={:?}, data={:?}", self.addr, buf);
+        trace!("write ep={:?}, len = {:?}, data={:?}, pktcnt={:?}", self.addr, len, buf, pktcnt);
         let r = regs();
         r.dieptsiz(index).modify(|w| {
+            w.set_mcnt(1);
             w.set_xfrsiz(len as u32);
             w.set_pktcnt(pktcnt as _);
         });
         // r.diepdma(index).write(|w| { w.set_dmaaddr(addr) });
         r.daintmsk().modify(|v| { v.set_iepm(v.iepm() | (1 << index)); });
+        // write data to the fifo
+
         r.diepctl(index).modify(|w| {
             w.set_cnak(true);
             w.set_epena(true);
         });
 
-        // wait for transfer complete interrupt
-        match poll_fn(|cx| {
-            state().ep_in_wakers[index].register(cx.waker());
-            if r.dsts().read().suspsts() {
-                return Poll::Ready(PhyState::Suspend);
-            }
-            if !r.diepctl(index).read().usbaep() {
-                return Poll::Ready(PhyState::Error);
-            }
-            // if the endpoint is not enabled, and nak been set, return error
-            if r.diepint(index).read().xfrc() {
-                r.diepint(index).write(|w| w.set_xfrc(true)); // clear xfrc
-                // In the interrupt handler, the `xfrc` was masked to avoid re-entering the interrupt.
-                r.diepmsk().modify(|w| w.set_xfrcm(true));
-                // Poll::Ready(())
-                Poll::Ready(PhyState::Active)
-            } else {
-                Poll::Pending
-            }
-        })
-            .await {
-            PhyState::Active => {
-                // trace!("write len={} done", buf.len());
-                Ok(PhyState::Active)
-            }
-            PhyState::Suspend => {
-                // trace!("write len={} suspend", buf.len());
-                Err(PhyState::Suspend)
-            }
-            _ => {
-                // trace!("write len={} error", buf.len());
-                Err(PhyState::Error)
-            }
+        // for val in buf {
+        //     r.fifo(index).write_value(regs::Fifo(*val as u32));
+        // }
+        for chunk in buf.chunks(4) {
+            let mut word = 0u32;
+            for (j, &byte) in chunk.iter().enumerate() {
+                word |= (byte as u32) << (j * 8);
+            }                           
+            defmt::info!("write ep={:?}, word={:x}", self.addr, word);
+            // r.fifo(2).write_value(regs::Fifo(word));
+            r.fifo(2).write(|w| unsafe { w.0 = word });
         }
+
+
+
+        Ok(PhyState::Active)
+        // wait for transfer complete interrupt
+        // match poll_fn(|cx| {
+        //     state().ep_in_wakers[index].register(cx.waker());
+        //     if r.dsts().read().suspsts() {
+        //         return Poll::Ready(PhyState::Suspend);
+        //     }
+        //     if !r.diepctl(index).read().usbaep() {
+        //         return Poll::Ready(PhyState::Error);
+        //     }
+        //     // if the endpoint is not enabled, and nak been set, return error
+        //     if r.diepint(index).read().xfrc() {
+        //         r.diepint(index).write(|w| w.set_xfrc(true)); // clear xfrc
+        //         // In the interrupt handler, the `xfrc` was masked to avoid re-entering the interrupt.
+        //         r.diepmsk().modify(|w| w.set_xfrcm(true));
+        //         // Poll::Ready(())
+        //         Poll::Ready(PhyState::Active)
+        //     } else {
+        //         Poll::Pending
+        //     }
+        // })
+        //     .await {
+        //     PhyState::Active => {
+        //         // trace!("write len={} done", buf.len());
+        //         Ok(PhyState::Active)
+        //     }
+        //     PhyState::Suspend => {
+        //         // trace!("write len={} suspend", buf.len());
+        //         Err(PhyState::Suspend)
+        //     }
+        //     _ => {
+        //         // trace!("write len={} error", buf.len());
+        //         Err(PhyState::Error)
+        //     }
+        // }
     }
     fn init(&self) {
         // this function can not be used for endpoint 0 for now.

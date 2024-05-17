@@ -92,18 +92,19 @@ pub unsafe fn on_interrupt() {
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
                 // received OUT data
                 // state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
+                // let's have some unsafe here to avoid copying the data
                 state.ep_out_wakers[ep_num].wake();
                 let len_words = (len + 3) / 4;
-                let mut data = [0u8; 64];
+                // let mut data = [0u8; 64];
                 let mut index = 0;
                 for _ in 0..len_words {
                     let tmp = r.fifo(0).read().data();
                     for i in 0..4 {
-                        data[index] = (tmp >> (i * 8)) as u8;
+                        state.ep_out_buffers[ep_num][index] = (tmp >> (i * 8)) as u8;
                         index += 1;
                     }
                 }
-                trace!("OUT_DATA_RX ep={} len={}, data={:x}", ep_num, len, data[0..len]);
+                trace!("OUT_DATA_RX ep={} len={}, data={:x}", ep_num, len, state.ep_out_buffers[ep_num]);
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_DONE => {
                 trace!("OUT_DATA_DONE ep={}", ep_num);

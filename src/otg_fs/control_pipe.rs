@@ -178,7 +178,7 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
                     return Ok(PhyState::Active);
                 }
                 Direction::Out => {
-                    // read0(&mut tmp.data[0..64]).await?;
+                    read0(&mut tmp.data[0..tmp.len]).await?;
                     write0(&[0u8; 0]).await? // status stage no data
                 }
             };
