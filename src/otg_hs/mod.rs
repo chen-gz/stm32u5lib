@@ -31,7 +31,7 @@ pub async fn cdc_acm_ep2_read() -> Result<(Aligned<aligned::A4, [u8; 64]>, usize
     match ep2_out.read(&mut buf[0..64]).await {
         Ok(len) => {
             defmt::info!("cdc_acm_ep2_read, {:?}, len={}", &buf[0..len], len);
-            return (buf, len);
+            return Ok((buf, len));
         }
         Err(_e) => {
             // defmt::info!("cdc_acm_ep2_read, {:?}", e);
