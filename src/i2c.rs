@@ -138,23 +138,24 @@ impl<'a> ComInterface<'a> for I2c {
         // set as 100Khz
         //
         port.timingr().modify(|v| {
-            // v.set_presc(1); // TODO: set the prescaler based on the kernel frequency
-            // v.set_scll(9);
-            // v.set_sclh(3);
-            // v.set_sdadel(2);
-            // v.set_scldel(3);
-
+            // 400khz
+            v.set_presc(1); // TODO: set the prescaler based on the kernel frequency
+            v.set_scll(9);
+            v.set_sclh(3);
+            v.set_sdadel(2);
+            v.set_scldel(3);
+            
             // v.set_presc(3);
             // v.set_scll(0x13);
             // v.set_sclh(0xF);
             // v.set_sdadel(0x2);
             // v.set_scldel(0x4);
             // 10khz
-            v.set_presc(3);
-            v.set_scll(0xC7);
-            v.set_sclh(0xC3);
-            v.set_sdadel(0x2);
-            v.set_scldel(0x4);
+            // v.set_presc(3);
+            // v.set_scll(0xC7);
+            // v.set_sclh(0xC3);
+            // v.set_sdadel(0x2);
+            // v.set_scldel(0x4);
         });
 
         // set autoend to true
