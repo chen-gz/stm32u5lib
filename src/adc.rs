@@ -192,8 +192,12 @@ impl AdcPort {
         let addr = 0x0BFA_07A6 as *const u8;
         // let val = val as u16 | (unsafe { addr.read_volatile() as u16 } << 8);
         let val2 = unsafe { addr.read_volatile() as u8 } as u32;
-        // return val2 << 8 | val;
-        return val << 8 | val2;
+        return val2 << 8 | val;
+        // return val << 8 | val2;
+    }
+    pub fn get_calibration_factor(&self) -> f64 {
+        
+
     }
     // if use tim1 trgo as the trigger source, the trigger source is 9.
     // pub fn start_conversion_ext(&self, pin: GpioPort, channel: u8, extsel: u8,
