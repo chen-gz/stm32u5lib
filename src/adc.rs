@@ -195,10 +195,9 @@ impl AdcPort {
         return val2 << 8 | val;
         // return val << 8 | val2;
     }
-    pub fn get_calibration_factor(&self) -> f64 {
-        
+    // pub fn get_calibration_factor(&self) -> f64 {
 
-    }
+    // }
     // if use tim1 trgo as the trigger source, the trigger source is 9.
     // pub fn start_conversion_ext(&self, pin: GpioPort, channel: u8, extsel: u8,
     //                             &mut results: &mut [u16]) { self.port.cfgr().modify(|v| {

@@ -15,7 +15,7 @@ pub struct TimIns {
     // init: bool,
 }
 
-pub static TIM1: TimIns = TimIns {
+pub const TIM1: TimIns = TimIns {
     ins: stm32_metapac::TIM1,
     // init: false, // Some Timer setting are not allowed to change after the timer is enabled.
     //              // only capture and compare mode can be changed after the timer is enabled.
@@ -99,7 +99,7 @@ impl TimIns {
         // Example: arr = 7, and timccr1 = 4; then we have high = 4 and low = 4;
         // 160MHz --> 20MHz = 8
         // arr = 160 and timccr = 80 then the output clock is 1MHz
-        let arr = sum - 1;
+        let arr = sum;
         self.ins.arr().write(|v| v.0 = arr as u32);
         // self.ins.ccr(0).write(|v| v.0 = (duty_cycle * arr as f32) as u32);
         // self.ins.ccr(0).write(|v| v.0 = low);
@@ -125,5 +125,9 @@ impl TimIns {
             });
         }
         self.ins.ccer().modify(|v| v.set_cce(ch as _, true));
+        self.ins.bdtr().modify(|v| {
+            v.set_moe(true);
+            v.set_aoe(true);
+        });
     }
 }
