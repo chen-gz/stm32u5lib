@@ -1,12 +1,12 @@
 #![allow(unused)]
 use core::panic;
+use core::ptr as prt;
 pub use stm32_metapac::gpio::vals::Moder;
 pub use stm32_metapac::gpio::vals::Odr;
 pub use stm32_metapac::gpio::vals::Ot;
 pub use stm32_metapac::gpio::vals::Pupdr;
 use stm32_metapac::gpio::Gpio;
 use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, GPIOF};
-use core::ptr as prt;
 
 use crate::clock;
 
@@ -170,7 +170,6 @@ define_gpio_port_alt!(
     SDMMC2_D6_PC6: GPIOC, 6, 11, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
     SDMMC2_D7_PC7: GPIOC, 7, 11, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
 
-
     GPIO_MCO_PA8: GPIOA, 8, 0, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
 
     GPIO_EXTI_PB2: GPIOB, 2, 0, Moder::INPUT, Ot::OPENDRAIN, Pupdr::PULLUP,
@@ -186,7 +185,12 @@ define_gpio_port_alt!(
     ADC1_IN1_PC0: GPIOC, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
     ADC1_IN6_PC0: GPIOC, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
     ADC1_IN2_PC1: GPIOC, 1, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
-    ADC1_IN5_PA0: GPIOA, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING
+    ADC1_IN5_PA0: GPIOA, 0, 0, Moder::ANALOG, Ot::PUSHPULL, Pupdr::FLOATING,
+
+    TIM1_CH2_PA9: GPIOA, 9, 1, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
+    TIM1_CH3_PA10: GPIOA, 10, 1, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
+    TIM3_CH1_PA6: GPIOA, 6, 2, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING
+
 
 );
 /// Implement the Pin trait for GpioPort
