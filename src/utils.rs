@@ -12,8 +12,8 @@ fn panic(_info: &PanicInfo) -> ! {
         _info.location().unwrap().line(),
         _info.location().unwrap().column()
     );
-    if let Some(args) = _info.message() {
-        defmt::error!("Panic message: {:?}", args.as_str());
-    }
+    // if let Some(args) = _info.message() {
+    //     defmt::error!("Panic message: {:?}", args.as_str());
+    // }
     loop {}
 }

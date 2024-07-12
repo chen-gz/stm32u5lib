@@ -26,7 +26,7 @@ pub enum TimError {
 }
 
 pub struct Config {
-    pub prescaler: u32, // the prescaler value. timer clock = core clock / (prescaler + 1)
+    pub prescaler: u16, // the prescaler value. timer clock = core clock / (prescaler + 1)
     pub dir: Dir,
     pub cms: Cms,
     /// auto reload preload. Whether the auto reload register is buffered or not.
@@ -63,7 +63,7 @@ impl Default for Config {
 impl TimIns {
     pub fn get_frequency() -> u32 {
         todo!("get the frequency of the timer.");
-        return 160_000_000/(prescaler + 1) as u32;
+        // return 160_000_000 / (prescaler + 1) as u32;
     }
     pub fn set_clock(&self) {
         // STM32 U5 TIM 1,8, 15, 16 and 17 use apb2 clock.
@@ -71,7 +71,7 @@ impl TimIns {
         //
         RCC.apb2enr().modify(|v| v.set_tim1en(true)); // refer ot file header
         self.ins.cr1().modify(|v| v.set_cen(false)); // disable counter for configuration
-        // current suppose the main clock is 160MHz
+                                                     // current suppose the main clock is 160MHz
     }
 
     pub fn init(&mut self, config: Config) -> Result<(), TimError> {
@@ -85,7 +85,8 @@ impl TimIns {
             v.set_arpe(config.arpe);
         });
         // self.ins.psc().write_value(0); // no prescaler
-        self.ins.psc().write(|v| v.0 = config.prescaler);
+        self.ins.psc().write(|_| config.prescaler);
+        // v.0 = config.prescaler);
         self.ins.rcr().modify(|v| v.set_rep(config.rcr));
         self.ins.cr1().modify(|v| v.set_cen(true)); // enable counter
         self.ins.cr2().modify(|v| v.set_mms(config.mms));
@@ -99,31 +100,30 @@ impl TimIns {
         // 160MHz --> 20MHz = 8
         // arr = 160 and timccr = 80 then the output clock is 1MHz
         let arr = sum - 1;
-        self.ins.arr().write(|v| v.0 = arr);
+        self.ins.arr().write(|v| v.0 = arr as u32);
         // self.ins.ccr(0).write(|v| v.0 = (duty_cycle * arr as f32) as u32);
         // self.ins.ccr(0).write(|v| v.0 = low);
-        self.ins.ccr(ch - 1).write(|v| v.0 = low);
+        self.ins.ccr((ch - 1) as _).write(|v| v.0 = low as u32);
     }
 
-
-    pub fn enable_output(&self,
-        channel: u8 /// channel from 1 to 4
+    pub fn enable_output(
+        &self,
+        // channel from 1 to 4
+        channel: u8,
     ) {
         let ch = channel - 1;
-        if (ch <= 1){
+        if ch <= 1 {
             self.ins.ccmr_output(0).modify(|v| {
-
-                v.set_ccs(ch, CcmrOutputCcs::OUTPUT);
-                v.set_ocm(ch, Ocm::PWMMODE1);
+                v.set_ccs(ch as _, CcmrOutputCcs::OUTPUT);
+                v.set_ocm(ch as _, Ocm::PWMMODE1);
             });
-        }
-        else {
+        } else {
             // channel 3 and 4
             self.ins.ccmr_output(1).modify(|v| {
-                v.set_ccs(ch - 2, CcmrOutputCcs::OUTPUT);
-                v.set_ocm(ch - 2, Ocm::PWMMODE1);
+                v.set_ccs(ch as usize - 2, CcmrOutputCcs::OUTPUT);
+                v.set_ocm(ch as usize - 2, Ocm::PWMMODE1);
             });
         }
-        self.ins.ccer().modify(|v| v.set_cce(ch, true));
+        self.ins.ccer().modify(|v| v.set_cce(ch as _, true));
     }
 }
