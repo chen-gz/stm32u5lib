@@ -7,7 +7,6 @@ use stm32_metapac::timer::vals::*;
 /// Should be careful the system clock may be changed depend on the system lode and the power mode.
 /// This clock will be affected by the system clock.
 use stm32_metapac::timer::TimAdv;
-use stm32_metapac::timer::TimGp16;
 use stm32_metapac::timer::TimGp32;
 use stm32_metapac::RCC;
 // todo!("The deepsleep mode does not working when this timer is using.");
@@ -170,7 +169,7 @@ impl TimBasicIns {
         self.ins.psc().write(|_| config.prescaler);
         // v.0 = config.prescaler);
         // self.ins.rcr().modify(|v| v.set_rep(config.rcr));
-        self.ins.arr().write(|v| 160);
+        self.ins.arr().write(|_v| 160);
         self.ins.cr1().modify(|v| v.set_cen(true)); // enable counter
         self.ins.cr2().modify(|v| v.set_mms(config.mms));
         Ok(())

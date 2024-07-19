@@ -2,7 +2,6 @@
 // use crate::gpio::GpioPort;
 // use crate::i2c::{I2c, I2cMessage};
 use super::ov5640_reg::*;
-use super::ov5640_reg;
 // use crate::com_interface::ComInterface;
 use crate::hal::{
     I2c,

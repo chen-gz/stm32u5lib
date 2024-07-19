@@ -1,10 +1,9 @@
 /// define hal for embedded system
 
-
 /// The address should be implemented as a 7-bit address, the 8th bit is the read/write bit
 /// for example, the address of the device is 0x50, the read address is 0xA0, the write address is 0xA1
-pub trait Pin: Drop {
-    fn setup(&self);  // initialize the pin, this function can only been called once before `Drop` is called
+pub trait Pin {
+    fn setup(&self); // initialize the pin, this function can only been called once before `Drop` is called
     fn set_high(&self);
     fn set_low(&self);
     fn toggle(&self);
@@ -23,7 +22,7 @@ pub enum I2cError {
     Timeout,
 }
 
-pub trait I2c<T: Pin>: Drop {
+pub trait I2c<T: Pin> {
     /// create a new instance of I2c. The instance should be initialized with the default configuration.
     /// After this function is called, the I2c should be ready to use.
     fn new(freq: I2cFrequency, sda: T, scl: T) -> Self;
@@ -35,14 +34,18 @@ pub trait I2c<T: Pin>: Drop {
     fn read(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError>;
 
     /// start -> write(write_data) -> restart -> read(read_data) -> stop
-    fn write_read(&self, addr: u16, write_data: &[u8], read_data: &mut [u8]) -> Result<(), I2cError>;
+    fn write_read(
+        &self,
+        addr: u16,
+        write_data: &[u8],
+        read_data: &mut [u8],
+    ) -> Result<(), I2cError>;
 
     /// return the maximum frequency that the I2c can support
     fn capacity(&self) -> I2cFrequency;
 
     fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), I2cError>;
 }
-
 
 // pub trait Spi: Drop {
 //     pub enum Error {
