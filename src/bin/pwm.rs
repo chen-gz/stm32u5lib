@@ -7,21 +7,15 @@ use defmt_rtt as _;
 use embassy_executor::Spawner;
 
 use u5_lib::{
-    clock::{self, delay_ms, delay_s, delay_us},
-    com_interface::ComInterface,
-    exti,
     gpio::{self, GpioPort, TIM1_CH2_PA9, TIM1_CH3_PA10, TIM3_CH1_PA6},
-    i2c::{self, I2c},
     low_power::{no_deep_sleep_request, Executor},
-    task,
     tim::{Config, TIM1, TIM3},
     *,
 };
 const BLUE: GpioPort = gpio::PB7;
 
-// #[task]
-#[embassy_executor::task]
-async fn async_main(spawner: Spawner) {
+#[task]
+async fn async_main(_spawner: Spawner) {
     clock::init_clock(
         false,
         true,

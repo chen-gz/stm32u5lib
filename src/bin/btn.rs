@@ -5,9 +5,9 @@
 
 use defmt_rtt as _;
 use gpio::GpioPort;
+use u5_lib::exti;
 use u5_lib::gpio;
 use u5_lib::low_power::no_deep_sleep_request;
-use u5_lib::{clock, exti};
 
 const GREEN: GpioPort = gpio::PB7;
 
@@ -30,7 +30,6 @@ async fn main(spawner: Spawner) {
         rtc::rtc_interrupt().await;
     }
 }
-use core::panic::PanicInfo;
 use embassy_executor::Spawner;
 
 #[embassy_executor::task]

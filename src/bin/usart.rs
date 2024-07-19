@@ -4,7 +4,6 @@
 use cortex_m_rt::entry;
 use defmt_rtt as _;
 use u5_lib::clock;
-use u5_lib::com_interface::ComInterface;
 fn setup() {}
 
 #[entry]
