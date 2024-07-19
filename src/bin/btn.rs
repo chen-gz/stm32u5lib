@@ -3,11 +3,11 @@
 #![no_main]
 #![feature(type_alias_impl_trait)]
 
-use u5_lib::low_power::mcu_no_deep_sleep;
-use u5_lib::{clock, exti};
 use defmt_rtt as _;
 use gpio::GpioPort;
 use u5_lib::gpio;
+use u5_lib::low_power::no_deep_sleep_request;
+use u5_lib::{clock, exti};
 
 const GREEN: GpioPort = gpio::PB7;
 
@@ -18,8 +18,10 @@ use u5_lib::rtc;
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
-    clock::init_clock(true, false, clock::ClockFreqs::KernelFreq4Mhz);
-    mcu_no_deep_sleep();
+    // clock::init_clock(true, false, clock::ClockFreqs::KernelFreq4Mhz);
+    unsafe {
+        no_deep_sleep_request();
+    }
     setup();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();
@@ -30,11 +32,6 @@ async fn main(spawner: Spawner) {
 }
 use core::panic::PanicInfo;
 use embassy_executor::Spawner;
-
-#[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
-    loop {}
-}
 
 #[embassy_executor::task]
 async fn btn() {

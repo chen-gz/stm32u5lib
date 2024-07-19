@@ -7,16 +7,16 @@ use core::default::Default;
 use core::panic::PanicInfo;
 
 use defmt_rtt as _;
-use embassy_executor::{Spawner};
+use embassy_executor::Spawner;
 use embassy_usb::{
-    Builder,
     class::cdc_acm::{CdcAcmClass, State},
     driver::EndpointError,
+    Builder,
 };
-use futures::future::{join};
+use futures::future::join;
 use stm32_metapac;
 
-use u5_lib::{*};
+use u5_lib::*;
 
 // define defmt format
 #[derive(defmt::Format)]
@@ -41,7 +41,7 @@ async fn main(spawner: Spawner) {
     // mcu_no_deep_sleep();
     defmt::info!("setup led finished!");
     spawner.spawn(btn()).unwrap();
-    spawner.spawn(pwr::vddusb_monitor_up()).unwrap();
+    // spawner.spawn(pwr::vddusb_monitor_up()).unwrap();
     spawner.spawn(usb_task()).unwrap();
     defmt::info!("usb init finished!");
     loop {

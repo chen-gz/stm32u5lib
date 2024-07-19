@@ -1,4 +1,4 @@
-#![feature(noop_waker)]
+// #![feature(noop_waker)]
 #![no_std]
 #![no_main]
 #![feature(type_alias_impl_trait)]
@@ -19,8 +19,8 @@ use u5_lib::{
 };
 const BLUE: GpioPort = gpio::PB7;
 
-// #[embassy_executor::task]
-#[task]
+// #[task]
+#[embassy_executor::task]
 async fn async_main(spawner: Spawner) {
     clock::init_clock(
         false,
