@@ -2,6 +2,7 @@
 #![no_std]
 #![no_main]
 #![feature(type_alias_impl_trait)]
+#![feature(impl_trait_in_assoc_type)]
 
 use defmt_rtt as _;
 use gpio::GpioPort;

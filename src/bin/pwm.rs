@@ -2,6 +2,7 @@
 #![no_std]
 #![no_main]
 #![feature(type_alias_impl_trait)]
+#![feature(impl_trait_in_assoc_type)]
 
 use defmt_rtt as _;
 use embassy_executor::Spawner;
@@ -14,7 +15,7 @@ use u5_lib::{
 };
 const BLUE: GpioPort = gpio::PB7;
 
-#[task]
+#[embassy_executor::task]
 async fn async_main(_spawner: Spawner) {
     clock::init_clock(
         false,

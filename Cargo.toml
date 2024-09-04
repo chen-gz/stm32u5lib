@@ -9,20 +9,21 @@ defmt = { version = "0.3.6" }
 defmt-rtt = { version = "0.4.0" }
 defmt-itm = { version = "0.3.0" }
 sdio-host = { version = "0.9.0" }
-heapless = { version = "0.8.0"}
+heapless = { version = "0.8.0" }
 aligned = "0.4.2"
 cortex-m = { version = "0.7.7", features = [
     "inline-asm",
     "critical-section-single-core",
-]}
+] }
 usb-device = "0.3.2"
 
 critical-section = "1.1.2"
 cortex-m-rt = { version = "0.7.3" }
 futures = { version = "0.3.17", default-features = false, fetures = [
     "async-await",
-]}
+] }
 log = "0.4.21"
+# byteorder = "1.5.0"
 
 [dependencies.stm32-metapac]
 #path = "../stm32-data/build/stm32-metapac"
@@ -31,25 +32,25 @@ features = ["rt"]
 
 [dependencies.embassy-sync]
 git = "https://github.com/embassy-rs/embassy"
-rev = "35f284e"
+rev = "32cff65"
 
 [dependencies.embassy-executor]
 features = ["nightly", "arch-cortex-m", "executor-thread"]
 git = "https://github.com/embassy-rs/embassy"
-rev = "35f284e"
+rev = "32cff65"
 
 [dependencies.embassy-executor-macros]
 # features = ["nightly", "arch-cortex-m", "executor-thread"]
 git = "https://github.com/embassy-rs/embassy"
-rev = "35f284e"
+rev = "32cff65"
 
 [dependencies.embassy-usb]
 git = "https://github.com/embassy-rs/embassy"
-rev = "35f284e"
+rev = "32cff65"
 
 [dependencies.embassy-usb-driver]
 git = "https://github.com/embassy-rs/embassy"
-rev = "35f284e"
+rev = "32cff65"
 features = ["defmt"]
 
 
@@ -68,11 +69,11 @@ bench = false
 [features]
 utils = []
 default = [
-   "stm32u575ci",
-   #"stm32u5a5zj",
-#    "memory-x",
+    "stm32u575ci",
+    #"stm32u5a5zj",
+    #    "memory-x",
     # "defmt",
-	"utils",
+    "utils",
 ]
 # when
 #memory-x = [ "stm32-metapac/memory-x", ]
