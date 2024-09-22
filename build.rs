@@ -1,6 +1,6 @@
 fn main() {
-    println!("cargo:rustc-link-arg-bins=--nmagic");
-    println!("cargo:rustc-link-arg-bins=-Tdefmt.x");   // required for defmt
+    // println!("cargo:rustc-link-arg-bins=--nmagic");
+    // println!("cargo:rustc-link-arg-bins=-Tdefmt.x");   // required for defmt
 
 
     println!("cargo:rustc-check-cfg=cfg(otg_hs)");  // enable cfg otg_hs
