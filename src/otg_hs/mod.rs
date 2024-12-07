@@ -43,7 +43,6 @@ pub async fn cdc_acm_ep2_read() -> Result<(Aligned<aligned::A4, [u8; 64]>, usize
         }
     }
 }
-
 pub async fn cdc_acm_ep2_write(buf: &[u8]) {
     let ep2_in = Endpoint::new(
         crate::otg_hs::endpoint::Direction::In,
