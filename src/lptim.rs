@@ -1,12 +1,15 @@
 use crate::clock;
 use core::{future::poll_fn, sync::atomic::AtomicBool, time::Duration};
 use cortex_m::peripheral::NVIC;
-use defmt::todo;
+use defmt::{panic, todo};
 use embassy_sync::waitqueue::AtomicWaker;
+use futures::future::select;
+use heapless::spsc::Queue;
 use stm32_metapac::interrupt;
 
 pub struct Lptim {
     num: u8,
+    src_clock_freq: u32,
     ins: stm32_metapac::lptim::LptimAdv,
 }
 pub use stm32_metapac::lptim::vals::Presc as LptimPrescaler;
@@ -36,14 +39,17 @@ impl Lptim {
             1 => Self {
                 num,
                 ins: stm32_metapac::LPTIM1,
+                src_clock_freq: 0,
             },
             2 => Self {
                 num,
                 ins: stm32_metapac::LPTIM2,
+                src_clock_freq: 0,
             },
             3 => Self {
                 num,
                 ins: stm32_metapac::LPTIM3,
+                src_clock_freq: 0,
             },
             // 4 => { Self { num, ins: stm32_metapac::LPTIM4 } }
             _ => panic!("not supported LPTIM"),
@@ -60,11 +66,15 @@ impl Lptim {
         unsafe { INTERRUPTED_CNT[self.num as usize - 1] }
     }
     pub fn get_period(&self) -> Duration {
-        Duration::from_millis(50) // 50ms
-                                  // temperate implementation
+        let arr = self.ins.arr().read().0;
+        defmt::info!("arr: {}", arr);
+        self.get_resolution() * (arr + 1)
     }
-    pub fn init_new(&self, presc: LptimPrescaler) {
-        clock::set_lptim_clock(self.num);
+    pub fn calc_arr(&self, period: Duration) -> u32 {
+        (period.as_nanos() / self.get_resolution().as_nanos()) as u32 - 1
+    }
+    pub fn init_new(&mut self, presc: LptimPrescaler) {
+        self.src_clock_freq = clock::set_lptim_clock(self.num);
         self.ins.cr().modify(|v| v.set_enable(true));
         self.ins.cfgr().modify(|v| v.set_presc(presc));
         // self.ins.dier().modify(|v| v.set_ueie(true)); // update event
@@ -87,16 +97,28 @@ impl Lptim {
             .cfgr()
             .modify(|v| v.set_presc(stm32_metapac::lptim::vals::Presc::DIV32));
         self.ins.dier().modify(|v| v.set_ueie(true));
+        // self.ins.arr().modify(|v| v.0 = 49_999); // default arr set to 49_999
+        self.ins
+            .arr()
+            .modify(|v| v.0 = self.calc_arr(Duration::from_millis(50)));
         unsafe {
             NVIC::unmask(stm32_metapac::Interrupt::LPTIM1);
             NVIC::unmask(stm32_metapac::Interrupt::LPTIM2);
         }
     }
-    pub fn get_resolution(&self) -> Duration {
-        // 16MHz / 32 = 500KHz = 2us
-        // Duration::from_micros(2)
-        todo!("not implement");
+    pub fn get_frequency(&self) -> u32 {
+        let presc = self.ins.cfgr().read().presc();
+        let div = 1 << (presc as u32);
+        self.src_clock_freq / div
     }
+    pub fn get_resolution(&self) -> Duration {
+        if self.get_frequency() == 0 {
+            defmt::info!("src_clock_freq: {}", self.src_clock_freq);
+            panic!("LPTIM{} frequency is 0", self.num);
+        }
+        Duration::from_nanos(1_000_000_000 / self.get_frequency() as u64)
+    }
+
     // if need cnt and interrupted_cnt, use get_cnt_and_interrupted_cnt to get correct value
     pub fn get_cnt(&self) -> u32 {
         // read cnt twice to get correct value
@@ -111,6 +133,7 @@ impl Lptim {
         }
         tmp
     }
+
     pub fn get_cnt_and_interrupted_cnt(&self) -> (u32, u128) {
         let mut cnt = self.get_cnt();
         let mut interrupted_cnt = unsafe { INTERRUPTED_CNT[self.num as usize - 1] };
@@ -155,6 +178,18 @@ impl Lptim {
             })
             .await;
         }
+    }
+    async fn wait_for_interrupt(&self) {
+        let index = self.num as usize - 1;
+        poll_fn(|cx| unsafe {
+            WAKER[index].register(cx.waker());
+            if TIMER_LOCKER[index].load(core::sync::atomic::Ordering::Relaxed) {
+                return core::task::Poll::Pending;
+            } else {
+                return core::task::Poll::Ready(());
+            }
+        })
+        .await;
     }
     pub fn on_interrupt(timer_num: u32) {
         unsafe {
@@ -201,9 +236,11 @@ pub struct GlobalLptim {
 }
 use crate::hal::Timer;
 impl GlobalLptim {
-    fn new(tim: Lptim, tim2: Lptim) -> Self {
-        tim.init();
-        tim2.init();
+    pub fn new(mut tim: Lptim, mut tim2: Lptim) -> Self {
+        // tim.init();
+        // tim2.init();
+        tim.init_new(LptimPrescaler::DIV32);
+        tim.init_new(LptimPrescaler::DIV32);
         Self {
             global_timer: tim, // tim 1 as global timer
             timer2: tim2,
@@ -213,6 +250,7 @@ impl GlobalLptim {
         }
     }
 }
+
 impl Timer for GlobalLptim {
     fn elapsed(&self) -> Duration {
         let (cnt, mut ints) = self.global_timer.get_cnt_and_interrupted_cnt();
@@ -230,10 +268,62 @@ impl Timer for GlobalLptim {
         }
         ret * ints as u32 + add + cnt * self.global_timer.get_resolution()
     }
-    fn delay(&self, us: u32) -> impl core::future::Future<Output = ()> {
-        self.global_timer.after(Duration::from_micros(us as u64))
+
+    fn delay(&self, duration: Duration) -> impl core::future::Future<Output = ()> {
+        // let future = self.global_timer.after(Duration::from_micros(us as u64));
+        self.global_timer.after(duration)
+        // let global_int = self.global_timer.wait_for_interrupt();
+        // global_int
+
+        // let future = self.timer2.after(Duration::from_micros(1));
+        // select(future, future) {
+        // Ok(((), _)) => {
+        //     // clear update event flag
+        //     self.ins.icr().modify(|v| v.set_uecf(true));
+        //     return;
+        // }
+        // Err(((), _)) => {
+        //     // clear update event flag
+        //     self.ins.icr().modify(|v| v.set_uecf(true));
+        //     return;
+        // }
+        // }
+        //
+        //
+        //
     }
     fn resolution(&self) -> u32 {
         todo!("not implement")
     }
 }
+
+static mut GLP: Option<GlobalLptim> = None;
+
+// static GLP_QUEUE: Queue<AtomicWaker, 16>;
+// pub fn init_global_lptim(tim: Lptim, tim2: Lptim) {
+//     let glp = GlobalLptim::new(tim, tim2);
+//     unsafe {
+//         GLP = Some(glp);
+//     }
+// }
+
+// pub fn elapsed() -> Duration {
+//     unsafe
+// {
+//         if let Some(glp) = GLP {
+//             glp.elapsed()
+//         } else {
+//             todo!("not implement")
+//         }
+//     }
+// }
+
+// pub fn delay(us: u32) -> impl core::future::Future<Output = ()> {
+//     unsafe {
+//         if let Some(glp) = GLP {
+//             glp.delay(us)
+//         } else {
+//             todo!("not implement")
+//         }
+//     }
+// }

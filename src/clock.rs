@@ -10,10 +10,10 @@
 //!
 #![allow(dead_code)]
 
-use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
+use crate::{gpio, rtc};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
 pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
-use crate::{gpio, rtc};
+use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
@@ -24,6 +24,7 @@ pub fn get_hclk() -> u32 {
     unsafe { HCLK }
 }
 
+pub const HSI_FREQ: u32 = 16_000_000;
 pub const MSIS_FREQ: u32 = 4_000_000;
 pub const MSIK_FREQ: u32 = 4_000_000;
 pub const PLL1_R_FREQ: u32 = 160_000_000;
@@ -32,11 +33,11 @@ pub const PLL1_P_FREQ: u32 = 0;
 static mut HSE_AVAILABLE: bool = false;
 pub static mut HSE_FREQ: u32 = 0;
 static mut LSE_AVAILABLE: bool = false;
+pub static mut LSE_FREQ: u32 = 0;
 
 pub fn hclk_request<F, R>(freq: ClockFreqs, code: F) -> F::Output
-    where
-        F: FnOnce() -> R,
-
+where
+    F: FnOnce() -> R,
 {
     unsafe {
         CLOCK_REQUESTS[freq.to_idx()] += 1;
@@ -49,9 +50,9 @@ pub fn hclk_request<F, R>(freq: ClockFreqs, code: F) -> F::Output
 }
 
 pub async fn hclk_request_async<F, R>(freq: ClockFreqs, code: F)
-    where
-        F: FnOnce() -> R,
-        R: core::future::Future<Output=()>,
+where
+    F: FnOnce() -> R,
+    R: core::future::Future<Output = ()>,
 {
     unsafe {
         CLOCK_REQUESTS[freq.to_idx()] += 1;
@@ -62,7 +63,6 @@ pub async fn hclk_request_async<F, R>(freq: ClockFreqs, code: F)
         set_clock();
     }
 }
-
 
 fn set_pll() {
     if unsafe { HSE_AVAILABLE } {
@@ -92,7 +92,6 @@ fn set_pll() {
     });
     while !RCC.cr().read().pllrdy(0) {}
 }
-
 
 fn delay_enable() {
     unsafe {
@@ -182,7 +181,6 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
     }
 }
 
-
 #[cfg(any(sdmmc))]
 pub fn set_sdmmc_clock(
     sdmmc: stm32_metapac::sdmmc::Sdmmc,
@@ -201,7 +199,8 @@ pub fn set_sdmmc_clock(
         }
     } else {
         // panic!("SDMMC not enabled");
-        RCC.ccipr2().modify(|v| v.set_sdmmcsel(SdmmcClockSource::ICLK));
+        RCC.ccipr2()
+            .modify(|v| v.set_sdmmcsel(SdmmcClockSource::ICLK));
     }
     // RCC.ccipr2().modify(|v| v.set_sdmmcsel(SdmmcClockSource::PLL1_P));
 
@@ -227,16 +226,19 @@ pub fn set_usart_clock() {
 pub fn set_i2c_clock(i2c_num: u8) {
     // set i2c1 clock source to hsi
     if i2c_num == 1 {
-        RCC.ccipr1().modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::I2csel::HSI));
+        RCC.ccipr1()
+            .modify(|v| v.set_i2c1sel(stm32_metapac::rcc::vals::I2csel::HSI));
         // enable i2c1 clock
         RCC.apb1enr1().modify(|v| v.set_i2c1en(true));
     } else if i2c_num == 2 {
-        RCC.ccipr1().modify(|v| v.set_i2c2sel(stm32_metapac::rcc::vals::I2csel::HSI));
+        RCC.ccipr1()
+            .modify(|v| v.set_i2c2sel(stm32_metapac::rcc::vals::I2csel::HSI));
         // enable i2c2 clock
         RCC.apb1enr1().modify(|v| v.set_i2c2en(true));
         RCC.apb1smenr1().modify(|v| v.set_i2c2smen(true));
     } else if i2c_num == 3 {
-        RCC.ccipr3().modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::I2c3sel::HSI));
+        RCC.ccipr3()
+            .modify(|v| v.set_i2c3sel(stm32_metapac::rcc::vals::I2c3sel::HSI));
         // enable i2c3 clock
         RCC.apb3enr().modify(|v| v.set_i2c3en(true));
     } else {
@@ -245,27 +247,35 @@ pub fn set_i2c_clock(i2c_num: u8) {
 }
 
 /// enable lptim for all mode and use LSE as clock source
-pub fn set_lptim_clock(num: u8) {
+pub fn set_lptim_clock(num: u8) -> u32 {
     RCC.cr().modify(|v| v.set_hsikeron(true));
     match num {
         1 => {
-            RCC.ccipr3().modify(|v| v.set_lptim1sel(stm32_metapac::rcc::vals::Lptimsel::HSI));
+            RCC.ccipr3()
+                .modify(|v| v.set_lptim1sel(stm32_metapac::rcc::vals::Lptimsel::HSI));
             RCC.apb3enr().modify(|v| v.set_lptim1en(true));
             RCC.apb3smenr().modify(|v| v.set_lptim1smen(true));
             RCC.srdamr().modify(|v| v.set_lptim1amen(true));
+            HSI_FREQ
         }
         2 => {
-            RCC.ccipr1().modify(|v| v.set_lptim2sel(stm32_metapac::rcc::vals::Lptim2sel::HSI));
+            RCC.ccipr1()
+                .modify(|v| v.set_lptim2sel(stm32_metapac::rcc::vals::Lptim2sel::HSI));
             RCC.apb1enr2().modify(|v| v.set_lptim2en(true));
             RCC.apb3smenr().modify(|v| v.set_lptim1smen(true));
+            HSI_FREQ
         }
         3 => {
-            RCC.ccipr3().modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
+            RCC.ccipr3()
+                .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
             RCC.apb3enr().modify(|v| v.set_lptim3en(true));
+            unsafe { LSE_FREQ }
         }
         4 => {
-            RCC.ccipr3().modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
+            RCC.ccipr3()
+                .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
             RCC.apb3enr().modify(|v| v.set_lptim4en(true));
+            unsafe { LSE_FREQ }
         }
         _ => defmt::panic!("Invalid lptim number"),
     }
@@ -284,20 +294,21 @@ pub fn set_adc_clock() {
     RCC.ahb2enr1().modify(|v| v.set_adc12en(true));
 }
 
-pub fn init_clock(has_hse: bool,
-                  has_lse: bool,
-                  hse_frq: u32,
-                  enable_dbg: bool,
-                  system_min_freq: ClockFreqs) {
+pub fn init_clock(
+    has_hse: bool,
+    has_lse: bool,
+    hse_frq: u32,
+    enable_dbg: bool,
+    system_min_freq: ClockFreqs,
+) {
+    defmt::info!("setup clock with hse: {:?}, lse: {:?}, hse_frq: {:?}, enable_dbg: {:?}, system_min_freq: {:?}", has_hse, has_lse, hse_frq, enable_dbg, system_min_freq);
     // unsafe {CLOCK_REF.has_hse = has_hse;}
     unsafe {
         HSE_AVAILABLE = has_hse;
         LSE_AVAILABLE = has_lse;
         HSE_FREQ = hse_frq;
     }
-    RCC.ahb3enr().modify(|v|
-        v.set_pwren(true)
-    );
+    RCC.ahb3enr().modify(|v| v.set_pwren(true));
     if has_hse {
         RCC.cr().modify(|w| w.set_hseon(true));
         while !RCC.cr().read().hserdy() {}
@@ -323,18 +334,19 @@ pub fn init_clock(has_hse: bool,
     set_clock();
     // check rtc is enabled or not. if enabled, do nothing
     let rtc_en = RCC.bdcr().read().rtcen();
-    if !rtc_en {
-        defmt::info!("RTC not enabled, enable RTC");
-        if has_lse {
-            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
-        } else {
-            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
-        }
-    }
+    // if !rtc_en {
+    //     defmt::info!("RTC not enabled, enable RTC");
+    //     if has_lse {
+    //         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
+    //     } else {
+    //         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
+    //     }
+    // }
 }
 
 pub static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
 
+#[derive(Clone, Copy, Debug, defmt::Format)]
 pub enum ClockFreqs {
     KernelFreq160Mhz,
     // 160Mhz
@@ -352,7 +364,7 @@ pub enum ClockFreqs {
     // 4Mhz
     KernelFreq2Mhz,
     // 2Mhz
-    KernelFreq1Mhz,   // 1Mhz
+    KernelFreq1Mhz, // 1Mhz
 }
 
 impl ClockFreqs {
@@ -428,7 +440,6 @@ pub fn set_clock() {
 
     set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
 }
-
 
 pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
     // refter to rm0456 rev4 table 54 and p278
@@ -592,8 +603,8 @@ fn dec_kern_freq(freq: u32) {
     }
 }
 
-pub use stm32_metapac::rcc::vals::Mcosel as Mcosel;
-pub use stm32_metapac::rcc::vals::Mcopre as Mcopre;
+pub use stm32_metapac::rcc::vals::Mcopre;
+pub use stm32_metapac::rcc::vals::Mcosel;
 
 pub fn set_mco(pin: gpio::GpioPort, clk: Mcosel, div: stm32_metapac::rcc::vals::Mcopre) {
     pin.setup();

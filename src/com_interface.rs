@@ -6,13 +6,14 @@
 
 
 
+#[deprecated]
 pub trait ComInterface<'a> {
     // make Self sized
     type Error: core::fmt::Debug;
     type Message: 'a;
     // For send data
     type Response: 'a;
-    type Config: Default;
+    type Config;
 
     type ReceiveOption: 'a;
 

@@ -69,7 +69,7 @@ bench = false
 [features]
 utils = []
 default = [
-#    "stm32u575ci",
+    # "stm32u575ci",
     "stm32u5a5zj",
     #    "memory-x",
     # "defmt",

@@ -38,6 +38,7 @@ macro_rules! define_gpio_port_alt {
 
     }
 
+#[derive(Clone, Eq, PartialEq)]
 pub struct GpioPort {
     pub port: Gpio,
     pub pin: usize,
@@ -190,9 +191,15 @@ define_gpio_port_alt!(
     TIM1_CH2_PA9: GPIOA, 9, 1, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
     TIM1_CH3_PA10: GPIOA, 10, 1, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING,
     TIM3_CH1_PA6: GPIOA, 6, 2, Moder::ALTERNATE, Ot::PUSHPULL, Pupdr::FLOATING
-
-
 );
+pub const I2C1_SCL_PINS: [GpioPort; 3] = [I2C1_SCL_PB6, I2C1_SCL_PB8, I2C2_SCL_PB11];
+pub const I2C1_SDA_PINS: [GpioPort; 3] = [I2C1_SDA_PB3, I2C1_SDA_PB7, I2C1_SDA_PB9];
+pub const I2C2_SCL_PINS: [GpioPort; 1] = [I2C2_SCL_PB13];
+pub const I2C2_SDA_PINS: [GpioPort; 2] = [I2C2_SDA_PB14, I2C2_SDA_PF0];
+pub const I2C3_SCL_PINS: [GpioPort; 1] = [I2C3_SCL_PC0];
+pub const I2C3_SDA_PINS: [GpioPort; 1] = [I2C3_SDA_PB4];
+pub const USART1_TX_PINS: [GpioPort; 1] = [USART_TX_PA9];
+pub const USART1_RX_PINS: [GpioPort; 1] = [USART_RX_PA10];
 /// Implement the Pin trait for GpioPort
 use crate::hal;
 impl hal::Pin for GpioPort {

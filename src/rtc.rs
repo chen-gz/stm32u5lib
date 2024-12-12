@@ -35,16 +35,16 @@ pub fn setup(
             defmt::info!("rtc source: LSI");
         }
         _ => {
-            defmt::info!("rtc source: ???");
+            defmt::panic!("rtc source: ???");
         }
     }
 
     //  rest backup domain
     RCC.bdcr().write(|v| v.set_bdrst(true));
     delay_tick(10); // check the minimum time,
-    // disable BDRST
+                    // disable BDRST
     RCC.bdcr().modify(|v| v.set_bdrst(false));
-    // record the current rtc mask and pend status 
+    // record the current rtc mask and pend status
     let rtc_it_enabled = unsafe { NVIC::is_enabled(stm32_metapac::Interrupt::RTC) };
 
     unsafe {
@@ -66,10 +66,10 @@ pub fn setup(
     {
         let rs = RCC.bdcr().read().rtcsel(); // get rtc source
         if rs != rtc_source {
-            // update rtc source - update rtc source requires reset 
-            RCC.bdcr().write(|v| v.set_bdrst(true));  // reset backup domain
+            // update rtc source - update rtc source requires reset
+            RCC.bdcr().write(|v| v.set_bdrst(true)); // reset backup domain
             clock::delay_tick(100); // wait for reset TODO: get the minimum time
-            // disable BDRST
+                                    // disable BDRST
             RCC.bdcr().modify(|v| v.set_bdrst(false)); // reset finished
             match rtc_source {
                 rcc::vals::Rtcsel::LSE => {
@@ -93,7 +93,6 @@ pub fn setup(
             });
         }
     }
-
 
     // RTC.icsr().modify(|v| v.set_bin(rtc::vals::Bin::BCD)); // set to BCD format: 4bit for each digit
     RTC.wpr().write(|w| unsafe { w.0 = 0xCA }); // write protection disable
@@ -172,15 +171,16 @@ pub fn setup(
     // RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::FREERUNNINGMODE)); // exit init mode
     RTC.icsr().modify(|v| v.set_init(false)); // exit init mode
 
-    RCC.bdcr().modify(|v| { v.set_rtcen(true); });
+    RCC.bdcr().modify(|v| {
+        v.set_rtcen(true);
+    });
 
     PWR.dbpcr().modify(|v| v.set_dbp(false)); // disable backup domain write
     RTC.wpr().write(|w| unsafe { w.0 = 0xFF }); // write protection enable
 
-
     if rtc_it_enabled {
         unsafe { NVIC::unmask(stm32_metapac::Interrupt::RTC) };
-    } 
+    }
 }
 pub fn enable_rtc_read() {
     // enable rtc clock
@@ -292,5 +292,4 @@ fn RTC() {
     NVIC::unpend(stm32_metapac::Interrupt::RTC);
     // disable backup domain write
     PWR.dbpcr().modify(|v| v.set_dbp(false));
-
 }

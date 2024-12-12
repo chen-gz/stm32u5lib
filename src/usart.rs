@@ -1,7 +1,7 @@
 #![allow(unused)]
 use core::default;
 
-use crate::{clock, gpio};
+use crate::{clock, gpio::{self, USART1_RX_PINS, USART1_TX_PINS}, hal};
 use defmt::todo;
 use stm32_metapac::{
     common::R,
@@ -65,6 +65,64 @@ const NEW_AWAKER: AtomicWaker = AtomicWaker::new();
 static mut WAKERS: [AtomicWaker; 8] = [NEW_AWAKER; 8];
 static mut TAKEN: [bool; 8] = [false; 8];
 
+fn pin_to_port(tx: gpio::GpioPort, rx: gpio::GpioPort) -> u8 {
+    if USART1_TX_PINS.contains(&tx) && USART1_RX_PINS.contains(&rx) {
+        1
+    } else  {
+        todo!()
+    }
+}
+impl hal::Usart for Usart {
+    // fn new() -> Result<Self, Self::Error> {
+    fn new(baudrate: u32, tx: T, rx: T) -> Result<Self, hal::UsartError> 
+        where Self: Sized {
+        let port_num  = 
+        if unsafe { TAKEN[config.port_num as usize] } {
+            return Err(UsartError::TAKEN);
+        }
+        unsafe {
+            TAKEN[config.port_num as usize] = true;
+        }
+        config.gpio_rx.setup();
+        config.gpio_tx.setup();
+        clock::set_usart_clock();
+        // get port from port number
+        let port = port_num_to_usart(config.port_num);
+        // self.port
+        port.cr1().modify(|v| {
+            v.set_m0(M0::BIT8);
+            v.set_m1(M1::M0);
+            v.set_pce(false);
+            v.set_over8(Over8::OVERSAMPLING16); // oversampling by 16
+
+            v.set_ue(true);
+            v.set_te(true);
+            v.set_re(true);
+        });
+        port.cr2().modify(|v| {
+            v.set_stop(Stop::STOP1); // 1 stop bit
+        });
+        port.cr3().modify(|v| {
+            // v.set_owr_ddr(true);
+        });
+        port.brr().write(|v| {
+            v.set_brr((USART_CLOCK / 115200) as u16);
+        });
+        Ok(Usart{ port, port_num: config.port_num })
+    }
+    fn read(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
+        todo!()
+    }
+    fn read_async(&self, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
+        todo!()
+    }
+    fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        todo!( )
+    }
+    fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
+        todo!()
+    }
+}
 // impl UsartPort {
 //     /// current use default configuration, 115200 baudrate, 8 bit data, 1 stop bit, no parity
 //     pub fn setup(&self, gpio_tx: gpio::GpioPort, gpio_rx: gpio::GpioPort) {
