@@ -17,8 +17,7 @@ pub fn setup_camera(i2c:&mut I2c, power_down: &GpioPort, reset_b: &GpioPort) {
             OV5640_CHIP_ID_HIGH_BYTE as u8,
         ],
         &mut read_val[0..1],
-    )
-        .unwrap();
+    ).unwrap();
     i2c.write_read(
         OV5640_I2C_ADDR,
         &mut [
@@ -26,8 +25,8 @@ pub fn setup_camera(i2c:&mut I2c, power_down: &GpioPort, reset_b: &GpioPort) {
             OV5640_CHIP_ID_LOW_BYTE as u8,
         ],
         &mut read_val[1..2],
-    )
-        .unwrap();
+    ).unwrap();
+    defmt::info!("check ov5640 chip id: {:?}", read_val);
     assert!(read_val[0] == 0x56 && read_val[1] == 0x40);
 
     defmt::info!("writing ov5640 common regs");

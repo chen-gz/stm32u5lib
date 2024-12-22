@@ -28,18 +28,27 @@ pub enum I2cError {
 pub trait I2c<T: Pin> {
     /// create a new instance of I2c. The instance should be initialized with the default configuration.
     /// After this function is called, the I2c should be ready to use.
-    fn new(freq: I2cFrequency, sda: T, scl: T) -> Result<Self, I2cError> 
-    where Self: Sized;
+    fn new(freq: I2cFrequency, sda: T, scl: T) -> Result<Self, I2cError>
+    where
+        Self: Sized;
 
     /// start  -> write(data) -> stop
     fn write(&self, addr: u16, data: &[u8]) -> Result<(), I2cError>;
     // async fn write_aysnc(&self, addr: u16, data: &[u8]) -> Result<(), I2cError>;
-    fn write_async(&self, addr: u16, data: &[u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
+    fn write_async(
+        &self,
+        addr: u16,
+        data: &[u8],
+    ) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
 
     /// read data from addr, the length is determined by the length of data
     fn read(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError>;
     // async fn read_async(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError>;
-    fn read_async(&self, addr: u16, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
+    fn read_async(
+        &self,
+        addr: u16,
+        data: &mut [u8],
+    ) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
 
     /// start -> write(write_data) -> restart -> read(read_data) -> stop
     fn write_read(
@@ -52,9 +61,21 @@ pub trait I2c<T: Pin> {
     /// return the maximum frequency that the I2c can support
     fn capacity(&self) -> I2cFrequency;
 
-    fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), I2cError>;
+    fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), I2cError> {
+        let mut cnt = 0;
+        loop {
+            match self.write(addr, data) {
+                Ok(_) => return Ok(()),
+                Err(e) => {
+                    cnt += 1;
+                    if cnt >= retry {
+                        return Err(e);
+                    }
+                }
+            }
+        }
+    }
 }
-
 
 #[derive(Debug)]
 pub enum UsartError {
@@ -65,14 +86,40 @@ pub enum UsartError {
 }
 
 pub trait Usart<T: Pin> {
-    fn new(baudrate: u32, tx: T, rx: T) -> Result<Self, UsartError> 
-    where Self: Sized;
-    
-    fn write(&self, data: &[u8]) -> Result<(), UsartError>;
-    fn read(&self, data: &mut [u8]) -> Result<(), UsartError>;
-    fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
-    fn read_async(&self, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
+    fn new(baudrate: u32, tx: T, rx: T) -> Result<Self, UsartError>
+    where
+        Self: Sized;
 
+    fn write(&self, data: &[u8]) -> Result<(), UsartError>;
+    fn write_retry(&self, data: &[u8], retry: u8) -> Result<(), UsartError> {
+        let mut cnt = 0;
+        loop {
+            match self.write(data) {
+                Ok(_) => return Ok(()),
+                // Err(UsartError::BusError) => {
+                //     cnt += 1;
+                //     if cnt >= retry {
+                //         return Err(UsartError::BusError);
+                //     }
+                // }
+                Err(e) => {
+                    cnt += 1;
+                    if cnt >= retry {
+                        return Err(e);
+                    }
+                }
+            }
+        }
+    }
+    fn read(&self, data: &mut [u8]) -> Result<(), UsartError>;
+    fn write_async(
+        &self,
+        data: &[u8],
+    ) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
+    fn read_async(
+        &self,
+        data: &mut [u8],
+    ) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
 }
 
 // pub trait Spi: Drop {

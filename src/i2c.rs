@@ -297,9 +297,9 @@ impl hal::I2c<GpioPort> for I2c {
         todo!()
     }
 
-    fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), hal::I2cError> {
-        todo!()
-    }
+    // fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), hal::I2cError> {
+    //     todo!()
+    // }
 }
 
 ////// deprecated will be removed in the future

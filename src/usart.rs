@@ -65,29 +65,32 @@ const NEW_AWAKER: AtomicWaker = AtomicWaker::new();
 static mut WAKERS: [AtomicWaker; 8] = [NEW_AWAKER; 8];
 static mut TAKEN: [bool; 8] = [false; 8];
 
-fn pin_to_port(tx: gpio::GpioPort, rx: gpio::GpioPort) -> u8 {
-    if USART1_TX_PINS.contains(&tx) && USART1_RX_PINS.contains(&rx) {
+fn pin_to_port(tx: &gpio::GpioPort, rx: &gpio::GpioPort) -> u8 {
+    if USART1_TX_PINS.contains(tx) && USART1_RX_PINS.contains(rx) {
         1
     } else  {
         todo!()
     }
 }
-impl hal::Usart for Usart {
+
+use gpio::GpioPort;
+impl hal::Usart<GpioPort> for Usart {
     // fn new() -> Result<Self, Self::Error> {
-    fn new(baudrate: u32, tx: T, rx: T) -> Result<Self, hal::UsartError> 
+    fn new(baudrate: u32, tx: GpioPort, rx: GpioPort) -> Result<Self, hal::UsartError> 
         where Self: Sized {
-        let port_num  = 
-        if unsafe { TAKEN[config.port_num as usize] } {
-            return Err(UsartError::TAKEN);
+        let port_num = pin_to_port(&tx, &rx);
+        // let port_num = port;
+        if unsafe { TAKEN[port_num as usize] } {
+            return Err(hal::UsartError::InitError);
         }
         unsafe {
-            TAKEN[config.port_num as usize] = true;
+            TAKEN[port_num as usize] = true;
         }
-        config.gpio_rx.setup();
-        config.gpio_tx.setup();
+        tx.setup();
+        tx.setup();
         clock::set_usart_clock();
         // get port from port number
-        let port = port_num_to_usart(config.port_num);
+        let port = port_num_to_usart(port_num);
         // self.port
         port.cr1().modify(|v| {
             v.set_m0(M0::BIT8);
@@ -108,19 +111,23 @@ impl hal::Usart for Usart {
         port.brr().write(|v| {
             v.set_brr((USART_CLOCK / 115200) as u16);
         });
-        Ok(Usart{ port, port_num: config.port_num })
+        Ok(Usart{ port, port_num: port_num })
     }
     fn read(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
         todo!()
     }
     fn read_async(&self, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
-        todo!()
+        async move {
+            todo!()
+        }
     }
     fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
         todo!( )
     }
     fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
-        todo!()
+        async move {
+            todo!()
+        }
     }
 }
 // impl UsartPort {

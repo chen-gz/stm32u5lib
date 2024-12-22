@@ -65,7 +65,10 @@ where
 }
 
 fn set_pll() {
-    if unsafe { HSE_AVAILABLE } {
+    if unsafe { HSE_AVAILABLE && HSE_FREQ != 16_000_000 } {
+        defmt::info!("unsupported HSE frequency, fallback to MSIS");
+    }
+    if unsafe { HSE_AVAILABLE  && HSE_FREQ == 16_000_000 } {
         RCC.pll1cfgr().modify(|w| {
             w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::HSE);
             w.set_pllm(stm32_metapac::rcc::vals::Pllm::DIV4);
@@ -333,7 +336,7 @@ pub fn init_clock(
     }
     set_clock();
     // check rtc is enabled or not. if enabled, do nothing
-    let rtc_en = RCC.bdcr().read().rtcen();
+    // let rtc_en = RCC.bdcr().read().rtcen();
     // if !rtc_en {
     //     defmt::info!("RTC not enabled, enable RTC");
     //     if has_lse {
@@ -481,7 +484,7 @@ fn inc_kern_freq(freq: u32) {
     }
     // update ws
     FLASH.acr().modify(|w| w.set_latency(ws));
-    if freq >= 55_000_000 {
+    if freq >= 55_000_000 { 
         RCC.pll1cfgr().modify(|w| {
             w.set_pllmboost(rcc::vals::Pllmboost::DIV1);
         });
@@ -603,8 +606,8 @@ fn dec_kern_freq(freq: u32) {
     }
 }
 
-pub use stm32_metapac::rcc::vals::Mcopre;
-pub use stm32_metapac::rcc::vals::Mcosel;
+pub use stm32_metapac::rcc::vals::Mcopre as Mcopre;
+pub use stm32_metapac::rcc::vals::Mcosel as Mcosel;
 
 pub fn set_mco(pin: gpio::GpioPort, clk: Mcosel, div: stm32_metapac::rcc::vals::Mcopre) {
     pin.setup();

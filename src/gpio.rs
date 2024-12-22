@@ -194,7 +194,7 @@ define_gpio_port_alt!(
 );
 pub const I2C1_SCL_PINS: [GpioPort; 3] = [I2C1_SCL_PB6, I2C1_SCL_PB8, I2C2_SCL_PB11];
 pub const I2C1_SDA_PINS: [GpioPort; 3] = [I2C1_SDA_PB3, I2C1_SDA_PB7, I2C1_SDA_PB9];
-pub const I2C2_SCL_PINS: [GpioPort; 1] = [I2C2_SCL_PB13];
+pub const I2C2_SCL_PINS: [GpioPort; 2] = [I2C2_SCL_PB13, I2C2_SCL_PF1];
 pub const I2C2_SDA_PINS: [GpioPort; 2] = [I2C2_SDA_PB14, I2C2_SDA_PF0];
 pub const I2C3_SCL_PINS: [GpioPort; 1] = [I2C3_SCL_PC0];
 pub const I2C3_SDA_PINS: [GpioPort; 1] = [I2C3_SDA_PB4];
