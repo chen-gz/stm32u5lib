@@ -163,11 +163,9 @@ impl TimBasicIns {
             v.set_cms(config.cms);
             v.set_arpe(config.arpe);
         });
-        // self.ins.psc().write_value(0); // no prescaler
-        self.ins.psc().write(|_| config.prescaler);
-        // v.0 = config.prescaler);
+        self.ins.psc().write_value( config.prescaler);
         // self.ins.rcr().modify(|v| v.set_rep(config.rcr));
-        self.ins.arr().write(|_v| 160);
+        self.ins.arr().write(|_v| config.arr);
         self.ins.cr1().modify(|v| v.set_cen(true)); // enable counter
         self.ins.cr2().modify(|v| v.set_mms(config.mms));
         Ok(())
