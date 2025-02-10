@@ -137,6 +137,13 @@ impl TimAdvIns {
             v.set_aoe(true);
         });
     }
+    pub fn disable_output(
+        &self,
+        channel: u8,
+    ) {
+        let ch = channel - 1;
+        self.ins.ccer().modify(|v| v.set_cce(ch as _, false));
+    }
 }
 
 impl TimBasicIns {
