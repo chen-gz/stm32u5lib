@@ -336,15 +336,15 @@ pub fn init_clock(
     }
     set_clock();
     // check rtc is enabled or not. if enabled, do nothing
-    // let rtc_en = RCC.bdcr().read().rtcen();
-    // if !rtc_en {
-    //     defmt::info!("RTC not enabled, enable RTC");
-    //     if has_lse {
-    //         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
-    //     } else {
-    //         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
-    //     }
-    // }
+    let rtc_en = RCC.bdcr().read().rtcen();
+    if !rtc_en {
+        defmt::info!("RTC not enabled, enable RTC");
+        if has_lse {
+            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
+        } else {
+            rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
+        }
+    }
 }
 
 pub static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];

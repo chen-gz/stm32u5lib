@@ -155,15 +155,3 @@ pub trait Usart<T: Pin> {
 // }
 //
 //
-
-/// define general purpose timer (working as global timer)
-pub trait Timer {
-    // fn start(&self);
-    // fn stop(&self);
-    // fn reset(&self);
-    // return the elapsed time in ns
-    fn elapsed(&self) -> Duration;
-    fn delay(&self, duration: Duration) -> impl core::future::Future<Output = ()>;
-    /// return the resolution of the timer in ns
-    fn resolution(&self) -> u32;
-}
