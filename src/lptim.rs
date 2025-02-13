@@ -3,8 +3,6 @@ use core::{future::poll_fn, sync::atomic::AtomicBool, time::Duration};
 use cortex_m::peripheral::NVIC;
 use defmt::{panic, todo};
 use embassy_sync::waitqueue::AtomicWaker;
-use futures::future::select;
-use heapless::spsc::Queue;
 use stm32_metapac::interrupt;
 
 pub struct Lptim {

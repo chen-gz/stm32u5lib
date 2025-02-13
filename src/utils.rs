@@ -23,7 +23,7 @@ fn panic(_info: &PanicInfo) -> ! {
 const SECONDS_IN_A_DAY: u64 = 86400;
 
 fn is_leap_year(year: u8) -> bool {
-    (year % 4 == 0 && year % 100 != 0)
+    year % 4 == 0 && year % 100 != 0
 }
 
 fn days_in_month(year: u8, month: u8) -> u8 {
@@ -58,9 +58,9 @@ pub fn time_date_from_duration_since_2000(duration: Duration) -> (u8, u8, u8, u8
     let mut year = 0;
     let mut month = 1;
     let mut day = 1;
-    let mut hour = 0;
-    let mut min = 0;
-    let mut sec = 0;
+    let mut hour;
+    let mut min;
+    let mut sec;
 
     // Calculate year
     while total_seconds >= SECONDS_IN_A_DAY * if is_leap_year(year) { 366 } else { 365 } {

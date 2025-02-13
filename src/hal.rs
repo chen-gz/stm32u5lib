@@ -1,5 +1,3 @@
-use core::time::Duration;
-
 /// define hal for embedded system
 
 /// The address should be implemented as a 7-bit address, the 8th bit is the read/write bit
