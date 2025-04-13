@@ -1,7 +1,6 @@
 #![allow(unused)]
 
 use crate::clock;
-use crate::com_interface::ComInterface;
 use stm32_metapac::{I2C1, RCC};
 
 static mut TAKEN: [bool; 8] = [false; 8]; // first bit will be ignored

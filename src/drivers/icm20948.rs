@@ -1,4 +1,3 @@
-use crate::com_interface::ComInterface;
 use crate::hal::I2c;
 use crate::{gpio, i2c};
 

@@ -58,9 +58,9 @@ pub fn time_date_from_duration_since_2000(duration: Duration) -> (u8, u8, u8, u8
     let mut year = 0;
     let mut month = 1;
     let mut day = 1;
-    let mut hour;
-    let mut min;
-    let mut sec;
+    let hour;
+    let min;
+    let sec;
 
     // Calculate year
     while total_seconds >= SECONDS_IN_A_DAY * if is_leap_year(year) { 366 } else { 365 } {
