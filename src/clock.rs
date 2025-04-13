@@ -312,10 +312,6 @@ pub fn init_clock(
         HSE_FREQ = hse_frq;
     }
     RCC.ahb3enr().modify(|v| v.set_pwren(true));
-    if has_hse {
-        RCC.cr().modify(|w| w.set_hseon(true));
-        while !RCC.cr().read().hserdy() {}
-    }
     static mut CALLED: bool = false;
     unsafe {
         // this is safe because this function should only be called once
@@ -424,6 +420,11 @@ pub fn set_clock() {
                 break;
             }
         }
+    }
+
+    if unsafe {HSE_AVAILABLE } {
+        RCC.cr().modify(|w| w.set_hseon(true));
+        while !RCC.cr().read().hserdy() {}
     }
     set_pll();
 

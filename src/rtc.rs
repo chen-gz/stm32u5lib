@@ -152,11 +152,13 @@ pub fn setup(
                 match rtc_source {
                     rcc::vals::Rtcsel::LSE => {
                         RTC.wutr()
-                            .write(|w| unsafe { w.set_wut(period_wakup_s * 2048) }); // 32768Hz/16 = 2048Hz
+                            .write(|w| unsafe { w.set_wut(period_wakup_s * 2048) });
+                        // 32768Hz/16 = 2048Hz
                     }
                     rcc::vals::Rtcsel::LSI => {
                         RTC.wutr()
-                            .write(|w| unsafe { w.set_wut(period_wakup_s * 2000) }); // 32000Hz/16 = 2000Hz
+                            .write(|w| unsafe { w.set_wut(period_wakup_s * 2000) });
+                        // 32000Hz/16 = 2000Hz
                     }
                     _ => {}
                 }
@@ -285,7 +287,7 @@ fn rtc_time_to_duration() -> Duration {
     let time = get_time(); // hour, minute, second
                            // calculate duration from 2000
     let duration = utils::seconds_since_2000(date.0, date.1, date.2, time.0, time.1, time.2);
-    defmt::info!("rtc_time_to_duration: {:?}s", duration);
+    // defmt::info!("rtc_time_to_duration: {:?}s", duration);
     Duration::from_secs(duration)
 }
 
@@ -311,8 +313,8 @@ static mut RTC_WAKER: [Option<RtcWakers>; NUM_WAKER] = [const { None }; NUM_WAKE
 
 /// becare when using this function. If delay is less(equal) than 1 second. This should not be used.
 pub async fn rtc_delay(duration: Duration) {
-    if duration < Duration::from_secs(2) {
-        panic!("Current not allow delay duration less than 2");
+    if duration <= Duration::from_secs(1) {
+        panic!("Current not allow delay duration less (equal) than 1 second");
     }
     let waker_time = rtc_time_to_duration() + duration;
     // find an empty slot and use it
@@ -327,7 +329,7 @@ pub async fn rtc_delay(duration: Duration) {
     }
     // update alarm
     // todo!("update alarm");
-    defmt::info!("update alarm");
+    // defmt::info!("update alarm");
     update_alarm();
 
     poll_fn(move |ctx| {
@@ -356,17 +358,21 @@ fn update_alarm() {
     for waker in unsafe { &RTC_WAKER } {
         if let Some(waker) = waker {
             if waker.pending {
-                if let Some(min_time) = min_waker_time {
-                    if waker.wakeup_time < min_time {
+                if waker.wakeup_time <= rtc_time_to_duration() {
+                    waker.waker.wake();
+                } else {
+                    if let Some(min_time) = min_waker_time {
+                        if waker.wakeup_time < min_time {
+                            min_waker_time = Some(waker.wakeup_time);
+                        }
+                    } else {
                         min_waker_time = Some(waker.wakeup_time);
                     }
-                } else {
-                    min_waker_time = Some(waker.wakeup_time);
                 }
             }
         }
     }
-    defmt::info!("min_time: {:?}", min_waker_time);
+    // defmt::info!("min_time: {:?}", min_waker_time);
     if let Some(min_time) = min_waker_time {
         let alarm_time = utils::time_date_from_duration_since_2000(min_time);
         set_alarm(alarm_time.2, alarm_time.3, alarm_time.4, alarm_time.5);
@@ -423,13 +429,14 @@ fn RTC() {
     // disable backup domain write
     PWR.dbpcr().modify(|v| v.set_dbp(false));
     unsafe {
-        let cur = rtc_time_to_duration();
         for i in 0..NUM_WAKER {
             if let Some(w) = &RTC_WAKER[i] {
-                if w.wakeup_time <= cur {
+                // if w.wakeup_time <= rtc_time_to_duration() {
                     w.waker.wake();
-                }
+                    // defmt::info!("waker up  a waker");
+                // }
             }
         }
     }
+    update_alarm();
 }
