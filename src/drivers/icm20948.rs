@@ -1,6 +1,6 @@
 use crate::com_interface::ComInterface;
+use crate::hal::I2c;
 use crate::{gpio, i2c};
-use crate::i2c::I2cMessage;
 
 pub const ICM20948_ADDR: u16 = 0x68 << 1;
 pub const ICM20948_WHO_AM_I: u8 = 0x00;
@@ -20,19 +20,20 @@ pub const ICM20948_ACC_ZOUT_H: u8 = 0x31;
 pub const ICM20948_ACC_ZOUT_L: u8 = 0x32;
 pub const ICM20948_BANK_SEL: u8 = 0x7f;
 
-
 pub fn icm20948_read_imu(i2c: &mut i2c::I2c) -> [u8; 6] {
     let mut buf = [0u8; 6];
-    let _message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_ACC_XOUT_H],
-    };
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_XOUT_H], &mut buf[0..1]) .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_XOUT_L], &mut buf[1..2]) .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_YOUT_H], &mut buf[2..3]) .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_YOUT_L], &mut buf[3..4]) .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_ZOUT_H], &mut buf[4..5]) .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_ZOUT_L], &mut buf[5..6]) .unwrap();
+    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_XOUT_H], &mut buf[0..1])
+        .unwrap();
+    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_XOUT_L], &mut buf[1..2])
+        .unwrap();
+    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_YOUT_H], &mut buf[2..3])
+        .unwrap();
+    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_YOUT_L], &mut buf[3..4])
+        .unwrap();
+    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_ZOUT_H], &mut buf[4..5])
+        .unwrap();
+    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_ZOUT_L], &mut buf[5..6])
+        .unwrap();
     return buf;
 }
 pub fn icm20948_setup(i2c: &mut i2c::I2c, fsync: &mut gpio::GpioPort) {
@@ -47,41 +48,24 @@ pub fn icm20948_setup(i2c: &mut i2c::I2c, fsync: &mut gpio::GpioPort) {
         .unwrap();
     // read who am i
     defmt::info!("imu who am i: {:?}", buf[0]);
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_PWR_MGMT_1, 0x00],
-    };
-    i2c.send(&message).unwrap();
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x00])
+        .unwrap();
 
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_PWR_MGMT_1, 0x80], // reset the device
-    };
+    // reset the device
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x80])
+        .unwrap();
 
     // config the accelerometer
-    i2c.send(&message).unwrap();
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_ACCEL_CONFIG, 0x18], // cofig accelerometer full scale range to 16g
-    };
-    i2c.send(&message).unwrap();
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_ACCEL_CONFIG2, 0x00], // disable accelerometer low pass filter
-    };
-    i2c.send(&message).unwrap();
+    i2c.write(ICM20948_ADDR, &[ICM20948_ACCEL_CONFIG, 0x18])
+        .unwrap(); // config accelerometer full scale range to 16g
+    i2c.write(ICM20948_ADDR, &[ICM20948_ACCEL_CONFIG2, 0x00])
+        .unwrap(); // disable accelerometer low pass filter
 
     // config the gyroscope
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_GYRO_CONFIG_1, 0x18], // config gyroscope full scale range to 2000dps
-    };
-    i2c.send(&message).unwrap();
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_GYRO_CONFIG_2, 0x00], // disable gyroscope low pass filter
-    };
-    i2c.send(&message).unwrap();
+    i2c.write(ICM20948_ADDR, &[ICM20948_GYRO_CONFIG_1, 0x18])
+        .unwrap(); // config gyroscope full scale range to 2000dps
+    i2c.write(ICM20948_ADDR, &[ICM20948_GYRO_CONFIG_2, 0x00])
+        .unwrap(); // disable gyroscope low pass filter
 
     // config magnetometer
     // todo: add magnetometer config
@@ -90,14 +74,8 @@ pub fn icm20948_setup(i2c: &mut i2c::I2c, fsync: &mut gpio::GpioPort) {
     //
 
     // Enable sensor
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_PWR_MGMT_2, 0x00], // enable the device
-    };
-    i2c.send(&message).unwrap();
-    let message = I2cMessage {
-        addr: ICM20948_ADDR,
-        data: &mut [ICM20948_PWR_MGMT_1, 0x09], // enable the i2c master
-    };
-    i2c.send(&message).unwrap();
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_2, 0x00])
+        .unwrap(); // enable the device
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x09])
+        .unwrap(); // enable the i2c master
 }
