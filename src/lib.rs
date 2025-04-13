@@ -53,8 +53,8 @@ pub mod pwr;
 #[cfg(otg_hs)]
 pub mod otg_hs;
 
-// #[cfg(otg_fs)]
-// pub mod otg_fs;
+#[cfg(otg_fs)]
+pub mod otg_fs;
 
 pub mod drivers;
 pub mod usb_common;
