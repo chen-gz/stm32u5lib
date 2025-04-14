@@ -25,7 +25,10 @@ log = "0.4.21"
 
 [dependencies.stm32-metapac]
 #path = "../stm32-data/build/stm32-metapac"
-git = "https://gitea.ggeta.com/guangzong/stm32-data-generated"
+#git = "https://gitea.ggeta.com/guangzong/stm32-data-generated"
+git = "https://github.com/embassy-rs/stm32-data-generated"
+rev = "eb46264"
+
 features = ["rt"]
 
 [dependencies.embassy-sync]

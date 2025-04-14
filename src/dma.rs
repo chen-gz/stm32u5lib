@@ -2,34 +2,36 @@
 use crate::clock::delay_tick;
 use crate::gpio::GpioPort;
 pub use stm32_metapac::gpdma::vals::*;
+pub use stm32_metapac::gpdma::vals;
 use stm32_metapac::gpdma::Channel;
 use stm32_metapac::gpdma::Gpdma;
+
 use stm32_metapac::RCC;
 
 pub struct DmaChannel {
     ins: Gpdma,
     ch: usize,
     request_source: u8,
-    src_width: ChTr1Dw,
-    dst_width: ChTr1Dw,
+    src_width: Dw, // ChTr1Dw,
+    dst_width: Dw, // ChTr1Dw,
     src_inc: bool,
     dst_inc: bool,
-    src_type: ChTr1Ap, // port0 for prepherial, port1 for memory
-    dst_type: ChTr1Ap,
-    tc_mode: ChTr2Tcem,
+    src_type: Ap, //   // port0 for prepherial, port1 for memory
+    dst_type: Ap,
+    tc_mode: vals::Tcem // ChTr2Tcem,
 }
 pub const DCMI_DMA: DmaChannel = DmaChannel {
     ins: stm32_metapac::GPDMA1,
     ch: 0,
     request_source: 86,
-    src_width: ChTr1Dw::WORD, // 32 bits
-    dst_width: ChTr1Dw::WORD,
+    src_width: Dw::WORD, // 32 bits
+    dst_width: Dw::WORD,
     // dst_width: ChTr1Dw::BYTE, // 8,
     src_inc: false,
     dst_inc: true,
-    src_type: ChTr1Ap::PORT0,
-    dst_type: ChTr1Ap::PORT1,
-    tc_mode: ChTr2Tcem::LASTLINKEDLISTITEM,
+    src_type: Ap::PORT0,
+    dst_type: Ap::PORT1,
+    tc_mode: Tcem::LAST_LINKED_LIST_ITEM,
 };
 
 use crate::gpio::*;

@@ -14,7 +14,7 @@ pub fn usb_clock() {
 }
 
 pub fn power_up_init() {
-    trace!("init");
+    defmt::info!("init");
     PWR.svmcr().modify(|w| {
         w.set_usv(true); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
@@ -24,7 +24,7 @@ pub fn power_up_init() {
             PWR.vosr().modify(|v| {
                 v.0 |= (1 << 19) | (1 << 20);
                 // SBPWREN and USBBOOSTEN in PWR_VOSR.
-                // v.boosten();
+                v.boosten();
             });
             crate::clock::delay_us(100);
             // delay_ms(100);
@@ -64,8 +64,9 @@ pub fn power_up_init() {
         });
     }
     // Wait for USB power to stabilize
+    defmt::trace!("waiting for USB power to stabilize");
     while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
-    trace!("USB power stabilized");
+    defmt::trace!("USB power stabilized");
 
     // Select HSI48 as USB clock source.
     // #[cfg(stm32u575)]

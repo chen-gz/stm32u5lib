@@ -121,7 +121,7 @@ pub fn setup(
 
             // set to 24h format
             RTC.cr()
-                .modify(|v| v.set_fmt(rtc::vals::Fmt::TWENTYFOURHOUR));
+                .modify(|v| v.set_fmt(rtc::vals::Fmt::TWENTY_FOUR_HOUR));
             RTC.tr().modify(|v| {
                 v.set_su(second % 10);
                 v.set_st(second / 10);

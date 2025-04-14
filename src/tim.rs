@@ -60,7 +60,7 @@ impl Default for Config {
         Config {
             prescaler: 0,
             dir: Dir::UP,
-            cms: Cms::EDGEALIGNED,
+            cms: Cms::EDGE_ALIGNED,
             arpe: false,      // auto reload preload disable
             rcr: 0,           // no repetition
             arr: 0, // counter value is 0 -> arr (include 0 and arr). So the tick is arr + 1;
@@ -122,13 +122,13 @@ impl TimAdvIns {
         if ch <= 1 {
             self.ins.ccmr_output(0).modify(|v| {
                 v.set_ccs(ch as _, CcmrOutputCcs::OUTPUT);
-                v.set_ocm(ch as _, Ocm::PWMMODE1);
+                v.set_ocm(ch as _, Ocm::PWM_MODE1);
             });
         } else {
             // channel 3 and 4
             self.ins.ccmr_output(1).modify(|v| {
                 v.set_ccs(ch as usize - 2, CcmrOutputCcs::OUTPUT);
-                v.set_ocm(ch as usize - 2, Ocm::PWMMODE1);
+                v.set_ocm(ch as usize - 2, Ocm::PWM_MODE1);
             });
         }
         self.ins.ccer().modify(|v| v.set_cce(ch as _, true));
@@ -207,13 +207,13 @@ impl TimBasicIns {
         if ch <= 1 {
             self.ins.ccmr_output(0).modify(|v| {
                 v.set_ccs(ch as _, CcmrOutputCcs::OUTPUT);
-                v.set_ocm(ch as _, Ocm::PWMMODE1);
+                v.set_ocm(ch as _, Ocm::PWM_MODE1);
             });
         } else {
             // channel 3 and 4
             self.ins.ccmr_output(1).modify(|v| {
                 v.set_ccs(ch as usize - 2, CcmrOutputCcs::OUTPUT);
-                v.set_ocm(ch as usize - 2, Ocm::PWMMODE1);
+                v.set_ocm(ch as usize - 2, Ocm::PWM_MODE1);
             });
         }
         self.ins.ccer().modify(|v| v.set_cce(ch as _, true));

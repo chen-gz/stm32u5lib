@@ -3,6 +3,7 @@
 use defmt::export::panic;
 use defmt::unwrap;
 use embassy_sync::channel::Channel;
+use stm32_metapac::adc;
 // Module: adc
 /// Continuous conversion mode and discontinuous mode
 // the continuous conversion mode and discontinuous mode are not refer the same thing.
@@ -99,12 +100,12 @@ impl AdcPort {
         // while !self.port.cr().read().advregen() {}
 
         self.port.cfgr().modify(|v| {
-            v.set_res(0b00); // 14 bit resolution
+            v.set_res(adc::vals::Res::BITS14); // 14 bit resolution
             v.set_autdly(false); // disable automatic delay
         });
-        self.port.difsel().write(|v| {
-            v.set_difsel(0);   // single ended mode
-        });
+        // self.port.difsel().write(|v| {
+        //     v.set_difsel(0);   // single ended mode
+        // });
         self.port.calfact().modify(|v| {
             v.set_capture_coef(false);
             v.set_latch_coef(false);
@@ -121,9 +122,10 @@ impl AdcPort {
         });
     }
 
-    pub fn add_channel(&mut self, channel: u8, sample_time: SampleTime) {
+    pub fn add_channel(&mut self, channel: u8, sample_time: adc::vals::SampleTime) {
+        // todo!(add single or diff
         self.port.pcsel().modify(|v| {
-            v.set_pcsel(channel as usize, true); // select the channel "ch" as the input
+            v.set_pcsel(channel as usize, adc::vals::Pcsel::PRESELECTED); // select the channel "ch" as the input
         });
         self.port.cfgr().modify(|v| {
             v.set_cont(false); // disable continuous conversion mode
@@ -139,12 +141,12 @@ impl AdcPort {
             todo!();
         }
         self.port.smpr((channel / 10) as _ ).modify(|v| {
-            v.set_smp(channel as usize, sample_time as u8); // sete sample time to 640.5 cycles
+            v.set_smp(channel as usize, sample_time); // sete sample time to 640.5 cycles
         });
     }
     pub fn start_conversion_sw(&self, channel: u8) -> u32 {
         self.port.pcsel().modify(|v| {
-            v.set_pcsel(channel as usize, true); // select the channel "ch" as the input
+            v.set_pcsel(channel as usize, adc::vals::Pcsel::PRESELECTED);  // select the channel "ch" as the input
         });
         self.port.cfgr().modify(|v| {
             v.set_cont(false); // disable continuous conversion mode
@@ -159,11 +161,11 @@ impl AdcPort {
         });
         if (channel < 10) {
             self.port.smpr(0).modify(|v| {
-                v.set_smp(channel as usize, 0b111); // sete sample time to 640.5 cycles
+                v.set_smp(channel as usize, adc::vals::SampleTime::CYCLES160_5 ); // sete sample time to 640.5 cycles
             });
         } else {
             self.port.smpr(1).modify(|v| {
-                v.set_smp((channel - 10) as usize, 0b111); // sete sample time to 640.5 cycles
+                v.set_smp((channel - 10) as usize, adc::vals::SampleTime::CYCLES160_5 );
             });
         }
         // delay_ms(5);
@@ -177,7 +179,7 @@ impl AdcPort {
         let _result = self.port.dr().read().rdata();
         // stop conversion
         self.port.cr().modify(|v| {
-            v.set_adstp(true);
+            v.set_adstp(adc::vals::Adstp::STOP);
         });
         // disable adc
         // self.port.cr().modify(|v| {

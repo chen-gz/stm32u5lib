@@ -8,7 +8,7 @@ use stm32_metapac::interrupt;
 pub struct Lptim {
     num: u8,
     src_clock_freq: u32,
-    ins: stm32_metapac::lptim::LptimAdv,
+    ins: stm32_metapac::lptim::Lptim,
 }
 pub use stm32_metapac::lptim::vals::Presc as LptimPrescaler;
 
