@@ -122,7 +122,13 @@ impl hal::Usart<GpioPort> for Usart {
         }
     }
     fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
-        todo!( )
+        for &c in data{
+            while self.port.isr().read().txe() == false {}
+            self.port.tdr().write(|v| {
+                v.set_dr(c as u16);
+            });
+        }
+        Ok(())
     }
     fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
         async move {
