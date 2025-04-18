@@ -114,16 +114,16 @@ where
     }
 }
 
-pub async fn run_no_deep_sleep_async<F, R>(code: F)
+pub async fn run_no_deep_sleep_async<F, R, T>(code: F) -> T
 where
     F: FnOnce() -> R,
-    R: core::future::Future<Output = ()>,
+    R: core::future::Future<Output = T>,
 {
     unsafe {
         REF_COUNT_DEEP += 1;
-        let result = code();
-        result.await;
+        let result = code().await;
         REF_COUNT_DEEP -= 1;
+        result
     }
 }
 
@@ -204,3 +204,4 @@ impl Executor {
         }
     }
 }
+

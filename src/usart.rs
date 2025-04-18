@@ -13,6 +13,7 @@ use embassy_sync::waitqueue::AtomicWaker;
 use gpio::GpioPort;
 use stm32_metapac::interrupt;
 use crate::dma::DmaChannel;
+use crate::low_power::run_no_deep_sleep_async;
 
 pub struct Usart {
     port: stm32_metapac::usart::Usart,
@@ -115,18 +116,21 @@ impl hal::Usart<GpioPort> for Usart {
     }
 
     async fn read_async(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
-        if self.use_dma {
-            #[cfg(feature = "usart_dma")]
-            {
-                self.read_async_dma(data).await
+        return run_no_deep_sleep_async(|| {
+            if self.use_dma {
+                #[cfg(feature = "usart_dma")]
+                {
+                    self.read_async_dma(data).await
+                }
+                #[cfg(not(feature = "usart_dma"))]
+                {
+                    // Err(hal::UsartError::BusError)
+                    panic!("not supported dma");
+                }
+            } else {
+                return self.read_async_interrupt(data)
             }
-            #[cfg(not(feature = "usart_dma"))]
-            {
-                Err(hal::UsartError::BusError)
-            }
-        } else {
-            self.read_async_interrupt(data).await
-        }
+        }).await
     }
 
     fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
@@ -139,22 +143,27 @@ impl hal::Usart<GpioPort> for Usart {
     }
 
     async fn write_async(&self, data: &[u8]) -> Result<(), hal::UsartError> {
-        if self.use_dma {
-            #[cfg(feature = "usart_dma")]
-            {
-                self.write_async_dma(data).await
+        run_no_deep_sleep_async(|| {
+            if self.use_dma {
+                #[cfg(feature = "usart_dma")]
+                {
+                    self.write_async_dma(data).await
+                }
+                #[cfg(not(feature = "usart_dma"))]
+                {
+                    panic!("not supported dma");
+                }
+            } else {
+                self.write_async_interrupt(data)
             }
-            #[cfg(not(feature = "usart_dma"))]
-            {
-                Err(hal::UsartError::BusError)
-            }
-        } else {
-            self.write_async_interrupt(data).await
-        }
+        })
+        .await
     }
 }
 
 impl Usart {
+
+    // todo: test this function
     pub async fn read_async_interrupt(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
         for i in 0..data.len() {
             core::future::poll_fn(|cx| {
@@ -172,6 +181,7 @@ impl Usart {
         Ok(())
     }
 
+    // todo: test this function
     pub async fn write_async_interrupt(&self, data: &[u8]) -> Result<(), hal::UsartError> {
         for &c in data {
             core::future::poll_fn(|cx| {
