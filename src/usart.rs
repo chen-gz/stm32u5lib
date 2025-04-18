@@ -1,7 +1,6 @@
 //! USART Driver with Async Support and Separated TX/RX Wakers
 #![allow(unused)]
 
-use core::default;
 use core::task::Poll;
 use crate::{clock, gpio::{self, USART1_RX_PINS, USART1_TX_PINS}, hal};
 use defmt::todo;
@@ -13,39 +12,32 @@ use cortex_m::peripheral::NVIC;
 use embassy_sync::waitqueue::AtomicWaker;
 use gpio::GpioPort;
 use stm32_metapac::interrupt;
+use crate::dma::DmaChannel;
 
 pub struct Usart {
     port: stm32_metapac::usart::Usart,
     port_num: u8,
+    use_dma: bool,
+    dma: Option<DmaChannel>,
 }
 
 const USART_CLOCK: u32 = 16_000_000; // default use HSI16
 
-pub struct Config {
-    port_num: u8,
-    gpio_tx: gpio::GpioPort,
-    gpio_rx: gpio::GpioPort,
-    pub baudrate: u32,
-    pub data_bits: u8,
-    pub stop_bits: u8,
-    pub parity: u8,
-    pub flow_control: u8,
+#[derive(core::fmt::Debug)]
+pub enum UsartError {
+    TAKEN,
+    BufferOverflow,
+    Disabled,
+    BusError,
 }
 
-impl default::Default for Config {
-    fn default() -> Self {
-        Config {
-            port_num: 1,
-            gpio_tx: gpio::USART_TX_PA9,
-            gpio_rx: gpio::USART_RX_PA10,
-            baudrate: 115200,
-            data_bits: 8,
-            stop_bits: 1,
-            parity: 0,
-            flow_control: 0,
-        }
-    }
-}
+
+static RX_WAKERS: [AtomicWaker; 8] = [const {AtomicWaker::new()}; 8];
+static TX_WAKERS: [AtomicWaker; 8] = [const {AtomicWaker::new()}; 8];
+static TAKEN: [core::sync::atomic::AtomicBool; 8] = [
+    const { core::sync::atomic::AtomicBool::new(false) };
+    8
+];
 
 fn port_num_to_usart(port_num: u8) -> stm32_metapac::usart::Usart {
     match port_num {
@@ -56,19 +48,6 @@ fn port_num_to_usart(port_num: u8) -> stm32_metapac::usart::Usart {
     }
 }
 
-#[derive(core::fmt::Debug)]
-pub enum UsartError {
-    TAKEN,
-    BufferOverflow,
-    Disabled,
-}
-
-const NEW_WAKER: AtomicWaker = AtomicWaker::new();
-
-static mut RX_WAKERS: [AtomicWaker; 8] = [NEW_WAKER; 8];
-static mut TX_WAKERS: [AtomicWaker; 8] = [NEW_WAKER; 8];
-static mut TAKEN: [bool; 8] = [false; 8];
-
 fn pin_to_port(tx: &gpio::GpioPort, rx: &gpio::GpioPort) -> u8 {
     if USART1_TX_PINS.contains(tx) && USART1_RX_PINS.contains(rx) {
         1
@@ -77,15 +56,18 @@ fn pin_to_port(tx: &gpio::GpioPort, rx: &gpio::GpioPort) -> u8 {
     }
 }
 
+impl Drop for Usart {
+    fn drop(&mut self) {
+        TAKEN[self.port_num as usize].store(false, core::sync::atomic::Ordering::Relaxed);
+    }
+}
+
 impl hal::Usart<GpioPort> for Usart {
     fn new(baudrate: u32, tx: GpioPort, rx: GpioPort) -> Result<Self, hal::UsartError> {
         let port_num = pin_to_port(&tx, &rx);
 
-        if unsafe { TAKEN[port_num as usize] } {
+        if TAKEN[port_num as usize].swap(true, core::sync::atomic::Ordering::AcqRel) {
             return Err(hal::UsartError::InitError);
-        }
-        unsafe {
-            TAKEN[port_num as usize] = true;
         }
 
         tx.setup();
@@ -102,9 +84,6 @@ impl hal::Usart<GpioPort> for Usart {
             v.set_ue(true);
             v.set_te(true);
             v.set_re(true);
-            // v.set_rxneie(true);
-            // v.set_txeie(true);
-            // v.set_tcie(true);
         });
 
         port.cr2().modify(|v| {
@@ -124,7 +103,7 @@ impl hal::Usart<GpioPort> for Usart {
             }
         }
 
-        Ok(Usart { port, port_num })
+        Ok(Usart { port, port_num, use_dma: false,  dma: None })
     }
 
     fn read(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
@@ -136,17 +115,18 @@ impl hal::Usart<GpioPort> for Usart {
     }
 
     async fn read_async(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
-        for i in 0..data.len() {
-            while self.port.isr().read().rxne() == false {
-                core::future::poll_fn(|cx| {
-                    unsafe { RX_WAKERS[self.port_num as usize].register(cx.waker()) };
-                    self.port.cr1().modify(|v| v.set_rxneie(true));
-                    Poll::Pending
-                }).await;
+        if self.use_dma {
+            #[cfg(feature = "dma")]
+            {
+                self.read_async_dma(data).await
             }
-            data[i] = self.port.rdr().read().dr() as u8;
+            #[cfg(not(feature = "dma"))]
+            {
+                Err(hal::UsartError::BusError)
+            }
+        } else {
+            self.read_async_interrupt(data).await
         }
-        Ok(())
     }
 
     fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
@@ -159,44 +139,114 @@ impl hal::Usart<GpioPort> for Usart {
     }
 
     async fn write_async(&self, data: &[u8]) -> Result<(), hal::UsartError> {
-        for &c in data {
-            while self.port.isr().read().txe() == false {
-                core::future::poll_fn(|cx| {
-                    unsafe { TX_WAKERS[self.port_num as usize].register(cx.waker()) };
-                    self.port.cr1().modify(|v| v.set_txeie(true));
-                    Poll::Pending
-                }).await;
+        if self.use_dma {
+            #[cfg(feature = "dma")]
+            {
+                self.write_async_dma(data).await
             }
+            #[cfg(not(feature = "dma"))]
+            {
+                Err(hal::UsartError::BusError)
+            }
+        } else {
+            self.write_async_interrupt(data).await
+        }
+    }
+}
+
+impl Usart {
+    pub async fn read_async_interrupt(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
+        for i in 0..data.len() {
+            core::future::poll_fn(|cx| {
+                RX_WAKERS[self.port_num as usize].register(cx.waker());
+                self.port.cr1().modify(|v| v.set_rxneie(true));
+                if self.port.isr().read().rxne() {
+                    Poll::Ready(())
+                } else {
+                    Poll::Pending
+                }
+            }).await;
+
+            data[i] = self.port.rdr().read().dr() as u8;
+        }
+        Ok(())
+    }
+
+    pub async fn write_async_interrupt(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        for &c in data {
+            core::future::poll_fn(|cx| {
+                TX_WAKERS[self.port_num as usize].register(cx.waker());
+                self.port.cr1().modify(|v| v.set_txeie(true));
+                if self.port.isr().read().txe() {
+                    Poll::Ready(())
+                } else {
+                    Poll::Pending
+                }
+            }).await;
             self.port.tdr().write(|v| v.set_dr(c as u16));
         }
 
-        while self.port.isr().read().tc() == false {
-            core::future::poll_fn(|cx| {
-                unsafe { TX_WAKERS[self.port_num as usize].register(cx.waker()) };
-                self.port.cr1().modify(|v| v.set_tcie(true));
+        core::future::poll_fn(|cx| {
+            TX_WAKERS[self.port_num as usize].register(cx.waker());
+            self.port.cr1().modify(|v| v.set_tcie(true));
+            if self.port.isr().read().tc() {
+                Poll::Ready(())
+            } else {
                 Poll::Pending
-            }).await;
-        }
+            }
+        }).await;
+
+        Ok(())
+    }
+
+    #[cfg(feature = "dma")]
+    pub async fn write_async_dma(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        let src_addr = data.as_ptr() as u32;
+        let dst_addr = &self.port.tdr().as_ptr().cast::<u8>() as *const _ as u32;
+
+        self.dma.start(src_addr, true, dst_addr, false, data.len() as u32).await;
+
+        Ok(())
+    }
+
+    #[cfg(feature = "dma")]
+    pub async fn read_async_dma(&self, buffer: &mut [u8]) -> Result<(), hal::UsartError> {
+        let src_addr = &self.port.rdr().as_ptr().cast::<u8>() as *const _ as u32;
+        let dst_addr = buffer.as_mut_ptr() as u32;
+
+        self.dma.start(src_addr, false, dst_addr, true, buffer.len() as u32).await;
+
         Ok(())
     }
 }
 
 #[interrupt]
 fn USART1() {
-    unsafe {
-        let isr = stm32_metapac::USART1.isr().read();
+    handle_usart_interrupt(stm32_metapac::USART1, 1);
+}
 
-        if isr.rxne() {
-            RX_WAKERS[1].wake();
-            stm32_metapac::USART1.cr1().modify(|v| v.set_rxneie(false));
-        }
+#[interrupt]
+fn USART2() {
+    handle_usart_interrupt(stm32_metapac::USART2, 2);
+}
 
-        if isr.txe() || isr.tc() {
-            TX_WAKERS[1].wake();
-            stm32_metapac::USART1.cr1().modify(|v| {
-                v.set_txeie(false);
-                v.set_tcie(false);
-            });
-        }
+#[interrupt]
+fn USART3() {
+    handle_usart_interrupt(stm32_metapac::USART3, 3);
+}
+fn handle_usart_interrupt(usart: stm32_metapac::usart::Usart, index: usize) {
+    let isr = usart.isr().read();
+
+    if isr.rxne() {
+        RX_WAKERS[index].wake();
+        usart.cr1().modify(|v| v.set_rxneie(false));
+    }
+
+    if isr.txe() || isr.tc() {
+        TX_WAKERS[index].wake();
+        usart.cr1().modify(|v| {
+            v.set_txeie(false);
+            v.set_tcie(false);
+        });
     }
 }

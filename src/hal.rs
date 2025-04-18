@@ -8,6 +8,10 @@ pub trait Pin {
     fn set_low(&self);
     fn toggle(&self);
 }
+pub trait DMA {
+    fn start(&self, src_addr: u32, src_inc: bool, dar_addr: u32, dst_inc: bool, len: u32) -> impl core::future::Future<Output = ()> + Send + Sync;
+    fn stop(&self);
+}
 
 #[derive(Debug)]
 pub enum I2cFrequency {

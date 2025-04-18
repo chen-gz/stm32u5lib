@@ -103,7 +103,7 @@ impl DmaChannel {
             v.set_reqsel(self.request_source);
         });
     }
-    pub async fn start(&self, src_addr: u32, dar_addr: u32, len: u32, src_inc: bool, dst_inc: bool) {
+    pub async fn start(&self, src_addr: u32, src_inc: bool, dar_addr: u32,  dst_inc: bool, len: u32,) {
         self.init();
         let ch = self.ins.ch(self.ch);
         ch.tr1().modify(|v| {
@@ -173,10 +173,11 @@ impl DmaChannel {
 use core::future::poll_fn;
 
 // waker
-use core::cell::Cell;
 use embassy_sync::waitqueue::AtomicWaker;
 static WAKER: AtomicWaker = AtomicWaker::new();
 use stm32_metapac::interrupt;
+use crate::hal::DMA;
+
 /// DMA interrupt handler
 #[interrupt]
 fn GPDMA1_CHANNEL0() {
@@ -190,5 +191,17 @@ fn GPDMA1_CHANNEL0() {
             v.set_tcie(false);
         });
         WAKER.wake();
+    }
+}
+
+use crate::hal;
+impl hal::DMA for DmaChannel {
+
+    async fn start(&self, src_addr: u32, src_inc: bool, dar_addr: u32, dst_inc: bool, len: u32) {
+        self.start(src_addr, src_inc, dar_addr, dst_inc, len).await;
+    }
+
+    fn stop(&self) {
+        self.stop();
     }
 }
