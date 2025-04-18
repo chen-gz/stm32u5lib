@@ -14,14 +14,15 @@ use crate::{gpio, rtc};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
 pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
 use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
+use core::sync::atomic::{AtomicBool, AtomicU32, Ordering};
 
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.
-static mut HCLK: u32 = 4_000_000;
+static HCLK: AtomicU32 = AtomicU32::new(4_000_000);
 
 // kerenl clock
 pub fn get_hclk() -> u32 {
-    unsafe { HCLK }
+    HCLK.load(Ordering::Relaxed)
 }
 
 pub const HSI_FREQ: u32 = 16_000_000;
@@ -30,23 +31,22 @@ pub const MSIK_FREQ: u32 = 4_000_000;
 pub const PLL1_R_FREQ: u32 = 160_000_000;
 pub const PLL1_Q_FREQ: u32 = 160_000_000;
 pub const PLL1_P_FREQ: u32 = 0;
-static mut HSE_AVAILABLE: bool = false;
-pub static mut HSE_FREQ: u32 = 0;
-static mut LSE_AVAILABLE: bool = false;
-pub static mut LSE_FREQ: u32 = 0;
+static HSE_AVAILABLE: AtomicBool = AtomicBool::new(false);
+pub static HSE_FREQ: AtomicU32 = AtomicU32::new(0);
+static LSE_AVAILABLE: AtomicBool = AtomicBool::new(false);
+pub static LSE_FREQ: AtomicU32 = AtomicU32::new(0);
 
 pub fn hclk_request<F, R>(freq: ClockFreqs, code: F) -> F::Output
 where
     F: FnOnce() -> R,
 {
-    unsafe {
-        CLOCK_REQUESTS[freq.to_idx()] += 1;
-        set_clock();
-        let res = code();
-        CLOCK_REQUESTS[freq.to_idx()] -= 1;
-        set_clock();
-        res
-    }
+    let idx = freq.to_idx();
+    CLOCK_REQUESTS[idx].fetch_add(1, Ordering::Relaxed);
+    set_clock();
+    let res = code();
+    CLOCK_REQUESTS[idx].fetch_sub(1, Ordering::Relaxed);
+    set_clock();
+    res
 }
 
 pub async fn hclk_request_async<F, R>(freq: ClockFreqs, code: F)
@@ -54,21 +54,20 @@ where
     F: FnOnce() -> R,
     R: core::future::Future<Output = ()>,
 {
-    unsafe {
-        CLOCK_REQUESTS[freq.to_idx()] += 1;
-        set_clock();
-        let result = code();
-        result.await;
-        CLOCK_REQUESTS[freq.to_idx()] -= 1;
-        set_clock();
-    }
+    let idx = freq.to_idx();
+    CLOCK_REQUESTS[idx].fetch_add(1, Ordering::SeqCst);
+    set_clock();
+    let result = code();
+    result.await;
+    CLOCK_REQUESTS[idx].fetch_sub(1, Ordering::SeqCst);
+    set_clock();
 }
 
 fn set_pll() {
-    if unsafe { HSE_AVAILABLE && HSE_FREQ != 16_000_000 } {
+    if HSE_AVAILABLE.load(Ordering::Relaxed) && HSE_FREQ.load(Ordering::Relaxed) != 16_000_000 {
         defmt::info!("unsupported HSE frequency, fallback to MSIS");
     }
-    if unsafe { HSE_AVAILABLE  && HSE_FREQ == 16_000_000 } {
+    if HSE_AVAILABLE.load(Ordering::Relaxed) && HSE_FREQ.load(Ordering::Relaxed) == 16_000_000 {
         RCC.pll1cfgr().modify(|w| {
             w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::HSE);
             w.set_pllm(stm32_metapac::rcc::vals::Pllm::DIV4);
@@ -111,7 +110,7 @@ pub fn delay_s(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = HCLK;
+        let interval = HCLK.load(Ordering::Relaxed);
         for _i in 0..n {
             let start = dwt.cyccnt.read();
             let end = start.wrapping_add(interval);
@@ -127,7 +126,7 @@ pub fn delay_ms(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = HCLK / 1_000 * n;
+        let interval = HCLK.load(Ordering::Relaxed) / 1_000 * n;
         // 170 * (1e3 as u32) * n;
         let start = dwt.cyccnt.read();
         let end = start.wrapping_add(interval);
@@ -142,7 +141,7 @@ pub fn delay_us(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = HCLK / 1_000_000 * n;
+        let interval = HCLK.load(Ordering::Relaxed) / 1_000_000 * n;
         let start = dwt.cyccnt.read();
         let end = start.wrapping_add(interval);
         let mut now = dwt.cyccnt.read();
@@ -272,13 +271,13 @@ pub fn set_lptim_clock(num: u8) -> u32 {
             RCC.ccipr3()
                 .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
             RCC.apb3enr().modify(|v| v.set_lptim3en(true));
-            unsafe { LSE_FREQ }
+            LSE_FREQ.load(Ordering::Relaxed)
         }
         4 => {
             RCC.ccipr3()
                 .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
             RCC.apb3enr().modify(|v| v.set_lptim4en(true));
-            unsafe { LSE_FREQ }
+            LSE_FREQ.load(Ordering::Relaxed)
         }
         _ => defmt::panic!("Invalid lptim number"),
     }
@@ -306,11 +305,9 @@ pub fn init_clock(
 ) {
     defmt::info!("setup clock with hse: {:?}, lse: {:?}, hse_frq: {:?}, enable_dbg: {:?}, system_min_freq: {:?}", has_hse, has_lse, hse_frq, enable_dbg, system_min_freq);
     // unsafe {CLOCK_REF.has_hse = has_hse;}
-    unsafe {
-        HSE_AVAILABLE = has_hse;
-        LSE_AVAILABLE = has_lse;
-        HSE_FREQ = hse_frq;
-    }
+    HSE_AVAILABLE.store(has_hse, Ordering::Relaxed);
+    LSE_AVAILABLE.store(has_lse, Ordering::Relaxed);
+    HSE_FREQ.store(hse_frq, Ordering::Relaxed);
     RCC.ahb3enr().modify(|v| v.set_pwren(true));
     static mut CALLED: bool = false;
     unsafe {
@@ -326,10 +323,7 @@ pub fn init_clock(
             cr.set_dbg_standby(true);
         });
     }
-    unsafe {
-        // CLOCK_REQUESTS[ClockFreqs::KernelFreq4Mhz.to_idx()] = 1;
-        CLOCK_REQUESTS[system_min_freq.to_idx()] = 1;
-    }
+    CLOCK_REQUESTS[system_min_freq.to_idx()].store(1, Ordering::Relaxed);
     set_clock();
     // check rtc is enabled or not. if enabled, do nothing
     let rtc_en = RCC.bdcr().read().rtcen();
@@ -343,7 +337,7 @@ pub fn init_clock(
     }
 }
 
-pub static mut CLOCK_REQUESTS: [u16; 32] = [0; 32];
+pub static CLOCK_REQUESTS: [AtomicU32; 32] = [ const {AtomicU32::new(0)};32 ];
 
 #[derive(Clone, Copy, Debug, defmt::Format)]
 pub enum ClockFreqs {
@@ -412,17 +406,15 @@ impl ClockFreqs {
 pub fn set_clock() {
     // check the clock requirement to determine the kernel clock
     // default kernel clock is 4Mhz
-    let mut clk_idx: u16 = 0;
-    unsafe {
-        for i in 0..CLOCK_REQUESTS.len() {
-            if CLOCK_REQUESTS[i] > 0 {
-                clk_idx = i as u16;
-                break;
-            }
+    let mut clk_idx: usize = 0;
+    for i in 0..CLOCK_REQUESTS.len() {
+        if CLOCK_REQUESTS[i].load(Ordering::Relaxed) > 0 {
+            clk_idx = i;
+            break;
         }
     }
 
-    if unsafe {HSE_AVAILABLE } {
+    if HSE_AVAILABLE.load(Ordering::Relaxed) {
         RCC.cr().modify(|w| w.set_hseon(true));
         while !RCC.cr().read().hserdy() {}
     }
@@ -442,7 +434,7 @@ pub fn set_clock() {
 
     delay_enable();
 
-    set_cpu_freq_new(ClockFreqs::from_idx(clk_idx).to_freq(), false);
+    set_cpu_freq_new(ClockFreqs::from_idx(clk_idx as u16).to_freq(), false);
 }
 
 pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
@@ -469,9 +461,9 @@ pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
 }
 
 pub fn set_cpu_freq_new(freq: u32, _lpm: bool) {
-    if unsafe { HCLK } > freq {
+    if HCLK.load(Ordering::Relaxed) > freq {
         dec_kern_freq(freq);
-    } else if unsafe { HCLK } <= freq {
+    } else if HCLK.load(Ordering::Relaxed) <= freq {
         inc_kern_freq(freq);
     }
 }
@@ -507,7 +499,7 @@ fn inc_kern_freq(freq: u32) {
 
     let hclk_source;
     if freq <= 16_000_000 {
-        if unsafe { HSE_AVAILABLE } {
+        if HSE_AVAILABLE.load(Ordering::Relaxed) {
             while !RCC.cr().read().hserdy() {}
             RCC.cfgr1().modify(|w| {
                 w.set_sw(stm32_metapac::rcc::vals::Sw::HSE);
@@ -541,9 +533,7 @@ fn inc_kern_freq(freq: u32) {
         128 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV128)),
         _ => defmt::panic!("Invalid hclk {}", hclk),
     }
-    unsafe {
-        HCLK = freq;
-    }
+    HCLK.store(freq, Ordering::Relaxed);
 }
 
 fn dec_kern_freq(freq: u32) {
@@ -553,7 +543,7 @@ fn dec_kern_freq(freq: u32) {
     let hclk_source;
 
     if freq <= 16_000_000 {
-        if unsafe { HSE_AVAILABLE } {
+        if HSE_AVAILABLE.load(Ordering::Relaxed) {
             while !RCC.cr().read().hserdy() {}
             RCC.cfgr1().modify(|w| {
                 w.set_sw(stm32_metapac::rcc::vals::Sw::HSE);
@@ -590,7 +580,7 @@ fn dec_kern_freq(freq: u32) {
         FLASH.acr().modify(|w| w.set_prften(false));
     }
     FLASH.acr().modify(|w| w.set_latency(ws)); // update ws
-    if unsafe { HCLK } >= 55_000_000 && freq < 55_000_000 {
+    if HCLK.load(Ordering::Relaxed) >= 55_000_000 && freq < 55_000_000 {
         RCC.pll1cfgr().modify(|w| {
             w.set_pllmboost(rcc::vals::Pllmboost::DIV1);
         });
@@ -602,9 +592,7 @@ fn dec_kern_freq(freq: u32) {
         while !PWR.vosr().read().vosrdy() {}
     }
 
-    unsafe {
-        HCLK = freq;
-    }
+    HCLK.store(freq, Ordering::Relaxed);
 }
 
 pub use stm32_metapac::rcc::vals::Mcopre as Mcopre;
@@ -617,3 +605,4 @@ pub fn set_mco(pin: gpio::GpioPort, clk: Mcosel, div: stm32_metapac::rcc::vals::
         w.set_mcopre(div);
     });
 }
+

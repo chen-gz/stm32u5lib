@@ -79,6 +79,7 @@ default = [
     # "defmt",
     "utils",
 ]
+usart_dma = []
 # when
 #memory-x = [ "stm32-metapac/memory-x", ]
 #! ## Chip-selection features

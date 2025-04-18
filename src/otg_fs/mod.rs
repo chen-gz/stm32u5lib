@@ -15,12 +15,6 @@ mod interrupt;
 use aligned::Aligned;
 // use crate::otg_fs::descriptor::*;
 use crate::otg_fs::endpoint::{Endpoint, EpType, MaxPacketSize};
-use crate::otg_fs::global_states::{regs};
-
-use crate::usb_common::descriptor::*;
-
-use crate::usb_common;
-
 
 pub struct EndpointGG;
 

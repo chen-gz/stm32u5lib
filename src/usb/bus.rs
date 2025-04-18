@@ -1,5 +1,5 @@
 use usb_device::bus::PollResult;
-use usb_device::endpoint::{EndpointAddress, EndpointDirection, EndpointType};
+use usb_device::endpoint::{EndpointAddress,  EndpointType};
 use usb_device::{Result, UsbDirection};
 
 // Use async_trait to allow async fns in traits, but only mark

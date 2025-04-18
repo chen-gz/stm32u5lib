@@ -116,11 +116,11 @@ impl hal::Usart<GpioPort> for Usart {
 
     async fn read_async(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
         if self.use_dma {
-            #[cfg(feature = "dma")]
+            #[cfg(feature = "usart_dma")]
             {
                 self.read_async_dma(data).await
             }
-            #[cfg(not(feature = "dma"))]
+            #[cfg(not(feature = "usart_dma"))]
             {
                 Err(hal::UsartError::BusError)
             }
@@ -140,11 +140,11 @@ impl hal::Usart<GpioPort> for Usart {
 
     async fn write_async(&self, data: &[u8]) -> Result<(), hal::UsartError> {
         if self.use_dma {
-            #[cfg(feature = "dma")]
+            #[cfg(feature = "usart_dma")]
             {
                 self.write_async_dma(data).await
             }
-            #[cfg(not(feature = "dma"))]
+            #[cfg(not(feature = "usart_dma"))]
             {
                 Err(hal::UsartError::BusError)
             }
@@ -199,7 +199,7 @@ impl Usart {
         Ok(())
     }
 
-    #[cfg(feature = "dma")]
+    #[cfg(feature = "usart_dma")]
     pub async fn write_async_dma(&self, data: &[u8]) -> Result<(), hal::UsartError> {
         let src_addr = data.as_ptr() as u32;
         let dst_addr = &self.port.tdr().as_ptr().cast::<u8>() as *const _ as u32;
@@ -209,7 +209,7 @@ impl Usart {
         Ok(())
     }
 
-    #[cfg(feature = "dma")]
+    #[cfg(feature = "usart_dma")]
     pub async fn read_async_dma(&self, buffer: &mut [u8]) -> Result<(), hal::UsartError> {
         let src_addr = &self.port.rdr().as_ptr().cast::<u8>() as *const _ as u32;
         let dst_addr = buffer.as_mut_ptr() as u32;

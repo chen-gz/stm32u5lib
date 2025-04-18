@@ -4,7 +4,6 @@ use defmt::trace;
 use stm32_metapac::otg::vals::Eptyp;
 use crate::otg_fs::global_states::{regs, state};
 // use core::task::{Poll, poll_fn};
-use stm32_metapac::otg::regs;
 use crate::otg_fs::interrupt::RESET;
 
 pub enum Direction {
@@ -225,7 +224,7 @@ impl Endpoint {
             }
             defmt::info!("write ep={:?}, word={:x}", self.addr, word);
             // r.fifo(2).write_value(regs::Fifo(word));
-            r.fifo(self.addr as usize).write(|w| unsafe { w.0 = word });
+            r.fifo(self.addr as usize).write(|w|  w.0 = word );
         }
         // Ok(PhyState::Active)
         // wait for transfer complete interrupt

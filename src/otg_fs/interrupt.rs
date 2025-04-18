@@ -18,7 +18,6 @@ pub fn wakeup_all() {
 
 pub static mut RESET: bool = false;
 
-use crate::clock;
 pub unsafe fn on_interrupt() {
     defmt::info!("OTG_FS interrupt");
     // clock::delay_ms(100);

@@ -46,5 +46,5 @@ accordingly.
 not able to make it work with the `rxflvl` interrupt. Either `rxflvl` or `epout`
 will work.
 
-** Anyway, becareful when update this library, altough current code in this
-lirbary is ugly, but it works. **
+** Anyway, be careful when update this library, although current code in this
+library is ugly, but it works. **

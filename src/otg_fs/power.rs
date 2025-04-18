@@ -1,6 +1,6 @@
 use cortex_m::peripheral::NVIC;
 use defmt::{trace};
-use stm32_metapac::{PWR, RCC, SYSCFG, otg};
+use stm32_metapac::{PWR,  otg};
 use crate::otg_fs::global_states::{regs, restore_irqs};
 
 pub fn usb_power_down() {
@@ -9,7 +9,6 @@ pub fn usb_power_down() {
     });
 }
 
-use crate::clock;
 pub fn power_up_init() {
     trace!("init");
     PWR.svmcr().modify(|w| {

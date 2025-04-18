@@ -5,7 +5,7 @@ use crate::clock::{delay_ms, delay_tick};
 use crate::gpio;
 use core::future::poll_fn;
 use cortex_m::delay;
-// use cortex_m::interrupt;
+use cortex_m::interrupt::{Mutex};
 use cortex_m::peripheral::scb;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
@@ -260,7 +260,11 @@ pub fn get_time() -> (u8, u8, u8) {
 }
 
 use core::time::Duration;
-use cortex_m::interrupt::Mutex;
+use core::cell::RefCell;
+
+// Wrap RTC_WAKER in a Mutex for safe access
+static RTC_WAKER: Mutex< RefCell<[Option<RtcWakers>; NUM_WAKER]>> =
+    Mutex::new(RefCell::new([const { None }; NUM_WAKER]));
 
 // todo!("remove");
 pub async fn rtc_interrupt() {
@@ -311,71 +315,61 @@ impl Default for RtcWakers {
 }
 // since stm32u5 only one core. Unsafe access will not cause issue.
 const NUM_WAKER: usize = 32;
-static mut RTC_WAKER: [Option<RtcWakers>; NUM_WAKER] = [const { None }; NUM_WAKER];
-// static RTC_WAKER: [Mutex<Cell<Option<RtcWakers>>>; NUM_WAKER] = [Mutex::new(::new(None)); NUM_WAKER];
 
-/// becare when using this function. If delay is less(equal) than 1 second. This should not be used.
 pub async fn rtc_delay(duration: Duration) {
     if duration <= Duration::from_secs(1) {
         panic!("Current not allow delay duration less (equal) than 1 second");
     }
     let waker_time = rtc_time_to_duration() + duration;
-    // find an empty slot and use it
-    let empty = (0..NUM_WAKER).position(|i| unsafe { &RTC_WAKER[i] }.is_none());
-    let empty = empty.unwrap();
-    unsafe {
-        RTC_WAKER[empty] = Some(RtcWakers {
+
+    // Find an empty slot and use it
+    let empty = cortex_m::interrupt::free(|cs| {
+        RTC_WAKER.borrow(cs)
+            .borrow()
+            .iter()
+            .position(|w| w.is_none())
+            .expect("No available slot in RTC_WAKER")
+    });
+
+    cortex_m::interrupt::free(|cs| {
+        RTC_WAKER.borrow(cs).borrow_mut()[empty] = Some(RtcWakers {
             waker: NEW_AW,
             wakeup_time: waker_time,
             pending: true,
         });
-    }
-    // update alarm
-    // todo!("update alarm");
-    // defmt::info!("update alarm");
+    });
+
+    // Update alarm
     update_alarm();
 
     poll_fn(move |ctx| {
-        unsafe {
-            RTC_WAKER[empty]
-                .as_ref()
-                .unwrap()
-                .waker
-                .register(ctx.waker());
-            // if waker.unwrap().wakeup_time
-            if RTC_WAKER[empty].as_ref().unwrap().wakeup_time <= rtc_time_to_duration() {
-                // release the slot
-                RTC_WAKER[empty] = None;
+        cortex_m::interrupt::free(|cs| {
+            let mut wakers = RTC_WAKER.borrow(cs).borrow_mut();
+            let waker = wakers[empty].as_mut().unwrap();
+            waker.waker.register(ctx.waker());
+            if waker.wakeup_time <= rtc_time_to_duration() {
+                // Release the slot
+                wakers[empty] = None;
                 return core::task::Poll::Ready(());
-            } else {
-                return core::task::Poll::Pending;
             }
-        }
+            core::task::Poll::Pending
+        })
     })
     .await;
 }
 
 fn update_alarm() {
-    // find the minimum waker_time from RTC_WAKER
-    let mut min_waker_time = None;
-    for waker in unsafe { &RTC_WAKER } {
-        if let Some(waker) = waker {
-            if waker.pending {
-                if waker.wakeup_time <= rtc_time_to_duration() {
-                    waker.waker.wake();
-                } else {
-                    if let Some(min_time) = min_waker_time {
-                        if waker.wakeup_time < min_time {
-                            min_waker_time = Some(waker.wakeup_time);
-                        }
-                    } else {
-                        min_waker_time = Some(waker.wakeup_time);
-                    }
-                }
-            }
-        }
-    }
-    // defmt::info!("min_time: {:?}", min_waker_time);
+    // Find the minimum waker_time from RTC_WAKER
+    let min_waker_time = cortex_m::interrupt::free(|cs| {
+        let wakers = RTC_WAKER.borrow(cs).borrow();
+        wakers
+            .iter()
+            .filter_map(|w| w.as_ref())
+            .filter(|w| w.pending)
+            .map(|w| w.wakeup_time)
+            .min()
+    });
+
     if let Some(min_time) = min_waker_time {
         let alarm_time = utils::time_date_from_duration_since_2000(min_time);
         set_alarm(alarm_time.2, alarm_time.3, alarm_time.4, alarm_time.5);
@@ -431,15 +425,26 @@ fn RTC() {
     NVIC::unpend(stm32_metapac::Interrupt::RTC);
     // disable backup domain write
     PWR.dbpcr().modify(|v| v.set_dbp(false));
-    unsafe {
-        for i in 0..NUM_WAKER {
-            if let Some(w) = &RTC_WAKER[i] {
-                // if w.wakeup_time <= rtc_time_to_duration() {
+
+    // RTC_WAKER.lock(|wakers| {
+    //     let mut wakers = wakers.borrow_mut();
+    //     for waker in wakers.iter_mut() {
+    //         if let Some(w) = waker {
+    //             w.waker.wake();
+    //         }
+    //     }
+    // });
+    cortex_m::interrupt::free(|cs| {
+        let mut wakers = RTC_WAKER.borrow(cs).borrow_mut();
+        for waker in wakers.iter_mut() {
+            if let Some(w) = waker {
+                if w.pending {
                     w.waker.wake();
-                    // defmt::info!("waker up  a waker");
-                // }
+                    w.pending = false;
+                }
             }
         }
-    }
+    });
     update_alarm();
 }
+

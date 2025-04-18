@@ -1,7 +1,6 @@
 use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
-use defmt::trace;
 // use crate::otg_fs::descriptor::{Direj tion, Request};
 use crate::usb_common::{
     descriptor::{Direction, Request},
@@ -11,7 +10,6 @@ use crate::otg_fs::endpoint::{Endpoint, EpType, MaxPacketSize, PhyState};
 use crate::otg_fs::global_states::{regs, state};
 use crate::otg_fs::interrupt::RESET;
 // use crate::otg_fs::interrupt::SETUP_DATA;
-use stm32_metapac::otg::regs;
 
 pub fn init_setaddress(address: u8) {
     // RM0456 Rev 5, p3423
@@ -53,7 +51,6 @@ pub async fn setup_process_inner(ep0: &Endpoint) -> Result<PhyState, PhyState> {
 
     let mut setup_data: aligned::Aligned<aligned::A4, [u8; 8]> = aligned::Aligned([0u8; 8]);
     let zero_buf: Aligned<aligned::A4, [u8; 0]> = Aligned([0u8; 0]);
-    unsafe {
         while !state().ep0_setup_ready.load(Ordering::Relaxed) {
             // read0(&mut setup_data[0..8]).await?;
             ep0.read(&mut setup_data[0..8]).await?;
@@ -113,7 +110,6 @@ pub async fn setup_process_inner(ep0: &Endpoint) -> Result<PhyState, PhyState> {
             _ => {
                 defmt::panic!("Unknown request");
             }
-        }
     }
     Ok(PhyState::Active)
 }
