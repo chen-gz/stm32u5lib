@@ -152,12 +152,12 @@ pub fn setup(
                 match rtc_source {
                     rcc::vals::Rtcsel::LSE => {
                         RTC.wutr()
-                            .write(|w| unsafe { w.set_wut(period_wakup_s * 2048) });
+                            .write(|w| { w.set_wut(period_wakup_s * 2048) });
                         // 32768Hz/16 = 2048Hz
                     }
                     rcc::vals::Rtcsel::LSI => {
                         RTC.wutr()
-                            .write(|w| unsafe { w.set_wut(period_wakup_s * 2000) });
+                            .write(|w| { w.set_wut(period_wakup_s * 2000) });
                         // 32000Hz/16 = 2000Hz
                     }
                     _ => {}
@@ -260,6 +260,8 @@ pub fn get_time() -> (u8, u8, u8) {
 }
 
 use core::time::Duration;
+use cortex_m::interrupt::Mutex;
+
 // todo!("remove");
 pub async fn rtc_interrupt() {
     unsafe { NVIC::unmask(stm32_metapac::Interrupt::RTC) };
@@ -310,6 +312,7 @@ impl Default for RtcWakers {
 // since stm32u5 only one core. Unsafe access will not cause issue.
 const NUM_WAKER: usize = 32;
 static mut RTC_WAKER: [Option<RtcWakers>; NUM_WAKER] = [const { None }; NUM_WAKER];
+// static RTC_WAKER: [Mutex<Cell<Option<RtcWakers>>>; NUM_WAKER] = [Mutex::new(::new(None)); NUM_WAKER];
 
 /// becare when using this function. If delay is less(equal) than 1 second. This should not be used.
 pub async fn rtc_delay(duration: Duration) {
@@ -407,11 +410,11 @@ pub fn fn_with_back_domain_write(f: impl FnOnce()) {
 }
 
 pub fn fn_with_write_protection(f: impl FnOnce()) {
-    RTC.wpr().write(|w| unsafe { w.0 = 0xCA }); // write protection disable
+    RTC.wpr().write(|w| { w.0 = 0xCA }); // write protection disable
     delay_tick(10);
-    RTC.wpr().write(|w| unsafe { w.0 = 0x53 }); // write protection disable
+    RTC.wpr().write(|w| { w.0 = 0x53 }); // write protection disable
     f();
-    RTC.wpr().write(|w| unsafe { w.0 = 0xFF }); // write protection enable
+    RTC.wpr().write(|w| { w.0 = 0xFF }); // write protection enable
 }
 
 // todo!("remove");

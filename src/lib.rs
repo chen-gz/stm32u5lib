@@ -61,3 +61,4 @@ pub mod usb_common;
 pub mod utils;
 
 pub mod hal;
+mod usb;

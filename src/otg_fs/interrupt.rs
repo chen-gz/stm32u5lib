@@ -17,7 +17,6 @@ pub fn wakeup_all() {
 }
 
 pub static mut RESET: bool = false;
-pub static mut SETUP_DATA: aligned::Aligned<aligned::A4, [u8; 8]> = aligned::Aligned([0u8; 8]);
 
 use crate::clock;
 pub unsafe fn on_interrupt() {
@@ -79,13 +78,23 @@ pub unsafe fn on_interrupt() {
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
                 // get SETUP_DATA
-                let data: u32 = r.fifo(0).read().0;
-                let data2: u32 = r.fifo(0).read().0;
-                for i in 0..4 {
-                    SETUP_DATA[i] = (data >> (i * 8)) as u8;
-                    SETUP_DATA[i + 4] = (data2 >> (i * 8)) as u8;
+                // let data: u32 = r.fifo(0).read().0;
+                // let data2: u32 = r.fifo(0).read().0;
+                // for i in 0..4 {
+                //     SETUP_DATA[i] = (data >> (i * 8)) as u8;
+                //     SETUP_DATA[i + 4] = (data2 >> (i * 8)) as u8;
+                // }
+                // trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, SETUP_DATA[0..8]);
+                let len_words = (len + 3) / 4;
+                // let mut data = [0u8; 64];
+                let mut index = 0;
+                for _ in 0..len_words {
+                    let tmp = r.fifo(0).read().data();
+                    for i in 0..4 {
+                        state.ep_out_buffers[ep_num][index] = (tmp >> (i * 8)) as u8;
+                        index += 1;
+                    }
                 }
-                trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, SETUP_DATA[0..8]);
                 state.ep_out_wakers[ep_num].wake(); // ep_num is 0
                 state.ep0_setup_ready.store(true, Ordering::Release);
             }
@@ -108,6 +117,7 @@ pub unsafe fn on_interrupt() {
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_DONE => {
                 trace!("OUT_DATA_DONE ep={}", ep_num);
+                // wake up the task, transfer complete
                 wakeup_all();
                 //r.doepctl(0).modify(|w| w.set_cnak(true));
             }
