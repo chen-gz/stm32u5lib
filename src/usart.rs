@@ -114,12 +114,20 @@ impl hal::Usart<GpioPort> for Usart {
         Ok(Usart{ port, port_num: port_num })
     }
     fn read(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
-        todo!()
-    }
-    fn read_async(&self, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
-        async move {
-            todo!()
+        // todo!()
+        for i in 0..data.len() {
+            while self.port.isr().read().rxne() == false {}
+            data[i] = self.port.rdr().read().dr() as u8;
         }
+        Ok(())
+    }
+    // fn read_async(&self, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
+    //     async move {
+    //         todo!()
+    //     }
+    // }
+    async fn read_async(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
+        todo!()
     }
     fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
         for &c in data{
@@ -130,10 +138,13 @@ impl hal::Usart<GpioPort> for Usart {
         }
         Ok(())
     }
-    fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
-        async move {
-            todo!()
-        }
+    // fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
+    //     async move {
+    //         todo!()
+    //     }
+    // }
+    async fn write_async(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        todo!()
     }
 }
 // impl UsartPort {
