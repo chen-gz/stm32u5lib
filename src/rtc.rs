@@ -440,7 +440,7 @@ fn RTC() {
             if let Some(w) = waker {
                 if w.pending {
                     w.waker.wake();
-                    w.pending = false;
+                    // w.pending = false;
                 }
             }
         }
