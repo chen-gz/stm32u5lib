@@ -136,6 +136,7 @@ impl hal::Usart<GpioPort> for Usart {
                 v.set_dr(c as u16);
             });
         }
+        while self.port.isr().read().tc() == false {}
         Ok(())
     }
     // fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), hal::UsartError>> + Send {
