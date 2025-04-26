@@ -104,11 +104,15 @@ pub unsafe fn on_interrupt() {
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_DONE => {
                 trace!("OUT_DATA_DONE ep={}", ep_num);
-                r.doepctl(0).modify(|w| w.set_cnak(true));
+                r.doepint(ep_num).write(|w| w.set_xfrc(true)); // Clear transfer complete
+                r.doepctl(ep_num).modify(|w| w.set_cnak(true)); // Clear NAK
+                state.ep_out_wakers[ep_num].wake(); // Wake the waker
             }
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_DONE => {
                 trace!("SETUP_DATA_DONE ep={}", ep_num);
-                r.doepctl(0).modify(|w| w.set_cnak(true));
+                r.doepctl(ep_num).modify(|w| w.set_cnak(true)); // Clear NAK
+                state.ep0_setup_ready.store(true, Ordering::Release); // Mark setup ready
+                state.ep_out_wakers[ep_num].wake(); // Wake the waker
             }
             x => {
                 trace!("unknown PKTSTS: {}", x.to_bits());
@@ -122,7 +126,6 @@ pub unsafe fn on_interrupt() {
         let mut ep_mask = r.daint().read().iepint();
         let mut ep_num = 0;
 
-        // Iterate over endpoints while there are non-zero bits in the mask
         while ep_mask != 0 {
             if ep_mask & 1 != 0 {
                 // get the interrupt mask
@@ -157,7 +160,6 @@ pub unsafe fn on_interrupt() {
         }
     }
 
-
     // OUT endpoint interrupt
     if ints.oepint() {
         let mut ep_mask = r.daint().read().oepint();
@@ -172,6 +174,7 @@ pub unsafe fn on_interrupt() {
                 // defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
                 // defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
                 let ep_ints = r.doepint(ep_num).read();
+
                 if ep_ints.stup() {
                     state.ep_out_wakers[ep_num].wake();
                     state.ep0_setup_ready.store(true, Ordering::Release);
@@ -190,6 +193,7 @@ pub unsafe fn on_interrupt() {
                     r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
                     // pop ?
                 }
+
                 state.ep_out_wakers[ep_num].wake();
             }
             ep_mask >>= 1;
@@ -309,3 +313,4 @@ pub fn init_fifo() {
     //     }
     // }
 }
+

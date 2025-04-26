@@ -13,11 +13,7 @@ pub mod power;
 use aligned::Aligned;
 // use crate::otg_hs::descriptor::*;
 use crate::otg_hs::endpoint::{Endpoint, EpType, MaxPacketSize};
-use crate::otg_hs::global_states::regs;
 
-use crate::usb_common::descriptor::*;
-
-use crate::usb_common;
 
 pub struct EndpointGG;
 

@@ -1,6 +1,8 @@
+use core::sync::atomic::Ordering;
 use cortex_m::peripheral::NVIC;
 use defmt::{trace};
 use stm32_metapac::{PWR, RCC, SYSCFG, otg};
+use stm32_metapac::syscfg::vals::Usbrefcksel;
 use crate::otg_hs::global_states::{regs, restore_irqs};
 
 pub fn usb_power_down() {
@@ -25,10 +27,12 @@ pub fn power_up_init() {
                 v.0 |= (1 << 19) | (1 << 20);
                 // SBPWREN and USBBOOSTEN in PWR_VOSR.
                 v.boosten();
+                // v.set_usbpwren(true);
+                // v.set_usbboosten(true);
             });
             crate::clock::delay_us(100);
-            // delay_ms(100);
-            // wait fo USBBOOSTRDY
+            // crate::clock::delay_ms(100);
+            // wait fo USBBOOSTRD
             // while !pwr.vosr().read().usbboostrdy() {}
             // enable hse
             RCC.cr().modify(|w| {
@@ -50,15 +54,16 @@ pub fn power_up_init() {
             });
             // TODO: update this clock settings
             SYSCFG.otghsphycr().modify(|v| {
-                let hse_freq = unsafe { crate::clock::HSE_FREQ };
+                let hse_freq =  crate::clock::HSE_FREQ.load(Ordering::Relaxed) ;
                 if hse_freq == 26_000_000 {
-                    v.set_clksel(0b1110);   // 26Mhz HSE
+                    // v.set_clksel(0b1110);   // 26Mhz HSE
+                    v.set_clksel(Usbrefcksel::MHZ26);
                 } else if hse_freq == 16_000_000 {
-                    v.set_clksel(0b0011); // 16Mhz HSE
+                    // v.set_clksel(0b0011); // 16Mhz HSE
+                    v.set_clksel(Usbrefcksel::MHZ16);
                 } else {
                     defmt::panic!("HSE frequency not supported");
                 }
-
                 v.set_en(true);
             });
         });
@@ -141,6 +146,7 @@ pub fn power_up_init() {
                 // w.set_vbden(true);
                 // w.set_phyhsen(true);
                 w.0 = (1 << 24) | (1 << 23);
+                w.set_phyhsen(true);
             });
 
             // Force B-peripheral session

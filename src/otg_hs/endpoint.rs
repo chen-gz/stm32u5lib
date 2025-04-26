@@ -168,9 +168,11 @@ impl Endpoint {
         match poll_fn(|cx| {
             state().ep_in_wakers[index].register(cx.waker());
             if r.dsts().read().suspsts() {
+                defmt::info!("write ep={:?}, suspsts", self.addr);
                 return Poll::Ready(PhyState::Suspend);
             }
             if !r.diepctl(index).read().usbaep() {
+                defmt::info!("write ep={:?}, usbaep", self.addr);
                 return Poll::Ready(PhyState::Error);
             }
             // if the endpoint is not enabled, and nak been set, return error
@@ -179,6 +181,7 @@ impl Endpoint {
                 // In the interrupt handler, the `xfrc` was masked to avoid re-entering the interrupt.
                 r.diepmsk().modify(|w| w.set_xfrcm(true));
                 // Poll::Ready(())
+                defmt::info!("write ep={:?}, xfrc", self.addr);
                 Poll::Ready(PhyState::Active)
             } else {
                 Poll::Pending

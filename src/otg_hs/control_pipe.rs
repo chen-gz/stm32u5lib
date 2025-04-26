@@ -19,9 +19,12 @@ pub fn init_setaddress(address: u8) {
 
 /// endpoint 0 read function
 async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
-    trace!("read start len={}", buf.len());
+    trace!("read control pipe start len={}", buf.len());
     let r = regs();
     r.doepdma(0).write(|w| { w.set_dmaaddr(buf.as_ptr() as u32) });
+    // r.doepdma(0).write(|w| {
+    //     todo!("set dma address");
+    // });
     if regs().doepctl(0).read().epena() {
         defmt::error!("epena is set -- this should not happen");
     //     // clear epena
@@ -31,8 +34,8 @@ async fn read0(buf: &mut [u8]) -> Result<PhyState, PhyState> {
     }
     r.doeptsiz(0).modify(|v| {
         v.set_xfrsiz(buf.len() as _);
-        v.set_stupcnt(3);
-        v.set_pktcnt(1); // only one packet (due to register)
+        v.set_pktcnt(1); // Ensure packet count is set correctly
+        v.set_stupcnt(3); // Set setup packet count to 3 for control OUT
     });
     r.doepmsk().modify(|v| {
         v.set_stsphsrxm(true);
@@ -157,8 +160,10 @@ pub async fn setup_process() {
 }
 
 use aligned::Aligned;
+
 pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
     let mut setup_data: Aligned<aligned::A4, [u8; 64]> = Aligned([0u8; 64]);
+    const ZERO_BUF: Aligned<aligned::A4, [u8; 0]> = Aligned([0u8; 0]);
     unsafe {
         if state().ep0_setup_ready.load(Ordering::Relaxed) {
             state().ep0_setup_ready.store(false, Ordering::Release);
@@ -166,43 +171,49 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             read0(&mut setup_data[0..64]).await?;
             poll_fn(|cx| {
                 state().ep_out_wakers[0].register(cx.waker());
-                if RESET  {
+                if RESET {
                     return Poll::Ready(Err(PhyState::Reset));
                 }
                 if state().ep0_setup_ready.load(Ordering::Relaxed) {
                     state().ep0_setup_ready.store(false, Ordering::Release);
-                    // regs().doepint(0).write(|w| w.0 = 0xFFFF_FFFF);
                     return Poll::Ready(Ok(PhyState::Active));
                 } else {
                     Poll::Pending
                 }
-            })
-            .await?;
+            }).await?;
         }
-        defmt::info!( "setup packet ready, processing package {:x}", setup_data[0..8]);
+
+        if setup_data[0..8] == [0u8; 8] {
+            defmt::error!("setup data is all 0");
+            return Ok(PhyState::Active);
+        }
+
+        defmt::info!("setup packet ready, processing package {:x}", setup_data[0..8]);
         let mut tmp = process_setup_packet_new(&setup_data[0..8]);
+
         if tmp.has_data_stage {
             match tmp.data_stage_direction {
                 Direction::In => {
                     write0(&tmp.data[0..tmp.len]).await?;
-                    // read0(&mut tmp.data[0..64]).await?; // status stage no data
-                    read0(&mut setup_data[0..64]).await?;
-                    return Ok(PhyState::Active);
+                    defmt::info!("send status stage (IN)");
+                    read0(&mut tmp.data[0..0]).await?; // Status stage (no data)
                 }
                 Direction::Out => {
-                    read0(&mut tmp.data[0..64]).await?;
-                    write0(&[0u8; 0]).await? // status stage no data
+                    read0(&mut tmp.data[0..tmp.len]).await?;
+                    defmt::info!("read data stage finished with data={:x}", tmp.data[0..tmp.len]);
+                    defmt::info!("send status stage (OUT)");
+                    write0(ZERO_BUF.as_ref()).await?; // Status stage (no data)
                 }
             };
         } else {
-            // status stage no data
             match tmp.setup.direction {
                 Direction::In => {
-                    // read0(&mut buf[0..0]).await; // status stage no data
-                    read0(&mut tmp.data[0..64]).await?; // status stage no data
+                    defmt::info!("send status stage (IN, no data)");
+                    read0(&mut tmp.data[0..0]).await?; // Status stage (no data)
                 }
                 Direction::Out => {
-                    write0(&[0u8; 0]).await?; // status stage no data
+                    defmt::info!("send status stage (OUT, no data)");
+                    write0(ZERO_BUF.as_ref()).await?; // Status stage (no data)
                 }
             };
         }
@@ -224,7 +235,7 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
                 defmt::info!("ClearFeature");
             }
             _ => {
-                defmt::panic!("Unknown request");
+                defmt::info!("Unknown request");
             }
         }
     }

@@ -96,6 +96,7 @@ pub unsafe fn on_interrupt() {
                 }
                 state.ep_out_wakers[ep_num].wake(); // ep_num is 0
                 state.ep0_setup_ready.store(true, Ordering::Release);
+                trace!("SETUP_DATA_RX ep={} len={}, data={:x}", ep_num, len, state.ep_out_buffers[ep_num]);
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
                 // received OUT data

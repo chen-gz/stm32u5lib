@@ -78,4 +78,4 @@ pub fn restore_irqs() {
         w.set_otgint(true);
     });
 }
-pub static mut BUS_WAKER_PWR: AtomicWaker = AtomicWaker::new();
+pub static BUS_WAKER_PWR: AtomicWaker = AtomicWaker::new();
