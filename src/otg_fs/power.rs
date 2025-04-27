@@ -80,9 +80,6 @@ pub fn power_up_init() {
         // #[cfg(stm32u575)]
         w.set_dspd(otg::vals::Dspd::FULL_SPEED_INTERNAL);
         // todo: for u5a5, this is different. 11 is reserved
-        #[cfg(otg_hs)]
-        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
-        w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
     });
 
     // r.diepmsk().write(|w| {

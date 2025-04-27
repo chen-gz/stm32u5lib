@@ -1,9 +1,9 @@
 use core::sync::atomic::Ordering;
 // use crate::otg_hs::mod_new::SETUP_DATA;
+use crate::otg_hs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
+use crate::otg_hs::global_states::{regs, state, State};
 use defmt::{info, trace};
 use stm32_metapac::interrupt;
-use crate::otg_hs::global_states::{regs, State, state};
-use crate::otg_hs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
 
 pub fn wakeup_all() {
     let state = state();
@@ -22,40 +22,40 @@ pub unsafe fn on_interrupt() {
     let r = regs();
     // defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
     let ints = r.gintsts().read();
-    if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
+    if ints.wkupint()
+        || ints.usbsusp()
+        || ints.enumdne()
+        || ints.otgint()
+        || ints.srqint()
+        || ints.usbrst()
     {
         if ints.wkupint() {
             info!("wkupint");
             r.gintsts().write(|w| w.set_wkupint(true)); // clear
-        }
-        else if  ints.usbsusp() {
+        } else if ints.usbsusp() {
             info!("usbsusp");
             wakeup_all();
             r.gintsts().write(|w| w.set_usbsusp(true)); // clear
-        }
-        else if ints.enumdne() {
+        } else if ints.enumdne() {
             info!("enumdne");
             init_enumeration_done();
 
             r.gintsts().write(|w| w.set_enumdne(true)); // clear
-        }
-        else if ints.otgint() {
+        } else if ints.otgint() {
             info!("otgint");
             let otgints = r.gotgint().read();
             r.gotgint().write_value(otgints); // clear all
-        }
-        else if ints.srqint() {
+        } else if ints.srqint() {
             info!("srqint");
             r.gintsts().write(|w| w.set_srqint(true)); // clear
-        }
-        else if ints.usbrst() {
+        } else if ints.usbrst() {
             info!("usbrst");
-            unsafe {RESET = true};
+            unsafe { RESET = true };
             init_reset();
             // restart the control pipe task
             wakeup_all();
             r.gintsts().write(|w| w.set_usbrst(true)); // clear
-            // mask this and
+                                                       // mask this and
             crate::otg_hs::endpoint::init_endpoint();
         }
     }
@@ -63,7 +63,7 @@ pub unsafe fn on_interrupt() {
     let state: &mut State<6> = state();
 
     // Handle RX
-    #[cfg(otg_fs)]
+    // #[cfg(otg_fs)]
     while r.gintsts().read().rxflvl() {
         // RX FIFO non-empty
         let status = r.grxstsp().read();
@@ -76,13 +76,31 @@ pub unsafe fn on_interrupt() {
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
                 // get SETUP_DATA
-                let data: u32 = r.fifo(0).read().0;
-                let data2: u32 = r.fifo(0).read().0;
-                for i in 0..4 {
-                    SETUP_DATA[i] = (data >> (i * 8)) as u8;
-                    SETUP_DATA[i + 4] = (data2 >> (i * 8)) as u8;
+                // let data: u32 = r.fifo(0).read().0;
+                // let data2: u32 = r.fifo(0).read().0;
+                // for i in 0..4 {
+                //     SETUP_DATA[i] = (data >> (i * 8)) as u8;
+                //     SETUP_DATA[i + 4] = (data2 >> (i * 8)) as u8;
+                // }
+                // trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, SETUP_DATA[0..8]);
+
+                state.ep_out_wakers[ep_num].wake();
+                let len_words = (len + 3) / 4;
+                let mut data = [0u8; 64];
+                let mut index = 0;
+                for _ in 0..len_words {
+                    let tmp = r.fifo(0).read().data();
+                    for i in 0..4 {
+                        data[index] = (tmp >> (i * 8)) as u8;
+                        index += 1;
+                    }
                 }
-                trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, SETUP_DATA[0..8]);
+                trace!(
+                    "SETUP_DATA_RX ep={} len={}, data={:x}",
+                    ep_num,
+                    len,
+                    data[0..len]
+                );
                 state.ep_out_wakers[ep_num].wake();
                 state.ep0_setup_ready.store(true, Ordering::Release);
             }
@@ -100,7 +118,12 @@ pub unsafe fn on_interrupt() {
                         index += 1;
                     }
                 }
-                trace!("OUT_DATA_RX ep={} len={}, data={:x}", ep_num, len, data[0..len]);
+                trace!(
+                    "OUT_DATA_RX ep={} len={}, data={:x}",
+                    ep_num,
+                    len,
+                    data[0..len]
+                );
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_DONE => {
                 trace!("OUT_DATA_DONE ep={}", ep_num);
@@ -180,6 +203,9 @@ pub unsafe fn on_interrupt() {
                     state.ep0_setup_ready.store(true, Ordering::Release);
                     r.doepint(ep_num).write(|w| w.set_stup(true));
                     defmt::info!("setup package");
+                    if ep_ints.xfrc() {
+                        defmt::info!("setup package with xfrc");
+                    }
                 } else if ep_ints.stsphsrx() {
                     // let status = r.grxstsp().read();
                     r.doepint(ep_num).write(|w| w.set_stsphsrx(true));
@@ -191,7 +217,7 @@ pub unsafe fn on_interrupt() {
 
                 if ep_ints.xfrc() {
                     r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
-                    // pop ?
+                                                                // pop ?
                 }
 
                 state.ep_out_wakers[ep_num].wake();
@@ -202,8 +228,7 @@ pub unsafe fn on_interrupt() {
     }
 }
 
-
-#[cfg(otg_hs)]
+#[cfg(feature = "otg_hs")]
 #[interrupt]
 fn OTG_HS() {
     unsafe {
@@ -236,12 +261,10 @@ pub fn init_enumeration_done() {
     // });
 }
 
-
 pub fn init_reset() {
     // wake up all related task and send stall to all endpoints
 
     // in control pipe task, the control pipe will be waked up and set again
-
 
     // Rm0456 Rev 5, p3423
     let r = regs();
@@ -313,4 +336,3 @@ pub fn init_fifo() {
     //     }
     // }
 }
-

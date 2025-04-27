@@ -2,13 +2,13 @@ use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
 // use crate::otg_fs::descriptor::{Direj tion, Request};
+use crate::otg_fs::endpoint::{Endpoint, EpType, MaxPacketSize, PhyState};
+use crate::otg_fs::global_states::{regs, state};
+use crate::otg_fs::interrupt::RESET;
 use crate::usb_common::{
     descriptor::{Direction, Request},
     process_setup_packet_new,
 };
-use crate::otg_fs::endpoint::{Endpoint, EpType, MaxPacketSize, PhyState};
-use crate::otg_fs::global_states::{regs, state};
-use crate::otg_fs::interrupt::RESET;
 // use crate::otg_fs::interrupt::SETUP_DATA;
 
 pub fn init_setaddress(address: u8) {
@@ -16,7 +16,6 @@ pub fn init_setaddress(address: u8) {
     // 1. program the otg_dcfg register to set the device address.
     regs().dcfg().modify(|w| w.set_dad(address));
 }
-
 
 #[embassy_executor::task]
 pub async fn setup_process() {
@@ -30,12 +29,20 @@ pub async fn setup_process() {
             } else {
                 Poll::Pending
             }
-        }).await;
+        })
+        .await;
 
         unsafe { RESET = false };
         defmt::info!("RESET = false");
         defmt::info!("restart setup_process");
-        let ep0 = Endpoint::new(crate::otg_fs::endpoint::Direction::Out, 0, EpType::Control, MaxPacketSize::Size64, 0).unwrap();
+        let ep0 = Endpoint::new(
+            crate::otg_fs::endpoint::Direction::Out,
+            0,
+            EpType::Control,
+            MaxPacketSize::Size64,
+            0,
+        )
+        .unwrap();
         loop {
             if setup_process_inner(&ep0).await.is_err() {
                 defmt::error!("setup_process_inner error");
@@ -51,65 +58,70 @@ pub async fn setup_process_inner(ep0: &Endpoint) -> Result<PhyState, PhyState> {
 
     let mut setup_data: aligned::Aligned<aligned::A4, [u8; 8]> = aligned::Aligned([0u8; 8]);
     let zero_buf: Aligned<aligned::A4, [u8; 0]> = Aligned([0u8; 0]);
-        while !state().ep0_setup_ready.load(Ordering::Relaxed) {
-            // read0(&mut setup_data[0..8]).await?;
-            ep0.read(&mut setup_data[0..8]).await?;
-        }
-        state().ep0_setup_ready.store(false, Ordering::Release);
-        defmt::info!( "setup packet ready, processing package {:x}", setup_data[0..8]);
-        let mut tmp = process_setup_packet_new(&setup_data[0..8]);
-        if tmp.has_data_stage {
-            match tmp.data_stage_direction {
-                Direction::In => {
-                    ep0.write(&tmp.data[0..tmp.len]).await?;
+    while !state().ep0_setup_ready.load(Ordering::Relaxed) {
+        // read0(&mut setup_data[0..8]).await?;
+        ep0.read(&mut setup_data[0..8]).await?;
+    }
+    state().ep0_setup_ready.store(false, Ordering::Release);
+    defmt::info!(
+        "setup packet ready, processing package {:x}",
+        setup_data[0..8]
+    );
+    let mut tmp = process_setup_packet_new(&setup_data[0..8]);
+    defmt::info!("tmp.request={:?}", tmp.request);
+    if tmp.has_data_stage {
+        match tmp.data_stage_direction {
+            Direction::In => {
+                ep0.write(&tmp.data[0..tmp.len]).await?;
 
-                    // read0(&mut tmp.data[0..64]).await?; // status stage no data
-                    // read0(&mut setup_data[0..64]).await?;
-                    return Ok(PhyState::Active);
-                }
-                Direction::Out => {
-                    // read0(&mut tmp.data[0..tmp.len]).await?;
-                    ep0.read(&mut tmp.data[0..tmp.len]).await?;
-                    // write0(&[0u8; 0]).await? // status stage no data
-                    ep0.write(zero_buf.as_ref()).await?;
-                }
-            };
-        } else {
-            // status stage no data
-            match tmp.setup.direction {
-                Direction::In => {
-                    // read0(&mut buf[0..0]).await; // status stage no data
-                    // read0(&mut tmp.data[0..0]).await?; // status stage no data
-                    ep0.read(&mut tmp.data[0..0]).await?;
-                    // read0(&mut tmp.data[0..64]).await?; // status stage no data
-                }
-                Direction::Out => {
-                    // write0(&[0u8; 0]).await?; // status stage no data
-                    ep0.write(zero_buf.as_ref()).await?;
-                }
-            };
-        }
+                // read0(&mut tmp.data[0..64]).await?; // status stage no data
+                // read0(&mut setup_data[0..64]).await?;
+                return Ok(PhyState::Active);
+            }
+            Direction::Out => {
+                // read0(&mut tmp.data[0..tmp.len]).await?;
+                ep0.read(&mut tmp.data[0..tmp.len]).await?;
+                // write0(&[0u8; 0]).await? // status stage no data
+                ep0.write(zero_buf.as_ref()).await?;
+            }
+        };
+    } else {
+        // status stage no data
+        match tmp.setup.direction {
+            Direction::In => {
+                // read0(&mut buf[0..0]).await; // status stage no data
+                // read0(&mut tmp.data[0..0]).await?; // status stage no data
+                ep0.read(&mut tmp.data[0..0]).await?;
+                // read0(&mut tmp.data[0..64]).await?; // status stage no data
+            }
+            Direction::Out => {
+                // write0(&[0u8; 0]).await?; // status stage no data
+                ep0.write(zero_buf.as_ref()).await?;
+            }
+        };
+    }
 
-        match tmp.request {
-            Request::SetAddress(addr) => {
-                defmt::info!("SetAddress with addr={}", addr);
-                init_setaddress(addr);
-            }
-            Request::SetConfiguration(_) => {
-                defmt::info!("SetConfiguration");
-            }
-            Request::SetLineCoding(_) => {
-                defmt::info!("SetLineCoding");
-            }
-            Request::SetControlLineState(_) => {
-                defmt::info!("SetControlLineState");
-            }
-            Request::ClearFeature(_) => {
-                defmt::info!("ClearFeature");
-            }
-            _ => {
-                defmt::panic!("Unknown request");
-            }
+    defmt::info!("tmp.request={:?}", tmp.request);
+    match tmp.request {
+        Request::SetAddress(addr) => {
+            defmt::info!("SetAddress with addr={}", addr);
+            init_setaddress(addr);
+        }
+        Request::SetConfiguration(_) => {
+            defmt::info!("SetConfiguration");
+        }
+        Request::SetLineCoding(_) => {
+            defmt::info!("SetLineCoding");
+        }
+        Request::SetControlLineState(_) => {
+            defmt::info!("SetControlLineState");
+        }
+        Request::ClearFeature(_) => {
+            defmt::info!("ClearFeature");
+        }
+        _ => {
+            defmt::panic!("Unknown request");
+        }
     }
     Ok(PhyState::Active)
 }

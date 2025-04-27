@@ -144,6 +144,37 @@ impl TimAdvIns {
         let ch = channel - 1;
         self.ins.ccer().modify(|v| v.set_cce(ch as _, false));
     }
+
+    /// Initialize the timer in encoder mode
+    pub fn init_encoder(&self, config: Config) -> Result<(), TimError> {
+        self.set_clock();
+
+        // Configure the timer for encoder mode
+        self.ins.smcr().modify(|v| v.set_sms(Sms::ENCODER_MODE_3)); // Encoder mode 3: counts on both TI1 and TI2 edges
+        self.ins.ccmr_input(0).modify(|v| {
+            v.set_ccs(0, CcmrInputCcs::TI3); // Map TI1 to channel 1
+            // v.set_icp(0, );  // Capture on rising edge
+            v.set_icf(0, FilterValue::FCK_INT_N2);
+            v.set_ccs(1, CcmrInputCcs::TI4); // Map TI2 to channel 2
+            // v.set_icp(1, Icp::RISING_EDGE);  // Capture on rising edge
+        });
+
+        self.ins.ccer().modify(|v| {
+            v.set_ccp(0, false); // Non-inverted polarity for channel 1
+            v.set_ccp(1, false); // Non-inverted polarity for channel 2
+        });
+
+        // Set prescaler, auto-reload, and enable the counter
+        self.ins.psc().write_value(config.prescaler);
+        self.ins.arr().write(|v| v.0 = config.arr as u32);
+        self.ins.cr1().modify(|v| {
+            v.set_arpe(config.arpe);
+            v.set_cen(true); // Enable counter
+        });
+
+        Ok(())
+    }
+
 }
 
 impl TimBasicIns {

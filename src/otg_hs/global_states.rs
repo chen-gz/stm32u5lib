@@ -58,9 +58,9 @@ pub fn state() -> &'static mut State<MAX_EP_COUNT> {
 }
 
 pub(crate) fn regs() -> otg::Otg {
-    #[cfg(otg_fs)]
+    #[cfg(feature = "otg_fs")]
     return stm32_metapac::USB_OTG_FS;
-    #[cfg(otg_hs)]
+    #[cfg(feature = "otg_hs")]
     return stm32_metapac::USB_OTG_HS;
 }
 use defmt;
@@ -73,7 +73,7 @@ pub fn restore_irqs() {
         w.set_wuim(true);
         w.set_iepint(true);
         w.set_oepint(true);
-        // w.set_rxflvlm(true);
+        w.set_rxflvlm(true);
         w.set_srqim(true);
         w.set_otgint(true);
     });

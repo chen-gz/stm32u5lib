@@ -13,8 +13,8 @@ fn main() {
     // list chips has sdmmc
     let sdmmc_chips = ["STM32U5A5ZJ", "STM32U5A5ZI", "STM32U5A5QJ"];
     let dcmi_chips = ["STM32U5A5ZJ", "STM32U5A5ZI", "STM32U5A5QJ"];
-    let otg_hs_chips = ["STM32U5A5ZJ", "STM32U5A5ZI", "STM32U5A5QJ"];
-    let otg_fs_chips = ["STM32U575ZG", "STM32U575ZI", "STM32U575ZG", "STM32U575CI"];
+    // let otg_hs_chips = ["STM32U5A5ZJ", "STM32U5A5ZI", "STM32U5A5QJ"];
+    // let otg_fs_chips = ["STM32U575ZG", "STM32U575ZI", "STM32U575ZG", "STM32U575CI"];
 
     // enable cfg sdmmc
     // println!("cargo:rustc-cfg=sdmmc");  // for stm32metapac
@@ -33,13 +33,13 @@ fn main() {
     }
     // for otg_hs
     for (key, _value) in std::env::vars() {
-        if otg_fs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
-            println!("cargo:rustc-cfg=otg_fs");
-        }
-
-        if otg_hs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
-            println!("cargo:rustc-cfg=otg_hs");
-        }
+        // if otg_fs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
+        //     println!("cargo:rustc-cfg=otg_fs");
+        // }
+        // 
+        // if otg_hs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
+        //     println!("cargo:rustc-cfg=otg_hs");
+        // }
         if sdmmc_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
             println!("cargo:rustc-cfg=sdmmc");
         }

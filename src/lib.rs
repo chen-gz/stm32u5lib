@@ -50,10 +50,10 @@ pub mod com_interface;
 #[cfg(feature = "stm32u5a5zj")]
 pub mod pwr;
 
-#[cfg(otg_hs)]
+#[cfg(feature = "otg_hs")]
 pub mod otg_hs;
 
-#[cfg(otg_fs)]
+#[cfg(feature = "otg_fs")]
 pub mod otg_fs;
 
 pub mod drivers;

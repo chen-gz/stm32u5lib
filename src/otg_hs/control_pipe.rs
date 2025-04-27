@@ -183,13 +183,12 @@ pub async fn setup_process_inner() -> Result<PhyState, PhyState> {
             }).await?;
         }
 
+
+        let mut tmp = process_setup_packet_new(&setup_data[0..8]);
         if setup_data[0..8] == [0u8; 8] {
             defmt::error!("setup data is all 0");
             return Ok(PhyState::Active);
         }
-
-        defmt::info!("setup packet ready, processing package {:x}", setup_data[0..8]);
-        let mut tmp = process_setup_packet_new(&setup_data[0..8]);
 
         if tmp.has_data_stage {
             match tmp.data_stage_direction {

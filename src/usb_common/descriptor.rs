@@ -34,6 +34,7 @@ pub struct SetupPacket {
     pub length: u16,
 }
 
+#[derive(Copy, Clone, Debug, defmt::Format)]
 pub enum Request {
     GetDeviceDescriptor(u8), // length
     GetConfigurationDescriptor(u8),  // length

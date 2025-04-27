@@ -1,8 +1,6 @@
-use core::sync::atomic::Ordering;
 use cortex_m::peripheral::NVIC;
 use defmt::{trace};
 use stm32_metapac::{PWR, RCC, SYSCFG, otg};
-use stm32_metapac::syscfg::vals::Usbrefcksel;
 use crate::otg_hs::global_states::{regs, restore_irqs};
 
 pub fn usb_power_down() {
@@ -20,7 +18,7 @@ pub fn power_up_init() {
     PWR.svmcr().modify(|w| {
         w.set_usv(true); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
-    #[cfg(otg_hs)]
+    #[cfg(feature = "otg_hs")]
     {
         critical_section::with(|_| {
             PWR.vosr().modify(|v| {
@@ -54,16 +52,13 @@ pub fn power_up_init() {
             });
             // TODO: update this clock settings
             SYSCFG.otghsphycr().modify(|v| {
-                let hse_freq =  crate::clock::HSE_FREQ.load(Ordering::Relaxed) ;
-                if hse_freq == 26_000_000 {
-                    // v.set_clksel(0b1110);   // 26Mhz HSE
-                    v.set_clksel(Usbrefcksel::MHZ26);
-                } else if hse_freq == 16_000_000 {
-                    // v.set_clksel(0b0011); // 16Mhz HSE
-                    v.set_clksel(Usbrefcksel::MHZ16);
-                } else {
+                #[cfg(feature = "hse_26mhz")]
+                    v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ26);
+                #[cfg(feature = "hse_16mhz")]
+                    v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ16);
+                #[cfg(not(any(feature = "hse_16mhz", feature = "hse_26mhz")))]
                     defmt::panic!("HSE frequency not supported");
-                }
+
                 v.set_en(true);
             });
         });
@@ -80,7 +75,7 @@ pub fn power_up_init() {
     //         w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
     //     })
     // });
-    #[cfg(otg_hs)]
+    #[cfg(feature = "otg_hs")]
     critical_section::with(|_| {
         stm32_metapac::RCC.ccipr2().modify(|w| {
             w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
@@ -100,7 +95,7 @@ pub fn power_up_init() {
     //     trace!("USB IRQs start");
     // }
 
-    #[cfg(otg_hs)]
+    #[cfg(feature = "otg_hs")]
     unsafe {
         NVIC::unpend(stm32_metapac::Interrupt::OTG_HS);
         NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
@@ -167,9 +162,9 @@ pub fn power_up_init() {
         w.set_pfivl(otg::vals::Pfivl::FRAME_INTERVAL_80); // set period frame interval TODO: figure out what is this
         // #[cfg(stm32u575)]
         // w.set_dspd(phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
-        #[cfg(otg_hs)]
-        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
+        // #[cfg(feature = "otg_hs")]
         w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
+        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
     });
 
     // r.diepmsk().write(|w| {
@@ -187,5 +182,6 @@ pub fn power_up_init() {
 
     // Connect
     r.dctl().write(|w| w.set_sdis(false));
+    defmt::info!("start connection")
 }
 
