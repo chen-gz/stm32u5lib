@@ -64,7 +64,7 @@ pub unsafe fn on_interrupt() {
     let state: &mut State<6> = state();
 
     // Handle RX
-    #[cfg(otg_fs)]
+    #[cfg(feature = "otg_fs")]
     while r.gintsts().read().rxflvl() {
         // RX FIFO non-empty
         let status = r.grxstsp().read();
@@ -73,6 +73,9 @@ pub unsafe fn on_interrupt() {
         let ep_num = status.epnum() as usize;
         let len = status.bcnt() as usize;
         info!("rxflvl with ep_num: {}, len: {}", ep_num, len);
+        // stup bit
+        let ep_ints = r.doepint(ep_num).read();
+        info!("setup status: {:x}", ep_ints.stup());
 
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
@@ -123,7 +126,10 @@ pub unsafe fn on_interrupt() {
             }
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_DONE => {
                 trace!("SETUP_DATA_DONE ep={}", ep_num);
-                r.doepctl(0).modify(|w| w.set_cnak(true));
+                if ep_ints.stup() {
+                    r.doepint(ep_num).write(|w| w.set_stup(true));
+                }
+                // r.doepctl(0).modify(|w| w.set_cnak(true));
                 // seup data received, start processing the setup data
                 // state.ep_out_wakers[ep_num].wake();
                 // state.ep0_setup_ready.store(true, Ordering::Release);   
@@ -217,7 +223,7 @@ pub unsafe fn on_interrupt() {
 }
 
 
-#[cfg(otg_fs)]
+#[cfg(feature = "otg_fs")]
 #[interrupt]
 fn OTG_FS() {
     unsafe {

@@ -36,7 +36,7 @@ fn main() {
         // if otg_fs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
         //     println!("cargo:rustc-cfg=otg_fs");
         // }
-        // 
+         //
         // if otg_hs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
         //     println!("cargo:rustc-cfg=otg_hs");
         // }

@@ -113,7 +113,7 @@ pub fn process_setup_packet_new(buf: &[u8]) -> SetupResponse {
                 defmt::info!("GetLineCoding, len={}", len);
             }
             _ => {
-                panic!("Unknown request");
+                defmt::error!("Unknown request");
             }
         }
     }

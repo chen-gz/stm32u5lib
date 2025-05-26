@@ -26,9 +26,9 @@ log = "0.4.21"
 [dependencies.stm32-metapac]
 #path = "../stm32-data/build/stm32-metapac"
 #git = "https://gitea.ggeta.com/guangzong/stm32-data-generated"
-#git = "https://github.com/embassy-rs/stm32-data-generated"
-#rev = "eb46264"
-path = "/Users/guangzong/Code/tmp/stm32-data/build/stm32-metapac"
+git = "https://github.com/embassy-rs/stm32-data-generated"
+rev = "eb46264"
+#path = "/Users/guangzong/Code/tmp/stm32-data/build/stm32-metapac"
 
 features = ["rt"]
 
@@ -53,10 +53,14 @@ rev = "bcebe4c"
 # git = "https://github.com/embassy-rs/embassy"
 # rev = "32cff65"
 
-# [dependencies.embassy-usb-driver]
-# git = "https://github.com/embassy-rs/embassy"
+ [dependencies.embassy-usb-driver]
+ git = "https://github.com/embassy-rs/embassy"
 # rev = "32cff65"
-# features = ["defmt"]
+ features = ["defmt"]
+
+#[dependencies.embassy-usb-synopsys-otg]
+#version = "0.2.0"
+#features = ["defmt"]
 
 
 [profile.dev]
@@ -78,8 +82,8 @@ hse_26mhz = []
 otg_fs = []
 otg_hs = []
 
-nucleo_u5a5 = ["stm32u5a5zj", "hse_16mhz",  "otg_hs"]
-nucleo_u575 = ["stm32u575zi", "lse", "otg_fs"]
+nucleo_u5a5 = ["stm32u5a5zj", "hse_16mhz",  "otg_hs", "lse"]
+nucleo_u575 = ["stm32u575zi", "lse"]
 
 utils = []
 default = [

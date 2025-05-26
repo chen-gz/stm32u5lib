@@ -179,20 +179,20 @@ use stm32_metapac::interrupt;
 use crate::hal::DMA;
 
 /// DMA interrupt handler
-#[interrupt]
-fn GPDMA1_CHANNEL0() {
-    let ch = unsafe { stm32_metapac::GPDMA1.ch(0) };
-    if ch.sr().read().tcf() {
-        // ch.fcr().write(|v| v.set_tcf(true));
-        // clear the interrupt
-        // disable the interrupt
-        ch.cr().modify(|v| {
-            v.set_en(false);
-            v.set_tcie(false);
-        });
-        WAKER.wake();
-    }
-}
+// #[interrupt]
+// fn GPDMA1_CHANNEL0() {
+//     let ch = unsafe { stm32_metapac::GPDMA1.ch(0) };
+//     if ch.sr().read().tcf() {
+//         // ch.fcr().write(|v| v.set_tcf(true));
+//         // clear the interrupt
+//         // disable the interrupt
+//         ch.cr().modify(|v| {
+//             v.set_en(false);
+//             v.set_tcie(false);
+//         });
+//         WAKER.wake();
+//     }
+// }
 
 use crate::hal;
 impl hal::DMA for DmaChannel {

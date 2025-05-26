@@ -73,7 +73,7 @@ pub async fn setup_process_inner(ep0: &Endpoint) -> Result<PhyState, PhyState> {
         match tmp.data_stage_direction {
             Direction::In => {
                 ep0.write(&tmp.data[0..tmp.len]).await?;
-
+                // ep0.read(&mut tmp.data[0..0]).await?;
                 // read0(&mut tmp.data[0..64]).await?; // status stage no data
                 // read0(&mut setup_data[0..64]).await?;
                 return Ok(PhyState::Active);

@@ -62,7 +62,8 @@ pub fn state() -> &'static mut State<MAX_EP_COUNT> {
 }
 
 pub(crate) fn regs() -> otg::Otg {
-    #[cfg(otg_fs)]
+    // #[cfg(feature = "otg_fs")]
+    #[cfg(stm32u575)]
     return stm32_metapac::USB_OTG_FS;
     #[cfg(feature = "otg_hs")]
     return stm32_metapac::USB_OTG_HS;

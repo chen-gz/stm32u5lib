@@ -47,18 +47,21 @@ pub use embassy_executor::Spawner;
 pub use embassy_executor;
 pub use embassy_executor_macros::task;
 pub mod com_interface;
-#[cfg(feature = "stm32u5a5zj")]
-pub mod pwr;
+// #[cfg(feature = "stm32u5a5zj")]
+// pub mod pwr;
 
-#[cfg(feature = "otg_hs")]
-pub mod otg_hs;
-
-#[cfg(feature = "otg_fs")]
-pub mod otg_fs;
+// #[cfg(feature = "otg_hs")]
+// pub mod otg_hs;
+//
+// #[cfg(feature = "otg_fs")]
+// pub mod otg_fs;
 
 pub mod drivers;
-pub mod usb_common;
+// pub mod usb_common;
 pub mod utils;
 
 pub mod hal;
-mod usb;
+// mod otg;
+// mod otg;
+pub mod usb;
+pub mod otg;

@@ -72,6 +72,11 @@ pub unsafe fn on_interrupt() {
         let ep_num = status.epnum() as usize;
         let len = status.bcnt() as usize;
         info!("rxflvl with ep_num: {}, len: {}", ep_num, len);
+        // print epena 
+        info!("epena: {:x}", r.diepctl(ep_num).read().epena());
+        // xfrc and transfer size 
+        info!("xfrc: {:x}", r.diepint(ep_num).read().xfrc());
+        info!("doeptsiz: {:x}", r.doeptsiz(ep_num).read().xfrsiz());
 
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
@@ -192,31 +197,46 @@ pub unsafe fn on_interrupt() {
                 // show setup package
 
                 // defmt::info!("------------------------------------------");
-                // defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
+                defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
                 // defmt::info!("setup data: {:x}", SETUP_DATA);
-                // defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
-                // defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
+                defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
+                defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
                 let ep_ints = r.doepint(ep_num).read();
+                // print current dma cnt
+                defmt::info!("doepdma xfer cnt: {:x}", regs().doeptsiz(ep_num).read().xfrsiz());
+                defmt::info!("doepctl ep_ena: {:x}", regs().doepctl(ep_num).read().epena());
+                defmt::info!("interrupt with xfrc: {}", ep_ints.xfrc());
 
                 if ep_ints.stup() {
                     state.ep_out_wakers[ep_num].wake();
                     state.ep0_setup_ready.store(true, Ordering::Release);
+                    // wake up iep0
+                    state.ep_in_wakers[0].wake();
                     r.doepint(ep_num).write(|w| w.set_stup(true));
                     defmt::info!("setup package");
                     if ep_ints.xfrc() {
                         defmt::info!("setup package with xfrc");
                     }
-                } else if ep_ints.stsphsrx() {
+                }
+                if ep_ints.stsphsrx() {
                     // let status = r.grxstsp().read();
                     r.doepint(ep_num).write(|w| w.set_stsphsrx(true));
+                    // cnak
+                    r.doepctl(ep_num).modify(|w| w.set_cnak(true));
                     defmt::info!("clear stsphsrx+++++++++++++++++++++++++++++++++++++++");
+                }
+                if ep_ints.otepdis() {
+                    r.doepint(ep_num).write(|w| w.set_otepdis(true));
+                    defmt::info!("otepdis");
                 }
                 // donothing if is setup and xfrc
                 // clear all
                 // r.doepint(ep_num).write_value(ep_ints);
 
                 if ep_ints.xfrc() {
-                    r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
+                    // clear 
+                    r.doepint(ep_num).write(|w| w.set_xfrc(true)); // clear xfrc
+                    // r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
                                                                 // pop ?
                 }
 
