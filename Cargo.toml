@@ -27,7 +27,7 @@ log = "0.4.21"
 #path = "../stm32-data/build/stm32-metapac"
 #git = "https://gitea.ggeta.com/guangzong/stm32-data-generated"
 git = "https://github.com/embassy-rs/stm32-data-generated"
-#rev = "eb46264"
+rev = "eb46264"
 #path = "/Users/guangzong/Code/tmp/stm32-data/build/stm32-metapac"
 features = ["rt"]
 
