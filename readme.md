@@ -15,3 +15,7 @@ not applicable in the current state, it will return an error code.
 There are some function can not write as stateless design. In that case, we will
 have document and put warning in the function description.
 
+
+### Known Issues
+
+in stm32u575, 160Mhz + 1.8V rtc does not work. 

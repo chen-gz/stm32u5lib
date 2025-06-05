@@ -321,7 +321,6 @@ pub fn init_clock(
         });
     }
     CLOCK_REQUESTS[system_min_freq.to_idx()].store(1, Ordering::Relaxed);
-    set_clock();
     // check rtc is enabled or not. if enabled, do nothing
     let rtc_en = RCC.bdcr().read().rtcen();
     if !rtc_en {
@@ -332,9 +331,12 @@ pub fn init_clock(
         #[cfg(not(feature = "lse"))]
             rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
     }
+    set_clock();
 }
 
 pub static CLOCK_REQUESTS: [AtomicU32; 32] = [ const {AtomicU32::new(0)};32 ];
+// todo!("the frequency betweeen 16 -160Mhz is not working, the pll setting is incorrect, need to fix it later");
+// Clock source frequency versus voltage scaling (page 494)
 
 #[derive(Clone, Copy, Debug, defmt::Format)]
 pub enum ClockFreqs {
@@ -437,6 +439,7 @@ pub fn set_clock() {
 }
 
 pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
+    // return (0, VoltageScale::RANGE4);
     // refter to rm0456 rev4 table 54 and p278
     if sys_clk <= 12_000_000 {
         return (0, VoltageScale::RANGE4);
@@ -514,6 +517,10 @@ fn inc_kern_freq(freq: u32) {
         }
         hclk_source = 16_000_000;
     } else {
+
+        RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2));
+        // read hpre
+        RCC.cfgr2().read().hpre();
         // set pll as system clock
         RCC.cfgr1().modify(|w| {
             w.set_sw(stm32_metapac::rcc::vals::Sw::PLL1_R);
@@ -535,6 +542,7 @@ fn inc_kern_freq(freq: u32) {
         128 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV128)),
         _ => defmt::panic!("Invalid hclk {}", hclk),
     }
+    RCC.cfgr2().read().hpre();
     HCLK.store(freq, Ordering::Relaxed);
 }
 

@@ -5,9 +5,9 @@ edition = "2021"
 authors = ["Guangzong Chen <chen@ggeta.com>"]
 
 [dependencies]
-defmt = { version = "0.3.6" }
-defmt-rtt = { version = "0.4.0" }
-defmt-itm = { version = "0.3.0" }
+defmt = { version = "1.0.1"}
+defmt-rtt = { version = "1.0.0" }
+defmt-itm = { version = "0.4.0" }
 sdio-host = { version = "0.9.0" }
 heapless = { version = "0.8.0" }
 aligned = "0.4.2"
@@ -26,10 +26,9 @@ log = "0.4.21"
 [dependencies.stm32-metapac]
 #path = "../stm32-data/build/stm32-metapac"
 #git = "https://gitea.ggeta.com/guangzong/stm32-data-generated"
-git = "https://github.com/embassy-rs/stm32-data-generated"
-rev = "eb46264"
-#path = "/Users/guangzong/Code/tmp/stm32-data/build/stm32-metapac"
-
+#git = "https://github.com/embassy-rs/stm32-data-generated"
+#rev = "eb46264"
+path = "/Users/guangzong/Code/tmp/stm32-data/build/stm32-metapac"
 features = ["rt"]
 
 [dependencies.embassy-sync]
@@ -79,10 +78,9 @@ bench = false
 lse = []
 hse_16mhz = []
 hse_26mhz = []
-otg_fs = []
-otg_hs = []
 
-nucleo_u5a5 = ["stm32u5a5zj", "hse_16mhz",  "otg_hs", "lse"]
+#nucleo_u5a5 = ["stm32u5a5zj", "hse_16mhz", "lse"]
+nucleo_u5a5 = ["stm32u5a5zj", "lse", "hse_16mhz"]
 nucleo_u575 = ["stm32u575zi", "lse"]
 
 utils = []

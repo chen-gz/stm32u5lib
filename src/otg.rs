@@ -1,6 +1,3 @@
-use core::marker::PhantomData;
-use cortex_m::peripheral::NVIC;
-use stm32_metapac::interrupt;
 use crate::usb::reg::vals::Dspd;
 use crate::usb::reg::Otg;
 pub use crate::usb::Config;
@@ -8,17 +5,22 @@ use crate::usb::{
     bus::Bus as OtgBus, controlpipe::ControlPipe, driver::Driver as OtgDriver, endpoint::Endpoint,
     interrupt::on_interrupt as on_interrupt_impl, In, OtgInstance, Out, PhyType, State,
 };
+use core::marker::PhantomData;
+use cortex_m::peripheral::NVIC;
+use defmt::info;
+use stm32_metapac::interrupt;
 
+use crate::clock::delay_us;
 use embassy_usb_driver::{EndpointAddress, EndpointAllocError, EndpointType, Event, Unsupported};
+
 const MAX_EP_COUNT: usize = 9;
 #[cfg(stm32u5a5)]
 pub mod fifo_const {
-    pub const MAX_EP_COUNT: usize = 6;
+    pub const MAX_EP_COUNT: usize = 9;
     pub const FIFO_DEPTH_WORDS: u16 = 1024;
     pub const RX_FIFO_SIZE_EACH: u16 = 128;
     pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288;
-    pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [64, 64, 64, 64, 64, 64];
-    //  80, 80, 96];
+    pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [64, 64, 64, 64, 64, 64, 80, 80, 96];
 }
 #[cfg(stm32u575)]
 pub mod fifo_const {
@@ -31,14 +33,17 @@ pub mod fifo_const {
     //  80, 80, 96];
 }
 
-
 static STATE: State<{ MAX_EP_COUNT }> = State::new();
 
 fn regs() -> stm32_metapac::otg::Otg {
     #[cfg(stm32u575)]
-    unsafe { stm32_metapac::USB_OTG_FS }
+    unsafe {
+        stm32_metapac::USB_OTG_FS
+    }
     #[cfg(stm32u5a5)]
-    unsafe { stm32_metapac::USB_OTG_HS }
+    unsafe {
+        stm32_metapac::USB_OTG_HS
+    }
 }
 
 #[cfg(stm32u575)]
@@ -51,6 +56,7 @@ unsafe fn OTG_FS() {
 #[cfg(stm32u5a5)]
 #[interrupt]
 unsafe fn OTG_HS() {
+    defmt::trace!("OTG_HS interrupt");
     let r = regs();
     let state = &STATE;
     on_interrupt_impl(r, state, MAX_EP_COUNT);
@@ -77,17 +83,10 @@ impl<'d> Driver<'d> {
     /// * `ep_out_buffer` - An internal buffer used to temporarily store received packets.
     /// Must be large enough to fit all OUT endpoint max packet sizes.
     /// Endpoint allocation will fail if it is too small.
-    pub fn new_fs<P: Pin>(
-        dp: P,
-        dm: P,
-        ep_out_buffer: &'d mut [u8],
-        config: Config,
-    ) -> Self {
+    pub fn new_fs<P: Pin>(dp: P, dm: P, ep_out_buffer: &'d mut [u8], config: Config) -> Self {
         dp.setup();
         dm.setup();
-        let regs = unsafe {
-            Otg::from_ptr(regs().as_ptr())
-        };
+        let regs = unsafe { Otg::from_ptr(regs().as_ptr()) };
 
         let instance = OtgInstance {
             regs,
@@ -96,7 +95,7 @@ impl<'d> Driver<'d> {
             extra_rx_fifo_words: fifo_const::RX_FIFO_SIZE_SIZE_WORD,
             // RX_FIFO_EXTRA_SIZE_WORDS,,
             endpoint_count: fifo_const::MAX_EP_COUNT,
-            phy_type: PhyType::InternalFullSpeed,
+            phy_type: PhyType::InternalHighSpeed,
             calculate_trdt_fn: calculate_trdt,
         };
 
@@ -151,70 +150,60 @@ pub struct Bus<'d> {
     inited: bool,
 }
 fn common_init() {
+    stm32_metapac::PWR.svmcr().modify(|v| v.set_usv(true));
+    stm32_metapac::PWR.svmcr().modify(|v| v.set_uvmen(true));
 
-    #[cfg(stm32u575)]
-    {
-        stm32_metapac::PWR.svmcr().modify(|v|v.set_usv(true));
-        stm32_metapac::RCC.ahb2enr1().modify(|v|v.set_usb_otg_fsen(true));
-        stm32_metapac::PWR.svmcr().modify(|v| v.set_uvmen(true) );
-        // wait for USB power to stabilize
-        defmt::trace!("Waiting for USB power to stabilize");
-        while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
-        // Enable HSI48 clock
-        stm32_metapac::RCC.cr().modify(|w| w.set_hsi48on(true));
-        while !stm32_metapac::RCC.cr().read().hsi48rdy() {}
-        // select HSI48 as USB clock source
-        critical_section::with(|_| {
-            stm32_metapac::RCC.ccipr1().modify(|w| {
-                w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
-            });
+    critical_section::with(|_| {
+        stm32_metapac::PWR.vosr().modify(|v| {
+            v.0 |= (1 << 19) | (1 << 20);
+            v.boosten();
+            v.usbpwren();
+            v.usbboosten();
         });
+        delay_us(100);
+        stm32_metapac::RCC.cr().modify(|v| v.set_hseon(true));
+        // wait for HSE to stabilize
+        while !stm32_metapac::RCC.cr().read().hserdy() {}
+    });
 
-    }
-    // #[cfg(any(stm32l4, stm32l5, stm32wb, stm32u0))]
-    // critical_section::with(|_| crate::pac::PWR.cr2().modify(|w| w.set_usv(true)));
+    stm32_metapac::RCC.apb3enr().modify(|w| {
+        w.set_syscfgen(true);
+    });
+    stm32_metapac::RCC.ahb2enr1().modify(|w| {
+        w.set_usb_otg_hs_phyen(true);
+        w.set_usb_otg_hsen(true);
+    });
+    stm32_metapac::SYSCFG.otghsphycr().modify(|v| {
+        v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ16);
+        v.set_en(true);
+    });
+    stm32_metapac::RCC.ccipr2().modify(|w| {
+        w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
+    });
 
-    #[cfg(stm32u5a5)]
-    {
-        stm32_metapac::PWR.vosr().modify(|w| {
-            w.set_usbpwren(true);
-            w.set_usbboosten(true);
-        });
-        while !stm32_metapac::PWR.vosr().read().usbboostrdy() {}
-    }
+    defmt::trace!("Waiting for USB power to stabilize");
+    while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
+    defmt::trace!("USB power stabilized");
+
+
 
     #[cfg(stm32u575)]
     unsafe {
         NVIC::unmask(stm32_metapac::interrupt::OTG_FS);
         NVIC::unpend(stm32_metapac::interrupt::OTG_FS);
     }
-    #[cfg(stm32u5a5)]
+    // #[cfg(stm32u5a5)]
     unsafe {
         NVIC::unmask(stm32_metapac::interrupt::OTG_HS);
         NVIC::unpend(stm32_metapac::interrupt::OTG_HS);
     }
-    // rcc::enable_and_reset::<T>();
+    info!("USB OTG initialized, interrupt enabled");
 }
 
 impl<'d> Bus<'d> {
     fn init(&mut self) {
         common_init();
         let phy_type = self.inner.phy_type();
-
-        #[cfg(all(stm32u5, peri_usb_otg_hs))]
-        {
-            crate::pac::SYSCFG.otghsphycr().modify(|w| {
-                w.set_en(true);
-            });
-
-            critical_section::with(|_| {
-                crate::pac::RCC.ahb2enr1().modify(|w| {
-                    w.set_usb_otg_hsen(true);
-                    w.set_usb_otg_hs_phyen(true);
-                });
-            });
-        }
-
         // let r = stm32_metapac::USB_OTG_FS;
         let r = regs();
         let core_id = r.cid().read().0;
@@ -239,17 +228,17 @@ impl<'d> Bus<'d> {
 
     fn disable(&mut self) {
         // disable interrupts
-        #[cfg(stm32u575)]
-        NVIC::mask(stm32_metapac::interrupt::OTG_FS);
-        #[cfg(stm32u5a5)]
-        NVIC::mask(stm32_metapac::interrupt::OTG_HS);
+        // #[cfg(stm32u575)]
+        // NVIC::mask(stm32_metapac::interrupt::OTG_FS);
+        // #[cfg(stm32u5a5)]
+        // NVIC::mask(stm32_metapac::interrupt::OTG_HS);
         // disable clock
 
         // rcc::disable::<T>();
         self.inited = false;
 
-        #[cfg(stm32l4)]
-        crate::pac::PWR.cr2().modify(|w| w.set_usv(false));
+        // #[cfg(stm32l4)]
+        // crate::pac::PWR.cr2().modify(|w| w.set_usv(false));
         // Cannot disable PWR, because other peripherals might be using it
     }
 }
@@ -298,6 +287,7 @@ impl<'d> Drop for Bus<'d> {
 
 fn calculate_trdt(speed: Dspd) -> u8 {
     // todo: fix this constant
+    return 0x9;
     let ahb_freq = 160_000_000;
     match speed {
         Dspd::HIGH_SPEED => {

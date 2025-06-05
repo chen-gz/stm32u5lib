@@ -6,7 +6,7 @@ pub use stm32_metapac::gpio::vals::Odr;
 pub use stm32_metapac::gpio::vals::Ot;
 pub use stm32_metapac::gpio::vals::Pupdr;
 use stm32_metapac::gpio::Gpio;
-use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, GPIOF};
+use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, GPIOF, GPIOG};
 
 use crate::clock;
 
@@ -117,7 +117,9 @@ define_gpio_port!(
     PD0: GPIOD, 0,PD1: GPIOD, 1, PD2: GPIOD, 2, PD3: GPIOD, 3,
     PD4: GPIOD, 4,PD5: GPIOD, 5, PD6: GPIOD, 6, PD7: GPIOD, 7,
     PD8: GPIOD, 8,PD9: GPIOD, 9, PD10: GPIOD, 10, PD11: GPIOD, 11,
-    PD12: GPIOD, 12,PD13: GPIOD, 13, PD14: GPIOD, 14, PD15: GPIOD, 15
+    PD12: GPIOD, 12,PD13: GPIOD, 13, PD14: GPIOD, 14, PD15: GPIOD, 15,
+
+    PG2: GPIOG, 2, PG3: GPIOG, 3, PG4: GPIOG, 4
 
 );
 define_gpio_port_alt!(

@@ -45,6 +45,7 @@ pub unsafe fn on_interrupt<const MAX_EP_COUNT: usize>(r: Otg, state: &State<MAX_
                 let data = &state.cp_state.setup_data;
                 data[0].store(r.fifo(0).read().data(), Ordering::Relaxed);
                 data[1].store(r.fifo(0).read().data(), Ordering::Relaxed);
+                defmt::info!("SETUP: {:08x} {:08x}", data[0].load(Ordering::Relaxed), data[1].load(Ordering::Relaxed));
             }
             vals::Pktstsd::OUT_DATA_RX => {
                 trace!("OUT_DATA_RX ep={} len={}", ep_num, len);

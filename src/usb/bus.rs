@@ -17,6 +17,7 @@ pub struct Bus<'d, const MAX_EP_COUNT: usize> {
 
 impl<'d, const MAX_EP_COUNT: usize> Bus<'d, MAX_EP_COUNT> {
     fn restore_irqs(&mut self) {
+        defmt::info!("restore_irqs");
         self.instance.regs.gintmsk().write(|w| {
             w.set_usbrst(true);
             w.set_enumdnem(true);
@@ -153,6 +154,7 @@ impl<'d, const MAX_EP_COUNT: usize> Bus<'d, MAX_EP_COUNT> {
 
         // Connect
         r.dctl().write(|w| w.set_sdis(false));
+        defmt::info!("start connection");
     }
 
 
