@@ -7,28 +7,18 @@ authors = ["Guangzong Chen <chen@ggeta.com>"]
 [dependencies]
 defmt = { version = "1.0.1"}
 defmt-rtt = { version = "1.0.0" }
-defmt-itm = { version = "0.4.0" }
 sdio-host = { version = "0.9.0" }
-heapless = { version = "0.8.0" }
-aligned = "0.4.2"
 cortex-m = { version = "0.7.7", features = [
     "inline-asm",
     "critical-section-single-core",
 ] }
-usb-device = "0.3.2"
 
 critical-section = "1.1.2"
 cortex-m-rt = { version = "0.7.3" }
 futures = { version = "0.3.17", default-features = false }
-log = "0.4.21"
-# byteorder = "1.5.0"
 
 [dependencies.stm32-metapac]
-#path = "../stm32-data/build/stm32-metapac"
-#git = "https://gitea.ggeta.com/guangzong/stm32-data-generated"
 git = "https://github.com/embassy-rs/stm32-data-generated"
-rev = "eb46264"
-#path = "/Users/guangzong/Code/tmp/stm32-data/build/stm32-metapac"
 features = ["rt"]
 
 [dependencies.embassy-sync]
@@ -36,31 +26,17 @@ git = "https://github.com/embassy-rs/embassy"
 rev = "bcebe4c"
 
 [dependencies.embassy-executor]
-#features = ["nightly", "arch-cortex-m", "executor-thread"]
 features = ["arch-cortex-m", "executor-thread"]
 git = "https://github.com/embassy-rs/embassy"
-# rev = "32cff65"
 rev = "bcebe4c"
 
 [dependencies.embassy-executor-macros]
-# features = ["nightly", "arch-cortex-m", "executor-thread"]
 git = "https://github.com/embassy-rs/embassy"
-# rev = "32cff65"
 rev = "bcebe4c"
 
-# [dependencies.embassy-usb]
-# git = "https://github.com/embassy-rs/embassy"
-# rev = "32cff65"
-
- [dependencies.embassy-usb-driver]
- git = "https://github.com/embassy-rs/embassy"
-# rev = "32cff65"
- features = ["defmt"]
-
-#[dependencies.embassy-usb-synopsys-otg]
-#version = "0.2.0"
-#features = ["defmt"]
-
+[dependencies.embassy-usb-driver]
+git = "https://github.com/embassy-rs/embassy"
+features = ["defmt"]
 
 [profile.dev]
 lto = false
@@ -79,27 +55,14 @@ lse = []
 hse_16mhz = []
 hse_26mhz = []
 
-#nucleo_u5a5 = ["stm32u5a5zj", "hse_16mhz", "lse"]
 nucleo_u5a5 = ["stm32u5a5zj", "lse", "hse_16mhz"]
 nucleo_u575 = ["stm32u575zi", "lse"]
 
 utils = []
 default = [
-    # "stm32u575ci",
-#    "stm32u5a5zj",
-    #    "memory-x",
-    # "defmt",
     "utils",
 ]
 usart_dma = []
-# when
-#memory-x = [ "stm32-metapac/memory-x", ]
-#! ## Chip-selection features
-#! Select your chip by specifying the model as a feature, e.g. `stm32c011d6`.
-#! Check the `Cargo.toml` for the latest list of supported chips.
-#!
-#! **Important:** Do not forget to adapt the target chip in your toolchain,
-#! e.g. in `.cargo/config.toml`.
 
 stm32u575ag = ["stm32-metapac/stm32u575ag"]
 stm32u575ai = ["stm32-metapac/stm32u575ai"]
