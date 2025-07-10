@@ -17,6 +17,6 @@
     "rustup component add llvm-tools-preview",
     // "cargo install probe-rs --features cli",
     "cargo install cargo-binutils"
-  ]
-  // "remoteUser": "root"
+  ],
+  "remoteUser": "vscode"
 }
