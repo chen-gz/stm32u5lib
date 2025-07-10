@@ -1,5 +1,5 @@
 {
-  "name": "Rust 1.75 Dev Container",
+  "name": "Rust 1.88 Dev Container",
   "build": {
     "dockerfile": "Dockerfile"
   },
@@ -12,11 +12,6 @@
       ]
     }
   },
-  "postCreateCommand": [
-    "rustup target add thumbv8m.main-none-eabihf",
-    "rustup component add llvm-tools-preview",
-    // "cargo install probe-rs --features cli",
-    "cargo install cargo-binutils"
-  ],
+  "postCreateCommand": "rustup target add thumbv8m.main-none-eabihf && rustup component add llvm-tools-preview && cargo install cargo-binutils",
   "remoteUser": "vscode"
 }

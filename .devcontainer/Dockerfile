@@ -23,7 +23,7 @@ USER vscode
 WORKDIR /home/vscode
 
 # 安装 rustup 和指定 Rust 版本
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.75.0
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.88.0
 
 # 添加 rustup cargo bin 到 PATH
 ENV PATH="/home/vscode/.cargo/bin:${PATH}"
