@@ -192,7 +192,7 @@ fn common_init() {
         NVIC::unmask(stm32_metapac::interrupt::OTG_FS);
         NVIC::unpend(stm32_metapac::interrupt::OTG_FS);
     }
-    // #[cfg(stm32u5a5)]
+    #[cfg(stm32u5a5)]
     unsafe {
         NVIC::unmask(stm32_metapac::interrupt::OTG_HS);
         NVIC::unpend(stm32_metapac::interrupt::OTG_HS);

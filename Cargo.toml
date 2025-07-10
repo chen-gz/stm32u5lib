@@ -20,6 +20,7 @@ futures = { version = "0.3.17", default-features = false }
 [dependencies.stm32-metapac]
 git = "https://github.com/embassy-rs/stm32-data-generated"
 features = ["rt"]
+rev = "5e67b48ea298ef23cc3a07f4bced6c5ddce0c934"
 
 [dependencies.embassy-sync]
 git = "https://github.com/embassy-rs/embassy"
@@ -61,6 +62,8 @@ nucleo_u575 = ["stm32u575zi", "lse"]
 utils = []
 default = [
     "utils",
+    "nucleo_u575",
+
 ]
 usart_dma = []
 
