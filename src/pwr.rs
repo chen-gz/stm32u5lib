@@ -1,20 +1,23 @@
 ///////////////////////////////////////////////////////////
 /// USB power monitor
-use cortex_m::peripheral::NVIC;
-use defmt::info;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use embassy_sync::signal::Signal;
 static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
 use stm32_metapac::interrupt;
-use crate::gpio::PD15;
-use crate::usb_otg_hs::global_states::BUS_WAKER_PWR;
-// use crate::usb_otg_hs::power::power_up_init;
-use crate::usb_otg_hs::*;
+// use crate::otg_hs::power::power_up_init;
+#[cfg(feature = "otg_hs")]
+use crate::otg_hs::*;
+#[cfg(feature = "otg_hs")]
+use crate::otg_hs::global_states::BUS_WAKER_PWR;
+#[cfg(feature = "otg_hs")]
+use cortex_m::peripheral::NVIC;
 
 use crate::clock::{set_clock, ClockFreqs, CLOCK_REQUESTS};
 use crate::low_power;
+use core::sync::atomic::Ordering;
 
+#[cfg(feature = "otg_hs")]
 #[embassy_executor::task]
 pub async fn vddusb_monitor_up() {
     // exti line 19 for uvm
@@ -34,27 +37,27 @@ pub async fn vddusb_monitor_up() {
         let vddusb = stm32_metapac::PWR.svmsr().read().vddusbrdy();
         if vddusb != unsafe { USB_POWER_UP } {
             if vddusb {
-                info!("USB power up, call pwoer_up_init");
+                defmt::info!("USB power up, call pwoer_up_init");
                 unsafe {
                     USB_POWER_UP = true;
-                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1; // request 160Mhz
+                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()]
+                        .fetch_add(1, Ordering::Relaxed); // request 160Mhz
                     set_clock();
                     low_power::no_deep_sleep_request();
                 }
                 // crate::usb_otg_hs::mod_new::power_up_init();
                 // crate::usb_otg_hs::po
                 power::power_up_init();
-                PD15.set_high();
-                unsafe {
-                    BUS_WAKER_PWR.wake();
-                }
+                crate::gpio::PD15.set_high();
+                BUS_WAKER_PWR.wake();
             } else {
                 unsafe {
                     USB_POWER_UP = false;
-                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] -= 1;
+                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()]
+                        .fetch_sub(1, Ordering::Relaxed);
                     low_power::no_deep_sleep_release();
-                    PD15.set_low();
-                    // todo: add usb power down 
+                    crate::gpio::PD15.set_low();
+                    // todo: add usb power down
                     power::usb_power_down();
                 }
             }
@@ -62,7 +65,6 @@ pub async fn vddusb_monitor_up() {
         PVM_SIGNAL.wait().await;
     }
 }
-
 
 #[interrupt]
 fn PVD_PVM() {
@@ -85,7 +87,8 @@ pub fn vddusb_monitor_up_tmp() {
     while stm32_metapac::PWR.svmsr().read().vddusbrdy() == false {}
     unsafe {
         USB_POWER_UP = true;
-        CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1; // request 160Mhz
+        // CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()] += 1; // request 160Mhz
+        CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()].fetch_add(1, Ordering::Relaxed);
         set_clock();
         low_power::no_deep_sleep_request();
     }

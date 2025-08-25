@@ -58,7 +58,6 @@
 
 use core::arch::asm;
 use core::marker::PhantomData;
-use core::sync::atomic::{compiler_fence, Ordering};
 
 use cortex_m::peripheral::SCB;
 use embassy_executor::*;
@@ -92,12 +91,16 @@ static mut _REF_COUNT_STOP3: u32 = 0;
 static mut _REF_COUNT_STANDBY: u32 = 0;
 
 /// NO DEEP SLEEP if this function is called, the mcu will not go deep sleep
-pub unsafe fn no_deep_sleep_request() {
+pub fn no_deep_sleep_request() {
+    unsafe {
         REF_COUNT_DEEP += 1;
+    }
 }
 
-pub unsafe fn no_deep_sleep_release() {
+pub fn no_deep_sleep_release() {
+    unsafe {
         REF_COUNT_DEEP -= 1;
+    }
 }
 
 pub fn run_no_deep_sleep<F>(code: F)
@@ -111,16 +114,16 @@ where
     }
 }
 
-pub async fn run_no_deep_sleep_async<F, R>(code: F)
+pub async fn run_no_deep_sleep_async<F, R, T>(code: F) -> T
 where
     F: FnOnce() -> R,
-    R: core::future::Future<Output = ()>,
+    R: core::future::Future<Output = T>,
 {
     unsafe {
         REF_COUNT_DEEP += 1;
-        let result = code();
-        result.await;
+        let result = code().await;
         REF_COUNT_DEEP -= 1;
+        result
     }
 }
 
@@ -129,14 +132,14 @@ impl Executor {
     pub fn take() -> &'static mut Self {
         cortex_m::interrupt::free(|_| unsafe {
             // critical_section::with(|_| unsafe {
-            assert!(EXECUTOR.is_none());
+            // assert!(EXECUTOR.is_none());
 
             EXECUTOR = Some(Self {
                 inner: raw::Executor::new(THREAD_PENDER as *mut ()),
                 not_send: PhantomData,
                 scb: cortex_m::Peripherals::steal().SCB,
             });
-
+            #[allow(static_mut_refs)]
             EXECUTOR.as_mut().unwrap()
         })
     }
@@ -147,7 +150,6 @@ impl Executor {
     // }
 
     fn configure_pwr(&mut self) {
-        compiler_fence(Ordering::SeqCst);
         unsafe {
             if REF_COUNT_DEEP == 0 {
                 self.scb.set_sleepdeep();
@@ -176,17 +178,26 @@ impl Executor {
     ///
     /// This function never returns.
     pub fn run(&'static mut self, init: impl FnOnce(Spawner)) -> ! {
-        init(unsafe { EXECUTOR.as_mut().unwrap() }.inner.spawner());
+        // init(unsafe { EXECUTOR.as_mut().unwrap() }.inner.spawner());
+        init(self.inner.spawner());
 
         loop {
             unsafe {
-                EXECUTOR.as_mut().unwrap().inner.poll();
-                self.configure_pwr();
+                // EXECUTOR.as_mut().unwrap().inner.poll();
+                // self.inner.poll();
+                self.inner.poll();
+                // self.configure_pwr();
+
+                if REF_COUNT_DEEP == 0 {
+                    self.scb.set_sleepdeep();
+                } else {
+                    self.scb.clear_sleepdeep();
+                }
                 crate::clock::set_clock();
                 asm!("wfe");
                 // get wake up event
                 // let mut w = self.scb.icsr.read();
-                self.configure_pwr();
+
                 crate::clock::set_clock();
                 // defmt::info!("wake up from wfe");
             };

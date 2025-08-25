@@ -1,29 +1,36 @@
 use cortex_m::peripheral::NVIC;
 use defmt::{trace};
 use stm32_metapac::{PWR, RCC, SYSCFG, otg};
-use crate::usb_otg_hs::global_states::{regs, restore_irqs};
+use crate::otg_hs::global_states::{regs, restore_irqs};
 
 pub fn usb_power_down() {
     PWR.svmcr().modify(|w| {
         w.set_usv(false); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
 }
+
+pub fn usb_clock() {
+
+}
+
 pub fn power_up_init() {
-    trace!("init");
+    defmt::info!("init");
     PWR.svmcr().modify(|w| {
         w.set_usv(true); // RM0456 (rev 4) p 404. Romove Vddusb isolation
     });
-    #[cfg(otg_hs)]
+    #[cfg(feature = "otg_hs")]
     {
         critical_section::with(|_| {
             PWR.vosr().modify(|v| {
                 v.0 |= (1 << 19) | (1 << 20);
                 // SBPWREN and USBBOOSTEN in PWR_VOSR.
-                // v.boosten();
+                v.boosten();
+                // v.set_usbpwren(true);
+                // v.set_usbboosten(true);
             });
             crate::clock::delay_us(100);
-            // delay_ms(100);
-            // wait fo USBBOOSTRDY
+            // crate::clock::delay_ms(100);
+            // wait fo USBBOOSTRD
             // while !pwr.vosr().read().usbboostrdy() {}
             // enable hse
             RCC.cr().modify(|w| {
@@ -45,22 +52,21 @@ pub fn power_up_init() {
             });
             // TODO: update this clock settings
             SYSCFG.otghsphycr().modify(|v| {
-                let hse_freq = unsafe { crate::clock::HSE_FREQ };
-                if hse_freq == 26_000_000 {
-                    v.set_clksel(0b1110);   // 26Mhz HSE
-                } else if hse_freq == 16_000_000 {
-                    v.set_clksel(0b0011); // 16Mhz HSE
-                } else {
+                #[cfg(feature = "hse_26mhz")]
+                    v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ26);
+                #[cfg(feature = "hse_16mhz")]
+                    v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ16);
+                #[cfg(not(any(feature = "hse_16mhz", feature = "hse_26mhz")))]
                     defmt::panic!("HSE frequency not supported");
-                }
 
                 v.set_en(true);
             });
         });
     }
     // Wait for USB power to stabilize
+    defmt::trace!("waiting for USB power to stabilize");
     while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
-    trace!("USB power stabilized");
+    defmt::trace!("USB power stabilized");
 
     // Select HSI48 as USB clock source.
     // #[cfg(stm32u575)]
@@ -69,7 +75,7 @@ pub fn power_up_init() {
     //         w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
     //     })
     // });
-    #[cfg(otg_hs)]
+    #[cfg(feature = "otg_hs")]
     critical_section::with(|_| {
         stm32_metapac::RCC.ccipr2().modify(|w| {
             w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
@@ -89,7 +95,7 @@ pub fn power_up_init() {
     //     trace!("USB IRQs start");
     // }
 
-    #[cfg(otg_hs)]
+    #[cfg(feature = "otg_hs")]
     unsafe {
         NVIC::unpend(stm32_metapac::Interrupt::OTG_HS);
         NVIC::unmask(stm32_metapac::Interrupt::OTG_HS);
@@ -135,6 +141,7 @@ pub fn power_up_init() {
                 // w.set_vbden(true);
                 // w.set_phyhsen(true);
                 w.0 = (1 << 24) | (1 << 23);
+                w.set_phyhsen(true);
             });
 
             // Force B-peripheral session
@@ -155,9 +162,9 @@ pub fn power_up_init() {
         w.set_pfivl(otg::vals::Pfivl::FRAME_INTERVAL_80); // set period frame interval TODO: figure out what is this
         // #[cfg(stm32u575)]
         // w.set_dspd(phy_type.to_dspd()); // todo: for u5a5, this is different. 11 is reserved
-        #[cfg(otg_hs)]
-        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
+        // #[cfg(feature = "otg_hs")]
         w.set_dspd(otg::vals::Dspd::HIGH_SPEED); // todo: for u5a5, this is different. 11 is reserved
+        // w.set_dspd(otg::vals::Dspd::FULL_SPEED_EXTERNAL);
     });
 
     // r.diepmsk().write(|w| {
@@ -175,5 +182,6 @@ pub fn power_up_init() {
 
     // Connect
     r.dctl().write(|w| w.set_sdis(false));
+    defmt::info!("start connection")
 }
 

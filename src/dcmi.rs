@@ -67,7 +67,8 @@ impl DcmiPort {
                 let len = buf.len() as u32;
                 // get draddress
                 let src_addr = self.port.dr().as_ptr() as u32;
-                dma.start(src_addr, dst_addr, len);
+                // dma.start(src_addr, dst_addr, len);
+                dma.start(src_addr, true, dst_addr, true, len).await;
 
                 // start capture
                 self.port.cr().modify(|v| {

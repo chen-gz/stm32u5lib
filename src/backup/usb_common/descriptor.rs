@@ -1,4 +1,4 @@
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Debug, defmt::Format)]
 pub enum Direction {
     /// Host to device
     Out,
@@ -6,7 +6,7 @@ pub enum Direction {
     In,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, defmt::Format)]
 pub enum RequestType {
     Standard,
     Class,
@@ -14,7 +14,7 @@ pub enum RequestType {
     Reserved,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, defmt::Format)]
 pub enum Recipient {
     Device,
     Interface,
@@ -23,7 +23,7 @@ pub enum Recipient {
     Reserved,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug , defmt::Format)]
 pub struct SetupPacket {
     pub direction: Direction,
     pub request_type: RequestType,
@@ -34,6 +34,7 @@ pub struct SetupPacket {
     pub length: u16,
 }
 
+#[derive(Copy, Clone, Debug, defmt::Format)]
 pub enum Request {
     GetDeviceDescriptor(u8), // length
     GetConfigurationDescriptor(u8),  // length
@@ -58,6 +59,8 @@ const REQUEST_GET_DESCRIPTOR: u8 = 0x06;
 
 impl Request {
     pub fn from_setup(setup: &SetupPacket) -> Request {
+        // defmt::info!("Setup direction: {:?}", setup.direction);
+        defmt::info!("Setup: {:?}", setup);
         match setup.direction {
             Direction::Out => {
                 match setup.request_type {
@@ -81,8 +84,15 @@ impl Request {
                     }
                     RequestType::Class => {
                         match setup.recipient {
+                            // Recipient::Device => {
+                            //     match setup.request {
+                            //         0x19 => Request::SetLineCoding(setup.value as u8),
+                            //         _ => defmt::panic!("Unknown request"),
+                            //     }
+                            // }
                             Recipient::Interface => {
                                 match setup.request {
+                                    // 0x19 => Request::SetLineCoding(setup.value as u8),
                                     0x20 => Request::SetLineCoding(setup.length as u8),
                                     0x22 => Request::SetControlLineState(setup.length as u8),
                                     _ => defmt::panic!("Unknown request"),
@@ -113,6 +123,7 @@ impl Request {
                                         }
                                     }
                                     _ => defmt::panic!("Unknown request"),
+
                                 }
                             }
                             // Recipient::Interface => {}

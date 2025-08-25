@@ -117,6 +117,8 @@ fn EXTI13() {
 use crate::gpio::*;
 define_exti_port!(
     EXTI2_PB2: GPIO_EXTI_PB2, 2,
-    EXTI13_PC13: GPIO_EXTI_PC13, 13
+    EXTI13_PC13: GPIO_EXTI_PC13, 13,
+    EXTI13_PC13_PD: GPIO_EXTI_PC13_PD, 13
     // EXTI3_PB3: GPIO_EXTI_PB3, 3
+
 );

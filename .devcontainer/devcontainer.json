@@ -1,0 +1,17 @@
+{
+  "name": "Rust 1.88 Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "marus25.cortex-debug",
+        "probe-rs.probe-rs-debugger"
+      ]
+    }
+  },
+  "postCreateCommand": "rustup target add thumbv8m.main-none-eabihf && rustup component add llvm-tools-preview && cargo install cargo-binutils",
+  "remoteUser": "vscode"
+}

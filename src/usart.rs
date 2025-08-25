@@ -1,48 +1,44 @@
+//! USART Driver with Async Support and Separated TX/RX Wakers
 #![allow(unused)]
-use core::default;
 
-use crate::{clock, gpio};
+use core::task::Poll;
+use crate::{clock, gpio::{self, USART1_RX_PINS, USART1_TX_PINS}, hal};
 use defmt::todo;
 use stm32_metapac::{
     common::R,
     usart::vals::{Over8, Stop, M0, M1},
 };
+use cortex_m::peripheral::NVIC;
+use embassy_sync::waitqueue::AtomicWaker;
+use gpio::GpioPort;
+use stm32_metapac::interrupt;
+use crate::dma::DmaChannel;
+use crate::low_power::run_no_deep_sleep_async;
+
 pub struct Usart {
     port: stm32_metapac::usart::Usart,
     port_num: u8,
+    use_dma: bool,
+    dma: Option<DmaChannel>,
 }
-
-// pub const USART1: UsartPort = UsartPort {
-//     port: stm32_metapac::USART1,
-//     port_num: 1,
-// };
 
 const USART_CLOCK: u32 = 16_000_000; // default use HSI16
-pub struct Config {
-    port_num: u8,
-    gpio_tx: gpio::GpioPort,
-    gpio_rx: gpio::GpioPort,
-    pub baudrate: u32,
-    pub data_bits: u8,
-    pub stop_bits: u8,
-    pub parity: u8,
-    pub flow_control: u8,
+
+#[derive(core::fmt::Debug)]
+pub enum UsartError {
+    TAKEN,
+    BufferOverflow,
+    Disabled,
+    BusError,
 }
 
-impl default::Default for Config{
-    fn default() -> Self {
-        Config {
-            port_num: 1,
-            gpio_tx: gpio::USART_TX_PA9,
-            gpio_rx: gpio::USART_RX_PA10,
-            baudrate: 115200,
-            data_bits: 8,
-            stop_bits: 1,
-            parity: 0,
-            flow_control: 0,
-        }
-    }
-}
+
+static RX_WAKERS: [AtomicWaker; 8] = [const {AtomicWaker::new()}; 8];
+static TX_WAKERS: [AtomicWaker; 8] = [const {AtomicWaker::new()}; 8];
+static TAKEN: [core::sync::atomic::AtomicBool; 8] = [
+    const { core::sync::atomic::AtomicBool::new(false) };
+    8
+];
 
 fn port_num_to_usart(port_num: u8) -> stm32_metapac::usart::Usart {
     match port_num {
@@ -52,145 +48,215 @@ fn port_num_to_usart(port_num: u8) -> stm32_metapac::usart::Usart {
         _ => panic!("invalid port number"),
     }
 }
-#[derive(core::fmt::Debug)]
-pub enum UsartError {
-    TAKEN,
-    BufferOverflow,
-    Disabled,
+
+fn pin_to_port(tx: &gpio::GpioPort, rx: &gpio::GpioPort) -> u8 {
+    if USART1_TX_PINS.contains(tx) && USART1_RX_PINS.contains(rx) {
+        1
+    } else {
+        todo!()
+    }
 }
 
-use embassy_sync::waitqueue::AtomicWaker;
-const NEW_AWAKER: AtomicWaker = AtomicWaker::new();
+impl Drop for Usart {
+    fn drop(&mut self) {
+        TAKEN[self.port_num as usize].store(false, core::sync::atomic::Ordering::Relaxed);
+    }
+}
 
-static mut WAKERS: [AtomicWaker; 8] = [NEW_AWAKER; 8];
-static mut TAKEN: [bool; 8] = [false; 8];
+impl hal::Usart<GpioPort> for Usart {
+    fn new(baudrate: u32, tx: GpioPort, rx: GpioPort) -> Result<Self, hal::UsartError> {
+        let port_num = pin_to_port(&tx, &rx);
 
-// impl UsartPort {
-//     /// current use default configuration, 115200 baudrate, 8 bit data, 1 stop bit, no parity
-//     pub fn setup(&self, gpio_tx: gpio::GpioPort, gpio_rx: gpio::GpioPort) {
-//         // todo!("enable usart1 clock and setup gpio for usart1");
-//         gpio_tx.setup();
-//         gpio_rx.setup();
-//         clock::set_usart_clock();
-//         // todo!("enable interrupt ");
-//         // self.port
-//         self.port.cr1().modify(|v| {
-//             v.set_m0(M0::BIT8);
-//             v.set_m1(M1::M0);
-//             v.set_pce(false);
-//             v.set_over8(Over8::OVERSAMPLING16); // oversampling by 16
-//             v.set_ue(true);
-//             v.set_te(true);
-//             v.set_re(true);
-//         });
-//         self.port.cr2().modify(|v| {
-//             v.set_stop(Stop::STOP1); // 1 stop bit
-//         });
-//         self.port.cr3().modify(|v| {
-//             // v.set_owr_ddr(true);
-//         });
-//         self.port.brr().write(|v| {
-//             v.set_brr((USART_CLOCK / 115200) as u16);
-//         });
-//     }
-//     pub fn send(&self, data: &[u8]) {
-//         for &c in data {
-//             while self.port.isr().read().txe() == false {}
-//             self.port.tdr().write(|v| {
-//                 v.set_dr(c as u16);
-//             });
-//         }
-//     }
-//     pub fn recv(&self) -> u8 {
-//         todo!();
-//     }
-// }
-
-use crate::com_interface::ComInterface;
-
-
-impl<'a> ComInterface<'a> for Usart {
-    type Error = UsartError;
-    type Message = &'a [u8];
-    type Response = &'a [u8];
-    type Config = Config;
-    type ReceiveOption = ();
-    fn new(config: Self::Config) -> Result<Self, Self::Error> {
-        if unsafe { TAKEN[config.port_num as usize] } {
-            return Err(UsartError::TAKEN);
+        if TAKEN[port_num as usize].swap(true, core::sync::atomic::Ordering::AcqRel) {
+            return Err(hal::UsartError::InitError);
         }
-        unsafe {
-            TAKEN[config.port_num as usize] = true;
-        }
-        config.gpio_rx.setup();
-        config.gpio_tx.setup();
+
+        tx.setup();
+        rx.setup();
         clock::set_usart_clock();
-        // get port from port number
-        let port = port_num_to_usart(config.port_num);
-        // self.port
+
+        let port = port_num_to_usart(port_num);
+
         port.cr1().modify(|v| {
             v.set_m0(M0::BIT8);
             v.set_m1(M1::M0);
             v.set_pce(false);
-            v.set_over8(Over8::OVERSAMPLING16); // oversampling by 16
-
+            v.set_over8(Over8::OVERSAMPLING16);
             v.set_ue(true);
             v.set_te(true);
             v.set_re(true);
         });
+
         port.cr2().modify(|v| {
-            v.set_stop(Stop::STOP1); // 1 stop bit
+            v.set_stop(Stop::STOP1);
         });
-        port.cr3().modify(|v| {
-            // v.set_owr_ddr(true);
-        });
+
         port.brr().write(|v| {
-            v.set_brr((USART_CLOCK / 115200) as u16);
+            v.set_brr((USART_CLOCK / baudrate) as u16);
         });
-        Ok(Usart{ port, port_num: config.port_num })
+
+        unsafe {
+            match port_num {
+                1 => NVIC::unmask(interrupt::USART1),
+                2 => NVIC::unmask(interrupt::USART2),
+                3 => NVIC::unmask(interrupt::USART3),
+                _ => {}
+            }
+        }
+
+        Ok(Usart { port, port_num, use_dma: false,  dma: None })
     }
 
-    fn send(&mut self, message: &Self::Message) -> Result<(), Self::Error> {
-        for &c in *message {
-            while self.port.isr().read().txe() == false {}
-            self.port.tdr().write(|v| {
-                v.set_dr(c as u16);
-            });
+    fn read(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
+        for i in 0..data.len() {
+            while self.port.isr().read().rxne() == false {}
+            data[i] = self.port.rdr().read().dr() as u8;
         }
         Ok(())
     }
 
-    fn receive(&mut self, option: Self::ReceiveOption) -> Result<Self::Response, Self::Error> {
-        todo!()
+    async fn read_async(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
+        return run_no_deep_sleep_async(|| {
+            if self.use_dma {
+                #[cfg(feature = "usart_dma")]
+                {
+                    self.read_async_dma(data).await
+                }
+                #[cfg(not(feature = "usart_dma"))]
+                {
+                    // Err(hal::UsartError::BusError)
+                    panic!("not supported dma");
+                }
+            } else {
+                return self.read_async_interrupt(data)
+            }
+        }).await
     }
 
-    // fn receive(&mut self) -> Result<Self::Message, Self::Error> {
-    //     todo!()
-    // }
-
-
-    async fn send_async(&mut self, message: Self::Message) -> Result<(), Self::Error> {
-        todo!()
+    fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        for &c in data {
+            while self.port.isr().read().txe() == false {}
+            self.port.tdr().write(|v| v.set_dr(c as u16));
+        }
+        while self.port.isr().read().tc() == false {}
+        Ok(())
     }
 
-    async fn receive_async(&mut self) ->  Result<Self::Message, Self::Error> {
-        todo!()
+    async fn write_async(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        run_no_deep_sleep_async(|| {
+            if self.use_dma {
+                #[cfg(feature = "usart_dma")]
+                {
+                    self.write_async_dma(data).await
+                }
+                #[cfg(not(feature = "usart_dma"))]
+                {
+                    panic!("not supported dma");
+                }
+            } else {
+                self.write_async_interrupt(data)
+            }
+        })
+        .await
+    }
+}
+
+impl Usart {
+
+    // todo: test this function
+    pub async fn read_async_interrupt(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
+        for i in 0..data.len() {
+            core::future::poll_fn(|cx| {
+                RX_WAKERS[self.port_num as usize].register(cx.waker());
+                self.port.cr1().modify(|v| v.set_rxneie(true));
+                if self.port.isr().read().rxne() {
+                    Poll::Ready(())
+                } else {
+                    Poll::Pending
+                }
+            }).await;
+
+            data[i] = self.port.rdr().read().dr() as u8;
+        }
+        Ok(())
     }
 
-    fn enable(&mut self) -> Result<(), Self::Error> {
-        todo!()
+    // todo: test this function
+    pub async fn write_async_interrupt(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        for &c in data {
+            core::future::poll_fn(|cx| {
+                TX_WAKERS[self.port_num as usize].register(cx.waker());
+                self.port.cr1().modify(|v| v.set_txeie(true));
+                if self.port.isr().read().txe() {
+                    Poll::Ready(())
+                } else {
+                    Poll::Pending
+                }
+            }).await;
+            self.port.tdr().write(|v| v.set_dr(c as u16));
+        }
+
+        core::future::poll_fn(|cx| {
+            TX_WAKERS[self.port_num as usize].register(cx.waker());
+            self.port.cr1().modify(|v| v.set_tcie(true));
+            if self.port.isr().read().tc() {
+                Poll::Ready(())
+            } else {
+                Poll::Pending
+            }
+        }).await;
+
+        Ok(())
     }
 
-    fn disable(&mut self) -> Result<(), Self::Error> {
-        todo!()
+    #[cfg(feature = "usart_dma")]
+    pub async fn write_async_dma(&self, data: &[u8]) -> Result<(), hal::UsartError> {
+        let src_addr = data.as_ptr() as u32;
+        let dst_addr = &self.port.tdr().as_ptr().cast::<u8>() as *const _ as u32;
+
+        self.dma.start(src_addr, true, dst_addr, false, data.len() as u32).await;
+
+        Ok(())
     }
 
-    fn drop(&mut self) -> Result<(), Self::Error> {
-        todo!()
+    #[cfg(feature = "usart_dma")]
+    pub async fn read_async_dma(&self, buffer: &mut [u8]) -> Result<(), hal::UsartError> {
+        let src_addr = &self.port.rdr().as_ptr().cast::<u8>() as *const _ as u32;
+        let dst_addr = buffer.as_mut_ptr() as u32;
+
+        self.dma.start(src_addr, false, dst_addr, true, buffer.len() as u32).await;
+
+        Ok(())
+    }
+}
+
+#[interrupt]
+fn USART1() {
+    handle_usart_interrupt(stm32_metapac::USART1, 1);
+}
+
+#[interrupt]
+fn USART2() {
+    handle_usart_interrupt(stm32_metapac::USART2, 2);
+}
+
+#[interrupt]
+fn USART3() {
+    handle_usart_interrupt(stm32_metapac::USART3, 3);
+}
+fn handle_usart_interrupt(usart: stm32_metapac::usart::Usart, index: usize) {
+    let isr = usart.isr().read();
+
+    if isr.rxne() {
+        RX_WAKERS[index].wake();
+        usart.cr1().modify(|v| v.set_rxneie(false));
     }
 
-    fn wait_connection(&mut self) -> Result<(), Self::Error> {
-        todo!()
+    if isr.txe() || isr.tc() {
+        TX_WAKERS[index].wake();
+        usart.cr1().modify(|v| {
+            v.set_txeie(false);
+            v.set_tcie(false);
+        });
     }
-    
 }

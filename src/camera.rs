@@ -112,7 +112,7 @@ pub async fn capture(
     // cam_i2c.send_retry(reg_val, 5).unwrap();
     // cam_i2c.write(OV5640_I2C_ADDR, &reg_val).unwrap();
     clock::delay_ms(200);
-    dcmi.capture(dma::DCMI_DMA, &pic_buf[16..]).await;
+    dcmi.capture(dma::DMA_DCMI, &pic_buf[16..]).await;
     defmt::info!("finish take picture");
     _pdwn.set_high();
     // 0x3008

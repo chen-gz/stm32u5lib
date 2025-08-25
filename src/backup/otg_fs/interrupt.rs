@@ -1,9 +1,9 @@
 use core::sync::atomic::Ordering;
-use crate::usb_otg_hs::mod_new::SETUP_DATA;
+// use crate::otg_fs::mod_new::SETUP_DATA;
 use defmt::{info, trace};
 use stm32_metapac::interrupt;
-use crate::usb_otg_hs::global_states::{regs, State, state};
-use crate::usb_otg_hs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
+use crate::otg_fs::global_states::{regs, State, state};
+use crate::otg_fs::global_states::fifo_const::{RX_FIFO_SIZE_SIZE_WORD, TX_FIFO_SIZE_WORDS};
 
 pub fn wakeup_all() {
     let state = state();
@@ -19,16 +19,16 @@ pub fn wakeup_all() {
 pub static mut RESET: bool = false;
 
 pub unsafe fn on_interrupt() {
+    defmt::info!("OTG_FS interrupt");
+    // clock::delay_ms(100);
     let r = regs();
     // defmt::info!("OTG_HS interrupt with ints {:08x}  and mask {:08x}, and {:08x}", r.gintsts().read().0, r.gintmsk().read().0, r.gintsts().read().0 & r.gintmsk().read().0);
     let ints = r.gintsts().read();
-    if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst()
-    {
+    if ints.wkupint() || ints.usbsusp() || ints.enumdne() || ints.otgint() || ints.srqint() || ints.usbrst() {
         if ints.wkupint() {
             info!("wkupint");
-            r.gintsts().write(|w| w.set_wkupint(true)); // clear
-        }
-        else if  ints.usbsusp() {
+            r.gintsts().write(|w| w.set_wkupint(true));
+        } else if  ints.usbsusp() {
             info!("usbsusp");
             wakeup_all();
             r.gintsts().write(|w| w.set_usbsusp(true)); // clear
@@ -36,7 +36,6 @@ pub unsafe fn on_interrupt() {
         else if ints.enumdne() {
             info!("enumdne");
             init_enumeration_done();
-
             r.gintsts().write(|w| w.set_enumdne(true)); // clear
         }
         else if ints.otgint() {
@@ -51,18 +50,21 @@ pub unsafe fn on_interrupt() {
         else if ints.usbrst() {
             info!("usbrst");
             unsafe {RESET = true};
+            defmt::info!("RESET = true");
+            // clock::delay_ms(100);
             init_reset();
             // restart the control pipe task
             wakeup_all();
             r.gintsts().write(|w| w.set_usbrst(true)); // clear
             // mask this and
-            crate::usb_otg_hs::endpoint_new::init_endpoint();
+            crate::otg_fs::endpoint::init_endpoint();
         }
     }
     // let state = &STATE;
     let state: &mut State<6> = state();
 
     // Handle RX
+    #[cfg(feature = "otg_fs")]
     while r.gintsts().read().rxflvl() {
         // RX FIFO non-empty
         let status = r.grxstsp().read();
@@ -71,43 +73,66 @@ pub unsafe fn on_interrupt() {
         let ep_num = status.epnum() as usize;
         let len = status.bcnt() as usize;
         info!("rxflvl with ep_num: {}, len: {}", ep_num, len);
+        // stup bit
+        let ep_ints = r.doepint(ep_num).read();
+        info!("setup status: {:x}", ep_ints.stup());
 
         match status.pktstsd() {
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_RX => {
                 // get SETUP_DATA
-                let data: u32 = r.fifo(0).read().0;
-                let data2: u32 = r.fifo(0).read().0;
-                for i in 0..4 {
-                    SETUP_DATA[i] = (data >> (i * 8)) as u8;
-                    SETUP_DATA[i + 4] = (data2 >> (i * 8)) as u8;
-                }
-                trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, SETUP_DATA[0..8]);
-                state.ep_out_wakers[ep_num].wake();
-                state.ep0_setup_ready.store(true, Ordering::Release);
-            }
-            stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
-                // received OUT data
-                // state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
-                state.ep_out_wakers[ep_num].wake();
+                // let data: u32 = r.fifo(0).read().0;
+                // let data2: u32 = r.fifo(0).read().0;
+                // for i in 0..4 {
+                //     SETUP_DATA[i] = (data >> (i * 8)) as u8;
+                //     SETUP_DATA[i + 4] = (data2 >> (i * 8)) as u8;
+                // }
+                // trace!("SETUP_DATA_RX, with data {:x}, {:x}, {:x}", data, data2, SETUP_DATA[0..8]);
                 let len_words = (len + 3) / 4;
-                let mut data = [0u8; 64];
+                // let mut data = [0u8; 64];
                 let mut index = 0;
                 for _ in 0..len_words {
                     let tmp = r.fifo(0).read().data();
                     for i in 0..4 {
-                        data[index] = (tmp >> (i * 8)) as u8;
+                        state.ep_out_buffers[ep_num][index] = (tmp >> (i * 8)) as u8;
                         index += 1;
                     }
                 }
-                trace!("OUT_DATA_RX ep={} len={}, data={:x}", ep_num, len, data[0..len]);
+                state.ep_out_wakers[ep_num].wake(); // ep_num is 0
+                state.ep0_setup_ready.store(true, Ordering::Release);
+                trace!("SETUP_DATA_RX ep={} len={}, data={:x}", ep_num, len, state.ep_out_buffers[ep_num]);
+            }
+            stm32_metapac::otg::vals::Pktstsd::OUT_DATA_RX => {
+                // received OUT data
+                // state.ep_out_size[ep_num].store(len as u16, Ordering::Release);
+                // let's have some unsafe here to avoid copying the data
+                state.ep_out_wakers[ep_num].wake();
+                let len_words = (len + 3) / 4;
+                // let mut data = [0u8; 64];
+                let mut index = 0;
+                for _ in 0..len_words {
+                    let tmp = r.fifo(0).read().data();
+                    for i in 0..4 {
+                        state.ep_out_buffers[ep_num][index] = (tmp >> (i * 8)) as u8;
+                        index += 1;
+                    }
+                }
+                trace!("OUT_DATA_RX ep={} len={}, data={:x}", ep_num, len, state.ep_out_buffers[ep_num]);
             }
             stm32_metapac::otg::vals::Pktstsd::OUT_DATA_DONE => {
                 trace!("OUT_DATA_DONE ep={}", ep_num);
-                r.doepctl(0).modify(|w| w.set_cnak(true));
+                // wake up the task, transfer complete
+                wakeup_all();
+                //r.doepctl(0).modify(|w| w.set_cnak(true));
             }
             stm32_metapac::otg::vals::Pktstsd::SETUP_DATA_DONE => {
                 trace!("SETUP_DATA_DONE ep={}", ep_num);
-                r.doepctl(0).modify(|w| w.set_cnak(true));
+                if ep_ints.stup() {
+                    r.doepint(ep_num).write(|w| w.set_stup(true));
+                }
+                // r.doepctl(0).modify(|w| w.set_cnak(true));
+                // seup data received, start processing the setup data
+                // state.ep_out_wakers[ep_num].wake();
+                // state.ep0_setup_ready.store(true, Ordering::Release);
             }
             x => {
                 trace!("unknown PKTSTS: {}", x.to_bits());
@@ -158,49 +183,49 @@ pub unsafe fn on_interrupt() {
 
 
     // OUT endpoint interrupt
-    if ints.oepint() {
-        let mut ep_mask = r.daint().read().oepint();
-        let mut ep_num = 0;
-        while ep_mask != 0 {
-            if ep_mask & 1 != 0 {
-                // show setup package
-
-                // defmt::info!("------------------------------------------");
-                // defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
-                // defmt::info!("setup data: {:x}", SETUP_DATA);
-                // defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
-                // defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
-                let ep_ints = r.doepint(ep_num).read();
-                if ep_ints.stup() {
-                    state.ep_out_wakers[ep_num].wake();
-                    state.ep0_setup_ready.store(true, Ordering::Release);
-                    r.doepint(ep_num).write(|w| w.set_stup(true));
-                    defmt::info!("setup package");
-                } else if ep_ints.stsphsrx() {
-                    // let status = r.grxstsp().read();
-                    r.doepint(ep_num).write(|w| w.set_stsphsrx(true));
-                    defmt::info!("clear stsphsrx+++++++++++++++++++++++++++++++++++++++");
-                }
-                // donothing if is setup and xfrc
-                // clear all
-                // r.doepint(ep_num).write_value(ep_ints);
-
-                if ep_ints.xfrc() {
-                    r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
-                    // pop ?
-                }
-                state.ep_out_wakers[ep_num].wake();
-            }
-            ep_mask >>= 1;
-            ep_num += 1;
-        }
-    }
+//     if ints.oepint() {
+//         let mut ep_mask = r.daint().read().oepint();
+//         let mut ep_num = 0;
+//         while ep_mask != 0 {
+//             if ep_mask & 1 != 0 {
+//                 // show setup package
+//
+//                 // defmt::info!("------------------------------------------");
+//                 // defmt::info!("oepint, ep_num: {},  intsts: {:08x}", ep_num, r.doepint(ep_num).read().0);
+//                 // defmt::info!("setup data: {:x}", SETUP_DATA);
+//                 // defmt::info!("doepctl: {:x}", regs().doepctl(ep_num).read().0);
+//                 // defmt::info!("doeptsiz: {:x}", regs().doeptsiz(ep_num).read().0);
+//                 let ep_ints = r.doepint(ep_num).read();
+//                 if ep_ints.stup() {
+//                     state.ep_out_wakers[ep_num].wake();
+//                     state.ep0_setup_ready.store(true, Ordering::Release);
+//                     r.doepint(ep_num).write(|w| w.set_stup(true));
+//                     defmt::info!("setup package");
+//                 } else if ep_ints.stsphsrx() {
+//                     // let status = r.grxstsp().read();
+//                     r.doepint(ep_num).write(|w| w.set_stsphsrx(true));
+//                     defmt::info!("clear stsphsrx+++++++++++++++++++++++++++++++++++++++");
+//                 }
+//                 // donothing if is setup and xfrc
+//                 // clear all
+//                 // r.doepint(ep_num).write_value(ep_ints);
+//
+//                 if ep_ints.xfrc() {
+//                     r.doepmsk().modify(|w| w.set_xfrcm(false)); // mask the interrupt and wake up the waker
+//                     // pop ?
+//                 }
+//                 state.ep_out_wakers[ep_num].wake();
+//             }
+//             ep_mask >>= 1;
+//             ep_num += 1;
+//         }
+//     }
 }
 
 
-#[cfg(otg_hs)]
+#[cfg(feature = "otg_fs")]
 #[interrupt]
-fn OTG_HS() {
+fn OTG_FS() {
     unsafe {
         on_interrupt();
     }
