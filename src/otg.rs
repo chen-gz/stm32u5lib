@@ -5,7 +5,6 @@ use crate::usb::{
     bus::Bus as OtgBus, controlpipe::ControlPipe, driver::Driver as OtgDriver, endpoint::Endpoint,
     interrupt::on_interrupt as on_interrupt_impl, In, OtgInstance, Out, PhyType, State,
 };
-use core::marker::PhantomData;
 use cortex_m::peripheral::NVIC;
 use defmt::info;
 use stm32_metapac::interrupt;
@@ -37,11 +36,11 @@ static STATE: State<{ MAX_EP_COUNT }> = State::new();
 
 fn regs() -> stm32_metapac::otg::Otg {
     #[cfg(stm32u575)]
-    unsafe {
+    {
         stm32_metapac::USB_OTG_FS
     }
     #[cfg(stm32u5a5)]
-    unsafe {
+    {
         stm32_metapac::USB_OTG_HS
     }
 }
@@ -203,7 +202,7 @@ fn common_init() {
 impl<'d> Bus<'d> {
     fn init(&mut self) {
         common_init();
-        let phy_type = self.inner.phy_type();
+        let _phy_type = self.inner.phy_type();
         // let r = stm32_metapac::USB_OTG_FS;
         let r = regs();
         let core_id = r.cid().read().0;
@@ -285,35 +284,7 @@ impl<'d> Drop for Bus<'d> {
     }
 }
 
-fn calculate_trdt(speed: Dspd) -> u8 {
+fn calculate_trdt(_speed: Dspd) -> u8 {
     // todo: fix this constant
-    return 0x9;
-    let ahb_freq = 160_000_000;
-    match speed {
-        Dspd::HIGH_SPEED => {
-            // From RM0431 (F72xx), RM0090 (F429), RM0390 (F446)
-            if ahb_freq >= 30_000_000 || cfg!(stm32h7rs) {
-                0x9
-            } else {
-                panic!("AHB frequency is too low")
-            }
-        }
-        Dspd::FULL_SPEED_EXTERNAL | Dspd::FULL_SPEED_INTERNAL => {
-            // From RM0431 (F72xx), RM0090 (F429)
-            match ahb_freq {
-                0..=14_199_999 => panic!("AHB frequency is too low"),
-                14_200_000..=14_999_999 => 0xF,
-                15_000_000..=15_999_999 => 0xE,
-                16_000_000..=17_199_999 => 0xD,
-                17_200_000..=18_499_999 => 0xC,
-                18_500_000..=19_999_999 => 0xB,
-                20_000_000..=21_799_999 => 0xA,
-                21_800_000..=23_999_999 => 0x9,
-                24_000_000..=27_499_999 => 0x8,
-                27_500_000..=31_999_999 => 0x7, // 27.7..32 in code from CubeIDE
-                32_000_000..=u32::MAX => 0x6,
-            }
-        }
-        _ => unimplemented!(),
-    }
+    0x9
 }
