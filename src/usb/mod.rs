@@ -1,4 +1,3 @@
-#![cfg_attr(not(test), no_std)]
 // #![allow(async_fn_in_trait)]
 // #![doc = include_str!("../README.md")]
 // #![warn(missing_docs)]
@@ -14,19 +13,15 @@ pub mod reg;
 
 use crate::usb::reg::{vals, Otg};
 use core::cell::UnsafeCell;
-use core::future::poll_fn;
-use core::marker::PhantomData;
-use core::sync::atomic::{AtomicBool, AtomicU16, AtomicU32, Ordering};
-use core::task::Poll;
+use core::sync::atomic::{AtomicBool, AtomicU16, AtomicU32};
 
 use embassy_sync::waitqueue::AtomicWaker;
 use embassy_usb_driver::{
-    Bus as _, Direction, EndpointAddress, EndpointAllocError, EndpointError, EndpointIn, EndpointInfo, EndpointOut,
-    EndpointType, Event, Unsupported,
+    Direction,
+    EndpointType,
 };
 
 
-use defmt::{trace, error};
 
 // use stm32_metapac::otg::Otg;
 // use stm32_metapac::otg::vals;
@@ -82,7 +77,7 @@ impl PhyType {
 /// Indicates that [State::ep_out_buffers] is empty.
 const EP_OUT_BUFFER_EMPTY: u16 = u16::MAX;
 
-struct EpState {
+pub(crate) struct EpState {
     in_waker: AtomicWaker,
     out_waker: AtomicWaker,
     /// RX FIFO is shared so extra buffers are needed to dequeue all data without waiting on each endpoint.
@@ -97,7 +92,7 @@ struct EpState {
 unsafe impl Send for EpState {}
 unsafe impl Sync for EpState {}
 
-struct ControlPipeSetupState {
+pub(crate) struct ControlPipeSetupState {
     /// Holds received SETUP packets. Available if [Ep0State::setup_ready] is true.
     setup_data: [AtomicU32; 2],
     setup_ready: AtomicBool,
@@ -135,7 +130,7 @@ impl<const EP_COUNT: usize> State<EP_COUNT> {
 }
 
 #[derive(Debug, Clone, Copy)]
-struct EndpointData {
+pub(crate) struct EndpointData {
     ep_type: EndpointType,
     max_packet_size: u16,
     fifo_size_words: u16,

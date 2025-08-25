@@ -5,7 +5,7 @@ use core::sync::atomic::Ordering;
 use core::task::Poll;
 use embassy_usb_driver::{EndpointError, EndpointInfo, EndpointType};
 use crate::usb::{EpState, In, Out, EP_OUT_BUFFER_EMPTY};
-use defmt::{trace, error, debug};
+use defmt::trace;
 use crate::usb::reg::Otg;
 
 /// USB endpoint.

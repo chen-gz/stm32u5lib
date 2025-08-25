@@ -38,6 +38,7 @@ rev = "bcebe4c"
 [dependencies.embassy-usb-driver]
 git = "https://github.com/embassy-rs/embassy"
 features = ["defmt"]
+rev = "bcebe4c"
 
 [profile.dev]
 lto = false
