@@ -59,10 +59,14 @@ where
     set_clock();
 }
 
-fn set_pll() {
+fn set_pll(freq: u32) {
     // if HSE_AVAILABLE.load(Ordering::Relaxed) && HSE_FREQ.load(Ordering::Relaxed) != 16_000_000 {
     //     defmt::info!("unsupported HSE frequency, fallback to MSIS");
     // }
+    // Turn PLL off before reconfiguring
+    RCC.cr().modify(|w| w.set_pllon(0, false));
+    while RCC.cr().read().pllrdy(0) {}
+
     #[cfg(feature = "hse_16mhz")]
     RCC.pll1cfgr().modify(|w| {
         w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::HSE);
@@ -73,9 +77,20 @@ fn set_pll() {
         w.set_pllsrc(stm32_metapac::rcc::vals::Pllsrc::MSIS);
         w.set_pllm(stm32_metapac::rcc::vals::Pllm::DIV1);
     });
+
+    // PLL input is 4MHz. VCO output is 320MHz.
+    // target_freq = (4MHz * PLLN) / PLLR
+    // With PLLN = 80, VCO = 320MHz.
+    // target_freq = 320MHz / PLLR
+    // PLLR = 320MHz / target_freq
+    let pllr = 320_000_000 / freq;
+    if 320_000_000 % freq != 0 {
+        defmt::panic!("Unsupported frequency");
+    }
+
     RCC.pll1divr().modify(|v| {
         v.set_plln(stm32_metapac::rcc::vals::Plln::MUL80);
-        v.set_pllr(stm32_metapac::rcc::vals::Plldiv::DIV2);
+        v.set_pllr(stm32_metapac::rcc::vals::Plldiv(pllr as u8));
         v.set_pllq(stm32_metapac::rcc::vals::Plldiv::DIV2);
         v.set_pllp(stm32_metapac::rcc::vals::Plldiv::DIV2);
     });
@@ -121,7 +136,8 @@ pub fn delay_ms(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = HCLK.load(Ordering::Relaxed) / 1_000 * n;
+        let hclk = HCLK.load(Ordering::Relaxed) as u64;
+        let interval = (hclk * n as u64 / 1_000) as u32;
         // 170 * (1e3 as u32) * n;
         let start = dwt.cyccnt.read();
         let end = start.wrapping_add(interval);
@@ -136,7 +152,8 @@ pub fn delay_us(n: u32) {
     unsafe {
         let p = cortex_m::Peripherals::steal();
         let dwt = &p.DWT;
-        let interval = HCLK.load(Ordering::Relaxed) / 1_000_000 * n;
+        let hclk = HCLK.load(Ordering::Relaxed) as u64;
+        let interval = (hclk * n as u64 / 1_000_000) as u32;
         let start = dwt.cyccnt.read();
         let end = start.wrapping_add(interval);
         let mut now = dwt.cyccnt.read();
@@ -335,7 +352,6 @@ pub fn init_clock(
 }
 
 pub static CLOCK_REQUESTS: [AtomicU32; 32] = [ const {AtomicU32::new(0)};32 ];
-// todo!("the frequency betweeen 16 -160Mhz is not working, the pll setting is incorrect, need to fix it later");
 // Clock source frequency versus voltage scaling (page 494)
 
 #[derive(Clone, Copy, Debug, defmt::Format)]
@@ -419,7 +435,6 @@ pub fn set_clock() {
         RCC.cr().modify(|w| w.set_hseon(true));
         while !RCC.cr().read().hserdy() {}
     }
-    set_pll();
 
     // se hsi16 on
     RCC.cr().modify(|w| w.set_hsion(true));
@@ -493,8 +508,6 @@ fn inc_kern_freq(freq: u32) {
         while !PWR.vosr().read().boostrdy() {}
         while !PWR.vosr().read().vosrdy() {}
     }
-    // wait for pll
-    while !RCC.cr().read().pllrdy(0) {}
     // hclk /2
     #[cfg(any(stm32u595, stm32u5a5))]
     RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2));
@@ -517,15 +530,13 @@ fn inc_kern_freq(freq: u32) {
         }
         hclk_source = 16_000_000;
     } else {
-
+        set_pll(freq);
         RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2));
-        // read hpre
-        RCC.cfgr2().read().hpre();
         // set pll as system clock
         RCC.cfgr1().modify(|w| {
             w.set_sw(stm32_metapac::rcc::vals::Sw::PLL1_R);
         });
-        hclk_source = 160_000_000;
+        hclk_source = freq;
     }
     //calc hclk
     let hclk = hclk_source / freq; // should be 2, 4, 8, 16, 32, 64, 128
@@ -549,7 +560,6 @@ fn inc_kern_freq(freq: u32) {
 fn dec_kern_freq(freq: u32) {
     #[cfg(any(stm32u595, stm32u5a5))]
     RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV2));
-
     let hclk_source;
 
     if freq <= 16_000_000 {
@@ -570,11 +580,12 @@ fn dec_kern_freq(freq: u32) {
         }
         hclk_source = 16_000_000;
     } else {
+        set_pll(freq);
         // set pll as system clock
         RCC.cfgr1().modify(|w| {
             w.set_sw(stm32_metapac::rcc::vals::Sw::PLL1_R);
         });
-        hclk_source = 160_000_000;
+        hclk_source = freq;
     }
     //calc hclk
     let hclk = hclk_source / freq; // should be 2, 4, 8, 16, 32, 64, 128
