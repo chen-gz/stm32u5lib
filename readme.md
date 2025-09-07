@@ -18,4 +18,6 @@ have document and put warning in the function description.
 
 ### Known Issues
 
-in stm32u575, 160Mhz + 1.8V rtc does not work. 
+In the STM32U575, the RTC does not work at 160MHz with 1.8V.
+
+The frequency range between 16MHz and 160MHz has not been tested. Frequencies below 16MHz and at 160MHz have been tested.
