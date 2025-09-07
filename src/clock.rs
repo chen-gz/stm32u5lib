@@ -90,7 +90,7 @@ fn set_pll(freq: u32) {
 
     RCC.pll1divr().modify(|v| {
         v.set_plln(stm32_metapac::rcc::vals::Plln::MUL80);
-        v.set_pllr(stm32_metapac::rcc::vals::Plldiv(pllr as u8));
+        v.set_pllr(((pllr - 1) as u8).into());
         v.set_pllq(stm32_metapac::rcc::vals::Plldiv::DIV2);
         v.set_pllp(stm32_metapac::rcc::vals::Plldiv::DIV2);
     });
