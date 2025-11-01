@@ -15,6 +15,9 @@ not applicable in the current state, it will return an error code.
 There are some function can not write as stateless design. In that case, we will
 have document and put warning in the function description.
 
+I am plan to redesign and updateh library with self-loop test for the future.
+Currently the USB function does not work well. I will make it work when I have time.
+
 
 ### Known Issues
 
