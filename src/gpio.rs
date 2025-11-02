@@ -82,9 +82,12 @@ impl GpioPort {
         self.port
             .pupdr()
             .modify(|v| v.set_pupdr(self.pin, self.pupd));
-        self.port
-            .ospeedr()
-            .modify(|v| v.set_ospeedr(self.pin, stm32_metapac::gpio::vals::Ospeedr::VERY_HIGH_SPEED));
+        self.port.ospeedr().modify(|v| {
+            v.set_ospeedr(
+                self.pin,
+                stm32_metapac::gpio::vals::Ospeedr::VERY_HIGH_SPEED,
+            )
+        });
         if self.pin < 8 {
             self.port
                 .afr(0)
@@ -195,7 +198,7 @@ define_gpio_port_alt!(
     TIM1_CH3_PA10: GPIOA, 10, 1, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING,
     TIM3_CH1_PA6: GPIOA, 6, 2, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING
 );
-pub const I2C1_SCL_PINS: [GpioPort; 3] = [I2C1_SCL_PB6, I2C1_SCL_PB8, I2C2_SCL_PB11];
+pub const I2C1_SCL_PINS: [GpioPort; 3] = [I2C1_SCL_PB6, I2C1_SCL_PB8, I2C2_SCL_PB10];
 pub const I2C1_SDA_PINS: [GpioPort; 3] = [I2C1_SDA_PB3, I2C1_SDA_PB7, I2C1_SDA_PB9];
 pub const I2C2_SCL_PINS: [GpioPort; 2] = [I2C2_SCL_PB13, I2C2_SCL_PF1];
 pub const I2C2_SDA_PINS: [GpioPort; 2] = [I2C2_SDA_PB14, I2C2_SDA_PF0];
