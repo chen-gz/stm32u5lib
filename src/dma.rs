@@ -41,17 +41,105 @@ macro_rules! define_dma_channel {
     };
 }
 // define the dma channel
-define_dma_channel!(DMA_DCMI, GPDMA1, 0, 86, Dw::WORD, Dw::WORD, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART1_RX, GPDMA1, 1, 24, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART1_TX, GPDMA1, 2, 25, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART2_RX, GPDMA1, 3, 26, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART2_TX, GPDMA1, 4, 27, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART3_RX, GPDMA1, 5, 28, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART3_TX, GPDMA1, 6, 29, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART4_RX, GPDMA1, 7, 30, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART4_TX, GPDMA1, 8, 31, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART5_RX, GPDMA1, 9, 32, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
-define_dma_channel!(DMA_USART5_TX, GPDMA1, 10, 33, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(
+    DMA_DCMI,
+    GPDMA1,
+    0,
+    86,
+    Dw::WORD,
+    Dw::WORD,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART1_RX,
+    GPDMA1,
+    1,
+    24,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART1_TX,
+    GPDMA1,
+    2,
+    25,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART2_RX,
+    GPDMA1,
+    3,
+    26,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART2_TX,
+    GPDMA1,
+    4,
+    27,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART3_RX,
+    GPDMA1,
+    5,
+    28,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART3_TX,
+    GPDMA1,
+    6,
+    29,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART4_RX,
+    GPDMA1,
+    7,
+    30,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART4_TX,
+    GPDMA1,
+    8,
+    31,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART5_RX,
+    GPDMA1,
+    9,
+    32,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
+define_dma_channel!(
+    DMA_USART5_TX,
+    GPDMA1,
+    10,
+    33,
+    Dw::BYTE,
+    Dw::BYTE,
+    Tcem::LAST_LINKED_LIST_ITEM
+);
 
 // pub const DCMI_DMA: DmaChannel = DmaChannel {
 //     ins: stm32_metapac::GPDMA1,
@@ -103,7 +191,14 @@ impl DmaChannel {
             v.set_reqsel(self.request_source);
         });
     }
-    pub async fn start(&self, src_addr: u32, src_inc: bool, dar_addr: u32,  dst_inc: bool, len: u32,) {
+    pub async fn start(
+        &self,
+        src_addr: u32,
+        src_inc: bool,
+        dar_addr: u32,
+        dst_inc: bool,
+        len: u32,
+    ) {
         self.init();
         let ch = self.ins.ch(self.ch);
         ch.tr1().modify(|v| {
@@ -116,8 +211,8 @@ impl DmaChannel {
         let link_list = unsafe { &mut LINK_LISTS[self.ch] };
         let num_link_list = (len + DMA_SINGLE_XFER - 1) / DMA_SINGLE_XFER;
         for i in 0..num_link_list as usize {
-            link_list[i].sar = src_addr + (src_inc as u32) * (i as u32 * DMA_SINGLE_XFER);
-            link_list[i].dar = dar_addr + (dst_inc as u32) * (i as u32 * DMA_SINGLE_XFER);
+            link_list[i].sar = src_addr + u32::from(src_inc) * (i as u32 * DMA_SINGLE_XFER);
+            link_list[i].dar = dar_addr + u32::from(dst_inc) * (i as u32 * DMA_SINGLE_XFER);
             link_list[i].llr = &link_list[i + 1] as *const _ as u32;
             link_list[i].llr &= 0x0000ffff;
             link_list[i].br1 = DMA_SINGLE_XFER;
@@ -132,7 +227,8 @@ impl DmaChannel {
                 }
             }
         }
-        ch.lbar() .write(|v| v.set_lba(((link_list.as_ptr() as u32) >> 16) as u16));
+        ch.lbar()
+            .write(|v| v.set_lba(((link_list.as_ptr() as u32) >> 16) as u16));
         ch.sar().write_value(link_list[0].sar);
         ch.dar().write_value(link_list[0].dar);
         ch.br1().modify(|v| v.0 = link_list[0].br1);
@@ -149,7 +245,7 @@ impl DmaChannel {
         // wait for finished interrupt and return
         poll_fn(|cx| {
             WAKER.register(cx.waker()); // register waker
-            // wait for the transfer complete
+                                        // wait for the transfer complete
             if ch.sr().read().tcf() {
                 ch.sr().write(|v| v.set_tcf(true));
                 // clear the interrupt
@@ -175,8 +271,8 @@ use core::future::poll_fn;
 // waker
 use embassy_sync::waitqueue::AtomicWaker;
 static WAKER: AtomicWaker = AtomicWaker::new();
-use stm32_metapac::interrupt;
 use crate::hal::DMA;
+use stm32_metapac::interrupt;
 
 /// DMA interrupt handler
 // #[interrupt]
@@ -193,10 +289,8 @@ use crate::hal::DMA;
 //         WAKER.wake();
 //     }
 // }
-
 use crate::hal;
 impl hal::DMA for DmaChannel {
-
     async fn start(&self, src_addr: u32, src_inc: bool, dar_addr: u32, dst_inc: bool, len: u32) {
         self.start(src_addr, src_inc, dar_addr, dst_inc, len).await;
     }
