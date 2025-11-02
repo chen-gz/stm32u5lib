@@ -41,129 +41,27 @@ macro_rules! define_dma_channel {
     };
 }
 // define the dma channel
-define_dma_channel!(
-    DMA_DCMI,
-    GPDMA1,
-    0,
-    86,
-    Dw::WORD,
-    Dw::WORD,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART1_RX,
-    GPDMA1,
-    1,
-    24,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART1_TX,
-    GPDMA1,
-    2,
-    25,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART2_RX,
-    GPDMA1,
-    3,
-    26,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART2_TX,
-    GPDMA1,
-    4,
-    27,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART3_RX,
-    GPDMA1,
-    5,
-    28,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART3_TX,
-    GPDMA1,
-    6,
-    29,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART4_RX,
-    GPDMA1,
-    7,
-    30,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART4_TX,
-    GPDMA1,
-    8,
-    31,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART5_RX,
-    GPDMA1,
-    9,
-    32,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-define_dma_channel!(
-    DMA_USART5_TX,
-    GPDMA1,
-    10,
-    33,
-    Dw::BYTE,
-    Dw::BYTE,
-    Tcem::LAST_LINKED_LIST_ITEM
-);
-
-// pub const DCMI_DMA: DmaChannel = DmaChannel {
-//     ins: stm32_metapac::GPDMA1,
-//     ch: 0,
-//     request_source: 86,
-//     src_width: Dw::WORD, // 32 bits
-//     dst_width: Dw::WORD,
-//     // dst_width: ChTr1Dw::BYTE, // 8,
-//     src_inc: false,
-//     dst_inc: true,
-//     src_type: Ap::PORT0,
-//     dst_type: Ap::PORT1,
-//     tc_mode: Tcem::LAST_LINKED_LIST_ITEM,
-// };
+define_dma_channel!(DMA_DCMI, GPDMA1, 0, 86, Dw::WORD, Dw::WORD, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART1_RX, GPDMA1, 1, 24, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART1_TX, GPDMA1, 2, 25, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART2_RX, GPDMA1, 3, 26, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART2_TX, GPDMA1, 4, 27, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART3_RX, GPDMA1, 5, 28, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART3_TX, GPDMA1, 6, 29, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART4_RX, GPDMA1, 7, 30, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART4_TX, GPDMA1, 8, 31, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART5_RX, GPDMA1, 9, 32, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
+define_dma_channel!(DMA_USART5_TX, GPDMA1, 10, 33, Dw::BYTE, Dw::BYTE, Tcem::LAST_LINKED_LIST_ITEM);
 
 use crate::gpio::*;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
 struct ListNode {
-    br1: u32,
-    sar: u32,
-    dar: u32,
-    llr: u32,
+    br1: u32, // byte count
+    sar: u32, // source address
+    dar: u32, // destination address
+    llr: u32, // linked list register
 }
 type DmaList = [ListNode; 32];
 
@@ -191,14 +89,7 @@ impl DmaChannel {
             v.set_reqsel(self.request_source);
         });
     }
-    pub async fn start(
-        &self,
-        src_addr: u32,
-        src_inc: bool,
-        dar_addr: u32,
-        dst_inc: bool,
-        len: u32,
-    ) {
+    pub async fn start(&self, src_addr: u32, src_inc: bool, dar_addr: u32, dst_inc: bool, len: u32) {
         self.init();
         let ch = self.ins.ch(self.ch);
         ch.tr1().modify(|v| {
@@ -227,8 +118,7 @@ impl DmaChannel {
                 }
             }
         }
-        ch.lbar()
-            .write(|v| v.set_lba(((link_list.as_ptr() as u32) >> 16) as u16));
+        ch.lbar().write(|v| v.set_lba(((link_list.as_ptr() as u32) >> 16) as u16));
         ch.sar().write_value(link_list[0].sar);
         ch.dar().write_value(link_list[0].dar);
         ch.br1().modify(|v| v.0 = link_list[0].br1);
