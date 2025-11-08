@@ -18,6 +18,8 @@ have document and put warning in the function description.
 I am plan to redesign and updateh library with self-loop test for the future.
 Currently the USB function does not work well. I will make it work when I have time.
 
+**redesign** Redesign for the interface are planned. A lot of aysnc function with be supported and tested.
+All function with async will default with timeout function to ensure the function will not block the system.
 
 ### Known Issues
 
