@@ -7,9 +7,9 @@ static PVM_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 use stm32_metapac::interrupt;
 // use crate::otg_hs::power::power_up_init;
 #[cfg(feature = "otg_hs")]
-use crate::otg_hs::*;
-#[cfg(feature = "otg_hs")]
 use crate::otg_hs::global_states::BUS_WAKER_PWR;
+#[cfg(feature = "otg_hs")]
+use crate::otg_hs::*;
 #[cfg(feature = "otg_hs")]
 use cortex_m::peripheral::NVIC;
 
@@ -37,11 +37,10 @@ pub async fn vddusb_monitor_up() {
         let vddusb = stm32_metapac::PWR.svmsr().read().vddusbrdy();
         if vddusb != unsafe { USB_POWER_UP } {
             if vddusb {
-                defmt::info!("USB power up, call pwoer_up_init");
+                info!("USB power up, call pwoer_up_init");
                 unsafe {
                     USB_POWER_UP = true;
-                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()]
-                        .fetch_add(1, Ordering::Relaxed); // request 160Mhz
+                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()].fetch_add(1, Ordering::Relaxed); // request 160Mhz
                     set_clock();
                     low_power::no_deep_sleep_request();
                 }
@@ -53,8 +52,7 @@ pub async fn vddusb_monitor_up() {
             } else {
                 unsafe {
                     USB_POWER_UP = false;
-                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()]
-                        .fetch_sub(1, Ordering::Relaxed);
+                    CLOCK_REQUESTS[ClockFreqs::KernelFreq160Mhz.to_idx()].fetch_sub(1, Ordering::Relaxed);
                     low_power::no_deep_sleep_release();
                     crate::gpio::PD15.set_low();
                     // todo: add usb power down

@@ -40,31 +40,24 @@ pub fn icm20948_setup(i2c: &mut i2c::I2c, fsync: &mut gpio::GpioPort) {
     // let fsync = gpio::PA3;
     fsync.setup();
     fsync.set_low();
-    defmt::info!("start setup imu");
+    info!("start setup imu");
     // icm-20948
     let mut buf = [0u8; 1];
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_WHO_AM_I], &mut buf)
-        .unwrap();
+    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_WHO_AM_I], &mut buf).unwrap();
     // read who am i
-    defmt::info!("imu who am i: {:?}", buf[0]);
-    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x00])
-        .unwrap();
+    info!("imu who am i: {:?}", buf[0]);
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x00]).unwrap();
 
     // reset the device
-    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x80])
-        .unwrap();
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x80]).unwrap();
 
     // config the accelerometer
-    i2c.write(ICM20948_ADDR, &[ICM20948_ACCEL_CONFIG, 0x18])
-        .unwrap(); // config accelerometer full scale range to 16g
-    i2c.write(ICM20948_ADDR, &[ICM20948_ACCEL_CONFIG2, 0x00])
-        .unwrap(); // disable accelerometer low pass filter
+    i2c.write(ICM20948_ADDR, &[ICM20948_ACCEL_CONFIG, 0x18]).unwrap(); // config accelerometer full scale range to 16g
+    i2c.write(ICM20948_ADDR, &[ICM20948_ACCEL_CONFIG2, 0x00]).unwrap(); // disable accelerometer low pass filter
 
     // config the gyroscope
-    i2c.write(ICM20948_ADDR, &[ICM20948_GYRO_CONFIG_1, 0x18])
-        .unwrap(); // config gyroscope full scale range to 2000dps
-    i2c.write(ICM20948_ADDR, &[ICM20948_GYRO_CONFIG_2, 0x00])
-        .unwrap(); // disable gyroscope low pass filter
+    i2c.write(ICM20948_ADDR, &[ICM20948_GYRO_CONFIG_1, 0x18]).unwrap(); // config gyroscope full scale range to 2000dps
+    i2c.write(ICM20948_ADDR, &[ICM20948_GYRO_CONFIG_2, 0x00]).unwrap(); // disable gyroscope low pass filter
 
     // config magnetometer
     // todo: add magnetometer config
@@ -73,8 +66,6 @@ pub fn icm20948_setup(i2c: &mut i2c::I2c, fsync: &mut gpio::GpioPort) {
     //
 
     // Enable sensor
-    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_2, 0x00])
-        .unwrap(); // enable the device
-    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x09])
-        .unwrap(); // enable the i2c master
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_2, 0x00]).unwrap(); // enable the device
+    i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x09]).unwrap(); // enable the i2c master
 }

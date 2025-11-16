@@ -1,4 +1,9 @@
 fn main() {
+    #[cfg(feature = "defmt")]
+    println!("cargo:rustc-link-arg=-Tdefmt.x");
+
+    println!("cargo:rustc-link-arg=--nmagic");
+    println!("cargo:rustc-link-arg=-Tlink.x");
     println!("cargo:rustc-check-cfg=cfg(otg_hs)"); // enable cfg otg_hs
     println!("cargo:rustc-check-cfg=cfg(otg_fs)"); // enable cfg otg_hs
     println!("cargo:rustc-check-cfg=cfg(stm32u575)");

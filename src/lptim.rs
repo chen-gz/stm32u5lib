@@ -1,7 +1,6 @@
 use crate::clock;
 use core::{future::poll_fn, sync::atomic::AtomicBool, time::Duration};
 use cortex_m::peripheral::NVIC;
-use defmt::{panic, todo};
 use embassy_sync::waitqueue::AtomicWaker;
 use stm32_metapac::interrupt;
 
@@ -65,7 +64,7 @@ impl Lptim {
     }
     pub fn get_period(&self) -> Duration {
         let arr = self.ins.arr().read().0;
-        defmt::info!("arr: {}", arr);
+        info!("arr: {}", arr);
         self.get_resolution() * (arr + 1)
     }
     pub fn calc_arr(&self, period: Duration) -> u32 {
@@ -96,9 +95,7 @@ impl Lptim {
             .modify(|v| v.set_presc(stm32_metapac::lptim::vals::Presc::DIV32));
         self.ins.dier().modify(|v| v.set_ueie(true));
         // self.ins.arr().modify(|v| v.0 = 49_999); // default arr set to 49_999
-        self.ins
-            .arr()
-            .modify(|v| v.0 = self.calc_arr(Duration::from_millis(50)));
+        self.ins.arr().modify(|v| v.0 = self.calc_arr(Duration::from_millis(50)));
         unsafe {
             NVIC::unmask(stm32_metapac::Interrupt::LPTIM1);
             NVIC::unmask(stm32_metapac::Interrupt::LPTIM2);
@@ -111,7 +108,7 @@ impl Lptim {
     }
     pub fn get_resolution(&self) -> Duration {
         if self.get_frequency() == 0 {
-            defmt::info!("src_clock_freq: {}", self.src_clock_freq);
+            info!("src_clock_freq: {}", self.src_clock_freq);
             panic!("LPTIM{} frequency is 0", self.num);
         }
         Duration::from_nanos(1_000_000_000 / self.get_frequency() as u64)
@@ -201,7 +198,7 @@ impl Lptim {
                 1 => stm32_metapac::LPTIM1.icr().modify(|v| v.set_uecf(true)),
                 2 => stm32_metapac::LPTIM2.icr().modify(|v| v.set_uecf(true)),
                 3 => stm32_metapac::LPTIM3.icr().modify(|v| v.set_uecf(true)),
-                _ => todo!("not supported LPTIM"),
+                _ => panic!("not supported LPTIM"),
             }
         }
     }

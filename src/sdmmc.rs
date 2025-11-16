@@ -54,8 +54,6 @@ pub const SD1: SdmmcPort = SdmmcPort {
     port: stm32_metapac::SDMMC1,
 };
 
-use defmt::Format;
-
 #[derive(Copy, Clone, Debug, Format)]
 pub enum SdError {
     WriteBlockCountError,
@@ -160,15 +158,45 @@ impl SdInstance {
         }
         Ok(())
     }
-    pub fn init(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort, d1: GpioPort, d2: GpioPort, d3: GpioPort, d4: GpioPort, d5: GpioPort, d6: GpioPort, d7: GpioPort) {
+    pub fn init(
+        &mut self,
+        clk: GpioPort,
+        cmd: GpioPort,
+        d0: GpioPort,
+        d1: GpioPort,
+        d2: GpioPort,
+        d3: GpioPort,
+        d4: GpioPort,
+        d5: GpioPort,
+        d6: GpioPort,
+        d7: GpioPort,
+    ) {
         self.init_emmc(clk, cmd, d0, d1, d2, d3, d4, d5, d6, d7);
     }
 
-    pub fn init_emmc(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort, d1: GpioPort, d2: GpioPort, d3: GpioPort, d4: GpioPort, d5: GpioPort, d6: GpioPort, d7: GpioPort) {
+    pub fn init_emmc(
+        &mut self,
+        clk: GpioPort,
+        cmd: GpioPort,
+        d0: GpioPort,
+        d1: GpioPort,
+        d2: GpioPort,
+        d3: GpioPort,
+        d4: GpioPort,
+        d5: GpioPort,
+        d6: GpioPort,
+        d7: GpioPort,
+    ) {
         clk.setup();
         cmd.setup();
         d0.setup();
-        d1.setup();d2.setup();d3.setup();d4.setup();d5.setup();d6.setup();d7.setup();
+        d1.setup();
+        d2.setup();
+        d3.setup();
+        d4.setup();
+        d5.setup();
+        d6.setup();
+        d7.setup();
 
         clock::set_sdmmc_clock(self.port, rcc::vals::Sdmmcsel::ICLK).unwrap();
 
@@ -188,13 +216,13 @@ impl SdInstance {
         delay_ms(1); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
             v.0 = 5 * 400_0000; // 400khz, 8000clk = 20ms
-            // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
+                                // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
         });
-        defmt::info!("start init sd card");
+        info!("start init sd card");
         // initilize sd card
         match self.send_cmd(common_cmd::idle()) {
             Ok(_) => {}
-            Err(err) => defmt::panic!("init sd card error: {:?}", err),
+            Err(err) => panic!("init sd card error: {:?}", err),
         }
         // let cmd = sd_cmd::send_if_cond(0xF, 0xa);
         let mut ok = false;
@@ -203,53 +231,49 @@ impl SdInstance {
                 Ok(_) => {
                     // read response
                     let resp0 = self.port.respr(0).read().0;
-                    // defmt::debug!("send if conf response: {:x}", resp0);
+                    // debug!("send if conf response: {:x}", resp0);
                     if resp0 & (1 << 31) != 0 {
-                        defmt::info!("card is ready");
+                        info!("card is ready");
                         ok = true;
                         break;
                     }
                 }
-                Err(err) => defmt::panic!("send if cond error {}", err),
+                Err(err) => panic!("send if cond error {}", err),
             }
         }
 
         match self.get_cid() {
             Ok(_) => {
-                defmt::info!("cid: {}", self.cid.manufacturer_id());
+                info!("cid: {}", self.cid.manufacturer_id());
             }
-            Err(err) => defmt::error!(
-                    "get cid error: {:?}, sta: {:x}",
-                    err,
-                    self.port.star().read().0
-                ),
+            Err(err) => error!("get cid error: {:?}, sta: {:x}", err, self.port.star().read().0),
         }
         match self.get_rca() {
             Ok(_) => {}
-            Err(err) => defmt::panic!("get rca error: {:?}", err),
+            Err(err) => panic!("get rca error: {:?}", err),
         }
-        defmt::info!("rca: {}", self.rca.address());
+        info!("rca: {}", self.rca.address());
 
         match self.get_csd() {
             Ok(_) => {}
-            Err(err) => defmt::panic!("get csd error: {:?}", err),
+            Err(err) => panic!("get csd error: {:?}", err),
         }
-        defmt::info!("csd: {}", self.csd.block_count());
+        info!("csd: {}", self.csd.block_count());
 
-        defmt::info!("select card");
+        info!("select card");
 
         match self.send_cmd(common_cmd::select_card(self.rca.address())) {
             Ok(_) => {}
-            Err(err) => defmt::panic!("select card error: {:?}", err),
+            Err(err) => panic!("select card error: {:?}", err),
         }
 
         // // test cmd 23, whether
-        // defmt::info!("set block count");
+        // info!("set block count");
         // match self.send_cmd(sd_cmd::set_block_count(1)) {
         //     Ok(_) => {}
-        //     Err(err) => defmt::panic!("set block count error: {:?}", err),
+        //     Err(err) => panic!("set block count error: {:?}", err),
         // }
-        defmt::info!(
+        info!(
             "card version {}, The numbe of block of card: {}, self.port.dlenr: {}",
             self.csd.version(),
             self.csd.block_count(), // 125_042_688 * 500 =  62_521_344_000 = 62.5GB
@@ -261,7 +285,6 @@ impl SdInstance {
 
         // now let's switch to 8 bits mode
         self.send_cmd(sd_cmd::cmd6(0xcb70200)).unwrap();
-
     }
 
     pub fn init_sd_card(&mut self, clk: GpioPort, cmd: GpioPort, d0: GpioPort) {
@@ -285,33 +308,33 @@ impl SdInstance {
         delay_ms(10); // 400khz, 74clk = 185us
         self.port.dtimer().modify(|v| {
             v.0 = 5 * 400_0000; // 400khz, 8000clk = 20ms
-            // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
+                                // 12Mhz, 20_000_000 clk = 20/12 = 1.67s
         });
-        defmt::info!("start init sd card");
+        info!("start init sd card");
         // initilize sd card
         match self.send_cmd(common_cmd::idle()) {
             Ok(_) => {}
-            Err(err) => defmt::panic!("init sd card error: {:?}", err),
+            Err(err) => panic!("init sd card error: {:?}", err),
         }
         // let cmd = sd_cmd::send_if_cond(0xF, 0xa);
         let mut ok = false;
         for i in 0..50 {
-            defmt::debug!("send if conf {}", i);
+            debug!("send if conf {}", i);
             match self.send_cmd(sd_cmd::send_if_cond(0x1, 0xaa)) {
                 Ok(_) => {
                     // read response
                     let resp0 = self.port.respr(0).read().0;
-                    defmt::debug!("send if conf response: {:x}", resp0);
+                    debug!("send if conf response: {:x}", resp0);
                     ok = true;
                     break;
                 }
-                Err(err) => defmt::error!("send if cond error {}", err),
+                Err(err) => error!("send if cond error {}", err),
             }
             delay_ms(10);
         }
 
         if !ok {
-            defmt::panic!("init sd card error: send if cond error");
+            panic!("init sd card error: send if cond error");
         }
 
         ///////// repeat this untill the card is ready
@@ -319,28 +342,28 @@ impl SdInstance {
         ok = false;
         for i in 0..20 {
             // card not initialized, rca = 0
-            defmt::debug!("send app cmd");
+            debug!("send app cmd");
             match self.send_cmd(common_cmd::app_cmd(0)) {
                 Ok(_) => {
                     // get response and print it
                     let resp0 = self.port.respr(0).read().0;
                     ok = true;
-                    defmt::debug!("app cmd response: {:x}", resp0);
+                    debug!("app cmd response: {:x}", resp0);
                 }
                 Err(err) => {
-                    defmt::error!("send app cmd error: {:?}", err);
+                    error!("send app cmd error: {:?}", err);
                     ok = false
                 }
             }
             if (ok) {
                 ok = false;
-                defmt::info!("send op cond");
+                info!("send op cond");
                 // match self.send_cmd(sd_cmd::sd_send_op_cond(true, false, false, 1 << 5)) {
                 //     Ok(_) => {
                 //         ok = true;
-                //         defmt::info!("send op cmd success");
+                //         info!("send op cmd success");
                 //     }
-                //     Err(err) => defmt::error!("send op cond error: {:?}", err),
+                //     Err(err) => error!("send op cond error: {:?}", err),
                 // }
                 match self.send_cmd(sd_cmd::sd_send_op_cond(true, false, false, (1 << 5))) {
                     Ok(_) => {
@@ -348,11 +371,11 @@ impl SdInstance {
                         let ocr: sd::OCR<sd::SD> = sd::OCR::from(resp0);
                         if !ocr.is_busy() {
                             ok = true;
-                            defmt::info!("send op cmd success with resp: {:x}", resp0);
+                            info!("send op cmd success with resp: {:x}", resp0);
                             break;
                         }
                     }
-                    Err(err) => defmt::error!("send op cond error: {:?}", err),
+                    Err(err) => error!("send op cond error: {:?}", err),
                 }
             }
             if ok {
@@ -361,7 +384,7 @@ impl SdInstance {
             delay_ms(10);
         }
         if !ok {
-            defmt::panic!("init sd card error: send op cond error");
+            panic!("init sd card error: send op cond error");
         }
 
         ok = false;
@@ -371,45 +394,41 @@ impl SdInstance {
                     ok = true;
                     break;
                 }
-                Err(err) => defmt::error!(
-                    "get cid error: {:?}, sta: {:x}",
-                    err,
-                    self.port.star().read().0
-                ),
+                Err(err) => error!("get cid error: {:?}, sta: {:x}", err, self.port.star().read().0),
             }
             delay_ms(10);
         }
         if (!ok) {
-            defmt::panic!("init sd card error: get cid error");
+            panic!("init sd card error: get cid error");
         }
-        defmt::info!("cid: {}", self.cid.manufacturer_id());
+        info!("cid: {}", self.cid.manufacturer_id());
 
         match self.get_rca() {
             Ok(_) => {}
-            Err(err) => defmt::panic!("get rca error: {:?}", err),
+            Err(err) => panic!("get rca error: {:?}", err),
         }
-        defmt::info!("rca: {}", self.rca.address());
+        info!("rca: {}", self.rca.address());
 
         match self.get_csd() {
             Ok(_) => {}
-            Err(err) => defmt::panic!("get csd error: {:?}", err),
+            Err(err) => panic!("get csd error: {:?}", err),
         }
-        defmt::info!("csd: {}", self.csd.block_count());
+        info!("csd: {}", self.csd.block_count());
 
-        defmt::info!("select card");
+        info!("select card");
 
         match self.send_cmd(common_cmd::select_card(self.rca.address())) {
             Ok(_) => {}
-            Err(err) => defmt::panic!("select card error: {:?}", err),
+            Err(err) => panic!("select card error: {:?}", err),
         }
 
         // test cmd 23, whether
-        defmt::info!("set block count");
+        info!("set block count");
         match self.send_cmd(sd_cmd::set_block_count(1)) {
             Ok(_) => {}
-            Err(err) => defmt::panic!("set block count error: {:?}", err),
+            Err(err) => panic!("set block count error: {:?}", err),
         }
-        defmt::info!(
+        info!(
             "card version {}, The numbe of block of card: {}, self.port.dlenr: {}",
             self.csd.version(),
             self.csd.block_count(), // 125_042_688 * 500 =  62_521_344_000 = 62.5GB
@@ -431,9 +450,7 @@ impl SdInstance {
             ResponseLen::Zero => 0,
             ResponseLen::R48 => {
                 let mut val = 1;
-                if cmd.cmd == sd_cmd::sd_send_op_cond(true, false, false, 0).cmd
-                    || cmd.cmd == emmc_cmd::send_op_cond(0).cmd
-                {
+                if cmd.cmd == sd_cmd::sd_send_op_cond(true, false, false, 0).cmd || cmd.cmd == emmc_cmd::send_op_cond(0).cmd {
                     val = 2; // no crc for this command
                 }
                 val
@@ -452,7 +469,7 @@ impl SdInstance {
         if cmd.cmd == common_cmd::idle().cmd || cmd.cmd == common_cmd::stop_transmission().cmd {
             stop = true;
         }
-        // defmt::info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
+        // info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
         self.port.cmdr().write(|v| {
             v.set_cmdindex(cmd.cmd);
             v.set_waitresp(res_len);
@@ -490,15 +507,10 @@ impl SdInstance {
         {
             let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp0);
             if (cs.error()) {
-                defmt::info!(
-                    "cmd: {}, param: {:x}, res_len: {}",
-                    cmd.cmd,
-                    cmd.arg,
-                    res_len
-                );
-                defmt::info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
-                defmt::error!("card status error: {:x}", resp0);
-                defmt::error!(
+                info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
+                info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
+                error!("card status error: {:x}", resp0);
+                error!(
                     "card status errs: out of range: {},
                 address error: {},
                 block len error: {},
@@ -535,8 +547,8 @@ impl SdInstance {
     pub async fn send_cmd_async<R: Resp>(&self, cmd: Cmd<R>) -> Result<(), SdError> {
         self.port.icr().write(|v| v.0 = 0x1FE00FFF);
         delay_us(1); // at least seven sdmmc_hcli clock peirod are needed between two write access
-        // 7clk, 160mhz, 44.4ns, 444ns
-        // to the cmdr register
+                     // 7clk, 160mhz, 44.4ns, 444ns
+                     // to the cmdr register
         self.port.argr().write(|w| w.0 = cmd.arg);
         let res_len = match cmd.response_len() {
             ResponseLen::Zero => 0,
@@ -589,7 +601,7 @@ impl SdInstance {
             || cmd.cmd == common_cmd::write_single_block(0).cmd
             || cmd.cmd == common_cmd::read_single_block(0).cmd
         {
-            // defmt::info!("write multiple blocks");
+            // info!("write multiple blocks");
             while (stat.dataend() == false) {
                 self.error_test_async(stat)?;
                 stat = stm32_metapac::sdmmc::regs::Star(SIGNAL2.wait().await);
@@ -611,15 +623,10 @@ impl SdInstance {
         {
             let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp0);
             if (cs.error()) {
-                defmt::info!(
-                    "cmd: {}, param: {:x}, res_len: {}",
-                    cmd.cmd,
-                    cmd.arg,
-                    res_len
-                );
-                defmt::info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
-                defmt::error!("card status error: {:x}", resp0);
-                defmt::error!(
+                info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
+                info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
+                error!("card status error: {:x}", resp0);
+                error!(
                     "card status errs: out of range: {},
                 address error: {},
                 block len error: {},
@@ -654,7 +661,7 @@ impl SdInstance {
     }
 
     pub fn get_cid(&mut self) -> Result<(), SdError> {
-        defmt::info!(
+        info!(
             "get cid with resp len {}",
             match common_cmd::all_send_cid().response_len() {
                 ResponseLen::Zero => 0,
@@ -670,7 +677,7 @@ impl SdInstance {
         let resp3 = self.port.respr(3).read().0;
         // self.cid = sd::CID::from([resp0, resp1, resp2, resp3]);
         self.cid = sd::CID::from([resp3, resp2, resp1, resp0]);
-        defmt::info!("cid: {:?}, {:?}, {:?}, {:?}", resp0, resp1, resp2, resp3);
+        info!("cid: {:?}, {:?}, {:?}, {:?}", resp0, resp1, resp2, resp3);
         Ok(())
     }
     pub fn get_csd(&mut self) -> Result<(), SdError> {
@@ -682,7 +689,7 @@ impl SdInstance {
         let resp3 = self.port.respr(3).read().0;
         self.csd = sd::CSD::from([resp0, resp1, resp2, resp3]);
         // self.csd = sd::CSD::from([resp3, resp2, resp1, resp0]);
-        defmt::info!("csd: {:?}, {:?}, {:?}, {:?}", resp0, resp1, resp2, resp3);
+        info!("csd: {:?}, {:?}, {:?}, {:?}", resp0, resp1, resp2, resp3);
         Ok(())
     }
     pub fn get_rca(&mut self) -> Result<(), SdError> {
@@ -691,7 +698,7 @@ impl SdInstance {
         self.send_cmd(cmd)?;
         // self.send_cmd(common_cmd::cmd(3, 0xA)).unwrap();
         let resp0 = self.port.respr(0).read().0;
-        defmt::info!("rca: {:x}", resp0);
+        info!("rca: {:x}", resp0);
         self.rca = sd::RCA::from(resp0);
         Ok(())
     }
@@ -723,12 +730,7 @@ impl SdInstance {
     }
 
     /// the maximum block count is (1<<24) = 16777216 bytes = 16MB
-    pub fn read_multiple_blocks(
-        &self,
-        buf: &[u8],
-        block_addr: u32,
-        block_count: u32,
-    ) -> Result<(), SdError> {
+    pub fn read_multiple_blocks(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
         // if (block_count + block_addr) > self.csd.block_count() as u32 {
         //     return Err(SdError::ReadBlockCountError);
         // }
@@ -755,12 +757,7 @@ impl SdInstance {
         Ok(())
     }
 
-    pub fn write_multiple_blocks(
-        &self,
-        buf: &[u8],
-        block_addr: u32,
-        block_count: u32,
-    ) -> Result<(), SdError> {
+    pub fn write_multiple_blocks(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::WriteBlockCountError);
         }
@@ -808,12 +805,7 @@ impl SdInstance {
         Ok(())
     }
 
-    pub async fn write_multiple_blocks_async(
-        &self,
-        buf: &[u8],
-        block_addr: u32,
-        block_count: u32,
-    ) -> Result<(), SdError> {
+    pub async fn write_multiple_blocks_async(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::WriteBlockCountError);
         }
@@ -835,18 +827,12 @@ impl SdInstance {
             v.set_idmabmode(false); // single buffer mode
             v.set_idmaen(true);
         });
-        self.send_cmd_async(sd_cmd::set_block_count(block_count))
-            .await?;
-        self.send_cmd_async(common_cmd::write_multiple_blocks(block_addr))
-            .await?;
+        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
+        self.send_cmd_async(common_cmd::write_multiple_blocks(block_addr)).await?;
         Ok(())
     }
 
-    pub async fn write_single_block_async(
-        &self,
-        buf: &[u8],
-        block_addr: u32,
-    ) -> Result<(), SdError> {
+    pub async fn write_single_block_async(&self, buf: &[u8], block_addr: u32) -> Result<(), SdError> {
         if block_addr as u64 > self.csd.block_count() {
             return Err(SdError::WriteAddressError);
         }
@@ -869,16 +855,11 @@ impl SdInstance {
             v.set_idmaen(true); // enable dma
         });
         // self.send_cmd(common_cmd::write_single_block(block_addr))?;
-        self.send_cmd_async(common_cmd::write_single_block(block_addr))
-            .await?;
+        self.send_cmd_async(common_cmd::write_single_block(block_addr)).await?;
         Ok(())
     }
 
-    pub async fn read_single_block_async(
-        &self,
-        buf: &mut [u8],
-        block_addr: u32,
-    ) -> Result<(), SdError> {
+    pub async fn read_single_block_async(&self, buf: &mut [u8], block_addr: u32) -> Result<(), SdError> {
         // TODO: check
         if block_addr > self.csd.block_count() as u32 {
             return Err(SdError::STATUSError);
@@ -902,17 +883,11 @@ impl SdInstance {
         });
 
         // self.send_cmd(common_cmd::read_single_block(block_addr as u32))?;
-        self.send_cmd_async(common_cmd::read_single_block(block_addr as u32))
-            .await?;
+        self.send_cmd_async(common_cmd::read_single_block(block_addr as u32)).await?;
         Ok(())
     }
 
-    pub async fn read_multiple_blocks_async(
-        &self,
-        buf: &[u8],
-        block_addr: u32,
-        block_count: u32,
-    ) -> Result<(), SdError> {
+    pub async fn read_multiple_blocks_async(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
         // if (block_count + block_addr) > self.csd.block_count() as u32 {
         //     return Err(SdError::ReadBlockCountError);
         // }
@@ -938,10 +913,8 @@ impl SdInstance {
         });
         // self.send_cmd(sd_cmd::set_block_count(block_count))?;
         // self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
-        self.send_cmd_async(sd_cmd::set_block_count(block_count))
-            .await?;
-        self.send_cmd_async(common_cmd::read_multiple_blocks(block_addr))
-            .await?;
+        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
+        self.send_cmd_async(common_cmd::read_multiple_blocks(block_addr)).await?;
         Ok(())
     }
 
@@ -1021,7 +994,7 @@ impl SdInstance {
             // cause by interrupt?
             let star = self.port.star().read();
             let mask = self.port.maskr().read();
-            defmt::info!("call wait for event");
+            info!("call wait for event");
             // list all interrupt
             let star_u32 = star.0;
             let mask_u32 = mask.0;
@@ -1122,7 +1095,7 @@ static mut SIGNAL2_VAL: u32 = 0;
 #[interrupt]
 fn SDMMC2() {
     unsafe {
-        // defmt::info!("SDMMC2 interrupt");
+        // info!("SDMMC2 interrupt");
         // TODO: we need the old value if it is signaled
         let stat = stm32_metapac::SDMMC2.star().read().0;
         if (SIGNAL2.signaled()) {

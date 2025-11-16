@@ -1,10 +1,9 @@
+use super::vals;
 use crate::usb::regs;
+use crate::usb::{ep0_mpsiz, ep_fifo_size, ep_irq_mask, to_eptyp, Config, EndpointData, OtgInstance, PhyType};
 use core::future::poll_fn;
 use core::task::Poll;
-use defmt::trace;
 use embassy_usb_driver::{Bus as OtherBus, Direction, EndpointAddress, Event, Unsupported};
-use crate::usb::{ep0_mpsiz, ep_fifo_size, ep_irq_mask, to_eptyp, Config, EndpointData, OtgInstance, PhyType};
-use super::vals;
 
 /// USB bus.
 pub struct Bus<'d, const MAX_EP_COUNT: usize> {
@@ -17,7 +16,7 @@ pub struct Bus<'d, const MAX_EP_COUNT: usize> {
 
 impl<'d, const MAX_EP_COUNT: usize> Bus<'d, MAX_EP_COUNT> {
     fn restore_irqs(&mut self) {
-        defmt::info!("restore_irqs");
+        info!("restore_irqs");
         self.instance.regs.gintmsk().write(|w| {
             w.set_usbrst(true);
             w.set_enumdnem(true);
@@ -154,9 +153,8 @@ impl<'d, const MAX_EP_COUNT: usize> Bus<'d, MAX_EP_COUNT> {
 
         // Connect
         r.dctl().write(|w| w.set_sdis(false));
-        defmt::info!("start connection");
+        info!("start connection");
     }
-
 
     fn init_fifo(&mut self) {
         trace!("init_fifo");
@@ -371,7 +369,7 @@ impl<'d, const MAX_EP_COUNT: usize> embassy_usb_driver::Bus for Bus<'d, MAX_EP_C
 
             Poll::Pending
         })
-            .await
+        .await
     }
 
     fn endpoint_set_stalled(&mut self, ep_addr: EndpointAddress, stalled: bool) {
@@ -501,4 +499,3 @@ impl<'d, const MAX_EP_COUNT: usize> embassy_usb_driver::Bus for Bus<'d, MAX_EP_C
         Err(Unsupported)
     }
 }
-

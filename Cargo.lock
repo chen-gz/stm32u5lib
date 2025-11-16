@@ -578,6 +578,7 @@ dependencies = [
  "embassy-usb-driver",
  "embedded-test",
  "futures",
+ "log",
  "sdio-host",
  "stm32-metapac",
 ]

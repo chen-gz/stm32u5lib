@@ -1,11 +1,10 @@
+use crate::usb::endpoint::Endpoint;
+use crate::usb::reg::Otg;
+use crate::usb::{ControlPipeSetupState, In, Out};
 use core::future::poll_fn;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
-use defmt::trace;
 use embassy_usb_driver::{EndpointError, EndpointIn, EndpointOut};
-use crate::usb::{ControlPipeSetupState, In, Out};
-use crate::usb::endpoint::{Endpoint};
-use crate::usb::reg::Otg;
 
 /// USB control pipe.
 pub struct ControlPipe<'d> {
@@ -37,9 +36,7 @@ impl<'d> embassy_usb_driver::ControlPipe for ControlPipe<'d> {
                 });
 
                 // Clear NAK to indicate we are ready to receive more data
-                self.regs
-                    .doepctl(self.ep_out.info.addr.index())
-                    .modify(|w| w.set_cnak(true));
+                self.regs.doepctl(self.ep_out.info.addr.index()).modify(|w| w.set_cnak(true));
 
                 trace!("SETUP received: {:?}", data);
                 Poll::Ready(data)
@@ -48,7 +45,7 @@ impl<'d> embassy_usb_driver::ControlPipe for ControlPipe<'d> {
                 Poll::Pending
             }
         })
-            .await
+        .await
     }
 
     async fn data_out(&mut self, buf: &mut [u8], _first: bool, _last: bool) -> Result<usize, EndpointError> {

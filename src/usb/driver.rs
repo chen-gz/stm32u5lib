@@ -1,10 +1,9 @@
-use core::marker::PhantomData;
-use defmt::{error, trace};
-use embassy_usb_driver::{ Direction, EndpointAddress, EndpointAllocError, EndpointInfo, EndpointType};
-use crate::usb::{ep_fifo_size, Config, Dir, EndpointData, In, OtgInstance, Out};
+use crate::usb::bus::Bus;
 use crate::usb::controlpipe::ControlPipe;
 use crate::usb::endpoint::Endpoint;
-use crate::usb::bus::Bus;
+use crate::usb::{ep_fifo_size, Config, Dir, EndpointData, In, OtgInstance, Out};
+use core::marker::PhantomData;
+use embassy_usb_driver::{Direction, EndpointAddress, EndpointAllocError, EndpointInfo, EndpointType};
 
 /// USB OTG driver.
 pub struct Driver<'d, const MAX_EP_COUNT: usize> {
@@ -186,4 +185,3 @@ impl<'d, const MAX_EP_COUNT: usize> embassy_usb_driver::Driver<'d> for Driver<'d
         )
     }
 }
-

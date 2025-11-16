@@ -1,5 +1,7 @@
 #![cfg_attr(not(test), no_std)]
 #![allow(dead_code)]
+#[macro_use]
+mod fmt;
 pub mod adc;
 pub mod clock;
 pub mod dma;

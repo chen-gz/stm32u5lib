@@ -5,7 +5,7 @@ use crate::clock::{delay_ms, delay_tick};
 use crate::gpio;
 use core::future::poll_fn;
 use cortex_m::delay;
-use cortex_m::interrupt::{Mutex};
+use cortex_m::interrupt::Mutex;
 use cortex_m::peripheral::scb;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
@@ -17,26 +17,20 @@ pub struct RtcPort;
 // the rtc often support by LSE (32.768kHz) or LSI (32kHz)
 pub use rcc::vals::Rtcsel as RtcSource;
 // impl RtcPort {
-pub fn setup(
-    year: u8,
-    month: u8,
-    day: u8,
-    hour: u8,
-    minute: u8,
-    second: u8,
-    period_wakup_s: u16,
-    rtc_source: rcc::vals::Rtcsel,
-) {
-    defmt::info!("rtc setup with year: {}, month: {}, day: {}, hour: {}, minute: {}, second: {}, period_wakup_s: {}", year, month, day, hour, minute, second, period_wakup_s);
+pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, period_wakup_s: u16, rtc_source: rcc::vals::Rtcsel) {
+    info!(
+        "rtc setup with year: {}, month: {}, day: {}, hour: {}, minute: {}, second: {}, period_wakup_s: {}",
+        year, month, day, hour, minute, second, period_wakup_s
+    );
     match rtc_source {
         rcc::vals::Rtcsel::LSE => {
-            defmt::info!("rtc source: LSE");
+            info!("rtc source: LSE");
         }
         rcc::vals::Rtcsel::LSI => {
-            defmt::info!("rtc source: LSI");
+            info!("rtc source: LSI");
         }
         _ => {
-            defmt::panic!("rtc source no support: ???");
+            panic!("rtc source no support: ???");
         }
     }
 
@@ -120,8 +114,7 @@ pub fn setup(
             }
 
             // set to 24h format
-            RTC.cr()
-                .modify(|v| v.set_fmt(rtc::vals::Fmt::TWENTY_FOUR_HOUR));
+            RTC.cr().modify(|v| v.set_fmt(rtc::vals::Fmt::TWENTY_FOUR_HOUR));
             RTC.tr().modify(|v| {
                 v.set_su(second % 10);
                 v.set_st(second / 10);
@@ -151,13 +144,11 @@ pub fn setup(
 
                 match rtc_source {
                     rcc::vals::Rtcsel::LSE => {
-                        RTC.wutr()
-                            .write(|w| { w.set_wut(period_wakup_s * 2048) });
+                        RTC.wutr().write(|w| w.set_wut(period_wakup_s * 2048));
                         // 32768Hz/16 = 2048Hz
                     }
                     rcc::vals::Rtcsel::LSI => {
-                        RTC.wutr()
-                            .write(|w| { w.set_wut(period_wakup_s * 2000) });
+                        RTC.wutr().write(|w| w.set_wut(period_wakup_s * 2000));
                         // 32000Hz/16 = 2000Hz
                     }
                     _ => {}
@@ -243,28 +234,19 @@ fn get_weekday() -> u8 {
 pub fn get_date() -> (u8, u8, u8) {
     // yymmdd
     let dr = RTC.dr().read();
-    (
-        dr.yu() + dr.yt() * 10,
-        dr.mu() + dr.mt() as u8 * 10,
-        dr.du() + dr.dt() * 10,
-    )
+    (dr.yu() + dr.yt() * 10, dr.mu() + dr.mt() as u8 * 10, dr.du() + dr.dt() * 10)
 }
 pub fn get_time() -> (u8, u8, u8) {
     // hhmmss
     let tr = RTC.tr().read();
-    (
-        tr.hu() + tr.ht() * 10,
-        tr.mnu() + tr.mnt() * 10,
-        tr.su() + tr.st() * 10,
-    )
+    (tr.hu() + tr.ht() * 10, tr.mnu() + tr.mnt() * 10, tr.su() + tr.st() * 10)
 }
 
-use core::time::Duration;
 use core::cell::RefCell;
+use core::time::Duration;
 
 // Wrap RTC_WAKER in a Mutex for safe access
-static RTC_WAKER: Mutex< RefCell<[Option<RtcWakers>; NUM_WAKER]>> =
-    Mutex::new(RefCell::new([const { None }; NUM_WAKER]));
+static RTC_WAKER: Mutex<RefCell<[Option<RtcWakers>; NUM_WAKER]>> = Mutex::new(RefCell::new([const { None }; NUM_WAKER]));
 
 // todo!("remove");
 pub async fn rtc_interrupt() {
@@ -284,16 +266,16 @@ pub async fn rtc_interrupt() {
     // LED_GREEN.toggle();
 }
 
-use stm32_metapac::interrupt;
 use crate::utils;
 use embassy_sync::waitqueue::AtomicWaker;
+use stm32_metapac::interrupt;
 fn rtc_time_to_duration() -> Duration {
     // the default duration start from 2000 years
     let date = get_date(); // year, month, day
     let time = get_time(); // hour, minute, second
                            // calculate duration from 2000
     let duration = utils::seconds_since_2000(date.0, date.1, date.2, time.0, time.1, time.2);
-    // defmt::info!("rtc_time_to_duration: {:?}s", duration);
+    // info!("rtc_time_to_duration: {:?}s", duration);
     Duration::from_secs(duration)
 }
 
@@ -324,7 +306,8 @@ pub async fn rtc_delay(duration: Duration) {
 
     // Find an empty slot and use it
     let empty = cortex_m::interrupt::free(|cs| {
-        RTC_WAKER.borrow(cs)
+        RTC_WAKER
+            .borrow(cs)
             .borrow()
             .iter()
             .position(|w| w.is_none())
@@ -404,11 +387,11 @@ pub fn fn_with_back_domain_write(f: impl FnOnce()) {
 }
 
 pub fn fn_with_write_protection(f: impl FnOnce()) {
-    RTC.wpr().write(|w| { w.0 = 0xCA }); // write protection disable
+    RTC.wpr().write(|w| w.0 = 0xCA); // write protection disable
     delay_tick(10);
-    RTC.wpr().write(|w| { w.0 = 0x53 }); // write protection disable
+    RTC.wpr().write(|w| w.0 = 0x53); // write protection disable
     f();
-    RTC.wpr().write(|w| { w.0 = 0xFF }); // write protection enable
+    RTC.wpr().write(|w| w.0 = 0xFF); // write protection enable
 }
 
 // todo!("remove");
@@ -417,7 +400,7 @@ static RTC_SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 #[interrupt]
 fn RTC() {
     PWR.dbpcr().modify(|v| v.set_dbp(true)); // enable backup domain write
-    defmt::info!("rtc interrupt with flag: {}", RTC.sr().read().0);
+    info!("rtc interrupt with flag: {}", RTC.sr().read().0);
     let stat: u32 = RTC.sr().read().0;
     RTC_SIGNAL.signal(stat);
     // clear interrupt flag
@@ -447,4 +430,3 @@ fn RTC() {
     });
     update_alarm();
 }
-

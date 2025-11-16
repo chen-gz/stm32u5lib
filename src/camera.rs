@@ -1,10 +1,6 @@
-use core::{
-    result::Result::{Err, Ok},
-};
-use defmt;
-use crate::{clock, dcmi, dma, i2c, gpio, rtc, sdmmc::SdInstance};
-
-use defmt_rtt as _;
+use crate::{clock, dcmi, dma, gpio, i2c, rtc, sdmmc::SdInstance};
+use crate::{error, info};
+use core::result::Result::{Err, Ok};
 
 // use 4 byte in first block to store the number of image files
 const IMG_START_BLOCK: u32 = 10;
@@ -23,12 +19,12 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
             break;
         }
     }
-    defmt::info!("first 100 bytes: {:x}", &pic_buf[0..100]);
+    info!("first 100 bytes: {:x}", &pic_buf[0..100]);
     if !found {
         // TODO: return error code
-        defmt::panic!("not find jpeg end");
+        panic!("not find jpeg end");
     }
-    defmt::info!("find jpeg end at {}, = {}kb", pic_end, pic_end / 1024);
+    info!("find jpeg end at {}, = {}kb", pic_end, pic_end / 1024);
     let date = rtc::get_date();
     let time = rtc::get_time();
     pic_buf[0] = (pic_end >> 24) as u8;
@@ -45,55 +41,45 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     // clock::set_clock_to_hsi(); // slow clock for sd card
     let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
     let end: usize = block_count as usize * 512;
-    defmt::info!(
-        "start write picture to sd card, block_count: {}",
-        block_count
-    );
+    info!("start write picture to sd card, block_count: {}", block_count);
     let mut buf = [0u8; 512];
     match sd.read_single_block_async(&mut buf, SIZE_BLOCK).await {
         Ok(_) => {
-            // defmt::info!("read picture number from sd card success");
+            // info!("read picture number from sd card success");
         }
         Err(err) => {
-            defmt::panic!("read picture number from sd card fail: {:?}", err);
+            panic!("read picture number from sd card fail: {:?}", err);
         }
     }
-    let mut num = ((buf[0] as u32) << 24)
-        | ((buf[1] as u32) << 16)
-        | ((buf[2] as u32) << 8)
-        | (buf[3] as u32);
+    let mut num = ((buf[0] as u32) << 24) | ((buf[1] as u32) << 16) | ((buf[2] as u32) << 8) | (buf[3] as u32);
     num += 1;
     buf[0] = (num >> 24) as u8;
     buf[1] = ((num >> 16) & 0xff) as u8;
     buf[2] = ((num >> 8) & 0xff) as u8;
     buf[3] = (num & 0xff) as u8;
     // current picture number
-    defmt::info!("current picture number: {}", num);
+    info!("current picture number: {}", num);
     match sd.write_single_block_async(&buf, SIZE_BLOCK).await {
         Ok(_) => {
-            defmt::info!("write picture number to sd card success");
+            info!("write picture number to sd card success");
         }
         Err(err) => {
-            defmt::panic!("write picture number to sd card fail: {:?}", err);
+            panic!("write picture number to sd card fail: {:?}", err);
         }
     }
 
     match sd
-        .write_multiple_blocks_async(
-            &pic_buf[0..end],
-            (num + IMG_START_BLOCK) * IMG_SIZE,
-            block_count,
-        )
+        .write_multiple_blocks_async(&pic_buf[0..end], (num + IMG_START_BLOCK) * IMG_SIZE, block_count)
         .await
     {
         Ok(_) => {
-            defmt::info!("write picture to sd card success");
+            info!("write picture to sd card success");
         }
         Err(err) => {
-            defmt::panic!("write picture to sd card fail: {:?}", err);
+            panic!("write picture to sd card fail: {:?}", err);
         }
     }
-    defmt::info!("finish write picture to sd card");
+    info!("finish write picture to sd card");
 }
 
 pub async fn capture(
@@ -113,7 +99,7 @@ pub async fn capture(
     // cam_i2c.write(OV5640_I2C_ADDR, &reg_val).unwrap();
     clock::delay_ms(200);
     dcmi.capture(dma::DMA_DCMI, &pic_buf[16..]).await;
-    defmt::info!("finish take picture");
+    info!("finish take picture");
     _pdwn.set_high();
     // 0x3008
 

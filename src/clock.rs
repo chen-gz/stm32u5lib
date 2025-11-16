@@ -61,7 +61,7 @@ where
 
 fn set_pll(freq: u32) {
     // if HSE_AVAILABLE.load(Ordering::Relaxed) && HSE_FREQ.load(Ordering::Relaxed) != 16_000_000 {
-    //     defmt::info!("unsupported HSE frequency, fallback to MSIS");
+    //     info!("unsupported HSE frequency, fallback to MSIS");
     // }
     // Turn PLL off before reconfiguring
     RCC.cr().modify(|w| w.set_pllon(0, false));
@@ -85,7 +85,7 @@ fn set_pll(freq: u32) {
     // PLLR = 320MHz / target_freq
     let pllr = 320_000_000 / freq;
     if 320_000_000 % freq != 0 {
-        defmt::panic!("Unsupported frequency");
+        panic!("Unsupported frequency");
     }
 
     RCC.pll1divr().modify(|v| {
@@ -191,7 +191,7 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
     } else if gpio == stm32_metapac::GPIOG {
         RCC.ahb2enr1().modify(|v| v.set_gpiogen(true));
     } else {
-        defmt::panic!("Not supported gpio");
+        panic!("Not supported gpio");
     }
 }
 
@@ -249,7 +249,7 @@ pub fn set_i2c_clock(i2c_num: u8) {
         // enable i2c3 clock
         RCC.apb3enr().modify(|v| v.set_i2c3en(true));
     } else {
-        defmt::panic!("Invalid i2c number");
+        panic!("Invalid i2c number");
     }
 }
 
@@ -286,7 +286,7 @@ pub fn set_lptim_clock(num: u8) -> u32 {
             // LSE_FREQ.load(Ordering::Relaxed)
             32768 // LSE_FREQ.load(Ordering::Relaxed)
         }
-        _ => defmt::panic!("Invalid lptim number"),
+        _ => panic!("Invalid lptim number"),
     }
 }
 
@@ -310,19 +310,20 @@ pub fn init_clock(
     enable_dbg: bool,
     system_min_freq: ClockFreqs,
 ) {
-    defmt::info!(
+    debug!(
         "setup clock with enable_dbg: {:?}, system_min_freq: {:?}",
         enable_dbg,
-        system_min_freq
+        // system_min_freq
+        1, // tmp
     );
 
     #[cfg(any(feature = "hse_16mhz", feature = "hse_26mhz"))]
     {
-        defmt::debug!("hse_16mhz or hse_26mhz feature enabled");
+        debug!("hse_16mhz or hse_26mhz feature enabled");
     }
     #[cfg(feature = "lse")]
     {
-        defmt::debug!("lse feature enabled");
+        debug!("lse feature enabled");
     }
     // unsafe {CLOCK_REF.has_hse = has_hse;}
     // HSE_AVAILABLE.store(has_hse, Ordering::Relaxed);
@@ -333,7 +334,7 @@ pub fn init_clock(
     unsafe {
         // this is safe because this function should only be called once
         if CALLED {
-            defmt::panic!("init_clock_new should only be called once");
+            panic!("init_clock_new should only be called once");
         }
         CALLED = true;
     }
@@ -347,21 +348,20 @@ pub fn init_clock(
     // check rtc is enabled or not. if enabled, do nothing
     let rtc_en = RCC.bdcr().read().rtcen();
     if !rtc_en {
-        defmt::info!("RTC not enabled, enable RTC");
+        info!("RTC not enabled, enable RTC");
         // if has_lse {
         #[cfg(feature = "lse")]
         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSE);
         #[cfg(not(feature = "lse"))]
         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
     }
-    defmt::debug!("RTC setup complete, start setting clock");
+    debug!("RTC setup complete, start setting clock");
     set_clock();
 }
 
 pub static CLOCK_REQUESTS: [AtomicU32; 32] = [const { AtomicU32::new(0) }; 32];
 // Clock source frequency versus voltage scaling (page 494)
-
-#[derive(Clone, Copy, Debug, defmt::Format)]
+#[derive(Clone, Copy, Debug)]
 pub enum ClockFreqs {
     KernelFreq160Mhz,
     // 160Mhz
@@ -420,7 +420,7 @@ impl ClockFreqs {
             6 => ClockFreqs::KernelFreq4Mhz,
             7 => ClockFreqs::KernelFreq2Mhz,
             8 => ClockFreqs::KernelFreq1Mhz,
-            _ => defmt::panic!("Invalid index"),
+            _ => panic!("Invalid index"),
         }
     }
 }
@@ -480,7 +480,7 @@ pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
     } else if sys_clk <= 160_000_000 {
         return (4, VoltageScale::RANGE1);
     } else {
-        defmt::panic!("sys_clk is too high");
+        panic!("sys_clk is too high");
     }
 }
 
@@ -550,7 +550,7 @@ fn inc_kern_freq(freq: u32) {
     //calc hclk
     let hclk = hclk_source / freq; // should be 2, 4, 8, 16, 32, 64, 128
     if hclk_source % freq != 0 {
-        defmt::panic!("Invalid hclk");
+        panic!("Invalid hclk");
     }
     match hclk {
         1 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV1)),
@@ -560,7 +560,7 @@ fn inc_kern_freq(freq: u32) {
         16 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV16)),
         64 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV64)),
         128 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV128)),
-        _ => defmt::panic!("Invalid hclk {}", hclk),
+        _ => panic!("Invalid hclk {}", hclk),
     }
     RCC.cfgr2().read().hpre();
     HCLK.store(freq, Ordering::Relaxed);
@@ -606,7 +606,7 @@ fn dec_kern_freq(freq: u32) {
         16 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV16)),
         64 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV64)),
         128 => RCC.cfgr2().modify(|w| w.set_hpre(rcc::vals::Hpre::DIV128)),
-        _ => defmt::panic!("Invalid hclk"),
+        _ => panic!("Invalid hclk"),
     }
 
     let (ws, vcore) = get_ws_and_vcore(freq);

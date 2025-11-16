@@ -6,7 +6,6 @@ use crate::usb::{
     interrupt::on_interrupt as on_interrupt_impl, In, OtgInstance, Out, PhyType, State,
 };
 use cortex_m::peripheral::NVIC;
-use defmt::info;
 use stm32_metapac::interrupt;
 
 use crate::clock::delay_us;
@@ -55,7 +54,7 @@ unsafe fn OTG_FS() {
 #[cfg(stm32u5a5)]
 #[interrupt]
 unsafe fn OTG_HS() {
-    defmt::trace!("OTG_HS interrupt");
+    trace!("OTG_HS interrupt");
     let r = regs();
     let state = &STATE;
     on_interrupt_impl(r, state, MAX_EP_COUNT);
@@ -116,8 +115,7 @@ impl<'d> embassy_usb_driver::Driver<'d> for Driver<'d> {
         max_packet_size: u16,
         interval_ms: u8,
     ) -> Result<Self::EndpointIn, EndpointAllocError> {
-        self.inner
-            .alloc_endpoint_in(ep_type, max_packet_size, interval_ms)
+        self.inner.alloc_endpoint_in(ep_type, max_packet_size, interval_ms)
     }
 
     fn alloc_endpoint_out(
@@ -126,8 +124,7 @@ impl<'d> embassy_usb_driver::Driver<'d> for Driver<'d> {
         max_packet_size: u16,
         interval_ms: u8,
     ) -> Result<Self::EndpointOut, EndpointAllocError> {
-        self.inner
-            .alloc_endpoint_out(ep_type, max_packet_size, interval_ms)
+        self.inner.alloc_endpoint_out(ep_type, max_packet_size, interval_ms)
     }
 
     fn start(self, control_max_packet_size: u16) -> (Self::Bus, Self::ControlPipe) {
@@ -180,11 +177,9 @@ fn common_init() {
         w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
     });
 
-    defmt::trace!("Waiting for USB power to stabilize");
+    trace!("Waiting for USB power to stabilize");
     while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
-    defmt::trace!("USB power stabilized");
-
-
+    trace!("USB power stabilized");
 
     #[cfg(stm32u575)]
     unsafe {
@@ -217,9 +212,7 @@ impl<'d> Bus<'d> {
         // Configuring Vbus sense and SOF output
         match core_id {
             0x0000_1200 | 0x0000_1100 | 0x0000_1000 => self.inner.config_v1(),
-            0x0000_2000 | 0x0000_2100 | 0x0000_2300 | 0x0000_3000 | 0x0000_3100 => {
-                self.inner.config_v2v3()
-            }
+            0x0000_2000 | 0x0000_2100 | 0x0000_2300 | 0x0000_3000 | 0x0000_3100 => self.inner.config_v2v3(),
             0x0000_5000 => self.inner.config_v5(),
             _ => unimplemented!("Unknown USB core id {:X}", core_id),
         }

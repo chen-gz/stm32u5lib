@@ -1,19 +1,22 @@
 //! USART Driver with Async Support and Separated TX/RX Wakers
 #![allow(unused)]
 
-use core::task::Poll;
-use crate::{clock, gpio::{self, USART1_RX_PINS, USART1_TX_PINS}, hal};
-use defmt::todo;
-use stm32_metapac::{
-    common::R,
-    usart::vals::{Over8, Stop, M0, M1},
+use crate::dma::DmaChannel;
+use crate::low_power::run_no_deep_sleep_async;
+use crate::{
+    clock,
+    gpio::{self, USART1_RX_PINS, USART1_TX_PINS},
+    hal,
 };
+use core::task::Poll;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::waitqueue::AtomicWaker;
 use gpio::GpioPort;
 use stm32_metapac::interrupt;
-use crate::dma::DmaChannel;
-use crate::low_power::run_no_deep_sleep_async;
+use stm32_metapac::{
+    common::R,
+    usart::vals::{Over8, Stop, M0, M1},
+};
 
 pub struct Usart {
     port: stm32_metapac::usart::Usart,
@@ -32,13 +35,9 @@ pub enum UsartError {
     BusError,
 }
 
-
-static RX_WAKERS: [AtomicWaker; 8] = [const {AtomicWaker::new()}; 8];
-static TX_WAKERS: [AtomicWaker; 8] = [const {AtomicWaker::new()}; 8];
-static TAKEN: [core::sync::atomic::AtomicBool; 8] = [
-    const { core::sync::atomic::AtomicBool::new(false) };
-    8
-];
+static RX_WAKERS: [AtomicWaker; 8] = [const { AtomicWaker::new() }; 8];
+static TX_WAKERS: [AtomicWaker; 8] = [const { AtomicWaker::new() }; 8];
+static TAKEN: [core::sync::atomic::AtomicBool; 8] = [const { core::sync::atomic::AtomicBool::new(false) }; 8];
 
 fn port_num_to_usart(port_num: u8) -> stm32_metapac::usart::Usart {
     match port_num {
@@ -53,7 +52,7 @@ fn pin_to_port(tx: &gpio::GpioPort, rx: &gpio::GpioPort) -> u8 {
     if USART1_TX_PINS.contains(tx) && USART1_RX_PINS.contains(rx) {
         1
     } else {
-        todo!()
+        panic!("not defined");
     }
 }
 
@@ -104,7 +103,12 @@ impl hal::Usart<GpioPort> for Usart {
             }
         }
 
-        Ok(Usart { port, port_num, use_dma: false,  dma: None })
+        Ok(Usart {
+            port,
+            port_num,
+            use_dma: false,
+            dma: None,
+        })
     }
 
     fn read(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
@@ -128,9 +132,10 @@ impl hal::Usart<GpioPort> for Usart {
                     panic!("not supported dma");
                 }
             } else {
-                return self.read_async_interrupt(data)
+                return self.read_async_interrupt(data);
             }
-        }).await
+        })
+        .await;
     }
 
     fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
@@ -162,7 +167,6 @@ impl hal::Usart<GpioPort> for Usart {
 }
 
 impl Usart {
-
     // todo: test this function
     pub async fn read_async_interrupt(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
         for i in 0..data.len() {
@@ -174,7 +178,8 @@ impl Usart {
                 } else {
                     Poll::Pending
                 }
-            }).await;
+            })
+            .await;
 
             data[i] = self.port.rdr().read().dr() as u8;
         }
@@ -192,7 +197,8 @@ impl Usart {
                 } else {
                     Poll::Pending
                 }
-            }).await;
+            })
+            .await;
             self.port.tdr().write(|v| v.set_dr(c as u16));
         }
 
@@ -204,7 +210,8 @@ impl Usart {
             } else {
                 Poll::Pending
             }
-        }).await;
+        })
+        .await;
 
         Ok(())
     }

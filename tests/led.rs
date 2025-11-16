@@ -2,8 +2,10 @@
 #![no_main]
 
 use cortex_m_rt as _;
-use defmt_rtt as _;
 use u5_lib as _;
+// force enable defmt in this file
+#[cfg(feature = "defmt")]
+use defmt_rtt as _;
 
 #[embedded_test::tests]
 mod tests {

@@ -1,7 +1,6 @@
-use core::sync::atomic::Ordering;
-use defmt::{error, trace};
-use stm32_metapac::otg::{vals, Otg};
 use crate::usb::{State, EP_OUT_BUFFER_EMPTY};
+use core::sync::atomic::Ordering;
+use stm32_metapac::otg::{vals, Otg};
 
 /// Handle interrupts.
 pub unsafe fn on_interrupt<const MAX_EP_COUNT: usize>(r: Otg, state: &State<MAX_EP_COUNT>, ep_count: usize) {
@@ -45,7 +44,11 @@ pub unsafe fn on_interrupt<const MAX_EP_COUNT: usize>(r: Otg, state: &State<MAX_
                 let data = &state.cp_state.setup_data;
                 data[0].store(r.fifo(0).read().data(), Ordering::Relaxed);
                 data[1].store(r.fifo(0).read().data(), Ordering::Relaxed);
-                defmt::info!("SETUP: {:08x} {:08x}", data[0].load(Ordering::Relaxed), data[1].load(Ordering::Relaxed));
+                info!(
+                    "SETUP: {:08x} {:08x}",
+                    data[0].load(Ordering::Relaxed),
+                    data[1].load(Ordering::Relaxed)
+                );
             }
             vals::Pktstsd::OUT_DATA_RX => {
                 trace!("OUT_DATA_RX ep={} len={}", ep_num, len);
@@ -53,8 +56,7 @@ pub unsafe fn on_interrupt<const MAX_EP_COUNT: usize>(r: Otg, state: &State<MAX_
                 if state.ep_states[ep_num].out_size.load(Ordering::Acquire) == EP_OUT_BUFFER_EMPTY {
                     // SAFETY: Buffer size is allocated to be equal to endpoint's maximum packet size
                     // We trust the peripheral to not exceed its configured MPSIZ
-                    let buf =
-                        unsafe { core::slice::from_raw_parts_mut(*state.ep_states[ep_num].out_buffer.get(), len) };
+                    let buf = unsafe { core::slice::from_raw_parts_mut(*state.ep_states[ep_num].out_buffer.get(), len) };
 
                     for chunk in buf.chunks_mut(4) {
                         // RX FIFO is shared so always read from fifo(0)
@@ -80,7 +82,9 @@ pub unsafe fn on_interrupt<const MAX_EP_COUNT: usize>(r: Otg, state: &State<MAX_
             vals::Pktstsd::SETUP_DATA_DONE => {
                 trace!("SETUP_DATA_DONE ep={}", ep_num);
             }
-            x => trace!("unknown PKTSTS: {}", x.to_bits()),
+            _x => {
+                trace!("unknown PKTSTS: {}", _x.to_bits());
+            }
         }
     }
 
@@ -140,4 +144,3 @@ pub unsafe fn on_interrupt<const MAX_EP_COUNT: usize>(r: Otg, state: &State<MAX_
         }
     }
 }
-

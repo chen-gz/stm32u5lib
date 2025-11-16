@@ -1,11 +1,11 @@
 use crate::usb::regs;
+use crate::usb::{EpState, In, Out, EP_OUT_BUFFER_EMPTY};
 use core::future::poll_fn;
 use core::marker::PhantomData;
 use core::sync::atomic::Ordering;
 use core::task::Poll;
 use embassy_usb_driver::{EndpointError, EndpointInfo, EndpointType};
-use crate::usb::{EpState, In, Out, EP_OUT_BUFFER_EMPTY};
-use defmt::trace;
+
 use crate::usb::reg::Otg;
 
 /// USB endpoint.
@@ -33,7 +33,7 @@ impl<'d> embassy_usb_driver::Endpoint for Endpoint<'d, In> {
                 Poll::Pending
             }
         })
-            .await
+        .await
     }
 }
 
@@ -54,7 +54,7 @@ impl<'d> embassy_usb_driver::Endpoint for Endpoint<'d, Out> {
                 Poll::Pending
             }
         })
-            .await
+        .await
     }
 }
 
@@ -122,7 +122,7 @@ impl<'d> embassy_usb_driver::EndpointOut for Endpoint<'d, Out> {
                 Poll::Pending
             }
         })
-            .await
+        .await
     }
 }
 
@@ -140,12 +140,12 @@ impl<'d> embassy_usb_driver::EndpointIn for Endpoint<'d, In> {
             self.state.in_waker.register(cx.waker());
 
             let diepctl = self.regs.diepctl(index).read();
-            let dtxfsts = self.regs.dtxfsts(index).read();
+            let _dtxfsts = self.regs.dtxfsts(index).read();
             trace!(
                 "write ep={:?}: diepctl {:08x} ftxfsts {:08x}",
                 self.info.addr,
                 diepctl.0,
-                dtxfsts.0
+                _dtxfsts.0
             );
             if !diepctl.usbaep() {
                 trace!("write ep={:?} wait for prev: error disabled", self.info.addr);
@@ -158,7 +158,7 @@ impl<'d> embassy_usb_driver::EndpointIn for Endpoint<'d, In> {
                 Poll::Pending
             }
         })
-            .await?;
+        .await?;
 
         if buf.len() > 0 {
             poll_fn(|cx| {
@@ -183,7 +183,7 @@ impl<'d> embassy_usb_driver::EndpointIn for Endpoint<'d, In> {
                     Poll::Ready(())
                 }
             })
-                .await
+            .await
         }
 
         // ERRATA: Transmit data FIFO is corrupted when a write sequence to the FIFO is interrupted with
@@ -209,7 +209,7 @@ impl<'d> embassy_usb_driver::EndpointIn for Endpoint<'d, In> {
                         r.set_sd0pid_sevnfrm(true);
                     } else {
                         // r.set_sd1pid_soddfrm(true);
-                        r.set_sd0pid_sevnfrm(false);   
+                        r.set_sd0pid_sevnfrm(false);
                     }
                 });
             }

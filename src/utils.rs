@@ -7,16 +7,16 @@ use core::time::Duration;
 #[cfg(feature = "utils")]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
-    defmt::info!("panic");
-    defmt::error!(
+    info!("panic");
+    error!(
         "Location file name: {:?}, line: {:?}, col: {:?}",
         _info.location().unwrap().file(),
         _info.location().unwrap().line(),
         _info.location().unwrap().column()
     );
-    defmt::info!("panic endless loop");
+    info!("panic endless loop");
     // if let Some(args) = _info.message() {
-    //     defmt::error!("Panic message: {:?}", args.as_str());
+    //     error!("Panic message: {:?}", args.as_str());
     // }
     loop {}
 }
