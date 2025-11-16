@@ -14,7 +14,7 @@ mod tests {
 
     use u5_lib::{
         clock::{self, delay_s},
-        debug, info, rtc,
+        debug,
     };
     /// This function is run before each test case.
     #[init]
@@ -23,31 +23,26 @@ mod tests {
     }
 
     #[test]
-    #[timeout(5)]
+    #[timeout(1)]
     async fn test_clock() {
         clock::init_clock(true, u5_lib::clock::ClockFreqs::KernelFreq160Mhz);
         let lserdy = u5_lib::clock::RCC.bdcr().read().lserdy(); // status of lse
-        debug!("LSERDY: {}", lserdy);
-        assert!(lserdy);
         let hsirdy = u5_lib::clock::RCC.cr().read().hsirdy();
-        debug!("HSIRDY: {}", hsirdy);
-        assert!(hsirdy);
-        // RTC
         let rtc_status = u5_lib::clock::RCC.bdcr().read().rtcen();
-        debug!("RTCEN: {}", rtc_status);
-        assert!(rtc_status);
+        assert!(lserdy && hsirdy && rtc_status);
     }
+
     #[test]
-    #[timeout(5)]
+    #[timeout(4)]
     fn test_normal_delay_and_rtc() {
         clock::init_clock(true, u5_lib::clock::ClockFreqs::KernelFreq160Mhz);
         // get rtc time and printout
-        rtc::enable_rtc_read();
+        u5_lib::rtc::enable_rtc_read();
         // get rtc time and printout
-        let (hh0, mm0, ss0) = rtc::get_time();
+        let (hh0, mm0, ss0) = u5_lib::rtc::get_time();
         debug!("RTC Time: {:02}:{:02}:{:02}", hh0, mm0, ss0);
         delay_s(3);
-        let (hh1, mm1, ss1) = rtc::get_time();
+        let (hh1, mm1, ss1) = u5_lib::rtc::get_time();
         debug!("RTC Time after delay: {:02}:{:02}:{:02}", hh1, mm1, ss1);
         assert!(hh0 != 0 || hh1 != 0 || mm0 != 0 || mm1 != 0 || ss0 != 0 || ss1 != 0);
     }
