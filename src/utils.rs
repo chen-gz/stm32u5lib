@@ -1,8 +1,9 @@
 // #![feature(panic_info_message)]
 
+#[cfg(feature = "utils")]
 use core::panic::PanicInfo;
-use core::time::Duration;
 
+use core::time::Duration;
 #[cfg(feature = "utils")]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -30,7 +31,13 @@ fn days_in_month(year: u8, month: u8) -> u8 {
     match month {
         1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
         4 | 6 | 9 | 11 => 30,
-        2 => if is_leap_year(year) { 29 } else { 28 },
+        2 => {
+            if is_leap_year(year) {
+                29
+            } else {
+                28
+            }
+        }
         _ => 0,
     }
 }
@@ -50,7 +57,7 @@ pub fn seconds_since_2000(year: u8, month: u8, day: u8, hour: u8, min: u8, sec: 
     let total_seconds = total_days * SECONDS_IN_A_DAY + (hour as u64 * 3600) + (min as u64 * 60) + sec as u64;
     total_seconds
 }
-pub fn duration_since_2000 (year: u8, month: u8, day: u8, hour: u8, min: u8, sec: u8) -> Duration {
+pub fn duration_since_2000(year: u8, month: u8, day: u8, hour: u8, min: u8, sec: u8) -> Duration {
     Duration::from_secs(seconds_since_2000(year, month, day, hour, min, sec))
 }
 pub fn time_date_from_duration_since_2000(duration: Duration) -> (u8, u8, u8, u8, u8, u8) {

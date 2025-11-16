@@ -518,8 +518,8 @@ checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
 
 [[package]]
 name = "stm32-metapac"
-version = "16.0.0"
-source = "git+https://github.com/embassy-rs/stm32-data-generated?rev=5e67b48ea298ef23cc3a07f4bced6c5ddce0c934#5e67b48ea298ef23cc3a07f4bced6c5ddce0c934"
+version = "18.0.0"
+source = "git+https://github.com/embassy-rs/stm32-data-generated?rev=34a338b3fd367ca053cc217d1e8edce2472d1b5f#34a338b3fd367ca053cc217d1e8edce2472d1b5f"
 dependencies = [
  "cortex-m",
  "cortex-m-rt",
