@@ -639,4 +639,3 @@ pub fn set_mco(pin: gpio::GpioPort, clk: Mcosel, div: stm32_metapac::rcc::vals::
         w.set_mcopre(div);
     });
 }
-

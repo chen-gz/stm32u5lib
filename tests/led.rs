@@ -4,14 +4,13 @@
 use cortex_m_rt as _;
 use defmt_rtt as _;
 use u5_lib as _;
-use u5_lib::*;
 
 #[embedded_test::tests]
 mod tests {
 
     use u5_lib::{
         clock::{self, delay_ms},
-        gpio::{TIM1_CH2_PA9, TIM3_CH1_PA6},
+        gpio::TIM3_CH1_PA6,
         tim::Config,
     };
 
@@ -22,17 +21,17 @@ mod tests {
     }
 
     #[test]
-    fn test_led_160Mhz() {
+    fn test_led_160mhz() {
         u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
         test_led();
     }
     #[test]
-    fn test_led_80Mhz() {
+    fn test_led_80mhz() {
         u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq80Mhz);
         test_led();
     }
     #[test]
-    fn test_led_40Mhz() {
+    fn test_led_40mhz() {
         u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq40Mhz);
         test_led();
     }
