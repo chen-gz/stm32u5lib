@@ -4,6 +4,7 @@
 use cortex_m_rt as _;
 use defmt_rtt as _;
 use u5_lib as _;
+use u5_lib::*;
 
 #[embedded_test::tests]
 mod tests {
@@ -17,7 +18,42 @@ mod tests {
     /// This function is run before each test case.
     #[init]
     fn init() {
+        // u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
+    }
+
+    #[test]
+    fn test_led_160Mhz() {
         u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
+        test_led();
+    }
+    #[test]
+    fn test_led_80Mhz() {
+        u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq80Mhz);
+        test_led();
+    }
+    #[test]
+    fn test_led_40Mhz() {
+        u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq40Mhz);
+        test_led();
+    }
+
+    fn test_led() {
+        u5_lib::necleo_u575::LED_BLUE.setup();
+        u5_lib::necleo_u575::LED_GREEN.setup();
+        u5_lib::necleo_u575::LED_RED.setup();
+
+        u5_lib::necleo_u575::LED_BLUE.set_high();
+        delay_ms(500);
+        u5_lib::necleo_u575::LED_GREEN.set_high();
+        delay_ms(500);
+        u5_lib::necleo_u575::LED_RED.set_high();
+        delay_ms(500);
+        u5_lib::necleo_u575::LED_BLUE.set_low();
+        delay_ms(500);
+        u5_lib::necleo_u575::LED_GREEN.set_high();
+        delay_ms(500);
+        u5_lib::necleo_u575::LED_RED.set_low();
+        delay_ms(500);
     }
 
     #[test]
