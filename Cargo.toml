@@ -143,3 +143,6 @@ harness = false
 [[test]]
 name = "clock"
 harness = false
+[[test]]
+name = "exti_btn"
+harness = false

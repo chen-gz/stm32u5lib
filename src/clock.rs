@@ -315,18 +315,6 @@ pub fn init_clock(
         enable_dbg, system_min_freq
     );
 
-    #[cfg(any(feature = "hse_16mhz", feature = "hse_26mhz"))]
-    {
-        debug!("hse_16mhz or hse_26mhz feature enabled");
-    }
-    #[cfg(feature = "lse")]
-    {
-        debug!("lse feature enabled");
-    }
-    // unsafe {CLOCK_REF.has_hse = has_hse;}
-    // HSE_AVAILABLE.store(has_hse, Ordering::Relaxed);
-    // LSE_AVAILABLE.store(has_lse, Ordering::Relaxed);
-    // HSE_FREQ.store(hse_frq, Ordering::Relaxed);
     RCC.ahb3enr().modify(|v| v.set_pwren(true));
     static mut CALLED: bool = false;
     unsafe {
@@ -353,7 +341,6 @@ pub fn init_clock(
         #[cfg(not(feature = "lse"))]
         rtc::setup(20, 01, 01, 01, 01, 0, 0, rcc::vals::Rtcsel::LSI);
     }
-    debug!("RTC setup complete, start setting clock");
     set_clock();
 }
 
@@ -363,22 +350,14 @@ pub static CLOCK_REQUESTS: [AtomicU32; 32] = [const { AtomicU32::new(0) }; 32];
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum ClockFreqs {
     KernelFreq160Mhz,
-    // 160Mhz
     KernelFreq80Mhz,
-    // 80Mhz
     KernelFreq40Mhz,
-    // 40Mhz
     KernelFreq20Mhz,
-    // 20Mhz
     KernelFreq16Mhz,
-    // 16Mhz
     KernelFreq8Mhz,
-    // 8Mhz
     KernelFreq4Mhz,
-    // 4Mhz
     KernelFreq2Mhz,
-    // 2Mhz
-    KernelFreq1Mhz, // 1Mhz
+    KernelFreq1Mhz,
 }
 
 impl ClockFreqs {
