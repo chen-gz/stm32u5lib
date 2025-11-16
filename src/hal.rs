@@ -9,7 +9,14 @@ pub trait Pin {
     fn toggle(&self);
 }
 pub trait DMA {
-    fn start(&self, src_addr: u32, src_inc: bool, dar_addr: u32, dst_inc: bool, len: u32) -> impl core::future::Future<Output = ()> + Send + Sync;
+    fn start(
+        &self,
+        src_addr: u32,
+        src_inc: bool,
+        dar_addr: u32,
+        dst_inc: bool,
+        len: u32,
+    ) -> impl core::future::Future<Output = ()> + Send + Sync;
     fn stop(&self);
 }
 
@@ -37,28 +44,15 @@ pub trait I2c<T: Pin> {
     /// start  -> write(data) -> stop
     fn write(&self, addr: u16, data: &[u8]) -> Result<(), I2cError>;
     // async fn write_aysnc(&self, addr: u16, data: &[u8]) -> Result<(), I2cError>;
-    fn write_async(
-        &self,
-        addr: u16,
-        data: &[u8],
-    ) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
+    fn write_async(&self, addr: u16, data: &[u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
 
     /// read data from addr, the length is determined by the length of data
     fn read(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError>;
     // async fn read_async(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError>;
-    fn read_async(
-        &self,
-        addr: u16,
-        data: &mut [u8],
-    ) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
+    fn read_async(&self, addr: u16, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
 
     /// start -> write(write_data) -> restart -> read(read_data) -> stop
-    fn write_read(
-        &self,
-        addr: u16,
-        write_data: &[u8],
-        read_data: &mut [u8],
-    ) -> Result<(), I2cError>;
+    fn write_read(&self, addr: u16, write_data: &[u8], read_data: &mut [u8]) -> Result<(), I2cError>;
 
     /// return the maximum frequency that the I2c can support
     fn capacity(&self) -> I2cFrequency;
@@ -114,14 +108,8 @@ pub trait Usart<T: Pin> {
         }
     }
     fn read(&self, data: &mut [u8]) -> Result<(), UsartError>;
-    fn write_async(
-        &self,
-        data: &[u8],
-    ) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
-    fn read_async(
-        &self,
-        data: &mut [u8],
-    ) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
+    fn write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
+    fn read_async(&self, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
 }
 
 // pub trait Spi: Drop {

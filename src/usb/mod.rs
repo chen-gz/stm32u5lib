@@ -4,11 +4,11 @@
 
 // This must go FIRST so that all the other modules see its macros.
 
-pub mod endpoint;
-pub mod controlpipe;
 pub mod bus;
-pub mod interrupt;
+pub mod controlpipe;
 pub mod driver;
+pub mod endpoint;
+pub mod interrupt;
 pub mod reg;
 
 use crate::usb::reg::{vals, Otg};
@@ -16,19 +16,12 @@ use core::cell::UnsafeCell;
 use core::sync::atomic::{AtomicBool, AtomicU16, AtomicU32};
 
 use embassy_sync::waitqueue::AtomicWaker;
-use embassy_usb_driver::{
-    Direction,
-    EndpointType,
-};
-
-
+use embassy_usb_driver::{Direction, EndpointType};
 
 // use stm32_metapac::otg::Otg;
 // use stm32_metapac::otg::vals;
 // use stm32_metapac::otg::regs;
 use crate::usb::reg::regs;
-
-
 
 /// USB PHY type
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
@@ -196,8 +189,6 @@ impl Dir for Out {
     }
 }
 
-
-
 /// Translates HAL [EndpointType] into PAC [vals::Eptyp]
 fn to_eptyp(ep_type: EndpointType) -> vals::Eptyp {
     match ep_type {
@@ -215,16 +206,9 @@ fn ep_fifo_size(eps: &[Option<EndpointData>]) -> u16 {
 
 /// Generates IRQ mask for enabled endpoints
 fn ep_irq_mask(eps: &[Option<EndpointData>]) -> u16 {
-    eps.iter().enumerate().fold(
-        0,
-        |mask, (index, ep)| {
-            if ep.is_some() {
-                mask | (1 << index)
-            } else {
-                mask
-            }
-        },
-    )
+    eps.iter()
+        .enumerate()
+        .fold(0, |mask, (index, ep)| if ep.is_some() { mask | (1 << index) } else { mask })
 }
 
 /// Calculates MPSIZ value for EP0, which uses special values.

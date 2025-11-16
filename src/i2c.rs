@@ -31,12 +31,7 @@ pub struct I2c {
 }
 
 impl I2cConfig {
-    pub fn new(
-        port_num: u8,
-        freq: u32,
-        scl_pin: crate::gpio::GpioPort,
-        sda_pin: crate::gpio::GpioPort,
-    ) -> Self {
+    pub fn new(port_num: u8, freq: u32, scl_pin: crate::gpio::GpioPort, sda_pin: crate::gpio::GpioPort) -> Self {
         Self {
             port_num,
             freq,
@@ -97,19 +92,14 @@ pub struct I2cMessage<'a> {
     pub data: &'a mut [u8],
 }
 
-
 /////////////////////////// HAL implementation /////////////////////////////
 use crate::gpio::{
-    GpioPort, I2C1_SCL_PB6, I2C1_SCL_PB8, I2C1_SCL_PINS, I2C1_SDA_PB7, I2C1_SDA_PINS, I2C2_SCL_PF1,
-    I2C2_SCL_PINS, I2C2_SDA_PINS, I2C3_SCL_PINS, I2C3_SDA_PB4, I2C3_SDA_PINS, PB4,
+    GpioPort, I2C1_SCL_PB6, I2C1_SCL_PB8, I2C1_SCL_PINS, I2C1_SDA_PB7, I2C1_SDA_PINS, I2C2_SCL_PF1, I2C2_SCL_PINS, I2C2_SDA_PINS,
+    I2C3_SCL_PINS, I2C3_SDA_PB4, I2C3_SDA_PINS, PB4,
 };
 use crate::hal;
 impl hal::I2c<GpioPort> for I2c {
-    fn new(
-        freq: hal::I2cFrequency,
-        sda_pin: GpioPort,
-        scl_pin: GpioPort,
-    ) -> Result<Self, hal::I2cError> {
+    fn new(freq: hal::I2cFrequency, sda_pin: GpioPort, scl_pin: GpioPort) -> Result<Self, hal::I2cError> {
         let port_num = pin_to_port(&scl_pin, &sda_pin);
         let freq = match freq {
             hal::I2cFrequency::Freq100khz => 100_000,
@@ -200,11 +190,7 @@ impl hal::I2c<GpioPort> for I2c {
     // async fn read_async(&self, addr: u16, data: &mut [u8]) -> Result<(), hal::I2cError> {
     //     todo!( "not implement")
     // }
-    fn read_async(
-        &self,
-        addr: u16,
-        data: &mut [u8],
-    ) -> impl core::future::Future<Output = Result<(), hal::I2cError>> + Send {
+    fn read_async(&self, addr: u16, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), hal::I2cError>> + Send {
         async move {
             todo!("Implement data fetching logic here");
         }
@@ -235,26 +221,14 @@ impl hal::I2c<GpioPort> for I2c {
     //     todo!("not implement")
 
     // }
-    fn write_async(
-        &self,
-        addr: u16,
-        data: &[u8],
-    ) -> impl core::future::Future<Output = Result<(), hal::I2cError>> + Send {
+    fn write_async(&self, addr: u16, data: &[u8]) -> impl core::future::Future<Output = Result<(), hal::I2cError>> + Send {
         async move {
             todo!("Implement data sending logic here");
         }
     }
 
-    fn write_read(
-        &self,
-        addr: u16,
-        write_data: &[u8],
-        read_data: &mut [u8],
-    ) -> Result<(), hal::I2cError> {
-        let message = I2cMessage {
-            addr,
-            data: read_data,
-        };
+    fn write_read(&self, addr: u16, write_data: &[u8], read_data: &mut [u8]) -> Result<(), hal::I2cError> {
+        let message = I2cMessage { addr, data: read_data };
         assert!(write_data.len() <= 255);
         assert!(read_data.len() <= 255);
         self.write(addr, write_data)?;
