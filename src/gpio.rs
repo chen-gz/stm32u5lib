@@ -65,41 +65,23 @@ impl GpioPort {
     }
     pub fn toggle(&self) {
         self.port.odr().modify(|v| {
-            v.set_odr(
-                self.pin,
-                if v.odr(self.pin) == Odr::HIGH {
-                    Odr::LOW
-                } else {
-                    Odr::HIGH
-                },
-            );
+            v.set_odr(self.pin, if v.odr(self.pin) == Odr::HIGH { Odr::LOW } else { Odr::HIGH });
         })
     }
     pub fn setup(&self) {
         // enable the clock
         clock::set_gpio_clock(self.port);
         self.port.otyper().modify(|v| v.set_ot(self.pin, self.ot));
+        self.port.pupdr().modify(|v| v.set_pupdr(self.pin, self.pupd));
         self.port
-            .pupdr()
-            .modify(|v| v.set_pupdr(self.pin, self.pupd));
-        self.port.ospeedr().modify(|v| {
-            v.set_ospeedr(
-                self.pin,
-                stm32_metapac::gpio::vals::Ospeedr::VERY_HIGH_SPEED,
-            )
-        });
+            .ospeedr()
+            .modify(|v| v.set_ospeedr(self.pin, stm32_metapac::gpio::vals::Ospeedr::VERY_HIGH_SPEED));
         if self.pin < 8 {
-            self.port
-                .afr(0)
-                .modify(|v| v.set_afr(self.pin, self.alt_func));
+            self.port.afr(0).modify(|v| v.set_afr(self.pin, self.alt_func));
         } else {
-            self.port
-                .afr(1)
-                .modify(|v| v.set_afr(self.pin - 8, self.alt_func));
+            self.port.afr(1).modify(|v| v.set_afr(self.pin - 8, self.alt_func));
         }
-        self.port
-            .moder()
-            .modify(|v| v.set_moder(self.pin, self.mode));
+        self.port.moder().modify(|v| v.set_moder(self.pin, self.mode));
     }
 }
 define_gpio_port!(

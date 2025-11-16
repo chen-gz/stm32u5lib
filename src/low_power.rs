@@ -22,39 +22,6 @@
 //! consequently one must define their entrypoint manually. Moveover, you must relinquish control
 //! of the `RTC` peripheral to the executor. This will typically look like
 //!
-//! ```rust,no_run
-//! use embassy_executor::Spawner;
-//! use embassy_stm32::low_power::Executor;
-//! use embassy_stm32::rtc::{Rtc, RtcConfig};
-//! use static_cell::StaticCell;
-//!
-//! #[cortex_m_rt::entry]
-//! fn main() -> ! {
-//!     Executor::take().run(|spawner| {
-//!         unwrap!(spawner.spawn(async_main(spawner)));
-//!     });
-//! }
-//!
-//! #[embassy_executor::task]
-//! async fn async_main(spawner: Spawner) {
-//!     // initialize the platform...
-//!     let mut config = embassy_stm32::Config::default();
-//!     // when enabled the power-consumption is much higher during stop, but debugging and RTT is working
-//!     config.enable_debug_during_sleep = false;
-//!     let p = embassy_stm32::init(config);
-//!
-//!     // give the RTC to the executor...
-//!     let mut rtc = Rtc::new(p.RTC, RtcConfig::default());
-//!     static RTC: StaticCell<Rtc> = StaticCell::new();
-//!     let rtc = RTC.init(rtc);
-//!     embassy_stm32::low_power::stop_with_rtc(rtc);
-//!
-//!     // your application here...
-//! }
-//! ```
-//!
-//!
-//!
 
 use core::arch::asm;
 use core::marker::PhantomData;
@@ -204,4 +171,3 @@ impl Executor {
         }
     }
 }
-

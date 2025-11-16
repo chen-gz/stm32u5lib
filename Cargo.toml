@@ -127,5 +127,11 @@ stm32u5a9vj = ["stm32-metapac/stm32u5a9vj"]
 stm32u5a9zj = ["stm32-metapac/stm32u5a9zj"]
 
 [[test]]
-name = "led"
+name = "gpio"
+harness = false
+[[test]]
+name = "panic"
+harness = false
+[[test]]
+name = "tim"
 harness = false
