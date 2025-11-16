@@ -181,65 +181,40 @@ pub fn enable_rtc_read() {
     RCC.ahb3enr().modify(|v| {
         v.set_pwren(true); // RM0456 Rev4 Page 406
     });
-    RCC.srdamr().modify(|v| {
-        v.set_rtcapbamen(true);
-    });
-    RCC.ahb3smenr().modify(|v| {
-        v.set_pwrsmen(true);
-    });
-    if !RCC.ahb3enr().read().pwren() {
-        // enable power clock
-        RCC.ahb3enr().modify(|v| {
-            v.set_pwren(true); // RM0456 Rev4 Page 406
-        });
-    }
-    RCC.apb3smenr().modify(|v| {
-        v.set_rtcapbsmen(true);
-    });
+    // PWR.dbpcr().modify(|v| v.set_dbp(true)); // enable backup domain write (even read we also need to enable it)
 
-    // todo!("check this function; seems only rtcapben is good enough");
     RCC.apb3enr().modify(|v| {
         v.set_rtcapben(true);
     });
     // enable rtc battery charge
 }
 
-fn get_year() -> u8 {
-    let dr = RTC.dr().read();
-    dr.yu() + dr.yt() * 10
+fn get_datetime_atomic() -> ((u8, u8, u8), (u8, u8, u8)) {
+    // (time, date)
+    // This is to ensure an atomic read of the time and date registers.
+    // See RM0456 Rev 4, section 41.3.8 Reading the calendar
+    loop {
+        while !RTC.icsr().read().rsf() {}
+        let tr = RTC.tr().read();
+        let dr = RTC.dr().read();
+        if tr.0 == RTC.tr().read().0 {
+            let time = (tr.hu() + tr.ht() * 10, tr.mnu() + tr.mnt() * 10, tr.su() + tr.st() * 10);
+            let date = (dr.yu() + dr.yt() * 10, dr.mu() + dr.mt() as u8 * 10, dr.du() + dr.dt() * 10);
+            return (time, date);
+        }
+    }
 }
-fn get_month() -> u8 {
-    let dr = RTC.dr().read();
-    dr.mu() + dr.mt() as u8 * 10
-}
-fn get_day() -> u8 {
-    let dr = RTC.dr().read();
-    dr.du() + dr.dt() * 10
-}
-fn get_hour() -> u8 {
-    let tr = RTC.tr().read();
-    tr.hu() + tr.ht() * 10
-}
-fn get_minute() -> u8 {
-    let tr = RTC.tr().read();
-    tr.mnu() + tr.mnt() * 10
-}
-fn get_second() -> u8 {
-    let tr = RTC.tr().read();
-    tr.su() + tr.st() * 10
-}
+
 fn get_weekday() -> u8 {
     RTC.dr().read().wdu()
 }
 pub fn get_date() -> (u8, u8, u8) {
     // yymmdd
-    let dr = RTC.dr().read();
-    (dr.yu() + dr.yt() * 10, dr.mu() + dr.mt() as u8 * 10, dr.du() + dr.dt() * 10)
+    get_datetime_atomic().1
 }
 pub fn get_time() -> (u8, u8, u8) {
     // hhmmss
-    let tr = RTC.tr().read();
-    (tr.hu() + tr.ht() * 10, tr.mnu() + tr.mnt() * 10, tr.su() + tr.st() * 10)
+    get_datetime_atomic().0
 }
 
 use core::cell::RefCell;
@@ -271,9 +246,8 @@ use embassy_sync::waitqueue::AtomicWaker;
 use stm32_metapac::interrupt;
 fn rtc_time_to_duration() -> Duration {
     // the default duration start from 2000 years
-    let date = get_date(); // year, month, day
-    let time = get_time(); // hour, minute, second
-                           // calculate duration from 2000
+    let (time, date) = get_datetime_atomic();
+    // calculate duration from 2000
     let duration = utils::seconds_since_2000(date.0, date.1, date.2, time.0, time.1, time.2);
     // info!("rtc_time_to_duration: {:?}s", duration);
     Duration::from_secs(duration)
@@ -299,6 +273,7 @@ impl Default for RtcWakers {
 const NUM_WAKER: usize = 32;
 
 pub async fn rtc_delay(duration: Duration) {
+    debug!("rtc_delay: {:?}", duration);
     if duration <= Duration::from_secs(1) {
         panic!("Current not allow delay duration less (equal) than 1 second");
     }
@@ -409,22 +384,14 @@ fn RTC() {
     // disable backup domain write
     PWR.dbpcr().modify(|v| v.set_dbp(false));
 
-    // RTC_WAKER.lock(|wakers| {
-    //     let mut wakers = wakers.borrow_mut();
-    //     for waker in wakers.iter_mut() {
-    //         if let Some(w) = waker {
-    //             w.waker.wake();
-    //         }
-    //     }
-    // });
     cortex_m::interrupt::free(|cs| {
         let mut wakers = RTC_WAKER.borrow(cs).borrow_mut();
         for waker in wakers.iter_mut() {
             if let Some(w) = waker {
-                if w.pending {
-                    w.waker.wake();
-                    // w.pending = false;
-                }
+                // if w.pending {
+                w.waker.wake();
+                // w.pending = false;
+                // }
             }
         }
     });

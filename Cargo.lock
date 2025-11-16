@@ -206,13 +206,15 @@ dependencies = [
 
 [[package]]
 name = "embassy-executor"
-version = "0.7.0"
-source = "git+https://github.com/embassy-rs/embassy?rev=bcebe4c#bcebe4c4d5b597da0b8741916e450c46e6fef06e"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "06070468370195e0e86f241c8e5004356d696590a678d47d6676795b2e439c6b"
 dependencies = [
  "cortex-m",
  "critical-section",
  "document-features",
- "embassy-executor-macros",
+ "embassy-executor-macros 0.7.0",
+ "embassy-executor-timer-queue",
 ]
 
 [[package]]
@@ -227,15 +229,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "embassy-executor-macros"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dfdddc3a04226828316bf31393b6903ee162238576b1584ee2669af215d55472"
+dependencies = [
+ "darling 0.20.11",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "embassy-executor-timer-queue"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2fc328bf943af66b80b98755db9106bf7e7471b0cf47dc8559cd9a6be504cc9c"
+
+[[package]]
 name = "embassy-sync"
-version = "0.6.2"
-source = "git+https://github.com/embassy-rs/embassy?rev=bcebe4c#bcebe4c4d5b597da0b8741916e450c46e6fef06e"
+version = "0.7.2"
+source = "git+https://github.com/embassy-rs/embassy#5b037730fa2bfbc9ef9881e9f5979ef29b505a27"
 dependencies = [
  "cfg-if",
  "critical-section",
  "embedded-io-async",
+ "futures-core",
  "futures-sink",
- "futures-util",
  "heapless",
 ]
 
@@ -278,6 +298,7 @@ version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0412372bfbc3b737b1e68ad0c199983455d98e9aa8bf6c9495de83cef08444f9"
 dependencies = [
+ "embassy-executor",
  "embedded-test-linker-script",
  "embedded-test-macros",
  "log",
@@ -573,7 +594,7 @@ dependencies = [
  "defmt 1.0.1",
  "defmt-rtt",
  "embassy-executor",
- "embassy-executor-macros",
+ "embassy-executor-macros 0.6.2",
  "embassy-sync",
  "embassy-usb-driver",
  "embedded-test",

@@ -19,7 +19,7 @@ pub use embassy_executor::Spawner;
 pub use embassy_executor_macros::task;
 pub mod drivers;
 pub mod hal;
-pub mod necleo_u575;
+pub mod nucleo_u575;
 pub mod otg;
 pub mod usb;
 pub mod utils;

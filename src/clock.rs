@@ -14,7 +14,7 @@ use crate::{gpio, rtc};
 use core::sync::atomic::{AtomicU32, Ordering};
 use stm32_metapac::pwr::vals::Vos as VoltageScale;
 pub use stm32_metapac::rcc::vals::Sdmmcsel as SdmmcClockSource;
-use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
+pub use stm32_metapac::{rcc, DBGMCU, FLASH, PWR, RCC};
 
 // current system clock frequenciess
 /// to avoid the clock frequency changing that make the system unstable. All clock frequency are not allow to chagne after first time set.

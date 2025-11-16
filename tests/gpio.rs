@@ -35,21 +35,21 @@ mod tests {
 
     fn test_led(clock_freq: clock::ClockFreqs) {
         clock::init_clock(true, clock_freq);
-        u5_lib::necleo_u575::LED_BLUE.setup();
-        u5_lib::necleo_u575::LED_GREEN.setup();
-        u5_lib::necleo_u575::LED_RED.setup();
+        u5_lib::nucleo_u575::LED_BLUE.setup();
+        u5_lib::nucleo_u575::LED_GREEN.setup();
+        u5_lib::nucleo_u575::LED_RED.setup();
 
-        u5_lib::necleo_u575::LED_BLUE.set_high();
+        u5_lib::nucleo_u575::LED_BLUE.set_high();
         delay_ms(100);
-        u5_lib::necleo_u575::LED_GREEN.set_high();
+        u5_lib::nucleo_u575::LED_GREEN.set_high();
         delay_ms(100);
-        u5_lib::necleo_u575::LED_RED.set_high();
+        u5_lib::nucleo_u575::LED_RED.set_high();
         delay_ms(100);
-        u5_lib::necleo_u575::LED_BLUE.set_low();
+        u5_lib::nucleo_u575::LED_BLUE.set_low();
         delay_ms(100);
-        u5_lib::necleo_u575::LED_GREEN.set_high();
+        u5_lib::nucleo_u575::LED_GREEN.set_high();
         delay_ms(100);
-        u5_lib::necleo_u575::LED_RED.set_low();
+        u5_lib::nucleo_u575::LED_RED.set_low();
         delay_ms(100);
     }
 }

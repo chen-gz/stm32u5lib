@@ -114,6 +114,7 @@ macro_rules! panic {
     };
 }
 
+#[macro_export]
 #[collapse_debuginfo(yes)]
 macro_rules! trace {
     ($s:literal $(, $x:expr)* $(,)?) => {
@@ -128,6 +129,7 @@ macro_rules! trace {
     };
 }
 
+#[macro_export]
 #[collapse_debuginfo(yes)]
 macro_rules! debug {
     ($s:literal $(, $x:expr)* $(,)?) => {
@@ -142,6 +144,7 @@ macro_rules! debug {
     };
 }
 
+#[macro_export]
 #[collapse_debuginfo(yes)]
 macro_rules! info {
     ($s:literal $(, $x:expr)* $(,)?) => {
@@ -156,6 +159,7 @@ macro_rules! info {
     };
 }
 
+#[macro_export]
 #[collapse_debuginfo(yes)]
 macro_rules! warn {
     ($s:literal $(, $x:expr)* $(,)?) => {
@@ -170,6 +174,7 @@ macro_rules! warn {
     };
 }
 
+#[macro_export]
 #[collapse_debuginfo(yes)]
 macro_rules! error {
     ($s:literal $(, $x:expr)* $(,)?) => {
