@@ -30,6 +30,7 @@ pub const TIM3: TimBasicIns = TimBasicIns {
     // init: false,
 };
 
+#[derive(Debug)]
 pub enum TimError {
     ReInitError,
 }
@@ -63,7 +64,7 @@ impl Default for Config {
             cms: Cms::EDGE_ALIGNED,
             arpe: false,      // auto reload preload disable
             rcr: 0,           // no repetition
-            arr: 0, // counter value is 0 -> arr (include 0 and arr). So the tick is arr + 1;
+            arr: 0,           // counter value is 0 -> arr (include 0 and arr). So the tick is arr + 1;
             mms: Mms::UPDATE, // default is update event (UEV). Generate when the counter reach the value of arr.
         }
     }
@@ -111,6 +112,10 @@ impl TimAdvIns {
         // self.ins.ccr(0).write(|v| v.0 = (duty_cycle * arr as f32) as u32);
         // self.ins.ccr(0).write(|v| v.0 = low);
         self.ins.ccr((ch - 1) as _).write(|v| v.0 = low as u32);
+        // generate update event to update the registers
+        self.ins.egr().write(|v| v.set_ug(true));
+        // clear the update flag
+        self.ins.sr().write(|v| v.set_uif(false));
     }
 
     pub fn enable_output(
@@ -137,10 +142,7 @@ impl TimAdvIns {
             v.set_aoe(true);
         });
     }
-    pub fn disable_output(
-        &self,
-        channel: u8,
-    ) {
+    pub fn disable_output(&self, channel: u8) {
         let ch = channel - 1;
         self.ins.ccer().modify(|v| v.set_cce(ch as _, false));
     }
@@ -153,10 +155,10 @@ impl TimAdvIns {
         self.ins.smcr().modify(|v| v.set_sms(Sms::ENCODER_MODE_3)); // Encoder mode 3: counts on both TI1 and TI2 edges
         self.ins.ccmr_input(0).modify(|v| {
             v.set_ccs(0, CcmrInputCcs::TI3); // Map TI1 to channel 1
-            // v.set_icp(0, );  // Capture on rising edge
+                                             // v.set_icp(0, );  // Capture on rising edge
             v.set_icf(0, FilterValue::FCK_INT_N2);
             v.set_ccs(1, CcmrInputCcs::TI4); // Map TI2 to channel 2
-            // v.set_icp(1, Icp::RISING_EDGE);  // Capture on rising edge
+                                             // v.set_icp(1, Icp::RISING_EDGE);  // Capture on rising edge
         });
 
         self.ins.ccer().modify(|v| {
@@ -174,7 +176,6 @@ impl TimAdvIns {
 
         Ok(())
     }
-
 }
 
 impl TimBasicIns {
@@ -201,7 +202,7 @@ impl TimBasicIns {
             v.set_cms(config.cms);
             v.set_arpe(config.arpe);
         });
-        self.ins.psc().write_value( config.prescaler);
+        self.ins.psc().write_value(config.prescaler);
         // self.ins.rcr().modify(|v| v.set_rep(config.rcr));
         self.ins.arr().write(|_v| config.arr);
         self.ins.cr1().modify(|v| v.set_cen(true)); // enable counter
@@ -254,10 +255,7 @@ impl TimBasicIns {
         // });
         self.ins.cr1().modify(|v| v.set_cen(true)); // enable counter
     }
-    pub fn disable_output(
-        &self,
-        channel: u8,
-    ) {
+    pub fn disable_output(&self, channel: u8) {
         let ch = channel - 1;
         self.ins.ccer().modify(|v| v.set_cce(ch as _, false));
     }

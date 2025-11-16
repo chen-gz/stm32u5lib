@@ -1,13 +1,9 @@
 fn main() {
-    // println!("cargo:rustc-link-arg-bins=--nmagic");
-    // println!("cargo:rustc-link-arg-bins=-Tdefmt.x");   // required for defmt
-
-
-    println!("cargo:rustc-check-cfg=cfg(otg_hs)");  // enable cfg otg_hs
-    println!("cargo:rustc-check-cfg=cfg(otg_fs)");  // enable cfg otg_hs
-    println!("cargo:rustc-check-cfg=cfg(stm32u575)");  
-    println!("cargo:rustc-check-cfg=cfg(stm32u5a5)");  
-    println!("cargo:rustc-check-cfg=cfg(stm32u595)");  
+    println!("cargo:rustc-check-cfg=cfg(otg_hs)"); // enable cfg otg_hs
+    println!("cargo:rustc-check-cfg=cfg(otg_fs)"); // enable cfg otg_hs
+    println!("cargo:rustc-check-cfg=cfg(stm32u575)");
+    println!("cargo:rustc-check-cfg=cfg(stm32u5a5)");
+    println!("cargo:rustc-check-cfg=cfg(stm32u595)");
     println!("cargo:rustc-check-cfg=cfg(sdmmc)");
     println!("cargo:rustc-check-cfg=cfg(dcmi)");
     // list chips has sdmmc
@@ -36,16 +32,21 @@ fn main() {
         // if otg_fs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
         //     println!("cargo:rustc-cfg=otg_fs");
         // }
-         //
+        //
         // if otg_hs_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
         //     println!("cargo:rustc-cfg=otg_hs");
         // }
-        if sdmmc_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
+        if sdmmc_chips
+            .iter()
+            .any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip)))
+        {
             println!("cargo:rustc-cfg=sdmmc");
         }
-        if dcmi_chips.iter().any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip))) {
+        if dcmi_chips
+            .iter()
+            .any(|&chip| key.starts_with(&format!("CARGO_FEATURE_{}", chip)))
+        {
             println!("cargo:rustc-cfg=dcmi");
         }
     }
-
 }

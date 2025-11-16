@@ -5,6 +5,12 @@ edition = "2021"
 authors = ["Guangzong Chen <chen@ggeta.com>"]
 
 [dependencies]
+# panic-profile = "0.3.1"
+# panic-probe = { version = "0.3.1", features = ["print-defmt"] }
+# embedded-test = {version = "0.4.1", features = ["log"]}
+# embedded-test = { version = "0.7.0-alpha.3", features = ["log", "defmt"] }
+embedded-test = { version = "0.7.0-alpha.3", features = ["log"] }
+# embedded-test = { version = "0.4.1", features = ["log"] }
 defmt = { version = "1.0.1"}
 defmt-rtt = { version = "1.0.0" }
 sdio-host = { version = "0.9.0" }
@@ -19,7 +25,7 @@ futures = { version = "0.3.17", default-features = false }
 
 [dependencies.stm32-metapac]
 git = "https://github.com/embassy-rs/stm32-data-generated"
-features = ["rt"]
+features = ["rt", "defmt"]
 rev = "5e67b48ea298ef23cc3a07f4bced6c5ddce0c934"
 
 [dependencies.embassy-sync]
@@ -62,7 +68,7 @@ nucleo_u575 = ["stm32u575zi", "lse"]
 
 utils = []
 default = [
-    "utils",
+    # "utils",
     "nucleo_u575",
 
 ]
@@ -115,3 +121,7 @@ stm32u5a9bj = ["stm32-metapac/stm32u5a9bj"]
 stm32u5a9nj = ["stm32-metapac/stm32u5a9nj"]
 stm32u5a9vj = ["stm32-metapac/stm32u5a9vj"]
 stm32u5a9zj = ["stm32-metapac/stm32u5a9zj"]
+
+[[test]]
+name = "led"
+harness = false
