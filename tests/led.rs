@@ -21,7 +21,7 @@ mod tests {
     }
 
     #[test]
-    fn test_led() {
+    fn test_tim() {
         let gpio = TIM3_CH1_PA6;
         gpio.setup();
         let tim = u5_lib::tim::TIM3;

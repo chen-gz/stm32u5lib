@@ -217,17 +217,12 @@ impl TimBasicIns {
         // 160MHz --> 20MHz = 8
         // arr = 160 and timccr = 80 then the output clock is 1MHz
         let arr = sum;
-        // self.ins.arr().write(|v| v.0 = arr as u32);
-        // self.ins.arr().modify(|v| v = arr as &mut u32);
-        defmt::info!("arr: {}", arr);
         self.ins.arr().write(|v| *v = arr as u32);
-        // self.ins.ccr(0).write(|v| v.0 = (duty_cycle * arr as f32) as u32);
-        // self.ins.ccr(0).write(|v| v.0 = low);
-        // self.ins.ccr((ch - 1) as _).write(|_| low as u32);
         self.ins.ccr((ch - 1) as _).write(|v| *v = low as u32);
-        defmt::info!("arr: {}", self.ins.arr().read());
-        // ccr
-        defmt::info!("ccr: {}", self.ins.ccr(0).read());
+        // generate update event to update the registers
+        self.ins.egr().write(|v| v.set_ug(true));
+        // clear the update flag
+        self.ins.sr().write(|v| v.set_uif(false));
     }
 
     pub fn enable_output(
