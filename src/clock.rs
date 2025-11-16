@@ -312,9 +312,7 @@ pub fn init_clock(
 ) {
     debug!(
         "setup clock with enable_dbg: {:?}, system_min_freq: {:?}",
-        enable_dbg,
-        // system_min_freq
-        1, // tmp
+        enable_dbg, system_min_freq
     );
 
     #[cfg(any(feature = "hse_16mhz", feature = "hse_26mhz"))]
@@ -362,6 +360,7 @@ pub fn init_clock(
 pub static CLOCK_REQUESTS: [AtomicU32; 32] = [const { AtomicU32::new(0) }; 32];
 // Clock source frequency versus voltage scaling (page 494)
 #[derive(Clone, Copy, Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum ClockFreqs {
     KernelFreq160Mhz,
     // 160Mhz
