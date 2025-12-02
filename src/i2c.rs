@@ -129,8 +129,9 @@ impl hal::I2c<GpioPort> for I2c {
         // set as 100Khz
         let (presc, scll, sclh, sdadel, scldel) = match freq {
             10_000 => (3, 0xC7, 0xC3, 0x2, 0x4), // 10khz
+            100_000 => (3, 0x13, 0xF, 0x2, 0x4),  // 100khz
             400_000 => (1, 9, 3, 2, 3),          // 400khz
-            // 1_000_000 => (3, 0x13, 0xF, 0x2, 0x4),  // 1Mhz; check with reference manual
+            
             _ => panic!("invalid frequency"),
         };
         port.timingr().modify(|v| {
