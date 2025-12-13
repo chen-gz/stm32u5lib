@@ -67,7 +67,6 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
                 clock::delay_tick(100); // wait for reset TODO: get the minimum time
                                         // disable BDRST
                 RCC.bdcr().modify(|v| v.set_bdrst(false)); // reset finished
-                clock::delay_tick(1000); // wait for reset to complete and LSI to stabilize off state
                 match rtc_source {
                     rcc::vals::Rtcsel::LSE => {
                         RCC.bdcr().modify(|v| {
@@ -77,7 +76,6 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
                         while !RCC.bdcr().read().lserdy() {}
                     }
                     rcc::vals::Rtcsel::LSI => {
-                        // Use write to avoid reading potentially unstable state after reset
                         RCC.bdcr().write(|v| {
                             v.set_lsion(true);
                         });
