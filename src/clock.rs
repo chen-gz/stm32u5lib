@@ -272,19 +272,29 @@ pub fn set_lptim_clock(num: u8) -> u32 {
             RCC.apb3smenr().modify(|v| v.set_lptim1smen(true));
             HSI_FREQ
         }
-        3 => {
-            RCC.ccipr3()
-                .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
-            RCC.apb3enr().modify(|v| v.set_lptim3en(true));
-            32768 // LSE_FREQ.load(Ordering::Relaxed)
-                  // LSE_FREQ.load(Ordering::Relaxed)
-        }
-        4 => {
-            RCC.ccipr3()
-                .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
-            RCC.apb3enr().modify(|v| v.set_lptim4en(true));
-            // LSE_FREQ.load(Ordering::Relaxed)
-            32768 // LSE_FREQ.load(Ordering::Relaxed)
+        3 | 4 => {
+            #[cfg(feature = "lse")]
+            {
+                RCC.ccipr3()
+                    .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSE));
+                if num == 3 {
+                    RCC.apb3enr().modify(|v| v.set_lptim3en(true));
+                } else {
+                    RCC.apb3enr().modify(|v| v.set_lptim4en(true));
+                }
+                32768 // LSE_FREQ.load(Ordering::Relaxed)
+            }
+            #[cfg(not(feature = "lse"))]
+            {
+                RCC.ccipr3()
+                    .modify(|v| v.set_lptim34sel(stm32_metapac::rcc::vals::Lptimsel::LSI));
+                if num == 3 {
+                    RCC.apb3enr().modify(|v| v.set_lptim3en(true));
+                } else {
+                    RCC.apb3enr().modify(|v| v.set_lptim4en(true));
+                }
+                32000 // LSI_FREQ
+            }
         }
         _ => panic!("Invalid lptim number"),
     }
