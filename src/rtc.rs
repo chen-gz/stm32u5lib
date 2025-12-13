@@ -67,6 +67,7 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
                 clock::delay_tick(100); // wait for reset TODO: get the minimum time
                                         // disable BDRST
                 RCC.bdcr().modify(|v| v.set_bdrst(false)); // reset finished
+                clock::delay_tick(1000); // wait for reset to complete and LSI to stabilize off state
                 match rtc_source {
                     rcc::vals::Rtcsel::LSE => {
                         RCC.bdcr().modify(|v| {
@@ -76,16 +77,11 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
                         while !RCC.bdcr().read().lserdy() {}
                     }
                     rcc::vals::Rtcsel::LSI => {
-                        // Workaround: LSION (bit 26) and LSIRDY (bit 27) are in BDCR for STM32U5.
-                        // Access BDCR via raw pointer to ensure correct bit manipulation and avoid potential PAC issues.
-                        unsafe {
-                            let bdcr_ptr = RCC.bdcr().as_ptr();
-                            let mut val = core::ptr::read_volatile(bdcr_ptr);
-                            val.0 |= 1 << 26; // LSION
-                            core::ptr::write_volatile(bdcr_ptr, val);
-
-                            while (core::ptr::read_volatile(bdcr_ptr).0 & (1 << 27)) == 0 {} // Wait for LSIRDY
-                        }
+                        // Use write to avoid reading potentially unstable state after reset
+                        RCC.bdcr().write(|v| {
+                            v.set_lsion(true);
+                        });
+                        while !RCC.bdcr().read().lsirdy() {}
                     }
                     _ => {}
                 }
