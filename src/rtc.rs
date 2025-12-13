@@ -76,7 +76,7 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
                         while !RCC.bdcr().read().lserdy() {}
                     }
                     rcc::vals::Rtcsel::LSI => {
-                        RCC.bdcr().write(|v| {
+                        RCC.bdcr().modify(|v| {
                             v.set_lsion(true);
                         });
                         while !RCC.bdcr().read().lsirdy() {}
