@@ -67,6 +67,7 @@ log = ["dep:log"]
 lse = []
 hse_16mhz = []
 hse_26mhz = []
+interactive-test = []
 
 nucleo_u5a5 = ["stm32u5a5zj", "lse", "hse_16mhz"]
 nucleo_u575 = ["stm32u575zi", "lse"]
@@ -74,7 +75,7 @@ nucleo_u575 = ["stm32u575zi", "lse"]
 utils = []
 default = [
     # "utils",
-    "nucleo_u575",
+    # "nucleo_u575",
 
 ]
 usart_dma = []
