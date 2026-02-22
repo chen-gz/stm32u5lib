@@ -207,6 +207,7 @@ impl Lptim {
     }
 }
 
+/// WallTimer is a monotonic timer that counts in microseconds.
 pub struct WallTimer {
     lptim: Lptim,
 }
@@ -220,6 +221,7 @@ impl WallTimer {
         Self { lptim }
     }
 
+    /// Returns the current time in microseconds.
     pub fn now(&self) -> u64 {
         loop {
             let high1 = self.lptim.get_interrupted_cnt();
