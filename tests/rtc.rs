@@ -17,6 +17,7 @@ mod tests {
     #[init]
     fn init() {
         // u5_lib::clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
+        u5_lib::clock::reset_backup_domain();
     }
 
     #[test]
