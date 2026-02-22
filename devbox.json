@@ -11,8 +11,13 @@
     ],
     "scripts": {
       "test": [
-        "echo \"Error: no test specified\" && exit 1"
-      ]
+        "# add power reset and echo to make each test seperate", 
+        "cargo test  --features \"stm32u575zi, defmt, lse\"",
+        "cargo test  --features \"stm32u575zi, lse\"",
+        "cargo test  --features \"stm32u575zi, defmt\"",
+        "cargo test  --features \"stm32u575zi\"",
+      ],
+      "build": "cargo build --features \"stm32u575zi\" ",
     }
   }
 }
