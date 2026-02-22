@@ -82,8 +82,11 @@ impl Lptim {
             2 => unsafe {
                 NVIC::unmask(stm32_metapac::Interrupt::LPTIM2);
             },
+            3 => unsafe {
+                NVIC::unmask(stm32_metapac::Interrupt::LPTIM3);
+            },
             _ => {
-                panic!("Current not support LPTIM3 and LPTIM4");
+                panic!("Current not support LPTIM4");
             }
         }
     }
@@ -204,6 +207,41 @@ impl Lptim {
     }
 }
 
+/// WallTimer is a monotonic timer that counts in microseconds.
+pub struct WallTimer {
+    lptim: Lptim,
+}
+
+impl WallTimer {
+    pub fn new(mut lptim: Lptim) -> Self {
+        lptim.init_new(LptimPrescaler::DIV32);
+        lptim.ins.arr().write(|v| v.0 = 0xFFFF);
+        lptim.ins.dier().modify(|v| v.set_ueie(true));
+        lptim.ins.cr().modify(|v| v.set_cntstrt(true));
+        Self { lptim }
+    }
+
+    /// Returns the current time in microseconds.
+    pub fn now(&self) -> u64 {
+        loop {
+            let high1 = self.lptim.get_interrupted_cnt();
+            let low = self.lptim.get_cnt();
+            let high2 = self.lptim.get_interrupted_cnt();
+
+            if high1 == high2 {
+                let ue = self.lptim.ins.isr().read().ue();
+                let mut total_ticks = (high1 as u64) * 0x10000 + (low as u64);
+                if ue && low < 0x8000 {
+                    total_ticks = ((high1 + 1) as u64) * 0x10000 + (low as u64);
+                }
+
+                let res_ns = self.lptim.get_resolution().as_nanos() as u64;
+                return (total_ticks * res_ns) / 1000;
+            }
+        }
+    }
+}
+
 impl Drop for Lptim {
     fn drop(&mut self) {
         unsafe {
@@ -220,4 +258,9 @@ fn LPTIM1() {
 #[interrupt]
 fn LPTIM2() {
     Lptim::on_interrupt(2);
+}
+
+#[interrupt]
+fn LPTIM3() {
+    Lptim::on_interrupt(3);
 }

@@ -147,3 +147,7 @@ harness = false
 [[test]]
 name = "exti_btn"
 harness = false
+
+[[test]]
+name = "lptim"
+harness = false
