@@ -330,7 +330,8 @@ pub fn init_clock(
     unsafe {
         // this is safe because this function should only be called once
         if CALLED {
-            panic!("init_clock_new should only be called once");
+            info!("init_clock called again, ignoring");
+            return;
         }
         CALLED = true;
     }
