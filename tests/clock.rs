@@ -84,10 +84,10 @@ mod tests {
         // get rtc time and printout
         u5_lib::rtc::enable_rtc_read();
         // get rtc time and printout
-        let (hh0, mm0, ss0) = u5_lib::rtc::get_time();
+        let (hh0, mm0, ss0, _) = u5_lib::rtc::get_time();
         debug!("RTC Time: {:02}:{:02}:{:02}", hh0, mm0, ss0);
         delay_s(3);
-        let (hh1, mm1, ss1) = u5_lib::rtc::get_time();
+        let (hh1, mm1, ss1, _) = u5_lib::rtc::get_time();
         debug!("RTC Time after delay: {:02}:{:02}:{:02}", hh1, mm1, ss1);
         assert!(hh0 != 0 || hh1 != 0 || mm0 != 0 || mm1 != 0 || ss0 != 0 || ss1 != 0);
         // it should increment by 3 seconds
