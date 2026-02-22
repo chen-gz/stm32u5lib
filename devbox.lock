@@ -53,51 +53,51 @@
       "last_modified": "2026-01-10T08:02:33Z",
       "resolved": "github:NixOS/nixpkgs/3146c6aa9995e7351a398e17470e15305e6e18ff?lastModified=1768032153&narHash=sha256-6kD1MdY9fsE6FgSwdnx29hdH2UcBKs3%2F%2BJJleMShuJg%3D"
     },
-    "probe-rs@latest": {
-      "last_modified": "2024-05-22T06:18:38Z",
-      "resolved": "github:NixOS/nixpkgs/3f316d2a50699a78afe5e77ca486ad553169061e#probe-rs",
+    "probe-rs-tools@latest": {
+      "last_modified": "2026-01-23T17:20:52Z",
+      "resolved": "github:NixOS/nixpkgs/a1bab9e494f5f4939442a57a58d0449a109593fe#probe-rs-tools",
       "source": "devbox-search",
-      "version": "0.23.0",
+      "version": "0.31.0",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/n7k7zrcr4yb44d5cqarg73gzszna90f7-probe-rs-0.23.0",
+              "path": "/nix/store/lhix3pksgg06lkdlsnyvag3czzrgk76g-probe-rs-tools-0.31.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/n7k7zrcr4yb44d5cqarg73gzszna90f7-probe-rs-0.23.0"
+          "store_path": "/nix/store/lhix3pksgg06lkdlsnyvag3czzrgk76g-probe-rs-tools-0.31.0"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/giya15gddfrclml0q5zbbwvn2lxpm0hi-probe-rs-0.23.0",
+              "path": "/nix/store/xl51qqj5552kikpb471cwa1zg098x39g-probe-rs-tools-0.31.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/giya15gddfrclml0q5zbbwvn2lxpm0hi-probe-rs-0.23.0"
+          "store_path": "/nix/store/xl51qqj5552kikpb471cwa1zg098x39g-probe-rs-tools-0.31.0"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/icqayczvwnfganxn61qxccv9wlhmhq93-probe-rs-0.23.0",
+              "path": "/nix/store/6zdw0y9z5gf4rh5z41ydixyy2w7yjfz9-probe-rs-tools-0.31.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/icqayczvwnfganxn61qxccv9wlhmhq93-probe-rs-0.23.0"
+          "store_path": "/nix/store/6zdw0y9z5gf4rh5z41ydixyy2w7yjfz9-probe-rs-tools-0.31.0"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/3yshwn04gg7l7y3q5in2d8j6pjgfhwdv-probe-rs-0.23.0",
+              "path": "/nix/store/91gm5hynp2hwka95rs87vfnmszy4y6h3-probe-rs-tools-0.31.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/3yshwn04gg7l7y3q5in2d8j6pjgfhwdv-probe-rs-0.23.0"
+          "store_path": "/nix/store/91gm5hynp2hwka95rs87vfnmszy4y6h3-probe-rs-tools-0.31.0"
         }
       }
     },

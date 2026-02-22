@@ -4,7 +4,7 @@ target = "thumbv8m.main-none-eabihf"
 #rustflags = ["-C", "link-arg=-Tlink.x"]
 [target.thumbv8m.main-none-eabihf]
 # runner = "probe-rs run --chip STM32U5A5ZJTx"
-runner = "probe-rs run --chip STM32U575ZITx"
+runner = "probe-rs run --chip STM32U575ZITxQ"
 
 rustflags = [
     "-C", "link-arg=-Tembedded-test.x"
