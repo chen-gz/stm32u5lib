@@ -29,13 +29,13 @@ mod tests {
         u5_lib::rtc::enable_rtc_read();
 
         let t1 = rtc::get_time();
-        info!("Time 1: {}:{}:{}.{}", t1.0, t1.1, t1.2, t1.3);
+        info!("Time 1: {}:{}:{}.{:03}", t1.0, t1.1, t1.2, t1.3);
 
         u5_lib::nucleo_u575::LED_BLUE.set_high();
         rtc::rtc_delay(core::time::Duration::from_secs(2)).await;
         u5_lib::nucleo_u575::LED_BLUE.toggle();
 
         let t2 = rtc::get_time();
-        info!("Time 2: {}:{}:{}.{}", t2.0, t2.1, t2.2, t2.3);
+        info!("Time 2: {}:{}:{}.{:03}", t2.0, t2.1, t2.2, t2.3);
     }
 }

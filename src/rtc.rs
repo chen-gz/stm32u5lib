@@ -189,7 +189,7 @@ pub fn enable_rtc_read() {
     // enable rtc battery charge
 }
 
-fn get_datetime_atomic() -> ((u8, u8, u8, u32), (u8, u8, u8)) {
+fn get_datetime_atomic() -> ((u8, u8, u8, u16), (u8, u8, u8)) {
     // (time, date)
     // This is to ensure an atomic read of the time and date registers.
     // See RM0456 Rev 4, section 41.3.8 Reading the calendar
@@ -202,7 +202,13 @@ fn get_datetime_atomic() -> ((u8, u8, u8, u32), (u8, u8, u8)) {
     let tr = RTC.tr().read();
     let dr = RTC.dr().read();
 
-    let time = (tr.hu() + tr.ht() * 10, tr.mnu() + tr.mnt() * 10, tr.su() + tr.st() * 10, ss);
+    // Calculate milliseconds
+    // Second fraction = (PREDIV_S - SS) / (PREDIV_S + 1)
+    let prediv_s = RTC.prer().read().prediv_s();
+    // Use u64 for calculation to avoid overflow before division
+    let millis = ((prediv_s as u32 - ss) as u64 * 1000) / (prediv_s as u64 + 1);
+
+    let time = (tr.hu() + tr.ht() * 10, tr.mnu() + tr.mnt() * 10, tr.su() + tr.st() * 10, millis as u16);
     let date = (dr.yu() + dr.yt() * 10, dr.mu() + dr.mt() as u8 * 10, dr.du() + dr.dt() * 10);
 
     (time, date)
@@ -215,8 +221,8 @@ pub fn get_date() -> (u8, u8, u8) {
     // yymmdd
     get_datetime_atomic().1
 }
-pub fn get_time() -> (u8, u8, u8, u32) {
-    // hhmmss, ss
+pub fn get_time() -> (u8, u8, u8, u16) {
+    // hhmmss, ms
     get_datetime_atomic().0
 }
 
