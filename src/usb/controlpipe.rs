@@ -51,7 +51,7 @@ impl<'d> embassy_usb_driver::ControlPipe for ControlPipe<'d> {
     async fn data_out(&mut self, buf: &mut [u8], _first: bool, _last: bool) -> Result<usize, EndpointError> {
         trace!("control: data_out");
         let len = self.ep_out.read(buf).await?;
-        trace!("control: data_out read: {:?}", buf[..len]);
+        trace!("control: data_out read: {:?}", &buf[..len]);
         Ok(len)
     }
 

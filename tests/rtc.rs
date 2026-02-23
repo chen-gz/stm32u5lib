@@ -32,6 +32,7 @@ mod tests {
         info!("Time 1: {}:{}:{}.{:03}", t1.0, t1.1, t1.2, t1.3);
 
         u5_lib::nucleo_u575::LED_BLUE.set_high();
+        // rtc_delay has a minimum duration requirement of > 1s, so we use 2s here.
         rtc::rtc_delay(core::time::Duration::from_secs(2)).await;
         u5_lib::nucleo_u575::LED_BLUE.toggle();
 
