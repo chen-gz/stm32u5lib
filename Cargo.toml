@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Guangzong Chen <chen@ggeta.com>"]
 
+[workspace]
+members = ["host_tests"]
+
 [dependencies]
 # panic-profile = "0.3.1"
 # panic-probe = { version = "0.3.1", features = ["print-defmt"] }
