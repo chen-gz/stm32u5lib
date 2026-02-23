@@ -13,6 +13,7 @@ pub mod lptim;
 pub mod rtc;
 pub mod sd_device;
 pub mod tim;
+pub mod time_math;
 pub mod usart;
 pub use embassy_executor;
 pub use embassy_executor::Spawner;

@@ -16,12 +16,11 @@ mod tests {
     /// This function is run before each test case.
     #[init]
     fn init() {
+        clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
     }
 
     #[test]
     fn test_walltimer() {
-        clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
-
         let lptim1 = Lptim::new(1);
         let timer = WallTimer::new(lptim1);
 
@@ -34,5 +33,19 @@ mod tests {
         // 100ms = 100,000us
         // Allow some tolerance
         assert!(diff >= 99_000 && diff <= 110_000);
+    }
+
+    #[test]
+    fn test_monotonic() {
+        let lptim1 = Lptim::new(1);
+        let timer = WallTimer::new(lptim1);
+
+        let mut last = timer.now();
+        for _ in 0..10 {
+            delay_ms(10);
+            let now = timer.now();
+            assert!(now >= last);
+            last = now;
+        }
     }
 }

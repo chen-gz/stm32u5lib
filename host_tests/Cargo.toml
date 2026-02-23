@@ -1,0 +1,7 @@
+[package]
+name = "host_tests"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# No dependency on u5_lib or hardware crates

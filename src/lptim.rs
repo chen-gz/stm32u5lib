@@ -230,13 +230,8 @@ impl WallTimer {
 
             if high1 == high2 {
                 let ue = self.lptim.ins.isr().read().ue();
-                let mut total_ticks = (high1 as u64) * 0x10000 + (low as u64);
-                if ue && low < 0x8000 {
-                    total_ticks = ((high1 + 1) as u64) * 0x10000 + (low as u64);
-                }
-
                 let res_ns = self.lptim.get_resolution().as_nanos() as u64;
-                return (total_ticks * res_ns) / 1000;
+                return crate::time_math::compute_walltimer(high1, low, ue, res_ns);
             }
         }
     }
