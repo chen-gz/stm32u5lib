@@ -37,5 +37,27 @@ mod tests {
 
         let t2 = rtc::get_time();
         info!("Time 2: {}:{}:{}.{:03}", t2.0, t2.1, t2.2, t2.3);
+
+        let t0_ms = (t1.0 as u64 * 3600 + t1.1 as u64 * 60 + t1.2 as u64) * 1000 + t1.3 as u64;
+        let t1_ms = (t2.0 as u64 * 3600 + t2.1 as u64 * 60 + t2.2 as u64) * 1000 + t2.3 as u64;
+
+        let diff = if t1_ms >= t0_ms {
+            t1_ms - t0_ms
+        } else {
+            // Handle rollover if needed, or panic if unexpected
+            // Assuming 24h rollover
+            (t1_ms + 24 * 3600 * 1000) - t0_ms
+        };
+        info!("Time diff: {} ms", diff);
+
+        let target = 2000;
+        let tolerance = 100;
+        assert!(
+            diff >= target - tolerance && diff <= target + tolerance,
+            "Time difference {} ms is out of range [{}, {}]",
+            diff,
+            target - tolerance,
+            target + tolerance
+        );
     }
 }

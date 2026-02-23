@@ -13,7 +13,7 @@ use u5_lib as _;
 mod tests {
 
     use u5_lib::{
-        clock::{self, delay_ms, delay_s, delay_us},
+        clock::{self, delay_s},
         debug,
     };
     /// This function is run before each test case.
@@ -91,7 +91,26 @@ mod tests {
         debug!("RTC Time after delay: {:02}:{:02}:{:02}:{:03}", hh1, mm1, ss1, sss1);
         assert!(hh0 != 0 || hh1 != 0 || mm0 != 0 || mm1 != 0 || ss0 != 0 || ss1 != 0);
         // it should increment by 3 seconds
-        let inc = ((hh1 - hh0) * 60 + mm1 - mm0) * 60 + ss1 - ss0;
-        assert_eq!(inc, 3);
+        let t0_ms = (hh0 as u64 * 3600 + mm0 as u64 * 60 + ss0 as u64) * 1000 + sss0 as u64;
+        let t1_ms = (hh1 as u64 * 3600 + mm1 as u64 * 60 + ss1 as u64) * 1000 + sss1 as u64;
+
+        let diff = if t1_ms >= t0_ms {
+            t1_ms - t0_ms
+        } else {
+            // Handle rollover if needed, or panic if unexpected
+            // Assuming 24h rollover
+            (t1_ms + 24 * 3600 * 1000) - t0_ms
+        };
+        debug!("Time diff: {} ms", diff);
+
+        let target = 3000;
+        let tolerance = 100;
+        assert!(
+            diff >= target - tolerance && diff <= target + tolerance,
+            "Time difference {} ms is out of range [{}, {}]",
+            diff,
+            target - tolerance,
+            target + tolerance
+        );
     }
 }
