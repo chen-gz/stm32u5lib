@@ -13,7 +13,7 @@ use u5_lib as _;
 mod tests {
 
     use u5_lib::{
-        clock::{self, delay_s},
+        clock::{self, delay_ms, delay_s, delay_us},
         debug,
     };
     /// This function is run before each test case.
@@ -84,11 +84,11 @@ mod tests {
         // get rtc time and printout
         u5_lib::rtc::enable_rtc_read();
         // get rtc time and printout
-        let (hh0, mm0, ss0, _) = u5_lib::rtc::get_time();
-        debug!("RTC Time: {:02}:{:02}:{:02}", hh0, mm0, ss0);
+        let (hh0, mm0, ss0, sss0) = u5_lib::rtc::get_time();
+        debug!("RTC Time: {:02}:{:02}:{:02}:{:03}", hh0, mm0, ss0, sss0);
         delay_s(3);
-        let (hh1, mm1, ss1, _) = u5_lib::rtc::get_time();
-        debug!("RTC Time after delay: {:02}:{:02}:{:02}", hh1, mm1, ss1);
+        let (hh1, mm1, ss1, sss1) = u5_lib::rtc::get_time();
+        debug!("RTC Time after delay: {:02}:{:02}:{:02}:{:03}", hh1, mm1, ss1, sss1);
         assert!(hh0 != 0 || hh1 != 0 || mm0 != 0 || mm1 != 0 || ss0 != 0 || ss1 != 0);
         // it should increment by 3 seconds
         let inc = ((hh1 - hh0) * 60 + mm1 - mm0) * 60 + ss1 - ss0;
