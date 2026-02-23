@@ -1,3 +1,4 @@
+#![cfg(target_arch = "arm")]
 #![no_std]
 #![no_main]
 

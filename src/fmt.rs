@@ -6,7 +6,7 @@ use core::fmt::{Debug, Display, LowerHex};
 #[cfg(all(feature = "defmt", feature = "log"))]
 compile_error!("You may not enable both `defmt` and `log` features.");
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! assert {
     ($($x:tt)*) => {
         {
@@ -18,7 +18,7 @@ macro_rules! assert {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! assert_eq {
     ($($x:tt)*) => {
         {
@@ -30,7 +30,7 @@ macro_rules! assert_eq {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! assert_ne {
     ($($x:tt)*) => {
         {
@@ -42,7 +42,7 @@ macro_rules! assert_ne {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! debug_assert {
     ($($x:tt)*) => {
         {
@@ -54,7 +54,7 @@ macro_rules! debug_assert {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! debug_assert_eq {
     ($($x:tt)*) => {
         {
@@ -66,7 +66,7 @@ macro_rules! debug_assert_eq {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! debug_assert_ne {
     ($($x:tt)*) => {
         {
@@ -78,7 +78,7 @@ macro_rules! debug_assert_ne {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! todo {
     ($($x:tt)*) => {
         {
@@ -90,7 +90,7 @@ macro_rules! todo {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! unreachable {
     ($($x:tt)*) => {
         {
@@ -102,7 +102,7 @@ macro_rules! unreachable {
     };
 }
 
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! panic {
     ($($x:tt)*) => {
         {
@@ -115,7 +115,7 @@ macro_rules! panic {
 }
 
 #[macro_export]
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! trace {
     ($s:literal $(, $x:expr)* $(,)?) => {
         {
@@ -130,7 +130,7 @@ macro_rules! trace {
 }
 
 #[macro_export]
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! debug {
     ($s:literal $(, $x:expr)* $(,)?) => {
         {
@@ -145,7 +145,7 @@ macro_rules! debug {
 }
 
 #[macro_export]
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! info {
     ($s:literal $(, $x:expr)* $(,)?) => {
         {
@@ -160,7 +160,7 @@ macro_rules! info {
 }
 
 #[macro_export]
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! warn {
     ($s:literal $(, $x:expr)* $(,)?) => {
         {
@@ -175,7 +175,7 @@ macro_rules! warn {
 }
 
 #[macro_export]
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! error {
     ($s:literal $(, $x:expr)* $(,)?) => {
         {
@@ -190,33 +190,33 @@ macro_rules! error {
 }
 
 #[cfg(feature = "defmt")]
-#[collapse_debuginfo(yes)]
+// #[collapse_debuginfo(yes)]
 macro_rules! unwrap {
     ($($x:tt)*) => {
         ::defmt::unwrap!($($x)*)
     };
 }
 
-#[cfg(not(feature = "defmt"))]
-#[collapse_debuginfo(yes)]
-macro_rules! unwrap {
-    ($arg:expr) => {
-        match $crate::fmt::Try::into_result($arg) {
-            ::core::result::Result::Ok(t) => t,
-            ::core::result::Result::Err(e) => {
-                ::core::panic!("unwrap of `{}` failed: {:?}", ::core::stringify!($arg), e);
-            }
-        }
-    };
-    ($arg:expr, $($msg:expr),+ $(,)? ) => {
-        match $crate::fmt::Try::into_result($arg) {
-            ::core::result::Result::Ok(t) => t,
-            ::core::result::Result::Err(e) => {
-                ::core::panic!("unwrap of `{}` failed: {}: {:?}", ::core::stringify!($arg), ::core::format_args!($($msg,)*), e);
-            }
-        }
-    }
-}
+// #[cfg(not(feature = "defmt"))]
+// #[collapse_debuginfo(yes)]
+// macro_rules! unwrap {
+//     ($arg:expr) => {
+//         match $crate::fmt::Try::into_result($arg) {
+//             ::core::result::Result::Ok(t) => t,
+//             ::core::result::Result::Err(e) => {
+//                 ::core::panic!("unwrap of `{}` failed: {:?}", ::core::stringify!($arg), e);
+//             }
+//         }
+//     };
+//     ($arg:expr, $($msg:expr),+ $(,)? ) => {
+//         match $crate::fmt::Try::into_result($arg) {
+//             ::core::result::Result::Ok(t) => t,
+//             ::core::result::Result::Err(e) => {
+//                 ::core::panic!("unwrap of `{}` failed: {}: {:?}", ::core::stringify!($arg), ::core::format_args!($($msg,)*), e);
+//             }
+//         }
+//     }
+// }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct NoneError;

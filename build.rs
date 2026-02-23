@@ -1,9 +1,14 @@
 fn main() {
-    #[cfg(feature = "defmt")]
-    println!("cargo:rustc-link-arg=-Tdefmt.x");
+    // Only pass linker arguments if we are not building for the host (assuming host is not embedded target)
+    let target = std::env::var("TARGET").unwrap();
+    if !target.contains("x86_64") && !target.contains("aarch64") && !target.contains("windows") && !target.contains("macos") && !target.contains("linux") {
+        #[cfg(feature = "defmt")]
+        println!("cargo:rustc-link-arg=-Tdefmt.x");
 
-    println!("cargo:rustc-link-arg=--nmagic");
-    println!("cargo:rustc-link-arg=-Tlink.x");
+        println!("cargo:rustc-link-arg=--nmagic");
+        println!("cargo:rustc-link-arg=-Tlink.x");
+    }
+
     println!("cargo:rustc-check-cfg=cfg(otg_hs)"); // enable cfg otg_hs
     println!("cargo:rustc-check-cfg=cfg(otg_fs)"); // enable cfg otg_hs
     println!("cargo:rustc-check-cfg=cfg(stm32u575)");
