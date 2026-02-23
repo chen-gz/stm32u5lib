@@ -627,3 +627,16 @@ pub fn set_mco(pin: gpio::GpioPort, clk: Mcosel, div: stm32_metapac::rcc::vals::
         w.set_mcopre(div);
     });
 }
+
+pub fn reset_backup_domain() {
+    // enable backup domain write
+    RCC.ahb3enr().modify(|v| v.set_pwren(true));
+    PWR.dbpcr().modify(|v| v.set_dbp(true));
+
+    RCC.bdcr().modify(|v| v.set_bdrst(true));
+    delay_tick(100);
+    RCC.bdcr().modify(|v| v.set_bdrst(false));
+
+    // disable backup domain write
+    PWR.dbpcr().modify(|v| v.set_dbp(false));
+}
