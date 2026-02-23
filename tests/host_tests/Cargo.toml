@@ -1,0 +1,14 @@
+[package]
+name = "host_tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+u5-lib = { path = "../../" }
+
+[lib]
+name = "host_tests"
+path = "src/lib.rs"
+test = true
+doctest = false
