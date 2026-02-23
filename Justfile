@@ -1,8 +1,8 @@
 default: setup test
 
 test:
-    cargo test --features stm32u575zi,lse
-    cargo test --features stm32u575zi
+    cargo test --features stm32u575zi,lse,log
+    cargo test --features stm32u575zi,log
 
 setup:
     rustup default stable
