@@ -1,8 +1,10 @@
-default: setup test test-host
+default: setup test-arm test-host
 
-test:
-    cargo test --features stm32u575zi,lse,log
-    cargo test --features stm32u575zi,log
+test-arm:
+    cargo test --features stm32u575zi,lse,log --target thumbv8m.main-none-eabihf
+    cargo test --features stm32u575zi,log --target thumbv8m.main-none-eabihf
+
+test: test-arm
 
 HOST_TARGET := `rustc -vV | grep host | cut -d ' ' -f 2`
 
