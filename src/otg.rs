@@ -24,9 +24,9 @@ pub mod fifo_const {
 pub mod fifo_const {
     // todo!("fix thsese constants");
     pub const MAX_EP_COUNT: usize = 6;
-    pub const FIFO_DEPTH_WORDS: u16 = 1024;
+    pub const FIFO_DEPTH_WORDS: u16 = 320;
     pub const RX_FIFO_SIZE_EACH: u16 = 128;
-    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288;
+    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 30;
     pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [16, 16, 16, 16, 16, 16];
     //  80, 80, 96];
 }
@@ -157,25 +157,52 @@ fn common_init() {
             v.usbboosten();
         });
         delay_us(100);
-        stm32_metapac::RCC.cr().modify(|v| v.set_hseon(true));
-        // wait for HSE to stabilize
-        while !stm32_metapac::RCC.cr().read().hserdy() {}
+
+        #[cfg(stm32u5a5)]
+        {
+            stm32_metapac::RCC.cr().modify(|v| v.set_hseon(true));
+            // wait for HSE to stabilize
+            while !stm32_metapac::RCC.cr().read().hserdy() {}
+        }
     });
 
-    stm32_metapac::RCC.apb3enr().modify(|w| {
-        w.set_syscfgen(true);
-    });
-    stm32_metapac::RCC.ahb2enr1().modify(|w| {
-        w.set_usb_otg_hs_phyen(true);
-        w.set_usb_otg_hsen(true);
-    });
-    stm32_metapac::SYSCFG.otghsphycr().modify(|v| {
-        v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ16);
-        v.set_en(true);
-    });
-    stm32_metapac::RCC.ccipr2().modify(|w| {
-        w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
-    });
+    #[cfg(stm32u575)]
+    {
+        stm32_metapac::RCC.cr().modify(|w| w.set_hsi48on(true));
+        while !stm32_metapac::RCC.cr().read().hsi48rdy() {}
+
+        stm32_metapac::RCC.ccipr1().modify(|w| {
+            w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
+        });
+
+        stm32_metapac::RCC.apb1enr1().modify(|w| w.set_crsen(true));
+        stm32_metapac::CRS.cr().modify(|w| {
+            w.set_autotrimen(true);
+            w.set_cen(true);
+        });
+
+        stm32_metapac::RCC.ahb2enr1().modify(|w| {
+            w.set_usb_otg_fsen(true);
+        });
+    }
+
+    #[cfg(stm32u5a5)]
+    {
+        stm32_metapac::RCC.apb3enr().modify(|w| {
+            w.set_syscfgen(true);
+        });
+        stm32_metapac::RCC.ahb2enr1().modify(|w| {
+            w.set_usb_otg_hs_phyen(true);
+            w.set_usb_otg_hsen(true);
+        });
+        stm32_metapac::SYSCFG.otghsphycr().modify(|v| {
+            v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ16);
+            v.set_en(true);
+        });
+        stm32_metapac::RCC.ccipr2().modify(|w| {
+            w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
+        });
+    }
 
     trace!("Waiting for USB power to stabilize");
     while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
@@ -279,5 +306,5 @@ impl<'d> Drop for Bus<'d> {
 
 fn calculate_trdt(_speed: Dspd) -> u8 {
     // todo: fix this constant
-    0x9
+    6
 }
