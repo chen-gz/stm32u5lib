@@ -50,8 +50,11 @@ mod tests {
         };
         info!("Time diff: {} ms", diff);
 
-        let target = 2000;
-        let tolerance = 100;
+        let target = 1500;
+        // The RTC delay only guarantees a wake-up at the next second boundary + duration - 1.
+        // So for a 2s delay, it waits between 1s and 2s depending on alignment.
+        // We allow 100ms tolerance on top of the 1s jitter.
+        let tolerance = 600;
         assert!(
             diff >= target - tolerance && diff <= target + tolerance,
             "Time difference {} ms is out of range [{}, {}]",
