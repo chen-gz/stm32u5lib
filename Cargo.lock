@@ -334,6 +334,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "embassy-usb-synopsys-otg"
+version = "0.2.0"
+source = "git+https://github.com/embassy-rs/embassy?rev=bcebe4c#bcebe4c4d5b597da0b8741916e450c46e6fef06e"
+dependencies = [
+ "critical-section",
+ "defmt 0.3.100",
+ "embassy-sync 0.6.2",
+ "embassy-usb-driver",
+]
+
+[[package]]
 name = "embedded-hal"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -742,6 +753,7 @@ dependencies = [
  "embassy-sync 0.7.2",
  "embassy-usb",
  "embassy-usb-driver",
+ "embassy-usb-synopsys-otg",
  "embedded-test",
  "futures",
  "log",

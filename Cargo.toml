@@ -53,6 +53,10 @@ rev = "bcebe4c"
 git = "https://github.com/embassy-rs/embassy"
 rev = "bcebe4c"
 
+[dependencies.embassy-usb-synopsys-otg]
+git = "https://github.com/embassy-rs/embassy"
+rev = "bcebe4c"
+
 [dependencies.embassy-futures]
 git = "https://github.com/embassy-rs/embassy"
 rev = "bcebe4c"
@@ -70,7 +74,7 @@ test = false
 bench = false
 
 [features]
-defmt = ["dep:defmt", "dep:defmt-rtt", "stm32-metapac/defmt", "embassy-usb-driver/defmt", "embassy-usb/defmt"]
+defmt = ["dep:defmt", "dep:defmt-rtt", "stm32-metapac/defmt", "embassy-usb-driver/defmt", "embassy-usb/defmt", "embassy-usb-synopsys-otg/defmt"]
 log = ["dep:log"]
 lse = []
 hse_16mhz = []
@@ -162,4 +166,8 @@ harness = false
 
 [[test]]
 name = "usb_enumeration"
+harness = false
+
+[[test]]
+name = "usb_cdc_acm"
 harness = false

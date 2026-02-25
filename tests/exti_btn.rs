@@ -7,6 +7,7 @@ use defmt_rtt as _;
 use u5_lib as _;
 #[embedded_test::tests]
 mod tests {
+    #[cfg(feature = "interactive-test")]
     use u5_lib::clock::delay_ms;
 
     /// This function is run before each test case.
