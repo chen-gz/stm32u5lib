@@ -26,67 +26,58 @@ def find_serial_port():
             return ports[0]
     return None
 
-def main():
-    print("Waiting for USB serial port...")
-    port = None
-    timeout = 30
-    start_time = time.time()
-    
-    while time.time() - start_time < timeout:
-        port = find_serial_port()
-        if port:
-            break
-        time.sleep(0.5)
-        
+def run_once():
+    port = find_serial_port()
     if not port:
-        print("Error: USB serial port not found.")
-        sys.exit(1)
+        return False
         
     print(f"Found port: {port}")
-    
     try:
         # Open port
         ser = serial.Serial(port, baudrate=115200, timeout=2)
-        # Some systems need DTR to be set to trigger wait_connection() in embassy
         ser.dtr = True
         ser.rts = True
         print(f"Opened {port} with DTR/RTS High")
         
-        # Give it a moment to initialize after DTR
-        time.sleep(2)
-        
-        # Flush any garbage
+        time.sleep(1)
         ser.reset_input_buffer()
 
         # Send HELLO
         msg = b"HELLO"
-        for i in range(3): # Try up to 3 times
+        success = False
+        for i in range(3):
             print(f"Sending (attempt {i+1}): {msg}")
             ser.write(msg)
-            
-            # Read response
             response = ser.read(len(msg))
             print(f"Received: {response}")
             
             if response == msg:
                 print("Echo verified!")
+                success = True
                 break
-            time.sleep(1)
-        else:
-            print(f"Error: Expected {msg}, got {response}")
-            sys.exit(1)
+            time.sleep(0.5)
         
-        # Send QUIT
-        print("Sending QUIT...")
-        ser.write(b"QUIT")
+        if success:
+            print("Sending QUIT...")
+            ser.write(b"QUIT")
+            time.sleep(0.5)
         
         ser.close()
-        print("Done!")
-        sys.exit(0)
+        print("Waiting for next reset...")
+        return True
         
     except Exception as e:
-        print(f"Error: {e}")
-        sys.exit(1)
+        print(f"Connection lost or error: {e}")
+        return False
+
+def main():
+    print("USB Test Harness started. Press Ctrl+C to stop.")
+    while True:
+        if not run_once():
+            time.sleep(0.5)
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
