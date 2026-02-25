@@ -11,6 +11,14 @@ except ImportError:
 
 def find_serial_port():
     # On macOS, serial ports for USB CDC ACM typically look like this
+    # We look for the one with our serial number '12345678' first
+    patterns = ['/dev/tty.usbmodem12345678*', '/dev/cu.usbmodem12345678*']
+    for pattern in patterns:
+        ports = glob.glob(pattern)
+        if ports:
+            return ports[0]
+            
+    # Fallback to any usbmodem
     patterns = ['/dev/tty.usbmodem*', '/dev/cu.usbmodem*']
     for pattern in patterns:
         ports = glob.glob(pattern)
@@ -38,7 +46,6 @@ def main():
     
     try:
         # Open port
-        port = "/dev/tty.usbmodem123456781"
         ser = serial.Serial(port, baudrate=115200, timeout=2)
         # Some systems need DTR to be set to trigger wait_connection() in embassy
         ser.dtr = True
