@@ -3,21 +3,23 @@
   "packages": [
     "rustup@latest",
     "cargo-binutils@latest",
-    "probe-rs-tools@latest"
+    "probe-rs-tools@latest",
+    "python3@latest",
+    "python312Packages.pyserial@latest",
   ],
   "shell": {
     "init_hook": [
-      "echo 'Welcome to devbox!' > /dev/null"
+      "echo 'Welcome to devbox!' > /dev/null",
     ],
     "scripts": {
       "test": [
-        "# add power reset and echo to make each test seperate", 
+        "# add power reset and echo to make each test seperate",
         "cargo test  --features \"stm32u575zi, defmt, lse\"",
         "cargo test  --features \"stm32u575zi, lse\"",
         "cargo test  --features \"stm32u575zi, defmt\"",
         "cargo test  --features \"stm32u575zi\"",
       ],
       "build": "cargo build --features \"stm32u575zi\" ",
-    }
-  }
+    },
+  },
 }

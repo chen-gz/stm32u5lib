@@ -21,7 +21,6 @@ pub mod drivers;
 pub mod hal;
 pub mod nucleo_u575;
 pub mod otg;
-pub mod usb;
 pub mod utils;
 
 #[cfg(all(sdmmc, dcmi))]

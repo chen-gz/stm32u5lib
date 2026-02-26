@@ -1,9 +1,8 @@
-use crate::usb::reg::vals::Dspd;
-use crate::usb::reg::Otg;
-pub use crate::usb::Config;
-use crate::usb::{
-    bus::Bus as OtgBus, controlpipe::ControlPipe, driver::Driver as OtgDriver, endpoint::Endpoint,
-    interrupt::on_interrupt as on_interrupt_impl, In, OtgInstance, Out, PhyType, State,
+use embassy_usb_synopsys_otg::otg_v1::vals::Dspd;
+use embassy_usb_synopsys_otg::otg_v1::Otg;
+pub use embassy_usb_synopsys_otg::Config;
+use embassy_usb_synopsys_otg::{
+    Bus as OtgBus, ControlPipe, Driver as OtgDriver, Endpoint, In, OtgInstance, Out, PhyType, State,
 };
 use cortex_m::peripheral::NVIC;
 use stm32_metapac::interrupt;
@@ -24,23 +23,23 @@ pub mod fifo_const {
 pub mod fifo_const {
     // todo!("fix thsese constants");
     pub const MAX_EP_COUNT: usize = 6;
-    pub const FIFO_DEPTH_WORDS: u16 = 1024;
+    pub const FIFO_DEPTH_WORDS: u16 = 320;
     pub const RX_FIFO_SIZE_EACH: u16 = 128;
-    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 288;
+    pub const RX_FIFO_SIZE_SIZE_WORD: u16 = 128;
     pub const TX_FIFO_SIZE_WORDS: [u16; MAX_EP_COUNT] = [16, 16, 16, 16, 16, 16];
     //  80, 80, 96];
 }
 
 static STATE: State<{ MAX_EP_COUNT }> = State::new();
 
-fn regs() -> stm32_metapac::otg::Otg {
+fn regs() -> Otg {
     #[cfg(stm32u575)]
     {
-        stm32_metapac::USB_OTG_FS
+        unsafe { Otg::from_ptr(stm32_metapac::USB_OTG_FS.as_ptr()) }
     }
     #[cfg(stm32u5a5)]
     {
-        stm32_metapac::USB_OTG_HS
+        unsafe { Otg::from_ptr(stm32_metapac::USB_OTG_HS.as_ptr()) }
     }
 }
 
@@ -49,7 +48,7 @@ fn regs() -> stm32_metapac::otg::Otg {
 unsafe fn OTG_FS() {
     let r = regs();
     let state = &STATE;
-    on_interrupt_impl(r, state, MAX_EP_COUNT);
+    embassy_usb_synopsys_otg::on_interrupt(r, state, MAX_EP_COUNT);
 }
 #[cfg(stm32u5a5)]
 #[interrupt]
@@ -57,7 +56,7 @@ unsafe fn OTG_HS() {
     trace!("OTG_HS interrupt");
     let r = regs();
     let state = &STATE;
-    on_interrupt_impl(r, state, MAX_EP_COUNT);
+    embassy_usb_synopsys_otg::on_interrupt(r, state, MAX_EP_COUNT);
 }
 
 // From `synopsys-usb-otg` crate:
@@ -86,6 +85,13 @@ impl<'d> Driver<'d> {
         dm.setup();
         let regs = unsafe { Otg::from_ptr(regs().as_ptr()) };
 
+        #[cfg(stm32u575)]
+        let phy_type = PhyType::InternalFullSpeed;
+        #[cfg(stm32u5a5)]
+        let phy_type = PhyType::InternalHighSpeed;
+        #[cfg(not(any(stm32u575, stm32u5a5)))]
+        let phy_type = PhyType::InternalFullSpeed;
+
         let instance = OtgInstance {
             regs,
             state: &STATE,
@@ -93,7 +99,7 @@ impl<'d> Driver<'d> {
             extra_rx_fifo_words: fifo_const::RX_FIFO_SIZE_SIZE_WORD,
             // RX_FIFO_EXTRA_SIZE_WORDS,,
             endpoint_count: fifo_const::MAX_EP_COUNT,
-            phy_type: PhyType::InternalHighSpeed,
+            phy_type,
             calculate_trdt_fn: calculate_trdt,
         };
 
@@ -151,31 +157,60 @@ fn common_init() {
 
     critical_section::with(|_| {
         stm32_metapac::PWR.vosr().modify(|v| {
-            v.0 |= (1 << 19) | (1 << 20);
-            v.boosten();
-            v.usbpwren();
-            v.usbboosten();
+            v.set_boosten(true);
+            v.set_usbpwren(true);
+            v.set_usbboosten(true);
         });
         delay_us(100);
-        stm32_metapac::RCC.cr().modify(|v| v.set_hseon(true));
-        // wait for HSE to stabilize
-        while !stm32_metapac::RCC.cr().read().hserdy() {}
+
+        #[cfg(stm32u5a5)]
+        {
+            stm32_metapac::RCC.cr().modify(|v| v.set_hseon(true));
+            // wait for HSE to stabilize
+            while !stm32_metapac::RCC.cr().read().hserdy() {}
+        }
     });
 
-    stm32_metapac::RCC.apb3enr().modify(|w| {
-        w.set_syscfgen(true);
-    });
-    stm32_metapac::RCC.ahb2enr1().modify(|w| {
-        w.set_usb_otg_hs_phyen(true);
-        w.set_usb_otg_hsen(true);
-    });
-    stm32_metapac::SYSCFG.otghsphycr().modify(|v| {
-        v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ16);
-        v.set_en(true);
-    });
-    stm32_metapac::RCC.ccipr2().modify(|w| {
-        w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
-    });
+    #[cfg(stm32u575)]
+    {
+        stm32_metapac::RCC.cr().modify(|w| w.set_hsi48on(true));
+        while !stm32_metapac::RCC.cr().read().hsi48rdy() {}
+
+        stm32_metapac::RCC.ccipr1().modify(|w| {
+            w.set_iclksel(stm32_metapac::rcc::vals::Iclksel::HSI48);
+        });
+
+        stm32_metapac::RCC.apb1enr1().modify(|w| w.set_crsen(true));
+        stm32_metapac::CRS.cfgr().modify(|w| {
+            w.set_syncsrc(stm32_metapac::crs::vals::Syncsrc::USB);
+        });
+        stm32_metapac::CRS.cr().modify(|w| {
+            w.set_autotrimen(true);
+            w.set_cen(true);
+        });
+
+        stm32_metapac::RCC.ahb2enr1().modify(|w| {
+            w.set_usb_otg_fsen(true);
+        });
+    }
+
+    #[cfg(stm32u5a5)]
+    {
+        stm32_metapac::RCC.apb3enr().modify(|w| {
+            w.set_syscfgen(true);
+        });
+        stm32_metapac::RCC.ahb2enr1().modify(|w| {
+            w.set_usb_otg_hs_phyen(true);
+            w.set_usb_otg_hsen(true);
+        });
+        stm32_metapac::SYSCFG.otghsphycr().modify(|v| {
+            v.set_clksel(stm32_metapac::syscfg::vals::Usbrefcksel::MHZ16);
+            v.set_en(true);
+        });
+        stm32_metapac::RCC.ccipr2().modify(|w| {
+            w.set_otghssel(stm32_metapac::rcc::vals::Otghssel::HSE);
+        });
+    }
 
     trace!("Waiting for USB power to stabilize");
     while !stm32_metapac::PWR.svmsr().read().vddusbrdy() {}
@@ -201,7 +236,7 @@ impl<'d> Bus<'d> {
         // let r = stm32_metapac::USB_OTG_FS;
         let r = regs();
         let core_id = r.cid().read().0;
-        // trace!("Core id {:08x}", core_id);
+        info!("Core id {:08x}", core_id);
 
         // Wait for AHB ready.
         while !r.grstctl().read().ahbidl() {}
@@ -278,6 +313,7 @@ impl<'d> Drop for Bus<'d> {
 }
 
 fn calculate_trdt(_speed: Dspd) -> u8 {
-    // todo: fix this constant
-    0x9
+    // For FS, TRDT should be 6 if HCLK >= 14.2MHz.
+    // However, some implementations use higher values for better compatibility.
+    6
 }
