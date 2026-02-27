@@ -1,7 +1,8 @@
 use crate::clock;
-use core::{future::poll_fn, sync::atomic::AtomicBool, time::Duration};
+use core::{future::poll_fn, pin::pin, sync::atomic::AtomicBool, time::Duration};
 use cortex_m::peripheral::NVIC;
 use embassy_sync::waitqueue::AtomicWaker;
+use futures::future::{select, Either};
 use stm32_metapac::interrupt;
 
 pub struct Lptim {
@@ -151,11 +152,11 @@ impl Lptim {
     }
     /// following function implement the delay function with the limitation of 100ms
     /// if the duration is larger than 100ms, use after instead
-    async fn after_limit(&self, duration: Duration) {
+    fn after_limit(&self, duration: Duration) -> LptimDelay<'_> {
         unsafe {
             let tick = duration.as_micros() as u32 / self.get_resolution().as_micros() as u32;
             if tick == 0 {
-                return;
+                return LptimDelay { lptim: self };
             }
             let index = self.num as usize - 1;
             if TIMER_LOCKER[index].load(core::sync::atomic::Ordering::Relaxed) {
@@ -166,15 +167,7 @@ impl Lptim {
             // enable update event interrupt
             self.ins.dier().modify(|v| v.set_ueie(true));
             self.ins.cr().modify(|v| v.set_sngstrt(true));
-            poll_fn(|cx| {
-                WAKER[index].register(cx.waker());
-                if TIMER_LOCKER[index].load(core::sync::atomic::Ordering::Relaxed) {
-                    return core::task::Poll::Pending;
-                } else {
-                    return core::task::Poll::Ready(());
-                }
-            })
-            .await;
+            LptimDelay { lptim: self }
         }
     }
     async fn wait_for_interrupt(&self) {
@@ -263,4 +256,76 @@ fn LPTIM2() {
 #[interrupt]
 fn LPTIM3() {
     Lptim::on_interrupt(3);
+}
+
+struct LptimDelay<'a> {
+    lptim: &'a Lptim,
+}
+
+impl<'a> core::future::Future for LptimDelay<'a> {
+    type Output = ();
+    fn poll(
+        self: core::pin::Pin<&mut Self>,
+        cx: &mut core::task::Context<'_>,
+    ) -> core::task::Poll<Self::Output> {
+        let index = self.lptim.num as usize - 1;
+        unsafe {
+            WAKER[index].register(cx.waker());
+            if TIMER_LOCKER[index].load(core::sync::atomic::Ordering::Relaxed) {
+                core::task::Poll::Pending
+            } else {
+                core::task::Poll::Ready(())
+            }
+        }
+    }
+}
+
+impl<'a> Drop for LptimDelay<'a> {
+    fn drop(&mut self) {
+        let index = self.lptim.num as usize - 1;
+        unsafe {
+            if TIMER_LOCKER[index].load(core::sync::atomic::Ordering::Relaxed) {
+                // Timer is still running (or we think it is). Cancel it.
+                // Disable timer to stop counting.
+                self.lptim.ins.cr().modify(|v| v.set_enable(false));
+
+                // Clear the update event flag to prevent spurious interrupts if one was pending
+                match self.lptim.num {
+                    1 => stm32_metapac::LPTIM1.icr().modify(|v| v.set_uecf(true)),
+                    2 => stm32_metapac::LPTIM2.icr().modify(|v| v.set_uecf(true)),
+                    3 => stm32_metapac::LPTIM3.icr().modify(|v| v.set_uecf(true)),
+                    _ => panic!("not supported LPTIM"),
+                }
+
+                // Clear TIMER_LOCKER so next usage works.
+                TIMER_LOCKER[index].store(false, core::sync::atomic::Ordering::Relaxed);
+
+                // Re-enable the timer for next use (as required by registers like ARR)
+                self.lptim.ins.cr().modify(|v| v.set_enable(true));
+            }
+        }
+    }
+}
+
+#[derive(Debug, PartialEq)]
+pub struct TimeoutError;
+
+/// Runs the future `future` and returns its result.
+/// If the future does not complete within `duration`, returns `Err(TimeoutError)`.
+pub async fn timeout<F, T>(
+    lptim: &Lptim,
+    duration: Duration,
+    future: F,
+) -> Result<T, TimeoutError>
+where
+    F: core::future::Future<Output = T>,
+{
+    let timer_fut = lptim.after(duration);
+    let future = pin!(future);
+    let timer_fut = pin!(timer_fut);
+
+    match select(future, timer_fut).await {
+        Either::Left((val, _)) => Ok(val),
+        Either::Right(_) => Err(TimeoutError),
+    }
 }
