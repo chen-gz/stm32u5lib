@@ -171,3 +171,7 @@ harness = false
 [[test]]
 name = "usb_cdc_acm"
 harness = false
+
+[[test]]
+name = "i2c"
+harness = false
