@@ -175,3 +175,7 @@ harness = false
 [[test]]
 name = "i2c"
 harness = false
+
+[[test]]
+name = "profile"
+harness = false
