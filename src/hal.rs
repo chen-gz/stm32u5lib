@@ -20,7 +20,7 @@ pub trait DMA {
     fn stop(&self);
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum I2cFrequency {
     Freq100khz,
     Freq400khz,
@@ -32,6 +32,30 @@ pub enum I2cError {
     BusError,
     Nack,
     Timeout,
+    Overrun,
+}
+
+pub enum I2cSlaveEvent {
+    Read,  // Host wants to read from us
+    Write, // Host wants to write to us
+}
+
+pub trait I2cSlave<T: Pin> {
+    fn new_slave(sda: T, scl: T, addr: u16) -> Result<Self, I2cError>
+    where
+        Self: Sized;
+
+    /// Wait for an address match from a host. Returns whether the host wants to Read or Write.
+    fn slave_wait_address(&self) -> Result<I2cSlaveEvent, I2cError>;
+    fn slave_wait_address_async(&self) -> impl core::future::Future<Output = Result<I2cSlaveEvent, I2cError>> + Send;
+
+    /// Read data from the host (host is writing)
+    fn slave_read(&self, data: &mut [u8]) -> Result<(), I2cError>;
+    fn slave_read_async(&self, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
+
+    /// Write data to the host (host is reading)
+    fn slave_write(&self, data: &[u8]) -> Result<(), I2cError>;
+    fn slave_write_async(&self, data: &[u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
 }
 
 pub trait I2c<T: Pin> {

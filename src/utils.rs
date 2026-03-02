@@ -4,6 +4,77 @@
 use core::panic::PanicInfo;
 
 use core::time::Duration;
+use crate::clock;
+
+/// Profile the execution time of a synchronous closure.
+///
+/// ### Technical Details & Limitations:
+/// - **Hardware:** Uses the ARM Cortex-M DWT (Data Watchpoint and Trace) cycle counter.
+/// - **Rollover:** The 32-bit cycle counter will roll over. At 160MHz, this occurs approximately every **26.8 seconds**.
+///   Measurements exceeding this duration will be inaccurate (modulo 26.8s).
+/// - **Interrupts:** Time spent in interrupt handlers triggered during the execution is **included** in the profile (Wall Clock Time).
+/// - **Overhead:** The function call and cycle counter reads add a small overhead (typically a few dozen cycles).
+/// - **Sleep:** The DWT counter may stop during low-power sleep modes (WFI/WFE) depending on the MCU debug configuration.
+/// - **Precision:** Precision is 1 CPU cycle (~6.25ns at 160MHz). Time values in `us` and `ms` are truncated.
+pub fn profile<F, R>(name: &str, f: F) -> R
+where
+    F: FnOnce() -> R,
+{
+    let start = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
+    let res = f();
+    let end = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
+    let cycles = end.wrapping_sub(start);
+    let hclk = clock::get_hclk();
+    let us = (cycles as u64 * 1_000_000) / hclk as u64;
+    let ms = us / 1000;
+    info!("profile: {} took {} cycles ({} us, {} ms)", name, cycles, us as u32, ms as u32);
+    res
+}
+
+/// Profile the execution time of an asynchronous future.
+///
+/// ### Technical Details & Limitations:
+/// - **Hardware:** Uses the ARM Cortex-M DWT cycle counter.
+/// - **Rollover:** The 32-bit cycle counter will roll over. At 160MHz, this occurs approximately every **26.8 seconds**.
+/// - **Interrupts:** Time spent in interrupt handlers during the execution is **included**.
+/// - **Executor Overhead:** Includes the time spent by the executor switching tasks if other tasks are polled during the await.
+/// - **Sleep:** The DWT counter may stop during low-power sleep modes.
+/// - **Precision:** Precision is 1 CPU cycle. Time values in `us` and `ms` are truncated.
+pub async fn profile_async<F, R>(name: &str, f: F) -> R
+where
+    F: core::future::Future<Output = R>,
+{
+    let start = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
+    let res = f.await;
+    let end = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
+    let cycles = end.wrapping_sub(start);
+    let hclk = clock::get_hclk();
+    let us = (cycles as u64 * 1_000_000) / hclk as u64;
+    let ms = us / 1000;
+    info!("profile_async: {} took {} cycles ({} us, {} ms)", name, cycles, us as u32, ms as u32);
+    res
+}
+
+#[macro_export]
+macro_rules! profile {
+    ($name:expr, $code:expr) => {
+        $crate::utils::profile($name, || $code)
+    };
+    ($code:expr) => {
+        $crate::utils::profile(core::stringify!($code), || $code)
+    };
+}
+
+#[macro_export]
+macro_rules! profile_async {
+    ($name:expr, $code:expr) => {
+        $crate::utils::profile_async($name, $code)
+    };
+    ($code:expr) => {
+        $crate::utils::profile_async(core::stringify!($code), $code)
+    };
+}
+
 #[cfg(feature = "utils")]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
