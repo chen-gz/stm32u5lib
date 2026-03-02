@@ -8,14 +8,33 @@ use u5_lib as _;
 #[embedded_test::tests]
 mod tests {
 
+    use core::time::Duration;
     use u5_lib::{
         clock::{self, delay_ms},
-        lptim::{Lptim, WallTimer},
+        lptim::{timeout, Lptim, TimeoutError, WallTimer},
     };
 
     /// This function is run before each test case.
     #[init]
-    fn init() {
+    fn init() {}
+
+    #[test]
+    async fn test_timeout() {
+        clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
+        let lptim2 = Lptim::new(2);
+
+        // Test timeout (future never completes)
+        let result = timeout(
+            &lptim2,
+            Duration::from_millis(10),
+            core::future::poll_fn(|_| core::task::Poll::<()>::Pending),
+        )
+        .await;
+        assert_eq!(result, Err(TimeoutError));
+
+        // Test success (future completes immediately)
+        let result = timeout(&lptim2, Duration::from_millis(100), async { 42 }).await;
+        assert_eq!(result, Ok(42));
     }
 
     #[test]
