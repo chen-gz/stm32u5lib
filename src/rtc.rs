@@ -34,18 +34,8 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
         }
     }
 
-    //  rest backup domain
-    RCC.bdcr().write(|v| v.set_bdrst(true));
-    delay_tick(10); // check the minimum time,
-                    // disable BDRST
-    RCC.bdcr().modify(|v| v.set_bdrst(false));
     // record the current rtc mask and pend status
     let rtc_it_enabled = unsafe { NVIC::is_enabled(stm32_metapac::Interrupt::RTC) };
-
-    // unsafe {
-    //     NVIC::mask(stm32_metapac::Interrupt::RTC);
-    //     NVIC::unpend(stm32_metapac::Interrupt::RTC);
-    // };
 
     // enable power clock
     RCC.ahb3enr().modify(|v| {
@@ -56,8 +46,7 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
         v.set_rtcapben(true);
     });
 
-    PWR.dbpcr().modify(|v| v.set_dbp(true)); // enable backup domain write
-                                             // fn with backup domain write
+    // fn with backup domain write
     fn_with_back_domain_write(|| {
         {
             let rs = RCC.bdcr().read().rtcsel(); // get rtc source
@@ -86,6 +75,12 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
                 // set rtc source
                 RCC.bdcr().modify(|v| {
                     v.set_rtcsel(rtc_source);
+                    v.set_rtcen(true);
+                });
+            } else {
+                // ensure rtc is enabled
+                RCC.bdcr().modify(|v| {
+                    v.set_rtcen(true);
                 });
             }
         }
@@ -162,10 +157,6 @@ pub fn setup(year: u8, month: u8, day: u8, hour: u8, minute: u8, second: u8, per
             }
             // RTC.icsr().modify(|v| v.set_init(rtc::vals::Init::FREERUNNINGMODE)); // exit init mode
             RTC.icsr().modify(|v| v.set_init(false)); // exit init mode
-
-            RCC.bdcr().modify(|v| {
-                v.set_rtcen(true);
-            });
 
             // PWR.dbpcr().modify(|v| v.set_dbp(false)); // disable backup domain write
         });

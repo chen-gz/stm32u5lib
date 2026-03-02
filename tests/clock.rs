@@ -27,10 +27,14 @@ mod tests {
     #[timeout(1)]
     async fn test_clock() {
         clock::init_clock(true, u5_lib::clock::ClockFreqs::KernelFreq160Mhz);
-        let lserdy = u5_lib::clock::RCC.bdcr().read().lserdy(); // status of lse
+        #[cfg(feature = "lse")]
+        let low_speed_ready = u5_lib::clock::RCC.bdcr().read().lserdy(); // status of lse
+        #[cfg(not(feature = "lse"))]
+        let low_speed_ready = u5_lib::clock::RCC.bdcr().read().lsirdy();
+
         let hsirdy = u5_lib::clock::RCC.cr().read().hsirdy();
         let rtc_status = u5_lib::clock::RCC.bdcr().read().rtcen();
-        assert!(lserdy && hsirdy && rtc_status);
+        assert!(low_speed_ready && hsirdy && rtc_status);
     }
 
     #[test]
