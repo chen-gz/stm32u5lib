@@ -21,12 +21,14 @@ pub trait DMA {
 }
 
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum I2cFrequency {
     Freq100khz,
     Freq400khz,
     Freq1Mhz,
 }
 #[derive(Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum I2cError {
     InitError,
     BusError,
@@ -35,6 +37,7 @@ pub enum I2cError {
     Overrun,
 }
 
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum I2cSlaveEvent {
     Read,  // Host wants to read from us
     Write, // Host wants to write to us
@@ -98,6 +101,7 @@ pub trait I2c<T: Pin> {
 }
 
 #[derive(Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum UsartError {
     InitError,
     BusError,

@@ -10,6 +10,8 @@
   "shell": {
     "init_hook": [
       "echo 'Welcome to devbox!' > /dev/null",
+      "rustup default stable",
+      "rustup target add thumbv8m.main-none-eabihf",
     ],
     "scripts": {
       "test": [

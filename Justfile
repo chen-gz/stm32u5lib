@@ -1,8 +1,10 @@
 default: setup test
 
+test-lse:
+    cargo test --features stm32u575zi,lse,defmt
+
 test:
-    cargo test --features stm32u575zi,lse,log
-    cargo test --features stm32u575zi,log
+    cargo test --features stm32u575zi,defmt
 
 test-auto:
     @echo "Starting USB Test Harness in background..."
