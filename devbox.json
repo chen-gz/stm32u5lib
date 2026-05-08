@@ -6,6 +6,7 @@
     "probe-rs-tools@latest",
     "python3@latest",
     "python312Packages.pyserial@latest",
+    "zig@latest",
   ],
   "shell": {
     "init_hook": [
