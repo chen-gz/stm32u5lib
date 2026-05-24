@@ -64,9 +64,12 @@ impl GpioPort {
         self.port.bsrr().write(|v| v.set_br(self.pin, true))
     }
     pub fn toggle(&self) {
-        self.port.odr().modify(|v| {
-            v.set_odr(self.pin, if v.odr(self.pin) == Odr::HIGH { Odr::LOW } else { Odr::HIGH });
-        })
+        let is_high = self.port.odr().read().odr(self.pin) == Odr::HIGH;
+        if is_high {
+            self.port.bsrr().write(|v| v.set_br(self.pin, true));
+        } else {
+            self.port.bsrr().write(|v| v.set_bs(self.pin, true));
+        }
     }
     pub fn setup(&self) {
         // enable the clock
