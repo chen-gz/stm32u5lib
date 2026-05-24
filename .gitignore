@@ -2,4 +2,7 @@ target
 .idea/
 *.DS_Store
 *.log
+.venv/
+.zig-cache/
+zig-out/
 
