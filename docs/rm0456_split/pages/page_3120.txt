@@ -1,0 +1,190 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 17 NAKSTS: NAK status
+Indicates the following:
+0: The core is transmitting non-NAK handshakes based on the FIFO status.
+1: The core is transmitting NAK handshakes on this endpoint.
+When either the application or the core sets this bit, the core stops receiving data, even if
+there is space in the Rx FIFO to accommodate the incoming packet. Irrespective of this bit’s
+setting, the core always responds to SETUP data packets with an ACK handshake.
+Bit 16 Reserved, must be kept at reset value.
+Bit 15 USBAEP: USB active endpoint
+This bit is always set to 1, indicating that a control endpoint 0 is always active in all
+configurations and interfaces.
+Bits 14:2 Reserved, must be kept at reset value.
+Bits 1:0 MPSIZ[1:0]: Maximum packet size
+The maximum packet size for control OUT endpoint 0 is the same as what is programmed in
+control IN endpoint 0.
+00: 64 bytes
+01: 32 bytes
+10: 16 bytes
+11: 8 bytes
+
+72.15.50 OTG device OUT endpoint x interrupt register (OTG_DOEPINTx)
+Address offset: 0xB08 + 0x20 * x, (x = 0 to 5)
+Reset value: 0x0000 0080
+This register indicates the status of an endpoint with respect to USB- and AHB-related
+events. It is shown in Figure 901. The application must read this register when the OUT
+endpoints interrupt bit of the OTG_GINTSTS register (OEPINT bit in OTG_GINTSTS) is set.
+Before the application can read this register, it must first read the OTG_DAINT register to
+get the exact endpoint number for the OTG_DOEPINTx register. The application must clear
+the appropriate bit in this register to clear the corresponding bits in the OTG_DAINT and
+OTG_GINTSTS registers.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+NAK
+
+BERR
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+STSPH
+SRX
+
+OTEP
+DIS
+
+STUP
+
+Res.
+
+EP
+DISD
+
+XFRC
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Bits 31:14 Reserved, must be kept at reset value.
+Bit 13 NAK: NAK input
+The core generates this interrupt when a NAK is transmitted or received by the device. In
+case of isochronous IN endpoints the interrupt gets generated when a zero length packet is
+transmitted due to unavailability of data in the Tx FIFO.
+Bit 12 BERR: Babble error interrupt
+The core generates this interrupt when babble is received for the endpoint.
+
+RM0456 Rev 6

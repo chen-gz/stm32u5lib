@@ -1,0 +1,185 @@
+2093
+
+Public key accelerator (PKA)
+
+RM0456
+
+Bit 0 INITOK: PKA initialization OK
+This bit is asserted when PKA initialization is complete.
+0: PKA is not initialized correctly. START bit cannot be set.
+1: PKA is initialized correctly and can be used normally.
+Note: When RNG is not able to output proper random numbers or when SAES is using the RNG bus,
+INITOK remains at 0. If it happens, make sure the RNG peripheral is properly clocked and
+initialized, and the SAES peripheral is clocked with BUSY bit cleared in SAES_SR to release
+the RNG bus, then enable PKA again.
+
+53.7.3
+
+PKA clear flag register (PKA_CLRFR)
+Address offset: 0x08
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+OP
+ADDR
+RAM
+ERRFC ERRFC ERRFC
+
+18
+
+17
+
+16
+
+Res.
+
+PROC
+ENDFC
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+w
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 OPERRFC: Clear operation error flag
+0: No action
+1: Clear the OPERRF flag in PKA_SR
+Bit 20 ADDRERRFC: Clear address error flag
+0: No action
+1: Clear the ADDRERRF flag in PKA_SR
+Bit 19 RAMERRFC: Clear PKA RAM error flag
+0: No action
+1: Clear the RAMERRF flag in PKA_SR
+Bit 18 Reserved, must be kept at reset value.
+Bit 17 PROCENDFC: Clear PKA end of operation flag
+0: No action
+1: Clear the PROCENDF flag in PKA_SR
+Bits 16:0 Reserved, must be kept at reset value.
+
+Note:
+
+Reading PKA_CLRFR returns all 0s.
+
+53.7.4
+
+PKA RAM
+The PKA RAM is mapped at the offset address of 0x0400 compared to the PKA base
+address. Only 32-bit word single accesses are supported, through PKA.AHB interface.
+RAM size is 5336 bytes (max word offset: 0x14D0)
+
+Note:

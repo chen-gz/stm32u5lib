@@ -1,0 +1,54 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Clock generator programming when NODIV = 0
+In that case, the MCLK_x frequency is:
+•
+
+FMCLK_x = 256 x FFS_x if OSR = 0
+
+•
+
+FMCLK_x = 512 x FFS_x if OSR = 1
+
+When MCKDIV is different from 0, the MCLK_x frequency is given by the formula below:
+F
+
+F sai_x_ker_ck
+MCLK_x = ---------------------------------MCKDIV
+
+The frame synchronization frequency is given by:
+F
+
+F sai_x_ker_ck
+FS_x = ----------------------------------------------------------------------------MCKDIV × ( OSR + 1 ) × 256
+
+The bit clock frequency (SCK_x) is given by the following formula:
+F sai_x_ker_ck × ( FRL + 1 )
+F SCK_x = ----------------------------------------------------------------------------MCKDIV × ( OSR + 1 ) × 256
+Note:
+
+When NODIV is equal to 0, (FRL+1) must be a power of two. In addition, (FRL+1) must
+range between 8 and 256. (FRL +1) represents the number of bit clock in the audio frame.
+When the MCKDIV division ratio is odd, the MCLK duty cycle is not 50%. The bit clock
+signal (SCK_x) can also have a duty cycle different from 50% if MCKDIV is odd, if OSR is
+equal to 0, and if (FRL+1) = 2 8.
+It is recommended, to program MCKDIV to an even value or to large values (higher than
+10).
+Note that MCKDIV = 0 gives the same result as MCKDIV = 1.
+Clock generator programming when NODIV = 1
+When MCKDIV is different from 0, the frequency of the bit clock (SCK_x) is given in the
+formula below:
+F sai_x_ker_ck
+F SCK_x = F MCLK_x = ---------------------------------MCKDIV
+The frequency of the frame synchronization (FS_x) in given by the following formula:
+F sai_x_ker_ck
+F FS_x = ---------------------------------------------------------( FRL + 1 ) × MCKDIV
+
+Note:
+
+When NODIV is set to 1, (FRL+1) can take any values from 8 to 256.
+MCKDIV = 0 gives the same result as MCKDIV = 1.

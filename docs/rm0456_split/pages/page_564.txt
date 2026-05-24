@@ -1,0 +1,177 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 11 WWDGEN: WWDG clock enable
+This bit is set by software to enable the window watchdog clock. It is reset by hardware
+system reset. This bit can also be set by hardware if the WWDG_SW option bit is reset.
+0: WWDG clock disabled
+1: WWDG clock enabled
+Bits 10:6 Reserved, must be kept at reset value.
+Bit 5 TIM7EN: TIM7 clock enable
+This bit is set and cleared by software.
+0: TIM7 clock disabled
+1: TIM7 clock enabled
+Bit 4 TIM6EN: TIM6 clock enable
+This bit is set and cleared by software.
+0: TIM6 clock disabled
+1: TIM6 clock enabled
+Bit 3 TIM5EN: TIM5 clock enable
+This bit is set and cleared by software.
+0: TIM5 clock disabled
+1: TIM5 clock enabled
+Bit 2 TIM4EN: TIM4 clock enable
+This bit is set and cleared by software.
+0: TIM4 clock disabled
+1: TIM4 clock enabled
+Bit 1 TIM3EN: TIM3 clock enable
+This bit is set and cleared by software.
+0: TIM3 clock disabled
+1: TIM3 clock enabled
+Bit 0 TIM2EN: TIM2 clock enable
+This bit is set and cleared by software.
+0: TIM2 clock disabled
+1: TIM2 clock enabled
+
+11.8.34
+
+RCC APB1 peripheral clock enable register 2 (RCC_APB1ENR2)
+Address offset: 0x0A0
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+Note:
+
+When the peripheral clock is not active, read or write access to peripheral registers is
+not supported.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+UCPD1
+EN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+LPTIM2
+EN
+
+Res.
+
+Res.
+
+Res.
+
+I2C4EN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FDCAN
+1EN
+
+Res.
+
+rw
+
+rw

@@ -1,0 +1,65 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+•
+
+The FMC always samples the data before de-asserting the NOE signal. This
+guarantees that the memory data hold timing constraint is met (minimum Chip Enable
+high to data transition is usually 0 ns)
+
+•
+
+If the Extended mode is enabled (EXTMOD bit is set in the FMC_BCRx register), up to
+four extended modes (A, B, C and D) are available. It is possible to mix A, B, C and D
+modes for read and write operations. For example, read operation can be performed in
+mode A and write in mode B.
+
+•
+
+If the Extended mode is disabled (EXTMOD bit is reset in the FMC_BCRx register), the
+FMC can operate in mode 1 or mode 2 as follows:
+–
+
+Mode 1 is the default mode when SRAM/PSRAM memory type is selected (MTYP
+= 0x0 or 0x01 in the FMC_BCRx register)
+
+–
+
+Mode 2 is the default mode when NOR memory type is selected (MTYP = 0x10 in
+the FMC_BCRx register).
+
+Mode 1 - SRAM/FRAM/PSRAM (CRAM)
+The next figures show the read and write transactions for the supported modes followed by
+the required configuration of FMC_BCRx, and FMC_BTRx/FMC_BWTRx registers.
+Figure 121. Mode 1 read access waveforms
+Memory transaction
+A[25:0]
+
+NBL[x:0]
+
+NEx
+
+NOE
+
+NWE
+
+High
+
+Data bus
+
+Data driven by memory
+
+NBLSET
+HCLK
+cycles
+
+ADDSET HCLK cycles
+
+DATAST HCLK cycles
+
+DATAHLD
+HCLK cycles
+MSv41664V1

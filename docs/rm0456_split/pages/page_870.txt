@@ -1,0 +1,23 @@
+891
+
+Chrom-ART Accelerator controller (DMA2D)
+
+RM0456
+
+The value of the background color is given by DMA2D_BGCOLR, and the alpha value is set
+to 0xFF (opaque).
+The alpha value can be replaced or modified according to AM[1:0] and ALPHA[7:0]
+in DMA2D_BGPFCCR.
+The two pixel format converters have to be configured as described in memory-to-memory
+mode. Their configurations can be different as each pixel format converter is independent
+and has its own CLUT memory
+Once each pixel has been converted into 32 bits by their respective PFCs, all pixels are
+blended together. The resulting 32-bit pixel value is encoded by the output PFC according to
+the specified output format. Data are written into the destination memory location pointed
+by DMA2D_OMAR.
+
+Configuration error detection
+The DMA2D checks that the configuration is correct before any transfer. The configuration
+error interrupt flag is set by hardware when a wrong configuration is detected when a new
+transfer/automatic loading starts. An interrupt is then generated if CEIE = 1 in DMA2D_CR.
+The wrong configurations that can be detected are listed below:

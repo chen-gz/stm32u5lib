@@ -1,0 +1,84 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+Table 686. USART/LPUART features (continued)
+Modes/features(1)
+
+Full feature
+
+Basic feature
+
+Low-power feature
+
+Receiver timeout interrupt
+
+X
+
+X
+
+-
+
+Modbus communication
+
+X
+
+X
+
+-
+
+Auto baud rate detection
+
+X
+
+X
+
+-
+
+Driver enable
+
+X
+
+X
+
+X
+
+USART data length
+
+7, 8 and 9 bits
+
+Tx/Rx FIFO
+
+X
+
+X
+
+Wake-up from low-power mode
+
+X
+
+(2)
+
+(2)
+
+X
+
+X(3)
+
+Autonomous mode
+
+X
+
+X
+
+X
+
+Tx/Rx FIFO size
+
+8
+
+1. X = supported.
+2. Wake-up supported from Stop 0 and Stop 1 modes.
+3. Wake-up supported from Stop 0, Stop 1, and Stop 2 modes.

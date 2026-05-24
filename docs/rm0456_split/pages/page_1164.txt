@@ -1,0 +1,164 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Bits 15:0 TIMEOUT[15:0]: Timeout period
+After each access in memory-mapped mode, the HSPI prefetches the subsequent bytes and
+hold them in the FIFO.
+This bitfield indicates how many CLK cycles the HSPI waits after the clock becomes inactive
+and until it raises the NCS, putting the external device in a lower-consumption state.
+
+30.7.19
+
+HSPI wrap communication configuration register
+(HSPI_WPCCR)
+Address offset: 0x140
+Reset value: 0x0000 0000
+This register can be modified only when BUSY = 0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+Res.
+
+Res.
+
+DQSE
+
+Res.
+
+DDTR
+
+15
+
+14
+
+13
+
+Res.
+
+Res.
+
+ADSIZE[1:0]
+
+rw
+
+rw
+
+12
+
+rw
+
+26
+
+25
+
+24
+
+DMODE[2:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+ADDTR
+rw
+
+ADMODE[2:0]
+rw
+
+rw
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+ABSIZE[1:0]
+
+7
+
+6
+
+Res.
+
+Res.
+
+rw
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ISIZE[1:0]
+
+IDTR
+
+rw
+
+rw
+
+Bit 27 DDTR: Data double transfer rate
+This bit sets the DTR mode for the data phase.
+0: DTR mode disabled for the data phase
+1: DTR mode enabled for the data phase
+Bits 26:24 DMODE[2:0]: Data mode
+This bitfield defines the data phase mode of operation.
+000: No data
+001: Data on a single line
+010: Data on two lines
+011: Data on four lines
+100: Data on eight lines
+101: Data on 16 lines
+Others: Reserved
+
+RM0456 Rev 6
+
+17
+ABMODE[2:0]
+
+rw
+
+Bit 28 Reserved, must be kept at reset value.

@@ -1,0 +1,47 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+35.4.12
+
+RM0456
+
+DAC channel modes
+Each DAC channel can be configured in normal mode or sample and hold mode. The output
+buffer can be enabled to obtain a high drive capability. Before enabling output buffer, the
+voltage offset needs to be calibrated. This calibration is performed at the factory (loaded
+after reset) and can be adjusted by software during application operation.
+
+Normal mode
+In normal mode, there are four combinations, by changing the buffer state and by changing
+the DACx_OUTy pin interconnections.
+To enable the output buffer, the MODEx[2:0] bits in DAC_MCR register must be:
+•
+
+000: DAC is connected to the external pin
+
+•
+
+001: DAC is connected to external pin and to on-chip peripherals
+
+To disable the output buffer, the MODEx[2:0] bits in DAC_MCR register must be:
+•
+
+010: DAC is connected to the external pin
+
+•
+
+011: DAC is connected to on-chip peripherals
+
+Sample and hold mode
+In sample and hold mode, the DAC core converts data on a triggered conversion, and then
+holds the converted voltage on a capacitor. When not converting, the DAC cores and buffer
+are completely turned off between samples and the DAC output is tri-stated, therefore
+reducing the overall power consumption. A stabilization period, which value depends on the
+buffer state, is required before each new conversion.
+In this mode, the DAC core and all corresponding logic and registers are driven by the
+LSI/LSE low-speed clock (dac_hold_ck) in addition to the dac_hclk clock, allowing using the
+DAC channels in deep low power modes such as Stop mode.
+The LSI/LSE low-speed clock (dac_hold_ck) must not be stopped when the sample and hold
+mode is enabled.
+The sample/hold mode operations can be divided into three phases:

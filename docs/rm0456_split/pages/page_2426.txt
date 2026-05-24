@@ -1,0 +1,81 @@
+RM0456 Rev 6
+
+RM0456
+
+Graphic timer (GFXTIM)
+The reload value is programmed in GFXTIM_FCCRR.
+
+Clock generation
+The line clock source can be one of the following:
+•
+
+underflow flag of the internal 22-bit down-counter
+
+•
+
+underflow flag of the internal 12-bit down-counter
+
+•
+
+HSYNC, VSYNC or TE pin (with control of polarity)
+
+The frame clock source can be one of the following:
+•
+
+underflow flag of the internal 22-bit down-counter
+
+•
+
+underflow flag of the internal 12-bit down-counter
+
+•
+
+HSYNC, VSYNC or TE pin (with control of polarity)
+
+Clock calibration output
+For calibration/debug purpose, the frame clock and line clock can be output
+on a specific I/O.
+The frame clock calibration output is enabled by setting FCCOE (frame clock calibration
+output enable) in GFXTIM_CR (configuration register).
+The line clock calibration output is enabled by setting LCCOE in GFXTIM_CR.
+
+Synchronization and tearing-effect sources
+The GFXTIM can be connected to peripherals providing HSYNC and/or VSYNC
+synchronization signals, like the LCD-TFT controller or the camera interface.
+The source of HSYNC and/or VSYNC is selected through SYNCS (synchronization source)
+in GFXTIM_CR.
+The tearing-effect source can be an external pin or can be provided by the MIPI® DSI Host
+on system embedding this interface. To extend the orthogonality versus the synchronization
+signals, the tearing-effect source can be also the selected HSYNC or VSYNC input.
+The tearing-effect source can be selected with TES (TE source) in GFXTIM_CR.
+
+59.3.4
+
+Example of clock generator configuration
+The clock generator can have several configuration to work:
+•
+
+in standalone (without any external synchronization)
+
+•
+
+with external HSYNC and VSYNC
+
+•
+
+with external HSYNC only
+
+•
+
+with external VSYNC only
+
+•
+
+with external CSYNC (TE) only
+
+The synchronization signals, HSYNC, VSYNC and TE, are symmetrical in the
+implementation and can be exchanged if needed.
+The set of examples detailed below are given for reference, but other combinations can be
+programmed int the clock generator.
+
+RM0456 Rev 6

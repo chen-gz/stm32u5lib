@@ -1,0 +1,82 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Figure 776. Tamper sampling with precharge pulse
+RTC clock
+
+Sampling
+Floating input
+
+Switch opened
+Precharge = 1 RTCCLK
+Precharge = 2 RTCCLK
+Precharge = 4 RTCCLK
+Precharge = 8 RTCCLK (not shown)
+MSv30115V2
+
+Figure 777. Low level detection with precharge and filtering
+Sampling
+
+Sampling
+
+Sampling
+
+Sampling
+
+§
+
+RTCCLK
+
+§
+
+§
+
+TAMPxF
+
+Internal pull-up enable
+(TAMPPUDIS=0)
+
+TAMP_INx
+(TAMPPUDIS=0))
+
+Schmitt trigger enable
+TAMPPRCH
+
+TAMPPRCH
+TAMPFREQ
+
+TAMP_INx floating
+
+TAMPPRCH
+TAMPFREQ
+
+TAMP_INx floating
+
+TAMP_INx tied to 0
+
+Configuration:
+TAMPxTRG=0: Low level detection
+TAMPPRCH=1: 1 RTCCLK cycle pre-charge duration (internal pull-up is applied)
+TAMPFLT=1: Tamper event is activated after 2 consecutive samples at active level
+
+Note:
+
+TAMPPRCH
+TAMPFREQ
+TAMP_INx tied to 0
+
+MSv74148V1
+
+Refer to the microcontroller datasheet for the electrical characteristics of the pull-up
+resistors.
+
+Active tamper detection
+When the TAMPxAM bit is set in the TAMP_ATCR, the tamper events are configured in
+active mode, which is based on a comparison between a TAMP_OUTy pin and a TAMP_INx
+pin. By default (ATOSHARE = 0) the comparison is made between TAMP_INx and
+TAMP_OUTx (y = x). When ATOSHARE bit is set, the same output can be used for several
+tamper inputs. The TAMP_OUTy function is enabled on the I/O as soon as it is selected for
+comparison with an active tamper input TAMP_INx (TAMPxEN = TAMPxAM = 1), thanks to

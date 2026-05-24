@@ -1,0 +1,180 @@
+RM0456 Rev 6
+
+RM0456
+
+CORDIC coprocessor (CORDIC)
+
+Bits 3:0 FUNC[3:0]: Function
+0: Cosine
+1: Sine
+2: Phase
+3: Modulus
+4: Arctangent
+5: Hyperbolic cosine
+6: Hyperbolic sine
+7: Arctanh
+8: Natural logarithm
+9: Square root
+10 to 15: Reserved
+
+25.4.2
+
+CORDIC argument register (CORDIC_WDATA)
+Address offset: 0x04
+Reset value: 0xXXXX XXXX
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+ARG[31:16]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+ARG[15:0]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:0 ARG[31:0]: Function input arguments
+This register is programmed with the input arguments for the function selected in the
+CORDIC_CSR register FUNC field.
+If 32-bit format is selected (CORDIC_CSR.ARGSIZE = 0) and two input arguments are
+required (CORDIC_CSR.NARGS = 1), two successive writes are required to this register.
+The first writes the primary argument (ARG1), the second writes the secondary argument
+(ARG2).
+If 32-bit format is selected and only one input argument is required (NARGS = 0), only one
+write is required to this register, containing the primary argument (ARG1).
+If 16-bit format is selected (CORDIC_CSR.ARGSIZE = 1), one write to this register contains
+both arguments. The primary argument (ARG1) is in the lower half, ARG[15:0], and the
+secondary argument (ARG2) is in the upper half, ARG[31:16]. In this case, NARGS must be
+set to 0.
+Refer to Section 25.3.2 for the arguments required by each function, and their permitted
+range.
+When the required number of arguments has been written, the CORDIC evaluates the
+function designated by CORDIC_CSR.FUNC using the supplied input arguments, provided
+any previous calculation has completed. If a calculation is ongoing, the ARG1 and ARG 2
+values are held pending until the calculation is completed and the results read. During this
+time, a write to the register cancels the pending operation and overwrite the argument data.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,51 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 23 GPU2DF: illegal access flag for GPU2D
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 RAMCFGF: illegal access flag for RAMCFG
+0: no illegal access event
+1: illegal access event
+Bit 21 OCTOSPI2_REGF: illegal access flag for OCTOSPI2 registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 20 OCTOSPI1_REGF: illegal access flag for OCTOSPI1 registers
+0: no illegal access event
+1: illegal access event
+Bit 19 FSMC_REGF: illegal access flag for FSMC registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 18 SDMMC2F: illegal access flag for SDMMC1
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 17 SDMMC1F: illegal access flag for SDMMC2
+0: no illegal access event
+1: illegal access event
+Bit 16 OCTOSPIMF: illegal access flag for OCTOSPIM
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 15 SAESF: illegal access flag for SAES
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.

@@ -1,0 +1,166 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Bits 31:0 ADDRESS[31:0]: Address
+Address to be sent to the external device. In HyperBus protocol, this bitfield must be even as
+this protocol is 16-bit word oriented. In dual-memory configuration, AR[0] is forced to 0.
+Caution: Some memory specifications consider that each address corresponds to a 16-bit
+value. HSPI considers that each address corresponds to an 8-bit value. So the
+software needs to multiply the address by two when accessing the memory
+registers.
+
+30.7.10
+
+HSPI data register (HSPI_DR)
+Address offset: 0x050
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DATA[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DATA[15:0]
+rw
+
+Bits 31:0 DATA[31:0]: Data
+Data to be sent/received to/from the external SPI device
+In indirect-write mode, data written to this register is stored on the FIFO before it is sent to the
+external device during the data phase. If the FIFO is too full, a write operation is stalled until
+the FIFO has enough space to accept the amount of data being written.
+In indirect-read mode, reading this register gives (via the FIFO) the data that was received
+from the external device. If the FIFO does not have as many bytes as requested by the read
+operation and if BUSY = 1, the read operation is stalled until enough data is present or until
+the transfer is complete, whichever happens first.
+In automatic status-polling mode, this register contains the last data read from the external
+device (without masking).
+Word, half-word, and byte accesses to this register are supported. In indirect-write mode,
+a byte write adds 1 byte to the FIFO, a half-word write 2 bytes, and a word write 4 bytes.
+Similarly, in indirect-read mode, a byte read removes 1 byte from the FIFO, a halfword read
+2 bytes, and a word read 4 bytes. Accesses in indirect mode must be aligned to the bottom of
+this register: A byte read must read DATA[7:0] and a half-word read must read DATA[15:0].

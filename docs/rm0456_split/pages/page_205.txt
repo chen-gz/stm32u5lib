@@ -1,0 +1,204 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 0 LCK: lock the configuration of GTZC1_TZSC_SECCFGRx and GTZC1_TZSC_PRIVCFGRx
+registers until next reset
+This bit is cleared by default and once set, it can not be reset until system reset.
+0: configuration of all GTZC1_TZSC_SECCFGRx and GTZC1_TZSC_PRIVCFGRx registers
+not locked
+1: configuration of all GTZC1_TZSC_SECCFGRx and GTZC1_TZSC_PRIVCFGRx registers
+locked
+
+5.6.2
+
+GTZC1 TZSC secure configuration register 1
+(GTZC1_TZSC_SECCFGR1)
+Address offset: 0x010
+Reset value: 0x0000 0000
+Write-secure access only.
+This register can be written only by secure privileged transaction when corresponding
+GTZC1_TZSC_PRIVCFGR register signal is set to 1. If a given PRIV bit is not set, the
+equivalent SEC bit can be written by secure unprivileged transaction.
+Read accesses are authorized for any type of transactions, secure or not, privileged or not.
+
+31
+Res.
+
+15
+
+30
+Res.
+
+14
+
+29
+Res.
+
+13
+
+28
+Res.
+
+12
+
+27
+Res.
+
+11
+
+26
+Res.
+
+10
+
+25
+Res.
+
+9
+
+24
+Res.
+
+23
+
+22
+
+21
+
+I2C6SE I2C5SE USART
+C
+C
+6SEC
+
+8
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+CRSSE I2C2SE I2C1SE UART5 UART4 USART USART SPI2SE IWDGS WWDG TIM7S
+C
+C
+C
+SEC
+SEC
+3SEC
+2SEC
+C
+EC
+SEC
+EC
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+20
+Res.
+
+19
+
+18
+
+17
+
+16
+
+UCPD1 FDCAN LPTIM2 I2C4SE
+SEC
+1SEC
+SEC
+C
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+TIM6S
+EC
+
+TIM5S
+EC
+
+TIM4S
+EC
+
+TIM3S
+EC
+
+TIM2S
+EC
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 I2C6SEC: secure access mode for I2C6
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 I2C5SEC: secure access mode for I2C5
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 21 USART6SEC: secure access mode for USART6
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 20 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

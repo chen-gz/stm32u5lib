@@ -1,0 +1,73 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+The internal analog calibration is kept if the ADC is disabled (ADEN = 0). When the ADC
+operating conditions change (VDDA changes are the main contributor to ADC offset
+variations and temperature change to a lesser extend), it is recommended to re-run a
+calibration cycle. It is recommended to recalibrate when VREF+ voltage changed more than
+10%.
+The calibration factor is lost in the following cases:
+•
+
+The power supply is removed from the ADC (for example when the product enters
+Standby or VBAT mode).
+
+•
+
+The ADC peripheral is reset.
+
+The calibration factor is lost each time power is removed from the ADC (for example when
+the product enters Standby or VBAT mode). Still, it is possible to save and restore the
+calibration factor by software to save time when re-starting the ADC (as long as temperature
+and voltage are stable during the ADC power-down).
+The calibration factor can be written if the ADC is enabled but not converting (ADEN = 1 and
+ADSTART = 0). Then, at the next start of conversion, the calibration factor is automatically
+injected into the analog ADC. This loading is transparent and does not add any cycle
+latency to the start of the conversion.
+
+Software calibration procedure
+1.
+
+Ensure that ADEN = 0, ADVREGEN = 1, AUTOFF = 0, DPD = 0, and DMAEN = 0.
+
+2.
+
+Set ADCAL = 1.
+
+3.
+
+Wait until ADCAL = 0 (or until EOCAL = 1). This can be handled by interrupt if the
+interrupt is enabled by setting the EOCALIE bit in the ADC_IER register
+
+4.
+
+The calibration factor can be read from bits 6:0 of ADC_DR or ADC_CALFACT
+registers.
+Figure 279. ADC calibration
+t CAB
+ADCAL
+
+ADC State
+
+OFF
+
+Startup
+
+ADC_DR[6:0]
+ADC_CALFACT[6:0]
+by SW
+
+CALIBRATE
+0x00
+
+OFF
+CALIBRATION
+FACTOR
+
+by HW
+MSv33703V2
+
+1. Refer to the device datasheet for the value of tCAB.

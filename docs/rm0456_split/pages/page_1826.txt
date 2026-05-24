@@ -1,0 +1,175 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bit 2 AE2: Acknowledge error 2
+This bit retrieves the EoT sync error from the acknowledge error report.
+Bit 1 AE1: Acknowledge error 1
+This bit retrieves the SoT sync error from the acknowledge error report.
+Bit 0 AE0: Acknowledge error 0
+This bit retrieves the SoT error from the acknowledge error report.
+
+44.15.42 DSI Host interrupt and status register 1 (DSI_ISR1)
+Address offset: 0x00C0
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PBUE
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+GPRXE GPRDE GPTXE GPWRE GCWRE LPWRE EOTPE
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+PSE
+r
+
+CRCE ECCME ECCSE TOLPRX TOHSTX
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bit 19 PBUE: Payload buffer underflow error
+This bit indicates that underflow has occurred when reading payload to build DSI packet for
+video mode.
+Bits 18:13 Reserved, must be kept at reset value.
+Bit 12 GPRXE: Generic payload receive error
+This bit indicates that during a generic interface packet read back, the payload FIFO
+becomes full and the received data is corrupted.
+Bit 11 GPRDE: Generic payload read error
+This bit indicates that during a DCS read data, the payload FIFO becomes empty and the
+data sent to the interface is corrupted.
+Bit 10 GPTXE: Generic payload transmit error
+This bit indicates that during a generic interface packet build, the payload FIFO becomes
+empty and corrupt data is sent.
+Bit 9 GPWRE: Generic payload write error
+This bit indicates that the system tried to write a payload data through the generic interface
+and the FIFO is full. Therefore, the payload is not written.
+Bit 8 GCWRE: Generic command write error
+This bit indicates that the system tried to write a command through the generic interface and
+the FIFO is full. Therefore, the command is not written.
+Bit 7 LPWRE: LTDC payload write error
+This bit indicates that during a DPI pixel line storage, the payload FIFO becomes full and the
+data stored is corrupted.
+Bit 6 EOTPE: EoTp error
+This bit indicates that the EoTp packet is not received at the end of the incoming peripheral
+transmission.

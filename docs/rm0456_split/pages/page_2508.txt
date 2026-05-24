@@ -1,0 +1,44 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+Bit 7 INIT: Initialization mode
+0: Free running mode
+1: Initialization mode used to program time and date register (RTC_TR and RTC_DR), and
+prescaler register (RTC_PRER), plus BIN and BCDU fields. Counters are stopped and start
+counting from the new value when INIT is reset.
+Bit 6 INITF: Initialization flag
+When this bit is set to 1, the RTC is in initialization state, and the time, date and prescaler
+registers can be updated.
+0: Calendar registers update is not allowed
+1: Calendar registers update is allowed
+Bit 5 RSF: Registers synchronization flag
+This bit is set by hardware each time the calendar registers are copied into the shadow
+registers (RTC_SSR, RTC_TR and RTC_DR). This bit is cleared by hardware in initialization
+mode, while a shift operation is pending (SHPF = 1), or when in bypass shadow register
+mode (BYPSHAD = 1). This bit can also be cleared by software.
+It is cleared either by software or by hardware in initialization mode.
+0: Calendar shadow registers not yet synchronized
+1: Calendar shadow registers synchronized
+Bit 4 INITS: Initialization status flag
+This bit is set by hardware when the calendar year field is different from 0 (Backup domain
+reset state).
+0: Calendar has not been initialized
+1: Calendar has been initialized
+Bit 3 SHPF: Shift operation pending
+This flag is set by hardware as soon as a shift operation is initiated by a write to the
+RTC_SHIFTR register. It is cleared by hardware when the corresponding shift operation has
+been executed. Writing to the SHPF bit has no effect.
+0: No shift operation is pending
+1: A shift operation is pending
+Bit 2 WUTWF: Wake-up timer write flag
+This bit is set by hardware when WUT value can be changed, after the WUTE bit has been
+set to 0 in RTC_CR.
+It is cleared by hardware in initialization mode.
+0: Wake-up timer configuration update not allowed except in initialization mode
+1: Wake-up timer configuration update allowed
+Bits 1:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

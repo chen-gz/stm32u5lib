@@ -1,0 +1,58 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 544. Dithering principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2131
+Figure 545. Data format and register coding in dithering mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2132
+Figure 546. PWM resolution vs frequency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2133
+Figure 547. PWM dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2134
+Figure 548. Dithering effect on duty cycle in center-aligned PWM mode . . . . . . . . . . . . . . . . . . . . . 2135
+Figure 549. Generation of 2 phase-shifted PWM signals with 50% duty cycle . . . . . . . . . . . . . . . . . 2137
+Figure 550. Combined PWM mode on channel 1 and 3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2138
+Figure 551. 3-phase combined PWM signals with multiple trigger pulses per period . . . . . . . . . . . . 2139
+Figure 552. Complementary output with symmetrical dead-time insertion . . . . . . . . . . . . . . . . . . . . 2140
+Figure 553. Asymmetrical deadtime . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2141
+Figure 554. Dead-time waveforms with delay greater than the negative pulse . . . . . . . . . . . . . . . . . 2141
+Figure 555. Dead-time waveforms with delay greater than the positive pulse. . . . . . . . . . . . . . . . . . 2141
+Figure 556. Break and Break2 circuitry overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2144
+Figure 557. Various output behavior in response to a break event on tim_brk (OSSI = 1) . . . . . . . . 2146
+Figure 558. PWM output state following tim_brk and tim_brk2 assertion (OSSI = 1) . . . . . . . . . . . . 2147
+Figure 559. PWM output state following tim_brk assertion (OSSI = 0) . . . . . . . . . . . . . . . . . . . . . . . 2148
+Figure 560. Output redirection (tim_brk2 request not represented) . . . . . . . . . . . . . . . . . . . . . . . . . . 2149
+Figure 561. tim_ocref_clr input selection multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2150
+Figure 562. Clearing TIMx tim_ocxref . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2151
+Figure 563. 6-step generation, COM example (OSSR = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2152
+Figure 564. Example of one pulse mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2153
+Figure 565. Retriggerable one-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2154
+Figure 566. Pulse generator circuitry . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2155
+Figure 567. Pulse generation on compare event, for edge-aligned and encoder modes . . . . . . . . . 2156
+Figure 568. Extended pulsewidth in case of concurrent triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2157
+Figure 569. Example of counter operation in encoder interface mode. . . . . . . . . . . . . . . . . . . . . . . . 2159
+Figure 570. Example of encoder interface mode with tim_ti1fp1 polarity inverted. . . . . . . . . . . . . . . 2159
+Figure 571. Quadrature encoder counting modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2160
+Figure 572. Direction plus clock encoder mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2161
+Figure 573. Directional clock encoder mode (CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2161
+Figure 574. Directional clock encoder mode (CC1P = CC2P = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2162
+Figure 575. Index gating options . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2163
+Figure 576. Jittered Index signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2163
+Figure 577. Index generation for IPOS[1:0] = 11 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2164
+Figure 578. Counter reading with index gated on channel A (IPOS[1:0] = 11) . . . . . . . . . . . . . . . . . 2164
+Figure 579. Counter reading with index ungated (IPOS[1:0] = 00) . . . . . . . . . . . . . . . . . . . . . . . . . . 2165
+Figure 580. Counter reading with index gated on channel A and B. . . . . . . . . . . . . . . . . . . . . . . . . . 2165
+Figure 581. Encoder mode behavior in case of narrow index pulse (IPOS[1:0] = 11) . . . . . . . . . . . . 2166
+Figure 582. Counter reset Narrow index pulse (closer view, ARR = 0x07) . . . . . . . . . . . . . . . . . . . . 2167
+Figure 583. Index behavior in x1 and x2 mode (IPOS[1:0] = 01). . . . . . . . . . . . . . . . . . . . . . . . . . . . 2168
+Figure 584. Directional index sensitivity. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2168
+Figure 585. Counter reset as function of FIDX bit setting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2169
+Figure 586. Index blanking. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2169
+Figure 587. Index behavior in clock + direction mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2170
+Figure 588. Index behavior in directional clock mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2170
+Figure 589. State diagram for quadrature encoded signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2171
+Figure 590. Up-counting encoder error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2172
+Figure 591. Down-counting encode error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2173
+Figure 592. Encoder mode change with preload transferred on update (SMSPS = 0) . . . . . . . . . . . 2174
+Figure 593. Measuring time interval between edges on three signals . . . . . . . . . . . . . . . . . . . . . . . . 2175
+Figure 594. Example of Hall sensor interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2177
+Figure 595. Control circuit in reset mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2178

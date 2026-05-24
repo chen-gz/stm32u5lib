@@ -1,0 +1,48 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 16 L1RSMOK: Sleep state resume OK
+Indicates that the device or host can start resume from Sleep state. This bit is valid in LPM
+sleep (L1) state. It is set in sleep mode after a delay of 50 μs (TL1Residency).
+This bit is reset when SLPSTS is 0.
+1: The application or host can start resume from Sleep state
+0: The application or host cannot start resume from Sleep state
+Bit 15 SLPSTS: Port sleep status
+Device mode:
+This bit is set as long as a Sleep condition is present on the USB bus. The core enters the
+Sleep state when an ACK response is sent to an LPM transaction and the TL1TokenRetry
+timer has expired. To stop the PHY clock, the application must set the STPPCLK bit in
+OTG_PCGCCTL, which asserts the PHY suspend input signal.
+The application must rely on SLPSTS and not ACK in LPMRSP to confirm transition into
+sleep.
+The core comes out of sleep:
+– When there is any activity on the USB linestate
+– When the application writes to the RWUSIG bit in OTG_DCTL or when the application
+resets or soft-disconnects the device.
+Host mode:
+The host transitions to Sleep (L1) state as a side-effect of a successful LPM transaction by
+the core to the local port with ACK response from the device. The read value of this bit
+reflects the current Sleep status of the port.
+The core clears this bit after:
+– The core detects a remote L1 wake-up signal,
+– The application sets the PRST bit or the PRES bit in the OTG_HPRT register, or
+– The application sets the L1Resume/ remote wake-up detected interrupt bit or disconnect
+detected interrupt bit in the core interrupt register (WKUPINT or DISCINT bit in
+OTG_GINTSTS, respectively).
+0: Core not in L1
+1: Core in L1
+Bits 14:13 LPMRSP[1:0]: LPM response
+Device mode:
+The response of the core to LPM transaction received is reflected in these two bits.
+Host mode:
+Handshake response received from local device for LPM transaction
+11: ACK
+10: NYET
+01: STALL
+00: ERROR (No handshake response)
+Bit 12 L1DSEN: L1 deep sleep enable
+Enables suspending the PHY in L1 Sleep mode. For maximum power saving during L1
+Sleep mode, this bit must be set to '1' by application SW in all the cases.

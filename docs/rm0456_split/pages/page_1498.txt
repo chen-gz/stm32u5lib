@@ -1,0 +1,102 @@
+1500
+
+Comparator (COMP)
+
+RM0456
+
+Bit 15 POLARITY: COMP1 polarity selector
+This bit is controlled by the software (if not locked). It selects the COMP1 output polarity.
+0: Non-inverted
+1: Inverted
+Bit 14 WINOUT: COMP1 output selector
+This bit is controlled by the software (if not locked). It selects the COMP1 output.
+This bit must be kept at zero when window comparator feature is not supported.
+0: COMP1_VALUE
+1: COMP1_VALUE XOR COMP2_VALUE (required for window mode, see Figure 319)
+Bits 13:12 Reserved, must be kept at reset value.
+Bit 11 WINMODE: COMP1 non-inverting input selector for window mode
+This bit is controlled by the software (if not locked). It selects the signal for the COMP1_INP
+input of the COMP1.
+This bit must be kept at zero when window comparator feature is not supported.
+0: Signal selected with INPSEL[1:0]
+1: COMP2_INP signal of COMP2 (required for window mode, see Figure 319)
+Bits 10:8 INPSEL[2:0]: COMP1 signal selector for non-inverting input
+This field is controlled by the software (if not locked). It selects the signal for the noninverting input COMP1_INP (see Table 355 for the assignment).
+Bits 7:4 INMSEL[3:0]: COMP1 signal selector for inverting input INM
+This field is controlled by the software (if not locked). It selects the signal for the inverting
+input COMP1_INM (see Table 356 for the assignment).
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 EN: COMP1 enable
+This bit is controlled by the software (if not locked). It enables COMP1.
+0: COMP1 disabled
+1: COMP1 enabled
+
+37.7.2
+
+COMP2 control and status register (COMP2_CSR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+LOCK
+
+VALUE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Res.
+
+WIN
+MODE
+
+Res.
+
+INPSEL[1:0]
+
+rw
+
+r
+
+15
+
+14
+
+POLARITY
+
+WIN
+OUT
+
+rw
+
+rw

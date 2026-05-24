@@ -1,0 +1,159 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+Table 71. Flash system memory, OTP and RSS accesses(1)
+System memory
+(bootloader)
+
+Access type
+Fetch
+Secure
+(TZEN = 1)
+
+RSS
+
+Bus error
+RAZ
+
+Read
+
+RAZ, flash memory register
+illegal access event
+
+Write
+
+WI, secure WRPERR flag set, flash memory illegal access
+event
+
+Fetch
+Nonsecure
+(TZEN = 0
+or
+TZEN = 1)
+
+OTP
+
+WI
+nonsecure WRPERR flag set
+
+WI
+secure WRPERR flag set
+
+Bus error
+
+Bus error
+
+Ok
+
+RAZ(2)
+
+Ok
+if not virgin: WI, nonsecure
+PROGERR flag set
+
+WI,
+nonsecure WRPERR flag set
+
+Ok
+
+Read
+Write
+
+Ok
+
+1. Valid for all RDP levels.
+2. Flash memory illegal access event is generated when TZEN = 1.
+
+Table 72. Flash registers access(1)
+Nonsecure register
+
+Secure register
+
+Access type
+NSPRIV = 1
+Fetch
+
+Secure/
+nonsecure
+Secure(2)
+
+Read/
+Write
+
+Nonsecure
+(3)
+
+NSPRIV = 0
+
+Privileged/
+unprivileged
+
+Bus error
+
+Privileged
+
+OK
+
+Unprivileged
+
+RAZ/WI
+
+Privileged
+Unprivileged
+
+SPRIV = 1
+
+SPRIV = 0
+
+RAZ/WI
+
+OK
+
+OK
+OK
+
+RAZ/WI
+
+RAZ/WI and a flash memory
+register illegal access event(4)
+
+OK
+
+1. Except SECyBBRx, PRIVyBBRx and PRIVCFGR registers.
+2. Secure access is only valid when TrustZone is active (TZEN = 1).
+3. Nonsecure access are valid when TrustZone is active or disabled.
+4. Flash register illegal access event is only generated when TZEN = 1.
+
+Table 73. Flash page access versus privilege mode(1)
+Access type
+
+Unprivileged page
+
+Fetch, read/write, page erase
+
+Privileged
+
+Fetch, read
+
+Unprivileged
+
+Write, page erase
+
+Unprivileged
+
+Privileged page
+Ok
+
+Ok
+
+RAZ
+WI, secure or nonsecure WRPERR flag set
+
+1. When TZEN = 1, access must be granted by security firewall before privilege is considered.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

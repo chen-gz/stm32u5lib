@@ -1,0 +1,171 @@
+RM0456 Rev 6
+
+RM0456
+
+On-the-fly decryption engine (OTFDEC)
+
+Bit 1 XONEIF: Execute-only execute-never error interrupt flag status
+This bit is set by hardware and read only by application. This bit is set when a read access
+and not an instruction fetch is detected on any encrypted region with MODE bits set to 11.
+Lastly, XONEIF is also set when an execute access is detected while encryption mode is
+enabled.
+This bit is cleared when application sets in OTFDEC_ICR the corresponding bit to 1.
+0: No execute-only error status. No interrupt pending.
+1: Read access detected on one region with MODE bits set to 11 or execute access detected
+while ENC = 1. OTFDEC returns a zeroed value for the illegal access, and an optional
+interrupt is generated if bit XONEIE is set to 1 in OTFDEC_IER.
+Bit 0 SEIF: Security error interrupt flag status
+This bit is set by hardware and read only by application. This bit is set when at least one
+security error has been detected.
+This bit is cleared when application sets in OTFDEC_ICR the corresponding bit to 1.
+0: No security error status. No interrupt pending.
+1: Security error flag status, with interrupt pending. Actual interrupt generation is dependent
+on OTFDEC_IER corresponding bit SEIE.
+
+52.6.13
+
+OTFDEC interrupt clear register (OTFDEC_ICR)
+Address offset: 0x304
+Reset value: 0x0000 0000
+Nonsecure AHB write access (HNONSEC = 1) is discarded if the TrustZone security is
+enabled in the product.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+KEIF
+
+XONEIF
+
+SEIF
+
+Unprivileged writes are ignored if PRIV bit is set in OTFDEC_PRIVCFGR.
+
+w
+
+w
+
+w
+
+Bits 31:3 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

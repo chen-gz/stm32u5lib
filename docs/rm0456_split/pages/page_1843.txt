@@ -1,0 +1,184 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+44.16
+
+DSI Wrapper registers
+
+44.16.1
+
+DSI Wrapper configuration register (DSI_WCFGR)
+Address offset: 0x0400
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+5
+
+4
+
+3
+
+2
+
+1
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+VSPOL
+
+AR
+
+rw
+
+rw
+
+TEPOL TESRC
+rw
+
+rw
+
+COLMUX[2:0]
+rw
+
+rw
+
+0
+DSIM
+
+rw
+
+rw
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 VSPOL: VSync polarity
+This bit selects the VSync edge on which the LTDC is halted. It can be changed only when
+DSI is stopped (DSI_WCR.DSIEN = 0 and DSI_CR.EN = 0). It is recommanded to keep the
+default polarity configuration to guarantee a correct behavior.
+0: LTDC halted on a falling edge
+1: LTDC halted on a rising edge
+Bit 6 AR: Automatic refresh
+This bit selects the refresh mode in DBI mode. It can be changed only when DSI Host is
+stopped (DSI_CR.EN = 0).
+0: automatic refresh mode disabled
+1: automatic refresh mode enabled
+Bit 5 TEPOL: TE polarity
+This bit selects the polarity of the external pin tearing effect (TE) source. It can be changed
+only when DSI Host is stopped (DSI_CR.EN = 0).
+0: rising edge
+1: falling edge
+Bit 4 TESRC: TE source
+This bit selects the tearing effect (TE) source. It can be changed when DSI Host is stopped
+(DSI_CR.EN = 0).
+0: DSI link
+1: External pin
+Bits 3:1 COLMUX[2:0]: Color multiplexing
+This bitfield selects the color multiplexing used by DSI Host. It can be changed only when
+DSI Host is stopped (DSI_WCR.DSIEN = 0 and DSI_CR.EN = 0).
+000: 16-bit configuration 1
+001: 16-bit configuration 2
+010: 16-bit configuration 3
+011: 18-bit configuration 1
+100: 18-bit configuration 2
+101: 24-bit
+
+RM0456 Rev 6

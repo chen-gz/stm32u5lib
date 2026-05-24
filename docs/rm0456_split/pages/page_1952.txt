@@ -1,0 +1,81 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+AES_SR register then stop the DMA transfers from the OUT FIFO by clearing the
+DMAOUTEN bit of the AES_CR register.
+3.
+
+Clear the CCF flag of the AES_SR register, by setting to 1 the CCF bit of the AES_ICR
+register.
+
+4.
+
+Save the AES_SUSPxR registers (where x is from 0 to 7) in the memory.
+
+5.
+
+Save the AES_IVRx registers as, during the data processing, they changed from their
+initial values.
+
+6.
+
+Disable the AES peripheral, by clearing the EN bit of the AES_CR register.
+
+7.
+
+Save the current AES configuration in the memory, excluding the initialization vector
+registers AES_IVRx. Key registers do not need to be saved as the original key value is
+known by the application.
+
+8.
+
+If DMA is used, save the DMA controller status (pointers for IN data transfers, number
+of remaining bytes, and so on). In the payload phase, pointers for OUT data transfers
+must also be saved.
+
+To resume the processing of a message, proceed as follows:
+
+49.4.13
+
+1.
+
+If DMA is used, configure the DMA controller in order to complete the rest of the FIFO
+IN transfers. In the payload phase, the rest of the FIFO OUT transfers must also be
+configured in the DMA controller.
+
+2.
+
+Disable the AES peripheral by clearing the EN bit of the AES_CR register.
+
+3.
+
+Write the suspend register values, previously saved in the memory, back into their
+corresponding AES_SUSPxR registers (where x is from 0 to 7).
+
+4.
+
+Write the initialization vector register values, previously saved in the memory, back into
+their corresponding AES_IVRx registers.
+
+5.
+
+Restore the initial setting values in the AES_CR and AES_KEYRx registers.
+
+6.
+
+Enable the AES peripheral by setting the EN bit of the AES_CR register.
+
+7.
+
+If DMA is used, enable AES DMA requests by setting to 1 the DMAINEN bit (and
+DMAOUTEN bit if in payload phase) of the AES_CR register.
+
+AES operation with shared keys
+The AES peripheral can use the SAES peripheral as security co-processor. In this case,
+secure application prepares the key in the robust SAES peripheral. When ready, the AES
+application can load this prepared key through a dedicated hardware key bus.
+Recommended sequences are described below and in SAES peripheral section
+Section 50.4.10: SAES operation with shared keys.

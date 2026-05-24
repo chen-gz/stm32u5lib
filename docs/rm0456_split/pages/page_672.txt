@@ -1,0 +1,73 @@
+684
+
+Peripherals interconnect matrix
+
+RM0456
+
+More details in:
+•
+
+Section 33.4.19: Conversion on external trigger and trigger polarity (EXTSEL,
+EXTEN[1:0], JEXTSEL, JEXTEN[1:0])
+
+•
+
+EXTEN[1:0] defined in ADC configuration register (ADC_CFGR1)
+
+•
+
+JEXTEN[1:0] defined in ADC injected sequence register (ADC_JSQR)
+
+General-purpose timers (TIM2/3/4/5), basic timer (TIM6), advanced-control timers (TIM1/8)
+and general-purpose timer (TIM15/16/17) can be used to generate the ADC triggering event
+through the timer outputs tim_oc and tim_trgo.
+Low-power timers (LPTIM1/2/3/4) can be used to generate the ADC triggering event
+through the LPTIM channels (TIMx synchronization described in Section 54.3.31: ADC
+triggers for TIM1/8) in addition to the EXTI on channels 11 and 15.
+The ADC4 do not have injected channels. The general-purpose timers (TIM2/15), basic
+timers (TIM6), and advanced-control timers (TIM1) can be used to generate the ADC
+triggering event through the timer outputs tim_oc and tim_trgo. Low-power timers
+(LPTIM1/3) can be used to generate the ADC triggering event through the LPTIM channels
+in addition to EXTI on channel 11 and 15.
+
+Triggering signals
+For ADC1/ADC2, the input triggering signals and the description of the interconnection
+between ADC1/ADC2, and timers, are given in:
+•
+
+adc_ext_trgy: Table 308: ADC1/ADC12 external triggers for regular channels
+
+•
+
+adc_jext_trgy: Table 309: ADC1/ADC12 external triggers for injected channels
+
+•
+
+Section 33.4.19: Conversion on external trigger and trigger polarity (EXTSEL,
+EXTEN[1:0], JEXTSEL, JEXTEN[1:0])
+
+•
+
+Section 33.4.25: Timing diagrams example (single/continuous modes,
+hardware/software triggers)
+
+For ADC4, the input triggering signals list and the description of the interconnection
+between ADC4 and timers, are given in:
+•
+
+Table 330: ADC interconnection
+
+•
+
+Section 34.4.16: Conversion on external trigger and trigger polarity (EXTSEL, EXTEN)
+
+•
+
+Section 34.4.21: Example timing diagrams (single/continuous modes
+hardware/software triggers)
+
+Active power mode
+This interconnection is active in Run and Sleep modes for all ADCs, and under Stop 0,
+Stop 1, and Stop 2 modes for ADC4 assuming that its trigger event line is active as well
+(such as LPTIM). The timers are active in Run and Sleep mode only. The effects of
+low-power modes are given in:

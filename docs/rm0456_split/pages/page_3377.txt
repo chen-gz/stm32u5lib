@@ -1,0 +1,214 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Table 785. UCPD interrupt requests (continued)
+Interrupt event
+
+Event flag
+
+Event flag/Interrupt
+clearing method
+
+Interrupt enable
+control bit
+
+Transmit message sent
+
+TXMSGSENT
+
+Set TXMSGSENTCF
+
+TXMSGSENTIE
+
+Transmit message discarded
+
+TXMSGDISC
+
+Set TXMSGDISCCF
+
+TXMSGDISCIE
+
+Transmit data required
+
+TXIS
+
+Write data to the
+UCPD_TXDR register
+
+TXISIE
+
+When an interrupt from the UCPD is received, then the software has to check what is the
+source of the interrupt by reading the UCPD_SR register.
+Depending on which bit is at 1, the ISR must handle that condition and clear the bit by a
+write to the appropriate bit of the UCPD_ICR register.
+
+74.8
+
+UCPD registers
+
+74.8.1
+
+UCPD configuration register 1 (UCPD_CFGR1)
+Address offset: 0x000
+Reset value: 0x0000 0000
+General configuration of the peripheral. Writing to this register is only effective when UCPD
+is disabled (UCPDEN = 0).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+UCPDE RXDM TXDMA
+N
+AEN
+EN
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+RXORDSETEN[8:0]
+
+19
+
+18
+
+17
+
+16
+
+PSC_UCPDCLK[2:0]
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+TRANSWIN[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+IFRGAP[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+HBITCLKDIV[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 UCPDEN: UCPD peripheral enable
+General enable of the UCPD peripheral.
+0: Disable
+1: Enable
+Upon disabling, the peripheral instantly quits any ongoing activity and all control bits and
+bitfields default to their reset values. They must be set to their desired values each time the
+peripheral transits from disabled to enabled state.
+Bit 30 RXDMAEN: Reception DMA mode enable
+When set, the bit enables DMA mode for reception.
+0: Disable
+1: Enable
+Bit 29 TXDMAEN: Transmission DMA mode enable
+When set, the bit enables DMA mode for transmission.
+0: Disable
+1: Enable

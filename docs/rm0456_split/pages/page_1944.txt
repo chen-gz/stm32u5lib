@@ -1,0 +1,82 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+GCM payload phase
+This phase, identical for encryption and decryption, is executed after the GCM header
+phase. During this phase, the encrypted/decrypted payload is stored in the AES_DOUTR
+register. The sequence to execute is:
+
+Note:
+
+1.
+
+Indicate the payload phase, by setting to 10 the GCMPH[1:0] bitfield of the AES_CR
+register. Do not modify the MODE[1:0] bitfield as set in the Init phase.
+
+2.
+
+If the header phase was skipped, enable the AES peripheral by setting the EN bit of the
+AES_CR register.
+
+3.
+
+If it is the last block and the plaintext (encryption) or ciphertext (decryption) size in the
+block is inferior to 128 bits, pad the remainder of the block with zeros.
+
+4.
+
+Append the data block into AES in one of ways described in Section 49.4.4: AES
+procedure to perform a cipher operation on page 1929, and read the result.
+
+5.
+
+Repeat the previous step till the second-last plaintext block is encrypted or till the last
+block of ciphertext is decrypted. For the last block of plaintext (encryption only),
+execute the two previous steps. For the last block, discard the bits that are not part of
+the payload when the last block size is less than 16 bytes.
+
+The payload phase can be skipped if there is no payload data, that is, Len(C) = 0 (see
+GMAC mode).
+GCM final phase
+In this last phase, the AES peripheral generates the GCM authentication tag and stores it in
+the AES_DOUTR register. The sequence to execute is:
+
+Note:
+
+1.
+
+Indicate the final phase, by setting to 11 the GCMPH[1:0] bitfield of the AES_CR
+register.
+
+2.
+
+Compose the data of the block, by concatenating the AAD bit length and the payload
+bit length, as shown in Table 471. Write the block into the AES_DINR register.
+
+3.
+
+Wait until the end of computation, indicated by the CCF flag of the AES_SR transiting
+to 1.
+
+4.
+
+Get the GCM authentication tag, by reading the AES_DOUTR register four times.
+
+5.
+
+Clear the CCF flag of the AES_SR register, by setting the CCF bit of the AES_ICR
+register.
+
+6.
+
+Disable the AES peripheral, by clearing the bit EN of the AES_CR register. If it is an
+authenticated decryption, compare the generated tag with the expected tag passed
+with the message.
+
+In the final phase, data is written to AES_DINR normally (no swapping), while swapping is
+applied to tag data read from AES_DOUTR.
+When transiting from the header or the payload phase to the final phase, the AES peripheral
+must not be disabled, otherwise the result is wrong.

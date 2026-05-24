@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Bit 8 AWD2IE: Analog watchdog 2 interrupt enable
+This bit is set and cleared by software to enable/disable the analog watchdog 2 interrupt.
+0: Analog watchdog 2 interrupt disabled
+1: Analog watchdog 2 interrupt enabled
+Note: Software is allowed to write this bit only when ADSTART = 0 and JADSTART = 0 (which
+ensures that no conversion is ongoing).
+Bit 7 AWD1IE: Analog watchdog 1 interrupt enable
+This bit is set and cleared by software to enable/disable the analog watchdog 1 interrupt.
+0: Analog watchdog 1 interrupt disabled
+1: Analog watchdog 1 interrupt enabled
+Note: Software is allowed to write this bit only when ADSTART = 0 and JADSTART = 0 (which
+ensures that no conversion is ongoing).
+Bit 6 JEOSIE: End of injected sequence of conversions interrupt enable
+This bit is set and cleared by software to enable/disable the end of injected sequence of conversions
+interrupt.
+0: JEOS interrupt disabled
+1: JEOS interrupt enabled. An interrupt is generated when the JEOS bit is set.
+Note: Software is allowed to write this bit only when JADSTART = 0 (which ensures that no injected
+conversion is ongoing).
+Bit 5 JEOCIE: End of injected conversion interrupt enable
+This bit is set and cleared by software to enable/disable the end of an injected conversion interrupt.
+0: JEOC interrupt disabled.
+1: JEOC interrupt enabled. An interrupt is generated when the JEOC bit is set.
+Note: Software is allowed to write this bit only when JADSTART = 0 (which ensures that no regular
+conversion is ongoing).
+Bit 4 OVRIE: Overrun interrupt enable
+This bit is set and cleared by software to enable/disable the Overrun interrupt of a regular
+conversion.
+0: Overrun interrupt disabled
+1: Overrun interrupt enabled. An interrupt is generated when the OVR bit is set.
+Note: Software is allowed to write this bit only when ADSTART = 0 (which ensures that no regular
+conversion is ongoing).
+Bit 3 EOSIE: End of regular sequence of conversions interrupt enable
+This bit is set and cleared by software to enable/disable the end of regular sequence of conversions
+interrupt.
+0: EOS interrupt disabled
+1: EOS interrupt enabled. An interrupt is generated when the EOS bit is set.
+Note: Software is allowed to write this bit only when ADSTART = 0 (which ensures that no regular
+conversion is ongoing).
+Bit 2 EOCIE: End of regular conversion interrupt enable
+This bit is set and cleared by software to enable/disable the end of a regular conversion interrupt.
+0: EOC interrupt disabled.
+1: EOC interrupt enabled. An interrupt is generated when the EOC bit is set.
+Note: Software is allowed to write this bit only when ADSTART = 0 (which ensures that no regular
+conversion is ongoing).
+
+RM0456 Rev 6

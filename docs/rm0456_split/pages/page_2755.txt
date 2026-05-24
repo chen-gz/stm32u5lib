@@ -1,0 +1,91 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+Overrun error
+•
+
+FIFO mode disabled
+An overrun error occurs when a character is received when RXNE has not been reset.
+Data cannot be transferred from the shift register to the RDR register until the RXNE bit
+is cleared. The RXNE flag is set after every byte received.
+An overrun error occurs if the RXNE flag is set when the next data is received or the
+previous DMA request has not been serviced. When an overrun error occurs:
+
+•
+
+–
+
+The ORE bit is set;
+
+–
+
+The RDR content is not lost. The previous data is available when a read to
+LPUART_RDR is performed.
+
+–
+
+The shift register is overwritten. After that, any data received during overrun is lost.
+
+–
+
+An interrupt is generated if either the RXNEIE bit or EIE bit is set.
+
+FIFO mode enabled
+An overrun error occurs when the shift register is ready to be transferred when the
+receive FIFO is full.
+Data cannot be transferred from the shift register to the LPUART_RDR register until
+there is one free location in the RXFIFO. The RXFNE flag is set when the RXFIFO is
+not empty.
+An overrun error occurs if the RXFIFO is full and the shift register is ready to be
+transferred. When an overrun error occurs:
+–
+
+The ORE bit is set;
+
+–
+
+The first entry in the RXFIFO is not lost. It is available when a read to
+LPUART_RDR is performed.
+
+–
+
+The shift register is overwritten. After that, any data received during overrun is lost.
+
+–
+
+An interrupt is generated if either the RXFNEIE bit or EIE bit is set.
+
+The ORE bit is reset by setting the ORECF bit in the ICR register.
+Note:
+
+The ORE bit, when set, indicates that at least 1 data has been lost. T
+When the FIFO mode is disabled, there are two possibilities
+
+•
+
+If RXNE = 1, then the last valid data is stored in the receive register (RDR) and can be
+read,
+
+•
+
+If RXNE = 0, then the last valid data has already been read and there is nothing left to
+be read in the RDR. This case can occur when the last valid data is read in the RDR at
+the same time as the new (and lost) data is received.
+
+Selecting the clock source
+The choice of the clock source is done through the clock control system (see Section Reset
+and clock controller (RCC)). The clock source must be selected through the UE bit, before
+enabling the LPUART.
+The clock source must be selected according to two criteria:
+•
+
+Possible use of the LPUART in low-power mode
+
+•
+
+Communication speed.
+
+The clock source frequency is lpuart_ker_ck.

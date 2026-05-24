@@ -1,0 +1,178 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 9 GSW1TX: Generic short write one parameters transmission
+This bit configures the generic short write packet with one parameters command
+transmission type:
+0: High-speed
+1: Low-power
+Bit 8 GSW0TX: Generic short write zero parameters transmission
+This bit configures the generic short write packet with zero parameters command
+transmission type:
+0: High-speed
+1: Low-power
+Bits 7:2 Reserved, must be kept at reset value.
+Bit 1 ARE: Acknowledge request enable
+This bit enables the acknowledge request after each packet transmission:
+0: Acknowledge request is disabled.
+1: Acknowledge request is enabled.
+Bit 0 TEARE: Tearing effect acknowledge request enable
+This bit enables the tearing effect acknowledge request:
+0: Tearing effect acknowledge request is disabled.
+1: Tearing effect acknowledge request is enabled.
+
+44.15.24 DSI Host generic header configuration register (DSI_GHCR)
+Address offset: 0x006C
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+WCLSB[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+rw
+
+rw
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+VCID[1:0]
+rw
+
+19
+
+WCMSB[7:0]
+
+rw
+
+rw
+
+DT[5:0]
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:16 WCMSB[7:0]: WordCount MSB
+This field configures the most significant byte of the header packet’s word count for long
+packets, or data 1 for short packets.
+Bits 15:8 WCLSB[7:0]: WordCount LSB
+This field configures the less significant byte of the header packet word count for long
+packets, or data 0 for short packets.
+Bits 7:6 VCID[1:0]: Channel
+This field configures the virtual channel ID of the header packet.
+Bits 5:0 DT[5:0]: Type
+This field configures the packet data type of the header packet.
+
+44.15.25 DSI Host generic payload data register (DSI_GPDR)
+Address offset: 0x0070
+
+RM0456 Rev 6

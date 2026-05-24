@@ -1,0 +1,89 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+The figure below illustrates this programming with a shared LPDMA channel, and a source
+circular buffer.
+Figure 89. Shared LPDMA channel with circular buffering:
+update of the memory start address
+Req=PERIPH_TX Req=PERIPH_TX
+
+Reset
+Init/LLI0
+
+LLI1
+
+...
+
+Channel X
+
+LLIN-1
+
+LLIN
+
+Ht+ tcf
+
+Ht+ tcf
+
+Memory
+
+LLIN-1
+
+LLIN-2
+All Uxx=1
+
+DMA_Cx...
+
+DMA_CxTR1
+
+DMA_Cx...
+
+DMA_CxTR2
+
+DMA_Cx...
+
+DMA_CxBR1
+
+DMA_CxLLR
+
+LLIN
+
+DMA_CxSAR
+DMA_CxDAR
+DMA_CxLLR
+
+USA = 1, others Uxx = 0 LA+ = 0xC
+
+18.4.14
+
+MSv62641V1
+
+LPDMA secure/nonsecure channel
+The LPDMA controller is compliant with the TrustZone hardware architecture at channel
+level, partitioning all its resources so that they exist in one of the secure and nonsecure
+worlds at any given time.
+Any channel x is a secure or a nonsecure hardware resource, as configured by
+LPDMA_SECCFGR.SECx.
+When a channel x is configured in secure state by a secure and privileged agent,
+the following access control rules are applied:
+•
+
+A nonsecure read access to a register field of this channel is forced to return 0, except
+for LPDMA_SECCFGR, LPDMA_PRIVCFGR, LPDMA_RCFGLOCKR that are
+readable by a nonsecure agent.
+
+•
+
+A nonsecure write access to a register field of this channel has no impact.
+
+When a channel x is configured in secure state, a secure agent can configure separately as
+secure or nonsecure the LPDMA data transfer from the source (LPDMA_CxTR1.SSEC) and
+the LPDMA data transfer to the destination (LPDMA_CxTR1.DSEC).
+When a channel x is configured in secure state and in linked-list mode, the loading of the
+next linked-list data structure from the LPDMA memory into its register file, is automatically
+performed with secure transfers via the master port.
+LPDMA generates the DMA channel state versus security, reflecting LPDMA_SECCFGR, to
+keep the other peripherals informed of the secure/nonsecure state of each LPDMA
+channel x.

@@ -1,0 +1,205 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+54.6.4
+
+RM0456
+
+TIMx DMA/interrupt enable register (TIMx_DIER)(x = 1, 8)
+Address offset: 0x00C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+TERR
+IE
+
+IERRIE
+
+DIRIE
+
+IDXIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TDE
+
+UDE
+
+BIE
+
+TIE
+
+COMIE
+
+CC4IE
+
+CC3IE
+
+CC2IE
+
+CC1IE
+
+UIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+COMDE CC4DE CC3DE CC2DE CC1DE
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 TERRIE: Transition error interrupt enable
+0: Transition error interrupt disabled
+1: Transition error interrupt enabled
+Bit 22 IERRIE: Index error interrupt enable
+0: Index error interrupt disabled
+1: Index error interrupt enabled
+Bit 21 DIRIE: Direction change interrupt enable
+0: Direction Change interrupt disabled
+1: Direction Change interrupt enabled
+Bit 20 IDXIE: Index interrupt enable
+0: Index interrupt disabled
+1: Index Change interrupt enabled
+Bits 19:15 Reserved, must be kept at reset value.
+Bit 14 TDE: Trigger DMA request enable
+0: Trigger DMA request disabled
+1: Trigger DMA request enabled
+Bit 13 COMDE: COM DMA request enable
+0: COM DMA request disabled
+1: COM DMA request enabled
+Bit 12 CC4DE: Capture/compare 4 DMA request enable
+0: CC4 DMA request disabled
+1: CC4 DMA request enabled
+Bit 11 CC3DE: Capture/compare 3 DMA request enable
+0: CC3 DMA request disabled
+1: CC3 DMA request enabled
+Bit 10 CC2DE: Capture/compare 2 DMA request enable
+0: CC2 DMA request disabled
+1: CC2 DMA request enabled
+Bit 9 CC1DE: Capture/compare 1 DMA request enable
+0: CC1 DMA request disabled
+1: CC1 DMA request enabled
+
+<!-- pagebreak -->
+

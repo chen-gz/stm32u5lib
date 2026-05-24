@@ -1,0 +1,174 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+Bit 2 RE: Receiver enable
+This bit enables the receiver. It is set and cleared by software.
+0: Receiver is disabled
+1: Receiver is enabled and begins searching for a start bit
+Bit 1 UESM: LPUART enable in low-power mode
+When this bit is cleared, the LPUART cannot request its kernel clock and is not functional in
+low-power mode.
+When this bit is set, the LPUART can wake up the MCU from low-power mode.
+This bit is set and cleared by software.
+0: LPUART not functional in low-power mode.
+1: LPUART functional in low-power mode.
+Note: The UESM bit must be set at the initialization phase.
+If the LPUART does not support the wake-up from low-power mode, this bit is reserved
+and must be kept at reset value. Refer to Section 67.3: LPUART implementation.
+Bit 0 UE: LPUART enable
+When this bit is cleared, the LPUART prescalers and outputs are stopped immediately, and
+current operations are discarded. The configuration of the LPUART is kept, but all the status
+flags, in the LPUART_ISR are reset. This bit is set and cleared by software.
+0: LPUART prescaler and outputs disabled, low-power mode
+1: LPUART enabled
+Note: To enter low-power mode without generating errors on the line, the TE bit must be reset
+before and the software must wait for the TC bit in the LPUART_ISR to be set before
+resetting the UE bit.
+The DMA requests are also reset when UE = 0 so the DMA channel must be disabled
+before resetting the UE bit.
+
+67.7.3
+
+LPUART control register 2 (LPUART_CR2)
+Address offset: 0x04
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+ADD[7:0]
+
+23
+Res.
+
+22
+Res.
+
+21
+Res.
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+MSBFI
+RST
+
+DATAIN
+V
+
+TXINV
+
+RXINV
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SWAP
+
+Res.
+
+STOP[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ADDM7
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw

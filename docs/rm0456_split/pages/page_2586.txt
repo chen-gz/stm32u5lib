@@ -1,0 +1,111 @@
+RM0456 Rev 6
+
+RM0456
+
+65.4.1
+
+Inter-integrated circuit interface (I2C)
+
+I2C block diagram
+Figure 779. Block diagram
+
+I2CCLK
+
+i2c_ker_ck
+
+Data control
+Shift register
+
+Digital
+noise
+filter
+
+Analog
+noise
+filter
+
+GPIO
+logic
+
+I2C_SDA
+
+Digital
+noise
+filter
+
+Analog
+noise
+filter
+
+GPIO
+logic
+
+I2C_SCL
+
+SMBUS
+PEC
+generation/
+check
+Asynchronous
+trigger
+detection
+
+i2c_trg[15:0]
+
+Clock control
+Controller clock
+generation
+Target clock
+stretching
+SMBus Timeout
+check
+
+i2c_it
+i2c_tx_dma
+i2c_rx_dma
+
+SMBus Alert
+control/status
+
+i2c_evc_dma
+
+i2c_pclk
+
+PCLK
+
+I2C_SMBA
+
+Registers
+
+APB bus
+MSv60510V2
+
+65.4.2
+
+I2C pins and internal signals
+Table 655. I2C input/output pins
+Pin name
+
+Signal type
+
+I2C_SDA
+
+Bidirectional
+
+I²C-bus data
+
+I2C_SCL
+
+Bidirectional
+
+I²C-bus clock
+
+I2C_SMBA
+
+Bidirectional
+
+SMBus alert
+
+RM0456 Rev 6
+
+Description

@@ -1,0 +1,89 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+This time is calculated as follows:
+
+LPSIZE = (tL - (tH1 + tHS->LP + tLPHS + tLPDT + 2 tESCCLK)) / (2 × 8 × tESCCLK), where
+•
+tL = line time
+•
+tH1 = time of the HSA pulse for sync pulses mode (Figure 429) or time to send the HSS
+packet, including EoTp (Figure 430)
+
+•
+
+tHS->LP = time to enter the low-power mode
+tLP->HS = time to leave the low-power mode
+tLPDT = D-PHY timing related with escape mode entry, LPDT command, and escape
+
+•
+
+tESCCLK = escape clock period as programmed in the TXECKDIV field of the DSI_CCR
+
+•
+
+tESCCLK = delay imposed by the DSI Host implementation.
+
+•
+•
+
+exit. According to the D-PHY specification, this value is always 11 bits in LP (or 22 TX
+escape clock cycles)
+
+register
+
+In the above equation, division by eight is done to convert the available time to bytes.
+Division by two is done because one bit is transmitted every two escape clock cycles. The
+largest packet size (LPSIZE) field can be compared directly with the size of the command to
+be transmitted to determine if there is enough time to transmit the command. The maximum
+size of a command that can be transmitted in low-power mode is limited to 255 bytes by this
+field. Program this register to a value greater than or equal to 4 bytes for the transmission of
+the DCTRL commands, such as shutdown and color in low-power mode.
+Consider an example of a frame with 12.4 μs per line and assume an escape clock
+frequency of 20 MHz and a lane bit rate of 800 Mbit/s. In this case, it is possible to send 124
+bits in escape mode (that is, 124 bit = 12.4 μs * 20 MHz / 2). Still, you need to consider the
+D-PHY protocol and PHY timings.
+The following assumptions are made:
+•
+
+lane byte clock period is 10 ns (800 Mbit/s per lane)
+
+•
+
+escape clock period is 50 ns (DSI_CCR.TXECKDIV = 5)
+
+•
+
+video is transmitted in non-burst mode with sync pulses bounded by HSS and HSE
+packets
+
+•
+
+DSI is configured for two lanes
+
+•
+
+D-PHY takes 180 ns to transit from low-power to high-speed mode
+(DSI_DLTCR.LS2HS_TIME = 18)
+
+•
+
+D-PHY takes 200 ns to transit from high-speed to low-power mode
+(DSI_DLTCR.HS2LP_TIME = 20)
+
+•
+
+tHSA = 420 ns.
+
+In this example, a 13-byte command can be transmitted as follows:
+LPSIZE = (12.4 μs - (420 ns + 180 ns +200 ns + (22 × 50 ns + 2 × 50 ns))) / (2 × 8 × 50 ns)
+= 13 bytes.
+
+Calculating the time to transmit commands in low-power mode in HFP region
+The VACT largest packet size (VLPSIZE) field of the DSI Host low-power mode
+configuration register (DSI_LPMCR) indicates the time available (in bytes) to transmit a
+command in low-power mode (based on the escape clock) in the vertical active (VACT)
+region.

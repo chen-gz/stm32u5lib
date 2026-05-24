@@ -1,0 +1,183 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+Bit 0 CCFIE: Computation complete flag interrupt enable
+This bit enables or disables (masks) the SAES interrupt generation when CCF (computation
+complete flag) is set.
+0: Disabled (masked)
+1: Enabled (not masked)
+
+50.7.18
+
+SAES interrupt status register (SAES_ISR)
+Address offset: 0x304
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RNGEIF
+
+KEIF
+
+RWEIF
+
+CCF
+
+Reset value: 0x0000 0000
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 RNGEIF: RNG error interrupt flag
+This read-only bit is set by hardware when an error is detected on RNG bus interface (e.g. bad
+entropy).
+0: RNG bus is functional
+1: Error detected on RNG bus interface (random seed fetching error)
+RNGEIE bit is cleared when application sets the corresponding bit of SAES_ICR register. An
+interrupt is generated if the RNGEIE bit has been previously set in the SAES_IER register. Clearing
+this bit triggers the reload of a new random number from RNG peripheral.
+Bit 2 KEIF: Key error interrupt flag
+This read-only bit is set by hardware when key information failed to load into key registers or key
+register usage is forbidden.
+0: No key error detected
+1: Key information failed to load into key registers, or key register use is forbidden
+Setting the corresponding bit of the SAES_ICR register clears the KEIF and generates interrupt if
+the KEIE bit of the SAES_IER register is set.
+KEIF is triggered upon any of the following errors:
+–SAES fails to load the DHUK (KEYSEL = 001 or 100).
+–SAES fails to load the BHK (KEYSEL = 010 or 100) respecting the correct order.
+–AES fails to load the key shared by SAES peripheral (KMOD = 10).
+– When KEYVALID = 1 and (KEYPROT = 1 or KEYSEL is not 0x0), the security context of the
+application that loads the key (secure or nonsecure) does not match the security attribute of the
+access to SAES_CR or SAES_DOUT. In this case, KEYVALID and EN bits are cleared.
+–SAES_KEYRx register write does not respect the correct order. (For KEYSIZE = 0, SAES_KEYR0
+then SAES_KEYR1 then SAES_KEYR2 then SAES_KEYR3 register, or reverse. For
+KEYSIZE = 1, SAES_KEYR0 then SAES_KEYR1 then SAES_KEYR2 then SAES_KEYR3 then
+SAES_KEYR4 then SAES_KEYR5 then SAES_KEYR6 then SAES_KEYR7, or reverse).
+KEIF must be cleared by the application software, otherwise KEYVALID cannot be set.

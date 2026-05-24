@@ -1,0 +1,53 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+This feature looses up burst transmissions coming from a single node and it protects against
+"babbling idiot" scenarios where the application program erroneously requests too many
+transmissions.
+
+Tx FIFO
+Tx FIFO operation is configured by clearing the TFQM bit of the FDCAN_TXBC register.
+Messages stored in the Tx FIFO are transmitted starting with the message referenced by
+the get index (TFGI[1:0] bitfield of FDCAN_TXFQS). After each transmission, the get index
+is incremented cyclically until the Tx FIFO is empty. The Tx FIFO enables transmission of
+messages with the same message ID from different Tx buffers in the order that these
+messages have been written to the Tx FIFO. The FDCAN calculates the Tx FIFO free level
+(TFFL[2:0] bitfield of FDCAN_TXFQS) as the difference between the get and put index. It
+indicates the number of available (free) Tx FIFO elements.
+New transmit messages have to be written to the Tx FIFO starting with the Tx buffer
+referenced by the put index (TFQPI[1:0] bitfield of FDCAN_TXFQS). An add request
+increments the put index to the next free Tx FIFO element. When the put index reaches the
+get index, Tx FIFO full (TFQF = 1 in FDCAN_TXFQS) is signaled. In this case, no further
+messages must be written to the Tx FIFO until the next message has been transmitted and
+the get index has been incremented.
+When a single message is added to the Tx FIFO, the transmission is requested by setting
+the FDCAN_TXBAR bit related to the Tx buffer referenced by the Tx FIFO put index.
+When multiple (n) messages are added to the Tx FIFO, they are written to n consecutive Tx
+buffers starting with the put index. The transmissions are then requested via the
+FDCA_TXBAR register. The put index is then cyclically incremented by n. The number of
+requested Tx buffers must not exceed the number of free Tx buffers as indicated by the Tx
+FIFO free level.
+When a transmission request for the Tx buffer referenced by the get index is canceled, the
+get index is incremented to the next Tx buffer with a transmission request is pending and the
+Tx FIFO free level is recalculated. When transmission cancellation is applied to any other Tx
+buffer, the get index and the FIFO Free Level remain unchanged.
+A Tx FIFO element allocates eighteen 32-bit words in the message RAM. The Therefore,
+the start address of the next available (free) Tx FIFO buffer, is calculated by adding 18 times
+the put index TFQPI[1:0] (0 … 2) to the Tx buffer start address TBSA.
+
+Tx queue
+Tx queue operation is configured by setting the TFQM of the FDCAN_TXBC register.
+Messages stored in the Tx queue are transmitted starting with the message with the lowest
+message ID (highest priority).
+In case of mixing of standard and extended message IDs, the standard message IDs are
+compared to bits [28:18] of extended message IDs.
+In case multiple queue buffers are configured with the same message ID, the queue buffer
+with the lowest buffer number is transmitted first.
+New messages have to be written to the Tx buffer referenced by the put index (TFQPI[1:0]
+in FDCAN_TXFQS). An add request cyclically increments the put index to the next free Tx
+buffer. In case the Tx queue is full (TFQF = 1 in FDCAN_TXFQS), the put index is not valid
+and no further message must be written to the Tx queue until at least one of the requested
+messages has been sent out or a pending transmission request has been canceled.

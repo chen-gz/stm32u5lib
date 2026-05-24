@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 27:24 MCOSEL[3:0]: microcontroller clock output
+This bitfield is set and cleared by software.
+0000: MCO output disabled, no clock on MCO
+0001: SYSCLK system clock selected
+0010: MSIS clock selected
+0011: HSI16 clock selected
+0100: HSE clock selected
+0101: Main PLL clock pll1_r_ck selected
+0110: LSI clock selected
+0111: LSE clock selected
+1000: Internal HSI48 clock selected
+1001: MSIK clock selected
+Others: reserved
+Note: This clock output may have some truncated cycles at startup or during MCO clock
+source switching.
+Bits 23:6 Reserved, must be kept at reset value.
+Bit 5 STOPKERWUCK: wake-up from Stop kernel clock automatic enable selection
+This bit is set and cleared by software to enable automatically another oscillator when exiting
+Stop mode. This oscillator can be used as independent kernel clock by peripherals.
+0: MSIK oscillator automatically enabled when exiting Stop mode or when a CSS on HSE
+event occurs.
+1: HSI16 oscillator automatically enabled when exiting Stop mode or when a CSS on HSE
+event occurs.
+Bit 4 STOPWUCK: wake-up from Stop and CSS backup clock selection
+This bit is set and cleared by software to select the system clock used when exiting Stop
+mode. The selected clock is also used as emergency clock for the clock security system
+on HSE.
+Note: If this bit is used for CSS backup clock selection, the STOPKERWUCK bit value must
+be programmed with the same value than STOPWUCK to avoid the other oscillator
+power-on after CSS event.
+Caution: STOPWUCK must not be modified when the CSS is enabled by CSSON
+in RCC_CR, and the system clock is HSE (SWS = 10) or a switch on HSE
+is requested (SW = 10).
+0: MSIS oscillator selected as wake-up from stop clock and CSS backup clock
+1: HSI16 oscillator selected as wake-up from stop clock and CSS backup clock
+Bits 3:2 SWS[1:0]: system clock switch status
+This bitfield is set and cleared by hardware to indicate which clock source is used as system
+clock.
+00: MSIS oscillator used as system clock
+01: HSI16 oscillator used as system clock
+10: HSE used as system clock
+11: PLL pll1_r_ck used as system clock
+
+RM0456 Rev 6

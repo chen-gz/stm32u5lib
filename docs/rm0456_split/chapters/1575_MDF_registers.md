@@ -1,0 +1,62 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+The data size at CIC output is very close to 24 bits, so the SCALE must be adjusted in order
+to provide a signal 22 bits max to the RSFLT. An attenuation of 12 dB is needed.
+Then the signal level provided to the RSFLT is:
+– 12
+
+⎛ --------20 ⎞
+DS SCALE = DS CIC + log 2 ⎜ 10 ⎟ = 23.92 – 1.99 = 21.93 bits
+⎝
+⎠
+
+At the end, the final signal amplitude is:
+DS OUT = DS SCALE + 1.6 bits = ( 21.93 + 1.6 ) = 23.52 bits
+
+or
+⎛ 2 23.52⎞
+SDB OUT = 20 × log 10 ⎜ -------------⎟ = – 2.84 dBFS
+⎝ 2 24 ⎠
+
+The RSFLT ripple a margin of about ± 0.41 dB (in this configuration) must be considered.
+
+Example using the OLD filter chain
+In the following example, the application wants to trigger an OLD event when the voltage
+coming from a shunt resistor reaches ± 200 mV.
+Hypothesis:
+•
+
+The Σ∆ sensor is specified to support a full-scale signal of ± 350 mV.
+
+•
+
+The ACIC decimation ratio (D2) is fixed to 32.
+
+•
+
+The ACIC order (N) is fixed to 3.
+
+The Σ∆ sensor provides a full-scale digital signal (amplitude of one bit) for a signal higher or
+equal to ± 350 mV. If the input signal is equal 200 mV, then the digital signal amplitude
+provided by the sensor is 200 / 350 = 0.571.
+The gain of the ACIC filter is:
+GCIC = (D2)N = 323 = 32768
+A signal having an amplitude of 200 mV at sensor input has then an amplitude of about
+32768 * 0.571 = 18725 LSB at ACIC output.
+OLDTHH must be set to 18725 and OLDTHL must be set to -18725.
+
+39.8
+
+MDF registers
+All the MDF registers must be accessed either in word (32-bit) or half-word (16-bit) formats.
+The registers are described for the MDF instance having the biggest number of filters.
+For registers related to filters, the number of registers is equal to the amount of filters. Refer
+to Section 39.3 for details.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

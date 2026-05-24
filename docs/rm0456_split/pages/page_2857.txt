@@ -1,0 +1,58 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+•
+
+If TRIS = 0 in the SAI_xCR2 register, the remaining bit after the last slot is forced to 0
+until the end of frame in case of transmitter,
+
+•
+
+If TRIS = 1, the line is released to high-Z during the transfer of these remaining bits. In
+reception mode, these bits are discarded.
+Figure 862. FS role is start of frame (FSDEF = 0)
+Audio frame
+
+sck
+
+slot
+
+Slot 0
+
+Slot 1
+
+Slot 2
+
+...
+
+Slot n
+
+Data = 0 after slot n if TRIS = 0
+SD output released (HI-Z) after slot n if TRIS = 1
+MS30039V1
+
+The FS signal is not used when the audio block in transmitter mode is configured to get the
+SPDIF output on the SD line. The corresponding FS I/O is released and left free for other
+purposes.
+
+69.4.7
+
+Slot configuration
+The slot is the basic element in the audio frame. The number of slots in the audio frame is
+equal to NBSLOT[3:0] + 1.
+The maximum number of slots per audio frame is fixed at 16.
+For AC’97 protocol or SPDIF (when bit PRTCFG[1:0] = 10 or PRTCFG[1:0] = 01), the
+number of slots is automatically set to target the protocol specification, and the value of
+NBSLOT[3:0] is ignored.
+Each slot can be defined as a valid slot, or not, by setting SLOTEN[15:0] bits of the
+SAI_xSLOTR register.
+When an invalid slot is transferred, the SD data line is either forced to 0 or released to highZ depending on the TRIS bit configuration (refer to Output data line management on an
+inactive slot) in transmitter mode. In receiver mode, the received value from the end of this
+slot is ignored. Consequently, there is no FIFO access and so no request to read or write the
+FIFO linked to this inactive slot status.
+The slot size is also configurable as shown in Figure 863. The size of the slots is selected by
+configuring the SLOTSZ[1:0] bits in the SAI_xSLOTR register. The size is applied identically
+for each slot in an audio frame.

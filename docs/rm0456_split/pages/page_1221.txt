@@ -1,0 +1,106 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+All data write and read commands can be aborted any time by a Stop Transmission
+command CMD12. The following data abort procedure applies during an ongoing data
+transfer:
+1.
+
+Load CMD12 Stop Transmission command in registers and set the CMDSTOP bit.
+–
+
+2.
+
+3.
+
+4.
+
+5.
+
+This causes the CPSM Abort signal to be generated when the command is sent to
+the DPSM.
+
+Configure the CPSM to send a command immediately (clear WAITPEND bit).
+–
+
+The card, when sending data, stops data transfer 2 cycles after the Stop
+Transmission command end bit.
+The card when no data is being sent, does not start sending any new data.
+
+–
+
+The host, when sending data, sends one last data bit followed by an end bit after
+the Stop Transmission command end bit.
+The host when not sending data, does not start sending any new data.
+
+When IDMAEN = 0, the FIFO need to be reset with FIFORST.
+–
+
+When writing data to the card. On the CMDREND flag, firmware must stop writing
+data to the FIFO. Subsequently the FIFO must be reset with FIFORST, this flushes
+the FIFO.
+
+–
+
+When reading data from the card. On the CMDREND flag, firmware must read the
+remaining data from the FIFO. Subsequently the FIFO must be reset with
+FIFORST.
+
+When IDMAEN = 1, hardware takes care of the FIFO.
+–
+
+When writing data to the card. On the CPSM Abort signal, hardware stops the
+IDMA and subsequently the FIFO is flushed.
+
+–
+
+When reading data from the card. On the CPSM Abort signal, hardware instructs
+the IDMA to transfer the remaining data from the FIFO to RAM.
+
+When the FIFO is empty/reset the DABORT flag is generated.
+
+Stream operation and CMD12
+To stop the stream transfer after the last byte to be transfered, the CMD12 end bit timing
+must be sent aligned with the data stream end of last byte. The following write stream data
+procedure applies:
+1.
+
+Initialize the stream data in the DPSM, DTMODE = MCC stream data transfer.
+
+2.
+
+Send the WRITE_DATA_STREAM command from the CPSM with CMDTRANS = 1.
+
+3.
+
+Preload CMD12 in command registers, with the CMDSTOP bit set.
+
+4.
+
+Configure the CPSM to send a command only after a wait pending (WAITPEND = 1)
+end of last data (according DATALENGTH).
+
+5.
+
+Enabling the CPSM to send the STOP_TRANSMISSION command, the stream data
+end bit and command end bit are aligned.
+
+6.
+
+–
+
+When DATALENGTH > 5 bytes, Command CMD12 is waited in the CPSM to be
+aligned with the data transfer end bit.
+
+–
+
+When DATALENGHT < 5 bytes, Command CMD12 is started before and the
+DPSM remains in the Wait_S state to align the data transfer end with the CMD12
+end bit.
+
+The write stream data can be aborted any time by clearing the WAITPEND bit. This
+causes the Preloaded CMD12 to be sent immediately and stop the write data stream.
+
+RM0456 Rev 6

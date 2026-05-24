@@ -1,0 +1,100 @@
+1973
+
+AES hardware accelerator (AES)
+
+Note:
+
+RM0456
+
+In this mode, the setting 01 of the MODE[1:0] bitfield (key derivation) is forbidden.
+A CCM message is processed through the following phases, further described in next
+subsections:
+•
+
+Init phase: AES processes the first block and prepares the first counter block.
+
+•
+
+Header phase: AES processes associated data (A), with tag computation only.
+
+•
+
+Payload phase: IP processes plaintext (P), with tag computation, counter block
+encryption, and data XOR-ing. It works in a similar way for ciphertext (C).
+
+•
+
+Final phase: AES generates the message authentication code (MAC).
+
+CCM Init phase
+In this phase, the first block B0 of the CCM message is written into the AES_IVRx register.
+The AES_DOUTR register does not contain any output data. The recommended sequence
+is:
+1.
+2.
+
+Disable the AES peripheral by clearing the EN bit of the AES_CR register.
+Select CCM chaining mode, by setting to 100 the CHMOD[2:0] bitfield of the AES_CR
+register, and optionally, set the DATATYPE[1:0] bitfield.
+
+3.
+
+Indicate the Init phase, by setting to 00 the GCMPH[1:0] bitfield of the AES_CR
+register.
+
+4.
+
+Set the MODE[1:0] bitfield of the AES_CR register to 00 or 10. Although the bitfield is
+only used in payload phase, it is recommended to set it in the Init phase and keep it
+unchanged in all subsequent phases.
+
+5.
+
+Initialize the AES_KEYRx registers with a key, and initialize AES_IVRx registers with
+B0 data as described in Table 473.
+
+6.
+
+Start the calculation of the counter, by setting to 1 the EN bit of the AES_CR register
+(EN is automatically reset when the calculation finishes).
+
+7.
+
+Wait until the end of computation, indicated by the CCF flag of the AES_SR transiting
+to 1. Alternatively, use the corresponding interrupt.
+
+8.
+
+Clear the CCF flag in the AES_SR register, by setting to 1 the CCF bit of the AES_ICR
+register.
+
+CCM header phase
+This phase coming after the GCM Init phase must be completed before the payload phase.
+During this phase, the AES_DOUTR register does not contain any output data.
+The sequence to execute, identical for encryption and decryption, is:
+
+Note:
+
+1.
+
+Indicate the header phase, by setting to 01 the GCMPH[1:0] bitfield of the AES_CR
+register. Do not modify the MODE[1:0] bitfield as set in the Init phase.
+
+2.
+
+Enable the AES peripheral by setting the EN bit of the AES_CR register.
+
+3.
+
+If it is the last block and the AAD size in the block is inferior to 128 bits, pad the
+remainder of the block with zeros. Then append the data block into AES in one of ways
+described in Section 49.4.4: AES procedure to perform a cipher operation. No data is
+read during this phase.
+
+4.
+
+Repeat the step 3 until the last additional authenticated data block is processed.
+
+The header phase can be skipped if there is no associated data, that is, Len(A) = 0.
+The first block of the associated data (B1) must be formatted by software, with the
+associated data length.

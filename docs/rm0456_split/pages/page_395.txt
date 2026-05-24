@@ -1,0 +1,194 @@
+16
+
+WMISS WHITM WMISS WHITM RMISS RHITM RMISS RHITM
+MRST
+RST
+MEN
+EN
+MRST
+RST
+MEN
+EN
+
+RM0456 Rev 6
+
+RM0456
+
+Data cache (DCACHE)
+
+Bits 15:12 Reserved, must be kept at reset value.
+Bit 11 STARTCMD: starts maintenance command (maintenance operation defined in CACHECMD).
+Can be set by software, only when EN = 1, BUSYCMDF = 0, BUSYF = 0 and
+CACHECMD = 0b001, 0b010 or 0b011.
+Cleared by hardware when the BUSYCMDF flag is set (during cache maintenance
+operation). Writing 0 has no effect.
+0: command operation (cache maintenance) finished
+1: start maintenance command (cache maintenance)
+Bits 10:8 CACHECMD[2:0]: cache command maintenance operation (cleans and/or invalidates
+an address range)
+Can be set and cleared by software, only when no maintenance command is ongoing
+(BUSYCMDF = 0).
+000: no operation
+001: clean range
+010: invalidate range
+011: clean and invalidate range
+others: reserved
+Bits 7:2 Reserved, must be kept at reset value.
+Bit 1 CACHEINV: full cache invalidation
+Can be set by software, only when EN = 1.
+Cleared by hardware when the BUSYF flag is set (during full cache invalidation operation).
+Writing 0 has no effect.
+0: no effect
+1: invalidate entire cache (all cache lines valid bit = 0)
+Bit 0 EN: enable
+0: cache disabled
+1: cache enabled
+
+9.7.2
+
+DCACHE status register (DCACHE_SR)
+Address offset: 0x004
+Reset value: 0x0000 0001
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CMDE BUSYC
+NDF
+MDF
+r
+
+r
+
+ERRF
+r
+
+BSYEN
+BUSYF
+DF
+r
+
+r
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bit 4 CMDENDF: command end flag
+Cleared by writing DCACHE_FCR.CCMDENDF = 1.
+0: cache busy or in idle
+1: CACHECMD command finished
+
+RM0456 Rev 6

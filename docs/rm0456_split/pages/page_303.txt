@@ -1,0 +1,129 @@
+A data is written when PG is cleared.
+
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+•
+
+–
+
+A program operation is requested during erase: PG is set while MER1,MER2,
+or PER is set.
+
+–
+
+In the erase sequence, PG is set while STRT is already set.
+
+–
+
+In the erase sequence, if STRT is set while MER1, MER2, and PER are cleared.
+
+–
+
+If page and mass erase are requested at the same time, STRT and PER are set
+while MER1 or MER2 is set.
+
+–
+
+If an operation is started while the write buffer is waiting for the next data, STRT
+or OPTSTRT is set while WDW is already set.
+
+–
+
+If STRT and OPTSTRT are set at the same time.
+
+–
+
+A nonsecure PGSERR is set if the nonsecure STRT bit is set by a secure access.
+
+–
+
+A secure PGSERR is set if PROGERR, SIZERR, PGAERR, WRPER,R or
+PGSERR is already set due to a previous programming error.
+
+–
+
+A nonsecure PGSERR is set if PROGERR, SIZERR, PGAERR, WRPERR,
+PGSERR, or OPTWERR is already set due to a previous programming error.
+
+WRPERR: write protection error
+–
+
+•
+
+Refer to Table 68 to Table 71 for all the conditions of WRPERR flag setting.
+
+OPTWERR: option bytes write error
+OPTWERR is set if when user option bytes are modified with an invalid configuration. It
+is set when attempting:
+–
+
+to program an invalid secure watermark-based area. Refer to Table 59
+
+–
+
+to set or clear the TZEN option bit when RDP is not at correct level (refer to Rules
+for modifying specific option bytes)
+
+–
+
+to clear the BOOT_LOCK option bit when RDP is not at correct level (refer to
+Rules for modifying specific option bytes)
+
+–
+
+to modify SWAP_BANK option bit while BOOT_LOCK and TZEN are set
+
+–
+
+to modify SECBOOTADD0 option bit while BOOT_LOCK is set
+
+–
+
+to modify DUALBANK option bit while BOOT_LOCK and TZEN are set
+
+–
+
+to modify SECWM1Rx (resp. SECWM2Rx) while HDP1_ACCDIS
+(resp. HDP2_ACCDIS) is set
+
+–
+
+to modify the option bytes, except the SWAP_BANK option bit, when RDP is set
+to level 2
+
+–
+
+to regress from RDP level 0.5 to RDP level 0
+
+–
+
+to modify OEM1KEYRx while RDP level is 0.5 or 1 and OEM1LOCK bit is set
+
+–
+
+to modify OEM2KEYRx while RDP level is 1 and OEM2LOCK bit is set
+
+–
+
+to regress from RDP level 1 to RDP level 0 while OEM1LOCK bit is set and a
+wrong OEM1KEY is shifted through JTAG or SWD
+
+–
+
+to regress from RDP level 1 to RDP level 0.5 while OEM2LOCK bit is set and
+a wrong OEM2KEY is shifted through JTAG or SWD
+
+–
+
+to modify WRPxyR while its UNLOCK bit is cleared
+
+–
+
+to set the UNLOCK bit in the WRPxyR when RDP is not at correct level
+(refer to Rules for modifying specific option bytes)
+
+RM0456 Rev 6

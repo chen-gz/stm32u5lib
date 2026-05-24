@@ -1,0 +1,188 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bits 21:20 MCNT[1:0]: Multicount
+This field indicates to the host the number of transactions that must be executed per frame
+for this periodic endpoint. For non-periodic transfers, this field is not used
+00: Reserved. This field yields undefined results
+01: 1 transaction
+10: 2 transactions per frame to be issued for this endpoint
+11: 3 transactions per frame to be issued for this endpoint
+Note: This field must be set to at least 01.
+Bits 19:18 EPTYP[1:0]: Endpoint type
+Indicates the transfer type selected.
+00: Control
+01: Isochronous
+10: Bulk
+11: Interrupt
+Bit 17 LSDEV: Low-speed device
+This field is set by the application to indicate that this channel is communicating to a lowspeed device.
+Bit 16 Reserved, must be kept at reset value.
+Bit 15 EPDIR: Endpoint direction
+Indicates whether the transaction is IN or OUT.
+0: OUT
+1: IN
+Bits 14:11 EPNUM[3:0]: Endpoint number
+Indicates the endpoint number on the device serving as the data source or sink.
+Bits 10:0 MPSIZ[10:0]: Maximum packet size
+Indicates the maximum packet size of the associated endpoint.
+
+72.15.29 OTG host channel x interrupt register (OTG_HCINTx)
+Address offset: 0x508 + 0x20 * x, (x = 0 to 11)
+Reset value: 0x0000 0000
+This register indicates the status of a channel with respect to USB- and AHB-related events.
+It is shown in Figure 901. The application must read this register when the host channels
+interrupt bit in the core interrupt register (HCINT bit in OTG_GINTSTS) is set. Before the
+application can read this register, it must first read the host all channels interrupt
+(OTG_HAINT) register to get the exact channel number for the host channel-x interrupt
+register. The application must clear the appropriate bit in this register to clear the
+corresponding bits in the OTG_HAINT and OTG_GINTSTS registers.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+DTERR
+
+FRM
+OR
+
+BBERR TXERR
+
+Res.
+
+ACK
+
+NAK
+
+STALL
+
+Res.
+
+CHH
+
+XFRC
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rc_w1
+
+RM0456 Rev 6

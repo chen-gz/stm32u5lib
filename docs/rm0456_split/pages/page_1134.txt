@@ -1,0 +1,76 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+The number of bytes to be read/written is specified in HSPI_DLR:
+•
+
+If DL[31:0] = 0xFFFF FFFF, the data length is considered undefined and the HSPI
+simply continues to transfer data until it reaches the end of the external device (as
+defined by DEVSIZE). If no bytes are to be transferred, DMODE[2:0] must be set to 0 in
+HSPI_CCR.
+
+•
+
+If DL[31:0] = 0xFFFF FFFFF and DEVSIZE[4:0] = 0x1F (its maximum value indicating
+at 4-Gbyte device), the transfers continue indefinitely, stopping only after an abort
+request or after the HSPI is disabled. After the last memory address is read (at address
+0xFFFF FFFF), reading continues with address = 0x0000 0000.
+
+When the programmed number of bytes to be transmitted or received is reached, TCF bit is
+set in HSPI_SR and an interrupt is generated if TCIE = 1 in HSPI_CR. In the case of an
+undefined number of data, TCF is set when the limit of the external SPI memory is reached,
+according to the device size defined in HSPI_DCR1.
+
+Triggering the start of a transfer in regular-command protocol
+Depending on the HSPI configuration, there are three different ways to trigger the start of a
+transfer in indirect mode when using regular-command protocol. In general, the start of
+transfer is triggered as soon as the software gives the last information that is necessary for
+the command. More specifically in indirect mode, a transfer starts when one of the following
+sequence of events occurs:
+•
+
+if no address is necessary (ADMODE[2:0] = 000) and if no data needs to be provided
+by the software (FMODE[1:0] = 01 or DMODE[2:0] = 000), and at the moment when a
+write is performed to INSTRUCTION[31:0] in HSPI_IR
+
+•
+
+if an address is necessary (when ADMODE[2:0] ≠ 000) and if no data needs to be
+provided by the software (when FMODE[1:0] = 01 or DMODE[2:0] = 000), and at the
+moment when a write is performed to ADDRESS[31:0] in HSPI_AR
+
+•
+
+if data needs to be provided by the software (when FMODE[1:0] = 00 and
+DMODE[2:0] ≠ 000), and at the moment when a write is performed to DATA[31:0] in
+HSPI_DR
+
+A write to HSPI_ABR never triggers the communication start. If alternate bytes are required,
+they must have been programmed before.
+As soon as a command is started, the BUSY bit is automatically set in HSPI_SR.
+
+Triggering the start of a transfer in HyperBus protocol
+Depending on the HSPI configuration, there are different ways to trigger the start of a
+command in indirect mode. In general, it is triggered as soon as the firmware gives the last
+information that is necessary for the transfer to start, and more specifically, a communication
+in indirect mode is triggered by one of the following register settings, when it is the last one
+to be executed:
+•
+
+when a write is performed to ADDRESS[31:0] (HSPI_AR) with ADMODE[2:0] ≠ 000 in
+indirect read mode (FMODE[1:0] = 01)
+
+•
+
+when a write is performed to DATA[31:0] (HSPI_DR) in indirect-write mode
+(when FMODE = 00)
+
+•
+
+when a (dummy) write is performed to INSTRUCTION[31:0] (HSPI_IR) for indirect read
+mode (with ADMODE[2:0] = 000 and FMODE = 01)
+
+As soon as a transfer is started, the BUSY bit (HSPI_SR[5]) is automatically set.

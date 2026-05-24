@@ -1,0 +1,9 @@
+2687
+
+0x2C
+
+RTC_SHIFTR
+
+Reset value
+
+0

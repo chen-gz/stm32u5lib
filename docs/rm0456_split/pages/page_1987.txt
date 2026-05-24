@@ -1,0 +1,120 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+
+ECB/CBC decryption sequence
+The sequence of events to perform an AES ECB/CBC decryption is as follows (More detail
+in Section 50.4.4). Select normal key mode by setting KMOD[1:0] to 00. For decryption with
+other KMOD[1:0] values, refer to Section 50.4.10 and Section 50.4.9.
+1.
+
+Follow the steps described in Section 50.4.5: SAES decryption round key preparation,
+in order to prepare the decryption key in AES core.
+
+2.
+
+Select the Mode 3 by setting to 10 the MODE[1:0] bitfield of the SAES_CR register and
+select ECB or CBC chaining mode by setting the CHMOD[2:0] bitfield of the SAES_CR
+register to 000 or 001, respectively. Data type can also be defined, using
+DATATYPE[1:0] bitfield. KEYSIZE and KMOD[1:0] bitfields must be kept as-is.
+
+3.
+
+Write the SAES_IVRx registers with the initialization vector (required in CBC mode
+only).
+
+4.
+
+Enable SAES by setting the EN bit of the SAES_CR register.
+
+5.
+
+Write the SAES_DINR register four times to input the cipher text (MSB first), as shown
+in Figure 494.
+
+6.
+
+Wait until the CCF flag is set in the SAES_SR register.
+
+7.
+
+Read the SAES_DOUTR register four times to get the plain text (MSB first), as shown
+in Figure 494. Then clear the CCF flag by setting the CCF bit of the SAES_ISR register.
+
+8.
+
+Repeat steps 5-6-7 to process all the blocks encrypted with the same key.
+Figure 494. ECB/CBC decryption (Mode 3)
+WR
+CT3
+MSB
+
+WR
+CT2
+
+WR
+CT1
+
+WR
+CT0
+
+RD
+PT3
+
+Wait until flag CCF = 1
+
+LSB
+
+RD
+PT2
+
+MSB
+
+Input phase
+4 write operations into
+AES_DINR[31:0]
+
+Computation phase
+
+RD
+PT1
+
+RD
+PT0
+LSB
+
+Output phase
+4 read operations from
+AES_DOUTR[31:0]
+
+PT = plaintext = 4 words (PT3, … , PT0)
+CT = ciphertext = 4 words (CT3, … , CT0)
+MS18938V3
+
+Suspend/resume operations in ECB/CBC modes
+The following sequences are valid for normal key mode (KMOD[1:0] = 00).
+To suspend the processing of a message, proceed as follows:
+1.
+
+If DMA is used, stop the SAES DMA transfers to the IN FIFO by clearing the DMAINEN
+bit of the SAES_CR register.
+
+2.
+
+If DMA is not used, read four times the SAES_DOUTR register to save the last
+processed block. If DMA is used, wait until the CCF flag is set in the SAES_SR register
+then stop the DMA transfers from the OUT FIFO by clearing the DMAOUTEN bit of the
+SAES_CR register.
+
+3.
+
+If DMA is not used, poll the CCF flag of the SAES_SR register until it becomes 1
+(computation completed).
+
+4.
+
+Clear the CCF flag by setting the CCF bit of the SAES_ISR register.
+
+RM0456 Rev 6

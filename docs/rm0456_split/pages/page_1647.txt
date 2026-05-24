@@ -1,0 +1,96 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+Table 407. Programming sequence (CIC5) (continued)
+Operations
+
+Comments
+
+Serial interfaces configuration:
+ADF_SITF0CR = 0x0000 1F01
+
+SCKSRC = 0 to select ADF_CCK0 as serial clock.
+SIFTMOD = 0 to select LF_MASTER SIPI mode.
+Clock absence feature is not working in this mode.
+The serial interface is enabled.
+
+Bitstream matrix configuration:
+ADF_BSMX0CR = 0x0000 0000
+
+DFLT0 filter takes the bitstream of SITF0, sampled on rising edge
+
+Digital filter control:
+ADF_DFLT0CR = 0x0000 0006
+
+NBDIS = 0: no samples discarded
+ACQMOD = 0: Asynchronous continuous acquisition mode
+DMAEN = 1: DMA interface not used
+DFLTEN = 0: Filter disabled
+FTH = 1: RXFIFO half-full
+
+Filters configuration (CIC):
+ADF_DFLT0CICR = 0x0010 0F50
+
+SCALE = 0x01(+3.5 dB): Output limited to 22 bits due to RSFLT.
+MCICD = 0xF (decimation by 16)
+CICMOD = 5 to select a Sinc5
+DATSCR = 0 to select data coming from BSMX
+
+Filters configuration (RSFLT and
+HPF):
+ADF_DFLT0RSFR = 0x0000 0200
+
+HPFC = 2: cut-off frequency of 16 kHz * 0.0025 = 40 Hz
+HPFBYP = 0: HPF not bypassed
+RSFLTBYP = 0: RSFLT not bypassed
+RSFLTD = 0: Decimation by 4
+
+Micro delay adjust:
+ADF_DLY0CR = 0x0000 0000
+
+Not used in this example
+
+Enable interrupt events:
+ADF_DFLT0IER = x
+
+Enable the interrupt events the application wants to handle.
+
+Clear status flags:
+ADF_DFLT0ISR = 0x0000 0FFF
+
+Clear all the status flags before running the ADF
+
+Program the DMA
+Enable the DMA
+
+The DMA must be programmed in order to read the data inside the
+ADF_DLT0DR register every time a DMA request is generated.
+
+Start acquisition:
+ADF_DFLT0CR = 0x0000 0007
+
+The ADF starts to filter data.
+
+40.7.3
+
+Connection examples
+Figure 385 shows simple connection examples of the ADF to external sensors.
+•
+
+Picture on the left: two digital microphones connected to the ADF
+In this connection, the amount of connections is optimized; DMIC1 and DMIC2 are
+sharing the same data line, and the same clock line. BSMX allows the application to
+connect the digital filter either to DMIC1 or to DMIC2. In this configuration when one of
+the microphone is used, the other is activated as well, as they share the same clock.
+
+•
+
+Picture in the center: two digital microphones connected to the ADF
+In this connection, DMIC1 and DMIC2 are sharing the same data line, but have a
+dedicated clock line. BSMX allows the application to connect the filter either to DMIC1
+or to DMIC2. When the application wants to use a microphone, it is possible to keep the
+other in low-power mode by forcing its clock line to 0 (CCKyEN = 0, CCKyDIR = 1).
+
+RM0456 Rev 6

@@ -1,0 +1,198 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+Bit 4 WRPERR: Secure write protection error
+This bit is set by hardware when a secure address to be erased/programmed belongs to
+a write-protected part (by WRP, HDP or RDP level 1) of the flash memory.This bit is cleared
+by writing 1. Refer to Section 7.3.9 for full conditions of error flag setting.
+Bit 3 PROGERR: Secure programming error
+This bit is set by hardware when a secure quad-word address to be programmed contains
+a value different from all 1 before programming, except if the data to write is all 0. This bit is
+cleared by writing 1.
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 OPERR: Secure operation error
+This bit is set by hardware when a flash memory secure operation (program/erase)
+completes unsuccessfully. This bit is set only if secure error interrupts are enabled
+(SECERRIE = 1). This bit is cleared by writing 1.
+Bit 0 EOP: Secure end of operation
+This bit is set by hardware when one or more flash memory secure operation
+(program/erase) has been completed successfully. This bit is set only if the secure end of
+operation interrupts are enabled (EOPIE = 1 in FLASH_SECCR). This bit is cleared
+by writing 1.
+
+7.9.9
+
+FLASH nonsecure control register (FLASH_NSCR)
+Address offset: 0x28
+Reset value: 0xC000 0000
+Access: no wait state when no flash memory operation is ongoing; word, half-word,
+and byte access
+This register can only be written when BSY or OBL_LAUNCH is reset. Otherwise, the write
+access is stalled until BSY bits are reset.
+This register is nonsecure. It can be read and written by both secure and nonsecure access.
+This register can be protected against unprivileged access when NSPRIV = 1
+in FLASH_PRIVCFGR register.
+
+31
+LOCK
+
+30
+OPTLO
+CK
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+OBL_L
+AUNC
+H
+
+Res.
+
+ERRIE
+
+EOPIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+OPTST
+RT
+
+STRT
+
+rs
+
+rs
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+MER1
+
+PER
+
+PG
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rs
+
+rs
+
+15
+
+14
+
+13
+
+12
+
+rc_w1
+11
+
+MER2
+
+BWR
+
+Res.
+
+Res.
+
+BKER
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+10
+
+9
+
+8
+
+7
+
+rw
+
+rw
+
+rw
+
+rw
+
+PNB[7:0]
+rw
+
+Bit 31 LOCK: Nonsecure lock
+This bit is set only. When set, the FLASH_NSCR register is locked. It is cleared by hardware
+after detecting the unlock sequence in FLASH_NSKEYR register.
+In case of an unsuccessful unlock operation, this bit remains set until the next system reset.

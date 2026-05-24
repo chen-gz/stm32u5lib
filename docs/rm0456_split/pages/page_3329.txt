@@ -1,0 +1,118 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+transfers, the OTG_HS host continues fetching the next packet (up to the value
+specified in the MC field) before switching to the next channel.
+3.
+
+The OTG_HS host attempts to send an OUT token at the beginning of the next (odd)
+frame/micro-frame.
+
+4.
+
+After successfully transmitting the packet, the OTG_HS host generates a CHH
+interrupt.
+
+5.
+
+In response to the CHH interrupt, reinitialize the channel for the next transfer.
+Figure 939. Normal isochronous OUT transaction - DMA mode
+
+Application
+1
+
+Host
+
+AHB
+
+USB
+
+Device
+
+init_reg(ch_1)
+Periodic Request
+Queue
+Assume that this
+queue can hold
+4 entries.
+
+init_reg(ch_2)
+
+1
+
+2
+
+1
+MPS
+
+3
+
+ch_1
+ch_2
+
+2
+OUT
+
+DATA0
+MPS
+
+4
+
+Odd
+(micro)
+frame
+
+5
+C hHltd interrupt
+
+init_reg(ch_1)
+
+3
+
+IN
+
+1
+MPS
+
+DATA0
+
+1
+MPS
+
+ChHltd interrupt
+init_reg(ch_2)
+
+4
+
+ch_1
+ch_2
+
+5
+
+OUT
+
+Even
+(micro)
+frame
+
+DATA0
+MPS
+C hH ltd interrupt
+
+init_reg(ch_1)
+IN
+
+1
+MPS
+
+DATA0
+
+MSv36923V1
+
+•
+
+Isochronous IN transactions in DMA mode
+The sequence of operations ((channel x) is as follows:

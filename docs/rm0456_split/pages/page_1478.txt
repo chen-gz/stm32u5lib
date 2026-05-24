@@ -1,0 +1,176 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+Bits 26:16 Reserved, must be kept at reset value.
+Bit 15 BWST1: DAC channel1 busy writing sample time flag
+This bit is systematically set just after sample and hold mode enable and is set each time the
+software writes the register DAC_SHSR1, It is cleared by hardware when the write operation of
+DAC_SHSR1 is complete. (It takes about 3 LSI/LSE periods of synchronization).
+0:There is no write operation of DAC_SHSR1 ongoing: DAC_SHSR1 can be written
+1:There is a write operation of DAC_SHSR1 ongoing: DAC_SHSR1 cannot be written
+Bit 14 CAL_FLAG1: DAC channel1 calibration offset status
+This bit is set and cleared by hardware
+0: calibration trimming value is lower than the offset correction value
+1: calibration trimming value is equal or greater than the offset correction value
+Bit 13 DMAUDR1: DAC channel1 DMA underrun flag
+This bit is set by hardware and cleared by software (by writing it to 1).
+0: No DMA underrun error condition occurred for DAC channel1
+1: DMA underrun error condition occurred for DAC channel1 (the currently selected trigger is
+driving DAC channel1 conversion at a frequency higher than the DMA service capability rate)
+Bit 12 DORSTAT1: DAC channel1 output register status bit
+This bit is set and cleared by hardware. It is applicable only when the DAC operates in
+double data mode.
+0: DOR[11:0] is used actual DAC output
+1: DORB[11:0] is used actual DAC output
+Bit 11 DAC1RDY: DAC channel1 ready status bit
+This bit is set and cleared by hardware.
+0: DAC channel1 is not yet ready to accept the trigger nor output data
+1: DAC channel1 is ready to accept the trigger or output data
+Bits 10:0 Reserved, must be kept at reset value.
+
+35.7.15
+
+DAC calibration control register (DAC_CCR)
+Address offset: 0x38
+Reset value: 0x00XX 00XX
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+20
+
+19
+
+rw
+
+rw
+
+4
+
+3
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+OTRIM2[4:0]
+
+OTRIM1[4:0]
+rw
+
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bits 20:16 OTRIM2[4:0]: DAC channel2 offset trimming value
+These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Bits 15:5 Reserved, must be kept at reset value.
+Bits 4:0 OTRIM1[4:0]: DAC channel1 offset trimming value

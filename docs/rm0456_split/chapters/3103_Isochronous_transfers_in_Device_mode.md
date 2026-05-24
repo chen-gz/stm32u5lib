@@ -1,0 +1,202 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+72.15.34 OTG device control register (OTG_DCTL)
+Address offset: 0x804
+Reset value: 0x0000 0002
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DS
+BESL
+RJCT
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PO
+PRG
+DNE
+
+CGO
+NAK
+
+SGO
+NAK
+
+CGI
+NAK
+
+SGI
+NAK
+
+GON
+STS
+
+GIN
+STS
+
+SDIS
+
+RWU
+SIG
+
+rw
+
+w
+
+w
+
+w
+
+w
+
+r
+
+r
+
+rw
+
+rw
+
+rw
+
+TCTL[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bit 18 DSBESLRJCT: Deep sleep BESL reject
+Core rejects LPM request with BESL value greater than BESL threshold programmed. NYET
+response is sent for LPM tokens with BESL value greater than BESL threshold. By default,
+the deep sleep BESL reject feature is disabled.
+Bits 17:12 Reserved, must be kept at reset value.
+Bit 11 POPRGDNE: Power-on programming done
+The application uses this bit to indicate that register programming is completed after a wakeup from power down mode.
+Bit 10 CGONAK: Clear global OUT NAK
+Writing 1 to this field clears the Global OUT NAK.
+Bit 9 SGONAK: Set global OUT NAK
+Writing 1 to this field sets the Global OUT NAK.
+The application uses this bit to send a NAK handshake on all OUT endpoints.
+The application must set the this bit only after making sure that the Global OUT NAK effective
+bit in the core interrupt register (GONAKEFF bit in OTG_GINTSTS) is cleared.
+Bit 8 CGINAK: Clear global IN NAK
+Writing 1 to this field clears the Global IN NAK.
+Bit 7 SGINAK: Set global IN NAK
+Writing 1 to this field sets the Global non-periodic IN NAK.The application uses this bit to
+send a NAK handshake on all non-periodic IN endpoints.
+The application must set this bit only after making sure that the Global IN NAK effective bit in
+the core interrupt register (GINAKEFF bit in OTG_GINTSTS) is cleared.
+Bits 6:4 TCTL[2:0]: Test control
+000: Test mode disabled
+001: Test_J mode
+010: Test_K mode
+011: Test_SE0_NAK mode
+100: Test_Packet mode
+101: Test_Force_Enable
+Others: Reserved
+
+<!-- pagebreak -->
+

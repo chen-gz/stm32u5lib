@@ -1,0 +1,88 @@
+•
+
+The tim_brk input can either disable (inactive state) or force the PWM outputs to a
+predefined safe state.
+
+•
+
+tim_brk2 can only disable (inactive state) the PWM outputs.
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+The tim_brk has a higher priority than tim_brk2 input, as described in Table 547.
+
+Note:
+
+tim_brk2 must only be used with OSSR = OSSI = 1.
+Table 547. Behavior of timer outputs versus tim_brk/tim_brk2 inputs
+Typical use case
+tim_brk2
+
+Timer outputs
+state
+
+Active
+
+Inactive
+
+tim_brk
+
+tim_ocxn output
+(low side switches)
+
+tim_ocx output
+(high side switches)
+
+X
+
+– Inactive then
+forced output
+state (after a
+deadtime)
+– Outputs disabled
+if OSSI = 0
+(control taken
+over by GPIO
+logic)
+
+ON after deadtime
+insertion
+
+OFF
+
+Active
+
+Inactive
+
+OFF
+
+OFF
+
+Figure 558 gives an example of tim_ocx and tim_ocxn output behavior in case of active
+signals on tim_brk and tim_brk2 inputs. In this case, both outputs have active high polarities
+(CCxP = CCxNP = 0 in TIMx_CCER register).
+Figure 558. PWM output state following tim_brk and tim_brk2 assertion (OSSI = 1)
+tim_brk2
+
+tim_brk
+tim_ocx
+Deadtime
+
+Deadtime
+
+tim_ocxn
+
+I/O state
+
+Active
+
+Inactive
+
+RM0456 Rev 6
+
+Idle
+
+MSv62338V1

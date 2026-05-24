@@ -1,0 +1,98 @@
+2526
+
+Low-power timer (LPTIM)
+
+58.3
+
+RM0456
+
+LPTIM implementation
+The table below describes LPTIM implementation on STM32U5 series devices. The full set
+of features is implemented in LPTIM1, LPTIM2 and LPTIM3. LPTIM4 supports a smaller set
+of features.
+Table 599. STM32U5 series LPTIM features
+LPTIM modes/features(1)
+
+LPTIM1
+
+LPTIM2
+
+LPTIM3
+
+LPTIM4
+
+Encoder mode
+
+X
+
+X
+
+-
+
+-
+
+PWM mode
+
+X
+
+X
+
+X
+
+X
+
+Input Capture
+
+X
+
+X
+
+X
+
+-
+
+Number of channels
+
+2
+
+2
+
+2
+
+-
+
+Number of DMA requests
+
+3
+
+3
+
+3
+
+-
+
+Wake-up from Stop mode
+
+X
+
+(2)
+
+X(3)
+
+X(2)
+
+X(2)
+
+Autonomous mode
+
+X
+
+X
+
+X
+
+-
+
+1. X = supported.
+2. Wake-up supported from Stop 0, Stop 1, and Stop 2 modes.
+3. Wake-up supported from Stop 0 and Stop 1 modes.

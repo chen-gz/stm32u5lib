@@ -1,0 +1,99 @@
+1.
+
+Configure and enable the clock generator (CKGEN), so that the frequency of
+adf_proc_ck clock is compatible with the targeted application (see examples in
+Table 403).
+
+2.
+
+Enable the CKGEN (CKGDEN = 1) and, if needed, enable the ADF_CCK0 and
+ADF_CCK1 clocks.
+
+3.
+
+Program the filter configuration and set the ACQMOD[2:0] to 010.
+
+4.
+
+Set to 1 the bit SITFEN.
+
+5.
+
+Select the proper trigger source and sensitivity.
+
+6.
+
+Before setting DFLTEN to 1, wait for DFLTACTIVE = 0: it insures that the previous filter
+deactivation sequence terminated properly.
+
+7.
+
+Set DFLTEN to 1.
+
+8.
+
+When the trigger condition is met, the filter starts the acquisition.
+
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+The TRGSENS bit allows the selection of the trigger edge (rising or falling). The trigger is
+ignored if an acquisition is ongoing or if DFLTEN is set to 0.
+Figure 374 shows a simplified example where the trigger logic is sensitive to a rising edge
+trigger (TRGSENS = 0). The first rising edge of the trigger signal is ignored because
+DFLTEN = 0. Then the next rising edge is taken into account and starts the acquisition. All
+other rising edges are ignored. The trigger logic is re-initialized when DFLTRUN goes back
+to 0.
+Figure 374. Synchronous continuous mode (ACQMOD[2:0] = 010)
+DFLTEN
+adf_trgi
+Discard (note)
+X
+
+DFLT0 output
+
+...
+
+X
+
+S1
+
+S2
+
+...
+
+SN
+
+OFF
+Dropped !
+
+DFLTRUN
+DFLTACTIVE
+ADF_CCKx
+Note: the discard phase is optional.
+
+Note:
+
+MSv63661V1
+
+The acquisition can be stopped by setting DFLTEN back to 0. This resets the filter and
+flushes the RXFIFO, so the samples located into the RXFIFO are lost. The ongoing DMA
+transfer is properly terminated. DFLTACTIVE goes back to 0 when the filter chain is reset
+and the RXFIFO flushed.
+
+Synchronous single-shot acquisition mode
+This mode allows the application to start a single acquisition by using one of the following
+trigger sources:
+•
+
+adf_trgi signal
+
+•
+
+TRGO bit
+
+The Synchronous single-shot acquisition mode is selected when ACQMOD[2:0] = 011.
+
+RM0456 Rev 6

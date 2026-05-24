@@ -1,0 +1,75 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+Data re-synchronization
+The samples stored into the RXFIFO can be transferred into the memory by using either
+DMA requests or interrupt signaling.
+Note:
+
+The RXFIFO is located into the adf_ker_ck clock domain, while ADF_DFLT0DR is located
+into the adf_hclk (AHB) clock domain.
+When the AHB clock is available, if ADF_DFLT0DR is empty and if a sample is available
+into the RXFIFO, this sample is transferred into ADF_DFLT0DR.
+The sample transfer from the RXFIFO to ADF_DFLT0DR takes two periods of the AHB
+clock (adf_hclk) and two periods of the adf_ker_ck clock. The ADF inserts automatically
+wait-states if the application performs a read operation of ADF_DFLT0DR while the transfer
+of the new sample from the RXFIFO to ADF_DFLT0DR is not yet completed.
+Figure 383. Data re-synchronization
+
+ADF_DLFT0DR
+
+sync
+
+ADF
+
+AHB clock domain
+
+Digital filter processing (DFLT0)
+
+RXFIFO
+
+adf_ker_ck clock domain
+MSv63666V1
+
+Data transfer
+The content of the RXFIFO can be transfered to the memory either by using a DMA channel
+or interrupt services.
+Both single and burst, DMA transfers are supported by the ADF, but the application has to
+care about the following points:
+
+Note:
+
+•
+
+The RXFIFO must contain at least the same amount of samples than the burst size.
+
+•
+
+The burst mode efficiency may be reduced due to the data re-synchronization
+explained in the previous section.
+
+The burst mode is not available in all products (see the DMA section to check if the product
+supports it).
+In addition, the application can select the RXFIFO threshold (FTH bit) in order to trigger the
+data transfer: a data transfer can be triggered as soon as the RXFIFO is not empty, or when
+the RXFIFO is half-full (containing depth/2 samples).
+For the DMA transfer, as soon as one of the RXFIFO reaches the threshold level, the DMA
+request is asserted in order to ask for data transfer. Successive DMA requests are
+performed as long as the RXFIFO is not empty.
+The DMA mode of the RXFIFO is enabled via the DMAEN bit in ADF_DFLT0DR.
+For the interrupt signaling, the following cases must be considered:
+•
+
+If FTH = 0, as soon as a data is available in ADF_DFLT0DR, the FTHF is set, allowing
+the generation of an interrupt. FTHF is released as soon as ADF_DFLT0DR is read.
+
+•
+
+If FTH = 1, as soon as the RXFIFO reaches the threshold level and a data is available
+in ADF_DFLT0DR, the FTHF is set, allowing the generation of an interrupt. FTHF is
+released as soon as one data is read. FTHF is set again if the threshold condition is
+
+RM0456 Rev 6

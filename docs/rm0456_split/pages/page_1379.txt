@@ -1,0 +1,250 @@
+High performance
+–
+
+12-bit, 10-bit, 8-bit or 6-bit configurable resolution
+
+–
+
+ADC conversion time: 0.4 µs for 12-bit resolution (2.5 Msps), faster conversion
+times can be obtained by lowering resolution.
+
+–
+
+Self-calibration
+
+–
+
+Programmable sampling time
+
+–
+
+Data alignment with built-in data coherency
+
+–
+
+DMA support
+
+Low-power
+–
+
+The application can reduce the bus clock frequency for low-power operation while
+still keeping optimum ADC performance. For example, 0.4 µs conversion time is
+kept, whatever the bus clock frequency
+
+–
+
+Wait mode: prevents ADC overrun in applications with low bus clock frequency
+
+–
+
+Auto-off mode: ADC is automatically powered off except during the active
+conversion phase. This dramatically reduces the power consumption of the ADC.
+
+Autonomous mode
+–
+
+Conversion and DMA transfers supported in Stop mode
+
+–
+
+Wake-up from Stop on ADC interrupts
+
+–
+
+Enter and exit from Deep-power-down mode managed automatically
+
+Analog input channels
+–
+
+up to 19 external analog inputs
+
+–
+
+1 channel for the internal temperature sensor (VSENSE)
+
+–
+
+1 channel for the internal reference voltage (VREFINT)
+
+–
+
+1 channel for the internal digital core voltage (VCORE)
+
+–
+
+1 channel for monitoring the external VBAT power supply pin
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+–
+•
+
+•
+
+Start-of-conversion can be initiated:
+–
+
+By software
+
+–
+
+By hardware triggers with configurable polarity (timer events or GPIO input
+events)
+
+Conversion modes
+–
+
+Can convert a single channel or can scan a sequence of channels.
+
+–
+
+Single mode converts selected inputs once per trigger
+
+–
+
+Continuous mode converts selected inputs continuously
+
+–
+
+Discontinuous mode
+
+•
+
+Interrupt generation at the end of sampling, end of conversion, end of sequence
+conversion, and in case of analog watchdog or overrun events
+
+•
+
+Analog watchdog
+
+•
+
+Oversampler
+
+•
+
+34.3
+
+Connection to DAC internal channels
+
+–
+
+16-bit data register
+
+–
+
+Oversampling ratio adjustable from 2 to 256x
+
+–
+
+Programmable data shift up to 8 bits
+
+ADC input range: VSSA ≤ VIN ≤ VREF+
+
+ADC implementation
+Table 325. ADC main features(1)
+ADC modes/features
+
+STM32U535/545/ STM32U59x/5Ax
+575/585
+/5Fx/5Gx
+ADC1
+
+ADC1
+
+ADC2
+
+STM32U535/545/575/585
+/59x/5Ax/5Fx/5Gx
+ADC4
+
+Resolution
+
+14 bits
+
+12 bits
+
+Maximum sampling speed for 14-bit resolution
+
+2.5 Msps
+
+2.5 Msps
+
+Hardware offset calibration
+
+X
+
+X
+
+Hardware linearity calibration
+
+X
+
+-
+
+Single-ended inputs
+
+X
+
+X
+
+Differential inputs
+
+X
+
+-
+
+Injected channel conversion
+
+X
+
+-
+
+Oversampling
+
+up to x1024
+
+up to x256
+
+Data register
+
+32 bits
+
+16 bits
+
+DMA support
+
+X
+
+X
+
+Parallel data output to MDF
+
+X
+
+-
+
+Dual mode
+
+-
+
+X
+
+-
+
+Autonomous mode
+
+-
+
+X
+
+Offset compensation
+
+X
+
+-
+
+RM0456 Rev 6

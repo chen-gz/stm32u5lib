@@ -1,0 +1,7 @@
+960
+
+CORDIC coprocessor (CORDIC)
+
+RM0456
+
+Figure 106. CORDIC convergence for hyperbolic functions

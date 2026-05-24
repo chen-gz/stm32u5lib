@@ -1,0 +1,86 @@
+RM0456 Rev 6
+
+RM0456
+
+Octo-SPI interface (OCTOSPI)
+CKMODE indicates the level that the CLK takes between commands (when NCS = 1).
+In HyperBus protocol, the device timing (tACC and tRWR) and the latency mode must be
+configured in OCTOSPI_HLCR.
+
+Memory types
+External memory providers may present some architecture and slight data formatting
+differences between them. The bitfield MTYP[2:0] into the OCTOSPI_CR register allows
+targeting the right controller configuration depending on the associated memory type
+selected in the application. This is the responsibility of the software developer to align the
+controller configuration to fit with the targeted memory type.
+The memory types are grouped in a such way:
+•
+
+D0/D1 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by
+configuring MTYP[2:0] = 000. For instance, Micron is using such data ordering. In this
+configuration, the DQS is sent with a polarity inverted respect to the clock polarity.
+Figure 157. D0/D1 data ordering in octal-SPI DTR mode (Micron) - Read access
+§
+
+NCS
+
+DQS
+IO[7:0]
+
+EEh
+
+11h
+
+A[31:24] A[23:16]
+
+A[15:8]
+
+A[7:0]
+
+Address
+
+§
+
+§
+
+§
+
+CLK
+
+Dummy
+
+D0
+
+D1
+
+Word
+unit
+
+D2
+
+D3
+
+Word
+unit
+MSv71558V1
+
+•
+
+D1/D0 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by
+configuring MTYP[2:0] = 001. For instance, Macronix is using this reverse data
+ordering in its Octaflash portfolio (this configuration is not adapted to its OctaRAM™
+memories). DQS is keeping the same polarity as the clock when reading data from the
+memory. Refer to Figure 148: DTR read in octal-SPI mode with DQS (Macronix mode)
+example.
+
+•
+
+D1/D0 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by
+configuring MTYP[2:0] = 011 with specific address phase built with row and column to
+fit with Macronix OctaRAM™ memories requirement (refer to Table 256: OctaRAM
+command address bit assignment (based on 64-Mbyte OctaRAM). This is the controller
+which translates internally the targeted address provided by the software in row/column
+address formatting to sent to the memory. DQS is keeping the same polarity as the
+clock one when reading data from the memory.
+
+RM0456 Rev 6

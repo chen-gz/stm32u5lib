@@ -1,0 +1,270 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Table 663. Timing settings for fI2CCLK of 8 MHz
+Standard-mode (Sm)
+
+Fast-mode (Fm)
+
+Fast-mode Plus
+(Fm+)
+
+Parameter
+10 kHz
+
+100 kHz
+
+400 kHz
+
+500 kHz
+
+PRESC[3:0]
+
+0x1
+
+0x1
+
+0x0
+
+0x0
+
+SCLL[7:0]
+
+0xC7
+
+0x13
+
+0x9
+
+0x6
+
+tSCLL
+
+200 x 250 ns = 50 µs
+
+20 x 250 ns = 5.0 µs
+
+10 x 125 ns = 1250 ns
+
+7 x 125 ns = 875 ns
+
+SCLH[7:0]
+
+0xC3
+
+0xF
+
+0x3
+
+0x3
+
+tSCLH
+
+196 x 250 ns = 49 µs
+
+(1)
+
+16 x 250 ns = 4.0 µs
+
+~2.0 µs(4)
+
+0x2
+
+0x2
+
+0x1
+
+0x0
+
+tSDADEL
+
+2 x 250 ns = 500 ns
+
+2 x 250 ns = 500 ns
+
+1 x 125 ns = 125 ns
+
+0 ns
+
+SCLDEL[3:0]
+
+0x4
+
+0x4
+
+0x3
+
+0x1
+
+tSCLDEL
+
+5 x 250 ns = 1250 ns
+
+5 x 250 ns = 1250 ns
+
+4 x 125 ns = 500 ns
+
+2 x 125 ns = 250 ns
+
+SDADEL[3:0]
+
+(3)
+
+4 x 125 ns = 500 ns
+
+~2.5 µs
+
+~100 µs
+
+(2)
+
+4 x 125 ns = 500 ns
+
+~10 µs
+
+tSCL
+
+(2)
+
+1. tSCL is greater than tSCLL + tSCLH due to SCL internal detection delay. Values provided for tSCL are examples only.
+2. tSYNC1 + tSYNC2 minimum value is 4 x tI2CCLK = 500 ns. Example with tSYNC1 + tSYNC2 = 1000 ns.
+3.
+
+tSYNC1 + tSYNC2 minimum value is 4 x tI2CCLK = 500 ns. Example with tSYNC1 + tSYNC2 = 750 ns.
+
+4.
+
+tSYNC1 + tSYNC2 minimum value is 4 x tI2CCLK = 500 ns. Example with tSYNC1 + tSYNC2 = 655 ns.
+
+Table 664. Timing settings for fI2CCLK of 16 MHz
+Standard-mode (Sm)
+
+Fast-mode (Fm)
+
+Fast-mode Plus (Fm+)
+
+Parameter
+10 kHz
+
+100 kHz
+
+400 kHz
+
+1000 kHz
+
+PRESC[3:0]
+
+0x3
+
+0x3
+
+0x1
+
+0x0
+
+SCLL[7:0]
+
+0xC7
+
+0x13
+
+0x9
+
+0x4
+
+tSCLL
+
+200 x 250 ns = 50 µs
+
+20 x 250 ns = 5.0 µs
+
+10 x 125 ns = 1250 ns
+
+5 x 62.5 ns = 312.5 ns
+
+SCLH[7:0]
+
+0xC3
+
+0xF
+
+0x3
+
+0x2
+
+tSCLH
+
+196 x 250 ns = 49 µs
+
+(1)
+
+16 x 250 ns = 4.0 µs
+
+0x2
+
+0x2
+
+0x0
+
+2 x 250 ns = 500 ns
+
+2 x 250 ns = 500 ns
+
+2 x 125 ns = 250 ns
+
+0 ns
+
+SCLDEL[3:0]
+
+0x4
+
+0x4
+
+0x3
+
+0x2
+
+tSCLDEL
+
+5 x 250 ns = 1250 ns
+
+5 x 250 ns = 1250 ns
+
+4 x 125 ns = 500 ns
+
+3 x 62.5 ns = 187.5 ns
+
+SDADEL[3:0]
+
+0x2
+
+tSDADEL
+
+~10 µs
+
+(3)
+
+3 x 62.5 ns = 187.5 ns
+~1.0 µs(4)
+
+~100 µs
+
+(2)
+
+4 x 125 ns = 500 ns
+~2.5 µs
+
+tSCL
+
+(2)
+
+1. tSCL is greater than tSCLL + tSCLH due to SCL internal detection delay. Values provided for tSCL are examples only.
+2. tSYNC1 + tSYNC2 minimum value is 4 x tI2CCLK = 250 ns. Example with tSYNC1 + tSYNC2 = 1000 ns.
+3.
+
+tSYNC1 + tSYNC2 minimum value is 4 x tI2CCLK = 250 ns. Example with tSYNC1 + tSYNC2 = 750 ns.
+
+4. tSYNC1 + tSYNC2 minimum value is 4 x tI2CCLK = 250 ns. Example with tSYNC1 + tSYNC2 = 500 ns.

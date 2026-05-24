@@ -1,0 +1,49 @@
+1696
+
+Digital camera interface (DCMI)
+
+RM0456
+
+Bit 6 HSPOL: Horizontal synchronization polarity
+This bit indicates the level on the DCMI_HSYNC pin when the data are not valid on the
+parallel interface.
+0: DCMI_HSYNC active low
+1: DCMI_HSYNC active high
+Bit 5 PCKPOL: Pixel clock polarity
+This bit configures the capture edge of the pixel clock.
+0: Falling edge active
+1: Rising edge active
+Bit 4 ESS: Embedded synchronization select
+0: Hardware synchronization data capture (frame/line start/stop) is synchronized with the
+DCMI_HSYNC/DCMI_VSYNC signals.
+1: Embedded synchronization data capture is synchronized with synchronization codes
+embedded in the data flow.
+Note: Valid only for 8-bit parallel data. HSPOL/VSPOL are ignored when the ESS bit is set.
+This bit is disabled in JPEG mode.
+Bit 3 JPEG: JPEG format
+0: Uncompressed video format
+1: This bit is used for JPEG data transfers. The DCMI_HSYNC signal is used as data enable.
+The crop and embedded synchronization features (ESS bit) cannot be used in this mode.
+Bit 2 CROP: Crop feature
+0: The full image is captured. In this case the total number of bytes in an image frame must
+be a multiple of four.
+1: Only the data inside the window specified by the crop register is captured. If the size of the
+crop window exceeds the picture size, then only the picture size is captured.
+Bit 1 CM: Capture mode
+0: Continuous grab mode - The received data are transferred into the destination memory
+through the DMA. The buffer location and mode (linear or circular buffer) is controlled
+through the system DMA.
+1: Snapshot mode (single frame) - Once activated, the interface waits for the start of frame
+and then transfers a single frame through the DMA. At the end of the frame, the CAPTURE
+bit is automatically reset.
+Bit 0 CAPTURE: Capture enable
+0: Capture disabled
+1: Capture enabled
+The camera interface waits for the first start of frame, then a DMA request is generated to
+transfer the received data into the destination memory.
+In snapshot mode, the CAPTURE bit is automatically cleared at the end of the first frame
+received.
+In continuous grab mode, if the software clears this bit while a capture is ongoing, the bit is
+effectively cleared after the frame end.
+Note: The DMA controller and all DCMI configuration registers must be programmed correctly
+before enabling this bit.

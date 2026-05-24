@@ -1,0 +1,210 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+54.6.28
+
+RM0456
+
+TIMx alternate function register 2 (TIMx_AF2)(x = 1, 8)
+Address offset: 0x064
+Reset value: 0x0000 0001
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+BK2C
+MP4P
+
+BK2C
+MP3P
+
+BK2C
+MP2P
+
+BK2C
+MP1P
+
+BK2IN
+P
+
+BK2CM
+P8E
+
+BK2C
+MP7E
+
+BK2C
+MP6E
+
+BK2C
+MP5E
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+18
+
+17
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+BK2C BK2CMP BK2CMP BK2CM
+MP4E
+3E
+2E
+P1E
+rw
+
+rw
+
+16
+
+OCRSEL[2:0]
+
+rw
+
+rw
+
+BK2INE
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:16 OCRSEL[2:0]: ocref_clr source selection
+These bits select the ocref_clr input source.
+000: tim_ocref_clr0
+001: tim_ocref_clr1
+...
+111: tim_ocref_clr7
+Refer to Section 54.3.2: TIM1/TIM8 pins and internal signals for product specific information.
+Note: These bits can not be modified as long as LOCK level 1 has been programmed (LOCK
+bits in TIMx_BDTR register).
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 BK2CMP4P: tim_brk2_cmp4 input polarity
+This bit selects the tim_brk2_cmp4 input sensitivity. It must be programmed together with the
+BK2P polarity bit.
+0: tim_brk2_cmp4 input polarity is not inverted (active low if BK2P = 0, active high if
+BK2P = 1)
+1: tim_brk2_cmp4 input polarity is inverted (active high if BK2P = 0, active low if BK2P = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 12 BK2CMP3P: tim_brk2_cmp3 input polarity
+This bit selects the tim_brk2_cmp3 input sensitivity. It must be programmed together with the
+BK2P polarity bit.
+0: tim_brk2_cmp3 input polarity is not inverted (active low if BK2P = 0, active high if
+BK2P = 1)
+1: tim_brk2_cmp3 input polarity is inverted (active high if BK2P = 0, active low if BK2P = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 11 BK2CMP2P: tim_brk2_cmp2 input polarity
+This bit selects the tim_brk2_cmp2 input sensitivity. It must be programmed together with the
+BK2P polarity bit.
+0: tim_brk2_cmp2 input polarity is not inverted (active low if BK2P = 0, active high if
+BK2P = 1)
+1: tim_brk2_cmp2 input polarity is inverted (active high if BK2P = 0, active low if BK2P = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).

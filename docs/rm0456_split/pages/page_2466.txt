@@ -1,0 +1,75 @@
+Description
+
+Sleep
+
+No effect. IWDG interrupts cause the device to exit from the mode.
+
+Stop
+
+The IWDG remains active or not, depending on option bytes configuration.
+Refer to Section 61.3 for details.
+IWDG interrupts cause the device exit the Stop mode.
+
+Standby
+
+The IWDG remains active or not, depending on option bytes configuration.
+Refer to Section 61.3 for details.
+IWDG interrupts do not make the device to exit from Standby mode.
+
+Shutdown
+
+The IWDG is not working.
+
+RM0456 Rev 6
+
+RM0456
+
+61.6
+
+Independent watchdog (IWDG)
+
+IWDG interrupts
+The IWDG offers the possibility to generate an early interrupt depending on the value of the
+down-counter. The early interrupt is enabled by setting the EWIE bit of the IWDG early
+wake-up interrupt register (IWDG_EWCR) to 1.
+A comparator value (EWIT[11:0]) allows the application to define the position where the
+early interrupt must be generated.
+When the IWDCNT down-counter reaches the value of EWIT[11:0] - 1, the iwdg_wkup is
+activated, making it possible for the system to exit from low power modes, if needed.
+When the APB clock is available, the iwdg_it is activated as well.
+In addition, the flag EWIF of the IWDG status register (IWDG_SR) is set to 1.
+The EWI interrupt is acknowledged by writing 1 to the EWIC bit in the IWDG early wake-up
+interrupt register (IWDG_EWCR).
+Writing into the IWDG_EWCR register also triggers a refresh of the down-counter
+(IWDCNT) with the reload value RL[11:0].
+Figure 770. Independent watchdog interrupt timing diagram
+
+IWDCNT value
+IWDCNT = EWIT - 1
+EWIT[11:0]
+
+Writing
+EWIC to ‘1’
+
+Time
+
+APB write accesses
+iwdg_wkup_it
+pclk active
+
+pclk
+iwdg_it
+
+MS49976V1
+
+The early wake-up interrupt (EWI) can be used if specific safety operations or data logging
+must be performed before the watchdog reset is generated.
+
+Changing the early wake-up comparator value
+It is possible to change the early wake-up comparator value or to enable/disable the
+interrupt generation at any time, by performing the following sequence:
+1.
+
+Enable register access by writing 0x0000 5555 in the IWDG key register (IWDG_KR).
+
+RM0456 Rev 6

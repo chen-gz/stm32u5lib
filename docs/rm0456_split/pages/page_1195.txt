@@ -1,0 +1,175 @@
+•
+
+Single data rate signaling (SDR), data is clocked on the rising edge of the clock.
+
+•
+
+Double data rate signaling (DDR), data is clocked on the both edges of the clock. DDR
+mode is only supported in wide bus mode (4-bit wide and 8-bit wide).
+
+The data sampling mode only applies to the SDMMC_D[7:0] lines. (not applicable to the
+SDMMC_CMD line.)
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+In DDR mode, data is sampled on both edges of the SDMMC_CK according the following
+rules, see also Figure 197 and Figure 198:
+•
+
+On the rising edge of the clock odd bytes are sampled.
+
+•
+
+On the falling edge of the clock even bytes are sampled.
+
+•
+
+Data payload size is always a multiple of 2 bytes.
+
+•
+
+Two CRC16 are computed per data line
+–
+
+Odd bits CRC16 clocked on the falling edge of the clock.
+
+–
+
+Even bits CRC16 clocked on the rising edge of the clock.
+
+•
+
+Start, end bits and idle conditions are full cycle.
+
+•
+
+CRC status / boot acknowledgment and busy signaling are full cycle and are only
+sampled on the rising edge of the clock.
+
+In DDR mode, the SDMMC_CK clock division must be ≥ 2.
+Figure 197. DDR mode data packet clocking
+SDMMC_CK
+Byte 2
+
+Byte 4
+
+Byte n
+
+SDMMC_D3
+
+0
+start
+
+b7 b7 b3 b3 b7 b7 b3 b 3
+odd even odd even odd even odd even
+
+b7 b7 b3 b3 crc15 crc15 crc14 crc14
+odd even odd even odd even odd even
+
+crc0 crc0
+odd even
+
+1
+end
+
+SDMMC_D2
+
+0
+start
+
+b6 b6 b2 b2 b6 b6 b2 b 2
+odd even odd even odd even odd even
+
+b6 b6 b2 b2 crc15 crc15 crc14 crc14
+odd even odd even odd even odd even
+
+crc0 crc0
+odd even
+
+1
+end
+
+SDMMC_D1
+
+0
+start
+
+b5 b5 b1 b1 b5 b5 b1 b 1
+odd even odd even odd even odd even
+
+b5 b5 b1 b1 crc15 crc15 crc14 crc14
+odd even odd even odd even odd even
+
+crc0 crc0
+odd even
+
+1
+end
+
+SDMMC_D0
+
+0
+start
+
+b4 b4 b0 b0 b4 b4 b0 b 0
+odd even odd even odd even odd even
+
+b4 b4 b0 b0 crc15 crc15 crc14 crc14
+odd even odd even odd even odd even
+
+crc0 crc0
+odd even
+
+1
+end
+
+Byte 1
+
+BYte 3
+
+Data odd
+
+Byte n-1
+
+Block length
+
+Data even
+
+CRC
+
+CRC odd
+CRC even
+
+MSv40163V2
+
+Figure 198. DDR mode CRC status / boot acknowledgment clocking
+SDMMC_CK
+SDMMC_D0
+
+0
+start
+
+1
+end
+CRC status / boot ack
+MSv40164V1
+
+Data path state machine (DPSM)
+Depending on the transfer direction (send or receive), the data path state machine (DPSM)
+moves to the Wait_S or Wait_R state when it is enabled:
+•
+
+Send: the DPSM moves to the Wait_S state. If there is data in the transmit FIFO, the
+DPSM moves to the Send state, and the data path subunit starts sending data to a
+card.
+
+•
+
+Receive: the DPSM moves to the Wait_R state and waits for a start bit. When it
+receives a start bit, the DPSM moves to the Receive state, and the data path subunit
+starts receiving data from a card.
+
+RM0456 Rev 6

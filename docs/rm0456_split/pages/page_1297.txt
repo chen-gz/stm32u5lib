@@ -1,0 +1,105 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 236. Continuous conversions of a sequence, hardware trigger
+
+ADSTART
+EOC
+EOS
+ADSTP
+TRGx(1)
+ADC(2)
+
+RDY
+
+ADC_DR
+by s/w
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+CH1
+
+D1
+
+D2
+
+D3
+
+D4
+
+D1
+
+D2
+
+D3
+
+D4
+
+by h/w
+
+triggered
+
+ignored
+
+STOP
+
+RDY
+
+Not in scale timings
+MS31014V2
+
+1. TRGx is selected as trigger source, EXTEN[1:0] = 10, CONT = 1
+2. Channels selected = 1, 2, 3, 4; AUTDLY = 0.
+
+33.4.26
+
+Low-frequency trigger mode (LFTRIG)
+Once the ADC is enabled or when the last ADC conversion is complete, the ADC is ready to
+start the next conversion. The ADC needs to be started at a defined time (Tidle = 150 μs),
+otherwise the converted data can be corrupted due to transistor leakage.
+If the user application requires a time higher than Tidle maximum value between one trigger
+to another for single conversion mode, or between ADC enable and the first conversion,
+then the ADC converter input multiplexer must be reinitialized. This operation is selected by
+setting the LFTRIG bit of the ADC_CFGR2 register. It is recommended to always set
+LFTRIG as there is no impact on timing and performance.
+
+33.4.27
+
+Data management
+Data register, data alignment and offset (ADC_DR, ADC_JDRy, OFFSETy,
+OFFSETy_CH, OVSS, LSHIFT, USAT, SSAT)
+Data and alignment
+At the end of each regular conversion channel (when the EOC event occurs), the result of
+the converted data is stored into the ADC_DR data register which is 32 bits wide.
+At the end of each injected conversion channel (when the JEOC event occurs), the result of
+the converted data is stored into the corresponding ADC_JDRy data register which is 32 bits
+wide.
+The OVSS[3:0] and LSHIFT[3:0] bitfields in the ADC_CFGR2 register selects the alignment
+of the data stored after conversion. By default, data are right-aligned. Refer to Figure 237,
+Figure 238, Figure 239 and Figure 240 for examples of data alignment.
+
+Note:
+
+The data can be realigned in normal and in oversampling mode.
+
+Offset
+An offset y (y = 1,2,3,4) can be applied to a channel by programming a value different from
+0 in the OFFSETy[23:0] bitfield of the ADC_OFRy register. The channel to which the offset
+is applied is programmed into the bits OFFSETy_CH[4:0] of ADC_OFRy register. The offset
+RM0456 Rev 6

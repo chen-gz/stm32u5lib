@@ -1,0 +1,190 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+31.10.12 SDMMC interrupt clear register (SDMMC_ICR)
+Address offset: 0x038
+Reset value: 0x0000 0000
+This register is a write-only register. Writing a bit with 1 clears the corresponding bit in the
+SDMMC_STAR status register.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+ACK
+FAILC
+
+SDIO
+ITC
+
+BUSY
+D0
+ENDC
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+4
+
+3
+
+Res.
+
+Res.
+
+Res.
+
+IDMA
+BTCC
+
+IDMA
+TEC
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CK
+VSW
+STOPC ENDC
+
+24
+ACK
+TIME
+OUTC
+
+D
+DBCK DHOLD DATA
+ABORT
+ENDC
+C
+ENDC
+C
+rw
+
+rw
+
+rw
+
+RX
+TX
+D
+CMD CMDR
+OVERR UNDER TIME
+SENTC ENDC
+C
+RC
+OUTC
+
+rw
+
+rw
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bit 28 IDMABTCC: IDMA buffer transfer complete clear bit
+Set by software to clear the IDMABTC flag.
+0: IDMABTC not cleared
+1: IDMABTC cleared
+Bit 27 IDMATEC: IDMA transfer error clear bit
+Set by software to clear the IDMATE flag.
+0: IDMATE not cleared
+1: IDMATE cleared
+Bit 26 CKSTOPC: CKSTOP flag clear bit
+Set by software to clear the CKSTOP flag.
+0: CKSTOP not cleared
+1: CKSTOP cleared
+Bit 25 VSWENDC: VSWEND flag clear bit
+Set by software to clear the VSWEND flag.
+0: VSWEND not cleared
+1: VSWEND cleared
+Bit 24 ACKTIMEOUTC: ACKTIMEOUT flag clear bit
+Set by software to clear the ACKTIMEOUT flag.
+0: ACKTIMEOUT not cleared
+1: ACKTIMEOUT cleared
+Bit 23 ACKFAILC: ACKFAIL flag clear bit
+Set by software to clear the ACKFAIL flag.
+0: ACKFAIL not cleared
+1: ACKFAIL cleared
+Bit 22 SDIOITC: SDIOIT flag clear bit
+Set by software to clear the SDIOIT flag.
+0: SDIOIT not cleared
+1: SDIOIT cleared

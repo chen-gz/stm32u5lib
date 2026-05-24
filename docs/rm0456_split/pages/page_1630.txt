@@ -1,0 +1,74 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+When the MCIC decimation counter reached its programmed value N, a sample is available
+for the RSFLT.
+The RSFLT processes all the samples provided by the MCIC, and delivers a sample to the
+HPF every-time it processes four samples (decimation by 4). The RSFLT needs up to 24
+cycles of adf_proc_ck clock before delivering a sample (P1).
+The HPF processes all the samples provided by the RSFLT, but the NBDIS function
+prevents the data writing in the RXFIFO as long as NBDIS_CNTR does not reach 0.
+When NBDIS_CNTR reaches 0, the samples provided by the HPF are stored into the
+RXFIFO.
+
+40.4.10
+
+Sound activity detection (SAD)
+The SAD is based on the computation of the ambient noise level (ANLVL) and of the
+short-term sound level (SDLVL). The SAD offers the following ways to detect a sound:
+•
+
+when the SDLVL reaches a threshold referenced to the ambient noise level
+
+•
+
+when the SDLVL reaches a fixed threshold
+
+•
+
+when the ANLVL reaches a fixed threshold
+
+As shown in Figure 379, the SAD takes the 16 MSB samples from the DFLT0 output.
+Figure 379. SAD block diagram
+
+SAD
+Logic
+
+ADF_SADCR.SADEN
+ADF_SADCR.DATCAP[1:0]
+ADF_SADCR.SADST[1:0]
+SDLVL computation
+
+PCM[23:8]
+
+xn
+
+ANLVL update
+Thresholds update
+
+Sound level
+(SDLVL)
+computation
+
+Learning phase
+ANLVL computation
+
+SAD trigger
+logic
+
+sddet_evt
+
+Detection
+sdlvl_evt
+
+DFLT0
+
+RXFIFO0
+PCM[23:0]
+
+MSv63623V1
+
+The SAD is highly configurable, and the application can adjust several parameters:

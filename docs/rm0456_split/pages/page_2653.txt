@@ -1,0 +1,167 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+–
+
+66.3
+
+Checks parity of received data byte
+
+•
+
+Interrupt sources with flags
+
+•
+
+Multiprocessor communications: wake-up from mute mode by idle line detection or
+address mark detection
+
+•
+
+Wake-up from Stop mode
+
+•
+
+Autonomous functionality in Stop mode
+
+USART extended features
+•
+
+LIN master synchronous break send capability and LIN slave break detection capability
+–
+
+13-bit break generation and 10/11 bit break detection when USART is hardware
+configured for LIN
+
+•
+
+IrDA SIR encoder decoder supporting 3/16 bit duration for normal mode
+
+•
+
+Smartcard mode
+
+•
+
+66.4
+
+RM0456
+
+–
+
+Supports the T = 0 and T = 1 asynchronous protocols for smartcards as defined in
+the ISO/IEC 7816-3 standard
+
+–
+
+0.5 and 1.5 stop bits for smartcard operation
+
+Support for Modbus communication
+–
+
+Timeout feature
+
+–
+
+CR/LF character recognition
+
+USART implementation
+The following tables describe the USART implementation. LPUART is included for
+comparison.
+Table 673. Instance implementation on STM32U5 series
+Instance
+
+STM32U535/545
+
+STM32U575/585
+
+STM32U59x/5Ax/5Fx/5Gx
+
+USART1
+
+Full
+
+Full
+
+Full
+
+USART2
+
+-
+
+Full
+
+Full
+
+USART3
+
+Full
+
+Full
+
+Full
+
+USART6
+
+-
+
+-
+
+Full
+
+UART4
+
+Basic
+
+Basic
+
+Basic
+
+UART5
+
+Basic
+
+Basic
+
+Basic
+
+LPUART1
+
+Low-power
+
+Low-power
+
+Low-power
+
+Table 674. USART/LPUART features
+Modes/features(1)
+
+Full feature
+
+Basic feature
+
+Low-power feature
+
+Hardware flow control for modem
+
+X
+
+X
+
+X
+
+Continuous communication using DMA
+
+X
+
+X
+
+X
+
+Multiprocessor communication
+
+X
+
+X
+
+X

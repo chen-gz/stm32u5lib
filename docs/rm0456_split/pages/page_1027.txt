@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+Bit 13 WAITEN: Wait enable bit
+This bit enables/disables wait-state insertion via the NWAIT signal when accessing the memory in
+Synchronous mode.
+0: NWAIT signal is disabled (its level not taken into account, no wait state inserted after the
+programmed flash latency period).
+1: NWAIT signal is enabled (its level is taken into account after the programmed latency period to
+insert wait states if asserted) (default after reset).
+Bit 12 WREN: Write enable bit
+This bit indicates whether write operations are enabled/disabled in the bank by the FMC.
+0: Write operations are disabled in the bank by the FMC, an AHB error is reported.
+1: Write operations are enabled for the bank by the FMC (default after reset).
+Bit 11 WAITCFG: Wait timing configuration
+The NWAIT signal indicates whether the data from the memory are valid or if a wait state must be
+inserted when accessing the memory in Synchronous mode. This configuration bit determines if
+NWAIT is asserted by the memory one clock cycle before the wait state or during the wait state:
+0: NWAIT signal is active one data cycle before wait state (default after reset).
+1: NWAIT signal is active during wait state (not used for PSRAM).
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 WAITPOL: Wait signal polarity bit
+Defines the polarity of the wait signal from memory used for either in Synchronous or Asynchronous
+mode.
+0: NWAIT active low (default after reset)
+1: NWAIT active high
+Bit 8 BURSTEN: Burst enable bit
+This bit enables/disables synchronous accesses during read operations. It is valid only for
+synchronous memories operating in Burst mode.
+0: Burst mode disabled (default after reset). Read accesses are performed in Asynchronous mode.
+1: Burst mode enable. Read accesses are performed in Synchronous mode.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 FACCEN: Flash access enable
+Enables NOR flash memory access operations.
+0: Corresponding NOR flash memory access is disabled.
+1: Corresponding NOR flash memory access is enabled (default after reset).
+Bits 5:4 MWID[1:0]: Memory data bus width
+Defines the external memory device width, valid for all type of memories.
+00: 8 bits
+01: 16 bits (default after reset)
+10: reserved
+11: reserved
+Bits 3:2 MTYP[1:0]: Memory type
+Defines the type of external memory attached to the corresponding memory bank.
+00: SRAM/FRAM (default after reset for Bank 2...4)
+01: PSRAM (CRAM) / FRAM
+10: NOR flash/OneNAND flash (default after reset for Bank 1)
+11: reserved
+
+RM0456 Rev 6

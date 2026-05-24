@@ -1,0 +1,236 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 VREFSECSMP: VREF+ second sample bit
+This bit is set and cleared by software. It is used to enable/disable the second VREF+ protection
+when multiple ADCs are working simultaneously and a clock divider of 1 is used.
+0: VREF+ second sample disabled
+1: VREF+ second sample enabled
+Note: The software is allowed to write this bit only when ADEN bit is cleared to 0 (this ensures that no
+conversion is ongoing).
+Bit 2 VREFPROT: VREF+ protection bit
+This bit is set and cleared by software. It is used to enable/disable VREF+ protection when multiple
+ADCs are working simultaneously and a clock divider is used.
+0: VREF+ protection disabled
+1: VREF+ protection enabled
+Note: The software is allowed to write this bit only when ADEN bit is cleared to 0 (this ensures that no
+conversion is ongoing).
+Bit 1 DPD: Deep-power-down mode bit
+This bit is set and cleared by software. It is used to enable/disable Deep-power-down mode in
+autonomous mode when the ADC is not used.
+0: Deep-power-down mode disabled
+1: Deep-power-down mode enabled
+Note: The software is allowed to write this bit only when ADEN bit is cleared to 0 (this ensures that no
+conversion is ongoing).
+Setting DPD in auto-off mode automatically disables the LDO.
+Bit 0 AUTOFF: Auto-off mode bit
+This bit is set and cleared by software. it is used to enable/disable the auto-off mode.
+0: Auto-off mode disabled
+1: Auto-off mode enabled
+Note: The software is allowed to write this bit only when ADEN bit is cleared to 0 (this ensures that no
+conversion is ongoing).
+
+34.7.14
+
+ADC Analog Watchdog 2 Configuration register (ADC_AWD2CR)
+Address offset: 0xA0
+Reset value: 0x0000 0000
+
+31
+Res.
+
+30
+Res.
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+AWD2
+CH23
+
+AWD2
+CH22
+
+AWD2
+CH21
+
+AWD2
+CH20
+
+AWD2
+CH19
+
+AWD2
+CH18
+
+AWD2
+CH17
+
+AWD2
+CH16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+AWD2
+CH15
+
+AWD2
+CH14
+
+AWD2
+CH13
+
+AWD2
+CH12
+
+AWD2
+CH11
+
+AWD2
+CH10
+
+AWD2
+CH9
+
+AWD2
+CH8
+
+AWD2
+CH7
+
+AWD2
+CH6
+
+AWD2
+CH5
+
+AWD2
+CH4
+
+AWD2
+CH3
+
+AWD2
+CH2
+
+AWD2
+CH1
+
+AWD2
+CH0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.

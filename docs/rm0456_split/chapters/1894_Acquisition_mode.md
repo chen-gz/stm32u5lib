@@ -1,0 +1,65 @@
+1904
+
+Touch sensing controller (TSC)
+
+RM0456
+
+To allow the control of the channel I/O by the TSC peripheral, the corresponding GPIO must
+be first set to alternate output push-pull mode and the corresponding Gx_IOy bit in the
+TSC_IOCCR register must be set.
+For proximity detection where a higher equivalent electrode surface is required or to speedup the acquisition process, it is possible to enable and simultaneously acquire several
+channels belonging to the same analog I/O group.
+Note:
+
+During the acquisition phase and even if the TSC peripheral alternate function is not
+enabled, as soon as the TSC_IOSCR or TSC_IOCCR bit is set, the corresponding GPIO
+analog switch is automatically controlled by the touch sensing controller.
+
+47.3.8
+
+Acquisition mode
+The touch sensing controller offers two acquisition modes:
+•
+
+Normal acquisition mode: the acquisition starts as soon as the START bit in the
+TSC_CR register is set.
+
+•
+
+Synchronized acquisition mode: the acquisition is enabled by setting the START bit in
+the TSC_CR register but only starts upon the detection of a falling edge or a rising
+edge and high level on the SYNC input pin. This mode is useful for synchronizing the
+capacitive sensing channels acquisition with an external signal without additional CPU
+load.
+
+The GxE bits in the TSC_IOGCSR registers specify which analog I/O groups are enabled
+(corresponding counter is counting). The CS voltage of a disabled analog I/O group is not
+monitored and this group does not participate in the triggering of the end of acquisition flag.
+However, if the disabled analog I/O group contains some channels, they are pulsed.
+When the CS voltage of an enabled analog I/O group reaches the given threshold, the
+corresponding GxS bit of the TSC_IOGCSR register is set. When the acquisition of all
+enabled analog I/O groups is complete (all GxS bits of all enabled analog I/O groups are
+set), the EOAF flag in the TSC_ISR register is set. An interrupt request is generated if the
+EOAIE bit in the TSC_IER register is set.
+In the case that a max count error is detected, the ongoing acquisition is stopped and both
+the EOAF and MCEF flags in the TSC_ISR register are set. Interrupt requests can be
+generated for both events if the corresponding bits (EOAIE and MCEIE bits of the TSCIER
+register) are set. Note that when the max count error is detected the remaining GxS bits in
+the enabled analog I/O groups are not set.
+To clear the interrupt flags, the corresponding EOAIC and MCEIC bits in the TSC_ICR
+register must be set.
+The analog I/O group counters are cleared when a new acquisition is started. They are
+updated with the number of charge transfer cycles generated on the corresponding
+channel(s) upon the completion of the acquisition.
+
+47.3.9
+
+I/O hysteresis and analog switch control
+In order to offer a higher flexibility, the touch sensing controller is able to take the control of
+the Schmitt trigger hysteresis and analog switch of each Gx_IOy. This control is available
+whatever the I/O control mode is (controlled by standard GPIO registers or other
+peripherals) assuming that the touch sensing controller is enabled. This may be useful to
+perform a different acquisition sequence or for other purposes.
+
+<!-- pagebreak -->
+

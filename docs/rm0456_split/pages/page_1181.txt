@@ -1,0 +1,137 @@
+RM0456 Rev 6
+
+RM0456
+
+31.4
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+SDMMC operation modes
+Table 273. SDMMC operation modes SD and SDIO
+Max bus speed (3)
+[Mbyte/s]
+
+Max clock frequency
+[MHz](4)
+
+Signal voltage
+[V]
+
+DS (default speed)
+
+12.5
+
+25
+
+3.3
+
+HS (high speed)
+
+25
+
+50
+
+3.3
+
+SDR12
+
+12.5
+
+25
+
+1.8
+
+SDR25
+
+25
+
+50
+
+1.8
+
+DDR50
+
+50
+
+50
+
+1.8
+
+SDR50
+
+50
+
+100
+
+1.8
+
+SDR104
+
+104
+
+208
+
+1.8
+
+SDIO bus speed modes(1)(2)
+
+1. SDR single data rate signaling.
+2. DDR double data rate signaling (data is sampled on both SDMMC_CK clock edges).
+3. SDIO bus speed with 4-bit bus width.
+4. Maximum frequency depending on maximum allowed I/O speed.
+
+SDR104 mode requires variable delay support using sampling point tuning. The use of
+variable delay is optional for SDR50 mode.
+Table 274. SDMMC operation modes e•MMC
+Max bus speed (3)
+[Mbyte/s]
+
+Max clock frequency
+[MHz](4)
+
+Signal voltage
+[V](5)
+
+Legacy compatible
+
+26
+
+26
+
+3/1.8/1.2V
+
+High speed SDR
+
+52
+
+52
+
+3/1.8/1.2V
+
+High speed DDR
+
+104
+
+52
+
+3/1.8/1.2V
+
+High speed HS200
+
+200
+
+200
+
+1.8/1.2V
+
+e•MMC bus speed modes (1)(2)
+
+1. SDR single data rate signaling.
+2. DDR double data rate signaling. (data is sampled on both SDMMC_CK clock edges).
+3. e•MMC bus speed with 8-bit bus width.
+4. Maximum frequency depending on maximum allowed I/O speed.
+5. Supported signal voltage level depends on I/O port characteristics, refer to device datasheet.
+
+HS200 mode requires variable delay support using sampling point tuning.
+
+RM0456 Rev 6

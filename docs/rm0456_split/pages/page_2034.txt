@@ -1,0 +1,184 @@
+2037
+
+Hash processor (HASH)
+
+RM0456
+
+Bits 31:2 Reserved, must be kept at reset value.
+Bit 1 DCIE: Digest calculation completion interrupt enable
+0: Digest calculation completion interrupt disabled
+1: Digest calculation completion interrupt enabled.
+Bit 0 DINIE: Data input interrupt enable
+0: Data input interrupt disabled
+1: Data input interrupt enabled
+
+51.6.6
+
+HASH status register (HASH_SR)
+Address offset: 0x24
+Reset value: 0x0000 0001
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+DINNE
+
+Res.
+
+r
+
+13
+
+12
+
+11
+
+10
+
+9
+
+NBWP[4:0]
+r
+
+r
+
+r
+
+r
+
+20
+
+19
+
+r
+
+r
+
+18
+
+17
+
+16
+
+NBWE[4:0]
+r
+
+r
+
+r
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+BUSY
+
+DMAS
+
+DCIS
+
+DINIS
+
+r
+
+r
+
+rc_w0
+
+rc_w0
+
+r
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bits 20:16 NBWE[4:0]: Number of words expected
+This bitfield reflects the number of words in the message that must be pushed into the FIFO
+to trigger a partial computation. NBWE is decremented by 1 when a write access is performed
+to the HASH_DIN register.
+NBWE is set to the expected block size +1 in words (0x11) when INIT bit is set in HASH_CR,
+and it is set to the expected block size when partial digest calculation ends.
+Bit 15 DINNE: DIN not empty
+This bit is set when the HASH_DIN register holds valid data (that is after being written at least
+once). It is cleared when either the INIT bit (initialization) or the DCAL bit (completion of the
+previous message processing) is written to 1.
+0: No data are present in the data input buffer
+1: The input buffer contains at least one word of data
+Bit 14 Reserved, must be kept at reset value.
+Bits 13:9 NBWP[4:0]: Number of words already pushed
+This bitfield is the exact number of words in the message that have already been pushed into
+the FIFO. NBWP is incremented by one when a write access is performed to the HASH_DIN
+register.
+When a digest calculation starts, NBWP is updated to NBWP- block size (in words), and
+NBWP goes to zero when the INIT bit is written to 1.
+Bits 8:4 Reserved, must be kept at reset value.
+Bit 3 BUSY: Busy bit
+0: No block is currently being processed
+1: The hash core is processing a block of data

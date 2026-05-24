@@ -1,0 +1,116 @@
+LPTIM1/2/3 input capture 1 connected to
+
+lptim_ic1_mux0
+
+GPIO
+
+lptim_ic1_mux1
+
+comp1_out
+
+lptim_ic1_mux2
+
+comp2_out(1)
+
+lptim_ic1_mux3
+
+Reserved
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+
+1. This connection is not present in STM32U535/545 as COMP2 is not available.
+
+Table 608. LPTIM1 input capture 2 connections
+lptim_ic2_mux
+
+LPTIM1 input capture 2 connected to
+
+lptim_ic2_mux0
+
+I/O
+
+lptim_ic2_mux1
+
+LSI
+
+lptim_ic2_mux2
+
+LSE
+
+lptim_ic2_mux3
+
+Reserved
+
+Table 609. LPTIM2 input capture 2 connections
+lptim_ic2_mux
+
+LPTIM2 input capture 2 connected to
+
+lptim_ic2_mux0
+
+I/O
+
+lptim_ic2_mux1
+
+HSI/256
+
+lptim_ic2_mux2
+
+MSIS/1024
+
+lptim_ic2_mux3
+
+MSIS/4
+
+Table 610. LPTIM3 input capture 2 connections
+lptim_ic2_mux
+
+58.4.4
+
+LPTIM3 input capture 2 connected to
+
+lptim_ic2_mux0
+
+I/O
+
+lptim_ic2_mux1
+
+Reserved
+
+lptim_ic2_mux2
+
+Reserved
+
+lptim_ic2_mux3
+
+Reserved
+
+LPTIM reset and clocks
+The LPTIM can be clocked using several clock sources. It can be clocked using an internal
+clock signal which can be any configurable internal clock source selectable through the
+RCC (see RCC section for more details). Also, the LPTIM can be clocked using an external
+clock signal injected on its external Input1. When clocked with an external clock source, the
+LPTIM can run in one of the following configurations:
+•
+
+The first configuration is when the LPTIM is clocked by an external signal but in the
+same time an internal clock signal is provided to the LPTIM from configurable internal
+clock source (see RCC section).
+
+•
+
+The second configuration is when the LPTIM is solely clocked by an external clock
+source through its external Input1. This configuration is the one used to realize Timeout
+function or pulse counter function when all the embedded oscillators are turned off after
+entering a low-power mode.
+
+Programming the CKSEL and COUNTMODE bits allows controlling whether the LPTIM
+uses an external clock source or an internal one.
+When configured to use an external clock source, the CKPOL bits are used to select the
+external clock signal active edge. If both edges are configured to be active ones, an internal
+
+RM0456 Rev 6

@@ -1,0 +1,233 @@
+1599
+
+Multi-function digital filter (MDF)
+
+39.8.1
+
+RM0456
+
+MDF global control register (MDF_GCR)
+Address offset: 0x000
+Reset value: 0x0000 0000
+This register is used for controls common to all digital filters.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ILVNB[3:0]
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+TRGO
+
+rw
+
+rw
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bits 7:4 ILVNB[3:0]: Interleaved number
+This bitfield is set and reset by software. it enables or disables the interleaved-transfer mode
+and defines how many digital filters work in this mode.
+This bitfield cannot be changed when DFLTEN = 1 in MDF_DFLT0CR.
+0000: Interleaved-transfer mode disabled
+0001: Data from DFLT0 and DFLT1 are interleaved.
+0010: Data from DFLT0, DFLT1 and DFLT2 are interleaved.
+...
+1111: Data from DFLT0 to DFLT15 are interleaved.
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 TRGO: Trigger output control
+This bit is set by software and reset by hardware. It is used to start the acquisition of several
+filters synchronously. It is also able to synchronize several MDF together by controlling the
+mdf_trgo signal.
+0: Write 0 has no effect. Read 0 means that the trigger can be set again to 1.
+1: Write 1 generates a positive pulse on mdf_trgo signal and triggers the acquisition on the
+enabled filters having ACQMOD[2:0] = 0x1 and selecting TRGO as trigger. Read 1 means
+that the trigger pulse is still active.
+
+39.8.2
+
+MDF clock generator control register (MDF_CKGCR)
+Address offset: 0x004
+Reset value: 0x0000 0000
+This register is used to control the clock generator. The mdf_proc_ck clock must be enabled
+before enabling other MDF parts.
+
+31
+
+30
+
+29
+
+28
+
+CKGA
+CTIVE
+
+27
+
+26
+
+25
+
+24
+
+PROCDIV[6:0]
+
+r
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+TRGSE
+NS
+
+TRGSRC[3:0]
+rw
+
+rw

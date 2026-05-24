@@ -1,0 +1,80 @@
+621
+
+General-purpose I/Os (GPIO)
+
+RM0456
+
+13
+
+General-purpose I/Os (GPIO)
+
+13.1
+
+Introduction
+Each general-purpose I/O port has four 32-bit configuration registers (GPIOx_MODER,
+GPIOx_OTYPER, GPIOx_OSPEEDR and GPIOx_PUPDR), two 32-bit data registers
+(GPIOx_IDR and GPIOx_ODR), a 16 bits reset register (GPIOx_BRR) and a 32-bit set/reset
+register (GPIOx_BSRR).
+In addition, all GPIOs have a 32-bit locking register (GPIOx_LCKR), two 32-bit alternate
+function selection registers (GPIOx_AFRH and GPIOx_AFRL), a secure configuration
+register (GPIOx_SECCFGR) and a high-speed low-voltage register (GPIOx_HSLVR).
+
+13.2
+
+13.3
+
+GPIO main features
+•
+
+Output states: push-pull or open drain + pull-up/down
+
+•
+
+Output data from output data register (GPIOx_ODR) or peripheral (alternate function
+output)
+
+•
+
+Speed selection for each I/O
+
+•
+
+Input states: floating, pull-up/down, analog
+
+•
+
+Input data to input data register (GPIOx_IDR) or peripheral (alternate function input)
+
+•
+
+Bit set and reset register (GPIOx_ BSRR) for bitwise write access to GPIOx_ODR
+
+•
+
+Lock mechanism (GPIOx_LCKR) provided to freeze the I/O port configurations
+
+•
+
+Analog function
+
+•
+
+Alternate function selection registers
+
+•
+
+Fast toggle capable of changing every two clock cycles
+
+•
+
+Highly flexible pin multiplexing allows the use of I/O pins as GPIOs or as one of several
+peripheral functions
+
+•
+
+TrustZone security support
+
+GPIO functional description
+Subject to the specific hardware characteristics of each I/O port listed in the datasheet, each
+port bit of the general-purpose I/O (GPIO) ports can be individually configured by software in
+several modes:

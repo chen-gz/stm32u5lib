@@ -1,0 +1,55 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Managing a sequence of conversions without using the DMA
+If the conversions are slow enough, the conversion sequence can be handled by the
+software. In this case, the software must use the EOC flag and its associated interrupt to
+handle each data. Each time a conversion is complete, EOC is set and the ADC_DR
+register can be read. OVRMOD must be configured to 0 to manage overrun events as an
+error.
+
+Managing conversions without using the DMA and without overrun
+It may be useful to let the ADC convert one or more channels without reading the data each
+time (for example if the device features an analog watchdog). In this case, the OVRMOD bit
+must be configured to 1 and the OVR flag must be ignored by the software. An overrun
+event does not prevent the ADC from continuing to convert and the ADC_DR register
+always contains the latest conversion.
+
+Managing conversions using the DMA
+Since converted channel values are stored in a unique data register, it is useful to use DMA
+to convert more than one channel. This avoids the loss of the data already stored in the
+ADC_DR register.
+When the DMA mode is enabled (DMNGT[1:0] = 01 or 11 in the ADC_CFGR register in
+single ADC mode or DAMDF different from 00 in dual ADC mode), a DMA request is
+generated after each conversion of a channel. This allows the transfer of the converted data
+from the ADC_DR register to the destination location selected by the software.
+Despite this, if an overrun occurs (OVR = 1) because the DMA cannot serve the DMA
+transfer request in time, the ADC stops generating DMA requests and the data
+corresponding to the new conversion is not transferred by the DMA. This means that all the
+data transferred to the RAM can be considered as valid.
+Depending on the configuration of the OVRMOD bit, the data is either preserved or
+overwritten.
+The DMA transfer requests are blocked until the software clears the OVR bit.
+Two different DMA modes are proposed depending on the application. They can be
+configured through the DMNGT[1:0] bitfield of the ADC_CFGR1 register and the DAMDF bit
+of the ADC12_CCR register, in single ADC mode and in dual ADC mode, respectively:
+•
+
+DMA one shot mode (DMNGT[1:0] = 01).
+This mode is suitable when the DMA is programmed to transfer a fixed number of data.
+
+•
+
+DMA circular mode (DMNGT[1:0] = 11)
+This mode is suitable when programming the DMA in circular mode.
+
+DMA one shot mode (DMNGT[1:0] = 01)
+In this mode, the ADC generates a DMA transfer request each time a new conversion data
+is available and stops generating DMA requests once the DMA has reached the last DMA
+transfer (when a transfer complete interrupt occurs - refer to DMA section) even if a
+conversion has been started again.
+When the DMA transfer is complete (all the transfers configured in the DMA controller have
+been done):

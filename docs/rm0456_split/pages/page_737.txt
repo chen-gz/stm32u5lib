@@ -1,0 +1,207 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 MISx: masked interrupt status of channel x (x = 15 to 0)
+0: no interrupt occurred on channel x
+1: an interrupt occurred on channel x
+
+17.8.5
+
+GPDMA secure masked interrupt status register (GPDMA_SMISR)
+Address offset: 0x10
+Reset value: 0x0000 0000
+This is a secure read register, containing the masked interrupt status bit MISx for each
+secure channel x (GPDMA_SECCFGR.SECx = 1). It is a logical OR of all the
+GPDMA_CxSR flags, each source flag being enabled by the corresponding GPDMA_CxCR
+interrupt enable bit.
+Every bit is deasserted by hardware when securely writing 1 to the corresponding
+GPDMA_CxFCR flag clear bit.
+This register does not contain any information about a nonsecure channel.
+This register can mix privileged and unprivileged information, depending on the privileged
+state of each channel GPDMA_PRIVCFGR.PRIVx. A privileged software can read the full
+secure interrupt status. An unprivileged software is restricted to read the status of
+unprivileged and secure channels, other privileged bit fields returning zero.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+MIS15
+
+MIS14
+
+MIS13
+
+MIS12
+
+MIS11
+
+MIS10
+
+MIS9
+
+MIS8
+
+MIS7
+
+MIS6
+
+MIS5
+
+MIS4
+
+MIS3
+
+MIS2
+
+MIS1
+
+MIS0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 MISx: masked interrupt status of the secure channel x (x = 15 to 0)
+0: no interrupt occurred on the secure channel x
+1: an interrupt occurred on the secure channel x
+
+17.8.6
+
+GPDMA channel x linked-list base address register
+(GPDMA_CxLBAR)
+Address offset: 0x50 + 0x80 * x (x = 0 to 15)
+Reset value: 0x0000 0000
+This register must be written by a privileged software. It is either privileged readable or not,
+depending on the privileged state of the channel x GPDMA_PRIVCFGR.PRIVx.
+This register is either secure or nonsecure depending on the secure state of the channel x
+(GPDMA_SECCFGR.SECx).
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1.
+
+RM0456 Rev 6

@@ -1,0 +1,50 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bit 12 GPRXEIE: Generic payload receive error interrupt enable
+This bit enables the interrupt generation on generic payload receive error.
+0: Interrupt on generic payload receive error disabled
+1: Interrupt on generic payload receive error enabled
+Bit 11 GPRDEIE: Generic payload read error interrupt enable
+This bit enables the interrupt generation on generic payload read error.
+0: Interrupt on generic payload read error disabled
+1: Interrupt on generic payload read error enabled
+Bit 10 GPTXEIE: Generic payload transmit error interrupt enable
+This bit enables the interrupt generation on generic payload transmit error.
+0: Interrupt on generic payload transmit error disabled
+1: Interrupt on generic payload transmit error enabled
+Bit 9 GPWREIE: Generic payload write error interrupt enable
+This bit enables the interrupt generation on generic payload write error.
+0: Interrupt on generic payload write error disabled
+1: Interrupt on generic payload write error enabled
+Bit 8 GCWREIE: Generic command write error interrupt enable
+This bit enables the interrupt generation on generic command write error.
+0: Interrupt on generic command write error disabled
+1: Interrupt on generic command write error enabled
+Bit 7 LPWREIE: LTDC payload write error interrupt enable
+This bit enables the interrupt generation on LTDC payload write error.
+0: Interrupt on LTDC payload write error disabled
+1: Interrupt on LTDC payload write error enabled
+Bit 6 EOTPEIE: EoTp error interrupt enable
+This bit enables the interrupt generation on EoTp error.
+0: Interrupt on EoTp error disabled
+1: Interrupt on EoTp error enabled
+Bit 5 PSEIE: Packet size error interrupt enable
+This bit enables the interrupt generation on packet size error.
+0: Interrupt on packet size error disabled
+1: Interrupt on packet size error enabled
+Bit 4 CRCEIE: CRC error interrupt enable
+This bit enables the interrupt generation on CRC error.
+0: Interrupt on CRC error disabled
+1: Interrupt on CRC error enabled
+Bit 3 ECCMEIE: ECC multi-bit error interrupt enable
+This bit enables the interrupt generation on ECC multi-bit error.
+0: Interrupt on ECC multi-bit error disabled
+1: Interrupt on ECC multi-bit error enabled
+Bit 2 ECCSEIE: ECC single-bit error interrupt enable
+This bit enables the interrupt generation on ECC single-bit error.
+0: Interrupt on ECC single-bit error disabled
+1: Interrupt on ECC single-bit error enabled

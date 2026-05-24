@@ -1,0 +1,121 @@
+RM0456 Rev 6
+
+RM0456
+
+17.4.10
+
+General purpose direct memory access controller (GPDMA)
+
+GPDMA FIFO-based transfers
+There is a single transfer operation mode: the FIFO mode. There are FIFO-based transfers.
+Any channel x is implemented with a dedicated FIFO whose size is defined by
+dma_fifo_size[x] (see Section 17.3.1 for more details).
+
+GPDMA burst
+A programmed transfer at the lowest level is a GPDMA burst.
+A GPDMA burst is a burst of data received from the source, or a burst of data sent to the
+destination. A source (and destination) burst is programmed with a burst length by the field
+SBL_1[5:0] (respectively DBL_1[5:0]), and with a data width defined by the field
+SDW_LOG2[1:0] (respectively DDW_LOG2[1:0]) in the GPDMA_CxTR1 register.
+The addressing mode after each data (named beat) of a GPDMA burst is defined by SINC
+and DINC in GPDMA_CxTR1, for source and destination respectively: either a fixed
+addressing or an incremented addressing with contiguous data.
+The start and next addresses of a GPDMA source/destination burst (defined by
+GPDMA_CxSAR and GPDMA_CxDAR) must be aligned with the respective data width.
+The table below lists the main characteristics of a GPDMA burst.
+Table 140. Programmed GPDMA source/destination burst
+SDW_LOG2[1:0]
+DDW_LOG2[1:0]
+
+Data
+width
+(bytes)
+
+00
+
+1
+
+01
+
+2
+
+10
+
+4
+
+00
+
+1
+
+01
+
+2
+
+10
+
+4
+
+11
+
+SINC/DINC
+
+SBL_1[5:0]
+DBL_1[5:0]
+
+Burst
+Next data/
+length
+beat
+(data/beats) address
+
+Next burst
+address
+
+Burst
+address
+alignment
+1
+
++0
+
+0 (fixed)
+n = 0 to 63(1)
+
+n+1
+
+1
+(contiguously
+incremented)
+
++0
+
+2
+4
+
++1
+
++ (n + 1)
+
+1
+
++2
+
++ 2 * (n + 1)
+
+2
+
++4
+
++ 4 * (n + 1)
+
+4
+
+forbidden user setting, causing USEF generation and none burst to be issued.
+
+1. When S/DBL_1[5:0] = 0, burst is of length 1. Then burst can be also named as single.
+
+The next burst address in the above table is the next source/destination default address
+pointed by GPDMA_CxSAR or GPDMA_CxDAR, once the programmed source/destination
+burst is completed. This default value refers to the fixed/contiguously incremented address.
+
+RM0456 Rev 6

@@ -1,0 +1,52 @@
+16
+
+RM0456 Rev 6
+
+r
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Bit 23 AWD1_SLV: Analog watchdog 1 flag of the slave ADC
+This bit is a copy of the AWD1 bit in the corresponding ADCx+1_ISR register.
+Bit 22 JEOS_SLV: End of injected sequence flag of the slave ADC
+This bit is a copy of the JEOS bit in the corresponding ADCx+1_ISR register.
+Bit 21 JEOC_SLV: End of injected conversion flag of the slave ADC
+This bit is a copy of the JEOC bit in the corresponding ADCx+1_ISR register.
+Bit 20 OVR_SLV: Overrun flag of the slave ADC
+This bit is a copy of the OVR bit in the corresponding ADCx+1_ISR register.
+Bit 19 EOS_SLV: End of regular sequence flag of the slave ADC
+This bit is a copy of the EOS bit in the corresponding ADCx+1_ISR register.
+Bit 18 EOC_SLV: End of regular conversion of the slave ADC
+This bit is a copy of the EOC bit in the corresponding ADCx+1_ISR register.
+Bit 17 EOSMP_SLV: End of sampling phase flag of the slave ADC
+This bit is a copy of the EOSMP2 bit in the corresponding ADCx+1_ISR register.
+Bit 16 ADRDY_SLV: Slave ADC ready
+This bit is a copy of the ADRDY bit in the corresponding ADCx+1_ISR register.
+Bits 15:13 Reserved, must be kept at reset value.
+Bit 12 LDORDY_MST: ADC voltage regulator ready flag of the master ADC
+This bit is a copy of the LDORDY bit of the corresponding ADC_ISR register.
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 AWD3_MST: Analog watchdog 3 flag of the master ADC
+This bit is a copy of the AWD3 bit in the corresponding ADC_ISR register.
+Bit 8 AWD2_MST: Analog watchdog 2 flag of the master ADC
+This bit is a copy of the AWD2 bit in the corresponding ADC_ISR register.
+Bit 7 AWD1_MST: Analog watchdog 1 flag of the master ADC
+This bit is a copy of the AWD1 bit in the corresponding ADC_ISR register.
+Bit 6 JEOS_MST: End of injected sequence flag of the master ADC
+This bit is a copy of the JEOS bit in the corresponding ADC_ISR register.
+Bit 5 JEOC_MST: End of injected conversion flag of the master ADC
+This bit is a copy of the JEOC bit in the corresponding ADC_ISR register.
+Bit 4 OVR_MST: Overrun flag of the master ADC
+This bit is a copy of the OVR bit in the corresponding ADC_ISR register.
+Bit 3 EOS_MST: End of regular sequence flag of the master ADC
+This bit is a copy of the EOS bit in the corresponding ADC_ISR register.
+Bit 2 EOC_MST: End of regular conversion of the master ADC
+This bit is a copy of the EOC bit in the corresponding ADC_ISR register.
+Bit 1 EOSMP_MST: End of Sampling phase flag of the master ADC
+This bit is a copy of the EOSMP bit in the corresponding ADC_ISR register.
+Bit 0 ADRDY_MST: Master ADC ready
+This bit is a copy of the ADRDY bit in the corresponding ADC_ISR register.
+
+RM0456 Rev 6

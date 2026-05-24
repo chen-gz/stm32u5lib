@@ -1,0 +1,54 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+34.4.8
+
+RM0456
+
+Configuring the ADC
+The software can write to the ADCAL and ADEN bits in the ADC_CR and ADC_PWRR
+register if the ADC is disabled (ADEN must be 0).
+The software must only write to the ADSTART and ADDIS bits in the ADC_CR register only
+if the ADC is enabled and there is no pending request to disable the ADC (ADEN = 1 and
+ADDIS = 0).
+For all the other control bits in the ADC_IER, ADC_CFGRi, ADC_SMPR, ADC_CHSELR
+and ADC_CCR registers, refer to the description of the corresponding control bit in
+Section 34.7: ADC registers. If the ADC operates in software trigger mode, set the ADSTP
+bit in ADC_CR register, then wait until ADSTP bit become 0 before reconfiguring the above
+registers.
+ADC_AWDTRi registers can be modified when a conversion is ongoing.
+The software must only write to the ADSTP bit in the ADC_CR register if the ADC is enabled
+(and possibly converting) and there is no pending request to disable the ADC
+(ADSTART = 1 and ADDIS = 0).
+
+Note:
+
+There is no hardware protection preventing software from making write operations forbidden
+by the above rules. If such a forbidden write access occurs, the ADC may enter an
+undefined state. To recover correct operation in this case, the ADC must be disabled (clear
+ADEN = 0 and all the bits in the ADC_CR register).
+
+34.4.9
+
+Channel selection (CHSEL, SCANDIR, CHSELRMOD)
+There are up to 25 multiplexed channels:
+•
+
+up to 19 analog inputs from GPIO pins (ADC_INx)
+
+•
+
+6 internal analog inputs: temperature Sensor, internal reference voltage, VCORE, VBAT
+channel, DAC internal channels
+
+It is possible to convert a single channel or a sequence of channels.
+The sequence of the channels to be converted can be programmed in the ADC_CHSELR
+channel selection register: each analog input channel has a dedicated selection bit
+(CHSELx).
+The ADC scan sequencer can be used in two different modes:
+•
+
+Sequencer not fully configurable:
+The order in which the channels are scanned is defined by the channel number
+(CHSELRMOD bit must be cleared in ADC_CFGR1 register):

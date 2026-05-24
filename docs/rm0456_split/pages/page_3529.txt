@@ -1,0 +1,96 @@
+3634
+
+Device electronic signature
+
+76.3
+
+RM0456
+
+Package data register
+Base address: 0x0BFA 0500
+Address offset: 0x00
+Read only = 0xXXXX where X is factory-programmed
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+4
+
+3
+
+2
+
+r
+
+r
+
+r
+
+Bits 15:5 Reserved, must be kept at reset value.
+Bits 4:0 PKG[4:0]: Package type
+00000: LQFP64
+00001: WLCSP72 SMPS
+00010: LQFP100
+00011: UFBGA132
+00100: LQFP144
+00101: LQFP48
+00111: UFBGA169 or TFBGA169
+01000: LQFP64 SMPS
+01001: WLSCP90 SMPS
+01010: LQFP100 SMPS
+01011: UFBGA132 SMPS
+01100: LQFP144 SMPS
+01101: LQFP48 SMPS
+01111: UFBGA169 SMPS or TFBGA169 SMPS
+10010: UFBGA64
+10011: UFBGA100
+10100: LQFP100 DSI SMPS
+10101: LQFP144 DSI SMPS
+11001: UFBGA144 DSI SMPS
+11011: WLCSP208 DSI SMPS
+11100: TFBGA216 DSI SMPS
+11101: UFBGA100 SMPS
+11110: WLCSP56 SMPS
+11111: WLCSP150 SMPS or WLCSP150 DSI SMPS
+Note: Refer to product datasheet for availability of packages on a specific device.

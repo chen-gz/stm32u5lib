@@ -1,0 +1,64 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+Figure 886. Pin control in loop-back mode
+
+FDCANx_Tx
+
+FDCAN_Rx
+
+FDCANx_Tx
+
+FDCAN_Rx
+
+=1
+
+Tx
+
+Rx
+
+FDCAN
+
+Tx
+
+Rx
+
+FDCAN
+
+External loop-back mode
+
+Internal loop-back mode
+MS41463V2
+
+Timestamp generation
+For timestamp generation, the FDCAN supplies a 16-bit wrap-around counter. A prescaler
+(TCP[3:0] of FDCAN_TSCC) can be configured to clock the counter in multiples of CAN bit
+times (1 to 16). The counter is readable via the TCV[15:0] bitfield of the FDCAN_TSCV
+register. A write access to TSCV15:0] resets the counter to 0. When the timestamp counter
+wraps around, the interrupt flag (TSW bit of FDCAN_ISR) is set.
+On start of frame reception/transmission, the counter value is captured and stored into the
+timestamp section of an Rx FIFO (RXTS[15:0]) or Tx event FIFO (TXTS[15:0]) element.
+By programming TSS[1:0] of FDCAN_TSCC, a 16-bit timestamp can be used.
+
+Debug mode behavior
+In debug mode, the set/reset on read feature is automatically disabled during the debugger
+register access, and enabled during normal MCU operation
+
+Timeout counter
+To signal timeout conditions for Rx FIFO 0, Rx FIFO 1, and the Tx event FIFO the FDCAN
+supplies a 16-bit timeout counter. It operates as a down-counter and uses the same
+prescaler controlled by TCP[3:0] of FDCAN_TSCC as the timestamp counter. The timeout
+counter is configured via the FDCAN_TOCC register. The actual counter value can be read
+from the TOC[15:0] bitfield of FDCAN_TOCV. The timeout counter can only be started while
+the INIT bit of FDCAN_CCCR is cleared. It is stopped when INIT is set, for example, when
+the FDCAN enters bus-off state.
+The operation mode is selected by TOS[1:0] of FDCAN_TOCC. When operating in
+continuous mode, the counter starts when INIT is cleared. A write to FDCAN_TOCV presets
+the counter to the value configured by TOP[15:0] in FDCAN_TOCC and continues downcounting.
+When the timeout counter is controlled by one of the FIFOs, an empty FIFO presets the
+counter to the value configured by TOP[15:0]. Down-counting is started when the first FIFO
+element is stored. Writing to FDCAN_TOCV has no effect.
+
+RM0456 Rev 6

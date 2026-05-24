@@ -1,0 +1,222 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+66.8
+
+USART registers
+Refer to Section 1.2 for a list of abbreviations used in register descriptions.
+The peripheral registers have to be accessed by words (32 bits).
+
+66.8.1
+
+USART control register 1 (USART_CR1)
+Address offset: 0x00
+Reset value: 0x0000 0000
+The same register can be used in FIFO mode enabled (this section) and FIFO mode
+disabled (next section).
+FIFO mode enable, FIFOEN = 1
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+RXF
+FIE
+
+TXFEIE
+
+FIFO
+EN
+
+M1
+
+EOBIE
+
+RTOIE
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+DEAT[4:0]
+
+18
+
+17
+
+16
+
+rw
+
+DEDT[4:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+OVER8
+
+CMIE
+
+MME
+
+M0
+
+WAKE
+
+PCE
+
+PS
+
+PEIE
+
+TXFNFIE
+
+TCIE
+
+TE
+
+RE
+
+UESM
+
+UE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RXFNEIE IDLEIE
+rw
+
+rw
+
+Bit 31 RXFFIE: RXFIFO Full interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated when RXFF = 1 in the USART_ISR register
+Bit 30 TXFEIE: TXFIFO empty interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated when TXFE = 1 in the USART_ISR register
+Bit 29 FIFOEN: FIFO mode enable
+This bit is set and cleared by software.
+0: FIFO mode is disabled.
+1: FIFO mode is enabled.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: FIFO mode can be used on standard UART communication, in SPI master/slave mode
+and in smartcard modes only. It must not be enabled in IrDA and LIN modes.
+Bit 28 M1: Word length
+This bit must be used in conjunction with bit 12 (M0) to determine the word length. It is set or
+cleared by software.
+M[1:0] = 00: 1 start bit, 8 Data bits, n stop bits
+M[1:0] = 01: 1 start bit, 9 Data bits, n stop bits
+M[1:0] = 10: 1 start bit, 7 Data bits, n stop bits
+This bit can only be written when the USART is disabled (UE = 0).
+Note: In 7-bits data length mode, the smartcard mode, LIN master mode and auto baud rate
+(0x7F and 0x55 frames detection) are not supported.
+
+RM0456 Rev 6

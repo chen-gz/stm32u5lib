@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+18.8.10
+
+LPDMA channel x transfer register 1 (LPDMA_CxTR1)
+Address offset: 0x090 + 0x80 * x (x = 0 to 3)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(LPDMA_SECCFGR.SECx) except for secure DSEC and SSEC, privileged or unprivileged,
+depending on the privileged state of the channel x in LPDMA_PRIVCFGR.PRIVx.
+This register controls the transfer of a channel x.
+This register must be written when LPDMA_CxCR.EN = 0.
+This register is read-only when LPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed. Then the hardware has
+deasserted LPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block or LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by LPDMA
+from the memory if LPDMA_CxLLR.UT1 = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+DSEC
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+DINC
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+SSEC
+
+Res.
+
+Res.
+
+Res.
+
+PAM
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SINC
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+17
+
+16
+
+DDW_LOG2[1:0]
+rw
+
+rw
+
+1
+
+0
+
+SDW_LOG2[1:0]
+rw
+
+rw
+
+Bit 31 DSEC: security attribute of the LPDMA transfer to the destination
+If LPDMA_SECCFGR.SECx = 1 and the access is secure:
+0: LPDMA transfer nonsecure
+1: LPDMA transfer secure
+This is a secure register bit. This bit can only be read by a secure software. This bit must be
+written by a secure software when LPDMA_SECCFGR.SECx = 1. A secure write is ignored
+when LPDMA_SECCFGR.SECx = 0.
+When LPDMA_SECCFGR.SECx is de-asserted, this DSEC bit is also de-asserted by
+hardware (on a secure reconfiguration of the channel as nonsecure), and the LPDMA
+transfer to the destination is nonsecure.
+Bits 30:20 Reserved, must be kept at reset value.
+Bit 19 DINC: destination incrementing single
+0: fixed single
+1: contiguously incremented single
+The destination address, pointed by LPDMA_CxDAR, is kept constant after a single transfer,
+or is incremented by the offset value corresponding to a contiguous data after a single
+transfer.
+Bit 18 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

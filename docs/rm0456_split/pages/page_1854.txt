@@ -1,0 +1,297 @@
+1861
+
+DSI Host (DSI)
+
+44.18.8
+
+RM0456
+
+DSI D-PHY data lane 1 HS LPX offset control register
+(DSI_DPDL1LPXOCR)
+Address offset: 0x0CF8
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+LPXO[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 LPXO[3:0]: LPX offset
+This field selects the offset added to fine tune the delay associated to the following states:
+INIT_STATE, STOP_STATE, LP01_STATE and LP11_STATE.
+This field is a 4-bit signed value in complement 2 format.
+The LPX timing is composed of a unsigned fixed 7-bit value dependent of the frequency band
+selected for the D-PHY and the 4-bit signed value of this field.
+The offset is expressed in lane byte clock period.
+As the resulting LPX timing is an unsigned 7-bit value, the user must take care of underflow
+when the value is negative (complement 2 format).
+
+44.18.9
+
+DSI D-PHY data lane 1 band control register (DSI_DPDL1BCR)
+Address offset: 0x0D08
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+BC[4:0]
+rw
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bits 4:0 BC[4:0]: Band control
+This field selects the frequency band used by the D-PHY.
+00000: 80 to 100 MHz
+00001: 100 to 120 MHz
+00010: 120 to 160 MHz
+00011: 160 to 200 MHz
+00100: 200 to 240 MHz
+00101: 240 to 320 MHz
+00110: 320 to 390 MHz
+00111: 390 to 450 MHz
+01000: 450 to 510 MHz
+Others: Reserved

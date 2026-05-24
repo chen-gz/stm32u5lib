@@ -1,0 +1,94 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+1.
+
+Set the SDMMC_CK frequency in accordance with the achievable SDMMC_CMD data
+rate in Open-drain mode, CLKDIV must be set >1, and SETCLKRX must select the
+sdmmc_io_in_ck.
+
+2.
+
+Load CMD40 (GO_IRQ_STATE) in the command registers.
+
+3.
+
+Enable wait for interrupt by setting WAITINT register bit.
+
+4.
+
+Configure the CPSM to send a command immediately.
+–
+
+5.
+
+This causes the CMD40 to be sent and the CPSM to be halted in the Wait state,
+waiting for a interrupt service request response.
+
+To exit the wait for interrupt state (CPSM Wait state):
+–
+
+Upon the detection of an interrupt service request response start bit the CPSM
+moves to the Receive state where the response is received. The complete
+reception of the response is indicated by the CMDREND or the command CRC
+error flags.
+
+–
+
+To abort the interrupt mode the host clears the WAITINT register bit, which causes
+the host to send an interrupt service request response by itself. This moves the
+CPSM to the Receive state. The complete reception of the response is indicated
+by the CMDREND or the command CRC error flags.
+
+Note:
+
+On a simultaneous send interrupt service request response start bit collision the host loses
+the bus access after the transmission bit.
+
+31.6.5
+
+Boot operation
+In boot operation mode the host can read boot data from the card by either one of the two
+boot operation functions:
+•
+
+Normal boot. (keeping CMD line low)
+
+•
+
+Alternative boot (sending CMD0 with argument 0xFFFFFFFA)
+
+The boot data can be read according the following configuration options, depending on card
+register settings:
+•
+
+The partition from which boot data is read (EXT_CSD Byte[179])
+
+•
+
+The boot data size (EXT_CSD Byte[226])
+
+•
+
+The bus configuration during boot (EXT_CSD Byte[177])
+
+•
+
+Receiving boot acknowledgment from the card. (EXT_CSD Byte[179])
+
+If boot acknowledgment is enabled the card send pattern 010 on SDMMC_D0 within 50ms
+after boot mode has been requested by either CMD line going low or after CMD0 with
+argument 0xFFFFFFFA. A boot acknowledgment timeout (ACKTIMEOUT) and
+acknowledgment status (ACKFAIL) is provided.
+
+Normal boot operation
+If the SDMMC_CMD line is held low for at least 74 clock cycles after card power-up or reset,
+before the first command is issued, the card recognizes that boot mode is being initiated.
+Within 1 second after the CMD line goes low, the card starts to sent the first boot code data
+on the SDMMC_Dn line(s). The host must keep the SDMMC_CMD line low until after all
+boot data has been read. The host can terminate boot mode by pulling the SDMMC_CMD
+line high.
+
+RM0456 Rev 6

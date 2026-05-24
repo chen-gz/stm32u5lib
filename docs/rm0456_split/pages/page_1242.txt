@@ -1,0 +1,170 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Bits 31:0 DATATIME[31:0]: Data and R1b busy timeout period
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0).
+Data and R1b busy timeout period expressed in card bus clock periods.
+
+Note:
+
+A data transfer must be written to the data timer register and the data length register before
+being written to the data control register.
+
+31.10.8
+
+SDMMC data length register (SDMMC_DLENR)
+Address offset: 0x028
+Reset value: 0x0000 0000
+This register contains the number of data bytes to be transferred. The value is loaded into
+the data counter when data transfer starts.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DATALENGTH[24:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DATALENGTH[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bits 24:0 DATALENGTH[24:0]: Data length value
+This register can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+Number of data bytes to be transferred.
+When DDR = 1 DATALENGTH is truncated to a multiple of 2. (The last odd byte is not
+transfered)
+When DATALENGTH = 0 no data are transfered, when requested by a CPSMEN and
+CMDTRANS = 1 also no command is transfered. DTEN and CPSMEN are cleared to 0.
+
+Note:
+
+For a block data transfer, the value in the data length register must be a multiple of the block
+size (see SDMMC_DCTRL). A data transfer must be written to the data timer register and
+the data length register before being written to the data control register.
+For an SDMMC multibyte transfer the value in the data length register must be between 1
+and 512.

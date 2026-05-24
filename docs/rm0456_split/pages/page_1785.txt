@@ -1,0 +1,121 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+The light yellow boxes in Figure 445 illustrate the location of some of the errors.
+Figure 445. Error sources
+DPI_PAYLOAD_WR_ERR
+
+LTDC
+Interface
+
+LTDC
+
+Packet Handler
+LTDC
+ctrl FIFO
+Video Mode FSM
+LTDC
+pixel FIFO
+
+Command Mode FSM
+
+GEN_PAYLOAD_SEND_ERR
+
+GEN_PAYLOAD_RECV_ERR
+
+GEN_COMMAND_WR_ERR
+
+GEN Comm
+FIFOs
+GEN
+Interface
+
+APB
+
+GEN Pld
+Send FIFOs
+GEN Pld
+RCV FIFOs
+
+GEN_PAYLOAD_WR_ERR
+
+ECC_SINGLE_ERR
+
+Packet Analyzer
+GEN Pld
+Send FIFOs
+
+GEN_PAYLOAD_RD_ERR
+
+GEN Pld
+RCV FIFOs
+
+ECC_MULTI_ERR
+
+VC
+Router
+
+ECC/CRC
+Analysis
+
+CRC_ERR
+PKT_SIZE_ERR
+EOTP_ERR
+
+ACK_WITH_ERR
+MSv35896V2
+
+Table 447 explains the reasons that set off these interrupts and also explains how to recover
+from these interrupts.
+Table 447. Error causes and recovery
+DSI Host interrupt
+and status register
+
+0
+
+0
+
+Bit
+
+20
+
+19
+
+Name
+
+Error cause
+
+Recommended method
+to handle the error
+
+PE4
+
+The D-PHY reports the LP1
+contention error.
+The D-PHY host detects the
+contention while trying to drive
+the line high.
+
+Recover the D-PHY from contention.
+Reset the DSI Host and transmit the
+packets again. If this error is recurrent,
+carefully analyze the connectivity between
+the Host and the device.
+
+PE3
+
+D-PHY reports the LP0
+contention error.
+The D-PHY Host detects the
+contention while trying to drive
+the line low.
+
+Recover the D-PHY from contention.
+Reset the DSI Host and transmit the
+packets again. If this error is recurrent,
+carefully analyze the connectivity between
+the Host and the device.
+
+RM0456 Rev 6

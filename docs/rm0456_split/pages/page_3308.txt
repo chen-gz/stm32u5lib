@@ -1,0 +1,32 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+else if (DTERR)
+{
+Reset Error Count
+}
+
+The application is expected to write the requests as and when the request queue space is
+available and until the XFRC interrupt is received.
+•
+
+Bulk and control IN transactions
+A typical bulk or control IN pipelined transaction-level operation is shown in Figure 930.
+See channel 2 (ch_2). The assumptions are:
+–
+
+The application is attempting to receive two maximum-packet-size packets
+(transfer size = 1 024 bytes).
+
+–
+
+The receive FIFO can contain at least one maximum-packet-size packet and two
+status words per packet (520 bytes for HS).
+
+–
+
+The non-periodic request queue depth = 4.
+
+RM0456 Rev 6

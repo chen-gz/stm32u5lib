@@ -1,0 +1,226 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+When spiden = 0 (secure privilege debug disabled), only nonsecure accesses are possible
+(secure access requests by the debugger are converted to nonsecure by the CPU). Only
+bits corresponding to nonsecure peripherals (or DMA channels) can be modified. All bits can
+be read. This is summarized in the table below.
+Table 811. Debugger access to freeze register bits
+Peripheral xxx
+status
+
+spiden
+
+Nonsecure
+
+0
+Secure
+
+Nonsecure
+1
+Secure
+
+Access security
+attribute
+
+DBG_xxx_STOP
+can be modified?
+
+DBG_xxx_STOP
+can be read?
+
+Nonsecure
+
+Yes
+
+Yes
+
+(1)
+
+Yes(1)
+
+Secure
+
+Yes
+
+Nonsecure
+
+No
+
+Yes
+
+Secure
+
+No(1)
+
+Yes(1)
+
+Nonsecure
+
+Yes
+
+Yes
+
+Secure
+
+Yes
+
+Yes
+
+Nonsecure
+
+No
+
+Yes
+
+Secure
+
+Yes
+
+Yes
+
+1. When spiden = 0, secure access requests by the debugger are converted to nonsecure.
+
+The status (secure or nonsecure) of a TrustZone–aware peripheral or a DMA channel, is
+signaled to the DBGMCU by the peripheral.
+The CPU access to the DBG_xxx_STOP bits does not depend on spiden. This access
+depends only on the security status of the peripheral. The bits corresponding to a secure
+peripheral (or DMA channel) can only be modified by a secure access (when CPU is in
+secure state).
+
+75.12.4
+
+DBGMCU registers
+The DBGMCU registers are not reset by a system reset, only by a power-on reset. They are
+accessible to the debugger via the AHB access port, and to software, at base address
+0xE004 4000.
+
+DBGMCU identity code register (DBGMCU_IDCODE)
+Address offset: 0x00
+Reset value: 0xXXXX 6XXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+REV_ID[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r

@@ -1,0 +1,185 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Table 770. Power and clock gating control and status registers
+Acronym
+
+Offset address
+
+OTG_PCGCCTL
+
+73.14
+
+0xE00–0xE04
+
+Register name
+Section 73.14.61: OTG power and clock gating control
+register (OTG_PCGCCTL)
+
+OTG_HS registers
+These registers are available in both host and device modes, and do not need to be
+reprogrammed when switching between these modes.
+Bit values in the register descriptions are expressed in binary unless otherwise specified.
+
+73.14.1
+
+OTG control and status register (OTG_GOTGCTL)
+The OTG_GOTGCTL register controls the behavior and reflects the status of the OTG
+function of the core.
+Address offset: 0x000
+Reset value: 0x0001 0000
+
+31
+Res.
+
+15
+Res.
+
+30
+Res.
+
+14
+Res.
+
+29
+Res.
+
+13
+Res.
+
+28
+Res.
+
+12
+EHEN
+
+27
+Res.
+
+11
+Res.
+
+26
+Res.
+
+10
+Res.
+
+25
+Res.
+
+9
+Res.
+
+24
+Res.
+
+23
+Res.
+
+8
+Res.
+
+22
+
+21
+
+20
+
+Res.
+
+CUR
+MOD
+
+OTG
+VER
+
+r
+
+rw
+
+r
+
+5
+
+4
+
+3
+
+7
+
+6
+
+19
+
+18
+
+17
+
+16
+
+DBCT
+
+CID
+STS
+
+r
+
+r
+
+r
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+BSVLD ASVLD
+
+BVALO BVALO AVALO AVALO VBVAL VBVAL
+VAL
+EN
+VAL
+EN
+OVAL
+OEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 CURMOD: Current mode of operation
+Indicates the current mode (host or device).
+0: Device mode
+1: Host mode
+Bit 20 OTGVER: OTG version
+Selects the OTG revision.
+0:OTG Version 1.3. OTG1.3 is obsolete for new product development.
+1:OTG Version 2.0. In this version the core supports only data line pulsing for SRP.
+Bit 19 BSVLD: B-session valid
+Indicates the device mode transceiver status.
+0: B-session is not valid.
+1: B-session is valid.
+In OTG mode, the user can use this bit to determine if the device is connected or
+disconnected.
+Note: Only accessible in device mode.
+
+RM0456 Rev 6

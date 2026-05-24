@@ -1,0 +1,29 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+10. The host, on the VSWEND flag, checks SDMMC_D0 line using the BUSYD0 register
+bit, to confirm completion of voltage switch sequence:
+–
+
+When BUSYD0 is detected high, Voltage Switch has been completed successfully.
+
+–
+
+When BUSYD0 is detected low, Voltage Switch has failed, the host cycles the card
+power.
+
+The minimum 5 ms time to stop the SDMMC_CK is derived from the internal un-gated
+SDMMC_CK clock, which has a maximum frequency of 25 MHz (SD mode), as set by the
+clock divider CLKDIV. The >5 ms time is counted by 212 cycles (10.24 ms @ 400 kHz). If a
+lower SDMMC_CK frequency is selected by the clock divider CLKDIV the time for the
+SDMMC_CK clock to be stopped is longer.
+The maximum 1 ms time for the card to drive the SDMMC_Dn and SDMMC_CMD lines high
+is derived from the internal ungated SDMMC_CK which has a maximum frequency of
+25 MHz (SD mode), as set by the clock divider CLKDIV. The SDMMC checks the lines after
+>1 ms time which is counted by 29 cycles (1.28 ms @ 25 MHz). If a lower SDMMC_CK
+frequency is selected by the clock divider CLKDIV the time to check the lines is longer.
+The signal voltage level is supported through an external voltage translation transceiver like
+STMicroelectronics ST6G3244ME.

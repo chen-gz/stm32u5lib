@@ -1,0 +1,176 @@
+1.
+
+Initialize and enable channel 1. The application must set the ODDFRM bit in
+OTG_HCCHAR1.
+
+2.
+
+Write the first packet for channel 1.
+
+3.
+
+Along with the last word write of each packet, the OTG_HS host writes an entry to the
+periodic request queue.
+
+4.
+
+The OTG_HS host attempts to send an OUT token in the next (odd) frame.
+
+5.
+
+The OTG_HS host generates an XFRC interrupt as soon as the last packet is
+transmitted successfully.
+
+6.
+
+In response to the XFRC interrupt, reinitialize the channel for the next transfer.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Figure 931. Normal interrupt OUT
+Application
+
+1
+
+AHB
+
+Host
+
+USB
+
+init_reg(ch_1)
+
+init_reg(ch_2)
+
+1
+
+write_tx_fifo
+(ch_1)
+
+2
+
+set_ch_en
+(ch_2)
+
+Device
+
+Periodic Request Queue
+Assume that this queue
+can hold 4 entries.
+
+3
+
+1
+MPS
+
+4
+
+ch_1
+
+2
+
+ch_2
+
+3
+OU T
+
+Odd
+(micro)
+
+D ATA0
+M PS
+
+frame
+
+5
+6
+
+AC K
+
+XferCompl interrupt
+
+4
+
+init_reg(ch_1)
+write_tx_fifo
+(ch_1)
+
+IN
+
+5
+
+1
+MPS
+
+D ATA0
+
+RxFLvl interrupt
+ACK
+
+read_rx_sts
+read_rx_fifo
+
+1
+MPS
+
+6
+
+RxFLvl interrupt
+read_rx_sts
+
+7
+
+init_reg(ch_2)
+
+XferCompl interrupt
+
+8
+
+ch_1
+ch_2
+
+9
+
+set_ch_en
+(ch_2)
+Even
+OU T
+
+frame
+
+XferCompl interrupt
+D ATA1
+MPS
+
+init_reg(ch_1)
+
+write_tx_fifo
+(ch_1)
+
+(micro)
+
+1
+MPS
+
+ACK
+IN
+
+D ATA1
+
+MSv36020V1
+
+1. The grayed elements are not relevant in the context of this figure.
+
+•
+
+Interrupt service routine for interrupt OUT/IN transactions
+a)
+
+Interrupt OUT
+
+Unmask (NAK/TXERR/STALL/XFRC/FRMOR)
+
+RM0456 Rev 6

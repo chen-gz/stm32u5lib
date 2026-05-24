@@ -1,0 +1,33 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 Reserved, must be kept at reset value.
+Bit 8 Reserved, must be kept at reset value.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 Reserved, must be kept at reset value.
+Bit 5 STSPHSRX: Status phase received for control write
+This interrupt is valid only for control OUT endpoints. This interrupt is generated only after
+OTG_FS has transferred all the data that the host has sent during the data phase of a
+control write transfer, to the system memory buffer. The interrupt indicates to the application
+that the host has switched from data phase to the status phase of a control write transfer.
+The application can use this interrupt to ACK or STALL the status phase, after it has
+decoded the data phase.
+Bit 4 OTEPDIS: OUT token received when endpoint disabled
+Applies only to control OUT endpoints.
+Indicates that an OUT token was received when the endpoint was not yet enabled. This
+interrupt is asserted on the endpoint for which the OUT token was received.
+Bit 3 STUP: SETUP phase done
+Applies to control OUT endpoint only.Indicates that the SETUP phase for the control
+endpoint is complete and no more back-to-back SETUP packets were received for the
+current control transfer. On this interrupt, the application can decode the received SETUP
+data packet.
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 EPDISD: Endpoint disabled interrupt
+This bit indicates that the endpoint is disabled per the application’s request.
+Bit 0 XFRC: Transfer completed interrupt
+This field indicates that the programmed transfer is complete on the AHB as well as on the
+USB, for this endpoint.

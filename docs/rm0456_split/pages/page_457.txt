@@ -1,0 +1,173 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Power control (PWR)
+
+Bit 4 MONEN: Backup domain voltage and temperature monitoring enable
+0: Backup domain voltage and temperature monitoring disabled
+1: Backup domain voltage and temperature monitoring enabled
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 BREN: Backup RAM retention in Standby and VBAT modes
+When this bit is set, the backup RAM content is kept in Standby(1) and VBAT modes.
+If BREN is reset, the backup RAM can still be used in Run, Sleep, and Stop modes. However,
+its content is lost in Standby, Shutdown, and VBAT modes. This bit can be written only when
+the regulator is LDO, which must be configured before switching to SMPS.
+0: Backup RAM content lost in Standby(1) and VBAT modes
+1: Backup RAM content preserved in Standby and VBAT modes
+Note: Backup RAM cannot be preserved in Shutdown mode.
+1. The backup SRAM content is lost in Standby mode without SRAM2 retention. If either RRSB1 or RRSB2 bit is set
+in Standby mode, the backup SRAM is also retained.
+
+10.10.10 PWR backup domain control register 2 (PWR_BDCR2)
+Address offset: 0x24
+Power-on reset value: 0x0000 0000
+The register is not affected when exiting Standby mode.
+System reset: not affected
+This register is protected against nonsecure access when VBSEC = 1 in PWR_SECCFGR.
+This register is protected against unprivileged access when VBSEC = 1 and SPRIV = 1
+in PWR_PRIVCFGR, or when VBSEC = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+VBRS
+
+VBE
+
+rw
+
+rw
+
+Bits 31:2 Reserved, must be kept at reset value.
+Bit 1 VBRS: VBAT charging resistor selection
+0: Charge VBAT through a 5 kΩ resistor.
+1: Charge VBAT through a 1.5 kΩ resistor.
+Bit 0 VBE: VBAT charging enable
+0: VBAT battery charging disabled
+1: VBAT battery charging enabled
+
+RM0456 Rev 6

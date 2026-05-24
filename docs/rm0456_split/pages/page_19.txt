@@ -1,0 +1,144 @@
+Peripherals interconnect matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 668
+16.1
+
+Interconnect matrix introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 668
+
+16.2
+
+Connection summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 669
+
+16.3
+
+Interconnection details . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 671
+16.3.1
+
+Master to slave interconnection for timers . . . . . . . . . . . . . . . . . . . . . . 671
+
+16.3.2
+
+Triggers to ADCs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 671
+
+16.3.3
+
+ADC analog watchdogs as triggers to timers . . . . . . . . . . . . . . . . . . . . 673
+
+16.3.4
+
+Triggers to DAC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 673
+
+16.3.5
+
+Triggers on MDF1 or ADF1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 674
+
+16.3.6
+
+Timer break from MDF1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 674
+
+16.3.7
+
+Clock sources to timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 675
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+16.3.8
+
+Triggers to low-power timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 676
+
+16.3.9
+
+Blanking sources to comparators . . . . . . . . . . . . . . . . . . . . . . . . . . . . 677
+
+16.3.10 RTC wake-up as inputs to timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 677
+16.3.11 OTG_FS/OTG_HS SOF as trigger to timers . . . . . . . . . . . . . . . . . . . . 678
+16.3.12 Comparators as inputs, trigger or break signals to timers . . . . . . . . . . 678
+16.3.13 System errors as break signals to timers . . . . . . . . . . . . . . . . . . . . . . . 679
+16.3.14 Timers generating IRTIM signal . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 679
+16.3.15 Triggers for communication peripherals . . . . . . . . . . . . . . . . . . . . . . . . 680
+16.3.16 Triggers to GPDMA/LPDMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 680
+16.3.17 Internal analog signals to analog peripherals . . . . . . . . . . . . . . . . . . . 681
+16.3.18 ADC data filtering by the MDF1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 682
+16.3.19 Clock source for the DAC sample and hold mode . . . . . . . . . . . . . . . . 682
+16.3.20 Triggers from graphic interfaces to timers . . . . . . . . . . . . . . . . . . . . . . 683
+16.3.21 Internal tamper sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 683
+16.3.22 Output from tamper to RTC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 683
+16.3.23 Encryption keys to AES/SAES . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 684
+
+17
+
+General purpose direct memory access controller (GPDMA) . . . . . . 685
+17.1
+
+GPDMA introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 685
+
+17.2
+
+GPDMA main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 685
+
+17.3
+
+GPDMA implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 686
+
+17.4
+
+17.3.1
+
+GPDMA channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 686
+
+17.3.2
+
+GPDMA autonomous mode in low-power modes . . . . . . . . . . . . . . . . 687
+
+17.3.3
+
+GPDMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 687
+
+17.3.4
+
+GPDMA block requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 691
+
+17.3.5
+
+GPDMA triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 691
+
+GPDMA functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 694
+17.4.1
+
+GPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 694
+
+17.4.2
+
+GPDMA channel state and direct programming without any linked-list 694
+
+17.4.3
+
+GPDMA channel suspend and resume . . . . . . . . . . . . . . . . . . . . . . . . 695
+
+17.4.4
+
+GPDMA channel abort and restart . . . . . . . . . . . . . . . . . . . . . . . . . . . . 696
+
+17.4.5
+
+GPDMA linked-list data structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 697
+
+17.4.6
+
+Linked-list item transfer execution . . . . . . . . . . . . . . . . . . . . . . . . . . . . 700
+
+17.4.7
+
+GPDMA channel state and linked-list programming
+in run-to-completion mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 701
+
+17.4.8
+
+GPDMA channel state and linked-list programming in link step mode 704
+
+17.4.9
+
+GPDMA channel state and linked-list programming . . . . . . . . . . . . . . 711
+
+RM0456 Rev 6

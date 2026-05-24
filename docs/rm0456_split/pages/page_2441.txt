@@ -1,0 +1,52 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:28 FES4[2:0]: Frame-event selection 4
+This bitfield defines the frame-event selection for complex event 4 generation.
+000: No frame event
+001: Absolute frame counter overflow
+010: Absolute frame counter compare
+100: Relative frame counter 1 reload
+101: Relative frame counter 2 reload
+Others: Reserved
+Bit 27 Reserved, must be kept at reset value.
+Bits 26:24 LES4[2:0]: Line-event selection 4
+This bitfield defines the line-event selection for complex event 4 generation.
+000: No line event
+001: Absolute line counter overflow
+010: Tearing effect
+100: Absolute line counter 1 compare
+101: Absolute line counter 2 compare
+Others: Reserved
+Bit 23 Reserved, must be kept at reset value.
+Bits 22:20 FES3[2:0]: Frame-event selection 3
+This bitfield defines the frame-event selection for complex event 3 generation.
+000: No frame event
+001: Absolute frame counter overflow
+010: Absolute frame counter compare
+100: Relative frame counter 1 reload
+101: Relative frame counter 2 reload
+Others: Reserved
+Bit 19 Reserved, must be kept at reset value.
+Bits 18:16 LES3[2:0]: Line-event selection 3
+This bitfield defines the line-event selection for complex event 3 generation.
+000: No line event
+001: Absolute line counter overflow
+010: Tearing effect
+100: Absolute line counter 1 compare
+101: Absolute line counter 2 compare
+Others: Reserved
+Bit 15 Reserved, must be kept at reset value.
+Bits 14:12 FES2[2:0]: Frame-event selection 2
+This bitfield defines the frame-event selection for complex event 2 generation.
+000: No frame event
+001: Absolute frame counter overflow
+010: Absolute frame counter compare
+100: Relative frame counter 1 reload
+101: Relative frame counter 2 reload
+Others: Reserved
+Bit 11 Reserved, must be kept at reset value.

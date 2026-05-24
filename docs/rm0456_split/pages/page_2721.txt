@@ -1,0 +1,160 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bits 15:0 BRR[15:0]: USART baud rate
+BRR[15:4]
+BRR[15:4] correspond to USARTDIV[15:4]
+BRR[3:0]
+When OVER8 = 0, BRR[3:0] = USARTDIV[3:0].
+When OVER8 = 1:
+BRR[2:0] = USARTDIV[3:0] shifted 1 bit to the right.
+BRR[3] must be kept cleared.
+
+66.8.7
+
+USART guard time and prescaler register (USART_GTPR)
+Address offset: 0x10
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+GT[7:0]
+rw
+
+PSC[7:0]
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:8 GT[7:0]: Guard time value
+This bitfield is used to program the Guard time value in terms of number of baud clock
+periods.
+This is used in smartcard mode. The transmission complete flag is set after this guard time
+value.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: If smartcard mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.

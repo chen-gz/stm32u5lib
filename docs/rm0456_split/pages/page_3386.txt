@@ -1,0 +1,43 @@
+RM0456 Rev 6
+
+RM0456
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+Bit 5 HRSTSENT: Hard Reset message sent
+The flag indicates that the Hard Reset message is sent. The flag is cleared by setting the
+HRSTSENTCF bit.
+0: No Hard Reset message sent
+1: Hard Reset message sent
+Bit 4 HRSTDISC: Hard Reset discarded
+The flag indicates that the Hard Reset message is discarded. The flag is cleared by setting
+the HRSTDISCCF bit.
+0: No Hard Reset discarded
+1: Hard Reset discarded
+Bit 3 TXMSGABT: Transmit message abort
+The flag indicates that a Tx message is aborted due to a subsequent Hard Reset message
+send request taking priority during transmit. It is cleared by setting the TXMSGABTCF bit.
+0: No transmit message abort
+1: Transmit message abort
+Bit 2 TXMSGSENT: Message transmission completed
+The flag indicates the completion of packet transmission. It is cleared by setting the
+TXMSGSENTCF bit.
+0: No Tx message completed
+1: Tx message completed
+In the event of a message transmission interrupted by a Hard Reset, the flag is not raised.
+Bit 1 TXMSGDISC: Message transmission discarded
+The flag indicates that a message transmission was dropped. The flag is cleared by setting
+the TXMSGDISCCF bit.
+0: No Tx message discarded
+1: Tx message discarded
+Transmission of a message can be dropped if there is a concurrent receive in progress or at
+excessive noise on the line. After a Tx message is discarded, the flag is only raised when the
+CC line becomes idle.
+Bit 0 TXIS: Transmit interrupt status
+The flag indicates that the UCPD_TXDR register is empty and new data write is required (as
+the amount of data sent has not reached the payload size defined in the TXPAYSZ bitfield).
+The flag is cleared with the data write into the UCPD_TXDR register.
+0: New Tx data write not required
+1: New Tx data write required
+
+RM0456 Rev 6

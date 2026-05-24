@@ -1,0 +1,64 @@
+16
+
+TAMP3 TAMP2 TAMP1
+MSK
+MSK
+MSK
+
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 26 TAMP3TRG: Active level for tamper 3 input
+0: If TAMPFLT ≠ 00 tamper 3 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 3 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 3 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 3 input falling edge triggers a tamper detection event.
+Bit 25 TAMP2TRG: Active level for tamper 2 input
+0: If TAMPFLT ≠ 00 tamper 2 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 2 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 2 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 2 input falling edge triggers a tamper detection event.
+Bit 24 TAMP1TRG: Active level for tamper 1 input
+0: If TAMPFLT ≠ 00 tamper 1 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 1 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 1 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 1 input falling edge triggers a tamper detection event.
+Bit 23 BKERASE: Backup registers and device secrets(1) erase
+Writing ‘1’ to this bit reset the backup registers and device secrets(1). Writing 0 has no effect.
+This bit is always read as 0.
+Bit 22 BKBLOCK: Backup registers and device secrets(1) access blocked
+0: backup registers and device secrets(1) can be accessed if no tamper flag is set
+1: backup registers and device secrets(1) cannot be accessed
+Bits 21:19 Reserved, must be kept at reset value.
+Bit 18 TAMP3MSK: Tamper 3 mask
+0: Tamper 3 event generates a trigger event and TAMP3F must be cleared by software to
+allow next tamper event detection.
+1: Tamper 3 event generates a trigger event. TAMP3F is masked and internally cleared by
+hardware. The backup registers and device secrets(1) are not erased.
+The tamper 3 interrupt must not be enabled when TAMP3MSK is set.
+Bit 17 TAMP2MSK: Tamper 2 mask
+0: Tamper 2 event generates a trigger event and TAMP2F must be cleared by software to
+allow next tamper event detection.
+1: Tamper 2 event generates a trigger event. TAMP2F is masked and internally cleared by
+hardware. The backup registers and device secrets(1) are not erased.
+The tamper 2 interrupt must not be enabled when TAMP2MSK is set.
+Bit 16 TAMP1MSK: Tamper 1 mask
+0: Tamper 1 event generates a trigger event and TAMP1F must be cleared by software to
+allow next tamper event detection.
+1: Tamper 1 event generates a trigger event. TAMP1F is masked and internally cleared by
+hardware. The backup registers and device secrets(1) are not erased.
+The tamper 1 interrupt must not be enabled when TAMP1MSK is set.
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 TAMP8NOER: Tamper 8 no erase
+0: Tamper 8 event detection is in confirmed mode(1).
+1: Tamper 8 event detection is in potential mode(2).
+Bit 6 TAMP7NOER: Tamper 7 no erase
+0: Tamper 7 event detection is in confirmed mode(1).
+1: Tamper 7 event detection is in potential mode(2).
+
+RM0456 Rev 6

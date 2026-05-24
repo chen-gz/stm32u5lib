@@ -1,0 +1,131 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+Table 674. USART/LPUART features (continued)
+Modes/features(1)
+
+Full feature
+
+Basic feature
+
+Low-power feature
+
+Synchronous mode (master/slave)
+
+X
+
+-
+
+-
+
+Smartcard mode
+
+X
+
+-
+
+-
+
+Single-wire half-duplex communication
+
+X
+
+X
+
+X
+
+IrDA SIR ENDEC block
+
+X
+
+X
+
+-
+
+LIN mode
+
+X
+
+X
+
+-
+
+Dual-clock domain
+
+X
+
+X
+
+X
+
+Receiver timeout interrupt
+
+X
+
+X
+
+-
+
+Modbus communication
+
+X
+
+X
+
+-
+
+Auto baud rate detection
+
+X
+
+X
+
+-
+
+Driver enable
+
+X
+
+X
+
+X
+
+USART data length
+
+7, 8 and 9 bits
+
+Tx/Rx FIFO
+
+X
+
+Tx/Rx FIFO size
+
+X
+
+X
+
+8 bytes
+
+Wake-up from low-power mode
+
+X(2)
+
+X(2)
+
+X(3)
+
+Autonomous mode
+
+X
+
+X
+
+X
+
+1. “X” = supported, “-” = not supported.
+2. Wake-up supported from Stop 0 and Stop 1 modes.
+3. Wake-up supported from Stop 0, Stop 1, and Stop 2 modes.
+
+RM0456 Rev 6

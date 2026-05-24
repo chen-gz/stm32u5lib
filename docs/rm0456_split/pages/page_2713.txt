@@ -1,0 +1,216 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 5 LBDL: LIN break detection length
+This bit is for selection between 11 bit or 10 bit break detection.
+0: 10-bit break detection
+1: 11-bit break detection
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If LIN mode is not supported, this bit is reserved and must be kept at reset value. Refer to
+Section 66.4: USART implementation.
+Bit 4 ADDM7: 7-bit address detection/4-bit address detection
+This bit is for selection between 4-bit address detection or 7-bit address detection.
+0: 4-bit address detection
+1: 7-bit address detection (in 8-bit data mode)
+This bit can only be written when the USART is disabled (UE = 0)
+Note: In 7-bit and 9-bit data modes, the address detection is done on 6-bit and 8-bit address
+(ADD[5:0] and ADD[7:0]) respectively.
+Bit 3 DIS_NSS:
+When the DIS_NSS bit is set, the NSS pin input is ignored.
+0: SPI slave selection depends on NSS input pin.
+1: SPI slave is always selected and NSS input pin is ignored.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: When SPI slave mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bits 2:1 Reserved, must be kept at reset value.
+Bit 0 SLVEN: Synchronous slave mode enable
+When the SLVEN bit is set, the synchronous slave mode is enabled.
+0: Slave mode disabled.
+1: Slave mode enabled.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: When SPI slave mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+
+Note:
+
+The CPOL, CPHA, and LBCL bits must not be written while the transmitter is enabled.
+
+66.8.4
+
+USART control register 3 (USART_CR3)
+Address offset: 0x08
+Reset value: 0x0000 0000
+FIFO mode enabled, FIFOEN = 1
+
+31
+
+30
+
+29
+
+28
+
+27
+
+RXF
+TIE
+
+TXFTCFG[2:0]
+
+26
+
+25
+
+RXFTCFG[2:0]
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+TCBG
+TIE
+
+TXFTIE
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+IRLP
+
+IREN
+
+EIE
+
+rw
+
+rw
+
+rw
+
+SCARCNT[2:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+ONE
+BIT
+
+CTSIE
+
+CTSE
+
+RTSE
+
+DMAT
+
+DMAR
+
+SCEN
+
+NACK
+
+HD
+SEL
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DEP
+
+DEM
+
+DDRE
+
+OVR
+DIS
+
+rw
+
+rw
+
+rw
+
+rw

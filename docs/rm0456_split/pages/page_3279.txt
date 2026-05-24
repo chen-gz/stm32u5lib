@@ -1,0 +1,175 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+73.14.53 OTG device IN endpoint x transfer size register (OTG_DIEPTSIZx)
+The application must modify this register before enabling the endpoint. Once the endpoint is
+enabled using the endpoint enable bit in the OTG_DIEPCTLx registers (EPENA bit in
+OTG_DIEPCTLx), the core modifies this register. The application can only read this register
+once the core has cleared the endpoint enable bit.
+Address offset: 0x910 + 0x20 * x, (x = 1 to 8)
+Reset value: 0x0000 0000
+31
+
+30
+
+Res.
+
+MCNT[1:0]
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+PKTCNT[9:0]
+
+17
+
+16
+
+XFRSIZ[18:16]
+
+XFRSIZ[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:29 MCNT[1:0]: Multi count
+For periodic IN endpoints, this field indicates the number of packets that must be transmitted
+per frame on the USB. The core uses this field to calculate the data PID for isochronous IN
+endpoints.
+01: 1 packet
+10: 2 packets
+11: 3 packets
+Bits 28:19 PKTCNT[9:0]: Packet count
+Indicates the total number of USB packets that constitute the transfer size amount of data for
+this endpoint.
+This field is decremented every time a packet (maximum size or short packet) is read from
+the Tx FIFO.
+Bits 18:0 XFRSIZ[18:0]: Transfer size
+This field contains the transfer size in bytes for the current endpoint. The core only interrupts
+the application after it has exhausted the transfer size amount of data. The transfer size can
+be set to the maximum packet size of the endpoint, to be interrupted at the end of each
+packet.
+The core decrements this field every time a packet from the external memory is written to the
+Tx FIFO.
+
+73.14.54 OTG device control OUT endpoint 0 control register
+(OTG_DOEPCTL0)
+This section describes the OTG_DOEPCTL0 register. Nonzero control endpoints use
+registers for endpoints 1–8.
+Address offset: 0xB00
+Reset value: 0x0000 8000

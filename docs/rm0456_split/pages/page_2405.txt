@@ -1,0 +1,38 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Bits 31:9 Reserved, must be kept at reset value.
+Bit 8 REPOKIE: Repetition register update OK interrupt Enable
+0: Repetition register update OK interrupt disabled
+1: Repetition register update OK interrupt enabled
+Bit 7 UEIE: Update event interrupt enable
+0: Update event interrupt disabled
+1: Update event interrupt enabled
+Bit 6 DOWNIE: Direction change to down Interrupt Enable
+0: DOWN interrupt disabled
+1: DOWN interrupt enabled
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 5 UPIE: Direction change to UP Interrupt Enable
+0: UP interrupt disabled
+1: UP interrupt enabled
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 4 ARROKIE: Autoreload register update OK Interrupt Enable
+0: ARROK interrupt disabled
+1: ARROK interrupt enabled
+Bit 3 CMP1OKIE: Compare register 1 update OK interrupt enable
+0: CMPOK register 1 interrupt disabled
+1: CMPOK register 1 interrupt enabled
+Bit 2 EXTTRIGIE: External trigger valid edge Interrupt Enable
+0: EXTTRIG interrupt disabled
+1: EXTTRIG interrupt enabled
+Bit 1 ARRMIE: Autoreload match Interrupt Enable
+0: ARRM interrupt disabled
+1: ARRM interrupt enabled
+Bit 0 CC1IE: Capture/compare 1 interrupt enable
+0: Capture/compare 1 interrupt disabled
+1: Capture/compare 1 interrupt enabled
+
+Caution:

@@ -1,0 +1,147 @@
+System architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 129
+
+Key security features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 151
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+3.2
+
+Secure install . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 152
+
+3.3
+
+Secure boot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 152
+3.3.1
+
+Unique boot entry and BOOT_LOCK . . . . . . . . . . . . . . . . . . . . . . . . . 153
+
+3.3.2
+
+Immutable root of trust in system flash memory . . . . . . . . . . . . . . . . . 153
+
+3.4
+
+Secure update . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 153
+
+3.5
+
+Resource isolation using TrustZone . . . . . . . . . . . . . . . . . . . . . . . . . . . . 154
+
+3.6
+
+3.7
+
+3.8
+
+3.9
+
+3.10
+
+3.11
+
+3.5.1
+
+TrustZone security architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 154
+
+3.5.2
+
+Armv8-M security extension of Cortex-M33 . . . . . . . . . . . . . . . . . . . . . 155
+
+3.5.3
+
+Memory and peripheral allocation using IDAU/SAU . . . . . . . . . . . . . . 155
+
+3.5.4
+
+Memory and peripheral allocation using GTZC . . . . . . . . . . . . . . . . . . 157
+
+3.5.5
+
+Managing security in TrustZone-aware peripherals . . . . . . . . . . . . . . . 161
+
+3.5.6
+
+Activating TrustZone security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 168
+
+3.5.7
+
+Deactivating TrustZone security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169
+
+Other resource isolations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169
+3.6.1
+
+Temporal isolation using secure hide protection (HDP) . . . . . . . . . . . . 169
+
+3.6.2
+
+RSSLIB functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170
+
+3.6.3
+
+Resource isolation using Cortex privileged mode . . . . . . . . . . . . . . . . 171
+
+Secure execution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175
+3.7.1
+
+Memory protection unit (MPU) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175
+
+3.7.2
+
+Embedded flash memory write protection . . . . . . . . . . . . . . . . . . . . . . 176
+
+3.7.3
+
+Tamper detection and response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 176
+
+Secure storage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178
+3.8.1
+
+Hardware secret key management . . . . . . . . . . . . . . . . . . . . . . . . . . . 179
+
+3.8.2
+
+Unique ID . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180
+
+Cryptographic engines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180
+3.9.1
+
+Cryptographic engines features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180
+
+3.9.2
+
+Secure AES co-processor (SAES) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 181
+
+3.9.3
+
+On-the-fly decryption engine (OTFDEC) . . . . . . . . . . . . . . . . . . . . . . . 182
+
+Product life-cycle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 182
+3.10.1
+
+Life-cycle management with readout protection (RDP) . . . . . . . . . . . . 184
+
+3.10.2
+
+Recommended option-byte settings . . . . . . . . . . . . . . . . . . . . . . . . . . 187
+
+Access controlled debug . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 187
+3.11.1
+
+3.12
+
+Debug protection with readout protection (RDP) . . . . . . . . . . . . . . . . . 187
+
+Software intellectual property protection and collaborative development 188
+3.12.1
+
+Software intellectual property protection with RDP . . . . . . . . . . . . . . . 189
+
+3.12.2
+
+Software intellectual property protection with OTFDEC . . . . . . . . . . . 189
+
+RM0456 Rev 6

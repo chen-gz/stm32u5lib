@@ -1,0 +1,76 @@
+RM0456 Rev 6
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+Once each pixel has been converted into 32 bits by its respective PFC, all pixels are
+blended together, and the resulting 32-bit pixel value is encoded by the output PFC
+according to the specified output format. Data are written into the destination memory
+location pointed by DMA2D_OMAR.
+
+Memory-to-memory with PFC, blending and fixed color BG
+In this mode, only one source is fetched in the foreground FIFO from the memory location
+defined by DMA2D_FGMAR.
+The value of the background color is given by DMA2D_BGCOLR and the alpha value is set
+to 0xFF (opaque).
+The alpha value can be replaced or modified according to AM[1:0] and ALPHA[7:0]
+in DMA2D_BGPFCR.
+The two pixel format converters have to be configured as described in
+the memory-to-memory mode. Their configurations can be different as each pixel format
+converter is independent and has its own CLUT memory
+Once each pixel has been converted into 32 bits by its respective PFC, all pixels are
+blended together, and the resulting 32-bit pixel value is encoded by the output PFC
+according to the specified output format, and the data are written into the destination
+memory location pointed by DMA2D_OMAR.
+
+Configuration error detection
+The DMA2D checks that the configuration is correct before any transfer. The configuration
+error interrupt flag is set by hardware when a wrong configuration is detected when a new
+transfer/automatic loading starts. An interrupt is then generated if CEIE = 1 in DMA2D_CR.
+The wrong configurations that can be detected are listed below:
+•
+
+Foreground CLUT automatic loading: MA bits in DMA2D_FGCMAR are not aligned
+with CCM in DMA2D_FGPFCCR.
+
+•
+
+Background CLUT automatic loading: MA bits in DMA2D_BGCMAR are not aligned
+with CCM in DMA2D_BGPFCCR.
+
+•
+
+Memory transfer (except in register-to-memory mode and except in
+memory-to-memory mode with blending and fixed color FG): MA bits in
+DMA2D_FGMAR are not aligned with CM in DMA2D_FGPFCCR.
+
+•
+
+Memory transfer (except in register-to-memory mode and except in
+memory-to-memory mode with blending and fixed color FG): CM bits in
+DMA2D_FGPFCCR are invalid
+
+•
+
+Memory transfer (except in register-to-memory mode and except in
+memory-to-memory mode with blending and fixed color FG): PL bits in DMA2D_NLR
+are odd while CM in DMA2D_FGPFCCR is A4 or L4.
+
+•
+
+Memory transfer (except in register-to-memory mode and except in
+memory-to-memory mode with blending and fixed color FG): LO bits in DMA2D_FGOR
+are odd while CM in DMA2D_FGPFCCR is A4 or L4, and LOM bit in DMA2D_CR is
+pixel mode.
+
+•
+
+Memory transfer (only in blending mode and except in memory-to-memory mode with
+blending and fixed color FG): MA bits in DMA2D_BGMAR are not aligned with CM in
+DMA2D_BGPFCCR.
+
+•
+
+Memory transfer: (only in blending mode and in blending with fixed color FG mode):
+CM bits in DMA2D_BGPFCCR are invalid
+RM0456 Rev 6

@@ -1,0 +1,66 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+peripheral (see Section 17: General purpose direct memory access controller (GPDMA)) to
+the I2C_TXDR register whenever the TXIS bit is set.
+Only the data are transferred with DMA.
+In controller mode, the initialization, the target address, direction, number of bytes and
+START bit are programmed by software (the transmitted target address cannot be
+transferred with DMA). When all data are transferred using DMA, DMA must be initialized
+before setting the START bit. The end of transfer is managed with the NBYTES counter.
+Refer to Controller transmitter.
+In target mode:
+•
+
+With NOSTRETCH = 0, when all data are transferred using DMA, DMA must be
+initialized before the address match event, or in ADDR interrupt subroutine, before
+clearing ADDR.
+
+•
+
+With NOSTRETCH = 1, the DMA must be initialized before the address match event.
+
+The PEC transfer is managed with the counter associated to the NBYTES[7:0] bitfield. Refer
+to SMBus target transmitter and SMBus controller transmitter.
+Note:
+
+If DMA is used for transmission, it is not required to set the TXIE bit.
+
+65.7.2
+
+Reception using DMA
+DMA (direct memory access) can be enabled for reception by setting the RXDMAEN bit of
+the I2C_CR1 register. Data is loaded from the I2C_RXDR register to an SRAM area
+configured through the DMA peripheral (refer to Section 17: General purpose direct memory
+access controller (GPDMA)) whenever the RXNE bit is set. Only the data (including PEC)
+are transferred with DMA.
+In controller mode, the initialization, the target address, direction, number of bytes and
+START bit are programmed by software. When all data are transferred using DMA, DMA
+must be initialized before setting the START bit. The end of transfer is managed with the
+NBYTES counter.
+In target mode with NOSTRETCH = 0, when all data are transferred using DMA, DMA must
+be initialized before the address match event, or in the ADDR interrupt subroutine, before
+clearing the ADDR flag.
+The PEC transfer is managed with the counter associated to the NBYTES[7:0] bitfield. Refer
+to SMBus target receiver and SMBus controller receiver.
+
+Note:
+
+If DMA is used for reception, it is not required to set the RXIE bit.
+
+65.7.3
+
+Controller event control using DMA
+In controller mode, the transfer can be automatically managed while the device is in Run,
+Sleep or Stop mode, thanks to TC and TCR DMA requests.
+If the TCDMAEN bit of the I2C_AUTOCR register is set, the I2C_EVC (I2C control event)
+DMA request is generated when the TC bit of the I2C_ISR register is set. The DMA
+controller must be programmed to write the next command in the I2C_CR2 register. If both
+STOP and START bits are set in the new I2C_CR2 command, a STOP condition followed by
+a START condition is sent, followed by the address, direction and number of bytes defined
+in I2C_CR2. If only START bit is set in the new I2C_CR2 command, a RESTART condition
+is sent, followed by the address, direction and number of bytes defined in I2C_CR2.
+
+RM0456 Rev 6

@@ -1,0 +1,264 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+5.7.9
+
+GTZC1 TZIC flag clear register 1 (GTZC1_TZIC_FCR1)
+Address offset: 0x020
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+23
+
+22
+
+21
+
+CUSAR
+CI2C6F CI2C5F
+T6F
+w
+
+w
+
+w
+
+7
+
+6
+
+5
+
+CUART CUART CUSAR CUSAR
+CIWDG CWWD CTIM7
+CCRSF CI2C2F CI2C1F
+CSPI2F
+5F
+4F
+T3F
+T2F
+F
+GF
+F
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+20
+Res.
+
+19
+
+18
+
+17
+
+16
+
+CUCP CFDCA CLPTI
+CI2C4F
+D1F
+N1F
+M2F
+w
+
+w
+
+w
+
+4
+
+3
+
+2
+
+1
+
+w
+0
+
+CTIM6
+F
+
+CTIM5
+F
+
+CTIM4
+F
+
+CTIM3
+F
+
+CTIM2
+F
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 CI2C6F: clear the illegal access flag for I2C6
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 CI2C5F: clear the illegal access flag for I2C5
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 21 CUSART6F: clear the illegal access flag for USART6
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 20 Reserved, must be kept at reset value.
+Bit 19 CUCPD1F: clear the illegal access flag for UCPD1
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 18 CFDCAN1F: clear the illegal access flag for FDCAN1
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 17 CLPTIM2F: clear the illegal access flag for LPTIM2
+0: no action
+1: status flag cleared
+Bit 16 CI2C4F: clear the illegal access flag for I2C4
+0: no action
+1: status flag cleared
+Bit 15 CCRSF: clear the illegal access flag for CRS
+0: no action
+1: status flag cleared
+Bit 14 CI2C2F: clear the illegal access flag for I2C2
+0: no action
+1: status flag cleared
+Bit 13 CI2C1F: clear the illegal access flag for I2C1
+0: no action
+1: status flag cleared
+Bit 12 CUART5F: clear the illegal access flag for UART5
+0: no action
+1: status flag cleared
+Bit 11 CUART4F: clear the illegal access flag for UART4
+0: no action
+1: status flag cleared
+Bit 10 CUSART3F: clear the illegal access flag for USART3
+0: no action
+1: status flag cleared
+Bit 9 CUSART2F: clear the illegal access flag for USART2
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 8 CSPI2F: clear the illegal access flag for SPI2
+0: no action
+1: status flag cleared
+Bit 7 CIWDGF: clear the illegal access flag for IWDG
+0: no action
+1: status flag cleared
+Bit 6 CWWDGF: clear the illegal access flag for WWDG
+0: no action
+1: status flag cleared
+Bit 5 CTIM7F: clear the illegal access flag for TIM7
+0: no action
+1: status flag cleared
+Bit 4 CTIM6F: clear the illegal access flag for TIM6
+0: no action
+1: status flag cleared
+
+<!-- pagebreak -->
+

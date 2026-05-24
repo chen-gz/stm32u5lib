@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+Bit 6 DTOGTX: Data toggle, for transmission transfers
+If the endpoint/channel is non-isochronous, this bit contains the required value of the data
+toggle bit (0 = DATA0, 1 = DATA1) for the next data packet to be transmitted. Hardware
+toggles this bit when the ACK handshake is received from the USB host, following a data
+packet transmission. If the endpoint/channel is defined as a control one, hardware sets this
+bit to 1 at the reception of a SETUP PID addressed to this endpoint (in device mode) or
+when a SETUP transaction is acknowledged by the device (in host mode).
+If the endpoint/channel is using the double buffer feature, this bit is used to support packet
+buffer swapping too (Refer to Section 71.5.3: Double-buffered endpoints and usage in
+Device mode).
+If the endpoint/channel is isochronous, this bit is used to support packet buffer swapping
+since no data toggling is used for this sort of endpoints and only DATA0 packet are
+transmitted (refer to Section 71.5.5: Isochronous transfers in Device mode). Hardware
+toggles this bit just after the end of data packet transmission, since no handshake is used for
+isochronous transfers.
+This bit can also be toggled by the software to initialize its value (mandatory when the
+endpoint/channel is not a control one) or to force a specific data toggle/packet buffer usage.
+When the application software writes 0, the value of DTOGTX remains unchanged, while
+writing 1 makes the bit value to toggle. This bit is read/write but it can only be toggled by
+writing 1.
+Bits 5:4 STATTX[1:0]: Status bits, for transmission transfers
+– Device mode
+These bits contain the information about the endpoint status, listed in Table 744. These bits
+can be toggled by the software to initialize their value. When the application software writes
+0, the value remains unchanged, while writing 1 makes the bit value to toggle. Hardware
+sets the STATTX bits to NAK, when a correct transfer has occurred (VTTX = 1)
+corresponding to a IN or SETUP (control only) transaction addressed to this
+channel/endpoint. It then waits for the software to prepare the next set of data to be
+transmitted.
+Double-buffered bulk endpoints implement a special transaction flow control, which controls
+the status based on buffer availability condition (Refer to Section 71.5.3: Double-buffered
+endpoints and usage in Device mode).
+If the endpoint is defined as isochronous, its status can only be “VALID” or “DISABLED”.
+Therefore, the hardware cannot change the status of the channel/endpoint/channel after a
+successful transaction. If the software sets the STATTX bits to ‘STALL’ or ‘NAK’ for an
+isochronous channel/endpoint, the USB peripheral behavior is not defined. These bits are
+read/write but they can be only toggled by writing 1.
+– Host mode
+The STATTX bits contain the information about the channel status. Refer to Table 744 for the
+full descriptions (“Host mode” descriptions). Whereas in Device mode, these bits contain the
+status that are given out on the following transaction, in Host mode they capture the status
+last received from the device. If a NAK is received, STATTX contains the value indicating
+NAK.
+Bits 3:0 EA[3:0]: endpoint/channel address
+– Device mode
+Software must write in this field the 4-bit address used to identify the transactions directed to
+this endpoint. A value must be written before enabling the corresponding endpoint.
+– Host mode
+Software must write in this field the 4-bit address used to identify the channel addressed by
+the host transaction.
+
+RM0456 Rev 6

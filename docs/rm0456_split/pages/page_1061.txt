@@ -1,0 +1,109 @@
+RM0456 Rev 6
+
+RM0456
+
+Octo-SPI interface (OCTOSPI)
+
+Read/write operation with additional latency
+If the device needs an additional latency (during refresh period of an SDRAM for example),
+DQS must be tied to one during one of the DQS signals, during the command/address
+phase.
+An additional tACC duration is added by the OCTOSPI to meet the device request.
+Figure 153. HyperBus read operation with additional latency
+NCS
+tRWR=Read write recovery
+
+Additional latency
+
+tACC = Access
+
+Latency count 1
+
+Latency count 2
+
+CLK
+
+DQS
+
+High = 2x Latency count
+Low = 1x Latency count
+DQS and data are
+edge aligned.
+
+IO[7:0]
+
+47:40 39:32 31:24 23:16 15:8
+
+Dn
+A
+
+7:0
+
+Dn
+B
+
+Dn+1
+A
+
+Dn+1
+B
+
+Memory drives IO[7:0]
+and DQS
+
+Command-Address
+Host drives IO[7:0] and memory drives DQS
+
+MSv71585V1
+
+Figure 154. HyperBus write operation with additional latency
+NCS
+Additional latency
+tRWR= Read write recovery
+
+t ACC = Initial access
+
+CLK
+DQS
+
+High = 2x Latency count
+Low = 1x Latency count
+Latency count 1
+
+IO[7:0]
+
+47:40 39:32 31:24 23:16 15:8
+
+CLK and data are
+center aligned.
+
+Latency count 2
+Dn
+A
+
+7:0
+
+Dn
+B
+
+Dn+1 Dn+1
+B
+A
+
+Host drives IO[7:0]
+and DQS
+
+Command-Address
+Host drives IO[7:0] and memory drives DQS
+
+MSv71586V1
+
+Fixed-latency mode
+Some devices or some applications may not want to operate with a variable latency time as
+described above.
+The latency can be forced to 2 x tACC by setting LM in OCTOSPI_HLCR.
+In this OCTOSPI latency mode, the state of the DQS signal is not taken into account by the
+OCTOSPI, and an additional latency is always added, leading to a fixed 2 x tACC latency
+time.
+
+RM0456 Rev 6

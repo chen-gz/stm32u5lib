@@ -1,0 +1,210 @@
+1514
+
+Operational amplifier (OPAMP)
+6.
+
+RM0456
+
+Repeat steps 4 to 5 for:
+–
+
+normal mode and offset cal low
+
+–
+
+low-power mode and offset cal high
+
+–
+
+low-power mode and offset cal low
+
+If a mode is not used, the corresponding calibration can be skipped.
+All OPAMPs can be calibrated at the same time.
+Note:
+
+During the whole calibration phase:
+- the external connection of the OPAMP output must not pull up or down currents higher
+than 500 µA.
+- OPAMODE[1:0] must be set up to 00 or 01 (PGA disable) or 11 (internal follower).
+
+38.4
+
+OPAMP low-power modes
+Table 366. Effect of low-power modes on the OPAMP
+
+Mode
+Sleep
+Stop0/1/2
+
+Description
+No effect.
+No effect, OPAMP registers content is kept.
+
+Stop3
+
+The OPAMP is disabled; the register content is kept.
+
+Standby
+
+The OPAMP registers are powered down and must be re-initialized after exiting Standby mode.
+
+38.5
+
+OPAMP registers
+These registers are only accessible by word.(byte and half-word not supported)
+
+38.5.1
+
+OPAMP1 control/status register (OPAMP1_CSR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+31
+
+30
+
+OPA_R OPAHS
+ANGE
+M
+rw
+
+rw
+
+15
+
+14
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+VP_SE
+L
+
+CALOU USERT CALSE
+CALON
+T
+RIM
+L
+r
+
+rw
+
+rw
+
+rw
+
+rw
+
+VM_SEL[1:0]
+rw
+
+Res.
+
+rw
+
+Res.
+
+PGA_GAIN[1:0]
+rw
+
+rw
+
+OPAMODE[1:0]
+rw
+
+rw
+
+OPALP
+OPAEN
+M
+rw
+
+rw
+
+Bit 31 OPA_RANGE: OPAMP range setting
+This bit must be set before enabling the OPAMP and this bit affects all OPAMP instances.
+0: reserved
+1: OPAMP range set

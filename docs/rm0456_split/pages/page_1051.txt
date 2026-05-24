@@ -1,0 +1,121 @@
+RM0456 Rev 6
+
+RM0456
+Caution:
+
+Octo-SPI interface (OCTOSPI)
+Use the same configuration (output speed, HSLV(a)) for all OCTOSPI input/output pins to
+avoid any data corruption.
+Table 253. OCTOSPI input/output pins (for STM32U535/545 devices)
+Pin name
+
+Type
+
+OCTOSPI_NCLK
+
+Output
+
+OCTOSPI_CLK
+OCTOSPI_IOn (n = 0 to 7)
+
+Input/output
+
+OCTOSPI_NCS
+
+Output
+
+OCTOSPI_DQS
+
+Input/output
+
+Caution:
+
+Description
+OCTOSPI inverted clock to support 1.8 V HyperBus protocol
+OCTOSPI clock
+OCTOSPI data pins
+Chip select for the memory
+Data strobe/write mask signal from/to the memory
+
+Use the same configuration (output speed, HSLV(a)) for all OCTOSPI input/output pins to
+avoid any data corruption.
+Table 254. OCTOSPI internal signals
+
+Signal name
+
+Type
+
+octospi_hclk
+
+Input
+
+OCTOSPI AHB clock
+
+octospi_ker_ck
+
+Input
+
+OCTOSPI kernel clock
+
+octospi_dma
+
+N/A
+
+DMA request signal
+
+octospi_it
+
+Output
+
+Global interrupt line (see Table 258 for the multiple sources of interrupt)
+
+28.4.3
+
+Description
+
+OCTOSPI interface to memory modes
+The OCTOSPI supports the following protocols:
+•
+
+regular-command protocol
+
+•
+
+HyperBus protocol
+
+The OCTOSPI uses from 6 to 12 signals to interface with a memory, depending on the
+functional mode:
+•
+
+NCS: chip-select
+
+•
+
+CLK: communication clock
+
+•
+
+NCLK: inverted clock used only in the 1.8 V HyperBus protocol
+
+•
+
+DQS: data strobe used only in regular-command protocol as input only
+
+•
+
+IO[3:0]: data bus LSB
+
+•
+
+IO[7:4]:
+–
+
+data bus MSB used in dual-quad and octal configurations
+
+–
+
+data bus can be used as possible remap for quad-SPI mode
+
+a. When applicable.
+
+RM0456 Rev 6

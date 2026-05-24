@@ -1,0 +1,79 @@
+RM0456 Rev 6
+
+RM0456
+
+Basic timers (TIM6/TIM7)
+Figure 726. Counter timing diagram, internal clock divided by 1
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+32
+
+31
+
+33
+
+34 35 36
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter overflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+
+MSv50997V1
+
+Figure 727. Counter timing diagram, internal clock divided by 2
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+
+Counter register
+
+0034
+
+0035
+
+0036
+
+0000
+
+0001
+
+0002
+
+0003
+
+Counter overflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+
+MSv62300V1
+
+RM0456 Rev 6

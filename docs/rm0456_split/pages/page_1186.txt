@@ -1,0 +1,71 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Figure 193. Control unit
+Control unit
+Registers
+SDMMC_D0DIR
+Power
+management
+sdmmc_ker_ck
+
+IO
+management
+
+SDMMC_D123DIR
+SDMMC_CDIR
+
+Clock
+management
+SDMMC_CK
+
+To command/response and data paths
+
+MSv39278V2
+
+The power management subunit disables the card bus output signals during the power-off
+and power-up phases.
+There are three power phases:
+•
+
+power-off
+
+•
+
+power-up
+
+•
+
+power-on
+
+The clock management subunit uses the sdmmc_ker_ck to generate the SDMMC_CK and
+provides the division control. It also takes care of stopping the SDMMC_CK for flow control,
+for example.
+The clock outputs are inactive:
+•
+
+after reset
+
+•
+
+during the power-off or power-up phases
+
+•
+
+if the power saving mode (register bit PWRSAV) is enabled and the card bus is in the
+Idle state for eight clock periods. The clock is stopped eight cycles after both the
+command/response CPSM and data path DPSM subunits have enter the Idle phase.
+The clock is restarted when the command/response CPSM or data path DPSM is
+activated (enabled).
+
+The I/O management subunit takes care of the SDMMC_Dn and SDMMC_CMD I/O
+direction signals, which controls the external voltage transceiver.
+
+Command/response path
+The command/response path subunit transfers commands and responses on the
+SDMMC_CMD line. The command path is clocked on the SDMMC_CK and sends
+commands to the card,. The response path is clocked on the sdmmc_rx_ck and receives
+responses from the card.

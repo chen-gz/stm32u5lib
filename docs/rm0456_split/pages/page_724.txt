@@ -1,0 +1,89 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+The bandwidth for the set of requests with priority 1 and routed to queue 1 is:
+•
+
+BP1,Q1 = J / (J + K) * BQ1
+
+The total bandwidth for the set of requests with priority 1 is:
+•
+
+BP1 = BP1,Q0 + BP1,Q1
+
+The bandwidth for each request j with priority 1 is:
+•
+
+Bj = BP1 / J for J > 0 (else Bj = 0)
+
+The bandwidth for the set of requests with priority 2 and routed to queue 0 is:
+•
+
+BP2,Q0 = K / (I + J + K) * BQ0
+
+The bandwidth for the set of requests with priority 2 and routed to queue 1 is:
+•
+
+BP2,Q1 = K / (J + K) * BQ1
+
+The bandwidth for the set of requests with priority 2 and routed to queue 2 is:
+•
+
+BP2,Q2 = BQ2
+
+The total bandwidth for the set of requests with priority 2 is:
+•
+
+BP2 = BP2,Q0 + BP2,Q1+ BP2,Q2
+
+The bandwidth for each request k with priority 2 is:
+•
+
+Bk = BP2 / K (K>0 in the general case)
+
+Thus finally the maximum allocated residual bandwidths for any i, j, k non-time sensitive
+request are:
+•
+
+•
+
+in the general case (when there is at least one request k with a priority 2 (K > 0)):
+–
+
+Bi = 1/I * 1/3 * I/(I + J + K) * (1 - BQ3)
+
+–
+
+Bj = 1/J * 1/3 *[J/(I + J + K) + J/(J + K)] * (1 - BQ3)
+
+–
+
+Bk = 1/K * 1/3 *[K/(I + J + K) + K/(J + K) + 1] * (1 - BQ3)
+
+in the specific case (when there is no request k with a priority 2 (K = 0)):
+–
+
+Bi = 1/I * 1/2 * I/(I + J) * (1 - BQ3)
+
+–
+
+Bj = 1/J * 1/2 *[J/(I + J) + 1] * (1 - BQ3)
+
+Consequently, the GPDMA arbiter can be used as a programmable weighted bandwidth
+limiter, for each queue and more generally for each request/channel. The different weights
+are monotonically resulting from the programmed channel priorities.
+
+17.4.12
+
+GPDMA triggered transfer
+A programmed GPDMA transfer can be triggered by a rising/falling edge of a selected input
+trigger event, as defined by GPDMA_CxTR2.TRIGPOL[1:0] and
+GPDMA_CxTR2.TRIGSEL[6:0] (see Section 17.3.5 for the trigger selection).
+The triggered transfer, as defined by the trigger mode in GPDMA_CxTR2.TRIGM[1:0], can
+be at LLI data transfer level, to condition the first burst read of a block, the first burst read of
+a 2D/repeated block for channel x (x = 12 to 15), or each programmed single read. The
+trigger mode can also be programmed to condition the LLI link transfer (see TRIGM[1:0] in
+GPDMA_CxTR2 for more details).

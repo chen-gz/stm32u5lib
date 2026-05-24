@@ -1,0 +1,24 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Bit 2 EOCIE: End of conversion interrupt enable
+This bit is set and cleared by software to enable/disable the end of conversion interrupt.
+0: EOC interrupt disabled
+1: EOC interrupt enabled. An interrupt is generated when the EOC bit is set.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 1 EOSMPIE: End of sampling flag interrupt enable
+This bit is set and cleared by software to enable/disable the end of the sampling phase interrupt.
+0: EOSMP interrupt disabled.
+1: EOSMP interrupt enabled. An interrupt is generated when the EOSMP bit is set.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 0 ADRDYIE: ADC ready interrupt enable
+This bit is set and cleared by software to enable/disable the ADC Ready interrupt.
+0: ADRDY interrupt disabled.
+1: ADRDY interrupt enabled. An interrupt is generated when the ADRDY bit is set.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).

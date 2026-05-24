@@ -1,0 +1,83 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+In capture mode, captures are actually done in the shadow register, which is copied into the
+preload register.
+In compare mode, the content of the preload register is copied into the shadow register
+which is compared to the counter.
+
+54.3.9
+
+Input capture mode
+In Input capture mode, the capture/compare registers (TIMx_CCRx) are used to latch the
+value of the counter after a transition detected by the corresponding ICx signal. When a
+capture occurs, the corresponding CCXIF flag (TIMx_SR register) is set and an interrupt or
+a DMA request can be sent if they are enabled. If a capture occurs while the CCxIF flag was
+already high, then the overcapture flag CCxOF (TIMx_SR register) is set. CCxIF can be
+cleared by software by writing it to 0 or by reading the captured data stored in the
+TIMx_CCRx register. CCxOF is cleared when it is written with 0.
+The following example shows how to capture the counter value in TIMx_CCR1 when tim_ti1
+input rises. To do this, use the following procedure:
+•
+
+Select the active input: TIMx_CCR1 must be linked to the tim_ti1 input, so write the
+CC1S bits to 01 in the TIMx_CCMR1 register. As soon as CC1S becomes different
+from 00, the channel is configured in input, and the TIMx_CCR1 register becomes
+read-only.
+
+•
+
+Program the appropriate input filter duration in relation with the signal connected to the
+timer (when the input is one of the tim_tix (ICxF bits in the TIMx_CCMRx register). Let’s
+imagine that, when toggling, the input signal is not stable during at must five internal
+clock cycles. We must program a filter duration longer than these five clock cycles. We
+can validate a transition on tim_ti1 when eight consecutive samples with the new level
+have been detected (sampled at fDTS frequency). Then write IC1F bits to 0011 in the
+TIMx_CCMR1 register.
+
+•
+
+Select the edge of the active transition on the tim_ti1 channel by writing CC1P and
+CC1NP bits to 0 in the TIMx_CCER register (rising edge in this case).
+
+•
+
+Program the input prescaler. In our example, we wish the capture to be performed at
+each valid transition, so the prescaler is disabled (write IC1PS bits to 00 in the
+TIMx_CCMR1 register).
+
+•
+
+Enable capture from the counter into the capture register by setting the CC1E bit in the
+TIMx_CCER register.
+
+•
+
+If needed, enable the related interrupt request by setting the CC1IE bit in the
+TIMx_DIER register, and/or the DMA request by setting the CC1DE bit in the
+TIMx_DIER register.
+
+When an input capture occurs:
+•
+
+The TIMx_CCR1 register gets the value of the counter on the active transition.
+
+•
+
+CC1IF flag is set (interrupt flag). CC1OF is also set if at least two consecutive captures
+occurred whereas the flag was not cleared.
+
+•
+
+An interrupt is generated depending on the CC1IE bit.
+
+•
+
+A DMA request is generated depending on the CC1DE bit.
+
+In order to handle the overcapture, it is recommended to read the data before the
+overcapture flag. This is to avoid missing an overcapture which may happen after reading
+the flag and before reading the data.

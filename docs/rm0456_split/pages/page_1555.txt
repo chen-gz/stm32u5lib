@@ -1,0 +1,205 @@
+RM0456 Rev 6
+
+RM0456
+
+39.4.11
+
+Multi-function digital filter (MDF)
+
+Start-up sequence examples
+Figure 348 details an acquisition sequence start of a digital filter triggered by DFLTEN
+(ACQMOD[2:0] = 0), with NBDIS[7:0] = 3 (three samples to discard before acquisition).
+The DFLTx is configured for audio application: MCIC, RSFLT and HPF activated.The data
+interface (SITFx or ADCITF) is assumed to be already activated.
+
+Note:
+
+NBDIS[7:0] is set on purpose to a low value to simplify the drawing.
+Figure 348. Start sequence with DFLTEN, in continuous mode, audio configuration
+Re-sync of DFLTEN with mdf_proc_ck
+
+ADCITF/SITF
+status
+
+RUNNING
+
+ACQMODx
+
+000
+
+MDF_DFLTxCR.
+DFLTEN
+mdf_proc_ck
+
+bsx_[r|f]_ck
+MCICx
+decim. counter
+
+0
+
+1 2 ... N 1 2 ... N
+
+...
+
+1 2 ... N
+
+...
+
+1 2 ... N
+
+...
+
+1 2 ... N
+
+...
+
+1 2 ... N
+
+...
+
+1 2 ... N
+
+...
+
+1 2 ... N
+
+...
+
+MCICx_OUT
+
+x
+
+MCICxS0
+
+...
+
+MCICxS3
+
+...
+
+MCICxS7
+
+...
+
+MCICxS11
+
+...
+
+MCICxS15
+
+...
+
+MCICxS19
+
+...
+
+MCICxS23
+
+...
+
+RSFLTx
+decim. counter
+
+0
+
+1...
+
+...
+
+...4
+
+...
+
+...4
+
+...
+
+...4
+
+...
+
+...4
+
+...
+
+...4
+
+...
+
+...4
+
+...
+
+P1
+x
+
+RSFLTx_OUT
+
+RSFLTxS0
+
+RSFLTxS1
+
+RSFLTxS2
+
+RSFLTxS3
+
+RSFLTxS4
+
+RSFLTxS5
+
+P2
+HPFx_OUT
+
+NBDISx_CNTR
+Sample stored
+in RXFIFOx
+
+x
+x
+
+4
+
+HPFxS0
+
+HPFxS1
+
+HPFxS2
+
+3
+
+2
+
+1
+
+x
+
+HPFxS3
+
+HPFxS4
+
+HPFxS5
+
+0
+
+HPFxS3
+
+HPFxS4
+
+HPFxS5
+MSv62683V1
+
+The DFLTEN bit is re-sampled into the MDF processing clock domain. When DFLTEN is
+detected high, the filter chain is enabled and the decimation counter of the MCIC filter is
+incremented at the rate of the bitstream clock.
+When the MCIC decimation counter reaches its programmed value N, a sample is available
+for the RSFLT.
+The RSFLT processes all the samples provided by the MCIC and delivers a sample to the
+HPF every time it processes four samples (decimation by 4) The RSFLT needs up to 24
+cycles of mdf_proc_ck clock before delivering a sample (P1).
+The HPF processes all the samples provided by the RSFLT, but the NBDIS function
+prevents the data writing in the RXFIFO as long as NBDIS_CNTR does not reach 0. This
+counter is decremented every time the HPF delivers a sample.
+When NBDIS_CNTR reaches 0, the samples provided by the HPF are stored into the
+RXFIFO.
+
+RM0456 Rev 6

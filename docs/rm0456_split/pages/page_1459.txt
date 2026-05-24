@@ -1,0 +1,126 @@
+Mode
+
+Buffer
+
+Output connections
+Connected to external pin
+
+Enabled
+Normal mode
+Disabled
+
+Connected to external pin and to on chip-peripherals (such as
+comparators)
+Connected to external pin
+Connected to on chip peripherals (such as comparators)
+
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+Table 347. Channel output modes summary (continued)
+
+MODEx[2:0]
+1
+
+0
+
+0
+
+1
+
+0
+
+1
+
+1
+
+1
+
+0
+
+1
+
+1
+
+1
+
+35.4.13
+
+Mode
+
+Buffer
+
+Output connections
+Connected to external pin
+
+Enabled
+
+Connected to external pin and to on chip peripherals (such as
+comparators)
+
+Sample and
+hold mode
+
+Connected to external pin and to on chip peripherals (such as
+comparators)
+
+Disabled
+
+Connected to on chip peripherals (such as comparators)
+
+DAC channel buffer calibration
+The transfer function for an N-bit digital-to-analog converter (DAC) is:
+V
+
+out
+
+⎞ +V
+= ⎛ ( D ⁄ 2N ) × G × V
+⎝
+OS
+REF⎠
+
+Where VOUT is the analog output, D is the digital input, G is the gain, VREF is the nominal
+full-scale voltage, and VOS is the offset voltage. For an ideal DAC channel, G = 1 and
+VOS = 0.
+Due to output buffer characteristics, the voltage offset may differ from part-to-part and
+introduce an absolute offset error on the analog output. To compensate the VOS, a
+calibration is required by a trimming technique.
+The calibration is only valid when the DAC channelx is operating with buffer enabled
+(MODEx[2:0] = 0b000 or 0b001 or 0b100 or 0b101). if applied in other modes when the
+buffer is off, it has no effect. During the calibration:
+•
+
+The buffer output is disconnected from the pin internal/external connections and put in
+tristate mode (HiZ).
+
+•
+
+The buffer acts as a comparator to sense the middle-code value 0x800 and compare it
+to VREF+/2 signal through an internal bridge, then toggle its output signal to 0 or 1
+depending on the comparison result (CAL_FLAGx bit).
+
+Two calibration techniques are provided:
+•
+
+Factory trimming (default setting)
+The DAC buffer offset is factory trimmed. The default value of OTRIMx[4:0] bits in
+DAC_CCR register is the factory trimming value and it is loaded once DAC digital
+interface is reset.
+
+•
+
+User trimming
+The user trimming can be done when the operating conditions differs from nominal
+factory trimming conditions and in particular when VDDA voltage, temperature, VREF+
+values change and can be done at any point during application by software.
+
+Note:
+
+Refer to the datasheet for more details of the nominal factory trimming conditions.
+In addition, when VDD is removed (example the device enters in Standby or VBAT modes)
+the calibration is required.
+
+RM0456 Rev 6

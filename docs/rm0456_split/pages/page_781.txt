@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+The link step mode can be used to elaborate dynamically LLIs in memory during run-time.
+The software can be facilitated by using a static data structure for any LLIn (all update bits of
+LPDMA_CxLLR have a static value, LLIn.LLR.LA = LLIn-1.LLR.LA + constant).
+
+Run-time adding a LLIn+1 in link step mode
+During run-time, the software can defer the elaboration of the LLIn+1 (and next LLIs),
+until/after LPDMA executed the transfer from the LLIn-1 and loaded the LLIn from the
+memory, as shown in the figure below.
+Figure 81. Building LLIn+1: LPDMA dynamic linked-lists in link step mode
+
+LSM = 1 with 2-stage linked-list programming:
+DMA executes LLIn-1 and loads LLIn while CPU builds LLIn+1
+
+DMA Channel
+
+CPU
+
+LLIn-2
+transfer
+Transfer complete interrupt
+
+LLIn-1
+transfer
+
+Enable DMA channel
+
+Executing LLIn-1 data transfer
+Build and store LLIn+1
+Loading LLIn
+Transfer complete interrupt
+
+Enable DMA channel
+
+LLIn
+transfer
+
+MSv62634V1
+
+Run-time replacing a LLIn with a new LLIn’ in link step mode (in linked-list
+register file)
+In this link step mode, during run-time, the software can build and insert a new LLIn’, after
+LPDMA executed the transfer from the LLIn-1 and loaded a formerly elaborated LLIn from
+the memory by overwriting directly the linked-list register file with the new LLIn’, as shown in
+Figure 82.
+
+RM0456 Rev 6

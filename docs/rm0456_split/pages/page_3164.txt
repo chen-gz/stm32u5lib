@@ -1,0 +1,78 @@
+When the application sets the Global OUT NAK (SGONAK bit in OTG_DCTL), the core
+stops writing data, except SETUP packets, to the receive FIFO. Irrespective of the
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+space availability in the receive FIFO, non-isochronous OUT tokens receive a NAK
+handshake response, and the core ignores isochronous OUT data packets
+2.
+
+The core writes the Global OUT NAK pattern to the receive FIFO. The application must
+reserve enough receive FIFO space to write this data pattern.
+
+3.
+
+When the application pops the Global OUT NAK pattern word from the receive FIFO,
+the core sets the GONAKEFF interrupt (OTG_GINTSTS).
+
+4.
+
+Once the application detects this interrupt, it can assume that the core is in Global OUT
+NAK mode. The application can clear this interrupt by clearing the SGONAK bit in
+OTG_DCTL.
+
+Application programming sequence:
+1.
+
+To stop receiving any kind of data in the receive FIFO, the application must set the
+Global OUT NAK bit by programming the following field:
+–
+
+SGONAK = 1 in OTG_DCTL
+
+2.
+
+Wait for the assertion of the GONAKEFF interrupt in OTG_GINTSTS. When asserted,
+this interrupt indicates that the core has stopped receiving any type of data except
+SETUP packets.
+
+3.
+
+The application can receive valid OUT packets after it has set SGONAK in OTG_DCTL
+and before the core asserts the GONAKEFF interrupt (OTG_GINTSTS).
+
+4.
+
+The application can temporarily mask this interrupt by writing to the GONAKEFFM bit in
+the OTG_GINTMSK register.
+–
+
+5.
+
+–
+6.
+
+CGONAK = 1 in OTG_DCTL
+
+If the application has masked this interrupt earlier, it must be unmasked as follows:
+–
+
+•
+
+GONAKEFFM = 0 in the OTG_GINTMSK register
+
+Whenever the application is ready to exit the Global OUT NAK mode, it must clear the
+SGONAK bit in OTG_DCTL. This also clears the GONAKEFF interrupt
+(OTG_GINTSTS).
+
+GONAKEFFM = 1 in OTG_GINTMSK
+
+Disabling an OUT endpoint
+
+The application must use this sequence to disable an OUT endpoint that it has enabled.
+Application programming sequence:
+
+RM0456 Rev 6

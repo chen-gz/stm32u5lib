@@ -1,0 +1,164 @@
+1.
+
+Enable the IWDG by writing 0x0000 CCCC in the IWDG key register (IWDG_KR).
+
+2.
+
+Enable register access by writing 0x0000 5555 in the IWDG key register (IWDG_KR).
+
+3.
+
+Write the IWDG prescaler by programming IWDG prescaler register (IWDG_PR).
+
+4.
+
+Write the IWDG reload register (IWDG_RLR).
+
+5.
+
+If needed, enable the early wake-up interrupt, and program the early wake-up
+comparator, by writing the proper values into the IWDG early wake-up interrupt register
+(IWDG_EWCR).
+
+6.
+
+Write to the IWDG window register (IWDG_WINR). This automatically reloads the
+IWDCNT down-counter with the RL[11:0] value.
+
+7.
+
+Wait for the registers to be updated (IWDG_SR = 0x0000 0000).
+
+8.
+
+Write 0x0000 0000 into IWDG key register (IWDG_KR) to write-protect registers.
+
+Step 7 can be skipped if the application does not intend to disable the APB clock after the
+completion of this sequence.
+
+RM0456 Rev 6
+
+RM0456
+
+Independent watchdog (IWDG)
+
+Configuring the IWDG when the window option is disabled
+When the window option it is not used, the IWDG can be configured as follows:
+1.
+
+Enable the IWDG by writing 0x0000 CCCC in the IWDG key register (IWDG_KR).
+
+2.
+
+Enable register access by writing 0x0000 5555 in the IWDG key register (IWDG_KR).
+
+3.
+
+Write the prescaler by programming the IWDG prescaler register (IWDG_PR).
+
+4.
+
+Write the IWDG reload register (IWDG_RLR).
+
+5.
+
+If needed, enable the early wake-up interrupt, and program the early wake-up
+comparator, by writing the proper values into the IWDG early wake-up interrupt register
+(IWDG_EWCR).
+
+6.
+
+Wait for the registers to be updated (IWDG_SR = 0x0000 0000).
+
+7.
+
+Refresh the counter with RL[11:0] value, and write-protect registers by writing
+0x0000 AAAA into IWDG key register (IWDG_KR).
+
+The figure below shows a sequence example changing the prescaler, the reload value, and
+then performing a refresh.
+Figure 769. Changing PR, RL, and performing a refresh(1)
+iwdg_ker_ck
+TDPVU
+WDGCNT
+counter
+
+TDRVU
+
+N
+
+...
+
+N-k
+
+N-k-1
+
+...
+
+÷4
+
+÷4
+
+÷4
+
+÷8
+
+...
+
+N-k-t
+
+TDRefresh
+N-k-t-1
+
+...
+
+...
+
+M
+
+...
+
+Refresh ignored region
+
+PVU
+RVU
+Prescaler
+
+÷4
+
+RL[11:0]
+
+÷8
+M
+
+P
+
+CPU activity
+Write 1 into IWDG_PR
+
+Write into M into RL[11:0]
+
+Write 0xAAAA into IWDG_KR
+Refresh + Registers lock
+
+Write 0x5555 into IWDG_KR
+Registers unlock
+
+MSv75426V1
+
+1. Refer to Table 623: IWDG delays versus actions for details on timing values.
+
+Note:
+
+When the new prescaler value is accepted by the IWDG (falling edge of PVU), the new
+division ratio is effective when the current division sequence is completed (N-k in the
+drawing).
+
+Note:
+
+The timeout delay between the refresh (write 0xAAAA into IWDG_KR) and the watchdog
+reset is increased by TDRefresh.
+If a refresh command is sent while the previous refresh command is not yet completed, this
+last refresh command is ignored.
+
+RM0456 Rev 6

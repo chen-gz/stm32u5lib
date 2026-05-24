@@ -1,0 +1,163 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+
+CCM processing
+Figure 481 describes the CCM implementation within the AES peripheral (encryption
+example). This mode is selected by writing 100 into the CHMOD[2:0] bitfield of the AES_CR
+register.
+Figure 481. CCM mode authenticated encryption
+Block 1
+(1) Init
+
+Block m
+
+(3) Payload
+
+AES_IVRx (CTR1)
+
+AES_IVRx (CTR0)
+
+Counter
+increment (+1)
+
+mask
+AES_IVRx (First block B0)
+
+AES_IVRx (CTRm)
+
+Counter
+increment (+1)
+
+AES_KEYRx (KEY)
+
+AES_KEYRx (KEY)
+Encrypt
+
+Encrypt
+AES_DINR (plaintext
+last block Pm )
+
+AES_DINR (plaintext P1)
+
+Encrypt
+
+S1
+Swap
+management
+
+Sm
+
+DATATYPE
+[1:0]
+
+Swap
+management
+
+AES_KEYRx (KEY)
+DATATYPE
+[1:0]
+
+(2) Header
+AES_DINR (associated
+data block B1)
+
+DATATYPE
+[1:0]
+
+Swap
+management
+
+AES_DINR (associated
+data last block Bu)
+
+AES_DOUTR (ciphertext C1)
+Swap
+Swap
+management
+management
+DATATYPE[1:0]
+
+Swap
+management
+
+AES_DOUTR
+(ciphertext last block Cm)
+Br
+
+Bu+1
+
+DATATYPE[1:0]
+
+DATATYPE
+[1:0]
+
+AES_KEYRx (KEY)
+Encrypt
+
+Encrypt
+
+Encrypt
+
+AES_KEYRx (KEY)
+
+AES_KEYRx (KEY)
+
+AES_KEYRx (KEY)
+
+Encrypt
+AES_DINR (CTR0)
+MAC (T)
+
+Legend
+
+Encrypt
+
+S0
+
+input
+output
+
+AES_KEYRx (KEY)
+
+AES_DOUTR
+(EncTAG)
+
+(4) Final
+
+XOR
+
+MSv42152V2
+
+The data input to the generation-encryption process are a valid nonce, a valid payload
+string, and a valid associated data string, all properly formatted. The CBC chaining
+mechanism is applied to the formatted plaintext data to generate a MAC, with a known
+length. Counter mode encryption that requires a sufficiently long sequence of counter blocks
+as input, is applied to the payload string and separately to the MAC. The resulting ciphertext
+C is the output of the generation-encryption process on plaintext P.
+AES_IVRx registers are used for processing each data block, AES automatically
+incrementing the CTR counter with a bit length defined by the first block B0. Table 473
+shows how the application must load the B0 data.
+Note:
+
+The AES peripheral in CCM mode supports counters up to 64 bits, as specified by NIST.
+Table 473. Initialization of AES_IVRx registers in CCM mode
+AES_IVR3[31:0]
+
+AES_IVR2[31:0]
+
+AES_IVR1[31:0]
+
+AES_IVR0[31:0]
+
+B0[127:96]
+
+B0[95:64]
+
+B0[63:32]
+
+B0[31:0]
+
+RM0456 Rev 6

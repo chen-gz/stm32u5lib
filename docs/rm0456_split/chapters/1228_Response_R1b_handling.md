@@ -1,0 +1,63 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+9.
+
+RM0456
+
+When last data has been received, read data from the FIFO until FIFO is empty after
+which end of data DATAEND flag is generated.
+–
+
+SDMMC has completely received all data and the DPSM is disabled.
+
+10. The BOOTEN bit must be cleared, before terminating the boot procedure by sending
+CMD0 (Reset) with BOOTMODE = alternative boot. This causes the CMDSENT flag to
+occur 56 cycles after the Command.
+–
+
+if the boot procedure is aborted by firmware before all data has been received the
+CPSM Abort signal stops the data transfer and disable the DPSM which triggers
+an DABORT flag when enabled.
+
+11. The CMDSENT flag signals the end of the boot procedure and the card is ready to
+receive a new command. When the RESET command has been sent successfully, the
+BOOTMODE control bit has to be cleared to terminate the boot operation.
+
+31.6.6
+
+Response R1b handling
+When sending commands which have a R1b response the busy signaling is reflected in the
+BUSYD0 register bit and the release of busy with the BUSYD0END flag. The SDMMC_D0
+line is sampled at the end of the R1b response and signaled in the BUSYD0 register bit. The
+BUSYD0 register bit is reset to not busy when the SDMMC_D0 line release busy, at the
+same time the BUSYD0END flag is generated.
+Figure 215. Command response R1b busy signaling
+SDMMC_CMD
+
+CMD
+
+R1b
+
+SDMMC_D0
+
+CMD
+
+RESP
+
+BUSY
+TBUSY max.
+
+BUSYD0
+
+BUSYD0END
+MSv40946V1
+
+The expected maximum busy time must be set in the DATATIME register before sending the
+command. When enabled, the DTIMEOUT flag is set when after the R1b response busy
+stays active longer then the programmed time.
+To detect the SDMMC_D0 busy signaling when sending a Command with R1b response the
+following procedure applies:
+
+<!-- pagebreak -->
+

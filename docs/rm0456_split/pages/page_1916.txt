@@ -1,0 +1,202 @@
+1921
+
+True random number generator (RNG)
+
+RM0456
+
+3. The noise source sampling must be 48 MHz or less. Hence, if the RNG clock is different from 48 MHz, this value of CLKDIV
+must be adapted. See the CLKDIV bitfield description in Section 48.7.1 for details.
+4. This value can be fixed in the RNG driver (it does not depend upon the STM32 product).
+
+Table 466. Configuration selection
+Section criteria
+
+Config A
+
+Config B
+
+Config C
+
+Suitable to generate NIST
+compliant cryptographic keys
+
+Yes
+
+Entropy(1)
+
+Certified
+
+Good
+
+Very good
+
+Speed(2)
+
+Baseline
+
+Faster
+
+Baseline
+
+No
+
+1. For configurations B and C entropy is verified using AIS-31 test suite (T0 to T8).
+2. When speed is not enough for application a NIST compliant DRBG can be used to increase throughput.
+
+For details on data collection and the running of statistical test suites refer to AN4230
+“STM32 microcontrollers random number generation validation using NIST statistical test
+suite” available from www.st.com.
+In bypass mode the bits [31:30] of the fourth word are always stuck at 0. Hence the
+continuous capture of samples is started from the fifth word.
+
+48.7
+
+RNG registers
+The RNG is associated with a control register, a data register and a status register.
+
+48.7.1
+
+RNG control register (RNG_CR)
+Address offset: 0x000
+Reset value: 0x0080 0D00
+
+31
+
+30
+
+CONFI COND
+GLOCK RST
+rs
+
+rw
+
+15
+
+14
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+10
+
+RNG_CONFIG2[2:0]
+rw
+
+rw
+
+rw
+
+NISTC
+rw
+
+25
+
+24
+
+rw
+
+22
+
+21
+
+20
+
+19
+
+RNG_CONFIG1[5:0]
+
+18
+
+17
+
+CLKDIV[3:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ARDIS
+
+Res.
+
+CED
+
+Res.
+
+IE
+
+RNGEN
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 CONFIGLOCK: RNG Config lock
+0: Writes to the RNG_NSCR, RNG_HTCR and RNG_CR configuration bits [29:4] are
+allowed.
+1: Writes to the RNG_NSCR, RNG_HTCR and RNG_CR configuration bits [29:4] are
+ignored until the next RNG reset.
+Once set, this bit can only be cleared when RNG is reset (set once bit).

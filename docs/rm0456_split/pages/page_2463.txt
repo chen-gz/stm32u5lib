@@ -1,0 +1,29 @@
+2577
+
+Independent watchdog (IWDG)
+
+RM0456
+
+Figure 768. Reset timing due to refresh in the not allowed area
+
+IWDCNT value
+Refresh not allowed
+
+0xFFF
+RL[11:0]
+WIN[11:0] + 1
+
+Time
+Tpresc_ck
+
+Tpresc_ck
+
+Writing 0xAAAA
+into IWDG_KR
+iwdg_out_rst
+iwdg_in_rst
+MS49975V3
+
+Configuring the IWDG when the window option is enabled
+
+Note:

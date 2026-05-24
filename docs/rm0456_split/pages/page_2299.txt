@@ -1,0 +1,32 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+status register. A transition error interrupt is generated if the TERRIE bit is set in the
+TIMx_DIER register.
+Figure 666. State diagram for quadrature encoded signals
+
+00
+
+01
+
+10
+
+11
+
+Correct transitions
+Erroneous transitions
+
+MSv45779V1
+
+For encoder having an index signal, it is possible to detect abnormal operation resulting in
+an excess of pulses per revolution. An encoder with N pulses per revolution provides 4xN
+counts per revolution. The index signal resets the counter every 4xN clock periods.
+If the counter value is incremented from TIMx_ARR to 0 or decremented from 0 to TIMxARR
+value without any index event, this is reported as an index position error.
+The overflow threshold is programmed using the TIMx_ARR register. A 1000 lines encoder
+results in a counter value being between 0 and 3999 (in 4x reading mode). The overflow
+detection threshold must be programmed by setting TIMx_ARR = 3999 + 1 = 4000.
+
+RM0456 Rev 6

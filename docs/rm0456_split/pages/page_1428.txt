@@ -1,0 +1,46 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Bit 16 DISCEN: Discontinuous mode
+This bit is set and cleared by software to enable/disable discontinuous mode.
+0: Discontinuous mode disabled
+1: Discontinuous mode enabled
+Note: It is not possible to have both discontinuous mode and continuous mode enabled: it is
+forbidden to set both bits DISCEN = 1 and CONT = 1.
+The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 WAIT: Wait conversion mode
+This bit is set and cleared by software to enable/disable wait conversion mode..
+0: Wait conversion mode off
+1: Wait conversion mode on
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 13 CONT: Single / continuous conversion mode
+This bit is set and cleared by software. If it is set, conversion takes place continuously until it is
+cleared.
+0: Single conversion mode
+1: Continuous conversion mode
+Note: It is not possible to have both discontinuous mode and continuous mode enabled: it is
+forbidden to set both bits DISCEN = 1 and CONT = 1.
+The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 12 OVRMOD: Overrun management mode
+This bit is set and cleared by software and configure the way data overruns are managed.
+0: ADC_DR register is preserved with the old data when an overrun is detected.
+1: ADC_DR register is overwritten with the last conversion result when an overrun is detected.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bits 11:10 EXTEN[1:0]: External trigger enable and polarity selection
+These bits are set and cleared by software to select the external trigger polarity and enable the
+trigger.
+00: Hardware trigger detection disabled (conversions can be started by software)
+01: Hardware trigger detection on the rising edge
+10: Hardware trigger detection on the falling edge
+11: Hardware trigger detection on both the rising and falling edges
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 9 Reserved, must be kept at reset value.

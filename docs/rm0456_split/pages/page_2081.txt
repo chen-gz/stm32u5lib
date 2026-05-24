@@ -1,0 +1,150 @@
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+Table 514. Extended ECDSA sign - Extra outputs
+
+OUT
+
+53.4.17
+
+Parameters with direction
+
+Value (note)
+
+Storage
+
+Curve point kG coordinate x1
+
+(0 ≤ x1 < p)
+
+RAM@0x1400
+
+Curve point kG coordinate y1
+
+(0 ≤ y1 < p)
+
+RAM@0x1458
+
+Size
+EOS
+
+ECDSA verification
+ECDSA verification operation (outlined in Section 53.3.5) is summarized in Table 515 (input
+parameters) and Table 516 (output parameters).
+The application has to check if the output error is equal to 0xD60D, if different the signature
+is not verified.
+Table 515. ECDSA verification - Inputs
+Parameters with direction
+
+IN
+
+Value (note)
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+MODE
+
+0x26
+
+Curve prime order n
+length (nlen)
+
+(in bits, not null)
+
+RAM@0x408
+
+Curve modulus p length
+
+(in bits, not null,
+8 < value < 640)
+
+RAM@0x4C8
+
+Curve coefficient a sign
+
+0x0: positive
+0x1: negative
+
+RAM@0x468
+
+Curve coefficient |a|
+
+(absolute value, |a| < p)
+
+RAM@0x470
+
+Curve modulus value p
+
+(odd integer prime,
+0< p < 2640)
+
+RAM@0x4D0
+
+Curve base point G
+coordinate x
+
+(x < p)
+
+RAM@0x678
+
+Curve base point G
+coordinate y
+
+(y < p)
+
+RAM@0x6D0
+
+Public-key curve point Q
+coordinate xQ
+
+(xQ < p)
+
+RAM@0x12F8
+
+Public-key curve point Q
+coordinate yQ
+
+(yQ < p)
+
+RAM@0x1350
+
+Signature part r
+
+(0 < r < n)
+
+RAM@0x10E0
+
+Signature part s
+
+(0 < s < n)
+
+RAM@0xC68
+
+Hash of message z
+
+(hash size equal to nlen)(1)
+
+RAM@0x13A8
+
+Curve prime order n
+
+(integer prime)
+
+RAM@0x1088
+
+64 bits
+
+EOS
+
+1. Padding with zeroes or hash truncation must be used to have the hash parameter size equal to the curve
+prime order n length.
+
+RM0456 Rev 6

@@ -1,0 +1,44 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Muxed mode - multiplexed asynchronous access to NOR flash memory
+Figure 132. Muxed read access waveforms
+Memory transaction
+A[25:16]
+
+NADV
+
+NBL[x:0]
+
+NEx
+
+NOE
+
+NWE
+
+High
+
+Lower address
+
+AD[15:0]
+
+NBLSET
+HCLK
+cycles
+
+ADDSET HCLK cycles
+
+Data driven by memory
+
+ADDHLD
+HCLK
+cycles
+
+DATAST HCLK cycles
+
+DATAHLD
+HCLK cycles
+MSv41685V1

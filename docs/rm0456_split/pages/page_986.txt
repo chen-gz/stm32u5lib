@@ -1,0 +1,172 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+Bit 1 X1FULL: X1 buffer full flag
+The buffer is flagged as full if the number of available spaces is less than the FULL_WM
+threshold. The number of available spaces is the difference between the write pointer and
+the least recent sample currently in use.
+0: X1 buffer not full. If the WIEN bit is set, the interrupt request is asserted until the flag is
+set. If DMAWEN is set, DMA write channel requests are generated until the flag is set.
+1: X1 buffer full.
+This flag is set and cleared by hardware, or by a reset.
+Note: after the last available space in the X1 buffer is filled there is a delay of 3 clock cycles
+before the X1FULL flag goes high. To avoid any risk of overflow it is recommended to
+insert a software delay after writing to the X1 buffer before reading the FMAC_SR.
+Alternatively, a FULL_WM threshold of 2 can be used.
+Bit 0 YEMPTY: Y buffer empty flag
+The buffer is flagged as empty if the number of unread data is less than the EMPTY_WM
+threshold. The number of unread data is the difference between the read pointer and the
+current output destination address.
+0: Y buffer not empty. If the RIEN bit is set, the interrupt request is asserted until the flag is
+set. If DMAREN is set, DMA read channel requests are generated until the flag is set.
+1: Y buffer empty.
+This flag is set and cleared by hardware, or by a reset.
+Note: after the last sample is read from the Y buffer there is a delay of 3 clock cycles before
+the YEMPTY flag goes high. To avoid any risk of underflow it is recommended to insert
+a software delay after reading from the Y buffer before reading the FMAC_SR.
+Alternatively, an EMPTY_WM threshold of 2 can be used.
+
+26.4.7
+
+FMAC write data register (FMAC_WDATA)
+Address offset: 0x18
+Reset value: 0x0000 0000
+Access: word and half-word access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+WDATA[15:0]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 WDATA[15:0]: Write data
+When a write access to this register occurs, the write data are transferred to the address
+offset indicated by the write pointer. The pointer address is automatically incremented after
+each write access.

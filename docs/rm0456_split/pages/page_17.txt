@@ -1,0 +1,125 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+13.4
+
+GPIO registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 633
+13.4.1
+
+GPIO port mode register (GPIOx_MODER) (x = A to J) . . . . . . . . . . . 633
+
+13.4.2
+
+GPIO port output type register (GPIOx_OTYPER) (x = A to J) . . . . . . 634
+
+13.4.3
+
+GPIO port output speed register (GPIOx_OSPEEDR) (x = A to J) . . . 634
+
+13.4.4
+
+GPIO port pull-up/pull-down register (GPIOx_PUPDR) (x = A to J) . . . 635
+
+13.4.5
+
+GPIO port input data register (GPIOx_IDR) (x = A to J) . . . . . . . . . . . 635
+
+13.4.6
+
+GPIO port output data register (GPIOx_ODR) (x = A to J) . . . . . . . . . 636
+
+13.4.7
+
+GPIO port bit set/reset register (GPIOx_BSRR) (x = A to J) . . . . . . . . 636
+
+13.4.8
+
+GPIO port configuration lock register (GPIOx_LCKR) (x = A to J) . . . . 637
+
+13.4.9
+
+GPIO alternate function low register (GPIOx_AFRL) (x = A to J) . . . . 638
+
+13.4.10 GPIO alternate function high register (GPIOx_AFRH) (x = A to J) . . . 638
+13.4.11 GPIO port bit reset register (GPIOx_BRR) (x = A to J) . . . . . . . . . . . . 639
+13.4.12 GPIO high-speed low-voltage register (GPIOx_HSLVR) (x = A to J) . . 640
+13.4.13 GPIO secure configuration register (GPIOx_SECCFGR) (x = A to J) . 641
+13.4.14 GPIO register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 641
+
+14
+
+Low-power general-purpose I/Os (LPGPIO) . . . . . . . . . . . . . . . . . . . . 643
+14.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.2
+
+LPGPIO main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3
+
+LPGPIO functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.4
+
+15
+
+14.3.1
+
+LPGPIO and GPIO configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.2
+
+LPGPIO control registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.3
+
+LPGPIO I/O data registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.4
+
+LPGPIO I/O data bitwise handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.5
+
+Security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 644
+
+14.3.6
+
+Secure clock and reset management . . . . . . . . . . . . . . . . . . . . . . . . . 644
+
+LPGPIO registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 644
+14.4.1
+
+LPGPIO port mode register (LPGPIO_MODER) . . . . . . . . . . . . . . . . . 644
+
+14.4.2
+
+LPGPIO port input data register (LPGPIO_IDR) . . . . . . . . . . . . . . . . . 645
+
+14.4.3
+
+LPGPIO port output data register (LPGPIO_ODR) . . . . . . . . . . . . . . . 645
+
+14.4.4
+
+LPGPIO port bit set/reset register (LPGPIO_BSRR) . . . . . . . . . . . . . . 646
+
+14.4.5
+
+LPGPIO port bit reset register (LPGPIO_BRR) . . . . . . . . . . . . . . . . . . 646
+
+14.4.6
+
+LPGPIO register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 647
+
+System configuration controller (SYSCFG) . . . . . . . . . . . . . . . . . . . . 648
+15.1
+
+SYSCFG main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 648
+
+RM0456 Rev 6

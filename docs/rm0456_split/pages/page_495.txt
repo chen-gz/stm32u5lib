@@ -1,0 +1,66 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+F pll x_y_ck = ( F VCO x ⁄ ( PLLxy + 1 ) ) with y = P, Q or R
+The PLLs are disabled by hardware:
+•
+
+when the system enters Stop or Standby mode
+
+•
+
+when an HSE failure occurs, when HSE or PLL (clocked by HSE) are used
+as system clock
+
+The fractional information used by the PLL is reset when disabling the PLL.
+
+PLL initialization phase
+The following PLL initialization sequence in integer and fractional mode is recommended.
+The PLLx are supposed to be disabled at the start of the initialization sequence:
+1.
+
+Initialize the PLLs registers according to the required frequency.
+–
+
+For integer mode, set PLLxFRACEN to 0 in RCC_PLL1CFGR, RCC_PLL2CFGR,
+and RCC_PLL3CFGR.
+
+–
+
+For fractional mode, set PLLxFRACN to the required initial value (FracInitValue),
+and then set PLLxFRACEN = 1.
+
+2.
+
+Once PLLxON = 1, the application must wait until PLLxRDY = 1. As long as
+PLLxRDY = 0, PLLxFRACEN must not be altered.
+
+3.
+
+Once PLLxRDY = 1, the PLLx is ready to be used.
+
+4.
+
+If the application intends to tune the PLLx frequency on-the-fly, then:
+a)
+
+PLLxFRACEN must be set to 0 to update the PLLxFRACN value while keeping
+the PLL running.
+
+b)
+
+Wait at least 3 periods of the PLL reference clock (refx_ck).
+
+c)
+
+A new value can be uploaded into PLLxFRACN (FracValue(n).
+
+d)
+
+PLLxFRACEN must be set to 1 to activate the new programed value in
+PLLxFRACN that is taken into account by the PLL.
+
+RM0456 Rev 6

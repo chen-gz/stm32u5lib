@@ -1,0 +1,51 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Bit 25 DSIRAMPDS: DSI SRAM power-down in Stop 0/1 modes
+DSI SRAM content is always lost in Stop 2 and Stop 3 modes.
+0: DSI SRAM content retained in Stop 0 and Stop 1 modes
+1: DSI SRAM content lost in Stop 0 and Stop 1 modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 24 GPRAMPDS: Graphic peripherals (LTDC, GFXMMU) SRAM power-down in all Stop modes
+0: Graphic peripherals SRAM content retained in Stop modes
+1: Graphic peripherals SRAM content lost in Stop modes
+Note: LTDC SRAM content is always lost in Stop 2 and Stop 3 modes. It can be retained only
+in Stop 0 and Stop 1 modes.
+This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 23 SRAM3PDS8: SRAM3 page 8 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 8 content retained in Stop modes
+1: SRAM3 page 8 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 22 SRAM3PDS7: SRAM3 page 7 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 7 content retained in Stop modes
+1: SRAM3 page 7 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 21 SRAM3PDS6: SRAM3 page 6 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 6 content retained in Stop modes
+1: SRAM3 page 6 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 20 SRAM3PDS5: SRAM3 page 5 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 5 content retained in Stop modes
+1: SRAM3 page 5 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 19 SRAM3PDS4: SRAM3 page 4 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 4 content retained in Stop modes
+1: SRAM3 page 4 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.

@@ -1,0 +1,194 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+WUPxSEC = 1 in PWR_SECCFGR and SPRIV = 1 in PWR_PRIVCFGR, or when
+WUPxSEC = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+WUPP
+8
+
+WUPP
+7
+
+WUPP
+6
+
+WUPP
+5
+
+WUPP
+4
+
+WUPP
+3
+
+WUPP
+2
+
+WUPP
+1
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 WUPP8: wake-up pin WKUP8 polarity
+This bit must be configured when WUPEN8 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)
+Bit 6 WUPP7: wake-up pin WKUP7 polarity
+This bit must be configured when WUPEN7 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)
+Bit 5 WUPP6: wake-up pin WKUP6 polarity
+This bit must be configured when WUPEN6 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)
+Bit 4 WUPP5: wake-up pin WKUP5 polarity
+This bit must be configured when WUPEN5 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)
+Bit 3 WUPP4: wake-up pin WKUP4 polarity
+This bit must be configured when WUPEN4 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)
+Bit 2 WUPP3: wake-up pin WKUP3 polarity
+This bit must be configured when WUPEN3 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)
+Bit 1 WUPP2: wake-up pin WKUP2 polarity
+This bit must be configured when WUPEN2 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)
+Bit 0 WUPP1: wake-up pin WKUP1 polarity.
+This bit must be configured when WUPEN1 = 0.
+0: Detection on high level (rising edge)
+1: Detection on low level (falling edge)

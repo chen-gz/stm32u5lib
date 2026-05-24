@@ -1,0 +1,101 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+SD I/O interrupts
+To allow the SD I/O card to interrupt the host, an interrupt function is available on pin 8
+(shared with SDMMC_D1 in 4-bit mode) on the SD interface. The use of the interrupt is
+optional for each card or function within a card. The SD I/O interrupt is level-sensitive, which
+means that the interrupt line must be held active (low) until it is either recognized and acted
+upon by the host or deasserted due to the end of the interrupt period. After the host has
+serviced the interrupt, the interrupt status bit is cleared via an I/O write to the appropriate bit
+in the SD I/O card internal registers. The interrupt output of all SD I/O cards is active low and
+the application must provide external pull-up resistors on all data lines (SDMMC_D[3:0]).
+In SD 1-bit mode pin 8 is dedicated to the interrupt function (IRQ), and there are no timing
+constraints on interrupts.
+In SD 4-bit mode the host samples the level of pin 8 (SDMMC_D1/IRQ) into the interrupt
+detector only during the interrupt period. At all other times, the host interrupt ignores this
+value. The interrupt period begins when interrupts are enabled at the card and SDIOEN bit
+is set see register settings in Table 292.
+In 4-bit mode the card can generate a synchronous or asynchronous interrupt as indicated
+by the card CCCR register SAI and EAI bits.
+•
+
+Synchronous interrupt, require the SDMMC_CK to be active.
+
+•
+
+Asynchronous interrupt, can be generated when the SDMMC_CK is stopped, 4 cycles
+after the start of the card interrupt period following the last data block.
+Figure 202. Asynchronous interrupt generation
+SDMMC_CK
+Data block
+
+SDMMC_CMD
+
+S Command E
+
+SDMMC_D0
+
+S
+
+Last data
+
+E
+
+S
+
+CRC
+
+E
+
+SDMMC_D1
+
+S
+
+Last data
+
+E
+
+S
+
+CRC
+
+E
+
+SDMMC_D2
+SDMMC_D3
+
+S
+
+Last data
+
+E
+
+S
+
+CRC
+
+E
+
+Synchronous
+INT
+
+Data1
+
+2 CK
+
+Asynchronous INT
+
+Data1
+
+NEAI
+
+4 CK
+Interrupt period
+
+MSv40191V3
+
+The timing of the interrupt period is depending on the bus speed mode.

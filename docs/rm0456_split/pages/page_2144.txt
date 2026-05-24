@@ -1,0 +1,114 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 556. Break and Break2 circuitry overview
+Enable
+tim_sys_brk0
+Enable
+tim_sys_brk1
+tim_sys_brk
+
+Enable
+
+SBIF flag
+
+tim_sys_brk2
+Enable
+tim_sys_brk3
+Enable
+tim_sys_brkx
+CSS
+
+BKINP
+TIMx_BKIN
+from AF
+controller
+
+Software break
+requests: BG
+
+BKINE
+
+BKCMP1P..BKCMP4P
+
+BKCMP1E
+...
+BKCMP4E
+
+BIF flag
+
+4
+
+4
+
+4
+
+4
+
+BKE
+BKF[3:0]
+
+tim_brk_cmp[4:1]
+
+tim_brk
+
+BKP
+
+Filter
+BKCMP5E..BKCMP8E
+
+Application break requests
+
+tim_brk_cmp[8:5]
+
+BK2INP
+TIMx_BKIN2
+from AF
+controller
+
+BK2INE
+
+BK2CMP1P..BK2CMP4P
+
+Software break
+requests: B2G
+
+BK2CMP1E
+...
+BK2CMP4E
+
+B2IF flag
+BK2E
+
+4
+
+4
+
+BK2F[3:0]
+
+tim_brk2_cmp[4:1]
+
+BK2P
+
+tim_brk2
+
+Filter
+4
+
+BK2CMP5E..BK2CMP8E
+
+tim_brk2_cmp[8:5]
+
+4
+Application break requests
+MSv62336V2
+
+Note:
+
+An asynchronous (clockless) operation is only guaranteed when the programmable filter is
+disabled. If it is enabled, a fail safe clock mode (for example by using the internal PLL and/or
+the CSS) must be used to guarantee that break events are handled.
+When one of the breaks occurs (selected level on one of the break inputs):

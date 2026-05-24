@@ -1,0 +1,90 @@
+90
+
+Contents
+
+RM0456
+20.3.5
+
+DMA2D foreground and background PFC . . . . . . . . . . . . . . . . . . . . . . 860
+
+20.3.6
+
+DMA2D foreground and background CLUT interface . . . . . . . . . . . . . 862
+
+20.3.7
+
+DMA2D blender . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 864
+
+20.3.8
+
+DMA2D output PFC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 864
+
+20.3.9
+
+DMA2D output FIFO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 864
+
+20.3.10 DMA2D output FIFO byte reordering . . . . . . . . . . . . . . . . . . . . . . . . . . 865
+20.3.11 DMA2D AHB master port timer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 867
+20.3.12 DMA2D transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 867
+20.3.13 DMA2D configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 867
+20.3.14 YCbCr support . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 871
+20.3.15 DMA2D transfer control (start, suspend, abort, and completion) . . . . . 871
+20.3.16 Watermark . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+20.3.17 Error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+20.3.18 AHB dead time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+
+20.4
+
+DMA2D interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+
+20.5
+
+DMA2D registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 873
+20.5.1
+
+DMA2D control register (DMA2D_CR) . . . . . . . . . . . . . . . . . . . . . . . . 873
+
+20.5.2
+
+DMA2D interrupt status register (DMA2D_ISR) . . . . . . . . . . . . . . . . . 875
+
+20.5.3
+
+DMA2D interrupt flag clear register (DMA2D_IFCR) . . . . . . . . . . . . . . 875
+
+20.5.4
+
+DMA2D foreground memory address register (DMA2D_FGMAR) . . . 876
+
+20.5.5
+
+DMA2D foreground offset register (DMA2D_FGOR) . . . . . . . . . . . . . . 876
+
+20.5.6
+
+DMA2D background memory address register (DMA2D_BGMAR) . . 877
+
+20.5.7
+
+DMA2D background offset register (DMA2D_BGOR) . . . . . . . . . . . . . 877
+
+20.5.8
+
+DMA2D foreground PFC control register (DMA2D_FGPFCCR) . . . . . 878
+
+20.5.9
+
+DMA2D foreground color register (DMA2D_FGCOLR) . . . . . . . . . . . . 880
+
+20.5.10 DMA2D background PFC control register (DMA2D_BGPFCCR) . . . . 880
+20.5.11 DMA2D background color register (DMA2D_BGCOLR) . . . . . . . . . . . 882
+20.5.12 DMA2D foreground CLUT memory address register
+(DMA2D_FGCMAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 882
+20.5.13 DMA2D background CLUT memory address register
+(DMA2D_BGCMAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 883
+20.5.14 DMA2D output PFC control register (DMA2D_OPFCCR) . . . . . . . . . . 883
+20.5.15 DMA2D output color register (DMA2D_OCOLR) . . . . . . . . . . . . . . . . . 884
+20.5.16 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 885
+20.5.17 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 885
+20.5.18 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 886
+20.5.19 DMA2D output memory address register (DMA2D_OMAR) . . . . . . . . 886

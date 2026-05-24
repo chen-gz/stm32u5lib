@@ -1,0 +1,81 @@
+90
+
+Contents
+
+RM0456
+63.3.9
+
+Programmable alarms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2596
+
+63.3.10 Periodic auto-wake-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2597
+63.3.11 RTC initialization and configuration . . . . . . . . . . . . . . . . . . . . . . . . . . 2598
+63.3.12 Reading the calendar . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2600
+63.3.13 Resetting the RTC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2601
+63.3.14 RTC synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2602
+63.3.15 RTC reference clock detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2602
+63.3.16 RTC smooth digital calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2603
+63.3.17 Timestamp function . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2605
+63.3.18 Calibration clock output . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2606
+63.3.19 Tamper and alarm output . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2606
+
+63.4
+
+RTC low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2607
+
+63.5
+
+RTC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2607
+
+63.6
+
+RTC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2609
+63.6.1
+
+RTC time register (RTC_TR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2609
+
+63.6.2
+
+RTC date register (RTC_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2610
+
+63.6.3
+
+RTC subsecond register (RTC_SSR) . . . . . . . . . . . . . . . . . . . . . . . . 2611
+
+63.6.4
+
+RTC initialization control and status register (RTC_ICSR) . . . . . . . . 2612
+
+63.6.5
+
+RTC prescaler register (RTC_PRER) . . . . . . . . . . . . . . . . . . . . . . . . 2614
+
+63.6.6
+
+RTC wake-up timer register (RTC_WUTR) . . . . . . . . . . . . . . . . . . . . 2615
+
+63.6.7
+
+RTC control register (RTC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2615
+
+63.6.8
+
+RTC privilege mode control register (RTC_PRIVCFGR) . . . . . . . . . . 2619
+
+63.6.9
+
+RTC secure configuration register (RTC_SECCFGR) . . . . . . . . . . . . 2621
+
+63.6.10 RTC write protection register (RTC_WPR) . . . . . . . . . . . . . . . . . . . . 2622
+63.6.11 RTC calibration register (RTC_CALR) . . . . . . . . . . . . . . . . . . . . . . . . 2623
+63.6.12 RTC shift control register (RTC_SHIFTR) . . . . . . . . . . . . . . . . . . . . . 2624
+63.6.13 RTC timestamp time register (RTC_TSTR) . . . . . . . . . . . . . . . . . . . . 2625
+63.6.14 RTC timestamp date register (RTC_TSDR) . . . . . . . . . . . . . . . . . . . 2626
+63.6.15 RTC timestamp subsecond register (RTC_TSSSR) . . . . . . . . . . . . . 2627
+63.6.16 RTC alarm A register (RTC_ALRMAR) . . . . . . . . . . . . . . . . . . . . . . . 2627
+63.6.17 RTC alarm A subsecond register (RTC_ALRMASSR) . . . . . . . . . . . . 2629
+63.6.18 RTC alarm B register (RTC_ALRMBR) . . . . . . . . . . . . . . . . . . . . . . . 2630
+63.6.19 RTC alarm B subsecond register (RTC_ALRMBSSR) . . . . . . . . . . . 2631
+63.6.20 RTC status register (RTC_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2632
+63.6.21 RTC nonsecure masked interrupt status register (RTC_MISR) . . . . . 2633
+63.6.22 RTC secure masked interrupt status register (RTC_SMISR) . . . . . . 2634
+63.6.23 RTC status clear register (RTC_SCR) . . . . . . . . . . . . . . . . . . . . . . . . 2635

@@ -1,0 +1,25 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+Bit 14 DTOGRX: Data Toggle, for reception transfers
+If the endpoint/channel is not isochronous, this bit contains the expected value of the data
+toggle bit (0 = DATA0, 1 = DATA1) for the next data packet to be received. Hardware toggles
+this bit, when the ACK handshake is sent following a data packet reception having a
+matching data PID value; if the endpoint is defined as a control one, hardware clears this bit
+at the reception of a SETUP PID received from host (in device mode), while it sets this bit to
+1 when SETUP transaction is acknowledged by device (in host mode).
+If the endpoint/channel is using the double-buffering feature this bit is used to support packet
+buffer swapping too (Refer to Section 71.5.3: Double-buffered endpoints and usage in
+Device mode).
+If the endpoint/channel is isochronous, this bit is used only to support packet buffer
+swapping for data transmission since no data toggling is used for this kind of
+channels/endpoints and only DATA0 packet are transmitted (Refer to Section 71.5.5:
+Isochronous transfers in Device mode). Hardware toggles this bit just after the end of data
+packet reception, since no handshake is used for isochronous transfers.
+This bit can also be toggled by the software to initialize its value (mandatory when the
+endpoint is not a control one) or to force specific data toggle/packet buffer usage. When the
+application software writes 0, the value of DTOGRX remains unchanged, while writing 1
+makes the bit value toggle. This bit is read/write but it can be only toggled by writing 1.

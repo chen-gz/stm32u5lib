@@ -1,0 +1,175 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Bit 7 CMDSTOP: The CPSM treats the command as a Stop Transmission command and signals
+abort to the DPSM
+This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).
+If this bit is set, the CPSM issues the abort signal to the DPSM when the command is sent.
+Bit 6 CMDTRANS: The CPSM treats the command as a data transfer command, stops the interrupt
+period, and signals DataEnable to the DPSM
+This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).
+If this bit is set, the CPSM issues an end of interrupt period and issues DataEnable signal to
+the DPSM when the command is sent.
+Bits 5:0 CMDINDEX[5:0]: Command index
+This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).
+The command index is sent to the card as part of a command message.
+
+Note:
+
+1
+
+At least seven sdmmc_hclk clock periods are needed between two write accesses to this
+register.
+
+2
+
+MultiMediaCard can send two kinds of response: short responses, 48 bits, or long
+responses,136 bits. SD card and SD I/O card can send only short responses, the argument
+can vary according to the type of response: the software distinguishes the type of response
+according to the send command.
+
+31.10.5
+
+SDMMC command response register (SDMMC_RESPCMDR)
+Address offset: 0x010
+Reset value: 0x0000 0000
+This register contains the command index field of the last command response received. If
+the command response transmission does not contain the command index field (long or
+OCR response), the RESPCMD field is unknown, although it must contain 111111b (the
+value of the reserved field from the response).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RESPCMD[5:0]
+r
+
+r
+
+r
+
+r
+
+Bits 31:6 Reserved, must be kept at reset value.
+Bits 5:0 RESPCMD[5:0]: Response command index
+Read-only bitfield. Contains the command index of the last command response received.

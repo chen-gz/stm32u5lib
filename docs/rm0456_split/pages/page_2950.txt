@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+DTSEG1[4:0] is the sum of PROP_SEG and PHASE_SEG1. DTSEG2[3:0] is
+PHASE_SEG2. Therefore, the length of the bit time is
+(programmed values) × [DTSEG1[4:0] + DTSEG2[3:0] + 3] × tq or
+(functional values) × [SYNC_SEG + PROP_SEG + PHASE_SEG1 + PHASE_SEG2] × tq.
+The information processing time (IPT) is 0, meaning the data for the next bit is available at
+the first clock edge after the sample point.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TDC
+
+Res.
+
+Res.
+
+rw
+15
+
+14
+
+13
+
+Res.
+
+Res.
+
+Res.
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+DTSEG1[4:0]
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+20
+
+19
+
+rw
+
+rw
+
+4
+
+3
+
+rw
+
+rw
+
+rw
+
+rw
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+DBRP[4:0]
+
+DTSEG2[3:0]
+rw
+
+18
+
+DSJW[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 TDC: Transceiver delay compensation
+0: Transceiver delay compensation disabled
+1: Transceiver delay compensation enabled
+Bits 22:21 Reserved, must be kept at reset value.
+Bits 20:16 DBRP[4:0]: Data bit rate prescaler
+The value by which the oscillator frequency is divided to generate the bit time quanta. The bit
+time is built up from a multiple of this quantum. Valid values for the baud rate prescaler are 0
+to 31. The hardware interpreters this value as the value programmed plus 1.
+Bits 15:13 Reserved, must be kept at reset value.
+Bits 12:8 DTSEG1[4:0]: Data time segment before sample point
+Valid values are 0 to 31. The value used by the hardware is the one programmed,
+incremented by 1, that is tBS1 = (DTSEG1[4:0] + 1) × tq.
+Bits 7:4 DTSEG2[3:0]: Data time segment after sample point
+Valid values are 0 to 15. The value used by the hardware is the one programmed,
+incremented by 1, i.e. tBS2 = (DTSEG2[3:0] + 1) × tq.
+Bits 3:0 DSJW[3:0]: Synchronization jump width
+Valid values are 0 to 15. The value used by the hardware is the one programmed,
+incremented by 1: tSJW = (DSJW[3:0] + 1) × tq.
+
+Note:
+
+With an FDCAN clock of 8 MHz, the reset value 0x0000 0A33 configures the FDCAN for a
+fast bit rate of 500 kbit/s.
+The data phase bit rate must be higher than or equal to the nominal bit rate.
+
+70.4.4
+
+FDCAN test register (FDCAN_TEST)
+Write access to this register is enabled by setting the TEST bit of the FDCAN_CCCR
+register. All register functions are set to their reset values when this bit is cleared.
+Loop-back mode and software control of Tx pin FDCANx_TX are hardware test modes.
+Programming TX[1:0] differently from 00 can disturb the message transfer on the CAN bus.
+Address offset: 0x0010
+Reset value: 0x0000 0000
+
+RM0456 Rev 6

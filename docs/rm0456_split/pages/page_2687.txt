@@ -1,0 +1,82 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+The number of retries is programmed in the SCARCNT bitfield. If the USART continues
+receiving the NACK after the programmed number of retries, it stops transmitting and
+signals the error as a framing error. The TXE bit (TXFNF bit in case FIFO mode is
+enabled) may be set using the TXFRQ bit in the USART_RQR register.
+
+Note:
+
+•
+
+Smartcard auto-retry in transmission: A delay of 2.5 baud periods is inserted between
+the NACK detection by the USART and the start bit of the repeated character. The TC
+bit is set immediately at the end of reception of the last repeated character (no guard
+time). If the software wants to repeat it again, it must ensure the minimum 2-baud
+periods required by the standard.
+
+•
+
+If a parity error is detected during reception of a frame programmed with a 1.5 stop bit
+period, the transmit line is pulled low for a baud clock period after the completion of the
+receive frame. This is to indicate to the smartcard that the data transmitted to the
+USART has not been correctly received. A parity error is NACKed by the receiver if the
+NACK control bit is set, otherwise a NACK is not transmitted (to be used in T = 1
+mode). If the received character is erroneous, the RXNE (RXFNE in case FIFO mode
+is enabled)/receive DMA request is not activated. According to the protocol
+specification, the smartcard must resend the same character. If the received character
+is still erroneous after the maximum number of retries specified in the SCARCNT
+bitfield, the USART stops transmitting the NACK and signals the error as a parity error.
+
+•
+
+Smartcard auto-retry in reception: the BUSY flag remains set if the USART NACKs the
+card but the card doesn’t repeat the character.
+
+•
+
+In transmission, the USART inserts the guard time (as programmed in the guard time
+register) between two successive characters. As the guard time is measured after the
+stop bit of the previous character, the GT[7:0] register must be programmed to the
+desired CGT character guard time, as defined by the 7816-3 specification) minus 12
+(the duration of one character).
+
+•
+
+The assertion of the TC flag can be delayed by programming the guard time register. In
+normal operation, TC is asserted when the transmit shift register is empty and no
+further transmit requests are outstanding. In smartcard mode an empty transmit shift
+register triggers the guard time counter to count up to the programmed value in the
+guard time register. TC is forced low during this time. When the guard time counter
+reaches the programmed value TC is asserted high. The TCBGT flag can be used to
+detect the end of data transfer without waiting for guard time completion. This flag is set
+just after the end of frame transmission and if no NACK has been received from the
+card.
+
+•
+
+The de-assertion of TC flag is unaffected by smartcard mode.
+
+•
+
+If a framing error is detected on the transmitter end (due to a NACK from the receiver),
+the NACK is not detected as a start bit by the receive block of the transmitter.
+According to the ISO protocol, the duration of the received NACK can be 1 or 2 baud
+clock periods.
+
+•
+
+On the receiver side, if a parity error is detected and a NACK is transmitted the receiver
+does not detect the NACK as a start bit.
+
+Break characters are not significant in smartcard mode. A 0x00 data with a framing error is
+treated as data and not as a break.
+No Idle frame is transmitted when toggling the TE bit. The Idle frame (as defined for the
+other configurations) is not defined by the ISO protocol.
+Figure 826 shows how the NACK signal is sampled by the USART. In this example the
+USART is transmitting data and is configured with 1.5 stop bits. The receiver part of the
+USART is enabled in order to check the integrity of the data and the NACK signal.

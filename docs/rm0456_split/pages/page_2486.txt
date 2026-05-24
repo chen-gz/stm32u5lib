@@ -1,0 +1,174 @@
+Don’t
+care
+
+0
+
+1
+
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+00
+
+0
+
+1
+
+Don’t
+care
+
+Don’t
+care
+
+0
+
+00
+
+0
+
+0
+
+00
+
+0
+
+1
+
+Don’t
+care
+
+Don’t
+care
+
+0
+
+00
+
+0
+
+0
+
+00
+
+0
+
+1
+
+RTC_TS and TAMP_IN1
+input floating
+
+RTC_TS input floating
+
+Wake-up pin or Standard
+GPIO
+
+Don’t
+care
+
+Don’t
+care
+
+0
+
+1
+
+Don’t
+care
+
+Don’t
+care
+
+0
+
+1
+
+0
+
+1
+
+0
+
+0
+
+0
+0
+Don’t
+care
+
+Don’t
+care
+
+0
+0
+
+Don’t
+care
+1
+
+1
+
+0
+
+Don’t
+care
+1
+
+TSE
+(RTC_TS input enable)
+
+Don’t
+care
+
+TAMP1E
+(TAMP_IN1 input enable)
+
+0
+
+TAMP2E=TAMP2AM=1 with
+ATOSHARE=0, or TAMPxE=TAMPxAM=1
+with ATOSHARE=1 and ATOSELx=1
+
+OUT2EN
+
+0
+
+TAMPALRM_PU
+
+COE
+(CALIB output enable)
+
+00
+
+TAMPALRM_TYPE
+
+TAMPOE
+(TAMPER output enable)
+
+PC13 pin function
+
+OSEL[1:0]
+(ALARM output enable)
+
+Table 635. RTC pin PC13 configuration(1) (continued)
+
+0
+Don’t
+care
+
+Don’t
+care
+
+0
+0
+
+1. OD: open drain; PP: push-pull.
+2. In this configuration the GPIO must be configured in input.
+
+In addition, it is possible to output RTC_OUT2 on PB2 pin thanks to OUT2EN bit. The
+different functions are mapped on RTC_OUT1 or on RTC_OUT2 depending on OSEL, COE
+and OUT2EN configuration, as shown in table Table 636.
+
+RM0456 Rev 6

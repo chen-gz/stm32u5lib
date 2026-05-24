@@ -1,0 +1,63 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+•
+
+If the WFE instruction is used to enter the low-power mode, the MCU exits the lowpower mode as soon as an event occurs. The wake-up event can be generated either
+by:
+–
+
+an NVIC IRQ/peripheral interrupt:
+- When SEVONPEND = 0 in the Cortex-M33 system control register
+By enabling an interrupt in the peripheral control register and in the NVIC. When
+the MCU resumes from WFE, the peripheral interrupt pending bit and the NVIC
+peripheral IRQ channel pending bit (in the NVIC interrupt clear pending register)
+must be cleared. Only NVIC interrupts with high enough priority wake up and
+interrupt the MCU.
+- When SEVONPEND = 1 in the Cortex-M33 system control register
+By enabling an interrupt in the peripheral control register and optionally in the
+NVIC. When the MCU resumes from WFE, the peripheral interrupt pending bit and
+the NVIC peripheral IRQ channel pending bit (in the NVIC interrupt clear pending
+register) must be cleared. All NVIC interrupts wake up the MCU, even the disabled
+ones. Only enabled NVIC interrupts with high enough priority wake up and
+interrupt the MCU.
+
+–
+
+an event:
+Configuring a EXTI line in event mode. When the CPU resumes from WFE, it is
+not necessary to clear the EXTI peripheral interrupt pending bit or the NVIC IRQ
+channel pending bit as the pending bits corresponding to the event line is not set.
+It may be necessary to clear the interrupt flag in the peripheral.
+
+The MCU exits Stop 3, Standby, or Shutdown mode through an external reset (NRST pin),
+an IWDG reset, a rising edge on one of the enabled WKUPx pins or a RTC/TAMP event
+(see Figure 773: RTC block diagram).
+After waking up from Standby or Shutdown mode, the program execution restarts in the
+same way as after a reset (boot pin sampling, option bytes loading, reset vector is fetched).
+Caution:
+
+When the device is in Stop mode, a peripheral interrupt powers on an internal oscillator.
+The corresponding NVIC interrupt channel must be enabled to allow the interrupt to exit
+the device from Stop mode. It is not allowed to disable a peripheral interrupt by disabling
+only the NVIC channel while keeping the peripheral interrupt enable, as the device may
+remain in Stop mode with clock on.
+The peripherals with autonomous mode feature are able to generate an AHB or APB clock
+request when the device is in Stop mode, depending on their internal events. The software
+must ensure that either DMA transfer or interrupt is served, by configuring properly and in a
+consistent way the RCC, the autonomous peripherals, the DMA channels and NVIC. Note
+that when an autonomous peripheral requests the bus clock in Stop mode, the AHB and
+APB clocks are distributed to all enabled peripherals (limited to SmartRun domain
+peripherals in Stop 2 mode). Consequently, enabled peripherals, even without autonomous
+mode capability, are temporarily clocked and can also generate an interrupt during this time.
+These peripherals interrupts wake up the device from Stop mode.
+
+10.7.5
+
+Sleep mode
+I/O states in Sleep mode
+In Sleep mode, all I/O pins keep the same state as in Run mode.
+
+RM0456 Rev 6

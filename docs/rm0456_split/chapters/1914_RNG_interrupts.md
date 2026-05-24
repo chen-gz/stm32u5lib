@@ -1,0 +1,106 @@
+1921
+
+True random number generator (RNG)
+
+48.4
+
+RM0456
+
+RNG interrupts
+In the RNG an interrupt can be produced on the following events:
+•
+
+Data ready flag
+
+•
+
+Seed error, see Section 48.3.7: Error management
+
+•
+
+Clock error, see Section 48.3.7: Error management
+
+Dedicated interrupt enable control bits are available as shown in Table 463.
+Table 463. RNG interrupt requests
+Interrupt acronym
+
+RNG
+
+Interrupt event
+
+Event flag
+
+Enable control bit
+
+Interrupt clear method
+
+Data ready flag
+
+DRDY
+
+IE
+
+None (automatic)
+
+Seed error flag
+
+SEIS
+
+IE
+
+Write CONDRST to 1 then to 0
+unless ARDIS is cleared (see
+Section 48.3.7).
+Write 0 to SEIS.
+
+Clock error flag
+
+CEIS
+
+IE
+
+Write 0 to CEIS
+
+The user can enable or disable the above interrupt sources individually by changing the
+mask bits or the general interrupt control bit IE in the RNG_CR register. The status of the
+individual interrupt sources can be read from the RNG_SR register.
+Note:
+
+Interrupts are generated only when RNG is enabled.
+
+48.5
+
+RNG processing time
+In recommended configuration A or C described in Table 465, the time between two sets of
+four 32-bit data is either:
+•
+
+203 x N AHB cycles if fAHB < fthreshold (conditioning stage is limiting), or
+
+•
+
+128 x N RNG cycles fAHB ≥ fthreshold (noise source stage is limiting).
+
+With fthreshold = 1.6 x fRNG, for instance 77 MHz if fRNG= 48 MHz. Value N is defined in
+Section 48.6: RNG entropy source validation.
+Note:
+
+When CLKDIV is different from zero, fRNG must take into account the internal divider ratio.
+If configuration B is selected the performance figures become:
+•
+
+203 AHB cycles if fAHB < fthreshold or
+
+•
+
+32 RNG cycles fAHB ≥ fthreshold
+
+with fthreshold = 6.5 x fRNG.
+
+Initialization time
+More time is needed for the first set of random numbers after the device exits reset (see
+Section 1.3.4: RNG initialization). Table below gives details on how to compute the time
+spent in each initialization step.
+
+<!-- pagebreak -->
+

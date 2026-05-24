@@ -1,0 +1,120 @@
+1.
+
+Program the M bits in USART_CR1 to define the word length.
+
+2.
+
+Select the desired baud rate using the USART_BRR register.
+
+3.
+
+Program the number of stop bits in USART_CR2.
+
+4.
+
+Enable the USART by writing the UE bit in USART_CR1 register to 1.
+
+5.
+
+Select DMA enable (DMAT) in USART_CR3 if multibuffer communication must take
+place. Configure the DMA register as explained in Section 66.5.20: Continuous
+communication using USART and DMA.
+
+6.
+
+Set the TE bit in USART_CR1 to send an idle frame as first transmission.
+
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+7.
+
+8.
+
+Write the data to send in the USART_TDR register. Repeat this for each data to be
+transmitted in case of single buffer.
+–
+
+When FIFO mode is disabled, writing a data to the USART_TDR clears the TXE
+flag.
+
+–
+
+When FIFO mode is enabled, writing a data to the USART_TDR adds one data to
+the TXFIFO. Write operations to the USART_TDR are performed when TXFNF
+flag is set. This flag remains set until the TXFIFO is full.
+
+When the last data is written to the USART_TDR register, wait until TC = 1.
+–
+
+When FIFO mode is disabled, this indicates that the transmission of the last frame
+has completed.
+
+–
+
+When FIFO mode is enabled, this indicates that both TXFIFO and shift register are
+empty.
+
+This check is required to avoid corrupting the last transmission when the USART is
+disabled or enters Halt mode.
+
+Single byte communication
+•
+
+When FIFO mode is disabled
+Writing to the transmit data register always clears the TXE bit. The TXE flag is set by
+hardware. It indicates that:
+–
+
+the data have been moved from the USART_TDR register to the shift register and
+the data transmission has started;
+
+–
+
+the USART_TDR register is empty;
+
+–
+
+the next data can be written to the USART_TDR register without overwriting the
+previous data.
+
+This flag generates an interrupt if the TXEIE bit is set.
+When a transmission is ongoing, a write instruction to the USART_TDR register stores
+the data in the TDR buffer. It is then copied in the shift register at the end of the current
+transmission.
+When no transmission is ongoing, a write instruction to the USART_TDR register
+places the data in the shift register, the data transmission starts, and the TXE bit is set.
+•
+
+When FIFO mode is enabled, the TXFNF (TXFIFO not full) flag is set by hardware to
+indicate that:
+–
+
+the TXFIFO is not full;
+
+–
+
+the USART_TDR register is empty;
+
+–
+
+the next data can be written to the USART_TDR register without overwriting the
+previous data. When a transmission is ongoing, a write operation to the
+USART_TDR register stores the data in the TXFIFO. Data are copied from the
+TXFIFO to the shift register at the end of the current transmission.
+
+When the TXFIFO is not full, the TXFNF flag stays at 1 even after a write operation to
+USART_TDR register. It is cleared when the TXFIFO is full. This flag generates an
+interrupt if the TXFNFIE bit is set.
+Alternatively, interrupts can be generated and data can be written to the FIFO when the
+TXFIFO threshold is reached. In this case, the CPU can write a block of data defined by
+the programmed trigger level.
+If a frame is transmitted (after the stop bit) and the TXE flag (TXFE in case of FIFO
+mode) is set, the TC flag goes high. An interrupt is generated if the TCIE bit is set in the
+USART_CR1 register.
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

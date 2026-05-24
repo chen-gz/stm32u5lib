@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+The analog noise filter on the SDA and SCL inputs complies with the I²C-bus specification
+which requires, in Fast-mode and Fast-mode Plus, the suppression of spikes shorter than
+50 ns. Enabled by default, it can be disabled by setting the ANFOFF bit.
+The digital filter is controlled through the DNF[3:0] bitfield of the I2C_CR1 register. When it is
+enabled, the internal SCL and SDA signals only take the level of their corresponding I²C-bus
+line when remaining stable for more than DNF[3:0] periods of i2c_ker_ck. This allows
+suppressing spikes shorter than the filtering capacity period programmable from one to
+fifteen i2c_ker_ck periods.
+The following table compares the two filters.
+Table 659. Comparison of analog and digital filters
+Item
+Filtering capacity
+
+Analog filter
+(1)
+
+≥ 50 ns
+
+Digital filter
+One to fifteen i2c_ker_ck periods
+– Programmable filtering capacity
+– Extra filtering capability versus I²C-bus
+specification requirements
+– Stable filtering capacity
+
+Benefits
+
+Available in Stop mode
+
+Drawbacks
+
+Filtering capacity
+variation with
+Functionality in Stop mode not supported when the
+temperature, voltage, and digital filter is enabled
+silicon process
+
+1. Maximum duration of spikes that the filter can suppress
+
+Caution:
+
+The filter configuration cannot be changed when the I2C peripheral is enabled.
+
+I2C timings
+To ensure correct data hold and setup times, the corresponding timings must be configured
+through the PRESC[3:0], SCLDEL[3:0], and SDADEL[3:0] bitfields of the I2C_TIMINGR
+register.
+The STM32CubeMX tool calculates and provides the I2C_TIMINGR content in the I2C
+configuration window.
+
+RM0456 Rev 6

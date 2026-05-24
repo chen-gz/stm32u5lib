@@ -1,0 +1,186 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+automatically and internally restored with the programmed value for the fields
+BNDT[15:0] and BRC[10:0] after each execution of this final LLI
+•
+
+31
+
+30
+
+If GPDMA_CxLLR = 0, BNDT[15:0] and BRC[10:0] are kept as null, channel x is
+completed.
+29
+
+BRDDE BRSDE
+DDEC
+C
+C
+
+28
+
+27
+
+SDEC
+
+Res.
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+BRC[10:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+BNDT[15:0]
+rw
+
+rw
+
+Bit 31 BRDDEC: Block repeat destination address decrement
+0: at the end of a block transfer, the GPDMA_CxDAR register is updated by adding the
+programmed offset GPDMA_CxBR2.BRDAO to the current GPDMA_CxDAR value (current
+destination address)
+1: at the end of a block transfer, the GPDMA_CxDAR register is updated by subtracting the
+programmed offset GPDMA_CxBR2.BRDAO from the current GPDMA_CxDAR value
+(current destination address)
+Note: On top of this increment/decrement (depending on BRDDEC), GPDMA_CxDAR is in the
+same time also updated by the increment/decrement (depending on DDEC) of the
+GPDMA_CxTR3.DAO value, as it is usually done at the end of each programmed
+burst transfer.
+Bit 30 BRSDEC: Block repeat source address decrement
+0: at the end of a block transfer, the GPDMA_CxSAR register is updated by adding the
+programmed offset GPDMA_CxBR2.BRSAO to the current GPDMA_CxSAR value (current
+source address)
+1: at the end of a block transfer, the GPDMA_CxSAR register is updated by subtracting the
+programmed offset GPDMA_CxBR2.BRSAO from the current GPDMA_CxSAR value
+(current source address)
+Note: On top of this increment/decrement (depending on BRSDEC), GPDMA_CxSAR is in the
+same time also updated by the increment/decrement (depending on SDEC) of the
+GPDMA_CxTR3.SAO value, as it is done after any programmed burst transfer.
+Bit 29 DDEC: destination address decrement
+0: At the end of a programmed burst transfer to the destination, the GPDMA_CxDAR register
+is updated by adding the programmed offset GPDMA_CxTR3.DAO to the current
+GPDMA_CxDAR value (current destination address)
+1: At the end of a programmed burst transfer to the destination, the GPDMA_CxDAR register
+is updated by subtracting the programmed offset GPDMA_CxTR3.DAO to the current
+GPDMA_CxDAR value (current destination address)
+Bit 28 SDEC: source address decrement
+0: At the end of a programmed burst transfer from the source, the GPDMA_CxSAR register is
+updated by adding the programmed offset GPDMA_CxTR3.SAO to the current
+GPDMA_CxSAR value (current source address)
+1: At the end of a programmed burst transfer from the source, the GPDMA_CxSAR register is
+updated by subtracting the programmed offset GPDMA_CxTR3.SAO to the current
+GPDMA_CxSAR value (current source address)
+Bit 27 Reserved, must be kept at reset value.

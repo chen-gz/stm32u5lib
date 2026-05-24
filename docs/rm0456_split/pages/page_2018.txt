@@ -1,0 +1,84 @@
+2037
+
+Hash processor (HASH)
+
+51.4.2
+
+RM0456
+
+HASH internal signals
+Table 485 describes a list of useful to know internal signals available at HASH level, not at
+product level (on pads).
+Table 485. HASH internal input/output signals
+
+51.4.3
+
+Signal name
+
+Signal type
+
+Description
+
+hash_hclk
+
+digital input
+
+AHB bus clock
+
+hash_it
+
+digital output
+
+Hash processor global interrupt request
+
+hash_dma
+
+digital input/output
+
+DMA transfer request/ acknowledge
+
+About secure hash algorithms
+The hash processor is a fully compliant implementation of the secure hash algorithm
+defined by FIPS PUB 180-4 standard and the IETF RFC1321 publication (MD5).
+With each algorithm, the HASH computes a condensed representation of a message or data
+file. More specifically, when a message of any length below 264 bits is provided on input, the
+HASH processing core produces respectively a fixed-length output string called a message
+digest, defined as follows:
+•
+
+For MD5 digest size is 128-bit
+
+•
+
+For SHA-1 digest size is 160-bit
+
+•
+
+For SHA2-224 and SHA2-256, the digest size is 224 bits and 256 bits, respectively
+
+The message digest can then be processed with a digital signature algorithm in order to
+generate or verify the signature for the message.
+Signing the message digest rather than the message often improves the efficiency of the
+process because the message digest is usually much smaller in size than the message. The
+verifier of a digital signature has to use the same hash algorithm as the one used by the
+creator of the digital signature.
+The SHA-2 functions supported by the hash processor are qualified as “secure” by NIST
+because it is computationally infeasible to find a message that corresponds to a given
+message digest, or to find two different messages that produce the same message digest
+(SHA-1 does not qualify as secure since February 2017). Any change to a message in
+transit, with very high probability, results in a different message digest, and the signature
+fails to verify.
+
+51.4.4
+
+Message data feeding
+The message (or data file) to be processed by the HASH is considered as a bit string.
+Per FIPS PUB 180-4 standard this message bit string grows from left to right, with
+hexadecimal words expressed in “big-endian” convention, so that within each word, the
+most significant bit is stored in the left-most bit position. For example message string “abc”
+with a bit string representation of “01100001 01100010 01100011” is represented by a
+32-bit word 0x00636261, and 8-bit words 0x61626300.
+Data are entered into the HASH one 32-bit word at a time, by writing them into the
+HASH_DIN register. The current contents of the HASH_DIN register are transferred to the
+16 words input FIFO each time the register is written with new data. Hence HASH_DIN and
+the FIFO form a seventeen 32-bit words length FIFO (named the IN buffer).

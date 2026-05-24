@@ -1,0 +1,77 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+PHY clock bit and then configuring the system deep sleep mode in the power control
+system module (PWR).
+The OTG_HS core automatically reactivates both system and USB clocks by
+asynchronous detection of remote wake-up (as an host) or resume (as a device)
+signaling on the USB.
+To save dynamic power, the USB data FIFO is clocked only when accessed by the OTG_HS
+core.
+
+73.10
+
+OTG_HS Dynamic update of the OTG_HFIR register
+The USB core embeds a dynamic trimming capability of micro-SOF framing period in host
+mode allowing to synchronize an external device with the micro-SOF frames.
+When the OTG_HFIR register is changed within a current micro-SOF frame, the SOF period
+correction is applied in the next frame as described in Figure 923.
+For a dynamic update, it is required to set RLDCTRL=1.
+Figure 923. Updating OTG_HFIR dynamically (RLDCTRL = 1)
+SOF reload
+
+OTG_HFIR write
+
+...
+
+1
+0
+450
+449
+
+...
+
+450
+
+1
+0
+400
+399
+
+1
+0
+400
+399
+
+Frame timer
+
+400
+
+...
+
+1
+0
+450
+449
+
+OTG_HFIR value
+
+...
+
+ai18440b
+
+73.11
+
+OTG_HS data FIFOs
+The USB system features 4 Kbytes of dedicated RAM with a sophisticated FIFO control
+mechanism. The packet FIFO controller module in the OTG_HS core organizes RAM space
+into Tx FIFOs into which the application pushes the data to be temporarily stored before the
+USB transmission, and into a single Rx FIFO where the data received from the USB are
+temporarily stored before retrieval (popped) by the application. The number of instructed
+FIFOs and how these are organized inside the RAM depends on the device’s role. In
+peripheral mode an additional Tx FIFO is instructed for each active IN endpoint. Any FIFO
+size is software configured to better meet the application requirements.
+
+RM0456 Rev 6

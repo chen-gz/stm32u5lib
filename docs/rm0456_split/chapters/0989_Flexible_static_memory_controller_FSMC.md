@@ -1,0 +1,117 @@
+RM0456 Rev 6
+
+RM0456
+
+27
+
+Flexible static memory controller (FSMC)
+
+Flexible static memory controller (FSMC)
+This section only applies to STM32U575/585/59x/5Ax/5Fx/5Gx devices.
+
+27.1
+
+Introduction
+The flexible static memory controller (FSMC) includes two memory controllers:
+•
+
+The NOR/PSRAM memory controller
+
+•
+
+The NAND memory controller
+
+This memory controller is also named flexible memory controller (FMC).
+
+27.2
+
+FMC main features
+The FMC functional block makes the interface with: synchronous and asynchronous static
+memories, and NAND flash memory. Its main purposes are:
+•
+
+to translate AHB transactions into the appropriate external device protocol
+
+•
+
+to meet the access time requirements of the external memory devices
+
+All external memories share the addresses, data and control signals with the controller.
+Each external device is accessed by means of a unique chip select. The FMC performs only
+one access at a time to an external device.
+The main features of the FMC controller are the following:
+•
+
+Interface with static-memory mapped devices including:
+–
+
+Static random access memory (SRAM)
+
+–
+
+NOR flash memory/OneNAND flash memory
+
+–
+
+PSRAM (4 memory banks)
+
+–
+
+Ferroelectric RAM (FRAM)
+
+–
+
+NAND flash memory with ECC hardware to check up to 8 Kbytes of data
+
+•
+
+Interface with parallel LCD modules, supporting Intel 8080 and Motorola 6800 modes.
+
+•
+
+Burst mode support for faster access to synchronous devices such as NOR flash
+memory, PSRAM)
+
+•
+
+Programmable continuous clock output for asynchronous and synchronous accesses
+
+•
+
+8-,16-bit wide data bus
+
+•
+
+Independent chip select control for each memory bank
+
+•
+
+Independent configuration for each memory bank
+
+•
+
+Write enable and byte lane select outputs for use with PSRAM, SRAM devices
+
+•
+
+External asynchronous wait control
+
+•
+
+Write FIFO with 16 x32-bit depth
+
+The Write FIFO is common to all memory controllers and consists of:
+•
+
+a Write Data FIFO which stores the AHB data to be written to the memory (up to 32
+bits) plus one bit for the AHB transfer (burst or not sequential mode)
+
+•
+
+a Write Address FIFO which stores the AHB address (up to 28 bits) plus the AHB data
+size (up to 2 bits). When operating in burst mode, only the start address is stored
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

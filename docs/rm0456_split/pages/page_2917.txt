@@ -1,0 +1,75 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+Figure 881. CAN subsystem.
+Configuration
+
+32-bit APB bus
+
+fdcan_ker_ck
+
+PDIV[3:0]
+/ 1..30
+
+CFG_APB
+
+Subsystem
+Configuration
+register
+
+CKDIV
+fdcan_tq_ck
+
+Interrupts
+interface
+
+fdcan1_intr0_it
+fdcan1_intr1_it
+
+CAN core
+Sync
+
+FDCAN1_RX
+
+Ctrl_APB
+
+Control and
+Configuration
+registers
+
+FDCAN1_TX
+
+Sync
+Tx Req
+
+Tx State Rx State
+TX Handler
+
+fdcan_pclk
+TX prioritization
+Frame synchronization
+
+Message RAM
+interface
+
+RX Handler
+Acceptance filter
+
+fdcan_ts[0:15]
+CANFDL
+
+RAM_APB
+
+RAM
+Controller / Arbitrer
+APB clock domain
+Message RAM
+Buffers
+FIFOs
+Filters
+
+Kernel clock domain
+
+MSv51817V4

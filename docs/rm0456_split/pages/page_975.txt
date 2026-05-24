@@ -1,0 +1,85 @@
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+The filter is started by writing to the FMAC_PARAM register with the following bitfield values:
+•
+
+FUNC = 8 (FIR filter);
+
+•
+
+P = N (number of coefficients);
+
+•
+
+Q = “Don’t care”;
+
+•
+
+R = Gain;
+
+•
+
+START = 1;
+
+If less than N + d - 2FULL_WM values have been pre-loaded in the X1 buffer, the X1FULL flag
+remains low. If the WIEN bit is set in the FMAC_CR register, then the interrupt request is
+asserted immediately to request the processor to write 2FULL_WM additional samples into the
+buffer, via the FMAC_WDATA register. It remains asserted until the X1FULL flag goes high
+in the FMAC_SR register. The interrupt service routine must check the X1FULL flag after
+every 2FULL_WM writes to the FMAC_WDATA register, and repeat the transfer until the flag
+goes high. Similarly, if the DMAWEN bit is set in the FMAC_CR register, DMA write channel
+requests are generated until the X1FULL flag goes high.
+The filter calculates the first output sample when at least N samples have been written into
+the X1 buffer (including any pre-loaded samples).
+When 2EMPTY_WM output samples have been written into the Y buffer, the YEMPTY flag in
+the FMAC_SR register goes low. If the RIEN bit is set in the FMAC_CR register, the
+interrupt request is asserted to request the processor to read 2EMPTY_WM samples from the
+buffer, via the FMAC_RDATA register. It remains asserted until the YEMPTY flag goes high.
+The interrupt service routine must check the YEMPTY flag after every 2EMPTY_WM reads from
+the FMAC_RDATA register, and repeat the transfer until the flag goes high. If the DMAREN
+bit is set in the FMAC_CR, DMA read channel requests are generated until the YEMPTY
+flag goes high.
+The filter continues to operate in this fashion until it is stopped by the software resetting the
+START bit.
+
+26.3.9
+
+Implementing IIR filters with the FMAC
+The FMAC supports IIR filters of length N, where N is the number of feed-forward taps or
+coefficients. The number of feedback coefficients, M, can be any value from 1 to N-1. Only
+direct form 1 implementations can be realized, so filters designed for other forms need to be
+converted.
+The minimum memory requirement for an IIR filter with N feed-forward coefficients and M
+feed-back coefficients is 2N + 2M:
+•
+
+N + M coefficients
+
+•
+
+N input samples
+
+•
+
+M output samples
+
+If M = N-1, then the maximum filter length that can be implemented is N = 64.
+As for the FIR, for maximum throughput, a small amount of additional space, d1 and d2, is
+allowed in the input and output buffer size respectively, making the total memory
+requirement 2M + 2N + d1 + d2.
+The buffers must be configured as follows:
+•
+
+X1_BUF_SIZE = N + d1;
+
+•
+
+X2_BUF_SIZE = N + M;
+
+•
+
+Y_BUF_SIZE = M + d2;
+RM0456 Rev 6

@@ -1,0 +1,187 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Bits 6:2 JEXTSEL[4:0]: External trigger selection for injected group
+These bits select the external event used to trigger the start of conversion of an injected
+group:
+00000: adc_jext_trg0
+00001: adc_jext_trg1
+...
+Refer to the ADC external trigger for injected channels in Section 33.4.2: ADC pins and
+internal signals for details on trigger mapping.
+Note: The software is allowed to write these bits only when JADSTART = 0 (which ensures
+that no injected conversion is ongoing.
+Bits 1:0 JL[1:0]: Injected channel sequence length
+These bits are written by software to define the total number of conversions in the injected
+channel conversion sequence.
+00: 1 conversion
+01: 2 conversions
+10: 3 conversions
+11: 4 conversions
+Note: The software is allowed to write these bits only when JADSTART = 0 (which ensures
+that no injected conversion is ongoing.
+
+33.6.15
+
+ADC offset y register (ADC_OFRy)
+Address offset: 0x60 + 0x04 * (y - 1), (y = 1 to 4)
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+OFFSET_CH[4:0]
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+OFFSET[23:16]
+
+SSAT
+
+USAT
+
+POSOFF
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+OFFSET[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:27 OFFSET_CH[4:0]: Channel selection for the data offset y
+These bits are written by software to define the channel to which the offset programmed into
+OFFSETy[25:0] bits applies.
+Note: The software is allowed to write these bits only when ADSTART = 0 and
+JADSTART = 0 (which ensures that no conversion is ongoing).
+If OFFSETy_EN bit is set, it is not allowed to select the same channel in different
+ADC_OFRy registers.
+Bit 26 SSAT: Signed saturation enable
+This bit is written by software to enable or disable the Signed saturation feature.
+(see Section : Data register, data alignment and offset (ADC_DR, ADC_JDRy, OFFSETy,
+OFFSETy_CH, OVSS, LSHIFT, USAT, SSAT) for details).
+0: Offset is subtracted maintaining data integrity and extending converted data size (9-bit
+and 15-bit signed format).
+1: Offset is subtracted and result is saturated to maintain converted data size.
+Note: The software is allowed to write this bit only when ADSTART = 0 and JADSTART = 0
+(which ensures that no conversion is ongoing).

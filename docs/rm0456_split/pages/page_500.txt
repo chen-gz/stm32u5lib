@@ -1,0 +1,69 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+The other clock sources are asynchronous to TIMx timers therefore an uncertainty of
+the trigger instant is added by the resynchronization between the two clock domains.
+LPTIMx timers are also asynchronous.
+The DAC requires an additional low-power clock (LSI or LSE) to operate in sample and hold
+mode, available in Stop mode. This clock is selected with DAC1SEL in the RCC_CCIPR3.
+
+11.4.14
+
+RTC and TAMP clock
+The RTCCLK clock source is used by RTC and TAMP, and can be either the HSE / 32, LSE,
+or LSI clock. It is selected by programming RTCSEL[1:0] in RCC_BDCR. This selection
+cannot be modified without resetting the backup domain. The system must always be
+configured so as to get a PCLK frequency greater than or equal to the RTCCLK frequency
+for a proper operation of the RTC. The TAMP does not require any kernel clock if only
+backup registers are used, with tampers in edge detection mode. All other tamper detection
+modes require a kernel clock (refer to Section 64: Tamper and backup registers (TAMP) for
+more details).
+LSE and LSI clocks are in the backup domain, whereas the HSE clock is not. Consequently:
+•
+
+If LSE or LSI is selected as RTC and TAMP clock, these peripherals continue to work
+even if the VDD supply is switched off, provided the VBAT supply is maintained.
+
+•
+
+If the HSE clock divided by a prescaler is used as the RTC or TAMP clock, the RTC
+state is not guaranteed if the VDD supply is powered off, or if the internal voltage
+regulator is powered off (removing power from the core domain). Depending on the
+TAMP configuration, this one can remain functional if used in a mode that does not
+need any kernel clock.
+
+When the RTC and TAMP clock is LSE or LSI, the RTC remains clocked and functional
+under system reset.
+If the LSE is needed only for the RTC or TAMP, LSESYSEN must be kept at reset value to
+get the lowest consumption.
+
+11.4.15
+
+Timer clock
+The timer clock frequencies are automatically defined by hardware.
+There are two cases:
+
+11.4.16
+
+•
+
+If the APB prescaler equals 1, the timer clock frequencies are set to the APB domain
+frequency.
+
+•
+
+Otherwise, they are set to twice (×2) the APB domain frequency.
+
+Watchdog clock
+If the independent watchdog (IWDG) is started by either hardware option or software
+access, the LSI oscillator is forced on and cannot be disabled. After the LSI oscillator
+temporization, the LSI 32 kHz clock is provided to the IWDG.
+
+11.4.17
+
+OCTOSPI clock
+The OCTOSPIx kernel clock, selected by OCTOSPIxSEL[1:0], can be up to 200 MHz when
+pll1_q_ck or pll2_q_ck are used.

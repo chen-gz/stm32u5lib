@@ -1,0 +1,117 @@
+•
+
+Enable CMDREND flag.
+
+•
+
+Send Command through CPSM.
+
+•
+
+On the CMDREND flag check the BUSYD0 register bit.
+–
+
+If BUSYD0 signals not busy, signal busy release to firmware
+
+–
+
+If BUSYD0 signals busy, wait for BUSYD0END flag
+
+•
+
+On BUSYD0END flag signal busy released to firmware.
+
+•
+
+On DTIMEOUT flag busy is active longer then programmed time.
+
+RM0456 Rev 6
+
+RM0456
+
+31.6.7
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+Reset and card cycle power
+Reset
+Following reset the SDMMC is in the reset state. In this state the SDMMC is disabled and no
+command nor data can be transfered. The SDMMC_D[7:0], and SDMMC_CMD are in HiZ
+and the SDMMC_CK is driven low.
+Before moving to the power-on state the SDMMC must be configured.
+In the power-on state the SDMMC_CK clock is running. First 74 SDMMC_CK cycles are
+clocked after which the SDMMC is enabled and command and data can be transfered.
+The SDMMC states are controlled by Firmware with the PWRCTL register bits according
+Figure 216..
+Figure 216. SDMMC state control
+PWRCTRL = 11
+
+Power-cycle
+SDMMC disabled
+Signals drive 0
+
+PWRCTRL = 00
+Reset
+
+Power-off
+SDMMC disabled
+Signals drive 1
+
+PWRCTRL = 11
+Reset
+
+Power-on
+SDMMC disabled
+Wait 74 cycles
+SDMMC_CK > 74 cyles
+
+PWRCTRL = 10
+
+Reset
+
+Reset
+SDMMC disabled
+Signals HiZ
+
+Reset
+
+Power-on
+SDMMC enabled
+MSv40947V1
+
+Card cycle power
+To perform a card cycle power the following procedure applies:
+1.
+
+Reset the SDMMC with the RCC.SDMMCxRST register bit. This resets the SDMMC to
+the reset state and the CPSM and DPSM to the Idle state.
+
+2.
+
+Disable the Vcc power to the card.
+
+3.
+
+Set the SDMMC in power-cycle state. This makes that the SDMMC_D[7:0],
+SDMMC_CMD and SDMMC_CK are driven low, to prevent the card from being
+supplied through the signal lines.
+
+4.
+
+After minimum 1 ms enable the Vcc power to the card.
+
+5.
+
+After the power ramp period set the SDMMC to the power-off state for minimum 1 ms.
+The SDMMC_D[7:0], SDMMC_CMD and SDMMC_CK are set to drive 1.
+
+6.
+
+After the 1 ms delay set the SDMMC to power-on state in which the SDMMC_CK clock
+is enabled.
+
+7.
+
+After 74 SDMMC_CK cycles the first command can be sent to the card.
+
+RM0456 Rev 6

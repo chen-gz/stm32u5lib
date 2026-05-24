@@ -1,0 +1,102 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+The HPF is a first order IIR filter and the cut-off frequency can be selected via HPFC[1:0] in
+the ADF reshape filter configuration register 0 (ADF_DFLT0RSFR), among the following
+values:
+•
+
+0.000625 x FPCM
+
+•
+
+0.00125 x FPCM
+
+•
+
+0.00250 x FPCM
+
+•
+
+0.00950 x FPCM
+Table 399. HPF 3 dB cut-off frequency examples
+HPFC
+
+3 dB cut-off frequency for common FPCM frequencies (Hz)
+FPCM = 8 kHz
+
+FPCM = 16 kHz
+
+FPCM = 48 kHz
+
+0
+
+5
+
+10
+
+30
+
+1
+
+10
+
+20
+
+60
+
+2
+
+20
+
+40
+
+120
+
+3
+
+76
+
+152
+
+456
+
+The HPF output is saturated at 24 bits. The SATF flag is set if a sample is saturated.
+
+40.4.8
+
+Digital filter acquisition modes
+The ADF offers the following modes to perform a data capture:
+
+Note:
+
+•
+
+asynchronous continuous acquisition mode
+
+•
+
+asynchronous single-shot acquisition mode
+
+•
+
+synchronous continuous acquisition mode
+
+•
+
+synchronous single-shot acquisition mode
+
+•
+
+window continuous acquisition mode
+
+To perform a data capture, the filter, the interface providing the data (SITF0 or ADCITF) and
+the CKGEN must be enabled. If needed, the ADF_CCK0 or ADF_CCK1 must be enabled as
+well.
+The filter can be stopped immediately when DFLTEN is set to 0. This action resets the filter
+and flushes the RXFIFO. The DFLTACTIVE flag also goes back to 0 when the RXFIFO and
+the filter is reset.
+
+RM0456 Rev 6

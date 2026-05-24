@@ -1,0 +1,57 @@
+If the two channels are enabled simultaneously, the pulses are issued independently as long
+as the trigger on one channel is not overlapping the pulse generated on the concurrent
+output. On the opposite, if the two triggers are overlapping, the pulse width related to the
+first arriving trigger is extended (because of the retrigger), while the pulse width of the last
+arriving trigger is correct (as shown on Figure 568).
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 568. Extended pulsewidth in case of concurrent triggers
+Trigger CMP3
+
+Trigger CMP4
+
+tim_oc3
+Extended pulsewidth
+due to overlapping
+CMP4 trigger
+
+tim_oc4
+MSv62348V1
+
+54.3.25
+
+Encoder interface mode
+Quadrature encoder
+To select Encoder Interface mode write SMS = 0001 in the TIMx_SMCR register if the
+counter is counting on tim_ti1 edges only, SMS = 0010 if it is counting on tim_ti2 edges only
+and SMS = 0011 if it is counting on both tim_ti1 and tim_ti2 edges.
+Select the tim_ti1 and tim_ti2 polarity by programming the CC1P and CC2P bits in the
+TIMx_CCER register. When needed, the input filter can be programmed as well. CC1NP
+and CC2NP must be kept low.
+The two inputs tim_ti1 and tim_ti2 are used to interface to an quadrature encoder. Refer to
+Table 549. The counter is clocked by each valid transition on tim_ti1fp1 or tim_ti2fp2 (tim_ti1
+and tim_ti2 after input filter and polarity selection, tim_ti1fp1 = tim_ti1 if not filtered and not
+inverted, tim_ti2fp2 = tim_ti2 if not filtered and not inverted) assuming that it is enabled
+(CEN bit in TIMx_CR1 register written to 1). The sequence of transitions of the two inputs is
+evaluated and generates count pulses as well as the direction signal. Depending on the
+sequence the counter counts up or down, the DIR bit in the TIMx_CR1 register is modified
+by hardware accordingly. The DIR bit is calculated at each transition on any input (tim_ti1 or
+tim_ti2), whatever the counter is counting on tim_ti1 only, tim_ti2 only or both tim_ti1 and
+tim_ti2.
+Encoder interface mode acts simply as an external clock with direction selection. This
+means that the counter just counts continuously between 0 and the autoreload value in the
+TIMx_ARR register (0 to ARR or ARR down to 0 depending on the direction). So the
+TIMx_ARR must be configured before starting. In the same way, the capture, compare,
+prescaler, repetition counter, trigger output features continue to work as normal. Encoder
+mode and External clock mode 2 are not compatible and must not be selected together.
+In this mode, the counter is modified automatically following the speed and the direction of
+the quadrature encoder and its content, therefore, always represents the encoder’s position.
+The count direction correspond to the rotation direction of the connected sensor. The table
+summarizes the possible combinations, assuming tim_ti1 and tim_ti2 do not switch at the
+same time.
+
+RM0456 Rev 6

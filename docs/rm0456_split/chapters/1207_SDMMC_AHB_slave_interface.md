@@ -1,0 +1,81 @@
+•
+
+sdmmc_io_in_ck bus master main feedback clock.
+
+•
+
+SDMMC_CKIN external bus feedback clock.
+
+•
+
+sdmmc_fb_ck bus tuned feedback clock.
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+The sdmmc_io_in_ck is selected when there is no external driver, with DS and HS.
+The SDMMC_CKIN is selected when there is an external driver with SDR12, SDR25,
+SDR50 and DDR50.
+The sdmmc_fb_ck clock input must be selected when the DLYB block on the device is used
+with SDR104, HS200 and optionally with SDR50 and DDR50 modes.
+Figure 200. CLKMUX unit
+CLKMUX
+Registers
+sdmmc_io_in_ck
+
+MUX
+
+SDMMC_CKIN
+sdmmc_fb_ck
+
+SDMMC internal receive clock
+
+MSv40190V3
+
+The sdmmc_rx_ck source must be changed when the CPSM and DPSM are in the Idle
+state.
+
+31.5.5
+
+SDMMC AHB slave interface
+The AHB slave interface generates the interrupt requests, and accesses the SDMMC
+adapter registers and the data FIFO. It consists of a data path, register decoder, and
+interrupt logic.
+
+SDMMC FIFO
+The FIFO access is restricted to word access only:
+•
+
+In transmit FIFO mode
+–
+
+•
+
+Data are written to the FIFO in words (32-bits) until all data according
+DATALENGTH has been transfered. When the DATALENGTH is not an integer
+multiple of 4, the last remaining data (1, 2 or 3 bytes) are written with a word
+transfer.
+
+In receive FIFO mode
+–
+
+Data are read from the FIFO in words (32-bits) until all data according
+DATALENGTH has been transfered. When the DATALENGTH is not an integer
+multiple of 4, the last remaining data (1, 2 or 3 bytes) are read with a word transfer
+padded with 0 value bytes.
+
+When accessing the FIFO with half word or byte accesses an AHB bus fault is generated.
+
+SDMMC interrupts
+The interrupt logic generates an interrupt request signal that is asserted when at least one
+of the unmasked status flags is active. A mask register is provided to allow selection of the
+conditions that generate an interrupt. A status flag generates the interrupt request if a
+corresponding mask flag is set. Some status flags require an implicit clear in the clear
+register.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

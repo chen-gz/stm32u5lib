@@ -1,0 +1,140 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+clock is available, an interrupt is generated and the shadow register is copied in
+MDF_SNPSxDR. The application can read immediately the sample and the timing
+information.
+The SSOVRF overrun flag is also available, allowing the application to check if an overrun
+condition occurs. A snapshot overrun condition is detected when the SSDRF flag is set to 1
+while a new trigger event occurs.
+In that case, the new trigger event is not taken into account. The application must clear the
+SSOVRF flag.
+Figure 346. Snapshot mode example
+
+ADCITF/SITF
+status
+
+RUNNING
+
+Trigger
+mdf_proc_ck
+re-synchro !
+MDF_CCK[1:0]
+MDF_CKIx
+MCIC_CNTR
+
+2
+
+N1 2
+
+INT_CNTR
+
+4
+
+INT output
+
+SN
+
+N1 2
+
+1
+
+N1 2
+
+2
+
+N1 2
+
+3
+
+N1 2
+
+4
+
+N1 2 k N1 2
+
+1
+
+2
+
+SN+1
+
+N1 2
+
+3
+SN+2
+
+N1 2
+
+4
+
+N1 2
+
+1
+
+N1 2
+
+2
+
+3
+
+SN+3
+
+snps_evt
+SNPSxDR shadow
+reg.
+
+INT_CNTR=2, MCIC_CNTR=k, SN+2
+
+mdf_hclk
+INT_CNTR=2, MCIC_CNTR=k, SN+2
+
+MDF_SNPSxDR
+
+MSv62681V1
+
+Note:
+
+When an activated filter did not receive a data strobe, the filter is frozen. If the interface
+providing the stream is not enabled (SITF or ADCITF), the filter is frozen. Once a DFLT x is
+activated, CIC, HPF, IIR and INT are reinitialized. For each filter a status bit indicates if the
+filter is currently running or not.
+
+Starting several filters synchronously
+To start the acquisition of several filters synchronously, the following sequence must be
+performed (assuming that DFLTEN is set to 0):
+1.
+
+Enable the CKGEN and, if needed, enable the MDF_CCK0 and MDF_CCK1 clocks.
+
+2.
+
+Set the SITFEN bit of the requested data interfaces to 1.
+
+3.
+
+For each filter, set the acquisition mode to synchronous (ACQMOD[2:0] = 01x).
+
+4.
+
+For each filter, set TRGSRC[3:0] to 0 (TRGO is selected).
+
+5.
+
+For each filter, set TRGSENS to 0 (rising edge).
+
+6.
+
+For each filter, set DFLTEN to 1.
+
+7.
+
+Read TRGO bit until it is read to 0.
+
+8.
+
+Set TRGO to 1. Then the acquisition sequence for all selected filters starts immediately.
+
+RM0456 Rev 6

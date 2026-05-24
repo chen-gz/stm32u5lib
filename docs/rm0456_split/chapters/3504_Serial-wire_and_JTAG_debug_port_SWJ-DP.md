@@ -1,0 +1,305 @@
+RM0456 Rev 6
+
+r
+
+r
+
+r
+
+RM0456
+
+Debug support (DBG)
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 CHOUTSTATUS[3:0]: channel output status
+There is one bit of the register for each channel output. When a bit is set to 1 it indicates that
+the corresponding channel output is active. When it is set to 0, the corresponding channel
+output is inactive.
+
+CTI channel gate register (CTI_GATER)
+Address offset: 0x140
+Reset value: 0x0000 000F
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+GATEEN[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 GATEEN[3:0]: channel output enable
+For each channel, defines whether an event on that channel can propagate over the CTM to
+other CTIs.
+0000: Channels events do not propagate.
+XXX1: Channel 0 events propagate.
+XX1X: Channel 1 events propagate.
+X1XX: Channel 2 events propagate.
+1XXX: Channel 3 events propagate.
+
+CTI device configuration register (CTI_DEVIDR)
+Address offset: 0xFC8
+Reset value: 0x0004 0800
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+NUMTRIG[7:0]
+r
+
+r
+
+19
+
+18
+
+17
+
+16
+
+NUMCH[3:0]
+
+EXTMUXNUM[4:0]
+r
+
+r
+
+r
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bits 19:16 NUMCH[3:0]: number of ECT channels available
+0x4: four channels
+Bits 15:8 NUMTRIG[7:0]: number of ECT triggers available
+0x8: height trigger inputs and height trigger outputs
+Bits 7:5 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

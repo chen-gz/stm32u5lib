@@ -1,0 +1,95 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+
+Suspend/resume operations in GCM mode
+To suspend the processing of a message, proceed as follows:
+1.
+
+If DMA is used, stop the AES DMA transfers to the IN FIFO by clearing the DMAINEN
+bit of the AES_CR register. If DMA is not used, make sure that the current computation
+is completed, which is indicated by the CCF flag of the AES_SR register set to 1.
+
+2.
+
+In the payload phase, if DMA is not used, read four times the AES_DOUTR register to
+save the last-processed block. If DMA is used, wait until the CCF flag is set in the
+AES_SR register then stop the DMA transfers from the OUT FIFO by clearing the
+DMAOUTEN bit of the AES_CR register.
+
+3.
+
+Clear the CCF flag of the AES_SR register, by setting the CCF bit of the AES_ICR
+register.
+
+4.
+
+Save the AES_SUSPxR registers in the memory, where x is from 0 to 7.
+
+5.
+
+In the payload phase, save the AES_IVRx registers as, during the data processing,
+they changed from their initial values. In the header phase, this step is not required.
+
+6.
+
+Disable the AES peripheral, by clearing the EN bit of the AES_CR register.
+
+7.
+
+Save the current AES configuration in the memory, excluding the initialization vector
+registers AES_IVRx. Key registers do not need to be saved as the original key value is
+known by the application.
+
+8.
+
+If DMA is used, save the DMA controller status (pointers for IN data transfers, number
+of remaining bytes, and so on). In the payload phase, pointers for OUT data transfers
+must also be saved.
+
+To resume the processing of a message, proceed as follows:
+1.
+
+If DMA is used, configure the DMA controller in order to complete the rest of the FIFO
+IN transfers. In the payload phase, the rest of the FIFO OUT transfers must also be
+configured in the DMA controller.
+
+2.
+
+Disable the AES peripheral by clearing the EN bit of the AES_CR register.
+
+3.
+
+Write the suspend register values, previously saved in the memory, back into their
+corresponding AES_SUSPxR registers, where x is from 0 to 7.
+
+4.
+
+In the payload phase, write the initialization vector register values, previously saved in
+the memory, back into their corresponding AES_IVRx registers. In the header phase,
+write initial setting values back into the AES_IVRx registers.
+
+5.
+
+Restore the initial setting values in the AES_CR and AES_KEYRx registers.
+
+6.
+
+Enable the AES peripheral by setting the EN bit of the AES_CR register.
+
+If DMA is used, enable AES DMA requests by setting the DMAINEN bit (and DMAOUTEN
+bit if in payload phase) of the AES_CR register.
+
+49.4.11
+
+AES Galois message authentication code (GMAC)
+Overview
+The Galois message authentication code (GMAC) allows the authentication of a plaintext,
+generating the corresponding tag information (also known as message authentication
+code). It is based on GCM algorithm, as defined in NIST Special Publication 800-38D,
+Recommendation for Block Cipher Modes of Operation - Galois/Counter Mode (GCM) and
+GMAC.
+
+RM0456 Rev 6

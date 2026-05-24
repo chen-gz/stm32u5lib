@@ -1,0 +1,168 @@
+Suitable for data authentication applications, compliant with:
+–
+
+Federal Information Processing Standards Publication FIPS PUB 180-4, Secure
+Hash Standard (SHA-1 and SHA-2 family)
+
+–
+
+Federal Information Processing Standards Publication FIPS PUB 186-4, Digital
+Signature Standard (DSS)
+
+–
+
+Internet Engineering Task Force (IETF) Request For Comments RFC 1321, MD5
+Message-Digest Algorithm
+
+–
+
+Internet Engineering Task Force (IETF) Request For Comments RFC 2104,
+HMAC: Keyed-Hashing for Message Authentication and Federal Information
+Processing Standards Publication FIPS PUB 198-1, The Keyed-Hash Message
+Authentication Code (HMAC)
+
+Fast computation of SHA-1, SHA2-224, SHA2-256, and MD5
+–
+
+82 (respectively 66) clock cycles for processing one 512-bit block of data using
+SHA-1 (respectively SHA2-256) algorithm
+
+–
+
+66 clock cycles for processing one 512-bit block of data using MD5 algorithm
+
+Corresponding 32-bit words of the digest from consecutive message blocks are added
+to each other to form the digest of the whole message
+–
+
+Automatic 32-bit words swapping to comply with the internal little-endian
+representation of the input bit-string
+
+–
+
+Word swapping supported: bits, bytes, half-words and 32-bit words
+
+•
+
+Automatic padding to complete the input bit string to fit digest minimum block size of
+512 bits (16 × 32 bits)
+
+•
+
+Single 32-bit input register associated to an internal input FIFO, corresponding to one
+block size
+
+•
+
+AHB slave peripheral, accessible through 32-bit word accesses only (else an AHB
+error is generated)
+
+•
+
+8 × 32-bit words (H0 to H7) for output message digest
+
+•
+
+Automatic data flow control with support of direct memory access (DMA) using one
+channel.
+
+•
+
+Single or fixed DMA burst transfers of four words
+
+RM0456 Rev 6
+
+RM0456
+
+Hash processor (HASH)
+•
+
+51.3
+
+Interruptible message digest computation, on a per-block basis
+–
+
+Re-loadable digest registers
+
+–
+
+Hashing computation suspend/resume mechanism, including DMA
+
+HASH implementation
+The devices have a single instance of HASH peripheral.
+
+51.4
+
+HASH functional description
+
+51.4.1
+
+HASH block diagram
+Figure 501 shows the block diagram of the hash processor.
+
+32-bit AHB2 bus
+
+Data, key
+
+AHB
+interface
+
+HASH_DIN
+
+16x32-bit
+IN FIFO
+
+Banked Registers
+
+swapping
+
+Figure 501. HASH block diagram
+
+HASH_HRx
+
+Secure digest
+
+Status
+
+HASH_SR
+
+Control
+
+HASH_CR
+
+Start
+
+HASH_STR
+
+HASH
+Core
+(SHA-1,
+SHA2-224,
+SHA2-256,
+MD5)
++
+HMAC
+logic
+
+HASH_CSRx
+
+Suspend/Resume
+
+hash_hclk
+
+hash_dma
+hash_it
+
+DMA
+interface
+IRQ
+interface
+
+Control Logic
+
+MSv62405V4
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

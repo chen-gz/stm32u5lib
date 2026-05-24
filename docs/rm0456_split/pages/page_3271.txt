@@ -1,0 +1,172 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 25:17 RXTHRLEN[8:0]: Receive threshold length
+This field specifies the receive thresholding size in 32-bit words. This field also specifies the
+amount of data received on the USB before the core can start transmitting on the AHB. The
+threshold length has to be at least eight 32-bit words. The recommended value for
+RXTHRLEN is to be the same as the programmed AHB burst length (HBSTLEN bit in
+OTG_GAHBCFG).
+Bit 16 RXTHREN: Receive threshold enable
+When this bit is set, the core enables thresholding in the receive direction.
+Bits 15:11
+
+Reserved, must be kept at reset value.
+
+Bits 10:2 TXTHRLEN[8:0]: Transmit threshold length
+This field specifies the transmit thresholding size in 32-bit words. This field specifies the
+amount of data in bytes to be in the corresponding endpoint transmit FIFO, before the core
+can start transmitting on the USB. The threshold length has to be at least eight 32-bit words.
+This field controls both isochronous and nonisochronous IN endpoint thresholds. The
+recommended value for TXTHRLEN is to be the same as the programmed AHB burst length
+(HBSTLEN bit in OTG_GAHBCFG).
+Bit 1 ISOTHREN: ISO IN endpoint threshold enable
+When this bit is set, the core enables thresholding for isochronous IN endpoints.
+Bit 0 NONISOTHREN: Nonisochronous IN endpoints threshold enable
+When this bit is set, the core enables thresholding for nonisochronous IN endpoints.
+
+73.14.46 OTG device IN endpoint FIFO empty interrupt mask register
+(OTG_DIEPEMPMSK)
+This register is used to control the IN endpoint FIFO empty interrupt generation
+(TXFE_OTG_DIEPINTx).
+Address offset: 0x834
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+INEPTXFEM[15:0]
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 INEPTXFEM[15:0]: IN EP Tx FIFO empty interrupt mask bits
+These bits act as mask bits for OTG_DIEPINTx.
+TXFE interrupt one bit per IN endpoint:
+Bit 0 for IN endpoint 0, bit 3 for IN endpoint 3
+0: Masked interrupt
+1: Unmasked interrupt

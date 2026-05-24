@@ -1,0 +1,278 @@
+RM0456
+7.9.4
+
+FLASH option key register (FLASH_OPTKEYR) . . . . . . . . . . . . . . . . . 332
+
+7.9.5
+
+FLASH bank 1 power-down key register (FLASH_PDKEY1R) . . . . . . 332
+
+7.9.6
+
+FLASH bank 2 power-down key register (FLASH_PDKEY2R) . . . . . . 333
+
+7.9.7
+
+FLASH nonsecure status register (FLASH_NSSR) . . . . . . . . . . . . . . . 333
+
+7.9.8
+
+FLASH secure status register (FLASH_SECSR) . . . . . . . . . . . . . . . . 335
+
+7.9.9
+
+FLASH nonsecure control register (FLASH_NSCR) . . . . . . . . . . . . . . 336
+
+7.9.10
+
+FLASH secure control register (FLASH_SECCR) . . . . . . . . . . . . . . . . 338
+
+7.9.11
+
+FLASH ECC register (FLASH_ECCR) . . . . . . . . . . . . . . . . . . . . . . . . 340
+
+7.9.12
+
+FLASH operation status register (FLASH_OPSR) . . . . . . . . . . . . . . . 341
+
+7.9.13
+
+FLASH option register (FLASH_OPTR) . . . . . . . . . . . . . . . . . . . . . . . 342
+
+7.9.14
+
+FLASH nonsecure boot address 0 register
+(FLASH_NSBOOTADD0R) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 344
+
+7.9.15
+
+FLASH nonsecure boot address 1 register
+(FLASH_NSBOOTADD1R) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 345
+
+7.9.16
+
+FLASH secure boot address 0 register (FLASH_SECBOOTADD0R) . 346
+
+7.9.17
+
+FLASH secure watermark1 register 1 (FLASH_SECWM1R1) . . . . . . 347
+
+7.9.18
+
+FLASH secure watermark1 register 2 (FLASH_SECWM1R2) . . . . . . 348
+
+7.9.19
+
+FLASH WRP1 area A address register (FLASH_WRP1AR) . . . . . . . . 349
+
+7.9.20
+
+FLASH WRP1 area B address register (FLASH_WRP1BR) . . . . . . . . 350
+
+7.9.21
+
+FLASH secure watermark2 register 1 (FLASH_SECWM2R1) . . . . . . 351
+
+7.9.22
+
+FLASH secure watermark2 register 2 (FLASH_SECWM2R2) . . . . . . 352
+
+7.9.23
+
+FLASH WPR2 area A address register (FLASH_WRP2AR) . . . . . . . . 353
+
+7.9.24
+
+FLASH WPR2 area B address register (FLASH_WRP2BR) . . . . . . . . 354
+
+7.9.25
+
+FLASH OEM1 key register 1 (FLASH_OEM1KEYR1) . . . . . . . . . . . . 355
+
+7.9.26
+
+FLASH OEM1 key register 2 (FLASH_OEM1KEYR2) . . . . . . . . . . . . 355
+
+7.9.27
+
+FLASH OEM2 key register 1 (FLASH_OEM2KEYR1) . . . . . . . . . . . . 356
+
+7.9.28
+
+FLASH OEM2 key register 2 (FLASH_OEM2KEYR2) . . . . . . . . . . . . 356
+
+7.9.29
+
+FLASH secure block based bank 1 register x (FLASH_SECBB1Rx) . 357
+
+7.9.30
+
+FLASH secure block based bank 2 register x (FLASH_SECBB2Rx) . 357
+
+7.9.31
+
+FLASH secure HDP control register (FLASH_SECHDPCR) . . . . . . . . 358
+
+7.9.32
+
+FLASH privilege configuration register (FLASH_PRIVCFGR) . . . . . . . 358
+
+7.9.33
+
+FLASH privilege block based bank 1 register x
+(FLASH_PRIVBB1Rx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 359
+
+7.9.34
+
+FLASH privilege block based bank 2 register x
+(FLASH_PRIVBB2Rx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 360
+
+7.9.35
+
+FLASH register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 360
+
+Instruction cache (ICACHE) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 364
+
+RM0456 Rev 6
+
+RM0456
+
+9
+
+Contents
+
+8.1
+
+ICACHE introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 364
+
+8.2
+
+ICACHE main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 364
+
+8.3
+
+ICACHE implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 365
+
+8.4
+
+ICACHE functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 366
+8.4.1
+
+ICACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 366
+
+8.4.2
+
+ICACHE reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 367
+
+8.4.3
+
+ICACHE TAG memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 367
+
+8.4.4
+
+Direct-mapped ICACHE (1-way cache) . . . . . . . . . . . . . . . . . . . . . . . . 368
+
+8.4.5
+
+ICACHE enable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 369
+
+8.4.6
+
+Cacheable and noncacheable traffic . . . . . . . . . . . . . . . . . . . . . . . . . . 370
+
+8.4.7
+
+Address remapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 371
+
+8.4.8
+
+Cacheable accesses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 373
+
+8.4.9
+
+Dual-master cache . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 374
+
+8.4.10
+
+ICACHE security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 374
+
+8.4.11
+
+ICACHE maintenance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 374
+
+8.4.12
+
+ICACHE performance monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . . 375
+
+8.4.13
+
+ICACHE boot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 375
+
+8.5
+
+ICACHE low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 375
+
+8.6
+
+ICACHE error management and interrupts . . . . . . . . . . . . . . . . . . . . . . 376
+
+8.7
+
+ICACHE registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 376
+8.7.1
+
+ICACHE control register (ICACHE_CR) . . . . . . . . . . . . . . . . . . . . . . . 376
+
+8.7.2
+
+ICACHE status register (ICACHE_SR) . . . . . . . . . . . . . . . . . . . . . . . . 377
+
+8.7.3
+
+ICACHE interrupt enable register (ICACHE_IER) . . . . . . . . . . . . . . . . 378
+
+8.7.4
+
+ICACHE flag clear register (ICACHE_FCR) . . . . . . . . . . . . . . . . . . . . 378
+
+8.7.5
+
+ICACHE hit monitor register (ICACHE_HMONR) . . . . . . . . . . . . . . . . 379
+
+8.7.6
+
+ICACHE miss monitor register (ICACHE_MMONR) . . . . . . . . . . . . . . 379
+
+8.7.7
+
+ICACHE region x configuration register (ICACHE_CRRx) . . . . . . . . . 379
+
+8.7.8
+
+ICACHE register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 381
+
+Data cache (DCACHE) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 382
+9.1
+
+DCACHE introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 382
+
+9.2
+
+DCACHE main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 382
+
+9.3
+
+DCACHE implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 383
+
+9.4
+
+DCACHE functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 384
+9.4.1
+
+DCACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 384
+
+9.4.2
+
+DCACHE reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 385
+
+RM0456 Rev 6

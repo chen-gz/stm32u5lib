@@ -1,0 +1,133 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Table 766. Core global control and status registers (CSRs) (continued)
+Address
+offset
+
+Register name
+
+0x018
+
+Section 73.14.8: OTG interrupt mask register [alternate] (OTG_GINTMSK)
+Section 73.14.9: OTG interrupt mask register [alternate] (OTG_GINTMSK)
+
+OTG_GRXSTSR
+
+0x01C
+
+Section 73.14.10: OTG receive status debug read register [alternate]
+(OTG_GRXSTSR)
+Section 73.14.11: OTG receive status debug read register [alternate]
+(OTG_GRXSTSR)
+
+OTG_GRXSTSP
+
+0x020
+
+Section 73.14.12: OTG status read and pop registers (OTG_GRXSTSP)
+Section 73.14.13: OTG status read and pop registers [alternate]
+(OTG_GRXSTSP)
+
+OTG_GRXFSIZ
+
+0x024
+
+Section 73.14.14: OTG receive FIFO size register (OTG_GRXFSIZ)
+
+OTG_HNPTXFSIZ/
+OTG_DIEPTXF0(1)
+
+0x028
+
+Section 73.14.15: OTG host non-periodic transmit FIFO size register
+[alternate] (OTG_HNPTXFSIZ)
+Section 73.14.16: Endpoint 0 transmit FIFO size [alternate]
+(OTG_DIEPTXF0)
+
+OTG_HNPTXSTS
+
+0x02C
+
+Section 73.14.17: OTG non-periodic transmit FIFO/queue status register
+(OTG_HNPTXSTS)
+
+OTG_GCCFG
+
+0x038
+
+Section 73.14.18: OTG general core configuration register (OTG_GCCFG)
+
+OTG_CID
+
+0x03C
+
+Section 73.14.19: OTG core ID register (OTG_CID)
+
+OTG_GLPMCFG
+
+0x54
+
+Section 73.14.20: OTG core LPM configuration register (OTG_GLPMCFG)
+
+OTG_HPTXFSIZ
+
+0x100
+
+Section 73.14.21: OTG host periodic transmit FIFO size register
+(OTG_HPTXFSIZ)
+
+OTG_DIEPTXFx
+
+0x104
+0x108
+...
+0x120
+
+Section 73.14.22: OTG device IN endpoint transmit FIFO x size register
+(OTG_DIEPTXFx)
+
+Acronym
+OTG_GINTMSK
+
+1. The general rule is to use OTG_HNPTXFSIZ for host mode and OTG_DIEPTXF0 for device mode.
+
+Host-mode CSR map
+These registers must be programmed every time the core changes to host mode.
+Table 767. Host-mode control and status registers (CSRs)
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_HCFG
+
+0x400
+
+Section 73.14.24: OTG host configuration register (OTG_HCFG)
+
+OTG_HFIR
+
+0x404
+
+Section 73.14.25: OTG host frame interval register (OTG_HFIR)
+
+OTG_HFNUM
+
+0x408
+
+Section 73.14.26: OTG host frame number/frame time remaining register
+(OTG_HFNUM)
+
+OTG_HPTXSTS
+
+0x410
+
+Section 73.14.27: OTG_Host periodic transmit FIFO/queue status register
+(OTG_HPTXSTS)
+
+RM0456 Rev 6

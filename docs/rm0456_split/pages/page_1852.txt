@@ -1,0 +1,167 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bits 3:0 LPXO[3:0]: LPX offset
+This field selects the offset added to fine tune the delay associated to the following states:
+INIT_STATE, STOP_STATE, LP01_STATE and LP11_STATE.
+This field is a 4-bit signed value in complement 2 format (-8 to +7 range).
+The LPX timing is composed of a unsigned fixed 7-bit value dependent of the frequency band
+selected for the D-PHY and the 4-bit signed value of this field.
+The LPX timing is expressed in lane byte clock period.
+The LPX fixed value is:
+80 to 120 MHz: 7’h01
+120 to 160 MHz: 7’h02
+160 to 320 MHz: 7’h03
+320 to 450 MHz: 7’h04
+450 to 510 MHz: 7’h05
+As the resulting LPX timing is an unsigned 7-bit value, the user must take care of underflow
+when the value is negative (complement 2 format).
+
+44.18.5
+
+DSI D-PHY data lane 0 band control register
+(DSI_DPDL0BCR)
+Address offset: 0x0C70
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+BC[4:0]
+rw
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bits 4:0 BC[4:0]: Band control
+This field selects the frequency band used by the D-PHY.
+00000: 80 to 100 MHz
+00001: 100 to 120 MHz
+00010: 120 to 160 MHz
+00011: 160 to 200 MHz
+00100: 200 to 240 MHz
+00101: 240 to 320 MHz
+00110: 320 to 390 MHz
+00111: 390 to 450 MHz
+01000: 450 to 510 MHz
+Others: Reserved

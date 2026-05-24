@@ -1,0 +1,199 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 239. Left alignment (offset disabled, unsigned value)
+31
+
+23
+
+14-bit data
+
+0000
+
+31
+
+3
+
+15
+
+0000
+
+D11..D0
+
+23
+
+31
+
+15
+
+23
+
+31
+
+7
+
+LSHIFT = 4
+
+0
+LSHIFT = 0
+
+D7..D0
+
+15
+
+LSHIFT = 2
+
+0
+0
+
+SEXT
+
+8-bit data
+
+14-bit data
+OSR=1024
+
+00
+
+D13..D0
+
+23
+
+12-bit data
+
+10
+
+15
+
+7
+
+0
+
+D23..D0
+
+0
+
+LSHIFT = 8
+
+MSv62493V1
+
+Figure 240. Left alignment (offset enabled, signed value)
+31
+14-bit data
+
+S
+
+D13..D0
+
+0
+
+31
+14-bit data
+
+D13..D0
+
+31
+
+15
+
+8-bit data
+
+SEXT
+
+31
+14-bit data
+OSR=1024
+
+S
+
+23
+
+LSHIFT = 1
+
+Signed 16-bit
+format
+
+LSHIFT = 3
+
+Signed 16-bit
+format
+
+LSHIFT = 7
+
+Signed 16-bit
+format
+
+SSAT = 1
+
+Signed 8-bit
+format
+
+LSHIFT = 7
+
+Signed 32-bit
+format
+
+0
+0
+
+D7..D0
+
+31
+
+0
+
+7
+
+15
+SEXT
+
+Signed 32-bit
+format
+
+0
+
+D11..D0
+
+31
+8-bit data
+
+0
+
+3
+
+15
+SEXT
+
+LSHIFT = 17
+0
+
+15
+SEXT
+
+12-bit data
+
+0
+
+15
+
+7
+
+0
+D6..D0
+
+0
+
+15
+D23..D0
+
+0
+
+MSv62492V1
+
+Management of signed and unsigned saturation format (SSAT, USAT)
+The offset correction might results in the data width to be wider than the original data.
+To limit the original width, the data saturation can be enabled through the SSAT and USAT
+bits of the ADC_OFRy register.

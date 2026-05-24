@@ -1,0 +1,48 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+Bit 5 RXNE: Read data register not empty
+RXNE bit is set by hardware when the content of the LPUART_RDR shift register has been
+transferred to the LPUART_RDR register. It is cleared by a read to the LPUART_RDR
+register. The
+RXNE flag can also be cleared by writing 1 to the RXFRQ in the LPUART_RQR register.
+The RXFNE flag can also be cleared by writing 1 to the RXFRQ in the LPUART_RQR
+register.
+An interrupt is generated if RXNEIE = 1 in the LPUART_CR1 register.
+0: Data is not received
+1: Received data is ready to be read.
+Bit 4 IDLE: Idle line detected
+This bit is set by hardware when an Idle Line is detected. An interrupt is generated if
+IDLEIE = 1 in the LPUART_CR1 register. It is cleared by software, writing 1 to the IDLECF in
+the LPUART_ICR register.
+0: No Idle line is detected
+1: Idle line is detected
+Note: The IDLE bit is not set again until the RXNE bit has been set (that is, a new idle line
+occurs).
+If mute mode is enabled (MME = 1), IDLE is set if the LPUART is not mute (RWU = 0),
+whatever the mute mode selected by the WAKE bit. If RWU = 1, IDLE is not set.
+Bit 3 ORE: Overrun error
+This bit is set by hardware when the data currently being received in the shift register is
+ready to be transferred into the LPUART_RDR register while RXNE = 1 (RXFF = 1 in case
+FIFO mode is enabled). It is cleared by a software, writing 1 to the ORECF, in the
+LPUART_ICR register.
+An interrupt is generated if RXNEIE = 1 in the LPUART_CR1 register, or EIE = 1 in the
+LPUART_CR3 register.
+1: Overrun error is detected
+Note: When this bit is set, the LPUART_RDR register content is not lost but the shift register
+is overwritten. An interrupt is generated if the ORE flag is set during multi buffer
+communication if the EIE bit is set.
+This bit is permanently forced to 0 (no overrun detection) when the bit OVRDIS is set in
+the LPUART_CR3 register.
+Bit 2 NE: Start bit noise detection flag
+This bit is set by hardware when noise is detected on the start bit of a received frame. It is
+cleared by software, writing 1 to the NFCF bit in the LPUART_ICR register.
+0: No noise is detected
+1: Noise is detected
+Note: This bit does not generate an interrupt as it appears at the same time as the
+RXNE/RXFNE bit which itself generates an interrupt. An interrupt is generated when
+the NE flag is set during multi buffer communication if the EIE bit is set.
+In FIFO mode, this error is associated with the character in the LPUART_RDR.

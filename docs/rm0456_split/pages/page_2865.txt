@@ -1,0 +1,117 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+The processing performed into the PDM interface is the following:
+1.
+
+The PDM interface builds the bitstream clock from the bit clock received from the serial
+audio interface of SAI_A.
+
+2.
+
+The bitstream data received from the microphones (SAI_D[n]) are de-interleaved and
+go through a 7-bit delay line to fine-tune the delay of each microphone with the
+accuracy of the bitstream clock.
+
+3.
+
+The shift registers translate each serial bitstream into bytes.
+
+4.
+
+The last operation consists in shifting-out the resulting bytes to SAI_A through the data
+line of the serial audio interface.
+
+Figure 867 below shows the block diagram of the PDM interface, with a detailed view of a
+de-interleaver.
+Note:
+
+The PDM interface does not embed the decimation filter required to build-up the PCM audio
+samples from the bitstream. It is up to the application software to perform this operation.
+Figure 867. Detailed PDM interface block diagram
+
+LatchReg
+
+To saia_sd_in
+
+1 2 3 4 5 6 7 8
+
+61626364
+
+PDM_IF
+
+8
+8
+8
+8
+8
+8
+8
+8
+
+De-Interleaver1
+
+SAI_D1(2)
+
+De-Interleaver2
+
+SAI_D2(2)
+
+De-Interleaver3
+
+SAI_D3(2)
+
+De-Interleaver4
+
+SAI_D4(2)
+SAI_CK1(2)
+
+From saia_fs_out
+
+SAI_CK2(2)
+
+Control
+Logic
+
+pdm_ck
+
+SAI_CK3(2)
+
+From saia_sck_out
+
+SAI_CK4(2)
+MICNBR
+PDMEN
+SAI register interface
+
+DLYM[4:1]L,
+DLYM[4:1]R
+
+CKEN[4:1]
+
+DLYMpL
+8 De-Interleaver n delay line
+8
+
+shift reg
+
+SAI_D[n]
+
+delay line
+
+shift reg
+DLYMpR
+
+MSv61329V2
+
+1. n refers to the number of data lines and p to the number of microphone pairs.
+2. These signals might not be available in all SAI instances. Refer to Section 69.3: SAI implementation for
+details.
+
+The PDM interface can be enabled through the PDMEN bit in the SAI_PDMCR register.
+However, the PDM interface must be enabled prior to enabling the SAI_A block.
+To reduce the memory footprint, the user can select the number of microphones the
+application needs. This can be done through the MICNBR[1:0] bits. It is possible to choose

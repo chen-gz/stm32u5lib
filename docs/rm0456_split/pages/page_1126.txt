@@ -1,0 +1,58 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+When reading the status registers of the devices in dual-octal DTR mode, twice as many
+bytes must be read compared to the same read in regular DTR mode: if each device gives
+twice eight valid bits after the instruction for fetching the status register, then the HSPI must
+be configured with a data length of 4 bytes. The LSB is the LSB of device A, and the third
+byte is the LSB of device B.
+If each device gives a status of 16 bits, then the HSPI must be configured to read 4 bytes to
+get all the status bits of both devices in dual-octal DTR mode. In such case, the order of
+retrieved status bits is as follows:
+•
+
+first byte: LSB of device A
+
+•
+
+second byte: second byte of device A
+
+•
+
+third byte: LSB of device B
+
+•
+
+fourth byte: second byte of device B
+
+In indirect mode using DTR mode, a number of bytes multiple of four must always be
+accessed in HSPI mode. For this reason, bit 0 and bit 1 of the DL[31:0] bitfield in HSPI_DLR
+are stuck at 0 when DMODE[2:0] = 101.
+In dual-octal configuration, the behavior of device A interface signals is basically the same
+as in normal mode. Device B interface signals have exactly the same waveforms as
+device A ones during the instruction, address, alternate-byte, and dummy-cycles phases. In
+other words, each device always receives the same instruction and the same address.
+Then, during the data phase, the AIOx and the BIOx buses both transfer data in parallel, but
+the data that is sent to (or received from) device A is distinct than the one from device B.
+Note:
+
+The variable latency is not supported in dual-octal configuration.
+
+HSPI mode
+When DMODE[2:0] = 0b101 in HSPI_CCR, the HSPI is in single 16-bit-memory
+configuration: when DMODE[2:0] = 0b101 with DMM value ignored in that case. A single
+external HSPI device is used in order to send/receive 16 bits (or 32 bits in DTR mode) every
+cycle, effectively doubling the throughput.
+The device provides/receives two separate DQS signals: DQS0 for the eight LSBs and
+DQS1 for the eight MSBs.
+The HSPI mode can be used in conjunction with the single-SPI, dual-SPI, quad-SPI and
+octal-SPI modes, as well as with either the SDR or the DTR mode.
+The device size, as specified in DEVSIZE[4:0] of HSPI_DCR1, must reflect the total external
+device capacity.
+In SDR mode, a number of bytes multiple of two must always be accessed in HSPI mode.
+For this reason, bit 0 of DL[31:0] in HSPI_DLR is stuck at 0 when DMODE = 101.
+In DTR mode, a number of bytes multiple of four must always be accessed in HSPI mode.
+For this reason, bit 0 and 1 of DL[31:0] in HSPI_DLR are stuck at 0 when DMODE = 101.

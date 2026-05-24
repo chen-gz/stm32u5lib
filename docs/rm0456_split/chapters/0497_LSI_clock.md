@@ -1,0 +1,76 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+time on one side and low-power-consumption on the other side. The LSE drive must be
+programmed before enabling the LSE.
+LSERDY in RCC_BDCR indicates whether the LSE crystal is stable or not. At startup, the
+LSE crystal output clock signal is not released until this bit is set by hardware. An interrupt
+can be generated if enabled in RCC_CIER.
+
+External source (LSE bypass)
+In this mode, an external clock source must be provided. This mode is selected by setting
+LSEBYP and LSEON in RCC_BDCR. The external clock signal (square, sinus, or triangle)
+with ~50 % duty cycle, must drive the OSC32_IN pin while the OSC32_OUT pin can be
+used as GPIO (see Figure 39).
+
+LSE when used by peripherals other than RTC/TAMP, and RCC functions
+By default, when enabled, the LSE is sent only to RTC and TAMP (assuming that
+RTCSEL = 01).
+It the LSE is needed for other peripherals (such as peripheral clock or trigger source), or if
+the LSE is used by an RCC function (such as LSCO, MCO, MSI PLL mode), the sequence
+below must be done:
+1.
+
+Set LSEON in RCC_BDCR, and wait for LSERD = 1 in RCC_BDCR.
+
+2.
+
+Set LSESYSEN = 1 in RCC_BDCR.
+
+3.
+
+Wait for LSESYSRDY = 1 in RCC_BDCR.
+
+The LSE consumption is increased when LSESYSEN = 1.
+
+11.4.8
+
+LSI clock
+The LSI RC acts as a low-power clock source that can be kept running in Stop and Standby
+modes for the independent watchdog (IWDG) and RTC. The clock frequency is either
+32 kHz or 250 Hz depending on LSIPREDIV in RCC_BDCR. Setting LSIPREDIV allows a
+lower consumption (refer to the electrical characteristics section of the datasheet for more
+details).
+When the IWDG is enabled or when the RTC or TAMP is clocked by the LSI, LSIPREDIV
+cannot be changed anymore.
+The LSI RC can be switched on and off using LSION in RCC_BDCR.
+LSIRDY in RCC_BDCR indicates if the LSI oscillator is stable or not. At startup, the clock is
+not released until this bit is set by hardware. An interrupt can be generated if enabled
+in RCC_CIER.
+
+11.4.9
+
+System clock (SYSCLK) selection
+Four different clock sources can be used to drive the system clock (SYSCLK):
+•
+
+MSIS oscillator
+
+•
+
+HSI16 oscillator
+
+•
+
+HSE oscillator
+
+•
+
+PLL
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

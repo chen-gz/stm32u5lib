@@ -1,0 +1,203 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 14:2 Reserved, must be kept at reset value.
+Bits 1:0 MPSIZ[1:0]: Maximum packet size
+The maximum packet size for control OUT endpoint 0 is the same as what is programmed in
+control IN endpoint 0.
+00: 64 bytes
+01: 32 bytes
+10: 16 bytes
+11: 8 bytes
+
+73.14.55 OTG device OUT endpoint x interrupt register (OTG_DOEPINTx)
+This register indicates the status of an endpoint with respect to USB- and AHB-related
+events. It is shown in Figure 926. The application must read this register when the OUT
+endpoints interrupt bit of the OTG_GINTSTS register (OEPINT bit in OTG_GINTSTS) is set.
+Before the application can read this register, it must first read the OTG_DAINT register to
+get the exact endpoint number for the OTG_DOEPINTx register. The application must clear
+the appropriate bit in this register to clear the corresponding bits in the OTG_DAINT and
+OTG_GINTSTS registers.
+Address offset: 0xB08 + 0x20 * x, (x = 0 to 8)
+Reset value: 0x0000 0080
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+OUT
+PKT
+ERR
+
+Res.
+
+B2B
+STUP
+
+STSPH
+SRX
+
+OTEP
+DIS
+
+STUP
+
+AHB
+ERR
+
+EP
+DISD
+
+XFRC
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+STPK
+TRX
+
+NYET
+
+NAK
+
+BERR
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Res.
+
+Res.
+
+rc_w1
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 STPKTRX: Setup packet received
+Applicable for control OUT endpoints in only in the Buffer DMA Mode. Set by the OTG_HS,
+this bit indicates that this buffer holds 8 bytes of setup data. There is only one setup packet
+per buffer. On receiving a setup packet, the OTG_HS closes the buffer and disables the
+corresponding endpoint after SETUP_COMPLETE status is seen in the Rx FIFO. OTG_HS
+puts a SETUP_COMPLETE status into the Rx FIFO when it sees the first IN or OUT token
+after the SETUP packet for that particular endpoint. The application must then re-enable the
+endpoint to receive any OUT data for the control transfer and reprogram the buffer start
+address. Because of the above behavior, OTG_HS can receive any number of back to back
+setup packets and one buffer for every setup packet is used.
+Bit 14 NYET: NYET interrupt
+This interrupt is generated when a NYET response is transmitted for a non isochronous
+OUT endpoint.
+Bit 13 NAK: NAK input
+The core generates this interrupt when a NAK is transmitted or received by the device. In
+case of isochronous IN endpoints the interrupt gets generated when a zero length packet is
+transmitted due to unavailability of data in the Tx FIFO.

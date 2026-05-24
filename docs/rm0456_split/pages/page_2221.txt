@@ -1,0 +1,185 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bit 10 OSSI: Off-state selection for idle mode
+This bit is used when MOE = 0 due to a break event or by a software write, on channels
+configured as outputs.
+See OC/OCN enable description for more details (Section 54.6.11: TIMx capture/compare
+enable register (TIMx_CCER)(x = 1, 8)).
+0: When inactive, OC/OCN outputs are disabled (the timer releases the output control which
+is taken over by the GPIO logic and which imposes a Hi-Z state).
+1: When inactive, OC/OCN outputs are first forced with their inactive level then forced to their
+idle level after the deadtime. The timer maintains its control over the output.
+Note: This bit can not be modified as soon as the LOCK level 2 has been programmed (LOCK
+bits in TIMx_BDTR register).
+Bits 9:8 LOCK[1:0]: Lock configuration
+These bits offer a write protection against software errors.
+00: LOCK OFF - No bit is write protected.
+01: LOCK Level 1 = DTG bits in TIMx_BDTR register, OISx and OISxN bits in TIMx_CR2
+register and BKBID/BK2BID/BKE/BKP/AOE bits in TIMx_BDTR register can no longer be
+written.
+10: LOCK Level 2 = LOCK Level 1 + CC Polarity bits (CCxP/CCxNP bits in TIMx_CCER
+register, as long as the related channel is configured in output through the CCxS bits) as
+well as OSSR and OSSI bits can no longer be written.
+11: LOCK Level 3 = LOCK Level 2 + CC Control bits (OCxM and OCxPE bits in
+TIMx_CCMRx registers, as long as the related channel is configured in output through
+the CCxS bits) can no longer be written.
+Note: The LOCK bits can be written only once after the reset. Once the TIMx_BDTR register
+has been written, their content is frozen until the next reset.
+Bits 7:0 DTG[7:0]: Dead-time generator setup
+This bitfield defines the duration of the dead-time inserted between the complementary
+outputs. DT correspond to this duration.
+DTG[7:5] = 0xx => DT = DTG[7:0]x tdtg with tdtg = tDTS.
+DTG[7:5] = 10x => DT = (64+DTG[5:0])xtdtg with Tdtg = 2xtDTS.
+DTG[7:5] = 110 => DT = (32+DTG[4:0])xtdtg with Tdtg = 8xtDTS.
+DTG[7:5] = 111 => DT = (32+DTG[4:0])xtdtg with Tdtg = 16xtDTS.
+Example if TDTS = 125 ns (8 MHz), dead-time possible values are:
+0 to 15875 ns by 125 ns steps,
+16 μs to 31750 ns by 250 ns steps,
+32 μs to 63 μs by 1 μs steps,
+64 μs to 126 μs by 2 μs steps
+Note: This bitfield can not be modified as long as LOCK level 1, 2 or 3 has been programmed
+(LOCK bits in TIMx_BDTR register).
+
+54.6.21
+
+TIMx capture/compare register 5 (TIMx_CCR5)(x = 1, 8)
+Address offset: 0x048
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+GC5C3 GC5C2 GC5C1
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+
+CCR5[19:16]
+
+CCR5[15:0]
+rw
+
+rw
+
+RM0456 Rev 6

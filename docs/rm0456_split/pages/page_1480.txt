@@ -1,0 +1,166 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+Bits 15:14 HFSEL[1:0]: High frequency interface mode selection
+00: High frequency interface mode disabled
+01: High frequency interface mode enabled for AHB clock frequency > 80 MHz
+10: High frequency interface mode enabled for AHB clock frequency >160 MHz
+11: Reserved
+Bits 13:10 Reserved, must be kept at reset value.
+Bit 9 SINFORMAT1: Enable signed format for DAC channel1
+This bit is set and cleared by software.
+0: Input data is in unsigned format
+1: Input data is in signed format (2’s complement). The MSB bit represents the sign.
+Bit 8 DMADOUBLE1: DAC channel1 DMA double data mode
+This bit is set and cleared by software.
+0: DMA normal mode selected
+1: DMA double data mode selected
+Bits 7:3 Reserved, must be kept at reset value.
+Bits 2:0 MODE1[2:0]: DAC channel1 mode
+These bits can be written only when the DAC is disabled and not in the calibration mode
+(when bit EN1 = 0 and bit CEN1 = 0 in the DAC_CR register). If EN1 = 1 or CEN1 = 1 the
+write operation is ignored.
+They can be set and cleared by software to select the DAC channel1 mode:
+– DAC channel1 in normal mode
+000: DAC channel1 is connected to external pin with Buffer enabled
+001: DAC channel1 is connected to external pin and to on chip peripherals with Buffer
+enabled
+010: DAC channel1 is connected to external pin with Buffer disabled
+011: DAC channel1 is connected to on chip peripherals with Buffer disabled
+– DAC channel1 in sample & hold mode
+100: DAC channel1 is connected to external pin with Buffer enabled
+101: DAC channel1 is connected to external pin and to on chip peripherals with Buffer
+enabled
+110: DAC channel1 is connected to external pin and to on chip peripherals with Buffer
+disabled
+111: DAC channel1 is connected to on chip peripherals with Buffer disabled
+Note: This register can be modified only when EN1 = 0.
+
+35.7.17
+
+DAC channel1 sample and hold sample time register
+(DAC_SHSR1)
+Address offset: 0x40
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TSAMPLE1[9:0]
+rw

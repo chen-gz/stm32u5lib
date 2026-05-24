@@ -1,0 +1,42 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+73.5.1
+
+RM0456
+
+ID line detection
+The host or peripheral (the default) role is assumed depending on the ID input pin. The ID
+line status is determined on plugging in the USB cable, depending on whether a MicroA or
+MicroB plug is connected to the micro-AB receptacle.
+
+73.6
+
+•
+
+If the B-side of the USB cable is connected with a floating ID wire, the integrated pullup resistor detects a high ID level and the default peripheral role is confirmed. In this
+configuration the OTG_HS complies with the standard FSM described in section 4.2.4:
+ID pin of the On-the-Go specification Rev2.0, supplement to the USB2.0.
+
+•
+
+If the A-side of the USB cable is connected with a grounded ID, the OTG_HS issues an
+ID line status change interrupt (CIDSCHG bit in OTG_GINTSTS) for host software
+initialization, and automatically switches to the host role. In this configuration the
+OTG_HS complies with the standard FSM described by section 4.2.4: ID pin of the Onthe-Go specification Rev2.0, supplement to the USB2.0.
+
+OTG_HS as a USB peripheral
+This section gives the functional description of the OTG_HS in the USB peripheral mode.
+The OTG_HS works as an USB peripheral in the following circumstances:
+•
+
+OTG B-Peripheral
+–
+
+•
+
+B-device
+–
+
+•

@@ -1,0 +1,155 @@
+Parallel synchronous slave interface (PSSI) . . . . . . . . . . . . . . . . . . 1697
+42.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1697
+
+42.2
+
+PSSI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1697
+
+42.3
+
+PSSI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1697
+
+RM0456 Rev 6
+
+RM0456
+
+43
+
+Contents
+42.3.1
+
+PSSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+
+42.3.2
+
+PSSI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+
+42.3.3
+
+PSSI clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1699
+
+42.3.4
+
+PSSI data management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1699
+
+42.3.5
+
+PSSI optional control signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1701
+
+42.4
+
+PSSI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1704
+
+42.5
+
+PSSI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1705
+42.5.1
+
+PSSI control register (PSSI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1705
+
+42.5.2
+
+PSSI status register (PSSI_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1706
+
+42.5.3
+
+PSSI raw interrupt status register (PSSI_RIS) . . . . . . . . . . . . . . . . . 1707
+
+42.5.4
+
+PSSI interrupt enable register (PSSI_IER) . . . . . . . . . . . . . . . . . . . . 1708
+
+42.5.5
+
+PSSI masked interrupt status register (PSSI_MIS) . . . . . . . . . . . . . . 1708
+
+42.5.6
+
+PSSI interrupt clear register (PSSI_ICR) . . . . . . . . . . . . . . . . . . . . . . 1709
+
+42.5.7
+
+PSSI data register (PSSI_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1709
+
+42.5.8
+
+PSSI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1710
+
+LCD-TFT display controller (LTDC) . . . . . . . . . . . . . . . . . . . . . . . . . . 1711
+43.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1711
+
+43.2
+
+LTDC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1711
+
+43.3
+
+LTDC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+
+43.4
+
+43.3.1
+
+LTDC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+
+43.3.2
+
+LTDC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+
+43.3.3
+
+LTDC reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1713
+
+LTDC programmable parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1715
+43.4.1
+
+LTDC global configuration parameters . . . . . . . . . . . . . . . . . . . . . . . 1715
+
+43.4.2
+
+Layer programmable parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . 1717
+
+43.5
+
+LTDC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1721
+
+43.6
+
+LTDC programming procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1722
+
+43.7
+
+LTDC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1723
+43.7.1
+
+LTDC synchronization size configuration register (LTDC_SSCR) . . . 1723
+
+43.7.2
+
+LTDC back porch configuration register (LTDC_BPCR) . . . . . . . . . . 1723
+
+43.7.3
+
+LTDC active width configuration register (LTDC_AWCR) . . . . . . . . . 1724
+
+43.7.4
+
+LTDC total width configuration register (LTDC_TWCR) . . . . . . . . . . . 1725
+
+43.7.5
+
+LTDC global control register (LTDC_GCR) . . . . . . . . . . . . . . . . . . . . 1725
+
+43.7.6
+
+LTDC shadow reload configuration register (LTDC_SRCR) . . . . . . . 1727
+
+43.7.7
+
+LTDC background color configuration register (LTDC_BCCR) . . . . . 1727
+
+RM0456 Rev 6

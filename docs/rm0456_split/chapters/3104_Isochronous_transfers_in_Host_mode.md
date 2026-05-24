@@ -1,0 +1,69 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 3 GONSTS: Global OUT NAK status
+0:A handshake is sent based on the FIFO status and the NAK and STALL bit settings.
+1:No data is written to the Rx FIFO, irrespective of space availability. Sends a NAK
+handshake on all packets, except on SETUP transactions. All isochronous OUT packets are
+dropped.
+Bit 2 GINSTS: Global IN NAK status
+0:A handshake is sent out based on the data availability in the transmit FIFO.
+1:A NAK handshake is sent out on all non-periodic IN endpoints, irrespective of the data
+availability in the transmit FIFO.
+Bit 1 SDIS: Soft disconnect
+The application uses this bit to signal the USB OTG core to perform a soft disconnect. As
+long as this bit is set, the host does not see that the device is connected, and the device does
+not receive signals on the USB. The core stays in the disconnected state until the application
+clears this bit.
+0:Normal operation. When this bit is cleared after a soft disconnect, the core generates a
+device connect event to the USB host. When the device is reconnected, the USB host
+restarts device enumeration.
+1:The core generates a device disconnect event to the USB host.
+Bit 0 RWUSIG: Remote wake-up signaling
+When the application sets this bit, the core initiates remote signaling to wake up the USB
+host. The application must set this bit to instruct the core to exit the suspend state. As
+specified in the USB 2.0 specification, the application must clear this bit 1 ms to 15 ms after
+setting it.
+If LPM is enabled and the core is in the L1 (sleep) state, when the application sets this bit, the
+core initiates L1 remote signaling to wake up the USB host. The application must set this bit
+to instruct the core to exit the sleep state. As specified in the LPM specification, the hardware
+automatically clears this bit 50 µs (TL1DevDrvResume) after being set by the application. The
+application must not set this bit when bRemoteWake from the previous LPM transaction is
+zero (refer to REMWAKE bit in GLPMCFG register).
+
+Table 759 contains the minimum duration (according to device state) for which the Soft
+disconnect (SDIS) bit must be set for the USB host to detect a device disconnect. To
+accommodate clock jitter, it is recommended that the application add some extra delay to
+the specified minimum duration.
+Table 759. Minimum duration for soft disconnect
+Operating speed
+
+Device state
+
+Minimum duration
+
+Full speed
+
+Suspended
+
+1 ms + 2.5 µs
+
+Full speed
+
+Idle
+
+2.5 µs
+
+Full speed
+
+Not Idle or suspended (Performing transactions)
+
+2.5 µs
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

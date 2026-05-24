@@ -1,0 +1,46 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+known length Len(A) that can be a non-multiple of 16 bytes (see Figure 480). The
+standard also states that, on MSB bits of the first message block (B1), the associated
+data length expressed in bytes (a) must be encoded as follows:
+–
+–
+–
+
+If 0 < a < 216 - 28, then it is encoded as [a]16, that is, on two bytes.
+
+If 216 - 28 < a < 232, then it is encoded as 0xff || 0xfe || [a]32, that is, on six bytes.
+If 232 < a < 264, then it is encoded as 0xff || 0xff || [a]64, that is, on ten bytes.
+
+•
+
+16-byte blocks (B) associated to the plaintext message P, which is both authenticated
+and encrypted as ciphertext C, with a known length Len(P). This length can be a nonmultiple of 16 bytes (see Figure 480).
+
+•
+
+Encrypted MAC (T) of length Len(T) appended to the ciphertext C of overall length
+Len(C).
+
+When a part of the message (A or P) has a length that is a non-multiple of 16-bytes, a
+special padding scheme is required.
+Note:
+
+CCM chaining mode can also be used with associated data only (that is, no payload).
+As an example, the C.1 section in NIST Special Publication 800-38C gives the following
+values (hexadecimal numbers):
+N: 10111213 141516 (Len(N) = 56 bits or 7 bytes)
+A: 00010203 04050607 (Len(A) = 64 bits or 8 bytes)
+P: 20212223 (Len(P) = 32 bits or 4 bytes)
+T: 6084341B (Len(T) = 32 bits or t = 4)
+B0: 4F101112 13141516 00000000 00000004
+B1: 00080001 02030405 06070000 00000000
+B2: 20212223 00000000 00000000 00000000
+CTR0: 0710111213 141516 00000000 00000000
+CTR1: 0710111213 141516 00000000 00000001
+Generation of formatted input data blocks Bx (especially B0 and B1) must be managed by
+the application.

@@ -1,0 +1,101 @@
+9
+
+8
+
+WAITRESP[1:0]
+rw
+
+rw
+
+7
+
+6
+
+CMD
+STOP
+
+CMD
+TRANS
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+CMDINDEX[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+Bits 31:17 Reserved, must be kept at reset value.
+Bit 16 CMDSUSPEND: The CPSM treats the command as a Suspend or Resume command and
+signals interrupt period start/end
+This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).
+CMDSUSPEND = 1 and CMDTRANS = 0 Suspend command, start interrupt period when
+response bit BS = 0.
+CMDSUSPEND = 1 and CMDTRANS = 1 Resume command with data, end interrupt period
+when response bit DF = 1.
+Bit 15 BOOTEN: Enable boot mode procedure
+0: Boot mode procedure disabled
+1: Boot mode procedure enabled
+Bit 14 BOOTMODE: Select the boot mode procedure to be used
+This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0)
+0: Normal boot mode procedure selected
+1: Alternative boot mode procedure selected
+Bit 13 DTHOLD: Hold new data block transmission and reception in the DPSM
+If this bit is set, the DPSM does not move from the Wait_S state to the Send state or from the
+Wait_R state to the Receive state.
+Bit 12
+
+CPSMEN: Command path state machine (CPSM) enable bit
+This bit is written 1 by firmware, and cleared by hardware when the CPSM enters the Idle
+state.
+If this bit is set, the CPSM is enabled.
+When DTEN = 1, no command is transfered nor boot procedure is started. CPSMEN is
+cleared to 0.
+During Read Wait with SDMMC_CK stopped no command is sent and CPSMEN is kept 0.
+
+Bit 11 WAITPEND: CPSM waits for end of data transfer (CmdPend internal signal) from DPSM
+This bit when set, the CPSM waits for the end of data transfer trigger before it starts sending
+a command.
+WAITPEND is only taken into account when DTMODE = e•MMC stream data transfer,
+WIDBUS = 1-bit wide bus mode, DPSMACT = 1 and DTDIR = from host to card.
+Bit 10 WAITINT: CPSM waits for interrupt request
+If this bit is set, the CPSM disables command timeout and waits for an card interrupt request
+(Response).
+If this bit is cleared in the CPSM Wait state, it causes the abort of the interrupt mode.
+Bits 9:8 WAITRESP[1:0]: Wait for response bits
+This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).
+They are used to configure whether the CPSM is to wait for a response, and if yes, which
+kind of response.
+00: No response, expect CMDSENT flag
+01: Short response, expect CMDREND or CCRCFAIL flag
+10: Short response, expect CMDREND flag (No CRC)
+11: Long response, expect CMDREND or CCRCFAIL flag
+
+RM0456 Rev 6

@@ -1,0 +1,71 @@
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+
+26.3.10
+
+Examples of filter initialization
+Figure 116. X1 buffer initialization
+
+Software register
+access
+
+FMAC_PARAM
+register write:
+FUNC = 1
+(Load X1 Buffer)
+P=4
+START = 1
+
+FMAC_WDATA
+register write:
+WDATA = x[0]
+
+FMAC_WDATA
+register write:
+WDATA = x[1]
+
+FMAC_WDATA
+register write:
+WDATA = x[2]
+
+FMAC_WDATA
+register write:
+WDATA = x[3]
+
+START
+X1_BASE
+X1_BASE + 0x1
+X1_BASE + 0x2
+X1_BASE + 0x3
+X1_BASE + 0x4
+X1_BASE + 0x5
+
+XX
+
+x[0]
+XX
+
+x[1]
+XX
+
+x[2]
+XX
+
+x[3]
+XX
+XX
+
+X1_FULL
+MSv47128V1
+
+The example in Figure 116 illustrates an X1 buffer pre-load with four samples (P = 4). The
+buffer size is six (X1_BUF_SIZE = 6). The initialization is launched by programming the
+FMAC_PARAM register with the START bit set. The four samples are then written to
+FMAC_WDATA, and transferred into local memory from X1_BASE onwards. The START bit
+resets after the fourth sample has been written. At this point, the X1 buffer contains the four
+samples, in order of writing, and the write pointer (next empty space) is at X1_BASE + 0x4.
+
+RM0456 Rev 6

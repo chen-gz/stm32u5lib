@@ -1,0 +1,132 @@
+1.
+
+Write 0xCA in RAMCFG_MxERKEYR.
+
+2.
+
+Write 0x53 in RAMCFG_MxERKEYR.
+
+3.
+
+Write 1 in RAMCFG_MxCR.
+
+RM0456 Rev 6
+
+RM0456
+
+RAM configuration controller (RAMCFG)
+SRAMBUSY flag is set in the related SRAM interrupt status register as long as the erase
+is on going.
+The total duration of each SRAM erase is N AHB clock cycles, where N is the size of the
+SRAM in 32-bit words.
+If the SRAM is read or written while an erase is on going, wait states are inserted on the
+AHB bus until the end of the erase operation.
+
+6.4
+
+RAMCFG low-power modes
+Table 48. Effect of low-power modes on RAMCFG
+
+Mode
+
+Description
+
+Sleep
+
+No effect. RAMCFG interrupts cause the device to exit the Sleep mode.
+
+Stop
+
+The content of RAMCFG registers is kept. The ECC is functional and ECC error interrupt or NMI
+causes the device to exit from Stop 0 and Stop 1 modes.
+
+Standby
+
+The RAMCFG peripheral is powered down and must be reinitialized after exiting Standby mode.
+
+6.5
+
+RAMCFG interrupts
+The table below gives the list of RAMCFG interrupt requests.
+Table 49. RAMCFG interrupt requests
+
+Interrupt
+acronym
+
+RAMCFG
+
+NMI
+
+Interrupt event
+
+Event
+flag
+
+ECC single error
+SEDC
+detection and correction
+
+Enable
+control bit
+
+Interrupt
+clear method
+
+Exit
+Sleep
+mode
+
+SEIE
+
+Write 1 in
+CSEDC
+
+Yes
+
+Yes(1)
+
+No
+
+Exit Stop Exit Standby
+mode
+mode
+
+ECC double error
+detection
+
+DED
+
+DEIE = 1 and
+ECCNMI = 0
+
+Write 1 in
+CDED
+
+Yes
+
+Yes(1)
+
+No
+
+ECC double error
+detection
+
+DED
+
+ECCNMI
+
+Write 1 in
+CDED
+
+Yes
+
+Yes(1)
+
+No
+
+1. Stop 0 and Stop 1 modes only.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

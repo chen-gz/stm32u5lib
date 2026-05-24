@@ -1,0 +1,160 @@
+RM0456 Rev 6
+
+RM0456
+
+Memory and bus architecture
+
+Table 3. Example of memory map security attribution versus SAU configuration regions
+Region
+description
+
+IDAU
+security
+attribution
+
+Address range
+0x1000_0000 0x17FF_FFFF
+
+Code - external
+memories
+
+0x1800_0000 0x1FFF_FFFF
+
+SRAM
+
+Peripherals
+External memories
+
+SAU security
+attribution typical
+configuration
+
+Nonsecure
+
+Final security
+attribution
+
+Nonsecure
+
+0x2000_0000 0x2FFF_FFFFF
+
+Nonsecure
+
+0x3000_0000 0x3FFF_FFFFF
+
+NSC
+
+Secure or NSC
+
+Secure or NSC
+
+0x4000_0000 0x4FFF_FFFFF
+
+Nonsecure
+
+Nonsecure
+
+Nonsecure
+
+0x5000_0000 0x5FFF_FFFFF
+
+NSC
+
+Secure or NSC
+
+Secure or NSC
+
+0x6000_0000 0xDFFF_FFFF
+
+Nonsecure
+
+Secure, nonsecure or
+NSC
+
+Secure, nonsecure
+or NSC
+
+1. NSC = nonsecure callable
+
+2.2.1
+
+Default Arm TrustZone security state
+When the TrustZone security is activated by the TZEN option bit in the FLASH_OPTR,
+the default system security state is detailed below:
+•
+
+CPU:
+–
+
+•
+
+memory map:
+–
+
+•
+
+•
+
+–
+
+The flash memory security area is defined by watermark user options.
+
+–
+
+Flash block-based security attributions are nonsecure after reset.
+
+SRAMs:
+All SRAMs are secure after reset. MPCBBx (block-based memory protection
+controller) are secure.
+
+external memories:
+–
+
+•
+
+SAU is fully secure after reset. Consequently, all memory map is fully secure. Up
+to height SAU configurable regions are available for security attribution.
+
+flash memory:
+
+–
+•
+
+Cortex-M33 is in secure state after reset. The boot address must be at a secure
+address.
+
+FSMC, HSPI1 and OCTOSPIs banks are secure after reset. MPCWMx
+(watermark-based memory protection controller) are secure.
+
+peripherals (see Table 4 and Table 5 for a list of securable and TrustZone-aware
+peripherals)
+–
+
+Securable peripherals are nonsecure after reset.
+
+–
+
+TrustZone-aware peripherals are nonsecure after reset. Their secure configuration
+registers are secure.
+
+•
+
+all GPIOs secure after reset
+
+•
+
+interrupts:
+–
+
+NVIC: All interrupts are secure after reset. NVIC is banked for secure and
+nonsecure state.
+
+–
+
+TZIC: All illegal access interrupts are disabled after reset (see GTZC TrustZone
+system architecture).
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

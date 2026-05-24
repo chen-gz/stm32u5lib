@@ -1,0 +1,190 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+Table 639. Nonsecure interrupt requests
+
+Interrupt acronym
+
+RTC
+
+Interrupt
+event
+
+Event
+flag(1)
+
+Enable
+control bit(2)
+
+Interrupt
+clear
+method
+
+Exit from
+low-power
+modes
+
+Alarm A
+
+ALRAF
+
+ALRAIE and
+(ALRASEC=0 and
+SEC=0)
+
+write 1 in
+CALRAF
+
+Yes(3)
+
+Alarm B
+
+ALRBF
+
+ALRBIE and
+(ALRBSEC=0 and
+SEC=0)
+
+write 1 in
+CALRBF
+
+Yes(3)
+
+Timestamp
+
+TSF
+
+TSIE and (TSSEC=0
+and SEC=0)
+
+write 1 in
+CTSF
+
+Yes(3)
+
+Wake-up timer
+
+WUTF
+
+WUTIE and
+(WUTSEC=0 and
+SEC=0)
+
+write 1 in
+CWUTF
+
+Yes(3)
+
+SSR underflow
+(reload)
+
+SSRUF
+
+SSRUIE and
+(ALRASEC=0 and
+SEC=0)
+
+write 1 in
+CSSRUF
+
+Yes(3)
+
+1. The event flags are in the RTC_SR register.
+2. The interrupt masked flags (resulting from event flags AND enable control bits) are in the RTC_MISR
+register.
+3. When the RTC is clocked by an oscillator functional in the low-power mode.
+
+Table 640. Secure interrupt requests
+Interrupt acronym
+
+RTC_S
+
+Interrupt
+event
+
+Event
+flag(1)
+
+Enable
+control bit(2)
+
+Interrupt
+clear
+method
+
+Exit from
+low-power
+modes
+
+Alarm A
+
+ALRAF
+
+ALRAIE and
+(ALRASEC=1 or
+SEC=1)
+
+write 1 in
+CALRAF
+
+Yes(3)
+
+Alarm B
+
+ALRBF
+
+ALRBIE and
+(ALRBSEC=1 or
+SEC=1)
+
+write 1 in
+CALRBF
+
+Yes(3)
+
+Timestamp
+
+TSF
+
+TSIE and
+(TSSEC=1 or
+SEC=1)
+
+write 1 in
+CTSF
+
+Yes(3)
+
+Wake-up timer
+
+WUTF
+
+WUTIE and
+(WUTSEC=1 or
+SEC=1)
+
+write 1 in
+CWUTF
+
+Yes(3)
+
+SSR underflow
+(reload)
+
+SSRUF
+
+SSRUIE and
+(ALRASEC=1 or
+SEC=1)
+
+write 1 in
+CSSRUF
+
+Yes(3)
+
+1. The event flags are in the RTC_SR register.
+2. The interrupt masked flags (resulting from event flags AND enable control bits) are in the RTC_SMISR
+register.
+3. When the RTC is clocked by an oscillator functional in the low-power mode.

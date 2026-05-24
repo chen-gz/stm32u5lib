@@ -1,0 +1,120 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 267. Alternate + regular simultaneous
+1st trigger
+
+ADC MASTER reg
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+CH4
+
+CH5
+
+CH7
+
+CH8
+
+CH8
+
+CH9
+
+CH1
+
+ADC MASTER inj
+ADC SLAVE reg
+
+CH3
+
+CH4
+
+CH6
+
+CH7
+
+CH1
+
+ADC SLAVE inj
+
+synchronization not lost
+2nd trigger
+ai16062V2-m
+
+If a trigger occurs during an injected conversion that has interrupted a regular conversion,
+the alternate trigger is served. Figure 268 shows the behavior in this case (note that the 6th
+trigger is ignored because the associated alternate conversion is not complete).
+Figure 268. Case of trigger occurring during injected conversion
+1st trigger
+
+ADC MASTER reg
+
+CH1
+
+CH2
+
+CH7
+
+CH8
+
+ADC MASTER inj
+ADC SLAVE reg
+ADC SLAVE inj
+
+5th trigger
+
+3rd trigger
+
+CH3
+CH14
+CH9
+
+CH3
+
+CH4
+CH14
+
+CH4
+
+CH9
+
+CH10
+
+CH10
+
+CH5
+CH14
+CH11
+
+CH15
+2nd trigger
+
+CH5
+
+CH6
+
+CH11
+
+CH12
+
+CH15
+4th trigger
+
+6th trigger
+(ignored)
+ai16063V2
+
+Combined injected simultaneous plus interleaved
+This mode is selected by programming bits DUAL[4:0] = 00011.
+It is possible to interrupt an interleaved conversion with a simultaneous injected event.
+
+Caution:

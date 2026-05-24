@@ -1,0 +1,188 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+74.8.7
+
+RM0456
+
+UCPD interrupt clear register (UCPD_ICR)
+Address offset: 0x018
+Reset value: 0x0000 0000
+Writing to this register is only effective when the peripheral is enabled (UCPDEN = 1).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+FRSEV
+TCF
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+RXMS
+GEND
+CF
+
+w
+
+TYPEC TYPEC
+EVT2C EVT1C
+F
+F
+w
+
+w
+
+w
+
+RXHRS RXOR
+RXOV
+TDETC DDETC
+RCF
+F
+F
+w
+
+w
+
+Res.
+
+Res.
+
+w
+
+4
+
+TXMS TXMS TXMS
+TXUND HRSTS HRSTD
+GABTC GSENT GDISC
+CF
+ENTCF ISCCF
+F
+CF
+CF
+w
+
+w
+
+w
+
+w
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 FRSEVTCF: FRS event flag (FRSEVT) clear
+Setting the bit clears the FRSEVT flag in the UCPD_SR register.
+Bits 19:16 Reserved, must be kept at reset value.
+Bit 15 TYPECEVT2CF: Type-C CC2 line event flag (TYPECEVT2) clear
+Setting the bit clears the TYPECEVT2 flag in the UCPD_SR register
+Bit 14 TYPECEVT1CF: Type-C CC1 event flag (TYPECEVT1) clear
+Setting the bit clears the TYPECEVT1 flag in the UCPD_SR register
+Bit 13 Reserved, must be kept at reset value.
+Bit 12 RXMSGENDCF: Rx message received flag (RXMSGEND) clear
+Setting the bit clears the RXMSGEND flag in the UCPD_SR register.
+Bit 11 RXOVRCF: Rx overflow flag (RXOVR) clear
+Setting the bit clears the RXOVR flag in the UCPD_SR register.
+Bit 10 RXHRSTDETCF: Rx Hard Reset detect flag (RXHRSTDET) clear
+Setting the bit clears the RXHRSTDET flag in the UCPD_SR register.
+Bit 9 RXORDDETCF: Rx ordered set detect flag (RXORDDET) clear
+Setting the bit clears the RXORDDET flag in the UCPD_SR register.
+Bits 8:7 Reserved, must be kept at reset value.
+Bit 6 TXUNDCF: Tx underflow flag (TXUND) clear
+Setting the bit clears the TXUND flag in the UCPD_SR register.
+Bit 5 HRSTSENTCF: Hard reset send flag (HRSTSENT) clear
+Setting the bit clears the HRSTSENT flag in the UCPD_SR register.
+Bit 4 HRSTDISCCF: Hard reset discard flag (HRSTDISC) clear
+Setting the bit clears the HRSTDISC flag in the UCPD_SR register.
+Bit 3 TXMSGABTCF: Tx message abort flag (TXMSGABT) clear
+Setting the bit clears the TXMSGABT flag in the UCPD_SR register.
+Bit 2 TXMSGSENTCF: Tx message send flag (TXMSGSENT) clear
+Setting the bit clears the TXMSGSENT flag in the UCPD_SR register.

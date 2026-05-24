@@ -1,0 +1,49 @@
+Updated:
+– Reset value for Section 5.6.9: GTZC1 TZSC memory x sub-region A watermark
+register (GTZC1_TZSC_MPCWMxAR) and Section 5.6.10: GTZC1 TZSC memory x
+sub-region B watermark register (GTZC1_TZSC_MPCWMxBR)
+– SRAM3 ECC specific management
+– Section 7.3.8: Flash memory endurance
+– Section 10: Power control (PWR)
+– Section 11.4.6: PLL
+– Section 11.8.12: RCC PLL1 dividers register (RCC_PLL1DIVR)
+– Reset value for Section 11.8.30: RCC AHB2 peripheral clock enable register 1
+(RCC_AHB2ENR1) and Section 11.8.31: RCC AHB2 peripheral clock enable register
+2 (RCC_AHB2ENR2)
+– Table 682: LPUART interconnections (LPUART1)
+– Section 33: Analog-to-digital converter (ADC12)
+– DP target identification register (DP_TARGETIDR)
+– DBGMCU identity code register (DBGMCU_IDCODE)
+– DBGMCU status register (DBGMCU_SR)
+Updated the cover page to include STM32U5Fxxx and STM32U5Gxxx documents.
+
+RM0456 Rev 6
+
+RM0456
+
+Revision history
+Table 813. Document revision history (continued)
+
+Date
+
+24-Jan-2025
+
+Revision
+
+6
+
+Changes
+Updated:
+– Section 3: System security
+– Table 17: Internal tampers in TAMP
+– Chapter 5.7.4: GTZC1 TZIC interrupt enable register 4 (GTZC1_TZIC_IER4)
+– Section 6: RAM configuration controller (RAMCFG)
+– Section 7: Embedded flash memory (FLASH)
+– Section 10: Power control (PWR)
+– Section 11: Reset and clock control (RCC)
+– Section 13: General-purpose I/Os (GPIO)
+– Section 16: Peripherals interconnect matrix
+Master and slave terms in Section 65: Inter-integrated circuit interface (I2C) replaced
+with controller and target, respectively.
+
+RM0456 Rev 6

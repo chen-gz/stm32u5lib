@@ -1,0 +1,208 @@
+RM0456 Rev 6
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 31 TAMPPRIV: Tamper privilege protection (excluding backup registers)
+0: Tamper configuration and interrupt can be written with privileged or unprivileged access.
+1: Tamper configuration and interrupt can be written only with privileged access.
+Note: Refer to Section 64.4.7: TAMP privilege protection modes for details on the read
+protection.
+Bit 30 BKPWPRIV: Backup registers zone 2 privilege protection
+0: Backup registers zone 2 can be written with privileged or unprivileged access.
+1: Backup registers zone 2 can be written only with privileged access.
+Bit 29 BKPRWPRIV: Backup registers zone 1 privilege protection
+0: Backup registers zone 1 can be read and written with privileged or unprivileged access.
+1: Backup registers zone 1 can be read and written only with privileged access
+Bits 28:16 Reserved, must be kept at reset value.
+Bit 15 CNT1PRIV: Monotonic counter 1 privilege protection
+0: Monotonic counter 1 (TAMP_COUNT1R) can be read and written when the APB access is
+privileged or unprivileged.
+1: Monotonic counter 1 (TAMP_COUNT1R) can be read and written only when the APB
+access is privileged.
+Bits 14:0 Reserved, must be kept at reset value.
+
+64.7.11
+
+TAMP interrupt enable register (TAMP_IER)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x2C
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+Res.
+
+Res.
+
+Res.
+
+28
+
+27
+
+26
+
+ITAMP1 ITAMP1 ITAMP1
+3IE
+2IE
+1IE
+rw
+
+rw
+
+rw
+
+12
+
+11
+
+10
+
+Res.
+
+Res.
+
+Res.
+
+25
+Res.
+
+9
+Res.
+
+24
+
+23
+
+22
+
+21
+
+20
+
+ITAMP9 ITAMP8 ITAMP ITAMP6 ITAMP5
+IE
+IE
+7IE
+IE
+IE
+
+19
+Res.
+
+18
+
+17
+
+16
+
+ITAMP3 ITAMP2 ITAMP1
+IE
+IE
+IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+rw
+0
+
+Res.
+
+TAMP
+8IE
+
+TAMP
+7IE
+
+TAMP
+6IE
+
+TAMP
+5IE
+
+TAMP
+4IE
+
+TAMP
+3IE
+
+TAMP
+2IE
+
+TAMP
+1IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 Reserved, must be kept at reset value.
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 ITAMP13IE: Internal tamper 13 interrupt enable
+0: Internal tamper 13 interrupt disabled.
+1: Internal tamper 13 interrupt enabled.
+
+RM0456 Rev 6

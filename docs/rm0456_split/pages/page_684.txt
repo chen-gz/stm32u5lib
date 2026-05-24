@@ -1,0 +1,25 @@
+684
+
+Peripherals interconnect matrix
+
+RM0456
+
+Active power mode
+This interconnection remains active in all power modes.
+
+16.3.23
+
+Encryption keys to AES/SAES
+From TAMP backup registers, system flash memory to and in between SAES and AES
+
+Purpose
+The encryption mechanism requires an hardware key that must be stored in a protected
+non-volatile memory. Different approaches are implemented in order to load them in a
+non-readable way. Tamper backup registers or system flash memory can be used to store
+respectively BHK or RHUK, and to implement a dedicated bus to pass it to the SAES.
+Refer to Section 50.4.9: SAES operation with wrapped keys for more details.
+The AES encryption mechanism (faster than the SAES) can benefit from the sharing key of
+the SAES. Refer to Section 49.4.13: AES operation with shared keys for more details.
+
+Active power mode
+AES and SAES are operating under Run and Sleep modes.

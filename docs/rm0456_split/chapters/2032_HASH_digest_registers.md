@@ -1,0 +1,190 @@
+2037
+
+Hash processor (HASH)
+
+RM0456
+
+Bits 7:5 Reserved, must be kept at reset value.
+Bits 4:0 NBLW[4:0]: Number of valid bits in the last word
+When the last word of the message bit string is written in HASH_DIN register, the hash
+processor takes only the valid bits specified as below, after internal data swapping:
+0x00: All 32 bits of the last data written are valid message bits that is M[31:0]
+0x01: Only one bit of the last data written (after swapping) is valid that is M[0]
+0x02: Only two bits of the last data written (after swapping) are valid that is M[1:0]
+0x03: Only three bits of the last data written (after swapping) are valid that is M[2:0]
+...
+0x1F: Only 31 bits of the last data written (after swapping) are valid that is M[30:0]
+The above mechanism is valid only if DCAL = 0. If NBLW[4:0] bitfield is written while DCAL is
+set to 1, the NBLW[4:0] bitfield remains unchanged. In other words it is not possible to
+configure NBLW[4:0] and set DCAL at the same time.
+Reading NBLW[4:0] bitfield returns the last value written to NBLW[4:0].
+
+51.6.4
+
+HASH digest registers
+These registers contain the message digest result named as follows:
+•
+
+HASH_HR0, HASH_HR1, HASH_HR2, HASH_HR3 and HASH_HR4 registers return
+the SHA-1 digest result
+
+•
+
+HASH_HR0, HASH_HR1, HASH_HR2 and HASH_HR3 registers return A, B, C and D
+(respectively), as defined by MD5.
+
+•
+
+HASH_HR0 to HASH_HR6 registers return the SHA2-224 digest result.
+
+•
+
+HASH_HR0 to HASH_HR7 registers return the SHA2-256 digest result.
+
+In all cases, the digest most significant bit is stored in HASH_H0[31] and unused
+HASH_HRx registers are read as zeros.
+If a read access to one of these registers is performed while the hash core is calculating an
+intermediate digest or a final message digest (DCIS bit equals 0), then the read operation
+returns zeros.
+Note:
+
+When starting a digest computation for a new message (by writing the INIT bit to 1),
+HASH_HRx registers are forced to their reset values.
+HASH_HR0 to HASH_HR4 registers can be accessed through two different addresses.
+
+HASH aliased digest register x (HASH_HRAx)
+Address offset: 0x0C + 0x4 * x, (x = 0 to 4)
+Reset value: 0x0000 0000
+The content of the HASH_HRAx registers is identical to the one of the HASH_HRx registers
+located at address offset 0x310.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Hx[31:16]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Hx[15:0]
+
+<!-- pagebreak -->
+

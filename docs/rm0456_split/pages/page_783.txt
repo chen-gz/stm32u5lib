@@ -1,0 +1,48 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+Figure 83. Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 1)
+
+LSM = 1 with 1-stage linked-list programming:
+Overwriting the (pre)loaded LLIn linked-list register file with a new LLIn' and LLIn+1' in memory and
+overwrite partly linked-list register file
+(DMA_CxBR1.BNDT = 0 and DMA_CxLLR to point to new LLIn')
+DMA executes LLIn-1 and load LLIn then CPU builds (LLIn' and LLIn+1') and overwrite (BR1 and LLR)
+
+LLIn-1
+transfer
+
+DMA Channel
+
+CPU
+
+Executing LLIn-1 data transfer
+Loading LLIn
+Transfer complete interrupt
+
+Build LLIn' and LLIn+1' in memory
+Write DMA_CxBR1.BNDT = 0
+Write DMA_CxLLR to point to new LLIn'
+
+LLIn'
+transfer
+
+Enable DMA channel
+
+Loading LLIn’
+Transfer complete interrupt
+
+LLIn+1'
+transfer
+
+Enable DMA channel
+
+Executing LLIn+1' data transfer
+Loading LLIn+1'
+Transfer complete interrupt
+MSv62636V1
+
+RM0456 Rev 6

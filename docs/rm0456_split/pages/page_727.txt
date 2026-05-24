@@ -1,0 +1,90 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+Figure 71. Shared GPDMA channel with circular buffering: update of the memory
+start address with a linear addressing channel
+Req=PERIPH_TX Req=PERIPH_TX
+
+Reset
+Init/LLI0
+
+LLI1
+
+...
+
+Channel X
+
+LLIN-1
+
+LLIN
+
+Ht+ tcf
+
+Ht+ tcf
+
+Memory
+
+LLIN-1
+
+LLIN-2
+All Uxx=1
+
+DMA_Cx...
+
+DMA_CxTR1
+
+DMA_Cx...
+
+DMA_CxTR2
+
+DMA_Cx...
+
+DMA_CxBR1
+
+DMA_CxLLR
+
+LLIN
+
+DMA_CxSAR
+DMA_CxDAR
+DMA_CxLLR
+
+USA = 1, others Uxx = 0 LA+ = 0xC
+
+17.4.14
+
+MSv62641V1
+
+GPDMA secure/nonsecure channel
+The GPDMA controller is compliant with the TrustZone hardware architecture at channel
+level, partitioning all its resources so that they exist in one of the secure and nonsecure
+worlds at any given time.
+Any channel x is a secure or a nonsecure hardware resource, as configured
+by GPDMA_SECCFGR.SECx.
+When a channel x is configured in secure state by a secure and privileged agent, the
+following access control rules are applied:
+•
+
+A nonsecure read access to a register field of this channel is forced to return 0, except
+for GPDMA_SECCFGR, GPDMA_PRIVCFGR and GPDMA_RCFGLOCKR that are
+readable by a nonsecure agent.
+
+•
+
+A nonsecure write access to a register field of this channel has no impact.
+
+When a channel x is configured in secure state, a secure agent can configure separately as
+secure or nonsecure the GPDMA data transfer from the source (GPDMA_CxTR1.SSEC)
+and the GPDMA data transfer to the destination (GPDMA_CxTR1.DSEC).
+When a channel x is configured in secure state and in linked-list mode, the loading of the
+next linked-list data structure from the GPDMA memory into its register file, is automatically
+performed with secure transfers via the GPDMA_CxCR.LAP allocated master port.
+The GPDMA generates a secure bus that reflects GPDMA_SECCFGR, to keep the other
+peripherals informed of the secure/nonsecure state of each GPDMA channel x.
+The GPDMA also generates a security illegal access pulse signal on an illegal nonsecure
+access to a secure GPDMA register. This signal is routed to the TrustZone interrupt
+controller.
+
+RM0456 Rev 6

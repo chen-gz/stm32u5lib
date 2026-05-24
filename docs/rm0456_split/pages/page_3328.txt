@@ -1,0 +1,142 @@
+1.
+
+Initialize and enable channel x as explained in Section : Channel initialization.
+
+2.
+
+The OTG_HS host writes an IN request to the request queue as soon as the channel x
+gets the grant from the arbiter (round-robin with fairness). In high-bandwidth transfers,
+the OTG_HS host writes consecutive writes up to MC times.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+3.
+
+The OTG_HS host attempts to send an IN token at the beginning of the next (odd)
+frame/micro-frame.
+
+4.
+
+As soon the packet is received and written to the receive FIFO, the OTG_HS host
+generates a CHH interrupt.
+
+5.
+
+In response to the CHH interrupt, reinitialize the channel for the next transfer.
+Figure 938. Normal interrupt IN transactions - DMA mode
+Application
+
+1
+
+AHB
+
+USB
+
+Host
+
+Device
+
+init_reg(ch_1)
+Periodic Request
+Queue
+Assume that this
+queue can hold
+4 entries.
+
+init_reg(ch_2)
+
+1
+
+2
+
+1
+MPS
+
+3
+
+ch_1
+ch_2
+
+2
+O UT
+
+DATA0
+MP S
+
+Odd
+(micro)
+frame
+
+4
+5
+A CK
+
+C h H ltd interrupt
+
+init_reg(ch_1)
+
+3
+
+IN
+
+1
+MPS
+DATA0
+
+AC K
+
+1
+MPS
+
+ChHltd interrupt
+
+4
+
+ch_1
+ch_2
+
+init_reg(ch_2)
+
+5
+
+OUT
+
+Even
+(micro)
+frame
+
+D A TA 1
+MP S
+
+C h H ltd inte rrupt
+
+init_reg(ch_1)
+
+AC K
+
+IN
+
+1
+MPS
+
+DATA1
+
+MSv36925V1
+
+•
+
+Isochronous OUT transactions in DMA mode
+
+1.
+
+Initialize and enable channel x as explained in Section : Channel initialization.
+
+2.
+
+The OTG_HS host starts fetching the first packet as soon as the channel is enabled,
+and writes the OUT request along with the last 32-bit word fetch. In high-bandwidth
+
+RM0456 Rev 6

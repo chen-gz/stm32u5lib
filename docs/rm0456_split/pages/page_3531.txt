@@ -1,0 +1,63 @@
+3635
+
+Revision history
+
+78
+
+RM0456
+
+Revision history
+Table 813. Document revision history
+Date
+
+Revision
+
+22-Jun-2021
+
+1
+
+Initial release
+
+2
+
+Updated:
+– Figure 1: System architecture
+– Figure 3: Memory map based on IDAU mapping for STM32U575/585
+– End of Section 6.3.2: Error code correction (SRAM2, SRAM3, BKPSRAM)
+– Sentence added in intro of Section 7.6.2: Readout protection (RDP)
+– Desc of bit 21 in Section 7.9.14: FLASH option register (FLASH_OPTR)
+– First sentence of Section 10.5.3: LDO and SMPS step down converter fast startup
+– One sentence removed in Exiting Stop 0 mode, Exiting Stop 2 mode and Exiting Stop
+3 mode
+– Note added on BREN bit in Section 10.10.9: PWR Backup domain control register 1
+(PWR_BDCR1)
+– Desc of MSISSRANGE and MSIKSRANGE in Section 11.8.50: RCC control/status
+register (RCC_CSR)
+– Table 125: Peripherals interconnect matrix
+– Table 124: Programmed GPDMA1 request
+– Bit 7 in Section 25.7.1: OCTOSPI control register (OCTOSPI_CR)
+– Section 37.2: PSSI main features
+– Table 212: RNG configurations
+– Section 34.4.13: AES data registers and data swapping
+– Section 42.4.14: SAES operation with shared keys
+– Address offset of Section 23.6.19: TIMx option register 1 (TIMx_OR1)(x = 16 to 17)
+– Table 121: LPTIM1/2/3 input/output pins, Table 122: LPTIM4 input/output pins and
+Table 146: LPTIM1/2/3/4 external trigger connection
+– Table 533: I2C1, I2C2, I2C4 interconnection and Table 534: I2C3 interconnection
+– Table 294: Comparison of analog vs. digital filters
+– usart/lpuart_trg6/7 in Table 553: USART interconnection (USART1/2/3 and UART4/5)
+– New notes in Section 31.5.20: Continuous communication using USART and DMA
+– New Determining the maximum USART baud rate that enables to correctly wake up
+the microcontroller from low-power mode
+– Table 322: LPUART input/output pins
+– usart/lpuart_trg6/7 in Table 565: LPUART interconnections (LPUART1)
+– New
+– Table 576: SPI interconnection (SPI1 and SPI2) and Table 577: SPI interconnection
+(SPI3)
+– New Control of the I/Os
+– Structure of Section 65.3: Serial-wire and JTAG debug port (SWJ-DP)
+– APSEL range in DP access port select register (DP_SELECTR)
+– REV_ID[15:0] in DBGMCU identity code register (DBGMCU_IDCODE)
+– TREVISION[3:0] in DP target identification register (DP_TARGETIDR)
+
+20-Sep-2021

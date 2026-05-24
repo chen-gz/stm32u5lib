@@ -1,0 +1,36 @@
+381
+
+Instruction cache (ICACHE)
+
+RM0456
+
+Bit 31 HBURST: output burst type for region x
+0: WRAP
+1: INCR
+Bits 30:29 Reserved, must be kept at reset value.
+Bit 28 MSTSEL: AHB cache master selection for region x
+0: no action (master1 selected by default)
+1: master2 selected
+Bit 27 Reserved, must be kept at reset value.
+Bits 26:16 REMAPADDR[31:21]: remapped address for region x
+This field replaces the alias address defined by BASEADDR field.
+The only useful bits are [31:RI], where 21 ≤ RI ≤ 27 is the number of bits of RSIZE
+(see Section 8.4.7). If the programmed value has more LSBs, the useless bits are ignored.
+Bit 15 REN: enable for region x
+0: disabled
+1: enabled
+Bits 14:12 Reserved, must be kept at reset value.
+Bits 11:9 RSIZE[2:0]: size for region x
+000: reserved
+001: 2 Mbytes
+010: 4 Mbytes
+011: 8 Mbytes
+100: 16 Mbytes
+101: 32 Mbytes
+110: 64 Mbytes
+111: 128 Mbytes
+Bit 8 Reserved, must be kept at reset value.
+Bits 7:0 BASEADDR[28:21]: base address for region x
+This alias address is replaced by REMAPADDR field.
+The only useful bits are [28:RI], where 21 ≤ RI ≤ 27 is the number of bits of RSIZE
+(see Section 8.4.7). If the programmed value has more LSBs, the useless bits are ignored.

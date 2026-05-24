@@ -1,0 +1,205 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Bits 15:8 WDV[7:0]: Watchdog value
+Actual message RAM watchdog counter value.
+Bits 7:0 WDC[7:0]: Watchdog configuration
+Start value of the message RAM watchdog counter. With the reset value of 00, the counter is
+disabled.
+This bitfield is write-protected (P): write access is possible only when the CCE and INIT bits
+of the FDCAN_CCCR register are both set.
+
+70.4.6
+
+FDCAN CC control register (FDCAN_CCCR)
+Address offset: 0x0018
+Reset value: 0x0000 0001
+For details about setting and clearing single bits, see Software initialization.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+NISO
+
+TXP
+
+EFBI
+
+PXHD
+
+Res.
+
+Res.
+
+BRSE
+
+FDOE
+
+TEST
+
+DAR
+
+MON
+
+CSR
+
+CSA
+
+ASM
+
+CCE
+
+INIT
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 NISO: Non-ISO operation
+If this bit is set, the FDCAN uses the CAN FD frame format as specified by the Bosch CAN
+FD Specification V1.0.
+0: CAN FD frame format according to ISO11898-1
+1: CAN FD frame format according to Bosch CAN FD Specification V1.0
+Bit 14 TXP: Transmit pause enable
+If this bit is set, the FDCAN pauses for two CAN bit times before starting the next
+transmission after successfully transmitting a frame.
+0: Disabled
+1: Enabled
+Bit 13 EFBI: Edge filtering during bus integration
+0: Edge filtering disabled
+1: Two consecutive dominant tq required to detect an edge for hard synchronization
+Bit 12 PXHD: Protocol exception handling disable
+0: Protocol exception handling enabled
+1: Protocol exception handling disabled
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 BRSE: FDCAN bit rate switching
+0: Bit rate switching for transmissions disabled
+1: Bit rate switching for transmissions enabled
+Bit 8 FDOE: FD operation enable
+0: FD operation disabled
+1: FD operation enabled
+
+RM0456 Rev 6

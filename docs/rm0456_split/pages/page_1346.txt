@@ -1,0 +1,58 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Bit 4 ADSTP: ADC stop of regular conversion command
+This bit is set by software to stop and discard an ongoing regular conversion (ADSTP Command).
+It is cleared by hardware when the conversion is effectively discarded and the ADC regular
+sequence and triggers can be re-configured. The ADC is then ready to accept a new start of regular
+conversions (ADSTART command).
+0: No ADC stop regular conversion command ongoing
+1: Write 1 to stop regular conversions ongoing. Read 1 means that an ADSTP command is in
+progress.
+Note: The software is allowed to set ADSTP only when ADSTART = 1 and ADDIS = 0 (ADC is
+enabled and eventually converting a regular conversion and there is no pending request to
+disable the ADC).
+In auto-injection mode (JAUTO = 1), setting ADSTP bit aborts both regular and injected
+conversions (do not use JADSTP).
+Bit 3 JADSTART: ADC start of injected conversion
+This bit is set by software to start ADC conversion of injected channels. Depending on the
+configuration bits JEXTEN[1:0], a conversion starts immediately (software trigger configuration) or
+once an injected hardware trigger event occurs (hardware trigger configuration).
+It is cleared by hardware:
+–
+in single conversion mode when software trigger is selected (JEXTSEL = 0x0): at the
+assertion of the end of injected conversion sequence (JEOS) flag.
+–
+in all cases: after the execution of the JADSTP command, at the same time as JADSTP is
+cleared by hardware.
+0: No ADC injected conversion is ongoing.
+1: Write 1 to start injected conversions. Read 1 means that the ADC is operating and eventually
+converting an injected channel.
+Note: The software is allowed to set JADSTART only when ADEN = 1 and ADDIS = 0 (ADC is
+enabled and there is no pending request to disable the ADC).
+In auto-injection mode (JAUTO = 1), regular and auto-injected conversions are started by
+setting bit ADSTART (JADSTART must be kept cleared)
+Bit 2 ADSTART: ADC start of regular conversion
+This bit is set by software to start ADC conversion of regular channels. Depending on the
+configuration bits EXTEN[1:0], a conversion starts immediately (software trigger configuration) or
+once a regular hardware trigger event occurs (hardware trigger configuration).
+It is cleared by hardware:
+–
+In single conversion mode (CONT = 0, DISCEN = 0) when software trigger is selected
+(EXTEN[1:0] = 0x0): at the assertion of the end of regular conversion sequence (EOS) flag.
+–
+In discontinuous conversion mode (CONT = 0, DISCEN = 1), when the software trigger is
+selected (EXTEN[1:0] = 0x0): at the end of conversion (EOC) flag.
+–
+in all other cases: after the execution of the ADSTP command, at the same time that
+ADSTP is cleared by hardware.
+0: No ADC regular conversion is ongoing.
+1: Write 1 to start regular conversions. Read 1 means that the ADC is operating and eventually
+converting a regular channel.
+Note: The software is allowed to set ADSTART only when ADEN = 1 and ADDIS = 0 (ADC is enabled
+and there is no pending request to disable the ADC)
+In auto-injection mode (JAUTO = 1), regular and auto-injected conversions are started by
+setting bit ADSTART (JADSTART must be kept cleared)

@@ -1,0 +1,102 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+The functional state machine can be configured to address a wide range of audio protocols.
+Some registers are present to set up the desired protocols (audio frame waveform
+generator).
+The audio subblock can be a transmitter or receiver, in master or slave mode. The master
+mode means the SCK_x bit clock and the frame synchronization signal are generated from
+the SAI, whereas in slave mode, they come from another external or internal master. There
+is a particular case for which the FS signal direction is not directly linked to the master or
+slave mode definition. In AC’97 protocol, it is an SAI output even if the SAI (link controller) is
+set up to consume the SCK clock (and so to be in Slave mode).
+Note:
+
+For ease of reading of this section, the notation SAI_x refers to SAI_A or SAI_B, where ‘x’
+represents the SAI A or B subblock.
+
+69.4.2
+
+SAI pins and internal signals
+Table 705. SAI internal input/output signals
+Internal signal name Signal type
+sai_a_gbl_it/
+sai_b_gbl_it
+sai_a_dma,
+sai_b_dma
+
+Output
+
+Description
+Audio block A and B global interrupts
+
+Input/output Audio block A and B DMA acknowledges and requests
+
+sai_sync_out_sck,
+sai_sync_out_fs
+
+Output
+
+Internal clock and frame synchronization output signals
+exchanged with other SAI blocks
+
+sai_sync_in_sck,
+sai_sync_in_fs
+
+Input
+
+Internal clock and frame synchronization input signals
+exchanged with other SAI blocks
+
+sai_a_ker_ck/
+sai_b_ker_ck
+
+Input
+
+Audio block A/B kernel clock
+
+sai_pclk
+
+Input
+
+APB clock
+
+Table 706. SAI input/output pins
+Pin name
+SAI_SCK_A/B
+SAI_MCLK_A/B
+
+Pin type
+
+Comments
+
+Input/output Audio block A/B bit clock
+Output
+
+Audio block A/B master clock
+
+SAI_SD_A/B
+
+Input/output Data line for block A/B
+
+SAI_FS_A/B
+
+Input/output Frame synchronization line for audio block A/B
+
+SAI_CK[4:1]
+
+Output
+
+PDM bitstream clock(1)
+
+SAI_D[4:1]
+
+Input
+
+PDM bitstream data(1)
+
+1. These signals might not be available in all SAI instances. Refer to Section 69.3: SAI implementation for
+details.

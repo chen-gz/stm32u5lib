@@ -1,0 +1,120 @@
+Source/destination
+
+dac1_out1
+dac1_out2
+
+adc_trg0
+
+tim1_trgo2
+
+adc_trg1
+
+tim1_oc4
+
+adc_trg2
+
+tim2_trgo
+
+adc_trg3
+
+tim15_trgo
+
+adc_trg4
+
+tim6_trgo
+
+adc_trg5
+
+lptim1_ch1
+
+adc_trg6
+
+lptim3_ch2
+
+adc_trg7
+
+exti15
+
+RM0456 Rev 6
+
+RM0456
+
+34.4.3
+
+Analog-to-digital converter (ADC4)
+
+ADC voltage regulator (ADVREGEN)
+The ADC has a specific internal voltage regulator which must be enabled and stable before
+using the ADC.
+The ADC internal voltage regulator can be enabled by setting ADVREGEN bit to 1 in the
+ADC_CR register. The software must wait for the ADC voltage regulator startup time
+(tADCVREG_SETUP) before launching a calibration or enabling the ADC. The LDO status can
+be verified by checking the LDORDY bit in ADC_ISR register.
+After ADC operations are complete, the ADC can be disabled (ADEN = 0). It is then
+possible to save additional power by disabling the ADC voltage regulator (refer to Section :
+ADC voltage regulator disable sequence).
+
+Note:
+
+When the internal voltage regulator is disabled, the internal analog calibration factor is reset,
+and a new calibration must be performed.
+
+ADC voltage regulator enable sequence
+To enable the ADC voltage regulator, follow the sequence below:
+1.
+
+Clear the LDORDY bit in ADC_ISR register by programming this bit to 1.
+
+2.
+
+Set the ADVREGEN bit to 1 in ADC_CR register.
+
+3.
+
+Wait until LDORDY = 1 in the ADC_ISR register (LDORDY is set after the ADC voltage
+regulator startup time). This can be handled by interrupt if the interrupt is enabled by
+setting the LDORDYIE bit in the ADC_IER register.
+
+ADC voltage regulator disable sequence
+To disable the ADC voltage regulator, follow the sequence below:
+
+34.4.4
+
+1.
+
+Make sure that the ADC is disabled (ADEN = 0).
+
+2.
+
+Clear ADVREGEN bit in ADC_CR register.
+
+3.
+
+Clear the LDORDY bit in ADC_ISR register by programming this bit to 1(optional),
+
+Calibration (ADCAL)
+The ADC has a calibration feature. During the procedure, the ADC calculates a calibration
+factor which is internally applied to the ADC until the next ADC power-off. The application
+must not use the ADC during calibration and must wait until it is complete.
+The calibration must be performed before starting analog-to-digital conversion. It removes
+the offset error which may vary from chip to chip due to process variation, supply voltage
+and temperature.
+The calibration is initiated by software by setting bit ADCAL to 1. It can be initiated only
+when all the following conditions are met:
+•
+
+the ADC voltage regulator is enabled (ADVREGEN = 1 and LDORDY = 1),
+
+•
+
+the ADC is disabled (ADEN = 0), and
+
+•
+
+the auto-off mode is disabled (AUTOFF = 0).
+
+ADCAL bit stays at 1 during all the calibration sequence. It is then cleared by hardware as
+soon the calibration completes. After this, the calibration factor can be read from the
+ADC_DR register (from bits 6 to 0).
+
+RM0456 Rev 6

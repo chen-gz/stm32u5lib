@@ -1,0 +1,47 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+if (CHH)
+{
+Mask CHH
+if (Transfer Done or (Error_count == 3))
+{
+De-allocate Channel
+}
+else
+Re-initialize Channel (in next b_interval - 1 /Frame)
+}
+}
+else
+if (ACK)
+{
+Reset Error Count
+Mask ACK
+}
+
+•
+
+Interrupt IN transactions
+The assumptions are:
+
+•
+
+–
+
+The application is attempting to receive one packet (up to 1 maximum packet size)
+in every frame, starting with odd (transfer size = 1 024 bytes).
+
+–
+
+The receive FIFO can hold at least one maximum-packet-size packet and two
+status words per packet (1 031 bytes).
+
+–
+
+Periodic request queue depth = 4.
+
+Normal interrupt IN operation
+The sequence of operations is as follows:

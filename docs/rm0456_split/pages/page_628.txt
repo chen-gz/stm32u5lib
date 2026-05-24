@@ -1,0 +1,162 @@
+642
+
+General-purpose I/Os (GPIO)
+
+RM0456
+
+•
+
+The data present on the I/O pin are sampled into the input data register every AHB
+clock cycle.
+
+•
+
+A read access to the input data register gets the I/O state.
+
+•
+
+A read access to the output data register gets the last written value.
+
+The figure below shows the output configuration of the I/O port bit.
+Figure 47. Output configuration
+
+Write
+
+Input data register
+
+on
+VDDIOx
+TTL Schmitt trigger
+
+Read/write
+
+Pull
+up
+
+on/off
+
+ESD
+Pull
+down protection
+
+I/O pin
+
+Output driver
+
+VDDIOx
+P- MO S
+
+Output
+control
+
+VSS
+
+VSS
+
+Protection diode
+VSS
+
+N- MO S
+
+Push-pull or
+open-drain
+
+VSS
+
+13.3.11
+
+on/off
+Input driver
+
+Output data register
+
+Bit set/reset registers
+
+Read
+
+MSv63641V1
+
+Alternate function configuration
+When the I/O port is programmed as the alternate function:
+•
+
+The output buffer can be configured in open-drain or push-pull mode.
+
+•
+
+The output buffer is driven by the signals coming from the peripheral (transmitter
+enable and data).
+
+•
+
+The Schmitt trigger input is activated.
+
+•
+
+The weak pull-up and pull-down resistors are activated or not depending on the value
+in the GPIOx_PUPDR register.
+
+•
+
+The data present on the I/O pin are sampled into the input data register every AHB
+clock cycle.
+
+•
+
+A read access to the input data register gets the I/O state.
+
+The figure below shows the alternate function configuration of the I/O port bit.
+Figure 48. Alternate function configuration
+Alternate function input
+
+Input data register
+
+To on-chip
+peripheral
+
+Read/write
+
+Output data register
+
+Write
+
+Bit set/reset registers
+
+Read
+
+on
+VDDIOx
+TTL Schmitt trigger
+Pull
+up
+
+on/off
+
+Pull ESD
+down protection
+
+Input driver
+
+I/O pin
+
+Output driver
+
+VDDIOx
+P-MOS
+
+Output
+control
+
+From on-chip Alternate function output
+peripheral
+
+VSS
+
+VSS
+
+Protection diode
+VSS
+
+N-MOS
+
+VSS

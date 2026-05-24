@@ -1,0 +1,144 @@
+HS (480 Mb/s)
+
+FS (12 Mb/s)
+
+LS (1.5 Mb/s)
+
+Host mode
+
+-
+
+X
+
+X
+
+Device mode
+
+-
+
+X
+
+-
+
+RM0456 Rev 6
+
+RM0456
+
+72.2
+
+USB on-the-go full-speed (OTG_FS)
+
+OTG_FS main features
+The main features can be divided into three categories: general, host-mode and devicemode features.
+
+72.2.1
+
+General features
+The OTG_FS interface general features are the following:
+•
+
+It is USB-IF certified to the Universal Serial Bus Specification Rev 2.0
+
+•
+
+OTG_FS supports the following PHY interface:
+–
+
+•
+
+•
+
+•
+
+An on-chip full-speed PHY
+
+It includes full support (PHY) for the optional On-The-Go (OTG) protocol detailed in the
+On-The-Go Supplement Rev 2.0 specification
+–
+
+Integrated support for A-B device identification (ID line)
+
+–
+
+Integrated support for host Negotiation protocol (HNP) and session request
+protocol (SRP)
+
+–
+
+It allows host to turn VBUS off to conserve battery power in OTG applications
+
+–
+
+It supports OTG monitoring of VBUS levels with internal comparators
+
+–
+
+It supports dynamic host-peripheral switch of role
+
+It is software-configurable to operate as:
+–
+
+SRP capable USB FS Peripheral (B-device)
+
+–
+
+SRP capable USB FS/LS host (A-device)
+
+–
+
+USB On-The-Go Full-Speed Dual Role device
+
+It supports FS SOF and LS Keep-alives with
+–
+
+SOF pulse PAD connectivity
+
+–
+
+SOF pulse internal connection to timer (TIMx)
+
+–
+
+Configurable framing period
+
+–
+
+Configurable end of frame interrupt
+
+•
+
+It includes power saving features such as system stop during USB suspend, switch-off
+of clock domains internal to the digital core, PHY and DFIFO power management.
+
+•
+
+It features a dedicated RAM of 1.25 Kbytes with advanced FIFO control:
+–
+
+Configurable partitioning of RAM space into different FIFOs for flexible and
+efficient use of RAM
+
+–
+
+Each FIFO can hold multiple packets
+
+–
+
+Dynamic memory allocation
+
+–
+
+Configurable FIFO sizes that are not powers of 2 to allow the use of contiguous
+memory locations
+
+•
+
+It guarantees max USB bandwidth for up to one frame (1 ms) without system
+intervention.
+
+•
+
+It supports charging port detection as described in Battery Charging Specification
+Revision 1.2.
+
+RM0456 Rev 6

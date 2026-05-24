@@ -1,0 +1,150 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Figure 871. SAI_ADR format in TDM mode, 8-bit slot width
+8 Microphones configuration
+M1R-2 M1L-2
+
+M1R-3 M1L-3
+
+M1R-4 M1L-4
+
+M1R-5 M1L-5
+
+M1R-6 M1L-6
+
+M1R-7 M1L-7
+
+M1R-8 M1L-8
+
+M4R-4
+
+M4R-5
+
+M4R-6
+
+M4R-7
+
+M4R-8
+
+zeros
+
+b0
+
+M4R-3
+
+word 8n+1
+
+b8 b7
+M1R-1 M1L-1
+
+zeros
+
+M4R-2
+
+word 8n
+
+M4R-1
+
+LSBFIRST = 0
+
+b31
+
+...
+zeros
+
+word 8n+7
+
+4 Microphones configuration
+M1R-3 M1L-3
+
+M1R-4 M1L-4
+
+M1R-5 M1L-5
+
+M1R-6 M1L-6
+
+M1R-7 M1L-7
+
+M2R-4
+
+M2R-5
+
+M2R-6
+
+M2R-7
+
+zeros
+
+word 4n+3
+
+M2R-3
+
+...
+
+M1R-2 M1L-2
+
+zeros
+
+M1R-1 M1L-1
+
+word 4n+1
+
+M2R-2
+
+zeros
+
+M2R-1
+
+word 4n
+
+M1R-8 M1L-8
+
+b0
+
+LSBFIRST = 0
+
+M2R-8
+
+b31
+
+2 Microphones configuration
+b0
+M1R-7 M1L-7
+
+M1R-6 M1L-6
+
+M1R-5 M1L-5
+
+M1R-4 M1L-4
+
+zeros
+
+M1R-3 M1L-3
+
+word 2n+1
+
+M1R-2 M1L-2
+
+zeros
+
+M1R-1 M1L-1
+
+LSBFIRST = 0
+
+word 2n
+
+M1R-8 M1L-8
+
+b31
+
+MSv35472V1
+
+TDM mode configuration for PDM interface
+The SAI_A serial audio interface is internally connected to the PDM interface to get the
+microphone samples. The user application must configure the SAI_A serial audio interface
+as shown in Table 710 to ensure a good connection with the PDM interface.
+Table 710. SAI_A configuration for TDM mode

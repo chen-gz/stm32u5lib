@@ -1,0 +1,168 @@
+1.
+
+Initialize and enable the used channel (channel x) as explained in Section : Channel
+initialization.
+
+2.
+
+The OTG_HS host writes an IN request to the request queue as soon as the channel
+receives the grant from the arbiter (arbitration is performed in a round-robin fashion).
+
+3.
+
+The OTG_HS host starts writing the received data to the system memory as soon as
+the last byte is received with no errors.
+
+4.
+
+When the last packet is received, the OTG_HS host sets an internal flag to remove any
+extra IN requests from the request queue.
+
+5.
+
+The OTG_HS host flushes the extra requests.
+
+6.
+
+The final request to disable channel x is written to the request queue. At this point,
+channel 2 is internally masked for further arbitration.
+
+7.
+
+The OTG_HS host generates the CHH interrupt as soon as the disable request comes
+to the top of the queue.
+
+8.
+
+In response to the CHH interrupt, de-allocate the channel for other transfers.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Figure 936. Normal bulk/control IN transaction - DMA
+
+Application
+
+1
+
+Host
+
+AHB
+
+USB
+
+Device
+
+init_reg(ch_1)
+
+2
+
+init_reg(ch_2)
+
+1
+
+Non-Periodic
+Request Queue
+Assume that this queue
+can hold 4 entries.
+
+1
+MPS
+ch_1
+
+1
+MPS
+
+2
+
+ch_2
+OUT
+
+ch_1
+
+DATA0
+MPS
+
+ch_2
+
+3
+
+AC K
+
+IN
+
+DATA0
+3
+AC K
+
+1
+MPS
+
+ch_1
+OUT
+
+ch_2
+
+D ATA1
+MPS
+
+ch_2
+
+5
+ch_2
+
+5
+
+AC K
+
+C hHltd interrupt
+
+4
+IN
+
+De-allocate
+(ch_1)
+
+D ATA1
+
+4
+1
+MPS
+
+AC K
+
+ch_2
+
+6
+7
+ChHltd interrupt
+De-allocate
+(ch_2)
+
+8
+
+MSv36928V1
+
+•
+
+Interrupt OUT transactions in DMA mode
+
+1.
+
+Initialize and enable channel x as explained in Section : Channel initialization.
+
+2.
+
+The OTG_HS host starts fetching the first packet as soon the channel is enabled and
+writes the OUT request along with the last 32-bit word fetch. In high-bandwidth
+transfers, the OTG_HS host continues fetching the next packet (up to the value
+specified in the MC field) before switching to the next channel.
+
+3.
+
+The OTG_HS host attempts to send the OUT token at the beginning of the next odd
+frame/micro-frame.
+
+RM0456 Rev 6

@@ -1,0 +1,165 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Table 218. Programmable NOR/PSRAM access parameters (continued)
+
+27.6.1
+
+Parameter
+
+Function
+
+Access mode
+
+Unit
+
+Min.
+
+Max.
+
+Data setup
+
+Duration of the data setup
+phase
+
+Asynchronous
+
+AHB clock cycle
+(HCLK)
+
+1
+
+256
+
+Data hold
+
+Duration of the data hold
+phase
+
+Asynchronous
+
+AHB clock cycle
+(HCLK)
+
+0
+
+3
+
+Bust turn
+
+Duration of the bus
+turnaround phase
+
+Asynchronous and
+AHB clock cycle
+synchronous read
+(HCLK)
+/ write
+
+0
+
+15
+
+Clock divide
+ratio
+
+Number of AHB clock cycles
+(HCLK) to build one memory
+clock cycle (CLK)
+
+Synchronous
+
+AHB clock cycle
+(HCLK)
+
+2
+
+16
+
+Data latency
+
+Number of clock cycles to
+issue to the memory before
+the first data of the burst
+
+Synchronous
+
+Memory clock
+cycle (CLK)
+
+2
+
+17
+
+External memory interface signals
+Table 219, Table 220 and Table 221 list the signals that are typically used to interface with
+NOR flash memory, SRAM and PSRAM.
+
+Note:
+
+The prefix “N” identifies the signals that are active low.
+
+NOR flash memory, non-multiplexed I/Os
+Table 219. Non-multiplexed I/O NOR flash memory
+FMC signal name
+
+I/O
+
+Function
+
+CLK
+
+O
+
+Clock (for synchronous access)
+
+A[25:0]
+
+O
+
+Address bus
+
+D[15:0]
+
+I/O
+
+Bidirectional data bus
+
+NE[x]
+
+O
+
+Chip select, x = 1..4
+
+NOE
+
+O
+
+Output enable
+
+NWE
+
+O
+
+Write enable
+
+NL(=NADV)
+
+O
+
+Latch enable (this signal is called address
+valid, NADV, by some NOR flash devices)
+
+NWAIT
+
+I
+
+NOR flash wait input signal to the FMC
+
+The maximum capacity is 512 Mbits (26 address lines).
+
+<!-- pagebreak -->
+

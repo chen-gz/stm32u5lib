@@ -1,0 +1,191 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+39.8.5
+
+MDF digital filter control register x (MDF_DFLTxCR)
+Address offset: 0x088 + 0x80 * x, (x = 0 to 5)
+Reset value: 0x0000 0000
+The number of registers is equal to the amount of filters. Refer to Section 39.3 for details.
+
+31
+
+30
+
+DFLTA
+CTIVE
+
+DFLTR
+UN
+
+r
+
+r
+
+15
+
+14
+
+29
+
+28
+
+Res.
+
+Res.
+
+13
+
+12
+
+TRGSRC[3:0]
+rw
+
+rw
+
+rw
+
+27
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+NBDIS[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+TRGSE
+NS
+
+Res.
+rw
+
+26
+
+Res.
+
+Res.
+
+rw
+
+ACQMOD[2:0]
+rw
+
+rw
+
+19
+
+17
+
+16
+SNPSF
+MT
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+FTH
+
+DMAE
+N
+
+DFLTE
+N
+
+rw
+
+rw
+
+w
+
+rw
+
+Res.
+rw
+
+18
+
+Bit 31 DFLTACTIVE: Digital filter active flag
+This bit is set and cleared by hardware. It indicates if the digital filter is active: can be running
+or waiting for events.
+0: Digital filter not active (can be re-enabled again, via DFLTEN, if needed)
+1: Digital filter active
+Bit 30 DFLTRUN: Digital filter run status flag
+This bit is set and cleared by hardware. It indicates if the digital filter is running or not.
+0: Digital filter not running and ready to accept a new trigger event
+1: Digital filter running
+Bits 29:28 Reserved, must be kept at reset value.
+Bits 27:20 NBDIS[7:0]: Number of samples to be discarded
+This bitfield is set and cleared by software. it is used to define the number of samples to be
+discarded every time the DFLTx is re-started.
+0: No sample discarded
+1: 1 sample discarded
+2: 2 samples discarded
+...
+255: 255 samples discarded
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 19:17 Reserved, must be kept at reset value.
+Bit 16 SNPSFMT: Snapshot data format
+This bit is set and cleared by software. It is used to select the data format for the snapshot
+mode.
+0: Integrator counter (INT_CNT) not inserted into MDF_SNPSxDR, leaving a data resolution
+of 23 bits
+1: Integrator counter (INT_CNT) inserted at position [15:9] of MDF_SNPSxDR, leaving a data
+resolution of 16 bits.
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+
+RM0456 Rev 6

@@ -1,0 +1,48 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Host Tx FIFOs
+The host uses one transmit FIFO for all non-periodic (control and bulk) OUT transactions
+and one transmit FIFO for all periodic (isochronous and interrupt) OUT transactions. FIFOs
+are used as transmit buffers to hold the data (payload of the transmit packet) to be
+transmitted over the USB. The size of the periodic (nonperiodic) Tx FIFO is configured in the
+host periodic (nonperiodic) transmit FIFO size OTG_HPTXFSIZ / OTG_HNPTXFSIZ)
+register.
+The two Tx FIFO implementation derives from the higher priority granted to the periodic type
+of traffic over the USB frame. At the beginning of each frame, the built-in host scheduler
+processes the periodic request queue first, followed by the nonperiodic request queue.
+The two transmit FIFO architecture provides the USB host with separate optimization for
+periodic and nonperiodic transmit data buffer management:
+•
+
+All host channels configured to support periodic (nonperiodic) transactions in the OUT
+direction share the same RAM buffer (shared FIFOs)
+
+•
+
+The OTG_HS core can fill in the periodic (nonperiodic) transmit FIFO up to the limit for
+any sequence of OUT tokens driven by the host software
+
+The OTG_HS core issues the periodic Tx FIFO empty interrupt (PTXFE bit in
+OTG_GINTSTS) as long as the periodic Tx FIFO is half or completely empty, depending on
+the value of the periodic Tx FIFO empty level bit in the AHB configuration register
+(PTXFELVL bit in OTG_GAHBCFG). The application can push the transmission data in
+advance as long as free space is available in both the periodic Tx FIFO and the periodic
+request queue. The host periodic transmit FIFO and queue status register
+(OTG_HPTXSTS) can be read to know how much space is available in both.
+OTG_HS core issues the non periodic Tx FIFO empty interrupt (NPTXFE bit in
+OTG_GINTSTS) as long as the nonperiodic Tx FIFO is half or completely empty depending
+on the non periodic Tx FIFO empty level bit in the AHB configuration register (TXFELVL bit
+in OTG_GAHBCFG). The application can push the transmission data as long as free space
+is available in both the nonperiodic Tx FIFO and nonperiodic request queue. The host
+nonperiodic transmit FIFO and queue status register (OTG_HNPTXSTS) can be read to
+know how much space is available in both.
+
+73.11.3
+
+FIFO RAM allocation
+Device mode
+Receive FIFO RAM allocation: the application must allocate RAM for SETUP packets:

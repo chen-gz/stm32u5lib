@@ -1,0 +1,146 @@
+32.4.1
+
+DLYB diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.4.2
+
+DLYB pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1261
+
+32.4.3
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1261
+
+32.4.4
+
+Delay line length configuration procedure . . . . . . . . . . . . . . . . . . . . . 1262
+
+32.4.5
+
+Output clock phase configuration procedure . . . . . . . . . . . . . . . . . . . 1263
+
+DLYB registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1263
+32.5.1
+
+DLYB control register (DLYB_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1263
+
+32.5.2
+
+DLYB configuration register (DLYB_CFGR) . . . . . . . . . . . . . . . . . . . 1264
+
+32.5.3
+
+DLYB register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1264
+
+Analog-to-digital converter (ADC12) . . . . . . . . . . . . . . . . . . . . . . . . . 1265
+33.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1265
+
+33.2
+
+ADC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1265
+
+33.3
+
+ADC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1267
+
+33.4
+
+ADC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1269
+33.4.1
+
+ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1269
+
+33.4.2
+
+ADC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1270
+
+33.4.3
+
+ADC clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1272
+
+33.4.4
+
+ADC connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1274
+
+33.4.5
+
+Slave AHB interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1276
+
+33.4.6
+
+ADC Deep-power-down mode (DEEPPWD) and ADC voltage regulator
+(ADVREGEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1276
+
+33.4.7
+
+Single-ended and differential input channels . . . . . . . . . . . . . . . . . . . 1276
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+33.4.8
+
+Calibration (ADCAL, ADCALLIN, ADC_CALFACT) . . . . . . . . . . . . . . 1277
+
+33.4.9
+
+ADC on-off control (ADEN, ADDIS, ADRDY) . . . . . . . . . . . . . . . . . . . 1281
+
+33.4.10 Constraints when writing the ADC control bits . . . . . . . . . . . . . . . . . . 1282
+33.4.11 Channel selection (SQRx, JSQRx) . . . . . . . . . . . . . . . . . . . . . . . . . . 1283
+33.4.12 Channel preselection register (ADC_PCSEL) . . . . . . . . . . . . . . . . . . 1283
+33.4.13 Channel-wise programmable sampling time (SMPR1, SMPR2) . . . . 1283
+33.4.14 Single conversion mode (CONT = 0) . . . . . . . . . . . . . . . . . . . . . . . . . 1285
+33.4.15 Continuous conversion mode (CONT = 1) . . . . . . . . . . . . . . . . . . . . . 1286
+33.4.16 Starting conversions (ADSTART, JADSTART) . . . . . . . . . . . . . . . . . . 1287
+33.4.17 Timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1288
+33.4.18 Stopping an ongoing conversion (ADSTP, JADSTP) . . . . . . . . . . . . . 1288
+33.4.19 Conversion on external trigger and trigger polarity (EXTSEL,
+EXTEN[1:0], JEXTSEL, JEXTEN[1:0]) . . . . . . . . . . . . . . . . . . . . . . . 1290
+33.4.20 Injected channel management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1291
+33.4.21 Discontinuous mode (DISCEN, DISCNUM, JDISCEN) . . . . . . . . . . . 1293
+33.4.22 Programmable resolution (RES) - fast conversion mode . . . . . . . . . 1294
+33.4.23 End of conversion and end of sampling phase
+(EOC, JEOC, EOSMP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1294
+33.4.24 End of conversion sequence (EOS, JEOS) . . . . . . . . . . . . . . . . . . . . 1295
+33.4.25 Timing diagrams example (single/continuous modes,
+hardware/software triggers) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1295
+33.4.26 Low-frequency trigger mode (LFTRIG) . . . . . . . . . . . . . . . . . . . . . . . 1297
+33.4.27 Data management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1297
+33.4.28 Managing conversions using the MDF . . . . . . . . . . . . . . . . . . . . . . . 1305
+33.4.29 Dynamic low-power features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1305
+33.4.30 Analog window watchdog (AWD1EN, JAWD1EN, AWD1SGL,
+AWD1CH, AWD2CH, AWD3CH, AWD_HTRy, AWD_LTRy, AWDy) . 1310
+33.4.31 Oversampler . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1314
+33.4.32 Dual ADC modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1320
+33.4.33 Temperature sensor . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1335
+33.4.34 VBAT supply monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1337
+33.4.35 Monitoring the internal voltage reference . . . . . . . . . . . . . . . . . . . . . 1337
+
+33.5
+
+ADC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1339
+
+33.6
+
+ADC registers (for each ADC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1340
+33.6.1
+
+ADC interrupt and status register (ADC_ISR) . . . . . . . . . . . . . . . . . . 1340
+
+33.6.2
+
+ADC interrupt enable register (ADC_IER) . . . . . . . . . . . . . . . . . . . . . 1342
+
+33.6.3
+
+ADC control register (ADC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1344
+
+33.6.4
+
+ADC configuration register (ADC_CFGR1) . . . . . . . . . . . . . . . . . . . . 1347
+
+RM0456 Rev 6

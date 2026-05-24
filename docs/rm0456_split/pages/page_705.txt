@@ -1,0 +1,75 @@
+The current LLIn transfer is described with:
+–
+
+GPDMA_CxTR1 defines the source/destination elementary single/burst transfers.
+
+–
+
+GPDMA_CxBR1 defines the number of bytes at a block level (BNDT[15:0]) and,
+for channel x (x = 12 to 15), the number of blocks at a 2D/repeated block level
+(BRC[10:0]+1) and the incrementing/decrementing mode for address offsets.
+
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+•
+
+Note:
+
+–
+
+GPDMA_CxTR2 defines the input control (request, trigger) and the output control
+(transfer complete event) of the transfer.
+
+–
+
+GPDMA_CxSAR/GPDMA_CxDAR define the source/destination transfer start
+address.
+
+–
+
+GPDMA_CxTR3 for channel x (x = 12 to 15) defines the source/destination
+additional address offset between burst transfers.
+
+–
+
+GPDMA_CxBR2 for channel x (x = 12 to 15) defines the source/destination
+additional address offset between blocks at a 2D/repeated block level.
+
+–
+
+GPDMA_CxLLR defines the data structure and the address offset of the next
+LLIn+1 in the memory.
+
+The current LLIn transfer is completed after the single execution of the current LLIn:
+–
+
+after the (conditional) data transfer completion (when
+GPDMA_CxBR1.BRC[10:0] = 0, and GPDMA_CxBR1.BNDT[15:0] = 0
+
+–
+
+after the (conditional) update of the GPDMA link register file from the data
+structure of the next LLIn+1 in memory
+
+If a LLI is recursive (pointing to itself as a next LLI, either GPDMA_CxLLR.ULL = 1 and
+GPDMA_CxLLR.LA[15:2] is updated by the same value, or GPDMA_CxLLR.ULL = 0), a
+channel in link step mode is completed after each repeated single execution of this LLI.
+The link step mode can be used to elaborate dynamically LLIs in memory during run-time.
+The software can be facilitated by using a static data structure for any LLIn (all update bits of
+GPDMA_CxLLR have a static value, LLIn.LLR.LA = LLIn-1.LLR.LA + constant).
+Figure 61 depicts the GPDMA channel execution mode, and its programming in link step
+mode.
+
+Note:
+
+Figure 61 is not intended to illustrate how often a TCEF can be raised, depending on the
+programmed value of TCEM[1:0] in GPDMA_CxTR2. It can be raised at (each) block
+completion, at (each) 2D block completion, at (each) LLI completion, or only at the last LLI
+data transfer completion. In link step mode, the channel is disabled after each single
+execution of a LLI, and depending on the value of TCEM[1:0] a TCEF is raised or not.
+
+RM0456 Rev 6

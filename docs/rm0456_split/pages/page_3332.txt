@@ -1,0 +1,117 @@
+1.
+
+Initialize and enable channel x for start split as explained in Section : Channel
+initialization.
+
+2.
+
+The OTG_HS host writes an IN request to the request queue as soon as channel x
+receives the grant from the arbiter.
+
+3.
+
+The OTG_HS host attempts to send the start split IN token at the beginning of the next
+odd micro-frame.
+
+4.
+
+The OTG_HS host generates the CHH interrupt after successfully transmitting the start
+split IN token.
+
+5.
+
+In response to the CHH interrupt, set the COMPLSPLT bit in OTG_HCSPLT2 to send
+the complete split.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+6.
+
+As soon as the packet is received successfully, the OTG_HS host starts writing the
+data to the system memory.
+
+7.
+
+The OTG_HS host generates the CHH interrupt after transferring the received data to
+the system memory.
+
+8.
+
+In response to the CHH interrupt, de-allocate or reinitialize the channel for the next start
+split.
+
+•
+
+Isochronous OUT split transactions in DMA mode
+The sequence of operations (channel x) is as follows:
+
+1.
+
+Initialize and enable channel x for start split (begin) as explained in Section : Channel
+initialization. The application must set the ODDFRM bit in OTG_HCCHAR1. Program
+the MPS field.
+
+2.
+
+The OTG_HS host starts reading the packet.
+
+3.
+
+After successfully transmitting the start split (begin), the OTG_HS host generates the
+CHH interrupt.
+
+4.
+
+In response to the CHH interrupt, reinitialize the registers to send the start split (end).
+
+5.
+
+After successfully transmitting the start split (end), the OTG_HS host generates a CHH
+interrupt.
+
+6.
+
+In response to the CHH interrupt, de-allocate the channel.
+
+•
+
+Isochronous IN split transactions in DMA mode
+The sequence of operations (channel x) is as follows:
+
+1.
+
+Initialize and enable channel x for start split as explained in Section : Channel
+initialization.
+
+2.
+
+The OTG_HS host writes an IN request to the request queue as soon as channel x
+receives the grant from the arbiter.
+
+3.
+
+The OTG_HS host attempts to send the start split IN token at the beginning of the next
+odd micro-frame.
+
+4.
+
+The OTG_HS host generates the CHH interrupt after successfully transmitting the start
+split IN token.
+
+5.
+
+In response to the CHH interrupt, set the COMPLSPLT bit in OTG_HCSPLT2 to send
+the complete split.
+
+6.
+
+As soon as the packet is received successfully, the OTG_HS host starts writing the
+data to the system memory.
+The OTG_HS host generates the CHH interrupt after transferring the received data to
+the system memory. In response to the CHH interrupt, de-allocate the channel or
+reinitialize the channel for the next start split.
+
+RM0456 Rev 6

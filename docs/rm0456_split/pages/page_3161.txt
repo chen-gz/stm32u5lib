@@ -1,0 +1,48 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+DPID = DATA0. These data indicate that a SETUP packet for the specified
+endpoint is now available for reading from the receive FIFO.
+c)
+
+Setup stage done pattern:
+PKTSTS = Setup Stage Done, BCNT = 0x0, EPNUM = Control EP Num,
+DPID = (0b00).
+These data indicate that the setup stage for the specified endpoint has completed
+and the data stage has started. After this entry is popped from the receive FIFO,
+the core asserts a setup interrupt on the specified control OUT endpoint.
+
+d)
+
+Data OUT packet pattern:
+PKTSTS = DataOUT, BCNT = size of the received data OUT packet (0 ≤ BCNT
+≤ 1 024), EPNUM = EPNUM on which the packet was received, DPID = Actual
+Data PID.
+
+e)
+
+Data transfer completed pattern:
+PKTSTS = Data OUT transfer done, BCNT = 0x0, EPNUM = OUT EP Num on
+which the data transfer is complete, DPID = (0b00).
+These data indicate that an OUT data transfer for the specified OUT endpoint has
+completed. After this entry is popped from the receive FIFO, the core asserts a
+transfer completed interrupt on the specified OUT endpoint.
+
+5.
+
+After the data payload is popped from the receive FIFO, the RXFLVL interrupt
+(OTG_GINTSTS) must be unmasked.
+
+6.
+
+Steps 1–5 are repeated every time the application detects assertion of the interrupt line
+due to RXFLVL in OTG_GINTSTS. Reading an empty receive FIFO can result in
+undefined core behavior.
+
+Figure 910 provides a flowchart of the above procedure.
+Figure 910. Receive FIFO packet read
+
+SETUP transactions

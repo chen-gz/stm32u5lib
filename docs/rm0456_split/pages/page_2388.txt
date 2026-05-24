@@ -1,0 +1,94 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+
+Input stage
+The input stage samples the corresponding LPTIx input to generate a filtered signal LPTIxF.
+Then, an edge detector with polarity selection generates ICx signal used as the capture
+command. It is prescaled to generate the capture command signal (ICxPS).
+Figure 745. Capture/compare input stage (channel 1)
+LPTI1
+
+Glitch filter
+
+IC1F[3:0]
+LPTIM_CCMR1
+
+LPTI1F
+
+IC1
+
+Edge detector
+
+CC1P[1:0]
+LPTIM_CCMR1
+
+Divider
+/1, /2, /4, /8
+
+IC1PSC[1:0]
+CC1E
+LPTIM_CCMR1
+
+IC1PS
+
+MSv50905V1
+
+Output stage
+The output stage generates an intermediate waveform which is then used for reference:
+OCxREF (active high). The polarity acts at the end of the chain.
+Figure 746. Capture/compare output stage (channel 1)
+CNT > CCRx
+
+58.4.18
+
+Output mode
+controller
+
+OC1REF
+
+0
+
+1
+
+Output
+enable
+circuit
+
+CC1P
+LPTIM_CCMR1
+
+CC1E
+LPTIM_CCMR1
+
+OC1
+
+MSv50906V2
+
+Input capture mode
+In Input capture mode, the capture/compare registers (LPTIM_CCRx) are used to latch the
+value of the counter after a transition detected by the corresponding ICx signal. Assuming
+input capture is enabled on a channel x (CCxE set) and when a capture occurs, the
+corresponding CCxIF flag (LPTIM_ISR register) is set and an interrupt or a DMA request
+can be sent if they are enabled. If a capture occurs while the CCxIF flag was already high,
+then the over-capture flag CCxOF (LPTIM_ISR register) is set. CCxIF can be cleared by
+software by writing the CCxICF to 1 or by reading the captured data stored in the
+LPTIM_CCRx register. CCxOF is cleared by writing CCxOCF to 1.
+
+Note:
+
+In DMA mode, the input capture channel have to be enabled (set CCxE bit) the last, after
+enabling the DMA request and after starting the counter. This is in order to prevent
+generating an input capture DMA request when the counter is not started yet.
+
+Input capture Glitch filter latency
+When a trigger event arrives on channel x input (LPTIx) and depending on the configured
+glitch filter (ICxF[1:0] field in CCMRx register) and on the kernel clock prescaler value
+(PRESC[2:0] field in CFGR register), there is a variable latency that leads to a systematic
+offset (see Table 613) between the captured value stored in the CCRx register and the real
+value corresponding to the capture trigger.
+This offset has no impact on pulse width measurement as it is systematic and compensated
+between two captures.
+RM0456 Rev 6

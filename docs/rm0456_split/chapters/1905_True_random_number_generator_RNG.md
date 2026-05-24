@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+RM0456
+
+True random number generator (RNG)
+
+48
+
+True random number generator (RNG)
+
+48.1
+
+Introduction
+The RNG is a true random number generator that provides full entropy outputs to the
+application as 32-bit samples. It is composed of a live entropy source (analog) and an
+internal conditioning component.
+The RNG is a NIST SP 800-90B compliant entropy source that can be used to construct a
+nondeterministic random bit generator (NDRBG).
+The RNG true random number generator can be certified NIST SP800-90B. It can also be
+tested using the German BSI statistical tests of AIS-31 (T0 to T8).
+
+48.2
+
+RNG main features
+•
+
+The RNG delivers 32-bit true random numbers, produced by an analog entropy source
+conditioned by a NIST SP800-90B approved conditioning stage.
+
+•
+
+It can be used as the entropy source to construct a nondeterministic random bit
+generator (NDRBG).
+
+•
+
+In the NIST configuration, it produces four 32-bit random samples every 412 AHB clock
+cycles if fAHB < fthreshold (256 RNG clock cycles otherwise).
+
+•
+
+It embeds startup and NIST SP800-90B approved continuous health tests (repetition
+count and adaptive proportion tests), associated with specific error management
+
+•
+
+It can be disabled to reduce power consumption, or enabled with an automatic low
+power mode (default configuration).
+
+•
+
+It has an AMBA® AHB slave peripheral, accessible through 32-bit word single
+accesses only (else an AHB bus error is generated, and the write accesses are
+ignored).
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

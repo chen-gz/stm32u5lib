@@ -1,0 +1,258 @@
+RM0456 Rev 6
+
+RM0456
+
+30.5
+
+Hexadeca-SPI interface (HSPI)
+
+Address alignment and data number
+The following table summarizes the effect of the address alignment and programmed data
+number depending on the use case.
+Table 269. Address alignment cases
+
+Memory type
+
+Constraint
+on
+address(1)
+
+Impact if constraint
+on address not
+respected
+
+Constraint
+on number
+of bytes(1)
+
+Impact if constraint
+on bytes not
+respected
+
+None
+
+None
+
+None
+
+None
+
+IND read
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+MM read
+
+None
+
+None
+
+None
+
+None
+
+IND write
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+MM write
+
+Even
+
+Slave error
+
+Even
+
+Last byte is lost.
+
+Transaction
+type
+IND(2) read
+
+Single, dual, quad flash
+or SRAM (DMM = 0)
+
+MM(3) read
+IND write
+MM write
+
+Single, dual, quad flash
+or SRAM (DMM = 1)
+
+IND read
+Octal flash in SDR mode
+
+MM read
+
+None
+
+None
+
+None
+
+None
+
+IND read
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+MM read
+
+None
+
+None
+
+None
+
+None
+
+Even
+
+DLR[0] is set to 1.(5)
+
+IND write
+MM write
+
+Octal memory in DTR
+mode without WDM(6),
+or 16-bit memory in SDR
+mode without WDM
+
+16-bit or dual-octal
+memory in DTR mode
+without WDM
+
+IND write
+
+Even
+
+ADDR[0] is set to 0.
+
+MM write
+
+Even
+
+Slave error
+
+Even
+
+Last byte is lost.
+
+IND read
+32-bit
+
+Aligned
+
+ADDR[1:0] is assumed
+to be 00.(4)
+
+N×4
+
+DLR[1:0] is assumed
+to be 11.(5)
+
+MM read
+
+None
+
+None
+
+None
+
+None
+
+IND write
+
+Aligned
+
+ADDR[1:0] is assumed
+to be 00.(4)
+
+N×4
+
+DLR[1:0] is assumed
+to be 11.(5)
+
+MM write
+
+Aligned
+
+Slave error
+
+N×4
+
+Last byte is lost.
+
+Even
+
+DLR[0] is set to 1.(5)
+
+IND read
+Octal flash or RAM in
+DTR mode with WDM
+
+(4)
+
+Even
+
+(4)
+
+ADDR[0] is set to 0.
+
+MM read
+IND write(7)
+
+None
+
+None
+
+None
+
+None
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+None
+
+None
+
+None
+
+None
+
+MM write
+IND read
+HyperBus
+
+MM read
+IND write(7)
+MM write
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,12 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+71.7.5
+
+RM0456
+
+USBSRAM register map
+The table below provides the USB register map and reset values.
+
+0x3C

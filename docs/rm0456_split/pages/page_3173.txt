@@ -1,0 +1,115 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+1.
+
+The application must stop writing data on the AHB for the IN endpoint to be disabled.
+
+2.
+
+The application must set the endpoint in NAK mode.
+–
+
+SNAK = 1 in OTG_DIEPCTLx
+
+3.
+
+Wait for the INEPNE interrupt in OTG_DIEPINTx.
+
+4.
+
+Set the following bits in the OTG_DIEPCTLx register for the endpoint that must be
+disabled.
+
+5.
+
+–
+
+EPDIS = 1 in OTG_DIEPCTLx
+
+–
+
+SNAK = 1 in OTG_DIEPCTLx
+
+Assertion of the EPDISD interrupt in OTG_DIEPINTx indicates that the core has
+completely disabled the specified endpoint. Along with the assertion of the interrupt, the
+core also clears the following bits:
+–
+
+EPENA = 0 in OTG_DIEPCTLx
+
+–
+
+EPDIS = 0 in OTG_DIEPCTLx
+
+6.
+
+The application must read the OTG_DIEPTSIZx register for the periodic IN EP, to
+calculate how much data on the endpoint were transmitted on the USB.
+
+7.
+
+The application must flush the data in the endpoint transmit FIFO, by setting the
+following fields in the OTG_GRSTCTL register:
+–
+
+TXFNUM (in OTG_GRSTCTL) = Endpoint transmit FIFO number
+
+–
+
+TXFFLSH in (OTG_GRSTCTL) = 1
+
+The application must poll the OTG_GRSTCTL register, until the TXFFLSH bit is cleared by
+the core, which indicates the end of flush operation. To transmit new data on this endpoint,
+the application can re-enable the endpoint at a later point.
+•
+
+Transfer Stop Programming for IN endpoints
+
+The application must use the following programing sequence to stop any transfers (because
+of an interrupt from the host, typically a reset).
+Sequence of operations:
+1.
+
+Disable the IN endpoint by setting:
+–
+
+2.
+
+3.
+
+EPDIS = 1 in all OTG_DIEPCTLx registers
+
+Wait for the EPDIS interrupt in OTG_DIEPINTx, which indicates that the IN endpoint is
+completely disabled. When the EPDIS interrupt is asserted the following bits are
+cleared:
+–
+
+EPDIS = 0 in OTG_DIEPCTLx
+
+–
+
+EPENA = 0 in OTG_DIEPCTLx
+
+Flush the TxFIFO by programming the following bits:
+–
+
+TXFFLSH = 1 in OTG_GRSTCTL
+
+–
+
+TXFNUM = “FIFO number specific to endpoint” in OTG_GRSTCTL
+
+4.
+
+The application can start polling till TXFFLSH in OTG_GRSTCTL is cleared. When this
+bit is cleared, it ensures that there is no data left in the Tx FIFO.
+
+•
+
+Generic non-periodic IN data transfers
+
+Application requirements:

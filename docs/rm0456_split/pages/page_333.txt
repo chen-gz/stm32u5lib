@@ -1,0 +1,309 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+7.9.6
+
+FLASH bank 2 power-down key register (FLASH_PDKEY2R)
+Address offset: 0x1C
+Reset value: 0x0000 0000
+Access: no wait state; word access
+This register is nonsecure. It can be read and written by both secure and nonsecure access.
+This register can be protected against unprivileged access when NSPRIV = 1
+in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+PDKEY2[31:16]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+PDKEY2[15:0]
+w
+
+w
+
+Bits 31:0 PDKEY2[31:0]: Bank 2 power-down key
+The following values must be written consecutively to unlock PDREQ2 bit in FLASH_ACR:
+PDKEY2_1: 0x4051 6273
+PDKEY2_2: 0xAFBF CFDF
+
+7.9.7
+
+FLASH nonsecure status register (FLASH_NSSR)
+Address offset: 0x20
+Reset value: 0x000X 0000
+Access: no wait state; word, half-word and byte access
+This register is nonsecure. It can be read and written by both secure and nonsecure access.
+This register can be protected against unprivileged access when NSPRIV = 1
+in FLASH_PRIVCFGR register.
+
+31
+Res.
+
+15
+Res.
+
+30
+Res.
+
+29
+Res.
+
+14
+
+13
+
+Res.
+
+OPTW
+ERR
+rc_w1
+
+28
+Res.
+
+12
+Res.
+
+27
+Res.
+
+11
+Res.
+
+26
+Res.
+
+10
+Res.
+
+25
+Res.
+
+9
+Res.
+
+24
+Res.
+
+23
+Res.
+
+8
+Res.
+
+7
+
+22
+Res.
+
+6
+
+21
+
+20
+
+PD2
+
+PD1
+
+r
+
+r
+
+5
+
+4
+
+19
+
+WDW
+
+BSY
+
+r
+
+r
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+OPER
+R
+
+EOP
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+16
+
+r
+
+PROG
+ERR
+
+rc_w1
+
+17
+
+r
+
+PGSER SIZER PGAER WRPE
+R
+R
+R
+RR
+rc_w1
+
+18
+
+OEM2L OEM1L
+OCK
+OCK
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 PD2: Bank 2 in power-down mode
+This bit indicates that the flash memory bank 2 is in power-down state. It is reset when
+bank 2 is in normal mode or being awaken.
+Bit 20 PD1: Bank 1 in power-down mode
+This bit indicates that the flash memory bank 1 is in power-down state. It is reset when
+bank 1 is in normal mode or being awaken.
+
+RM0456 Rev 6

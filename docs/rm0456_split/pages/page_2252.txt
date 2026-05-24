@@ -1,0 +1,61 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Figure 609. Counter timing diagram, internal clock divided by 2
+
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+0001
+
+0002
+
+0000
+
+0036
+
+0035
+
+0034
+
+0033
+
+Counter underflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+
+MSv62306V1
+
+Figure 610. Counter timing diagram, internal clock divided by 4
+
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+0001
+
+0000
+
+0000
+
+0001
+
+Counter underflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)

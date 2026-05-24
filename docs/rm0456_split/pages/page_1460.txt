@@ -1,0 +1,79 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+The steps to perform a user trimming calibration are as below:
+1.
+
+If the DAC channel is active, write 0 to ENx bit in DAC_CR to disable the channel.
+
+2.
+
+Select a mode where the buffer is enabled, by writing to DAC_MCR register,
+MODEx[2:0] = 0b000 or 0b001 or 0b100 or 0b101.
+
+3.
+
+Start the DAC channelx calibration, by setting the CENx bit in DAC_CR register to 1.
+
+4.
+
+Apply a trimming algorithm:
+a)
+
+Write a code into OTRIMx[4:0] bits, starting by 0b00000.
+
+b)
+
+Wait for tTRIM delay.
+
+c)
+
+Check if CAL_FLAGx bit in DAC_SR is set to 1.
+
+d)
+
+Until the CAL_FLAGx is read as 1 or the maximum trimming code is reached,
+increment OTRIMx[4:0] and repeat substeps from (b) to (d).
+
+The software algorithm may use either a successive approximation or dichotomy techniques
+to compute and set the content of OTRIMx[4:0] bits in a faster way.
+Note:
+
+A tTRIM delay must be respected between the write to the OTRIMx[4:0] bits and the read of
+the CAL_FLAGx bit in DAC_SR register in order to get a correct value.This parameter is
+specified into datasheet electrical characteristics section.
+If VDDA, VREF+ and temperature conditions do not change during device operation while it
+enters more often in Standby and VBAT modes, the software may store the OTRIMx[4:0]
+bits found in the first user calibration in the flash or in back-up registers. then to load/write
+them directly when the device power is back again thus avoiding to wait for a new calibration
+time.
+When CENx bit is set, it is not allowed to set ENx bit.
+
+35.4.14
+
+DAC channel conversion modes
+Four conversion modes are possible.
+
+Independent trigger without wave generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Set the DAC channel trigger enable bit, TENx.
+
+2.
+
+Configure the trigger sources by setting different values in the TSELx[3:0] bits.
+
+3.
+
+Load the DAC channel data into the desired DHR registers (DAC_DHR12R1,
+DAC_DHR12L1 or DAC_DHR8R1).
+
+When a DAC channel trigger arrives, the DHRx register is transferred into DAC_DORx
+(three dac_hclk clock cycles later).
+
+Independent trigger with single LFSR generation
+To configure the DAC in this conversion mode, the following sequence is required:

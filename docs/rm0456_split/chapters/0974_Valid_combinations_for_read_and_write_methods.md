@@ -1,0 +1,179 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+However, if the memory space is limited, the X1 and Y buffer areas can be overlapped, such
+that each output sample takes the place of the oldest input sample, which is no longer
+required:
+•
+
+X2_BASE = 0;
+
+•
+
+X1_BASE = N;
+
+•
+
+Y_BASE = N
+
+In this case, Y_BUF_SIZE = X1_BUF_SIZE = N + d1, so that the buffers remain in sync.
+Note:
+
+The FULL_WM bitfield of X1 buffer configuration register must be programmed with a value
+less than or equal to log2(d1), otherwise the buffer is flagged full before N input samples
+have been written, and no more samples are requested. Similarly, the EMPTY_WM bitfield
+of the Y buffer configuration register must be less than or equal to log2(d2).
+The filter coefficients must be pre-loaded into the X2 buffer, using the Load X2 Buffer
+function. The X1 buffer can optionally be pre-loaded with any number of samples up to a
+maximum of N. There is no point in pre-loading the Y buffer, since for the FIR filter there is
+no feedback path.
+After configuring and initializing the buffers, the FMAC_CR register must be programmed
+according to the method used for writing and reading data to and from the FMAC memory.
+Three methods are supported:
+•
+
+Polling: No DMA request or Interrupt request is generated. Software must check that
+the X1_FULL flag is low before writing to WDATA, or that the Y_EMPTY flag is low
+before reading from RDATA.
+
+•
+
+Interrupt: The interrupt request is asserted while the X1_FULL flag is low, for writes, or
+when the Y_EMPTY flag is low, for reads.
+
+•
+
+DMA: DMA requests are asserted on the DMA write channel while the X1_FULL flag is
+low, and on the read channel while the Y_EMPTY flag is low.
+
+Different methods can be used for read and for write. However it is not recommended to use
+both interrupts and DMA requests for the same operation(a). The valid combinations are
+listed in Table 212.
+Table 212. Valid combinations for read and write methods
+WIEN
+
+RIEN
+
+DMAWEN
+
+DMAREN
+
+Write
+
+Read
+
+0
+
+0
+
+0
+
+0
+
+Polling
+
+Polling
+
+0
+
+1
+
+0
+
+0
+
+Polling
+
+Interrupt
+
+1
+
+0
+
+0
+
+0
+
+Interrupt
+
+Polling
+
+1
+
+1
+
+0
+
+0
+
+Interrupt
+
+Interrupt
+
+0
+
+0
+
+0
+
+1
+
+Polling
+
+DMA
+
+0
+
+0
+
+1
+
+0
+
+DMA
+
+Polling
+
+0
+
+0
+
+1
+
+1
+
+DMA
+
+DMA
+
+0
+
+1
+
+1
+
+0
+
+DMA
+
+Interrupt
+
+1
+
+0
+
+0
+
+1
+
+Interrupt
+
+DMA
+
+a. If both interrupts and DMA requests are enabled then only DMA must perform the transfer.
+
+<!-- pagebreak -->
+

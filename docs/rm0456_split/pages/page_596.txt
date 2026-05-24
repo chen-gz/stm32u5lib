@@ -1,0 +1,55 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 15 DAC1SEL: DAC1 sample-and-hold clock source selection
+This bit is used to select the DAC1 sample-and-hold clock source.
+0: LSE selected
+1: LSI selected
+Bits 14:12 ADCDACSEL[2:0]: ADC1, ADC2, ADC4 and DAC1 kernel clock source selection
+These bits are used to select the ADC1, ADC2, ADC4, and DAC1 kernel clock source.
+000: HCLK clock selected
+001: SYSCLK selected
+010: PLL2 “R” (pll2_r_ck) selected
+011: HSE clock selected
+100: HSI16 clock selected
+101: MSIK clock selected
+others: reserved
+Note: The ADC1, ADC2, ADC4, and DAC1 are functional in Stop 0, Stop 1, and Stop 2 modes
+only when the kernel clock is HSI16 or MSIK (only ADC4 and DAC1 are functional
+in Stop 2 mode).
+Bits 11:10 LPTIM1SEL[1:0]: LPTIM1 kernel clock source selection
+These bits are used to select the LPTIM1 kernel clock source.
+00: MSIK clock selected
+01: LSI selected
+10: HSI16 selected
+11: LSE selected
+Note: The LPTIM1 is functional in Stop 0, Stop 1, and Stop 2 modes only when the kernel
+clock is LSI, LSE, HSI16 with HSIKERON = 1, or MSIK with MSIKERON = 1.
+Bits 9:8 LPTIM34SEL[1:0]: LPTIM3 and LPTIM4 kernel clock source selection
+These bits are used to select the LPTIM3 and LPTIM4 kernel clock source.
+00: MSIK clock selected
+01: LSI selected
+10: HSI selected
+11: LSE selected
+Note: The LPTIM3 and LPTIM4 are functional in Stop 0, Stop 1, and Stop 2 modes only when
+the kernel clock is LSI, LSE, HSI16 with HSIKERON = 1, or MSIK with MSIKERON = 1.
+Bits 7:6 I2C3SEL[1:0]: I2C3 kernel clock source selection
+These bits are used to select the I2C3 kernel clock source.
+00: PCLK3 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The I2C3 is functional in Stop 0, Stop 1, and Stop 2 modes only when the kernel clock is
+HSI16 or MSIK.
+Bit 5 Reserved, must be kept at reset value.
+Bits 4:3 SPI3SEL[1:0]: SPI3 kernel clock source selection
+These bits are used to select the SPI3 kernel clock source.
+00: PCLK3 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The SPI3 is functional in Stop 0, Stop 1, and Stop 2 modes only when the kernel clock is
+HSI16 or MSIK.

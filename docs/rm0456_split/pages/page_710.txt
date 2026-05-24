@@ -1,0 +1,71 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Run-time replacing a LLIn with a new LLIn’ in link step mode
+Other software implementations exist. Meanwhile GPDMA executes the transfer from the
+LLIn-1 and loads a formerly elaborated LLIn from the memory (or even earlier), the software
+can do the following:
+1.
+
+Disable the NVIC for not being interrupted by the interrupt handling.
+
+2.
+
+Build a new LLIn’ and a new LLIn+1’.
+
+3.
+
+Enable again the NVIC for the channel interrupt (transfer complete) notification.
+
+The software in the interrupt handler for LLIn-1 is then restricted to overwrite
+GPDMA_CxBR1.BNDT[15:0] to be null and GPDMA_CxLLR to point to new LLIn’, as shown
+in Figure 65.
+Figure 65. Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 2)
+
+LSM = 1 with 1-stage linked-list programming:
+Overwriting the (pre)loaded LLIn linked-list register file by building new LLIn' and LLIn+1' in memory
+while disabling (temporary) channel interrupt at NVIC level, and overwriting DMA_CxBR1.BNDT = 0
+and DMA_CxLLR to point to new LLIn'
+DMA executes LLIn-1 and loading LLIn while CPU builds (LLIn' and LIn+1'), then CPU overwrites
+(BR1 and LLR)
+
+LLIn-1
+transfer
+
+DMA channel
+
+CPU
+
+Disable NVIC DMA irq channel
+
+Executing LLIn-1 data transfer
+
+Build LLIn' & LLIn+1' in memory
+
+Loading LLIn
+
+Enable NVIC DMA irq channel
+Transfer complete interrupt
+
+Write DMA_CxBR1.BNDT = 0
+Write DMA_CxLLR to point to new LLIn'
+
+LLIn'
+transfer
+
+Enable DMA channel
+
+Loading LLIn’
+Transfer complete interrupt
+
+LLIn+1'
+transfer
+
+Enable DMA channel
+
+Executing LLIn+1' data transfer
+Loading LLIn+1'
+Transfer complete interrupt

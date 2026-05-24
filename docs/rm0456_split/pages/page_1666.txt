@@ -1,0 +1,177 @@
+1674
+
+Audio digital filter (ADF)
+
+40.8.9
+
+RM0456
+
+ADF DFLT0 interrupt enable register (ADF_DFLT0IER)
+Address offset: 0x0AC
+Reset value: 0x0000 0000
+This register is used for allowing or not the events to generate an interrupt.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+DOVRI
+E
+
+FTHIE
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+SDLVLI SDDET RFOVR CKABI
+E
+IE
+IE
+E
+rw
+
+rw
+
+rw
+
+rw
+
+SATIE
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:14 Reserved, must be kept at reset value.
+Bit 13 SDLVLIE: SAD sound-level value ready enable
+This bit is set and cleared by software.
+0: Sound-level-ready interrupt disabled
+1: Sound-level-ready interrupt enabled
+Bit 12 SDDETIE: Sound activity detection interrupt enable
+This bit is set and cleared by software.
+0: Sound-trigger interrupt disabled
+1: Sound-trigger interrupt enabled
+Bit 11 RFOVRIE: Reshape filter overrun interrupt enable
+This bit is set and cleared by software.
+0: Reshape filter overrun interrupt disabled
+1: Reshape filter overrun interrupt enabled
+Bit 10 CKABIE: Clock absence detection interrupt enable
+This bit is set and cleared by software.
+0: Clock absence interrupt disabled
+1: Clock absence interrupt enabled
+Bit 9 SATIE: Saturation detection interrupt enable
+This bit is set and cleared by software.
+0: Saturation interrupt disabled
+1: Saturation interrupt enabled
+Bits 8:2 Reserved, must be kept at reset value.
+Bit 1 DOVRIE: Data overflow interrupt enable
+This bit is set and cleared by software.
+0: Data overflow interrupt disabled
+1: Data overflow interrupt enabled
+Bit 0 FTHIE: RXFIFO threshold interrupt enable
+This bit is set and cleared by software.
+0: RXFIFO threshold interrupt disabled
+1: RXFIFO threshold interrupt enabled

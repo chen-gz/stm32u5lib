@@ -1,0 +1,76 @@
+Assigns the corresponding output pin to a programmable value defined by the output
+compare mode (OCxM bits in the TIMx_CCMRx register) and the output polarity (CCxP
+bit in the TIMx_CCER register). The output pin can keep its level (OCXM = 000), be set
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+active (OCxM = 001), be set inactive (OCxM = 010) or can toggle (OCxM = 011) on
+match.
+•
+
+Sets a flag in the interrupt status register (CCxIF bit in the TIMx_SR register).
+
+•
+
+Generates an interrupt if the corresponding interrupt mask is set (CCXIE bit in the
+TIMx_DIER register).
+
+•
+
+Sends a DMA request if the corresponding enable bit is set (CCxDE bit in the
+TIMx_DIER register, CCDS bit in the TIMx_CR2 register for the DMA request
+selection).
+
+The TIMx_CCRx registers can be programmed with or without preload registers using the
+OCxPE bit in the TIMx_CCMRx register.
+In output compare mode, the update event UEV has no effect on tim_ocxref and tim_ocx
+output. The timing resolution is one count of the counter. Output compare mode can also be
+used to output a single pulse (in One-pulse mode).
+
+Procedure
+1.
+
+Select the counter clock (internal, external, prescaler).
+
+2.
+
+Write the desired data in the TIMx_ARR and TIMx_CCRx registers.
+
+3.
+
+Set the CCxIE and/or CCxDE bits if an interrupt and/or a DMA request is to be
+generated.
+
+4.
+
+Select the output mode. For example:
+
+5.
+
+a)
+
+Write OCxM = 0011 to toggle tim_ocx output pin when CNT matches CCRx.
+
+b)
+
+Write OCxPE = 0 to disable preload register.
+
+c)
+
+Write CCxP = 0 to select active high polarity.
+
+d)
+
+Write CCxE = 1 to enable the output.
+
+Enable the counter by setting the CEN bit in the TIMx_CR1 register.
+
+The TIMx_CCRx register can be updated at any time by software to control the output
+waveform, provided that the preload register is not enabled (OCxPE = 0, else TIMx_CCRx
+shadow register is updated only at the next update event UEV). An example is given in
+Figure 628.
+
+RM0456 Rev 6

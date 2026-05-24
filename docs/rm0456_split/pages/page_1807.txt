@@ -1,0 +1,308 @@
+RM0456 Rev 6
+
+rw
+
+BTAE ETRXE ETTXE
+rw
+
+rw
+
+rw
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 1 ETRXE: EoTp reception enable
+This bit enables the EoTp reception.
+0: EoTp reception is disabled.
+1: EoTp reception is enabled.
+Bit 0 ETTXE: EoTp transmission enable
+This bit enables the EoTP transmission.
+0: EoTp transmission is disabled.
+1: EoTp transmission is enabled.
+
+44.15.9
+
+DSI Host generic VCID register (DSI_GVCIDR)
+Address offset: 0x0030
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+VCIDTX[1:0]
+
+16
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+1
+
+0
+
+VCIDRX[1:0]
+rw
+
+rw
+
+Bits 31:18 Reserved, must be kept at reset value.
+Bits 17:16 VCIDTX[1:0]: Virtual channel ID for transmission
+This field indicates the generic interface virtual channel identification where the generic
+packet is automatically generated and transmitted.
+Bits 15:2 Reserved, must be kept at reset value.
+Bits 1:0 VCIDRX[1:0]: Virtual channel ID for reception
+This field indicates the generic interface read-back virtual channel identification.
+
+44.15.10 DSI Host mode configuration register (DSI_MCR)
+Address offset: 0x0034
+Reset value: 0x0000 0001
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CMDM
+rw
+
+Bits 31:1 Reserved, must be kept at reset value.
+Bit 0 CMDM: Command mode
+This bit configures the DSI Host in either video or command mode.
+0: DSI Host is configured in video mode.
+1: DSI Host is configured in command mode.
+
+RM0456 Rev 6

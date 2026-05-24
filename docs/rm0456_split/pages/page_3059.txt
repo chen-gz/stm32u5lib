@@ -1,0 +1,118 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Table 755. Device-mode control and status registers (continued)
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_DIEPEMPMSK
+
+0x834
+
+Section 72.15.42: OTG device IN endpoint FIFO empty interrupt mask
+register (OTG_DIEPEMPMSK)
+
+OTG_DIEPCTL0
+
+0x900
+
+Section 72.15.43: OTG device control IN endpoint 0 control register
+(OTG_DIEPCTL0)
+
+OTG_DIEPCTLx
+
+0x920
+0x940
+...
+0x9A0
+
+Section 72.15.44: OTG device IN endpoint x control register
+(OTG_DIEPCTLx)
+
+OTG_DIEPINTx
+
+0x908
+0x928
+....
+0x988
+
+Section 72.15.45: OTG device IN endpoint x interrupt register
+(OTG_DIEPINTx)
+
+OTG_DIEPTSIZ0
+
+0x910
+
+Section 72.15.46: OTG device IN endpoint 0 transfer size register
+(OTG_DIEPTSIZ0)
+
+OTG_DTXFSTSx
+
+0x918
+0x938
+....
+0x998
+
+Section 72.15.47: OTG device IN endpoint transmit FIFO status register
+(OTG_DTXFSTSx)
+
+OTG_DIEPTSIZx
+
+0x930
+0x950
+...
+0x9B0
+
+Section 72.15.48: OTG device IN endpoint x transfer size register
+(OTG_DIEPTSIZx)
+
+OTG_DOEPCTL0
+
+0xB00
+
+Section 72.15.49: OTG device control OUT endpoint 0 control register
+(OTG_DOEPCTL0)
+
+OTG_DOEPINTx
+
+0xB08
+0xB28
+...
+0xBA8
+
+Section 72.15.50: OTG device OUT endpoint x interrupt register
+(OTG_DOEPINTx)
+
+OTG_DOEPTSIZ0
+
+0xB10
+
+Section 72.15.51: OTG device OUT endpoint 0 transfer size register
+(OTG_DOEPTSIZ0)
+
+OTG_DOEPCTLx
+
+0xB20
+0xB40
+...
+0xBA0
+
+Section 72.15.52: OTG device OUT endpoint x control register
+(OTG_DOEPCTLx)
+
+OTG_DOEPTSIZx
+
+0xB30
+0xB50
+...
+0xBB0
+
+Section 72.15.53: OTG device OUT endpoint x transfer size register
+(OTG_DOEPTSIZx)

@@ -1,0 +1,182 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Bit 1 DMACFG: Direct memory access configuration
+This bit is set and cleared by software to select between two DMA modes of operation and is
+effective only when DMAEN = 1.
+0: DMA one-shot mode selected
+1: DMA circular mode selected
+For more details, refer to Managing converted data using the DMA.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 0 DMAEN: Direct memory access enable
+This bit is set and cleared by software to enable the generation of DMA requests. This allows the
+automatic management of the converted data by the DMA controller. For more details, refer to
+Managing converted data using the DMA.
+0: DMA disabled
+1: DMA enabled
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+
+34.7.5
+
+ADC configuration register 2 (ADC_CFGR2)
+Address offset: 0x10
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+LFTRIG
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+OVSE
+
+rw
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TOVS
+
+OVSS[3:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+OVSR[2:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bit 29 LFTRIG: Low-frequency trigger mode enable
+This bit must be set by software.
+0: Reserved
+1: Low-frequency trigger mode enabled.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bits 28:10 Reserved, must be kept at reset value.
+Bit 9 TOVS: Triggered Oversampling
+This bit is set and cleared by software.
+0: All oversampled conversions for a channel are done consecutively after a trigger
+1: Each oversampled conversion for a channel needs a trigger
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+
+<!-- pagebreak -->
+

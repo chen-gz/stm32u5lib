@@ -1,0 +1,177 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.51
+
+RM0456
+
+RCC secure configuration register (RCC_SECCFGR)
+Address offset: 0x110
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+When the system is secure (TZEN = 1), this register can be written only by a secure
+privileged access if SPRIV = 1, and by a secure privileged or unprivileged access
+if SPRIV = 0. A nonsecure write access generates an illegal access event and data is not
+written. This register can be read by secure or nonsecure, privilege or unprivileged access.
+When the system is not secure (TZEN = 0), this register is read as 0, and the register write
+is ignored.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+PLL3S
+EC
+
+PLL2S
+EC
+
+rw
+
+rw
+
+RMVFS HSI48S ICLKS
+EC
+EC
+EC
+rw
+
+rw
+
+rw
+
+PLL1S PRESC SYSCL LSESE
+EC
+SEC
+KSEC
+C
+rw
+
+rw
+
+rw
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bit 12 RMVFSEC: Remove reset flag security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 11 HSI48SEC: HSI48 clock configuration and status bit security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 10 ICLKSEC: Intermediate clock source selection security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 9 PLL3SEC: PLL3 clock configuration and status bit security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 8 PLL2SEC: PLL2 clock configuration and status bit security
+Set and reset by software.
+0: nonsecure
+1: secure
+Bit 7 PLL1SEC: PLL1 clock configuration and status bit security
+This bit is set and reset by software.
+0: nonsecure
+1: secure

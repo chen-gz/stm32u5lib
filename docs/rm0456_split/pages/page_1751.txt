@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+device side. This is achieved by dividing a pixel line into several chunks of pixels and
+optionally interleaving them with null packets.
+The following equations show how the DSI Host core transmission parameters must be
+programmed in non-burst mode to match the DSI link pixel output ratio (left hand side of the
+“=” sign) and LTDC interface pixel input (right hand side of the “=” sign).
+When the null packets are enabled:
+lanebyteclkperiod * NUMC (VPSIZE * bytes_per_pixel + 12 + NPSIZE) / number_of_lanes
+= pixels_per_line * LTDC_Clock_period
+When the null packets are disabled:
+lanebyteclkperiod * NUMC (VPSIZE * bytes_per_pixel + 6) / number_of_lanes
+= pixels_per_line * LTDC_Clock_period
+
+44.5.2
+
+Updating the LTDC interface configuration in video mode
+It is possible to update the LTDC interface configuration on the fly without impacting the
+current frame. It is done with the help of shadow registers. This feature is controlled by the
+DSI Host video shadow control register (DSI_VSCR).
+The new configuration is only used when the system requests for it. To update the video
+configuration during the transmission of a video frame, the configuration of that frame needs
+to be stored in the auxiliary registers. This way, the new frame configurations can be set
+through the APB interface without corrupting the current frame.
+By default, this feature is disabled. To enable it, set the enable (EN) bit of the DSI Host video
+shadow control register (DSI_VSCR) to 1. When this feature is enabled, the system
+supplies the configuration stored in the auxiliary registers.
+Figure 414 shows the steps needed to update the LTDC interface configuration.
+Figure 414. Flow to update the LTDC interface configuration using shadow registers
+Configure the LTDC interface
+
+Request update
+
+New resolution
+
+Read DSI Host LTDC
+shadow control register
+
+Start video engine
+
+Active
+
+UR
+
+Accepted
+MSv35855V1
+
+RM0456 Rev 6

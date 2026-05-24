@@ -1,0 +1,139 @@
+–
+
+–
+
+Intra-channel LPDMA transfers chaining via programmable linked-list into
+memory, supporting two execution modes: run-to-completion and link step mode
+
+–
+
+Intra-channel and inter-channel LPDMA transfers chaining via programmable
+LPDMA input triggers connection to LPDMA task completion events
+
+Per linked-list item within a channel:
+–
+
+Separately programmed source and destination transfers
+
+–
+
+Programmable data handling between source and destination: byte-based
+padding or truncation, sign extension and left/right realignment
+
+–
+
+Programmable number of data bytes to be transferred from the source, defining
+the block level
+
+–
+
+Linear source and destination addressing: either fixed or contiguously
+incremented addressing, programmed at a block level, between successive single
+transfers
+
+–
+
+Programmable LPDMA request and trigger selection
+
+–
+
+Programmable LPDMA half-transfer and transfer-complete events generation
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+–
+•
+
+•
+
+•
+
+Pointer to the next linked-list item and its data structure in memory, with automatic
+update of the LPDMA linked-list control registers
+
+Debug:
+–
+
+Channel suspend and resume support
+
+–
+
+Channel status reporting and event flags
+
+TrustZone support
+–
+
+Support for secure and nonsecure LPDMA transfers, independently at a first
+channel level, and independently at a source/destination and link sub-levels
+
+–
+
+Secure and nonsecure interrupts reporting, resulting from any of the respectively
+secure and nonsecure channels
+
+–
+
+TrustZone-aware AHB slave port, protecting any LPDMA secure resource
+(register, register field) from a nonsecure access
+
+Privileged/unprivileged support:
+–
+
+Support for privileged and unprivileged LPDMA transfers, independently at a
+channel level
+
+–
+
+Privileged-aware AHB slave port
+
+18.3
+
+LPDMA implementation
+
+18.3.1
+
+LPDMA channels
+A given LPDMA channel x is implemented with the hardware parameters as per the table
+below.
+Table 145.LPDMA1 channels implementation
+Hardware parameters
+Channel
+x
+
+x = 0 to 3
+
+18.3.2
+
+dma_fifo_
+size[x]
+
+Features
+
+dma_
+addressing[x]
+
+0
+
+0
+
+Channel x (x = 0 to 3) is implemented with:
+– no FIFO. Only a single source transfer cell is
+internally registered.
+– fixed/contiguously incremented addressing
+
+LPDMA autonomous mode in low-power modes
+The LPDMA autonomous mode and wake-up features are implemented in the device
+low-power modes as per the table below.
+Table 146. LPDMA1 autonomous mode and wake-up in low-power modes
+Feature
+
+Low-power modes
+
+Autonomous mode and wake-up
+
+LPDMA1 in Sleep, Stop 0, Stop 1and Stop 2 modes
+
+RM0456 Rev 6

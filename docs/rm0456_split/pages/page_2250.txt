@@ -1,0 +1,80 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Figure 607. Counter timing diagram, Update event when ARPE = 1 (TIMx_ARR
+preloaded)
+tim_psc_ck
+
+CEN
+tim_cnt_ck
+Counter register
+
+F0
+
+F1
+
+F2
+
+F3
+
+F4
+
+F5
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter overflow
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+Auto-reload preload
+register
+
+F5
+
+36
+
+Auto-reload shadow
+register
+
+F5
+
+Write a new value in TIMx_ARR
+
+36
+
+MSv62304V1
+
+Down-counting mode
+In down-counting mode, the counter counts from the autoreload value (content of the
+TIMx_ARR register) down to 0, then restarts from the autoreload value and generates a
+counter underflow event.
+An update event can be generated at each counter underflow or by setting the UG bit in the
+TIMx_EGR register (by software or by using the slave mode controller)
+The UEV update event can be disabled by software by setting the UDIS bit in TIMx_CR1
+register. This is to avoid updating the shadow registers while writing new values in the
+preload registers. Then no update event occurs until UDIS bit has been written to 0.
+However, the counter restarts from the current autoreload value, whereas the counter of the
+prescaler restarts from 0 (but the prescale rate does not change).
+In addition, if the URS bit (update request selection) in TIMx_CR1 register is set, setting the
+UG bit generates an update event UEV but without setting the UIF flag (thus no interrupt or
+DMA request is sent). This is to avoid generating both update and capture interrupts when
+clearing the counter on the capture event.

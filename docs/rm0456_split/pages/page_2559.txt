@@ -1,0 +1,182 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+privilege protection modes.
+Address offset: 0x0C
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TAMP
+PUDIS
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+TAMPPRCH
+[1:0]
+
+TAMPFLT
+[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+TAMPFREQ
+[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 TAMPPUDIS: TAMP_INx pull-up disable
+This bit determines if each of the TAMPx pins are precharged before each sample.
+0: Precharge TAMP_INx pins before sampling (enable internal pull-up)
+1: Disable precharge of TAMP_INx pins.
+Bits 6:5 TAMPPRCH[1:0]: TAMP_INx precharge duration
+These bit determines the duration of time during which the pull-up/is activated before each
+sample. TAMPPRCH is valid for each of the TAMP_INx inputs.
+0x0: 1 RTCCLK cycle
+0x1: 2 RTCCLK cycles
+0x2: 4 RTCCLK cycles
+0x3: 8 RTCCLK cycles
+Bits 4:3 TAMPFLT[1:0]: TAMP_INx filter count
+These bits determines the number of consecutive samples at the specified level
+(TAMP*TRG) needed to activate a tamper event. TAMPFLT is valid for each of the
+TAMP_INx inputs.
+0x0: Tamper event is activated on edge of TAMP_INx input transitions to the active level (no
+internal pull-up on TAMP_INx input).
+0x1: Tamper event is activated after 2 consecutive samples at the active level.
+0x2: Tamper event is activated after 4 consecutive samples at the active level.
+0x3: Tamper event is activated after 8 consecutive samples at the active level.
+Bits 2:0 TAMPFREQ[2:0]: Tamper sampling frequency
+Determines the frequency at which each of the TAMP_INx inputs are sampled.
+0x0: RTCCLK / 32768 (1 Hz when RTCCLK = 32768 Hz)
+0x1: RTCCLK / 16384 (2 Hz when RTCCLK = 32768 Hz)
+0x2: RTCCLK / 8192 (4 Hz when RTCCLK = 32768 Hz)
+0x3: RTCCLK / 4096 (8 Hz when RTCCLK = 32768 Hz)
+0x4: RTCCLK / 2048 (16 Hz when RTCCLK = 32768 Hz)
+0x5: RTCCLK / 1024 (32 Hz when RTCCLK = 32768 Hz)
+0x6: RTCCLK / 512 (64 Hz when RTCCLK = 32768 Hz)
+0x7: RTCCLK / 256 (128 Hz when RTCCLK = 32768 Hz)
+
+Note:

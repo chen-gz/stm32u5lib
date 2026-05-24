@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 17 NAKSTS: NAK status
+It indicates the following:
+0: The core is transmitting non-NAK handshakes based on the FIFO status.
+1: The core is transmitting NAK handshakes on this endpoint.
+When either the application or the core sets this bit:
+For non-isochronous IN endpoints: The core stops transmitting any data on an IN endpoint,
+even if there are data available in the Tx FIFO.
+For isochronous IN endpoints: The core sends out a zero-length data packet, even if there
+are data available in the Tx FIFO.
+Irrespective of this bit’s setting, the core always responds to SETUP data packets with an
+ACK handshake.
+Bit 16 EONUM: Even/odd frame
+Applies to isochronous IN endpoints only.
+Indicates the frame number in which the core transmits/receives isochronous data for this
+endpoint. The application must program the even/odd frame number in which it intends to
+transmit/receive isochronous data for this endpoint using the SEVNFRM and SODDFRM
+fields in this register.
+0: Even frame
+1: Odd frame
+DPID: Endpoint data PID
+Applies to interrupt/bulk IN endpoints only.
+Contains the PID of the packet to be received or transmitted on this endpoint. The
+application must program the PID of the first packet to be received or transmitted on this
+endpoint, after the endpoint is activated. The application uses the SD0PID register field to
+program either DATA0 or DATA1 PID.
+0: DATA0
+1: DATA1
+Bit 15 USBAEP: USB active endpoint
+Indicates whether this endpoint is active in the current configuration and interface. The core
+clears this bit for all endpoints (other than EP 0) after detecting a USB reset. After receiving
+the SetConfiguration and SetInterface commands, the application must program endpoint
+registers accordingly and set this bit.
+Bits 14:11
+
+Reserved, must be kept at reset value.
+
+Bits 10:0 MPSIZ[10:0]: Maximum packet size
+The application must program this field with the maximum packet size for the current logical
+endpoint. This value is in bytes.
+
+RM0456 Rev 6

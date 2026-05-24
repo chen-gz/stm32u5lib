@@ -1,0 +1,178 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 5 ACKM: ACK response received/transmitted interrupt mask.
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 4 NAKM: NAK response received interrupt mask.
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 3 STALLM: STALL response received interrupt mask.
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 2 AHBERRM: AHB error.
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 1 CHHM: Channel halted mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 0 XFRCM: Transfer completed mask
+0: Masked interrupt
+1: Unmasked interrupt
+
+73.14.35 OTG host channel x transfer size register (OTG_HCTSIZx)
+Address offset: 0x510 + 0x20 * x, (x = 0 to 15)
+Reset value: 0x0000 0000
+31
+
+30
+
+DO
+PNG
+
+29
+
+DPID[1:0]
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+PKTCNT[9:0]
+
+17
+
+16
+
+XFRSIZ[18:16]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+XFRSIZ[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 DOPNG: Do Ping
+This bit is used only for OUT transfers. Setting this field to 1 directs the host to do PING
+protocol.
+Note: Do not set this bit for IN transfers. If this bit is set for IN transfers, it disables the
+channel.
+Bits 30:29 DPID[1:0]: Data PID
+The application programs this field with the type of PID to use for the initial transaction. The
+host maintains this field for the rest of the transfer.
+00: DATA0
+01: DATA2
+10: DATA1
+11: SETUP (control) / MDATA (non-control)

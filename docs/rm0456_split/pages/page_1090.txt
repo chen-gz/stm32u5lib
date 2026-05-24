@@ -1,0 +1,48 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+Bit 31 SIOO: Send instruction only once mode
+This bit has no effect when IMODE = 00 (see Sending the instruction only once (SIOO)).
+0: Send instruction on every transaction
+1: Send instruction only for the first command
+Bit 30 Reserved, must be kept at reset value.
+Bit 29 DQSE: DQS enable
+This bit enables the data strobe management.
+0: DQS disabled
+1: DQS enabled
+Bit 28 Reserved, must be kept at reset value.
+Bit 27 DDTR: Data double transfer rate
+This bit sets the DTR mode for the data phase.
+0: DTR mode disabled for data phase
+1: DTR mode enabled for data phase
+Bits 26:24 DMODE[2:0]: Data mode
+This bitfield defines the data phase mode of operation.
+000: No data
+001: Data on a single line
+010: Data on two lines
+011: Data on four lines
+100: Data on eight lines
+Others: Reserved
+Bits 23:22 Reserved, must be kept at reset value.
+Bits 21:20 ABSIZE[1:0]: Alternate-byte size
+This bitfield defines the alternate-byte size.
+00: 8-bit alternate bytes
+01: 16-bit alternate bytes
+10: 24-bit alternate bytes
+11: 32-bit alternate bytes
+Bit 19 ABDTR: Alternate- byte double transfer rate
+This bit sets the DTR mode for the alternate-byte phase.
+0: DTR mode disabled for the alternate-byte phase
+1: DTR mode enabled for the alternate-byte phase
+Bits 18:16 ABMODE[2:0]: Alternate-byte mode
+This bitfield defines the alternate-byte phase mode of operation.
+000: No alternate bytes
+001: Alternate bytes on a single line
+010: Alternate bytes on two lines
+011: Alternate bytes on four lines
+100: Alternate bytes on eight lines
+Others: Reserved
+Bits 15:14 Reserved, must be kept at reset value.

@@ -1,0 +1,130 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+The example shown in Figure 349 is based in a motor-control filter configuration:
+•
+
+MCIC and INT are enabled.
+
+•
+
+SFLT and HPF are disabled.
+
+•
+
+ACQMOD[2:0] is set to 1 and uses a mdf_trgiy input as trigger.
+
+•
+
+NBDIS[7:0] is set to 3.
+
+•
+
+INTVAL[6:0] is set to 2.
+
+The mdf_trgiy input signal is re-sampled into the MDF processing clock domain to avoid any
+metastability issues. When the trigger condition is met (rising edge), the decimation counter
+of the MCIC filter is incremented at the rate of the bitstream clock.
+When the MCIC decimation counter reaches its programmed value N, a sample is available.
+The NBDIS function prevents the samples writing in the INT as long as NBDIS_CNTR does
+not reach 0. This counter is decremented every time the MCIC delivers a sample.
+When NBDIS_CNTR reaches 0, the new samples are provided to the INT, that performs the
+integration of three consecutive samples and stores them into the RXFIFO.
+Figure 349. Start sequence with trigger input, in continuous mode, motor configuration
+Re-sync of trigger signal with mdf_proc_ck
+RUNNING
+
+ADCITF/SITF status
+
+010
+
+ACQMODx
+mdf_trgiy
+mdf_proc_ck
+
+bsx_[r|f]_ck
+MCICx
+decimation counter
+
+0
+
+MCICx_OUT
+NBDISx_CNTR
+
+x
+
+1 2 ... N 1 2 ... N 1 2 ... N 1 2 ... N 1 2 ... N 1 2 ... N 1 2 ... N 1 2 ... N 1 2 ... N 1 2 ... N
+
+...
+
+x
+
+MCICxS0
+
+MCICxS1
+
+MCICxS2
+
+3
+
+2
+
+1
+
+4
+
+INTx_CNTR
+Sample stored
+into the RXFIFOx
+
+0
+
+MCICxS3
+
+MCICxS4
+
+MCICxS5
+
+MCICxS6
+
+MCICxS7
+
+MCICxS8
+
+...
+
+2
+
+3
+
+...
+
+0
+
+1
+
+x
+
+2
+
+3
+
+1
+
+MCICxS3+MCICxS4+MCICxS5
+
+...
+MSv62685V1
+
+39.4.12
+
+Break interface
+The break interface merges the break events coming from the OLDx and SDCx blocks into
+four break signals connected to various peripherals of the product (see Table 371 for
+details).
+As shown in Figure 350, several blocks can share the same break line. A same block can
+also drive several break lines. The break interface is controlled via MDF_OLDxCR and
+MDF_SCDxCR.

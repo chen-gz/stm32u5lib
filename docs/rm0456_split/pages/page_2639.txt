@@ -1,0 +1,52 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Bit 15 NACK: NACK generation (target mode)
+The bit is set by software, cleared by hardware when the NACK is sent, or when a STOP
+condition or an Address matched is received, or when PE = 0.
+0: an ACK is sent after current received byte.
+1: a NACK is sent after current received byte.
+Note: Writing 0 to this bit has no effect.
+This bit is used only in target mode: in controller receiver mode, NACK is automatically
+generated after last byte preceding STOP or RESTART condition, whatever the NACK
+bit value.
+When an overrun occurs in target receiver NOSTRETCH mode, a NACK is
+automatically generated, whatever the NACK bit value.
+When hardware PEC checking is enabled (PECBYTE = 1), the PEC acknowledge value
+does not depend on the NACK value.
+Bit 14 STOP: STOP condition generation
+This bit only pertains to controller mode. It is set by software and cleared by hardware when
+a STOP condition is detected or when PE = 0.
+0: No STOP generation
+1: STOP generation after current byte transfer
+Note: Writing 0 to this bit has no effect.
+Bit 13 START: START condition generation
+This bit is set by software. It is cleared by hardware after the START condition followed by
+the address sequence is sent, by an arbitration loss, by an address matched in target mode,
+by a timeout error detection, or when PE = 0.
+0: No START generation
+1: RESTART/START generation:
+If the I2C is already in controller mode with AUTOEND = 0, setting this bit generates a
+repeated START condition when RELOAD = 0, after the end of the NBYTES transfer.
+Otherwise, setting this bit generates a START condition once the bus is free.
+Note: Writing 0 to this bit has no effect.
+The START bit can be set even if the bus is BUSY or I2C is in target mode.
+This bit has no effect when RELOAD is set.
+Bit 12 HEAD10R: 10-bit address header only read direction (controller receiver mode)
+0: The controller sends the complete 10-bit target address read sequence: START + 2 bytes
+10-bit address in write direction + RESTART + first seven bits of the 10-bit address in read
+direction.
+1: The controller sends only the first seven bits of the 10-bit address, followed by read
+direction.
+Note: Changing this bit when the START bit is set is not allowed.
+Bit 11 ADD10: 10-bit addressing mode (controller mode)
+0: The controller operates in 7-bit addressing mode
+1: The controller operates in 10-bit addressing mode
+Note: Changing this bit when the START bit is set is not allowed.
+Bit 10 RD_WRN: Transfer direction (controller mode)
+0: Controller requests a write transfer
+1: Controller requests a read transfer
+Note: Changing this bit when the START bit is set is not allowed.

@@ -1,0 +1,76 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+33.4.19
+
+RM0456
+
+Conversion on external trigger and trigger polarity (EXTSEL,
+EXTEN[1:0], JEXTSEL, JEXTEN[1:0])
+A conversion or a sequence of conversions can be triggered either by software or by an
+external event (for example, timer capture, input pins). If the EXTEN[1:0] control bits (for a
+regular conversion) or JEXTEN[1:0] bits (for an injected conversion) are different from 00,
+then external events are able to trigger a conversion with the selected polarity.
+The regular trigger selection is effective once software has set bit ADSTART = 1 and the
+injected trigger selection is effective once software has set bit JADSTART = 1.
+Any hardware trigger which occurs while a conversion is ongoing are ignored.
+•
+
+If ADSTART = 0, regular hardware triggers are ignored.
+
+•
+
+If JADSTART = 0, injected hardware triggers are ignored.
+
+Table 311 provides the correspondence between the EXTEN[1:0] and JEXTEN[1:0] values
+and the trigger polarity.
+Table 311. Configuring the trigger polarity for regular external triggers
+EXTEN[1:0]
+
+Note:
+
+Source
+
+00
+
+Hardware Trigger detection disabled, software trigger detection enabled
+
+01
+
+Hardware Trigger with detection on the rising edge
+
+10
+
+Hardware Trigger with detection on the falling edge
+
+11
+
+Hardware Trigger with detection on both the rising and falling edges
+
+The polarity of the regular trigger cannot be changed on-the-fly.
+Table 312. Configuring the trigger polarity for injected external triggers
+JEXTEN[1:0]
+
+Source
+
+00
+
+Hardware trigger detection disabled, software trigger detection enabled
+
+01
+
+Hardware trigger with detection on the rising edge
+
+10
+
+Hardware trigger with detection on the falling edge
+
+11
+
+Hardware trigger with detection on both the rising and falling edges
+
+The EXTSEL[4:0] and JEXTSEL[4:0] control bits select which events can trigger regular and
+injected groups conversion, out of 21 possibilities.
+A regular group conversion can be interrupted by an injected trigger.
+Note:

@@ -1,0 +1,79 @@
+1.
+
+In SAES peripheral application encrypts the key to be shared, once, in Shared-key
+mode (KMOD[1:0] = 10).
+
+2.
+
+Each time shared key is needed in AES peripheral application needs to decrypt it in
+SAES peripheral, selecting the same Shared-key mode (KMOD[1:0] = 10).
+
+3.
+
+Once the shared key is decrypted and loaded in SAES_KEYRx registers it can be
+shared with the AES peripheral. Indeed, when shared key must be loaded in AES
+peripheral, application sets correct KEYSIZE and write KMOD[1:0] = 10 in AES_CR
+register. When KEYVALID is cleared, the key information is automatically transfered by
+hardware into AES_KEYRx, with BUSY set in AES_SR.
+
+4.
+
+Once transfer is completed BUSY bit is cleared and KEYVALID bit is set in AES_SR
+register. If KEYVALID is not set when BUSY bit is cleared, or if a key error flag (KEIF) is
+set it means that an unexpected event occurred during the transfer (for example
+
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+hardware fault) or the KEYVALID bit in SAES_SR was cleared before the end of the
+transfer. When such errors occur, the whole SAES key sharing process must be
+restarted through the IPRST bits of control registers in both SAES and AES peripherals
+(see Section 49.4.18 for details).
+At that point AES is initialized with a valid, shared key. Application can proceed with the
+processing of data, setting KMOD[1:0] to 00.
+
+Note:
+
+While KMOD[1:0] = 10 and BUSY = 1, if KEYSIZE in AES peripheral is different from the
+KEYSIZE in SAES peripheral the key sharing fails and KEIF is set in both peripherals.
+
+49.4.14
+
+AES data registers and data swapping
+Data input and output
+A 128-bit data block is entered into the AES peripheral with four successive 32-bit word
+writes into the AES_DINR register (bitfield DIN[31:0]), the most significant word (bits
+[127:96]) first, the least significant word (bits [31:0]) last.
+A 128-bit data block is retrieved from the AES peripheral with four successive 32-bit word
+reads from the AES_DOUTR register (bitfield DOUT[31:0]), the most significant word (bits
+[127:96]) first, the least significant word (bits [31:0]) last.
+The 32-bit data word for AES_DINR register or from AES_DOUTR register is organized in
+big endian order, that is:
+•
+the most significant byte of a word to write into AES_DINR must be put on the lowest
+address out of the four adjacent memory locations keeping the word to write, or
+•
+
+the most significant byte of a word read from AES_DOUTR goes to the lowest address
+out of the four adjacent memory locations receiving the word
+
+For using DMA for input data block write into AES, the four words of the input block must be
+stored in the memory consecutively and in big-endian order, that is, the most significant
+word on the lowest address. See Section 49.4.17: AES DMA interface.
+
+Data swapping
+The AES peripheral can be configured to perform a bit-, a byte-, a half-word-, or no
+swapping on the input data word in the AES_DINR register, before loading it to the AES
+processing core, and on the data output from the AES processing core, before sending it to
+the AES_DOUTR register. The choice depends on the type of data. For example, a byte
+swapping is used for an ASCII text stream.
+The data swap type is selected through the DATATYPE[1:0] bitfield of the AES_CR register.
+The selection applies both to the input and the output of the AES core.
+For different data swap types, Figure 482 shows the construction of AES processing core
+input buffer data P127 to P0, from the input data entered through the AES_DINR register, or
+the construction of the output data available through the AES_DOUTR register, from the
+AES processing core output buffer data P127 to P0.
+
+RM0456 Rev 6

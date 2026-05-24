@@ -1,0 +1,131 @@
+Signal name
+
+Signal type
+
+Description
+
+sdmmc_ker_ck
+
+Digital input
+
+SDMMC kernel clock
+
+sdmmc_hclk
+
+Digital input
+
+AHB clock
+
+sdmmc_it
+
+Digital output
+
+SDMMC global interrupt
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+Table 275. SDMMC internal input/output signals (continued)
+Signal name
+
+Signal type
+
+Description
+
+sdmmc_io_in_ck
+
+Digital input
+
+SD/SDIO/e•MMC card feedback clock. This signal is
+internally connected to the SDMMC_CK pin (for DS
+and HS modes).
+
+sdmmc_fb_ck
+
+Digital input
+
+SD/SDIO/e•MMC card tuned feedback clock after
+DLYB delay block (for SDR50, DDR50, SDR104,
+HS200)
+
+Table 276. SDMMC pins
+Pin name
+
+Pin type
+
+SDMMC_CK
+
+Digital output Clock to SD/SDIO/e•MMC card
+
+SDMMC_CKIN
+
+Digital input
+
+Clock feedback from an external driver for SD/SDIO/e•MMC
+card. (for SDR12, SDR25, SDR50, DDR50)
+
+SDMMC_CMD
+
+Digital
+input/output
+
+SD/SDIO/e•MMC card bidirectional command/response signal.
+
+SDMMC_CDIR
+
+Digital output
+
+SD/SDIO/e•MMC card I/O direction indication for the
+SDMMC_CMD signal.
+
+SDMMC_D[7:0]
+
+Digital
+input/output
+
+SD/SDIO/e•MMC card bidirectional data lines.
+
+SDMMC_D0DIR
+
+Digital output
+
+SD/SDIO/e•MMC card I/O direction indication for the
+SDMMC_D0 data line.
+
+SDMMC_D123DIR Digital output
+
+31.5.3
+
+Description
+
+SD/SDIO/e•MMC card I/O direction indication for the data lines
+SDMMC_D[3:1].
+
+General description
+The SDMMC_D[7:0] lines have different operating modes:
+•
+
+By default, SDMMC_D0 line is used for data transfer. After initialization, the host can
+change the databus width.
+
+•
+
+For an e•MMC, 1-bit (SDMMC_D0), 4-bit (SDMMC_D[3:0]) or 8-bit (SDMMC_D[7:0])
+data bus widths can be used.
+
+•
+
+For an SD or an SDIO card, 1-bit (SDMMC_D0) or 4-bit (SDMMC_D[3:0]) can be used.
+All data lines operate in push-pull mode.
+
+To allow the connection of an external driver (a voltage switch transceiver), the direction of
+data flow on the data lines is indicated with I/O direction signals. The SDMMC_D0DIR signal
+indicates the I/O direction for the SDMMC_D0 data line, the SDMMC_D123DIR for the
+SDMMC_D[3:1] data lines.
+SDMMC_CMD only operates in push-pull mode:
+To allow the connection of an external driver (a voltage switch transceiver), the direction of
+data flow on the SDMMC_CMD line is indicated with the I/O direction signal SDMMC_CDIR.
+
+RM0456 Rev 6

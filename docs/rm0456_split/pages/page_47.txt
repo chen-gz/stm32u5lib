@@ -1,0 +1,120 @@
+DSI Host (DSI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1742
+44.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1742
+
+44.2
+
+Standard and references . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1742
+
+44.3
+
+DSI Host main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1743
+
+44.4
+
+DSI Host functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+44.4.1
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+
+44.4.2
+
+DSI Host pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+
+44.4.3
+
+Supported resolutions and frame rates . . . . . . . . . . . . . . . . . . . . . . . 1745
+
+44.4.4
+
+System level architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1745
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+44.5
+
+Functional description: video mode on LTDC interface . . . . . . . . . . . . 1748
+44.5.1
+
+Video transmission mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1750
+
+44.5.2
+
+Updating the LTDC interface configuration in video mode . . . . . . . . . 1751
+
+44.6
+
+Functional description: adapted command mode on LTDC interface . . 1753
+
+44.7
+
+Functional description: APB register interface . . . . . . . . . . . . . . . . . . . 1757
+44.7.1
+
+44.8
+
+44.9
+
+Packet transmission using the generic interface . . . . . . . . . . . . . . . . 1757
+
+Functional description: timeout counters . . . . . . . . . . . . . . . . . . . . . . . 1761
+44.8.1
+
+Contention error detection timeout counters . . . . . . . . . . . . . . . . . . . 1761
+
+44.8.2
+
+Peripheral response timeout counters . . . . . . . . . . . . . . . . . . . . . . . . 1762
+
+Functional description: transmission of commands . . . . . . . . . . . . . . . 1767
+44.9.1
+
+Transmission of commands in video mode . . . . . . . . . . . . . . . . . . . . 1767
+
+44.9.2
+
+Transmission of commands in low-power mode . . . . . . . . . . . . . . . . 1769
+
+44.9.3
+
+Transmission of commands in high-speed . . . . . . . . . . . . . . . . . . . . 1773
+
+44.9.4
+
+Read command transmission . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1773
+
+44.9.5
+
+Clock lane in low-power mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1774
+
+44.10 Functional description: virtual channels . . . . . . . . . . . . . . . . . . . . . . . . 1776
+44.11 Functional description: video mode pattern generator . . . . . . . . . . . . . 1777
+44.11.1 Color bar pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1777
+44.11.2 Color coding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1779
+44.11.3 BER testing pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1779
+44.11.4 Video mode pattern generator resolution . . . . . . . . . . . . . . . . . . . . . 1780
+
+44.12 Functional description: D-PHY management . . . . . . . . . . . . . . . . . . . . 1781
+44.12.1 D-PHY configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1781
+44.12.2 D-PHY HS2LP and LP2HS durations . . . . . . . . . . . . . . . . . . . . . . . . 1781
+44.12.3 Special D-PHY operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1782
+44.12.4 DSI PLL control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1782
+44.12.5 D-PHY bias control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1783
+
+44.13 Functional description: interrupts and errors . . . . . . . . . . . . . . . . . . . . 1783
+44.13.1 DSI Wrapper interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1783
+44.13.2 DSI Host interrupts and errors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1784
+
+44.14 Programing procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1791
+44.14.1 Programing procedure overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1792
+44.14.2 Configuring the D-PHY parameters . . . . . . . . . . . . . . . . . . . . . . . . . . 1793
+44.14.3 Configuring the DSI Host timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1793
+44.14.4 Configuring flow control and DBI interface . . . . . . . . . . . . . . . . . . . . 1794
+44.14.5 Configuring the DSI Host LTDC interface . . . . . . . . . . . . . . . . . . . . . 1794
+
+RM0456 Rev 6

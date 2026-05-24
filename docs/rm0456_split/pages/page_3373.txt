@@ -1,0 +1,167 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Table 783. Type-C sequence (source: 3A); cable/sink connected (Rd on CC1; Ra on CC2)
+ANAMODE;
+Type-C state ANASUBMO
+DE[1:0]
+
+CCENABL
+E
+
+Unattached.
+SRC
+Attachwait.
+SRC
+
+PHYCCSE
+L
+
+CC[x]
+VCONN
+EN(1)
+
+0 (don’t
+care)
+0:Source;
+11:Rp3A0
+
+11:both
+enabled
+
+00:
+[neither]
+
+0:Source;
+11:Rp3A0
+[SinkTxOK]
+
+Attached.
+SRC
+[VCONN =>
+CC2]
+
+RDCH
+
+0:Source;
+10:Rp1A5
+[SinkTxNG]
+
+01: CC2
+disable
+(possible
+and
+recommend
+ed due to
+external
+VCONN
+switch)
+
+0
+[Rd on
+CC1]
+
+0:
+[Norm
+al]
+10: [CC2
+active]
+
+Unattached.
+SRC
+
+0:Source;
+11:Rp3A0
+
+Comments
+
+PHYEVT Wait for sink attach
+1: [VRd- detect ; seen on CC1
+3A0]
+[EVT1]
+Attachwait started (100PHYEVT 200 ms) ; now also see
+2: [VRa] the Ra => requesting
+VCONN
+Timer
+(100 ms)
+and no
+PHYEVT
+x
+
+0:Source;
+11:Rp3A0
+[SinkTxOK]
+Unattached
+wait.
+SRC
+
+Event =>
+go to
+next line
+
+Local CC2 disconnected
+from PHY (VCONN
+switch connects VCONN
+source to CC2
+externally;
+Continue to monitor
+PHYEVT1
+Source wants to initiate
+message sequence
+(SinkTxNG condition set
+first)
+
+SW
+timers
+(SinkTxN Source finished
+G)
+message sequence
+(SinkTxOK condition
+afterwards)
+
+PHYEVT
+Wait for Sink
+1:
+disconnected (Vopen on
+[VOpenCC1)
+3A0]
+
+11:both
+enabled
+
+0 (do not
+care)
+
+1:
+[discha
+rge]
+0:
+[Norm
+al]
+
+00:
+[neither]
+
+Discharge VCONN
+> 0.8V
+[CC2] actively [Rdch];
+detection
+to < 0.8V
+[Details as first line of
+table]
+
+1. Two GPIOs to enable VCONN through external load switch components
+
+74.5.3
+
+USB PD transmit
+On reception of a message from the protocol layer (that is, to be sent), prepare Tx message
+contents by writing the UCPD_TX_ORDSET and UCPD_TX_PAYSZ registers.
+The message transmission is triggered by setting the TXSEND bit, with an appropriate
+value of the TXMODE bitfield.
+When the data byte is transmitted, the TXIS flag is raised to request a new data write to the
+UCPD_TXDR register.
+This re-iterates until the entire payload of data is transmitted.

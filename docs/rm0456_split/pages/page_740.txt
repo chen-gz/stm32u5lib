@@ -1,0 +1,202 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Bit 11 ULEF: update link transfer error flag
+0: no update link transfer error event
+1: a master bus error event occurred while updating a linked-list register from memory
+Bit 10 DTEF: data transfer error flag
+0: no data transfer error event
+1: a master bus error event occurred on a data transfer
+Bit 9 HTF: half transfer flag
+0: no half transfer event
+1: a half transfer event occurred
+A half transfer event is either a half block transfer or a half 2D/repeated block transfer,
+depending on the transfer complete event mode (GPDMA_CxTR2.TCEM[1:0]).
+A half block transfer occurs when half of the bytes of the source block size (rounded up
+integer of GPDMA_CxBR1.BNDT[15:0]/2) has been transferred to the destination.
+A half 2D/repeated block transfer occurs when half of the repeated blocks (rounded up
+integer of (GPDMA_CxBR1.BRC[10:0] + 1) / 2)) has been transferred to the destination.
+Bit 8 TCF: transfer complete flag
+0: no transfer complete event
+1: a transfer complete event occurred
+A transfer complete event is either a block transfer complete, a 2D/repeated block transfer
+complete, or a LLI transfer complete including the upload of the next LLI if any, or the full
+linked-list completion, depending on the transfer complete event mode
+(GPDMA_CxTR2.TCEM[1:0]).
+Bits 7:1 Reserved, must be kept at reset value.
+Bit 0 IDLEF: idle flag
+0: channel not in idle state
+1: channel in idle state
+This idle flag is deasserted by hardware when the channel is enabled
+(GPDMA_CxCR.EN = 1) with a valid channel configuration (no USEF to be immediately
+reported).
+This idle flag is asserted after hard reset or by hardware when the channel is back in idle
+state (in suspended or disabled state).
+
+17.8.9
+
+GPDMA channel x control register (GPDMA_CxCR)
+Address offset: 0x64 + 0x80 * x (x = 0 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of the channel x (GPDMA_PRIVCFGR.PRIVx).
+This register is used to control a channel (activate, suspend, abort or disable it).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PRIO[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+LAP
+
+LSM
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TOIE
+
+SUSPI
+E
+
+USEIE
+
+ULEIE
+
+DTEIE
+
+HTIE
+
+TCIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SUSP
+
+RESET
+
+EN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+w
+
+rw

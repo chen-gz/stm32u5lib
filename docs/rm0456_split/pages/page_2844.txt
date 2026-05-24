@@ -1,0 +1,310 @@
+w
+
+w
+
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Bits 31:0 TXDR[31:0]: transmit data register
+The register serves as an interface with TxFIFO. A write to it accesses TxFIFO.
+Note: data is always right-aligned. Unused bits are ignored when writing to the register, and
+read as zero when the register is read.
+Note: DR can be accessed byte-wise (8-bit access): in this case only one data-byte is written
+by single access.
+half-word-wise (16 bit access) in this case 2 data-bytes or 1 half-word-data can be
+written by single access.
+word-wise (32 bit access). In this case 4 data-bytes or 2 half-word-data or word-data
+can be written by single access.
+Write access of this register less than the configured data size is forbidden.
+
+68.8.10
+
+SPI receive data register (SPI_RXDR)
+Address offset: 0x030
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RXDR[31:16]
+
+RXDR[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:0 RXDR[31:0]: receive data register
+The register serves as an interface with RxFIFO. When it is read, RxFIFO is accessed.
+Note: data is always right-aligned. Unused bits are read as zero when the register is read.
+Writing to the register is ignored.
+Note: DR can be accessed byte-wise (8-bit access): in this case only one data-byte is read by
+single access
+half-word-wise (16 bit access) in this case 2 data-bytes or 1 half-word data can be read
+by single access
+word-wise (32 bit access). In this case 4 data-bytes or 2 half-word data or word-data
+can be read by single access.
+Read access of this register less than the configured data size is forbidden.
+
+68.8.11
+
+SPI polynomial register (SPI_CRCPOLY)
+Address offset: 0x040
+Reset value: 0x0000 0107
+The content of this register is write protected when SPI is enabled.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CRCPOLY[31:16]
+
+CRCPOLY[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6

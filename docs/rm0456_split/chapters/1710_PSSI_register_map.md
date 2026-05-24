@@ -1,0 +1,14 @@
+1710
+
+0x14
+PSSI_ICR
+
+0x180x24
+
+0x28
+PSSI_DR
+
+Reset value
+
+<!-- pagebreak -->
+

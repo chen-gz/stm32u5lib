@@ -1,0 +1,57 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+Bit 16 NEGEDGE: SDMMC_CK dephasing selection bit for data and command
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0).
+When clock division = 1 (CLKDIV = 0), this bit has no effect. Data and Command change on
+SDMMC_CK falling edge.
+0: When clock division >1 (CLKDIV > 0) and DDR = 0:
+– Command and data changed on the sdmmc_ker_ck falling edge succeeding the rising
+edge of SDMMC_CK.
+– SDMMC_CK edge occurs on sdmmc_ker_ck rising edge.
+When clock division >1 (CLKDIV > 0) and DDR = 1:
+– Command changed on the sdmmc_ker_ck falling edge succeeding the rising edge of
+SDMMC_CK.
+– Data changed on the sdmmc_ker_ck falling edge succeeding a SDMMC_CK edge.
+– SDMMC_CK edge occurs on sdmmc_ker_ck rising edge.
+1: When clock division >1 (CLKDIV > 0) and DDR = 0:
+– Command and data changed on the same sdmmc_ker_ck rising edge generating the
+SDMMC_CK falling edge.
+When clock division >1 (CLKDIV > 0) and DDR = 1:
+– Command changed on the same sdmmc_ker_ck rising edge generating the
+SDMMC_CK falling edge.
+– Data changed on the SDMMC_CK falling edge succeeding a SDMMC_CK edge.
+– SDMMC_CK edge occurs on sdmmc_ker_ck rising edge.
+Bits 15:14 WIDBUS[1:0]: Wide bus mode enable bit
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0)
+00: Default 1-bit wide bus mode: SDMMC_D0 used (Does not support DDR)
+01: 4-bit wide bus mode: SDMMC_D[3:0] used
+10: 8-bit wide bus mode: SDMMC_D[7:0] used
+Bit 13 Reserved, must be kept at reset value.
+Bit 12 PWRSAV: Power saving configuration bit
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0)
+For power saving, the SDMMC_CK clock output can be disabled when the bus is idle by
+setting PWRSAV:
+0: SDMMC_CK clock is always enabled
+1: SDMMC_CK is only enabled when the bus is active
+Bits 11:10 Reserved, must be kept at reset value.
+Bits 9:0 CLKDIV[9:0]: Clock divide factor
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0).
+This field defines the divide factor between the input clock (sdmmc_ker_ck) and the output
+clock (SDMMC_CK): SDMMC_CK frequency = sdmmc_ker_ck / [2 * CLKDIV].
+0x000: SDMMC_CK frequency = sdmmc_ker_ck / 1 (Does not support DDR)
+0x001: SDMMC_CK frequency = sdmmc_ker_ck / 2
+0x002: SDMMC_CK frequency = sdmmc_ker_ck / 4
+0x0XX: ..
+0x080: SDMMC_CK frequency = sdmmc_ker_ck / 256
+0xXXX: ..
+0x3FF: SDMMC_CK frequency = sdmmc_ker_ck / 2046
+
+RM0456 Rev 6

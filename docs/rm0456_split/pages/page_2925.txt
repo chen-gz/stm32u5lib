@@ -1,0 +1,53 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+FDCAN data phase, the fast CAN bit timing is used as defined by the FDCAN_DBTP
+register. The bit timing is switched back from the fast timing at the CRC delimiter or when an
+error is detected, whichever occurs first.
+The maximum configurable bit rate in the CAN FD data phase depends on the FDCAN
+kernel clock frequency. For example, with an FDCAN kernel clock frequency of 20 MHz and
+the shortest configurable bit time of four time quanta (tq), the bit rate in the data phase is
+5 Mbit/s.
+In both data frame formats (CAN FD long frames and CAN FD fast frames), the value of bit
+ESI (error status indicator) is determined by the transmitter error state at the start of the
+transmission. If the transmitter is error passive, ESI is transmitted recessive, else it is
+transmitted dominant. In CAN FD remote frames, the ESI bit is always transmitted
+dominant, independent of the transmitter error state. The data length code of CAN FD
+remote frames is transmitted as 0.
+In case an FDCAN Tx buffer is configured for FDCAN transmission with DLC > 8, the first
+eight bytes are transmitted as configured in the Tx buffer while the remaining part of the
+data field is padded with 0xCC. When the FDCAN receives a FDCAN frame with DLC > 8,
+the first eight bytes of that frame are stored into the matching Rx FIFO. The remaining bytes
+are discarded.
+
+Transceiver delay compensation
+During the data phase of an FDCAN transmission, only one node is transmitting, all others
+are receivers. The length of the bus line has no impact. When transmitting via pin
+FDCAN_TX, the protocol controller receives the transmitted data from its local CAN
+transceiver via pin FDCAN_RX. The received data is delayed by the CAN transceiver loop
+delay. If this delay is greater than TSEG1 (time segment before sample point), and a bit
+error is detected. Without transceiver delay compensation, the bit rate in the data phase of
+an FDCAN frame is limited by the transceiver loop delay.
+The FDCAN implements a delay compensation mechanism to compensate the CAN
+transceiver loop delay, thereby enabling transmission with higher bit rates during the
+FDCAN data phase independent of the delay of a specific CAN transceiver.
+To check for bit errors during the data phase of transmitting nodes, the delayed transmit
+data is compared against the received data at the secondary sample point (SSP). If a bit
+error is detected, the transmitter reacts on this bit error at the next following regular sample
+point. During the arbitration phase, the delay compensation is always disabled.
+The transmitter delay compensation enables configurations where the data bit time is
+shorter than the transmitter delay. This is enabled by setting the TDC bit of the
+FDCAN_DBTP register, and described in detail in the ISO11898-1 specification.
+The received bit is compared against the transmitted bit at the SSP. The SSP position is
+defined as the sum of the measured delay from the FDCAN transmit output pin FDCAN_TX
+through the transceiver to the receive input pin FDCAN_RX plus the transmitter delay
+compensation offset as configured by TDCO[6:0] of FDCAN_TDCR. The transmitter delay
+compensation offset is used to adjust the position of the SSP inside the received bit (for
+example, half of the bit time in the data phase). The position of the secondary sample point
+is rounded down to the next integer number of mtq (minimum time quantum, one period of
+fdcan_tq_ck clock).
+The TDCV[6:0] bitfield of the FDCAN_PSR register shows the actual transmitter delay
+compensation value. TDCV[6:0] is cleared when the INIT is set in the FDCAN_CCCR. It is

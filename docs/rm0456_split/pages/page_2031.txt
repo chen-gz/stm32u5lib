@@ -1,0 +1,314 @@
+RM0456 Rev 6
+
+RM0456
+
+Hash processor (HASH)
+•
+
+by writing new data into the HASH_DIN register (the first word of the next block) if the
+DMA is not used (intermediate digest calculation),
+
+•
+
+automatically if the DMA is used.
+
+When the last block has been written to the HASH_DIN register, the final digest calculation
+(including padding) is launched by writing the DCAL bit to 1 in the HASH_STR register (final
+digest calculation). This operation is automatic if the DMA is used and MDMAT bit is set to 0.
+Reading the HASH_DIN register returns zeros.
+Note:
+
+When the HASH is busy, a write access to the HASH_DIN register might stall the AHB bus if
+the digest calculation (intermediate or final) is not complete.
+.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DATAIN[31:16]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+DATAIN[15:0]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:0 DATAIN[31:0]: Data input
+Writing this register pushes the current register content into the IN FIFO, and the register
+takes the new value presented on the AHB databus.
+Reading this register returns zeros.
+
+51.6.3
+
+HASH start register (HASH_STR)
+Address offset: 0x08
+Reset value: 0x0000 0000
+The HASH_STR register has two functions:
+•
+
+It is used to define the number of valid bits in the last word of the message entered in
+the hash processor (that is the number of valid least significant bits in the last data
+written to the HASH_DIN register).
+
+•
+
+It is used to start the processing of the last block in the message by writing the DCAL
+bit to 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+DCAL
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+NBLW[4:0]
+rw
+
+Bits 31:9 Reserved, must be kept at reset value.
+Bit 8 DCAL: Digest calculation
+Writing this bit to 1 starts the message padding, using the previously written value of
+NBLW[4:0], and starts the calculation of the final message digest with all data words written
+to the input FIFO since the INIT bit was last written to 1.
+Reading this bit returns 0.
+
+RM0456 Rev 6

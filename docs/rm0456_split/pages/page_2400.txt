@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+
+Bit 12 CC1OF: Capture 1 over-capture flag
+This flag is set by hardware only when the corresponding channel is configured in input capture
+mode. It is cleared by software by writing 1 to the CC1OCF bit in the LPTIM_ICR register.
+0: No over-capture has been detected.
+1: The counter value has been captured in LPTIM_CCR1 register while CC1IF flag was already set.
+Note: If LPTIM does not implement at least 1 channel this bit is reserved. Refer to Section 58.3.
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 CC2IF: Capture 2 interrupt flag
+If channel CC2 is configured as input:
+CC2IF is set by hardware to inform application that the current value of the counter is captured in
+LPTIM_CCR2 register. The corresponding interrupt or DMA request is generated if enabled. The
+CC2OF flag is set if the CC2IF flag was already high.
+0: No input capture occurred
+1: The counter value has been captured in the LPTIM_CCR2 register. (An edge has been detected
+on IC2 which matches the selected polarity). The CC2IF flag is automatically cleared by hardware
+once the captured value is read (CPU or DMA). The CC2IF flag can be cleared by writing 1 to the
+CC2CF bit in the LPTIM_ICR register.
+Note: If LPTIM does not implement at least 2 channels this bit is reserved. Refer to Section 58.3.
+Bit 8 REPOK: Repetition register update OK
+REPOK is set by hardware to inform application that the APB bus write operation to the LPTIM_RCR
+register has been successfully completed. REPOK flag can be cleared by writing 1 to the REPOKCF
+bit in the LPTIM_ICR register.
+Bit 7 UE: LPTIM update event occurred
+UE is set by hardware to inform application that an update event was generated. The corresponding
+interrupt or DMA request is generated if enabled. The UE flag can be cleared by writing 1 to the
+UECF bit in the LPTIM_ICR register. The UE flag is automatically cleared by hardware once the
+LPTIM_ARR register is written by any bus master like CPU or DMA.
+Bit 6 DOWN: Counter direction change up to down
+In Encoder mode, DOWN bit is set by hardware to inform application that the counter direction has
+changed from up to down. DOWN flag can be cleared by writing 1 to the DOWNCF bit in the
+LPTIM_ICR register.
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 5 UP: Counter direction change down to up
+In Encoder mode, UP bit is set by hardware to inform application that the counter direction has
+changed from down to up. UP flag can be cleared by writing 1 to the UPCF bit in the LPTIM_ICR
+register.
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 4 ARROK: Autoreload register update OK
+ARROK is set by hardware to inform application that the APB bus write operation to the LPTIM_ARR
+register has been successfully completed. ARROK flag can be cleared by writing 1 to the ARROKCF
+bit in the LPTIM_ICR register.
+Bit 3 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

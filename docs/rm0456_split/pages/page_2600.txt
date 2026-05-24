@@ -1,0 +1,33 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+Figure 786. Transfer sequence flow for I2C target transmitter, NOSTRETCH = 0
+
+Target
+transmission
+
+Target initialization
+
+No
+I2C_ISR.ADDR
+=1?
+Yes
+
+SCL
+stretched
+
+Read ADDCODE and DIR in I2C_ISR
+Optional: Set I2C_ISR.TXE = 1
+Set I2C_ICR.ADDRCF
+
+No
+I2C_ISR.TXIS
+=1?
+Yes
+Write I2C_TXDR.TXDATA
+
+MSv19851V3
+
+RM0456 Rev 6

@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+Ambient noise estimation (ANLVL)
+The ambient noise level (ANLVL) is computed when SADMOD[1:0] is 00 or 10.
+The ambient noise level is computed differently according to the state of the SAD as
+detailed below:
+•
+
+ANLVL computation during the LEARN state
+Every time the SAD is enabled, a learning phase is initiated in order to estimate a first
+value of the ambient noise level. During this phase, the SAD cannot trigger.
+During the LEARN phase, the ambient noise level is computed as follows:
+N LFRNB
+
+1
+ANLVL = -------------------- ×
+N LFRNB
+
+∑ SDLVL ( n )
+n=1
+
+where NLFRNB is the amount of frames given by LFRNB[2:0] bitfield.
+•
+
+ANLVL computation during the MONITOR or DETECT state
+When the learning phase is completed, the SAD updates the ambient noise level in the
+following way:
+–
+
+The SAD computes the new possible values for the ambient noise level:
+ANLVL_UP = ANLVL * (1+2^(ANSLP-12))
+ANLVL_DN = ANLVL * (1-2^(ANSLP-10))
+
+–
+
+The ANLVL takes the ANLVL_DN value if the current sound level is lower than
+ANLVL_DN, otherwise ANLVL takes the value of ANLVL_UP.
+The ANLVL is not updated if the current sound level is higher than the threshold
+level, except if SADMOD[1:0] = 10.
+
+–
+
+When SADMOD[1:0] = 0, if the new ANLVL value is lower than ANMIN[12:0],
+ANLVL is replaced by ANMIN.
+
+The slope of the noise estimator can be adjusted to optimize the detection of the
+wanted signal. This slope is adjusted via ANSLP[2:0] in the ADF SAD configuration
+register (ADF_SADCFGR).
+
+RM0456 Rev 6

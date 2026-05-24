@@ -1,0 +1,186 @@
+Control register
+
+DBGMCU_APB1LFZR
+
+Peripheral
+
+Description
+
+I2C2
+
+I2C2 SMBUS timeout
+
+I2C1
+
+I2C1 SMBUS timeout
+
+IWDG
+
+Independent watchdog
+
+WWDG
+
+Window watchdog
+
+TIM7
+
+General purpose timer 7
+
+TIM6
+
+General purpose timer 6
+
+TIM5
+
+General purpose timer 5
+
+TIM4
+
+General purpose timer 4
+
+TIM3
+
+General purpose timer 3
+
+TIM2
+
+General purpose timer 2
+
+RM0456 Rev 6
+
+RM0456
+
+Debug support (DBG)
+Table 809. Peripheral clock freeze control bits (continued)
+Bus
+
+APB1H
+
+APB2
+
+APB3
+
+Control register
+
+DGBMCU_APB1HFZR
+
+DBGMCU_APB2FZR
+
+DBGMCU_APB3FZR
+
+Peripheral
+
+Description
+
+LPTIM2
+
+Low power timer 2
+
+I2C4
+
+I2C4 SMBUS timeout
+
+I2C5
+
+I2C5 SMBUS timeout
+
+I2C6
+
+I2C6 SMBUS timeout
+
+TIM17
+
+General purpose timer 17
+
+TIM16
+
+General purpose timer 16
+
+TIM15
+
+General purpose timer 15
+
+TIM8
+
+General purpose timer 8
+
+TIM1
+
+General purpose timer 1
+
+RTC
+
+Real time clock
+
+LPTIM4
+
+Low power timer 4
+
+LPTIM3
+
+Low power timer 3
+
+LPTIM1
+
+Low power timer 1
+
+I2C3
+
+I2C3 SMBUS timeout
+
+AHB1
+
+DBGMCU_AHB1FZR
+
+GPDMA 0 to 15
+
+General purpose DMA channels 0 to 15
+
+AHB3
+
+DBGMCU_AHB3FZR
+
+LPDMA 0 to 3
+
+Low power DMA channels 0 to 3
+
+Each peripheral unit or DMA channel has a corresponding control bit, DBG_xxx_STOP,
+where xxx is the acronym of the peripheral (or DMA channel). The control bits are organized
+in DBGMCU_zzzFZR registers, where zzz corresponds to the name of the bus (AHB or
+APB). For example, DBGMCU_APB1LFZR contains the control bits for peripherals on the
+APB1L bus.
+The control bit, when set, causes the corresponding peripheral operation to be suspended
+when the CPU is stopped in debug (HALTED = 1), according to the table below:
+Table 810. Peripheral behavior in debug mode
+HALTED
+
+DBG_xxx_STOP
+
+Peripheral behaviour
+
+0
+
+X
+
+The operation continues.
+
+1
+
+0
+
+The operation continues.
+
+1
+
+1
+
+The operation is suspended.
+
+The accessibility of DBG_xxx_STOP bits by the debugger depends on the state of the
+authentication signal spiden.
+When spiden = 1 (secure privilege debug enabled), all bits can be modified by a secure
+access. Only bits corresponding to nonsecure peripherals (or DMA channels) can be
+modified by a nonsecure access. All bits can be read by both nonsecure or secure
+accesses.
+
+RM0456 Rev 6

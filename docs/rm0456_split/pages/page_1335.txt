@@ -1,0 +1,44 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Stopping the conversions in dual ADC modes
+The user must set the control bits ADSTP/JADSTP of the master ADC to stop the
+conversions of both ADC in dual ADC mode. The other ADSTP control bit of the slave ADC
+has no effect in dual ADC mode.
+Once both ADCs are effectively stopped, the bits ADSTART/JADSTART of the master and
+slave ADCs are both cleared by hardware.
+
+MDF mode in dual ADC mode interleaved mode
+In dual ADC interleaved modes, the ADC conversion results can be transferred directly to
+the multifunction digital filter (MDF).
+This mode is enabled by setting the bits DMNGT[1:0] = 10 in the master ADC ADC_CFGR
+register.
+The ADC transfers alternatively the 16 least significant bits of the regular data register from
+the master and the slave converter to a single channel of the MDF.
+The data format must be 16-bit signed:
+ADC_DR[31:16] = 0x0000
+ADC_DR[15] = sign
+ADC_DR[14:0] = data
+Any value above 16-bit signed format in any converter is truncated.
+
+MDF mode in dual ADC simultaneous mode
+The dual mode is not required to use MDF in dual ADC simultaneous mode since
+conversion data are treated by each individual channel. Single mode with same trigger
+source results in simultaneous conversion with MDF interface.
+
+33.4.33
+
+Temperature sensor
+The temperature sensor can measure the device junction temperature (TJ) in the –40 to
+125 °C temperature range.
+The temperature sensor is internally connected ADC input channels that are used to convert
+the sensor output voltage to a digital value (see Section 33.4.4: ADC connectivity for more
+details). The sampling time for the temperature sensor analog pin must be greater than the
+stabilization time specified in the device datasheet.
+When it is not in use, the sensor can be placed in power-down mode.
+Figure 275 shows the block diagram of the temperature sensor.
+
+RM0456 Rev 6

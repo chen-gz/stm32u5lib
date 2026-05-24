@@ -1,0 +1,49 @@
+1111
+
+Octo-SPI I/O manager (OCTOSPIM)
+
+RM0456
+
+Bit 24 IOHEN: IO[7:4] enable for Port n
+This bit enables the Port n IO[7:4].
+0: IO[7:4] for Port n disabled
+1: IO[7:4] for Port n enabled
+Bits 23:19 Reserved, must be kept at reset value.
+Bits 18:17 IOLSRC[1:0]: IO[3:0] source for Port n
+This bits select the source of Port n IO[3:0].
+00: OCTOSPI1_IO[3:0] in non multiplexed mode / multiplexed_IO[3:0] in multiplexed mode
+01: OCTOSPI1_IO[7:4] in non multiplexed mode / multiplexed_IO[7:4] in multiplexed mode
+10: OCTOSPI2_IO[3:0] in non multiplexed mode / unused in multiplexed mode
+11: OCTOSPI2_IO[7:4] in non multiplexed mode / unused in multiplexed mode
+Bit 16 IOLEN: IO[3:0] enable for Port n
+This bit enables the Port n IO[3:0].
+0: IO[3:0] for Port n disabled
+1: IO[3:0] for Port n enabled
+Bits 15:10 Reserved, must be kept at reset value.
+Bit 9 NCSSRC: NCS source for Port n
+This bit selects the source of Port n NCS.
+0: OCTOSPI1_NCS
+1: OCTOSPI2_NCS
+Bit 8 NCSEN: NCS enable for Port n
+This bit enables the Port n NCS.
+0: NCS for Port n is disabled
+1: NCS for Port n is enabled
+Bits 7:6 Reserved, must be kept at reset value.
+Bit 5 DQSSRC: DQS source for Port n
+This bit selects the source of Port n DQS.
+0: OCTOSPI1_DQS in non multiplexed mode / multiplexed_DQS in multiplexed mode
+1: OCTOSPI2_DQS in non multiplexed mode / unused port in multiplexed mode
+Bit 4 DQSEN: DQS enable for Port n
+This bit enables the Port n DQS.
+0: DQS for Port n is disabled
+1: DQS for Port n is enabled
+Bits 3:2 Reserved, must be kept at reset value.
+Bit 1 CLKSRC: CLK/NCLK source for Port n
+This bit selects the source of Port n CLK/NCLK.
+0: OCTOSPI1_CLK/NCLK in non multiplexed mode / multiplexed_CLK/CLKn in multiplexed
+mode
+1: OCTOSPI2_CLK/NCLK in non multiplexed mode / unused port in multiplexed mode
+Bit 0 CLKEN: CLK/NCLK enable for Port n
+This bit enables the Port n CLK/NCLK.
+0: CLK/NCLK for Port n is disabled
+1: CLK/NCLK for Port n is enabled

@@ -1,0 +1,115 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+Figure 380. SAD flow diagram
+SAD enable
+SADST= LEARN
+Compute sound level (SDLVL)
+(using FRSIZE samples)
+
+When SADMOD = 1x
+
+When SADMOD = 01
+
+When SADMOD = 0
+
+Update ANLVL
+
+Update THRH, THRL values
+
+Update ANLVL
+
+(Using SDLVL, ANSLP)
+
+(Using ANMIN, HYSTEN, SNTHR)
+
+(Using SDLVL, ANSLP, ANMIN)
+
+SELSIG = SDLVL
+
+(Using ANMIN, HYSTEN, SNTHR)
+
+(Using ANLVL, HYSTEN, SNTHR)
+
+SELSIG = ANLVL
+
+SELSIG = SDLVL
+
+N
+
+SADST =
+MONITOR?
+
+THR = THRL
+
+N
+
+HGCNT
+=0?
+
+HGCNT = HGCNT - 1
+
+SADST
+= LEARN ?
+
+Y
+
+Compute initial ambient noise level (ANLVL)
+(using LFRNB, SDLVL)
+
+Update THRH, THRL values
+
+Update THRH, THRL values
+
+N
+
+N
+
+ANLVL
+available ?
+N
+
+Y
+
+SADST= MONITOR
+
+Y
+
+THR = THRH
+
+SELSIG >
+THR ?
+
+Y
+
+SADST = DETECT
+
+Y
+
+HGCNT = HOVR
+
+SADST= MONITOR
+
+ANLVL update
+if SADMOD = 1x
+
+ANLVL update
+
+MSv62687V1
+
+Sound level computation (SDLVL)
+Once enabled, the SAD computes continuously the sound level value. The sound level
+represents the average of the absolute value of an amount of PCM samples given by
+FRSIZE[2:0].
+N FRSIZE
+
+1
+SDLVL = ---------------------- ×
+N FRSIZE
+
+∑ PCM ( n )
+n=1
+
+where NFRSIZE is the amount of PCM samples given by FRSIZE[2:0].

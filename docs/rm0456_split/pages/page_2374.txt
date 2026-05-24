@@ -1,0 +1,220 @@
+Pin type
+
+Description
+
+LPTIM_IN1
+
+Digital input
+
+LPTIM Input 1 from LPTIMx_IN1 pin on mux input 0
+
+LPTIM_ETR
+
+Digital input
+
+LPTIM external trigger LPTIMx_ETR pin
+
+LPTIM_OUT
+
+Digital output
+
+LPTIM output LPTIMx_OUT pin
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+Table 602. LPTIM1/2/3 internal signals
+Signal name
+
+Signal type
+
+Description
+
+lptim_pclk
+
+Digital input
+
+LPTIM APB clock domain
+
+lptim_ker_ck
+
+Digital input
+
+LPTIM kernel clock
+
+lptim_in1_mux1
+
+Digital input
+
+Internal LPTIM input 1 connected to mux input 1
+
+lptim_in1_mux2
+
+Digital input
+
+Internal LPTIM input 1 connected to mux input 2
+
+lptim_in1_mux3
+
+Digital input
+
+Internal LPTIM input 1 connected to mux input 3
+
+(1)
+
+Digital input
+
+Internal LPTIM input 2 connected to mux input 1
+
+lptim_in2_mux2(1)
+
+Digital input
+
+Internal LPTIM input 2 connected to mux input 2
+
+lptim_in2_mux3(1)
+
+Digital input
+
+Internal LPTIM input 2 connected to mux input 3
+
+lptim_ic1_mux1
+
+Digital input
+
+Internal LPTIM input capture 1 connected to mux input 1
+
+lptim_ic1_mux2
+
+Digital input
+
+Internal LPTIM input capture 1 connected to mux input 2
+
+lptim_ic1_mux3
+
+Digital input
+
+Internal LPTIM input capture 1 connected to mux input 3
+
+lptim_ic2_mux1
+
+Digital input
+
+Internal LPTIM input capture 2 connected to mux input 1
+
+lptim_ic2_mux2
+
+Digital input
+
+Internal LPTIM input capture 2 connected to mux input 2
+
+lptim_ic2_mux3
+
+Digital input
+
+Internal LPTIM input capture 2 connected to mux input 3
+
+lptim_ext_trigx
+
+Digital input
+
+LPTIM external trigger input x
+
+lptim_it
+
+Digital output
+
+LPTIM global interrupt
+
+lptim_wakeup
+
+Digital output
+
+LPTIM wake-up event
+
+lptim_ic1_dma
+
+Digital output
+
+LPTIM input capture 1 DMA request
+
+lptim_ic2_dma
+
+Digital output
+
+LPTIM input capture 2 DMA request
+
+lptim_ue_dma
+
+Digital output
+
+LPTIM update event DMA request
+
+lptim_in2_mux1
+
+1. LPTIM3 has only the input 1(no input 2).
+
+Table 603. LPTIM4 internal signals
+Signal name
+
+Signal type
+
+Description
+
+lptim_pclk
+
+Digital input
+
+LPTIM APB clock domain
+
+lptim_ker_ck
+
+Digital input
+
+LPTIM kernel clock
+
+lptim_in1_mux1
+
+Digital input
+
+Internal LPTIM input 1 connected to mux input 1
+
+lptim_in1_mux2
+
+Digital input
+
+Internal LPTIM input 1 connected to mux input 2
+
+lptim_in1_mux3
+
+Digital input
+
+Internal LPTIM input 1 connected to mux input 3
+
+lptim_ext_trigx
+
+Digital input
+
+LPTIM external trigger input x
+
+lptim_out
+
+Digital output
+
+LPTIM counter output
+
+lptim_it
+
+Digital output
+
+LPTIM global interrupt
+
+lptim_wakeup
+
+Digital output
+
+LPTIM wake-up event
+
+RM0456 Rev 6

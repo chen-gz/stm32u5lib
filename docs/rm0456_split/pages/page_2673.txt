@@ -1,0 +1,130 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Table 679. Tolerance of the USART receiver when BRR [3:0] = 0000
+OVER8 bit = 0
+
+OVER8 bit = 1
+
+M bits
+ONEBIT = 0
+
+ONEBIT = 1
+
+ONEBIT = 0
+
+ONEBIT = 1
+
+00
+
+3.75%
+
+4.375%
+
+2.50%
+
+3.75%
+
+01
+
+3.41%
+
+3.97%
+
+2.27%
+
+3.41%
+
+10
+
+4.16%
+
+4.86%
+
+2.77%
+
+4.16%
+
+Table 680. Tolerance of the USART receiver when BRR[3:0] is different from 0000
+OVER8 bit = 0
+
+OVER8 bit = 1
+
+M bits
+ONEBIT = 0
+
+ONEBIT = 1
+
+ONEBIT = 0
+
+ONEBIT = 1
+
+00
+
+3.33%
+
+3.88%
+
+2%
+
+3%
+
+01
+
+3.03%
+
+3.53%
+
+1.82%
+
+2.73%
+
+10
+
+3.7%
+
+4.31%
+
+2.22%
+
+3.33%
+
+Note:
+
+The data specified in Table 679 and Table 680 may slightly differ in the special case when
+the received frames contain some Idle frames of exactly 10-bit times when M bits = 00 (11bit times when M= 01 or 9- bit times when M = 10).
+
+66.5.10
+
+USART auto baud rate detection
+The USART can detect and automatically set the USART_BRR register value based on the
+reception of one character. Automatic baud rate detection is useful under two
+circumstances:
+•
+
+The communication speed of the system is not known in advance.
+
+•
+
+The system is using a relatively low accuracy clock source and this mechanism
+enables the correct baud rate to be obtained without measuring the clock deviation.
+
+The clock source frequency must be compatible with the expected communication speed.
+•
+
+When oversampling by 16, the baud rate ranges from usart_ker_ck_pres/65535 and
+usart_ker_ck_pres/16.
+
+•
+
+When oversampling by 8, the baud rate ranges from usart_ker_ck_pres/32763 and
+usart_ker_ck_pres/8.
+
+Before activating the auto baud rate detection, the auto baud rate detection mode must be
+selected through the ABRMOD[1:0] field in the USART_CR2 register. There are four modes
+based on different character patterns. In these auto baud rate modes, the baud rate is
+measured several times during the synchronization data reception and each measurement
+is compared to the previous one.

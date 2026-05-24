@@ -1,0 +1,98 @@
+STOP[1:0]
+rw
+
+rw
+
+CLKEN
+
+CPOL
+
+CPHA
+
+LBCL
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+RM0456 Rev 6
+
+LBDIE
+
+LBDL
+
+ADDM7
+
+DIS_
+NSS
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bits 31:24 ADD[7:0]: Address of the USART node
+These bits give the address of the USART node in mute mode or a character code to be recognized
+in low-power or Run mode:
+–
+In mute mode: they are used in multiprocessor communication to wake up from mute mode
+with 4-bit/7-bit address mark detection. The MSB of the character sent by the transmitter
+must be equal to 1. In 4-bit address mark detection, only ADD[3:0] bits are used.
+–
+In low-power mode: they are used for wake up from low-power mode on character match.
+When a character, received during low-power mode, corresponds to the character
+programmed through ADD[7:0] bitfield, the CMF flag is set and wakes up the device from
+low-power mode if the corresponding interrupt is enabled by setting CMIE bit.
+–
+In Run mode with mute mode inactive (for example, end-of-block detection in ModBus
+protocol): the whole received character (8 bits) is compared to ADD[7:0] value and CMF
+flag is set on match. An interrupt is generated if the CMIE bit is set.
+These bits can only be written when the USART is disabled (UE = 0).
+Bit 23 RTOEN: Receiver timeout enable
+This bit is set and cleared by software.
+0: Receiver timeout feature disabled.
+1: Receiver timeout feature enabled.
+When this feature is enabled, the RTOF flag in the USART_ISR register is set if the RX line is idle
+(no reception) for the duration programmed in the RTOR (receiver timeout register).
+Note: If the USART does not support the Receiver timeout feature, this bit is reserved and must be
+kept at reset value. Refer to Section 66.4: USART implementation.
+Bits 22:21 ABRMOD[1:0]: Auto baud rate mode
+These bits are set and cleared by software.
+00: Measurement of the start bit is used to detect the baud rate.
+01: Falling edge to falling edge measurement (the received frame must start with a single bit = 1 ->
+Frame = Start10xxxxxx)
+10: 0x7F frame detection.
+11: 0x55 frame detection
+This bitfield can only be written when ABREN = 0 or the USART is disabled (UE = 0).
+Note: If DATAINV = 1 and/or MSBFIRST = 1 the patterns must be the same on the line, for example
+0xAA for MSBFIRST)
+If the USART does not support the auto baud rate feature, this bit is reserved and must be kept
+at reset value. Refer to Section 66.4: USART implementation.
+Bit 20 ABREN: Auto baud rate enable
+This bit is set and cleared by software.
+0: Auto baud rate detection is disabled.
+1: Auto baud rate detection is enabled.
+Note: If the USART does not support the auto baud rate feature, this bit is reserved and must be kept
+at reset value. Refer to Section 66.4: USART implementation.
+Bit 19 MSBFIRST: Most significant bit first
+This bit is set and cleared by software.
+0: data is transmitted/received with data bit 0 first, following the start bit.
+1: data is transmitted/received with the MSB (bit 7/8) first, following the start bit.
+This bitfield can only be written when the USART is disabled (UE = 0).
+
+RM0456 Rev 6

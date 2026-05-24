@@ -1,0 +1,259 @@
+609
+
+Reset and clock control (RCC)
+
+11.7
+
+RM0456
+
+RCC interrupts
+The table below summarizes the interrupt sources and the way to control them.
+Table 118. Interrupt sources and control
+
+Interrupt
+vector
+
+Description
+
+Enable control
+bit
+
+Interrupt clear
+method
+
+Exit
+Sleep
+mode
+
+Exit Stop,
+Standby,
+Shutdown
+modes
+
+LSIRDYF
+
+LSI ready
+
+LSIRDYIE and
+LSISEC = 0
+
+Set LSIRDYC to 1
+
+Yes
+
+No
+
+LSERDYF
+
+LSE ready
+
+LSERDYIE and
+LSESEC = 0
+
+Set LSERDYC to 1
+
+Yes
+
+No
+
+HSIDRYF
+
+HSI ready
+
+HSIDRYIE and
+HSISEC = 0
+
+Set HSIRDYC to 1
+
+Yes
+
+No
+
+HSERDYF
+
+HSE ready
+
+HSERDYIE and
+HSESEC = 0
+
+Set HSERDYC to 1
+
+Yes
+
+No
+
+MSISRDYF
+
+MSIS ready
+
+MSISRDYIE
+Set MSISRDYC to 1
+and MSISEC = 0
+
+Yes
+
+No
+
+MSIKRDYF
+
+MSIK ready
+
+MSIKRDYIE
+Set MSIKRDYC to 1
+and MSISEC = 0
+
+Yes
+
+No
+
+SHSIRDYF
+
+SHSI ready
+
+SHSIRDYIE and
+SAESSEC = 0
+(in GTZC)
+
+Set SHSIRDYC to 1
+
+Yes
+
+No
+
+HSI48RDYF
+
+HSI48 ready
+
+HSI48RDYIE
+and HSI48SEC
+=0
+
+Set HSI48RDYC to 1
+
+Yes
+
+No
+
+PLL1RDYF
+
+PLL1 ready
+
+PLL1RDYIE and
+PLL1SEC = 0
+
+Set PLL1RDYC to 1
+
+Yes
+
+No
+
+PLL2RDYF
+
+PLL2 ready
+
+PLL2RDYIE and
+PLL2SEC = 0
+
+Set PLL2RDYC to 1
+
+Yes
+
+No
+
+PLL3RDYF
+
+PLL3 ready
+
+PLL3RDYIE and
+PLL3SEC = 0
+
+Set PLL3DYC to 1
+
+Yes
+
+No
+
+LSIRDYF
+
+LSI ready
+
+LSIRDYIE and
+LSISEC = 1
+
+Set LSIRDYC to 1
+
+Yes
+
+No
+
+LSERDYF
+
+LSE ready
+
+LSERDYIE and
+LSESEC = 1
+
+Set LSERDYC to 1
+
+Yes
+
+No
+
+HSIDRYF
+
+HSI ready
+
+HSIDRYIE and
+HSISEC = 1
+
+Set HSIRDYC to 1
+
+Yes
+
+No
+
+HSERDYF
+
+HSE ready
+
+HSERDYIE and
+HSESEC = 1
+
+Set HSERDYC to 1
+
+Yes
+
+No
+
+MSISRDYF
+
+MSIS ready
+
+MSISRDYIE
+Set MSISRDYC to 1
+and MSISEC = 1
+
+Yes
+
+No
+
+MSIKRDYF
+
+MSIK ready
+
+MSIKRDYIE
+Set MSIKRDYC to 1
+and MSISEC = 1
+
+Yes
+
+No
+
+Interrupt
+event flag
+
+RCC
+
+RCC_S
+
+(1)

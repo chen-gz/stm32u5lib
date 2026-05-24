@@ -1,0 +1,52 @@
+1674
+
+Audio digital filter (ADF)
+
+2.
+
+RM0456
+
+Adjust the SCALE value.
+To select the most appropriate SCALE value, the user must check if the RSFLT is used
+or not. If the RSFLT is used, the data size at SCALE output must not exceed 22 bits,
+otherwise the data size can be up to 24 bits.
+The SCALE value in dB must be selected using this formula:
+NB
+⎛
+⎞
+2
+SCALE dB < 20 ⋅ log 10 ⎜ ------------------------------N-⎟
+⎝ SIN pp ⋅ D ⎠
+
+where NB is equal to 22 if RSFLT is enabled, or 24 if RSFLT is bypassed. SCALEdB
+represents the gain value selected by SCALE[5:0].
+Example: For a Sinc4 with a decimation ratio of 96 and a SINpp of 0.7.
+–
+
+If the RSFLT is bypassed:
+⎛ 2 24 ⎞
+20 ⋅ log 10 ⎜ ------------------------4⎟ ∼– 11 dB
+⎝ 0.7 ⋅ 96 ⎠
+
+SCALEdB value must be lower than - 11 dB, the closest lower value is - 12dB
+(SCALE[5:0] = 0x2C).
+–
+
+If the RSFLT is enabled:
+⎛ 2 22 ⎞
+20 ⋅ log 10 ⎜ ------------------------4⎟ ∼– 23 dB
+⎝ 0.7 ⋅ 96 ⎠
+
+SCALEdB value must be lower than - 23 dB, the closest lower value is - 24.1 dB
+(SCALE[5:0] = 0x28).
+If SCALE[5:0] is set to a higher value, then a saturation may occur. An event flag
+informs the user if a saturation occurred.
+Table 397 proposes gain values for different filter configurations, when the data comes from
+the SITF0, according to the MCIC order, and the MCIC decimation ratio. This table is not
+exhaustive and considers a full-scale input signal (see Section 40.7.5: Total ADF gain for
+details).
+Table 397. Recommended maximum gain values
+versus CIC decimation ratios
+CIC
+decimation
+ratio

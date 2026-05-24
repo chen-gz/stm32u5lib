@@ -1,0 +1,166 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+18.8.2
+
+LPDMA privileged configuration register (LPDMA_PRIVCFGR)
+Address offset: 0x004
+Reset value: 0x0000 0000
+A write access to this register must be privileged. A read access can be privileged or
+unprivileged, secure or nonsecure.
+A write access is ignored at bit level if the corresponding channel x is locked
+(GPDMA_RCFGLOCKR.LOCKx = 1).
+This register can mix secure and nonsecure information. If a channel x is configured as
+secure (LPDMA_SECCFGR.SECx = 1), the PRIVx bit can be written only by a secure (and
+privileged) agent.
+This register must be written when LPDMA_CxCR.EN = 0.
+This register is read-only when LPDMA_CxCR.EN = 1.
+This register must be programmed at a bit level, at the initialization/closure of a LPDMA
+channel (LPDMA_CxCR.EN = 0), to individually allocate any channel x to the privileged or
+unprivileged world.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PRIV3
+
+PRIV2
+
+PRIV1
+
+PRIV0
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 PRIVx: privileged state of channel x (x = 3 to 0)
+0: unprivileged
+1: privileged
+
+RM0456 Rev 6

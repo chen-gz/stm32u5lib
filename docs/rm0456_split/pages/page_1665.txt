@@ -1,0 +1,174 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+Bit 4 RSFLTD: Reshaper filter decimation ratio
+This bit is set and cleared by software. It is used to select the decimation ratio for the reshape
+filter
+0: Decimation ratio is 4 (default value).
+1: Decimation ratio is 1.
+Note: This bit can be write-protected (see Section 40.4.13: Register protection for details).
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 RSFLTBYP: Reshaper filter bypass
+This bit is set and cleared by software. It is used to bypass the reshape filter and its
+decimation block.
+0: Reshape filter not bypassed (default value)
+1: Reshape filter bypassed
+Note: This bit can be write-protected (see Section 40.4.13: Register protection for details).
+
+40.8.8
+
+ADF delay control register 0 (ADF_DLY0CR)
+Address offset: 0x0A4
+Reset value: 0x0000 0000
+This register is used for the adjustment stream delays.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SKPBF
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+r
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SKPDLY[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 SKPBF: Skip busy flag
+This bit is set and cleared by hardware. It is used to control if the delay sequence is
+completed.
+0: ADF ready to accept a new value into SKPDLY[6:0]
+1: Last valid SKPDLY[6:0] still under precessing
+Bits 30:7 Reserved, must be kept at reset value.
+Bits 6:0 SKPDLY[6:0]: Delay to apply to a bitstream
+This bitfield is set and cleared by software. It defines the number of input samples that are
+skipped. Skipping is applied immediately after writing to this bitfield, if SKPBF = 0 and
+DFLTEN = 1. If SKPBF = 1, the value written into the register is ignored by the delay state
+machine.
+0: No input sample skipped
+1: 1 input sample skipped
+...
+127: 127 input samples skipped
+
+RM0456 Rev 6

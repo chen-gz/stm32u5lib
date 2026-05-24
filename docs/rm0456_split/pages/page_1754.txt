@@ -1,0 +1,123 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+Figure 417. Adapted command mode usage flow
+
+Video engine
+
+DSI controller
+
+genIF:
+
+set_co
+
+Display
+
+lumn_a
+
+ddress
+
+DCS: s
+
+et_colu
+
+genIF:
+
+set_pa
+
+mn_ad
+
+dress
+
+ge_add
+
+ress
+DCS: s
+
+et_pag
+
+LTDCIF
+
+: vsync
+
+= 1, dp
+
+idataen
+
+e_addre
+
+ss
+
+=1
+DCS: w
+
+rite_me
+
+DCS: w
+
+mory_s
+
+rite_me
+
+tart
+
+mory_c
+
+ontinue
+
+DCS: w
+
+1
+
+rite_me
+
+LTDCIF
+
+: vsync
+
+= 0, dp
+
+idataen
+
+DCS: w
+=0
+
+rite_me
+
+mory_c
+
+mory_c
+
+ontinue
+
+2
+
+ontinue
+
+3
+
+MSv35860V1
+
+When the command mode (CMDM) bit of the DSI Host mode configuration register
+(DSI_CFGR) is set to 1, the LTDC interface assumes the behavior corresponding to the
+adapted command mode.
+In this mode, the host processor can use the LTDC interface to transmit a continuous
+stream of pixels to be written in the local frame buffer of the peripheral. It uses a pixel input
+bus to receive the pixels and controls the flow automatically to limit the stream of continuous
+pixels. When the first pixel is received, the current value of the command size (CMDSIZE)
+field of the DSI Host LTDC command configuration register (DSI_LCCR), is shadowed to the
+internal interface function. The interface increments a counter on every valid pixel that is
+input through the interface. When this pixel counter reaches command size (CMDSIZE), a
+command is written into the command FIFO, and the packet can be transmitted through the
+DSI link.
+If the last pixel arrives before the counter reaches the value of shadowed command size
+(CMDSIZE), a WMS command is issued to the command FIFO with word count (WC) set to
+the number of bytes corresponding to the counter value. If more than CMDSIZE pixels are
+received (shadowed value), a WMS command is sent to the command FIFO with WC set to
+the number of bytes corresponding to the command size (CMDSIZE) and the counter is
+restarted.
+After the first WMS command has been written to the FIFO, the circuit behaves in a similar
+way, but issues WMC commands instead of WMS commands. The process is repeated until
+the last pixel of the image is received. The core automatically starts sending a new packet

@@ -1,0 +1,71 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+ADC operating modes supported when oversampling
+In oversampling mode, most of the ADC operating modes are available:
+
+Note:
+
+•
+
+Single or continuous mode conversions, forward or backward scanned sequences and
+up to 8 channels programmed sequence
+
+•
+
+ADC conversions start either by software or with triggers
+
+•
+
+ADC stop during a conversion (abort)
+
+•
+
+Data read via CPU or DMA with overrun detection
+
+•
+
+Low-power modes (WAIT, AUTOFF)
+
+•
+
+Programmable resolution: in this case, the reduced conversion values (as per RES[1:0]
+bits in ADC_CFGR1 register) are accumulated, truncated, rounded and shifted in the
+same way as 12-bit conversions are
+
+The alignment mode is not available when working with oversampled data. The ALIGN bit in
+ADC_CFGR1 is ignored and the data are always provided right-aligned.
+
+Analog watchdog
+The analog watchdog functionality is available, with the following differences:
+
+Note:
+
+•
+
+the RES[1:0] bits are ignored, comparison is always done on using the full 12-bits
+values HTx[11:0] and LTx[11:0]
+
+•
+
+the comparison is performed on the most significant 12 bits of the 16 bits oversampled
+results ADC_DR[15:4]
+
+Care must be taken when using high shifting values. This reduces the comparison range.
+For instance, if the oversampled result is shifted by 4 bits thus yielding a 12-bit data rightaligned, the effective analog watchdog comparison can only be performed on 8 bits. The
+comparison is done between ADC_DR[11:4] and HTx[7:0] / LTx[[7:0], and HTx[11:8] /
+LTx[11:8] must be kept reset.
+
+Triggered mode
+The averager can also be used for basic filtering purposes. Although not a very efficient filter
+(slow roll-off and limited stop band attenuation), it can be used as a notch filter to reject
+constant parasitic frequencies (typically coming from the mains or from a switched mode
+power supply). For this purpose, a specific discontinuous mode can be enabled with TOVS
+bit in ADC_CFGR2, to be able to have an oversampling frequency defined by a user and
+independent from the conversion time itself.
+Figure 305 below shows how conversions are started in response to triggers in
+discontinuous mode.
+If the TOVS bit is set, the content of the DISCEN bit is ignored and considered as 1.

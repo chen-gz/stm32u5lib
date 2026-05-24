@@ -1,0 +1,50 @@
+935
+
+Extended interrupts and event controller (EXTI)
+
+RM0456
+
+Table 192. Register protection overview
+Register name
+
+Protection(1)(2)
+
+Access type
+
+EXTI_IM
+
+RW
+
+EXTI_EMR
+
+RW
+
+Security and privilege can be bit-wise enabled in EXTI_SECCFGR and
+EXTI_PRIVCFGR.
+
+1. Security is enabled with the individual input event (EXTI_SECCFGR register).
+2. Privilege is enabled with the individual input event (EXTI_PRIVCFGR register).
+
+23.5.1
+
+EXTI security protection
+When security is enabled for an input event, the associated input event configuration and
+control bits can only be modified and read by a secure access. A nonsecure write access is
+discarded and a read returns 0.
+When input events are nonsecure, the security is disabled. The associated input event
+configuration and control bits can be modified and read by a secure access and nonsecure
+access.
+The security configuration in registers EXTI_SECCFGR can be globally locked after reset
+by LOCK in EXTI_LOCKR.
+
+23.5.2
+
+EXTI privilege protection
+When privilege is enabled for an input event, the associated input event configuration and
+control bits can only be modified and read by a privileged access. An unprivileged write
+access is discarded, and a read access returns 0.
+When input events are unprivileged, the privilege is disabled. The associated input event
+configuration and control bits can be modified and read by a privileged access and
+unprivileged access.
+The privileged configuration in EXTI_PRIVCFGR registers can be globally locked after reset
+by LOCK in EXTI_LOCKR.

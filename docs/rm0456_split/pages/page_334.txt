@@ -1,0 +1,50 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+Bit 19 OEM2LOCK: OEM2 lock
+This bit indicates that the OEM2 RDP key read during the OBL is not virgin. When set,
+the OEM2 RDP lock mechanism is active.
+Bit 18 OEM1LOCK: OEM1 lock
+This bit indicates that the OEM1 RDP key read during the OBL is not virgin. When set,
+the OEM1 RDP lock mechanism is active.
+Bit 17 WDW: Nonsecure wait data to write
+This bit indicates that the flash memory write buffer has been written by a secure or
+non-secure operation. It is set when the first data is stored in the buffer and cleared when
+the write is performed in the flash memory.
+Bit 16 BSY: Nonsecure busy
+This indicates that a flash memory secure or nonsecure operation is in progress. This bit is
+set at the beginning of a flash operation and reset when the operation finishes or when
+an error occurs.
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 OPTWERR: Option write error
+This bit is set by hardware when the options bytes are written with an invalid configuration.
+It is cleared by writing 1.
+Refer to Section 7.3.9 for full conditions of error flag setting.
+Bits 12:8 Reserved, must be kept at reset value.
+Bit 7 PGSERR: Nonsecure programming sequence error
+This bit is set by hardware when programming sequence is not correct. It is cleared
+by writing 1. Refer to Section 7.3.9 for full conditions of error flag setting.
+Bit 6 SIZERR: Nonsecure size error
+This bit is set by hardware when the size of the access is a byte or half-word during a
+nonsecure program sequence. Only quad-word programming is allowed by means of
+successive word accesses. This bit is cleared by writing 1.
+Bit 5 PGAERR: Nonsecure programming alignment error
+This bit is set by hardware when the first word to be programmed is not aligned with
+a quad-word address, or the second, third or forth word does not belong to the same
+quad-word address. This bit is cleared by writing 1.
+Bit 4 WRPERR: Nonsecure write protection error
+This bit is set by hardware when a nonsecure address to be erased/programmed belongs to
+a write-protected part (by WRP, HDP or RDP level 1) of the flash memory. This bit is cleared
+by writing 1. Refer to Section 7.3.9 for full conditions of error flag setting.
+Bit 3 PROGERR: Nonsecure programming error
+This bit is set by hardware when a nonsecure quad-word address to be programmed
+contains a value different from all 1 before programming, except if the data to write is all 0.
+This bit is cleared by writing 1.
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 OPERR: Nonsecure operation error
+This bit is set by hardware when a flash memory nonsecure operation (program/erase)
+completes unsuccessfully. This bit is set only if nonsecure error interrupts are enabled
+(NSERRIE = 1). This bit is cleared by writing 1.

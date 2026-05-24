@@ -1,0 +1,45 @@
+1710
+
+Parallel synchronous slave interface (PSSI)
+
+RM0456
+
+Data register and DMA
+Data are transferred from/to the FIFO using the PSSI_DR data register:
+•
+
+In receive mode, data must be read from the FIFO by reading PSSI_DR.
+
+•
+
+In transmit mode, data must be written to the FIFO by writing into PSSI_DR.
+
+Word (32-bit) accesses to PSSI_DR and half-word (16-bit) accesses to PSSI_DR[15:0] are
+permitted in all modes. Byte (8-bit) accesses to PSSI_DR[7:0] are permitted only when the
+PSSI is configured to transfer 8 bits at a time (EDM=00 in the PSSI_CR register).
+To reduce the load on the CPU, it is recommended to use the DMA to transfer data from/to
+the PSSI FIFO. When it is used, the DMA must be configured to transfer data via the
+PSSI_DR register. Using 32-bit transfers optimizes bandwidth and reduces the bus load.
+However, 8-bit and 16-bit transfers are also permitted.
+To use the DMA, set the PSSI DMA enable bit (DMAEN in PSSI_CR) to 1 (default setting).
+When DMAEN is set to 1, a DMA transfer is initiated when the FIFO is ready for a 32-bit
+transfer (four valid bytes in receive mode or four empty bytes in transmit mode). As a result,
+in receive mode, no DMA transfers are initiated if there are three bytes or fewer in the FIFO,
+even if the DMA is configured to perform 8-bit transfers.
+The RTT4B and RTT1B status bits (PSSI_SR) are useful when the CPU directly perform
+transfers to and from the FIFO. RTT4B set to 1 indicates that the FIFO is ready to transfer
+four bytes: at least four valid bytes in the FIFO in receive mode or at least four free bytes in
+transmit mode. RTT1B set to 1 indicates that the FIFO is ready to transfer one byte: at least
+one valid byte in the FIFO in receive mode or at least one free byte in transmit mode.
+
+8-bit data
+The PSSI parallel interface can transfer either 8-bit (using D[7:0]) or 16-bit data (using
+D[15:0]) depending on the EDM[1:0] control bits (bits 11:10 of PSSI_CR). If the 8-bit
+configuration is selected (EDM[1:0] set to 00), the unused D[15:0] pins can be used for
+GPIO or other functions.
+When EDM[1:0] in PSSI_CR are programmed to 00, the interface transfers 8 bits using the
+D[7:0] pins. In this case, D[15:8] are not used and four PSSI_PDCK cycles are required to
+transfer a 32-bit word.
+The least-significant byte (bits 7:0) correspond to the first byte transferred, and the mostsignificant byte (bits 31:28) corresponds to the forth byte transferred. Table 424 illustrates
+the positioning of the data bytes in two 32-bit words.
+Table 424. Positioning of captured data bytes in 32-bit words (8-bit width)

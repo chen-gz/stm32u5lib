@@ -1,0 +1,118 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+35.4
+
+DAC functional description
+
+35.4.1
+
+DAC block diagram
+Figure 308. Dual-channel DAC block diagram
+VDDA
+Offset
+calibration
+OTRIM1[4:0]
+bits
+
+dac_ch1_trg1
+
+dac_ch1_dma
+
+DACx_OUT1
+
+TRIG
+MODE1 bits
+
+dac_ch1_trg15
+TSEL1
+[3:0]
+bits
+
+DAC
+converter 1
+
+DOR1
+
+Buffer
+1
+
+12-bit
+
+dac_unr_it
+dac_ker_ck
+
+Control registers
+& logic Channel1
+Sample & Hold registers
+
+TSAMPLE1
+THOLD1
+TREFRESH1
+
+dac_hold_ck
+
+VREF+
+
+32-bit AHB
+bus
+
+DAC channel 1
+
+dac_out1
+
+Control registers
+& logic Channel2
+
+dac_ch2_dma
+
+Offset
+calibration
+OTRIM2[4:0]
+bits
+DACx_OUT2
+
+dac_hclk
+
+MODE2 bits
+DAC
+converter 2
+
+DOR2
+TSEL2
+[3:0] bits
+
+Buffer
+2
+
+12-bit
+
+dac_ch2_trg1
+TRIG
+Sample & Hold registers
+
+dac_ch2_trg15
+
+TSAMPLE2
+THOLD2
+TREFRESH2
+
+dac_hold_ck
+
+DAC channel 2
+
+VSS
+
+dac_out2
+
+MSv62442V7
+
+1. MODEx bits in the DAC_MCR control the output mode and allow switching between the normal mode in
+buffer/unbuffered configuration and the sample and hold mode.
+2. Refer to Section 35.3: DAC implementation for channel2 availability.
+
+<!-- pagebreak -->
+

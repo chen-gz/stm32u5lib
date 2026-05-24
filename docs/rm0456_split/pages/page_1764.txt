@@ -1,0 +1,42 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+Figure 424. Timing of PRESP_TO after a read request (HS or LP)
+
+Host
+
+Device
+
+READ
+
+Reque
+
+st
+
+PRESP_TO
+
+Timer < PRESP_TO
+
+LP-11
+
+Device Ready
+BTA
+
+ck &
+
+D
+
+REA
+
+|A
+Resp
+
+Error
+
+Rpt
+
+BTA
+
+MSv35867V1

@@ -1,0 +1,70 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Full-duplex communication
+By default, the SPI is configured for full-duplex communication (bits COMM[1:0] = 00 in the
+SPI_CFG2 register). In this configuration, the shift registers of the master and slave are
+linked using two unidirectional lines between the MOSI and the MISO pins. During the SPI
+communication, the data are shifted synchronously on the SCK clock edges provided by the
+master. The master transmits the data to be sent to the slave via the MOSI line and receives
+data from the slave via the MISO line simultaneously. When the data frame transfer is
+complete (all the bits are shifted) the information between the master and slave is
+exchanged.
+Figure 847. Full-duplex single master/ single slave application
+
+Rx shift register
+Tx shift register
+SPI clock
+generator
+
+Master
+
+MISO
+
+MISO
+
+MOSI
+
+MOSI
+
+SCK
+
+SCK
+
+SS(1)
+
+SS(1)
+
+(2)
+
+RDY
+
+(2)
+
+RDY
+
+Tx shift register
+Rx shift register
+
+Slave
+
+MSv50504V1
+
+1. The SS pin interconnection is optional. The slave can be configured to be permanently selected to operate
+in a single master-slave pair (see Section 68.4.7).
+2. The RDY signal provided by the slave can be read by the master optionally.
+
+Half-duplex communication
+The SPI can communicate in half-duplex mode by setting COMM[1:0] = 11 in the SPI_CFG2
+register. In this configuration, one single cross-connection line is used to link the shift
+registers of the master and slave together. During this communication, the data are
+synchronously shifted between the shift registers on the SCK clock edge in the transfer
+direction selected reciprocally by both master and slave with the HDDIR bit in their SPI_CR1
+registers. Note that the SPI must be disabled when changing the direction of the
+communication. In this configuration, the MISO pin at master and the MOSI pin at slave are
+free for other application uses and act as GPIOs.
+
+RM0456 Rev 6

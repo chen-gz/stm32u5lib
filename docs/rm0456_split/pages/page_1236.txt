@@ -1,0 +1,189 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+31.10.2
+
+RM0456
+
+SDMMC clock control register (SDMMC_CLKCR)
+Address offset: 0x004
+Reset value: 0x0000 0000
+This register controls the SDMMC_CK output clock, the sdmmc_rx_ck receive clock, and
+the bus width.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+PWR
+SAV
+
+Res.
+
+Res.
+
+WID
+BUS[1:0]
+rw
+
+rw
+
+rw
+
+21
+
+20
+
+19
+
+BUS
+SELCLKRX[1:0]
+SPEED
+
+18
+
+17
+
+16
+
+DDR
+
+HWFC
+_EN
+
+NEG
+EDGE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+CLKDIV[9:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bits 21:20 SELCLKRX[1:0]: Receive clock selection
+These bits can only be written when the CPSM and DPSM are not active (CPSMACT = 0
+and DPSMACT = 0)
+00: sdmmc_io_in_ck selected as receive clock
+01: SDMMC_CKIN feedback clock selected as receive clock
+10: sdmmc_fb_ck tuned feedback clock selected as receive clock
+11: Reserved (select sdmmc_io_in_ck)
+Bit 19 BUSSPEED: Bus speed for selection of SDMMC operating modes
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0)
+0: DS, HS, SDR12, SDR25, Legacy compatible, High speed SDR, High speed DDR bus
+speed mode selected
+1: SDR50, DDR50, SDR104, HS200 bus speed mode selected
+Bit 18 DDR: Data rate signaling selection
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0)
+DDR rate must only be selected with 4-bit or 8-bit wide bus mode. (WIDBUS > 00). DDR = 1
+has no effect when WIDBUS = 00 (1-bit wide bus).
+DDR rate must only be selected with clock division > 1 (CLKDIV > 0).
+0: SDR Single data rate signaling
+1: DDR double data rate signaling
+Bit 17 HWFC_EN: Hardware flow control enable
+This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and
+DPSMACT = 0)
+0: Hardware flow control is disabled
+1: Hardware flow control is enabled
+When Hardware flow control is enabled, the meaning of the TXFIFOE and RXFIFOF flags
+change, see SDMMC status register definition in Section 31.10.11.

@@ -1,0 +1,48 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Bit 8 TRGSENS: CKGEN trigger sensitivity selection
+This bit is set and cleared by software. It is used to select the trigger sensitivity of the trigger
+signals. This bit is not significant if the CKGMOD = 0.
+0: A rising edge event triggers the activation of CKGEN dividers.
+1: A falling edge even triggers the activation of CKGEN dividers.
+Note: When the trigger source is TRGO, TRGSENS value is not taken into account. When
+TRGO is selected, the sensitivity is forced to falling edge. This bit can be write-protected
+(refer to Section 39.4.15 for details).
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 CCK1DIR: MDF_CCK1 direction
+This bit is set and reset by software.It is used to control the direction of the MDF_CCK1 pin.
+0: MDF_CCK1 pin direction is in input.
+1: MDF_CCK1 pin direction is in output.
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+Bit 5 CCK0DIR: MDF_CCK0 direction
+This bit is set and reset by software.It is used to control the direction of the MDF_CCK0.
+0: MDF_CCK0 pin direction is in input.
+1: MDF_CCK0 pin direction is in output.
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+Bit 4 CKGMOD: Clock generator mode
+This bit is set and reset by software. It is used to define the way the clock generator is
+enabled. This bit must not be changed if one of the filters is enabled (DFTEN = 1).
+0: The kernel clock is provided to the dividers as soon as CKGDEN is set to 1.
+1: The kernel clock is provided to the dividers when CKGDEN is set to 1 and the trigger
+condition met.
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 CCK1EN: MDF_CCK1 clock enable
+This bit is set and reset by software. It is used to control the generation of the bitstream clock
+on the MDF_CCK1 pin.
+0: Bitstream clock not generated
+1: Bitstream clock generated on the MDF_CCK1 pad
+Bit 1 CCK0EN: MDF_CCK0 clock enable
+This bit is set and reset by software.It is used to control the generation of the bitstream clock
+on the MDF_CCK0 pin.
+0: Bitstream clock not generated
+1: Bitstream clock generated on the MDF_CCK0 pad
+Bit 0 CKGDEN: CKGEN dividers enable
+This bit is set and reset by software. It is used to enable/disable the clock dividers of the
+CKGEN: PROCDIV and CCKDIV.
+0: CKGEN dividers disabled
+1: CKGEN dividers enabled

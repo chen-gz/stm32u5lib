@@ -1,0 +1,171 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+54.6.24
+
+RM0456
+
+TIMx timer deadtime register 2 (TIMx_DTR2)(x = 1, 8)
+Address offset: 0x054
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+DTPE
+
+DTAE
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DTGF[7:0]
+rw
+
+Bits 31:18 Reserved, must be kept at reset value.
+Bit 17 DTPE: Deadtime preload enable
+0: Deadtime value is not preloaded
+1: Deadtime value preload is enabled
+Note: This bit can not be modified as long as LOCK level 1, 2 or 3 has been programmed
+(LOCK bits in TIMx_BDTR register).
+Bit 16 DTAE: Deadtime asymmetric enable
+0: Deadtime on rising and falling edges are identical, and defined with DTG[7:0] register
+1: Deadtime on rising edge is defined with DTG[7:0] register and deadtime on falling edge is
+defined with DTGF[7:0] bits.
+Note: This bit can not be modified as long as LOCK level 1, 2 or 3 has been programmed
+(LOCK bits in TIMx_BDTR register).
+Bits 15:8 Reserved, must be kept at reset value.
+Bits 7:0 DTGF[7:0]: Dead-time falling edge generator setup
+This bitfield defines the duration of the dead-time inserted between the complementary
+outputs, on the falling edge.
+DTGF[7:5] = 0xx => DTF = DTGF[7:0]x tdtg with tdtg = tDTS.
+DTGF[7:5] = 10x => DTF = (64+DTGF[5:0])xtdtg with Tdtg = 2xtDTS.
+DTGF[7:5] = 110 => DTF = (32+DTGF[4:0])xtdtg with Tdtg = 8xtDTS.
+DTGF[7:5] = 111 => DTF = (32+DTGF[4:0])xtdtg with Tdtg = 16xtDTS.
+Example if TDTS = 125 ns (8 MHz), dead-time possible values are:
+0 to 15875 ns by 125 ns steps,
+16 μs to 31750 ns by 250 ns steps,
+32 μs to 63 μs by 1 μs steps,
+64 μs to 126 μs by 2 μs steps
+Note: This bitfield can not be modified as long as LOCK level 1, 2 or 3 has been programmed
+(LOCK bits in TIMx_BDTR register).

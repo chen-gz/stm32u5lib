@@ -1,0 +1,189 @@
+In this case the interleaved conversion is interrupted immediately and the simultaneous
+injected conversion starts. At the end of the injected sequence the interleaved conversion is
+resumed. When the interleaved regular conversion resumes, the first regular conversion
+which is performed is always the master’s one. Figure 269, Figure 270 and Figure 271 show
+the behavior using an example.
+In this mode, it is mandatory to use the Common Data Register to read the regular data with
+a single read access. On the contrary, master-slave data coherency is not guaranteed.
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 269. Interleaved single channel CH0 with injected sequence CH11, CH12
+
+ADC1 (master)
+
+CH0
+
+CH0
+
+ADC2 (slave)
+
+CH0
+
+CH0
+
+Conversions
+aborted
+
+CH0
+read
+CDR
+
+CH0
+
+CH0
+read
+CDR
+
+CH0
+CH0
+
+CH11
+
+CH11
+
+CH12
+
+CH12
+
+CH0
+CH0
+
+read
+CDR
+
+CH0
+read
+CDR
+
+Legend:
+Injected trigger
+Sampling
+
+Resume
+(always restart with the master)
+
+Conversion
+
+MS34461V1
+
+Figure 270. Two interleaved channels (CH1, CH2) with injected sequence CH11, CH12
+- case 1: Master interrupted first
+ADC1 (master)
+
+CH1
+
+CH1
+
+ADC2 (slave)
+
+CH1
+
+CH2
+
+Conversions
+aborted
+
+CH2
+read
+CDR
+
+CH1
+
+CH2
+read
+CDR
+
+CH1
+CH2
+
+CH11
+
+CH11
+
+CH12
+
+CH12
+
+CH1
+CH2
+
+read
+CDR
+
+CH2
+read
+CDR
+
+Legend:
+Injected trigger
+Sampling
+
+Resume
+(always restart with the master)
+
+Conversion
+
+MS34462V1
+
+Figure 271. Two Interleaved channels (CH1, CH2) with injected sequence CH11, CH12
+- case 2: Slave interrupted first
+ADC1 (master)
+
+CH1
+
+ADC2 (slave)
+
+CH1
+CH2
+
+CH1
+CH2
+
+read
+CDR
+
+Conversions
+aborted
+CH2
+
+read
+CDR
+
+CH1
+
+CH1
+CH2
+
+CH11
+
+CH11
+
+CH12
+
+CH12
+
+CH1
+CH2
+
+read
+CDR
+
+CH2
+read
+CDR
+
+Legend:
+Injected trigger
+Sampling
+
+Conversion
+
+Resume
+(always restart with the master)
+MS34463V2
+
+RM0456 Rev 6

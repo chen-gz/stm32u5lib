@@ -1,0 +1,176 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 5 DMAEN: DMA enabled
+0: The core operates in slave mode
+1: The core operates in DMA mode
+Bits 4:1 HBSTLEN[3:0]: Burst length/type
+0000 Single: Bus transactions use single 32 bit accesses (not recommended)
+0001 INCR: Bus transactions use unspecified length accesses (not recommended, uses the
+INCR AHB bus command)
+0011 INCR4: Bus transactions target 4x 32 bit accesses
+0101 INCR8: Bus transactions target 8x 32 bit accesses
+0111 INCR16: Bus transactions based on 16x 32 bit accesses
+Others: Reserved
+Bit 0 GINTMSK: Global interrupt mask
+The application uses this bit to mask or unmask the interrupt line assertion to itself.
+Irrespective of this bit setting, the interrupt status registers are updated by the core.
+0: Mask the interrupt assertion to the application.
+1: Unmask the interrupt assertion to the application.
+Note: Accessible in both device and host modes.
+
+73.14.4
+
+OTG USB configuration register (OTG_GUSBCFG)
+This register can be used to configure the core after power-on or a changing to host mode
+or device mode. It contains USB and USB-PHY related configuration parameters. The
+application must program this register before starting any transactions on either the AHB or
+the USB. Do not make changes to this register after the initial programming.
+Address offset: 0x00C
+Reset value: 0x0000 1400
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+FD
+MOD
+
+FH
+MOD
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TSDPS
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+PHYL
+PC
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+TRDT[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+TOCAL[2:0]
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw

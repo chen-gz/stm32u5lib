@@ -1,0 +1,60 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+The KEYPROT bit of SAES_CR register must be set if the key to load in key registers must
+not be shared with an application executing in a different security context (that is, different
+security attribute). Setting KEYPROT and KEYVALID makes KEIF flag an error upon SAES
+access attempts by an application executing in a different security context than the one that
+loaded the key, as shown in Figure 498.
+Note:
+
+KEYSEL[2:0] values different from zero (normal key) automatically protect the key
+registers.
+DHUK, BHK and their XOR combination are not readable by any software (even secure).
+Secure SAES uses secure DHUK. Nonsecure SAES uses nonsecure DHUK.
+Figure 498. Key protection mechanisms
+Security context B
+(for example non-secure)
+
+SAES
+
+Security context A
+(for example secure)
+KEYPROT = 0
+and KEYSEL[2:0] = 000
+
+SAES
+KEYPROT = 1
+or KEYSEL 
+KEYVALID = 1
+
+KEIF
+
+SAES
+
+MSv63151V1
+
+Note:
+
+Initiating the key-loading sequence sets the BUSY flag and clears the KEYVALID flag.
+Once the amount of bits defined by KEYSIZE is transfered to the SAES_KEYRx registers,
+BUSY is cleared, KEYVALID set and the EN bit becomes writable. If an error occurs,
+BUSY and KEYVALID are cleared and KEIF set (see Section 50.4.15: SAES error
+management for details).This holds for all KEYSEL values.
+For additional information on key modes, refer to Section 50.4.10 and Section 50.4.9.
+
+50.4.13
+
+SAES initialization vector registers
+The four SAES_IVRx registers keep the initialization vector input bitfield IVI[127:0]. The data
+to write to or to read from each register is organized in the memory in little-endian order, that
+is, with most significant byte on the highest address. The registers are also ordered from
+lowest address (SAES_IVR0) to highest address (SAES_IVR3).
+The signification of data in the bitfield depends on the chaining mode selected. When used,
+the bitfield is updated upon each computation cycle of the AES core.
+Write operations to the SAES_IVRx registers when the SAES peripheral is enabled have no
+effect to the register contents. For modifying the contents of the SAES_IVRx registers, the
+EN bit of the SAES_CR register must first be cleared.

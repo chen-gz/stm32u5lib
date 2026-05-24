@@ -1,0 +1,94 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+1.
+
+Before disabling any OUT endpoint, the application must enable Global OUT NAK
+mode in the core.
+–
+
+2.
+3.
+
+4.
+
+5.
+
+SGONAK = 1 in OTG_DCTL
+
+Wait for the GONAKEFF interrupt (OTG_GINTSTS)
+Disable the required OUT endpoint by programming the following fields:
+–
+
+EPDIS = 1 in OTG_DOEPCTLx
+
+–
+
+SNAK = 1 in OTG_DOEPCTLx
+
+Wait for the EPDISD interrupt (OTG_DOEPINTx), which indicates that the OUT
+endpoint is completely disabled. When the EPDISD interrupt is asserted, the core also
+clears the following bits:
+–
+
+EPDIS = 0 in OTG_DOEPCTLx
+
+–
+
+EPENA = 0 in OTG_DOEPCTLx
+
+The application must clear the Global OUT NAK bit to start receiving data from other
+non-disabled OUT endpoints.
+–
+
+•
+
+RM0456
+
+SGONAK = 0 in OTG_DCTL
+
+Transfer Stop Programming for OUT endpoints
+
+The application must use the following programing sequence to stop any transfers (because
+of an interrupt from the host, typically a reset).
+Sequence of operations:
+1.
+
+Enable all OUT endpoints by setting
+–
+
+2.
+
+–
+
+Poll OTG_GRSTCTL.AHBIDL until it is 1. This indicates that AHB master is idle.
+
+–
+
+Perform read modify write operation on OTG_GRSTCTL.RXFFLSH =1
+
+–
+
+Poll OTG_GRSTCTL.RXFFLSH until it is 0, but also using a timeout of less than
+10 milli-seconds (corresponds to minimum reset signaling duration). If 0 is seen
+before the timeout, then the RxFIFO flush is successful. If at the moment the
+timeout occurs, there is still a 1, (this may be due to a packet on EP0 coming from
+the host) then go back (once only) to the previous step (“Perform read modify write
+operation”).
+
+3.
+
+Before disabling any OUT endpoint, the application must enable Global OUT NAK
+mode in the core, according to the instructions in “Setting the global OUT NAK on
+page 3268”. This ensures that data in the RxFIFO is sent to the application
+successfully. Set SGONAK = 1 in OTG_DCTL
+
+4.
+
+Wait for the GONAKEFF interrupt (OTG_GINTSTS)
+
+5.
+
+Disable all active OUT endpoints by programming the following register bits:
+
+6.

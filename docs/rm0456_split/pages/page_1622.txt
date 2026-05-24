@@ -1,0 +1,117 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Table 371 shows a simplified view of the trigger logic available for each filter and for the
+clock generator.
+Figure 371. Trigger logic for DFLT and CKGEN
+
+ADF
+ACQMOD
+TRGSENS
+
+TRIG0
+DFLTRUN
+
+TRGSRC
+
+TRGO
+
+DFLTEN
+RESYNC and
+edge detection
+
+falling
+
+adf_trgi
+
+00
+11
+22
+
+rising / falling
+
+TRGSRC
+1
+adf_trgi
+
+clr
+D Q
+
+D Q
+
+D Q
+
+ck
+
+ck
+
+ck
+
+rising
+
+adf_proc_ck
+1
+
+ck
+
+ck
+
+ck
+
+D Q
+clr
+
+D Q
+
+D Q
+
+rising
+falling
+
+00
+11
+22
+
+0
+
+DFLT0
+
+ACQ_CTL
+1
+
+TRGSENS
+
+rising
+
+0
+
+falling
+
+1
+
+TRIG_CK
+
+cck_trg
+
+CKGEN
+
+falling
+adf_proc_ck clock domain
+MSv63656V1
+
+A block common to all TRIG blocks performs the rising and falling edges detection and the
+re-synchronization of the input trigger to the adf_ker_ck clock domain. This implementation
+allows the application to use triggers with pulse width smaller than the adf_ker_ck period.
+In synchronous modes, the TRIG block offers the possibility to select adf_trgi or TRGO bit
+as trigger sources. The TRGO bit is in the ADF global control register (ADF_GCR).
+The edge sensitivity can also be selected.
+
+Asynchronous continuous acquisition mode
+This mode allows the application to start a continuous acquisition by simply writing the
+DFLTEN bit to 1.
+The asynchronous continuous acquisition mode is selected when ACQMOD[2:0] = 0.
+The sequence below shows the most important programming steps (assuming that DFLTEN
+is set to 0):

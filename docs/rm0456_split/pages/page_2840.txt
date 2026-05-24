@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Bits 14:13 RXPLVL[1:0]: RxFIFO packing level
+When RXWNE = 0 and data size is set up to 16 bits, the value gives number of remaining
+data frames persisting at RxFIFO.
+When data size is greater than 16 bits, these bits are always read as 00. As a result, the
+single data frame received in the FIFO cannot be detected neither by RWNE nor by RXPLVL
+bits if the data size is set from 17 to 24 bits. The user must then apply other methods to
+detect the number of data received, such as monitor the EOT event when TSIZE > 0 or RXP
+events when FTHLV = 0.
+00: no next frame is available at RxFIFO
+01: 1 frame is available
+10: 2 frames are available*
+11: 3 frames are available*
+Note: (*): Possible value when data size is set up to 8 bits only.
+Bit 12 TXC: TxFIFO transmission complete
+The flag behavior depends on TSIZE setting.
+When TSIZE = 0, the TXC is changed by hardware exclusively and it raises each time the
+TxFIFO becomes empty and there is no activity on the bus.
+If TSIZE ≠ 0 there is no specific reason to monitor TXC as it just copies the EOT flag value
+including its software clearing. The TXC generates an interrupt when EOTIE is set.
+This flag is set when SPI is reset or disabled.
+0: current data transfer is still ongoing, data is available in TxFIFO or last frame transmission
+is on going.
+1: last TxFIFO frame transmission complete
+Bit 11 SUSP: suspension status
+In master mode, SUSP is set by hardware either as soon as the current frame is complete
+after CSUSP request is done or at master automatic suspend receive mode (the MASRX bit
+is set in the SPI_CR1 register) on RxFIFO full condition.
+SUSP generates an interrupt when EOTIE is set.
+This bit must be cleared prior to disabling the SPI. This is done by setting the SUSPC bit of
+SPI_IFCR exclusively.
+0: SPI not suspended (master mode active or other mode).
+1: master mode is suspended (current frame completed).
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 MODF: mode fault
+When MODF is set, SPE and IOLOCK bits of the SPI_CR1 register are reset and setting
+SPE again is blocked until MODF is cleared.
+This bit is cleared by writing 1 to the MODFC bit of the SPI_IFCR exclusively.
+0: no mode fault
+1: mode fault detected.
+Bit 8 TIFRE: TI frame format error
+This bit is cleared by writing 1 to the TIFREC bit of the SPI_IFCR exclusively.
+0: no TI Frame Error
+1: TI frame error detected
+Bit 7 CRCE: CRC error
+This bit is cleared when SPI is re-enabled or by writing 1 to the CRCEC bit of the SPI_IFCR
+optionally.
+0: no CRC error
+1: CRC error detected
+
+RM0456 Rev 6

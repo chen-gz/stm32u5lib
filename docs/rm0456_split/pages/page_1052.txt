@@ -1,0 +1,101 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+28.4.4
+
+RM0456
+
+OCTOSPI regular-command protocol
+When in regular-command protocol, the OCTOSPI communicates with the external device
+using commands. Each command can include the following phases:
+•
+
+Instruction phase
+
+•
+
+Address phase
+
+•
+
+Alternate-byte phase
+
+•
+
+Dummy-cycle phase
+
+•
+
+Data phase
+
+Any of these phases can be configured to be skipped but, in case of single-phase
+command, the only use case supported is instruction-phase-only.
+The NCS falls before the start of each command and rises again after each command
+finishes.
+In memory-mapped mode, both read and write operations are supported: as a
+consequence, some of the configuration registers are duplicated to specify write operations
+(read operations are configured using regular registers).
+Figure 147. SDR read command in octal configuration
+
+§ §
+
+NCS
+CLK
+ECh
+
+13h
+
+A[31:24] A[23:16] A[15:8]
+
+A[7:0]
+
+Address
+
+§
+
+Pre-drive
+
+IO[7:0]
+
+D0
+
+D1
+
+D2
+
+D3
+
+Dummy
+MSv43488V1
+
+The specific regular-command protocol features are configured through the registers in the
+0x0100-0x01FC offset range.
+
+Instruction phase
+During this phase, a 1- to 4-byte instruction is sent to the external device specifying the type
+of operation to be performed. The size of the instruction to be sent is configured
+by ISIZE[1:0] in OCTOSPI_CCR and the instruction is programmed in INSTRUCTION[31:0]
+of OCTOSPI_IR.
+The instruction phase can optionally send:
+•
+
+1 bit at a time (over IO0, SO single in single-SPI mode)
+
+•
+
+2 bits at a time (over IO0/IO1 in dual-SPI mode)
+
+•
+
+4 bits at a time (over IO0 to IO3 in quad-SPI mode)
+
+•
+
+8 bits at a time (over IO0 to IO7 in octal-SPI mode)
+
+This can be configured using IMODE[2:0] of OCTOSPI_CCR.
+The instruction can be sent in DTR mode on each rising and falling edge of the clock, by
+setting IDTR in OCTOSPI_CCR.
+When IMODE[2:0] = 000 in OCTOSPI_CCR, the instruction phase is skipped, and the
+command sequence starts with the address phase, if present.

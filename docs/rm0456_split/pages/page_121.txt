@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 698. Output stage of capture/compare channel (channel 2 for TIM15) . . . . . . . . . . . . . . . . . 2368
+Figure 699. PWM input mode timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2371
+Figure 700. Output compare mode, toggle on tim_oc1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2373
+Figure 701. Edge-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2374
+Figure 702. Dithering principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2375
+Figure 703. Data format and register coding in dithering mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2375
+Figure 704. PWM resolution vs frequency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2376
+Figure 705. PWM dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2377
+Figure 706. Combined PWM mode on channel 1 and 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2379
+Figure 707. Complementary output with symmetrical dead-time insertion. . . . . . . . . . . . . . . . . . . . . 2380
+Figure 708. Asymmetrical deadtime . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2381
+Figure 709. Dead-time waveforms with delay greater than the negative pulse. . . . . . . . . . . . . . . . . 2381
+Figure 710. Dead-time waveforms with delay greater than the positive pulse. . . . . . . . . . . . . . . . . . 2381
+Figure 711. Break circuitry overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2383
+Figure 712. Output behavior in response to a break event on tim_brk . . . . . . . . . . . . . . . . . . . . . . . 2385
+Figure 713. Output redirection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2387
+Figure 714. tim_ocref_clr input selection multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2388
+Figure 715. 6-step generation, COM example (OSSR = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2389
+Figure 716. Example of one pulse mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2390
+Figure 717. Retriggerable one pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2392
+Figure 718. Measuring time interval between edges on 2 signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 2392
+Figure 719. Control circuit in reset mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2393
+Figure 720. Control circuit in gated mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2394
+Figure 721. Control circuit in trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2395
+Figure 722. Basic timer block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2457
+Figure 723. Control circuit in normal mode, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . 2458
+Figure 724. Counter timing diagram with prescaler division change from 1 to 2 . . . . . . . . . . . . . . . . 2459
+Figure 725. Counter timing diagram with prescaler division change from 1 to 4 . . . . . . . . . . . . . . . . 2460
+Figure 726. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2461
+Figure 727. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2461
+Figure 728. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2462
+Figure 729. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2462
+Figure 730. Counter timing diagram, update event when ARPE = 0 (TIMx_ARR not
+preloaded). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2463
+Figure 731. Counter timing diagram, update event when ARPE = 1 (TIMx_ARR
+preloaded). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2464
+Figure 732. Dithering principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2465
+Figure 733. Data format and register coding in dithering mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2465
+Figure 734. FCnt resolution vs frequency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2466
+Figure 735. PWM dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2466
+Figure 736. LPTIM1/2/3 block diagram(1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2477
+Figure 737. LPTIM4 block diagram(1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2478
+Figure 738. Glitch filter timing diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2482
+Figure 739. LPTIM output waveform, single-counting mode configuration
+when repetition register content is different than zero (with PRELOAD = 1) . . . . . . . . . 2484
+Figure 740. LPTIM output waveform, single-counting mode configuration
+and Set-once mode activated (WAVE bit is set) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2485
+Figure 741. LPTIM output waveform, Continuous counting mode configuration . . . . . . . . . . . . . . . . 2485
+Figure 742. Waveform generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2487
+Figure 743. Encoder mode counting sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2491
+Figure 744. Continuous counting mode when repetition register LPTIM_RCR
+different from zero (with PRELOAD = 1). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2492
+
+RM0456 Rev 6

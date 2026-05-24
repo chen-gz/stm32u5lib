@@ -1,0 +1,25 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+Figure 109. Input buffer areas
+x2_base
+
+x1_base
+X1 buffer
+
+X2 buffer
+
+x1_buf_size
+
+x2_buf_size
+MSv45869V1
+
+The X1 buffer can be used as a circular buffer, in which case new data are continually
+transferred into the input buffer whenever space is available. Pre-loading this buffer is
+optional for digital filters, since if no input samples have been written in the buffer when the
+operation is started, it is flagged as empty, which triggers the CPU or DMA to load new
+samples until there are enough to begin operation. Pre-loading is nevertheless useful in the
+case of a vector operation, that is, the input data is already available in system memory and
+circular operation is not required.

@@ -1,0 +1,58 @@
+609
+
+Reset and clock control (RCC)
+
+11.4.23
+
+RM0456
+
+Internal/external clock measurement with TIM15/TIM16/TIM17
+The frequency of all on-board clock sources can be indirectly measured by means of
+the TIM15, TIM16, or TIM17 channel 1 input capture, and LPTIM1 or LPTIM2 channel 2
+input capture.
+
+HSI16 and MSI calibration using LSE
+The primary purpose of connecting the LSE to the channel 1 input capture of TIM15, TIM16,
+and TIM17, and to the channel 2 input capture of LPTIM2, is to be able to precisely measure
+the HSI16 and MSI system clocks (for this, either HSI16 or MSIS must be used as system
+clock source). The number of HSI16 (MSIS respectively) clock counts between consecutive
+edges of the LSE signal provides a measure of the internal clock period. Taking advantage
+of the high precision of LSE crystals (typically a few tens of ppms), the internal clock
+frequency can be determined with the same resolution, and the source can be trimmed
+to compensate the manufacturing, process, temperature and/or voltage related frequency
+deviations.
+The four oscillators of MSI and HSI16 oscillator have dedicated user-accessible calibration
+bits for this purpose.
+The basic concept consists in providing a relative measurement (such as HSI16/LSE ratio).
+The precision is therefore closely related to the ratio between the two clock sources.
+The higher the ratio is, the better the measurement is.
+Note:
+
+When the LSE is available, the MSI can be automatically trimmed by LSE using PLL-mode.
+
+HSI16 and MSI calibration using HSE
+If the HSE is available, it can be used as system clock, and the timer input capture must be
+connected either to MSI (divided by 1024 or by 4) or to HSI/256. TIM16 and TIM17 channel
+1 input capture, as well and the LPTIM2 input capture 2, are connected to the divided
+oscillator only when TIMICSEL[2:0] ≠ 0 in RCC_CCIPR1.
+Considering that the timer counter is 16-bit, and that the ratio between HSE and the input
+capture signal must be the highest possible, a division by 1024 must be selected when
+MSIRC0, MSIRC1, or MSIRC2 is measured, and a division by 4 when MSIRC4 is
+measured.
+
+LSI calibration
+The calibration of the LSI follows the same principle, but changing the reference clock.
+The LSI clock must be connected to the channel 1 input capture of the TIM16 or TIM17, or
+to the channel 2 input capture of the LPTIM1. Then defining the HSE as system clock
+source, the number of its clock counts between consecutive edges of the LSI signal,
+provides a measure of the internal low-speed clock period.
+The basic concept consists in providing a relative measurement (such as HSE/LSI ratio).
+The precision is therefore closely related to the ratio between the two clock sources.
+The higher the ratio is, the better the measurement is.
+
+11.4.24
+
+Peripherals clock gating and autonomous mode
+Peripherals clock gating in Run mode
+Each peripheral clock can be enabled by the corresponding EN bit in RCC_AHBxENR and
+RCC_APBxENR registers.

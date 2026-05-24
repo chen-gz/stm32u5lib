@@ -1,0 +1,58 @@
+2526
+
+Low-power timer (LPTIM)
+
+58.4.9
+
+RM0456
+
+Timeout function
+The detection of an active edge on one selected trigger input can be used to reset the
+LPTIM counter. This feature is controlled through the TIMOUT bit.
+The first trigger event starts the timer, any successive trigger event resets the LPTIM
+counter and the repetition counter and the timer restarts.
+A low-power timeout function can be realized. The timeout value corresponds to the
+compare value; if no trigger occurs within the expected time frame, the MCU is waked-up by
+the compare match event.
+
+58.4.10
+
+Waveform generation
+Two 16-bit registers, the LPTIM_ARR (autoreload register) and LPTIM_CCRx
+(capture/compare register), are used to generate several different waveforms on LPTIM
+output
+The timer can generate the following waveforms:
+•
+
+The PWM mode: the LPTIM output is set as soon as the counter value in LPTIM_CNT
+exceeds the compare value in LPTIM_CCRx. The LPTIM output is reset as soon as a
+match occurs between the LPTIM_ARR and the LPTIM_CNT register. For more details
+see Section 58.4.19: PWM mode.
+
+•
+
+The One-pulse mode: the output waveform is similar to the one of the PWM mode for
+the first pulse, then the output is permanently reset
+
+•
+
+The Set-once mode: the output waveform is similar to the One-pulse mode except that
+the output is kept to the last signal level (depends on the output configured polarity).
+
+The above described modes require the LPTIM_ARR register value to be strictly greater
+than the LPTIM_CCRx register value.
+The LPTIM output waveform can be configured through the WAVE bit as follow:
+•
+
+Resetting the WAVE bit to 0 forces the LPTIM to generate either a PWM waveform or a
+One pulse waveform depending on which bit is set: CNTSTRT or SNGSTRT.
+
+•
+
+Setting the WAVE bit to 1 forces the LPTIM to generate a Set-once mode waveform.
+
+The WAVPOL/CCxP bit controls the LPTIM output polarity. The change takes effect
+immediately, so the output default value changes immediately after the polarity is reconfigured, even before the timer is enabled.
+Signals with frequencies up to the LPTIM clock frequency divided by two can be generated.
+Figure 742 below shows the three possible waveforms that can be generated on the LPTIM
+output. Also, it shows the effect of the polarity change using the WAVPOL/CCxP bit.

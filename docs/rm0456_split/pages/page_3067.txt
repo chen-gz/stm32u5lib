@@ -1,0 +1,36 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 9 HNPCAP: HNP-capable
+The application uses this bit to control the OTG_FS controller’s HNP capabilities.
+0: HNP capability is not enabled.
+1: HNP capability is enabled.
+Note: Accessible in both device and host modes.
+Bit 8 SRPCAP: SRP-capable
+The application uses this bit to control the OTG_FS controller’s SRP capabilities. If the core
+operates as a non-SRP-capable
+B-device, it cannot request the connected A-device (host) to activate VBUS and start a
+session.
+0: SRP capability is not enabled.
+1: SRP capability is enabled.
+Note: Accessible in both device and host modes.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 PHYSEL: Full Speed serial transceiver mode select
+This bit is always 1 with read-only access.
+Bit 5 Reserved, must be kept at reset value.
+Bit 4 Reserved, must be kept at reset value.
+Bit 3 Reserved, must be kept at reset value.
+Bits 2:0 TOCAL[2:0]: FS timeout calibration
+The number of PHY clocks that the application programs in this field is added to the fullspeed interpacket timeout duration in the core to account for any additional delays
+introduced by the PHY. This can be required, because the delay introduced by the PHY in
+generating the line state condition can vary from one PHY to another.
+The USB standard timeout value for full-speed operation is 16 to 18 (inclusive) bit times. The
+application must program this field based on the speed of enumeration. The number of bit
+times added per PHY clock is 0.25 bit times.
+
+Table 758. TRDT values
+AHB frequency range (MHz)
+TRDT minimum value

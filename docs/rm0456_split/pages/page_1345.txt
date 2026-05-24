@@ -1,0 +1,62 @@
+RM0456 Rev 6
+
+0
+ADEN
+rs
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Bit 28 ADVREGEN: ADC voltage regulator enable
+This bits is set by software to enable the ADC voltage regulator.
+Before performing any operation such as launching a calibration or enabling the ADC, the ADC
+voltage regulator must first be enabled and the software must wait for the regulator start-up time.
+0: ADC Voltage regulator disabled
+1: ADC Voltage regulator enabled.
+For more details about the ADC voltage regulator enable and disable sequences, refer to
+Section 33.4.6: ADC Deep-power-down mode (DEEPPWD) and ADC voltage regulator
+(ADVREGEN).
+The software can program this bitfield only when the ADC is disabled (ADCAL = 0, JADSTART = 0,
+ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+Bits 27:24 CALINDEX[3:0]: Calibration factor
+This bitfield controls the calibration factor to be read or written.
+Calibration index 0 is dedicated to single-ended and differential offsets, calibration index 1 to 7 to the
+linearity calibration factors, and index 8 to the internal offset:
+0000: Offset calibration factor
+0001: linearity calibration factor 1
+0010: linearity calibration factor 2
+0011: linearity calibration factor 3
+0100: linearity calibration factor 4
+0101: linearity calibration factor 5
+0110: linearity calibration factor 6
+0111: linearity calibration factor 7 and internal offset (write access only)
+1000: internal offset (read access only)
+1001: Calibration mode selection
+Others: Reserved, must not be used
+Note: ADC_CALFACT2[31:0] correspond to the location of CALINDEX[3:0] calibration factor data
+(see Section 33.4.8: Calibration (ADCAL, ADCALLIN, ADC_CALFACT) for details).
+Bits 23:17 Reserved, must be kept at reset value.
+Bit 16 ADCALLIN: Linearity calibration
+This bit is set and cleared by software to enable the linearity calibration.
+0: Writing ADCAL launches a calibration without the linearity calibration.
+1: Writing ADCAL launches a calibration with he linearity calibration.
+Note: The software is allowed to write this bit only when the ADC is disabled and is not calibrating
+(ADCAL = 0, JADSTART = 0, JADSTP = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and
+ADEN = 0).
+Bits 15:6 Reserved, must be kept at reset value.
+Bit 5 JADSTP: ADC stop of injected conversion command
+This bit is set by software to stop and discard an ongoing injected conversion (JADSTP Command).
+It is cleared by hardware when the conversion is effectively discarded and the ADC injected
+sequence and triggers can be re-configured. The ADC is then ready to accept a new start of injected
+conversions (JADSTART command).
+0: No ADC stop injected conversion command ongoing
+1: Write 1 to stop injected conversions ongoing. Read 1 means that an ADSTP command is in
+progress.
+Note: The software is allowed to set JADSTP only when JADSTART = 1 and ADDIS = 0 (ADC is
+enabled and eventually converting an injected conversion and there is no pending request to
+disable the ADC).
+In auto-injection mode (JAUTO = 1), setting ADSTP bit aborts both regular and injected
+conversions (do not use JADSTP)
+
+RM0456 Rev 6

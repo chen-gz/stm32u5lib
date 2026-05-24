@@ -1,0 +1,152 @@
+RM0456 Rev 6
+
+RM0456
+
+Digital camera interface (DCMI)
+The 24 BPP (palletized format) and gray-scale formats are not supported. Pixels are stored
+in a raster scan order, that is from top to bottom for pixel rows, and from left to right within a
+pixel row. Pixel components are R (red), G (green) and B (blue). All components have the
+same spatial resolution (4:4:4 format). A frame is stored in a single part, with the
+components interleaved on a pixel basis.
+The table below shows how the data are stored.
+Table 417. Data storage in RGB progressive video format
+Byte address
+
+31:27
+
+26:21
+
+20:16
+
+15:11
+
+10:5
+
+4:0
+
+0
+
+Red n + 1
+
+Green n + 1
+
+Blue n + 1
+
+Red n
+
+Green n
+
+Blue n
+
+4
+
+Red n + 4
+
+Green n + 3
+
+Blue n + 3
+
+Red n + 2
+
+Green n + 2
+
+Blue n + 2
+
+YCbCr format
+Characteristics:
+•
+
+Raster format
+
+•
+
+YCbCr 4:2:2
+
+•
+
+Interleaved: one buffer: Y, Cb and Cr interleaved (such as CbYCrYCbYCr)
+
+Pixel components are Y (luminance or “luma”), Cb and Cr (chrominance or “chroma” blue
+and red). Each component is encoded in 8 bits. Luma and chroma are stored together
+(interleaved) as shown in the table below.
+Table 418. Data storage in YCbCr progressive video format
+Byte address
+
+31:24
+
+23:16
+
+15:8
+
+7:0
+
+0
+
+Yn+1
+
+Cr n
+
+Yn
+
+Cb n
+
+4
+
+Yn+3
+
+Cr n + 2
+
+Yn+2
+
+Cb n + 2
+
+YCbCr format - Y only
+Characteristics:
+•
+
+Raster format
+
+•
+
+YCbCr 4:2:2
+
+•
+
+The buffer only contains Y information - monochrome image
+
+Pixel components are Y (luminance or “luma”), Cb and Cr (chrominance or “chroma” blue
+and red). In this mode, the chroma information is dropped. Only the luma component of
+each pixel, encoded in 8 bits, is stored as shown in Table 419.
+The result is a monochrome image having the same resolution as the original YCbCr data.
+Table 419. Data storage in YCbCr progressive video format - Y extraction mode
+Byte address
+
+31:24
+
+23:16
+
+15:8
+
+7:0
+
+0
+
+Yn+3
+
+Yn+2
+
+Yn+1
+
+Yn
+
+4
+
+Yn+7
+
+Yn+6
+
+Yn+5
+
+Yn+4
+
+RM0456 Rev 6

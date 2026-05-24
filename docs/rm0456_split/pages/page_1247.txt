@@ -1,0 +1,42 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+Bit 10 DBCKEND: Data block sent/received
+DBCKEND is set when:
+- CRC check passed and DPSM moves to the R_W state
+or
+- IDMAEN = 0 and transmit data transfer hold and DATACOUNT >0 and DPSM moves to
+Wait_S.
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 9 DHOLD: Data transfer Hold
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 8 DATAEND: Data transfer ended correctly
+DATAEND is set if data counter DATACOUNT is zero and no errors occur, and no transmit
+data transfer hold.
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 7 CMDSENT: Command sent (no response required)
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 6 CMDREND: Command response received (CRC check passed, or no CRC)
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 5 RXOVERR: Received FIFO overrun error (masked by hardware when IDMA is enabled)
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 4 TXUNDERR: Transmit FIFO underrun error (masked by hardware when IDMA is enabled)
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 3 DTIMEOUT: Data timeout
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 2 CTIMEOUT: Command response timeout
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+The Command Timeout period has a fixed value of 64 SDMMC_CK clock periods.
+Bit 1 DCRCFAIL: Data block sent/received (CRC check failed)
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 0 CCRCFAIL: Command response received (CRC check failed)
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+
+Note:
+
+FIFO interrupt flags must be masked in SDMMC_MASKR when using IDMA mode.
+
+RM0456 Rev 6

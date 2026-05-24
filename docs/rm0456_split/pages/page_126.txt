@@ -1,0 +1,22 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 945. UCPD block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3463
+Figure 946. Clock division and timing elements. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3465
+Figure 947. K-code transmission . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3467
+Figure 948. Transmit order for various sizes of data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3468
+Figure 949. Packet format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3469
+Figure 950. Line format of Hard Reset. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3469
+Figure 951. Line format of Cable Reset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3470
+Figure 952. BIST test data frame . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3471
+Figure 953. BIST Carrier Mode 2 frame. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3471
+Figure 954. UCPD BMC transmitter architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3472
+Figure 955. UCPD BMC receiver architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3473
+Figure 956. Block diagram of debug support infrastructure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3501
+Figure 957. JTAG TAP state machine . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3505
+Figure 958. CoreSight topology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3523
+Figure 959. Trace port interface unit (TPIU) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3592
+Figure 960. Embedded cross trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3603

@@ -1,0 +1,74 @@
+3086
+
+FD controller area network (FDCAN)
+
+70.3.3
+
+RM0456
+
+Bit timing
+The bit timing logic monitors the serial bus-line and performs sampling and adjustment of
+the sample point by synchronizing on the start-bit edge and resynchronizing on the following
+edges.
+As shown in Figure 883, this operation can be explained simply by splitting the bit time in
+three segments, as follows:
+•
+
+Synchronization segment (SYNC_SEG): a bit change is expected to occur within this
+time segment, having a fixed length of one time quantum (1 × tq).
+
+•
+
+Bit segment 1 (BS1): defines the location of the sample point. It includes the
+PROP_SEG and PHASE_SEG1 of the CAN standard. Its duration is programmable
+from 1 to 16 time quanta, but can be automatically lengthened to compensate for
+positive phase drifts due to differences in the frequency of various nodes of the
+network.
+
+•
+
+Bit segment 2 (BS2): defines the location of the transmit point. It represents the
+PHASE_SEG2 of the CAN standard, its duration is programmable between one and
+eight time quanta, but can also be automatically shortened to compensate for negative
+phase drifts.
+Figure 883. Bit timing
+
+SyncSeg
+
+Bit segment 1 (BS1)
+
+Bit segment 2 (BS2)
+
+tSyncSeg
+
+tBS1
+
+tBS2
+Sample
+point
+
+Transmit
+point
+MS47283V1
+
+The baud rate is the inverse of the bit time (baud rate = 1 / bit time), which, in turn, is the
+sum of three components (see Figure 883):
+bit time = tSyncSeg + tBS1 + tBS2
+Where:
+–
+
+For the nominal bit time
+tq = (NBRP[8:0] + 1) × tfdcan_tq_clk
+tSyncSeg = 1 × tq
+tBS1 = tq × (NTSEG1[7:0] + 1)
+tBS2 = tq × (NTSEG2[6:0] + 1)
+Where NBRP[8:0], NTSEG1[7:0], and NTSEG2[6:0] bitfields belong to the
+FDCAN_NBTP register.
+
+–
+
+For the data bit time
+tq = (DBRP[4:0] + 1) × tfdcan_tq_clk
+tSyncSeg = 1 × tq
+tBS1 = tq × (DTSEG1[4:0] + 1)
+tBS2 = tq × (DTSEG2[3:0] + 1)

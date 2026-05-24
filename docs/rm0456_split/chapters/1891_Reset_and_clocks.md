@@ -1,0 +1,102 @@
+RM0456 Rev 6
+
+RM0456
+
+47.3.3
+
+Touch sensing controller (TSC)
+
+Reset and clocks
+The TSC clock source is the AHB clock (HCLK). Two programmable prescalers are used to
+generate the pulse generator and the spread spectrum internal clocks:
+•
+
+The pulse generator clock (PGCLK) is defined using the PGPSC[2:0] bits of the
+TSC_CR register
+
+•
+
+The spread spectrum clock (SSCLK) is defined using the SSPSC bit of the TSC_CR
+register
+
+The reset and clock controller (RCC) provides dedicated bits to enable the touch sensing
+controller clock and to reset this peripheral. For more information, refer to Section 11: Reset
+and clock control (RCC).
+
+47.3.4
+
+Charge transfer acquisition sequence
+An example of a charge transfer acquisition sequence is detailed in Figure 454.
+Figure 454. Charge transfer acquisition sequence
+Charge transfer frequency
+
+CLK_AHB
+1
+
+CX
+
+HiZ
+0
+1
+
+CS
+
+HiZ
+
+CS reading
+
+Pulse low
+state
+
+Dead time state
+
+Dead time state
+
+Pulse high
+state
+
+Spread spectrum state
+
+Pulse low
+state (charge
+transfer from
+CX to CS)
+
+CS reading
+
+Pulse high
+state
+(charge of CX)
+
+Dead time state
+
+Discharge
+CX and CS
+
+Dead time state
+
+State
+
+Dead time state
+
+0
+
+t
+MSv30932V3
+
+For higher flexibility, the charge transfer frequency is fully configurable. Both the pulse high
+state (charge of CX) and the pulse low state (transfer of charge from CX to CS) duration can
+be defined using the CTPH[3:0] and CTPL[3:0] bits in the TSC_CR register. The standard
+range for the pulse high and low states duration is 500 ns to 2 µs. To ensure a correct
+measurement of the electrode capacitance, the pulse high state duration must be set to
+ensure that CX is always fully charged.
+A dead time where both the sampling capacitor I/O and the channel I/O are in input floating
+state is inserted between the pulse high and low states to ensure an optimum charge
+transfer acquisition sequence. This state duration is 1 period of HCLK.
+At the end of the pulse high state and if the spread spectrum feature is enabled, a variable
+number of periods of the SSCLK clock are added.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

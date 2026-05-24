@@ -1,0 +1,54 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Bit 9 UDRCFG: behavior of slave transmitter at underrun condition
+For more details see Figure 858: Optional configurations of the slave behavior when an
+underrun condition is detected.
+0: slave sends a constant pattern defined by the user in the SPI_UDRDR register
+1: Slave repeats lastly received data from master. When slave is configured at transmit only
+mode (COMM[1:0] = 01), all zeros pattern is repeated.
+Bits 8:5 FTHLV[3:0]: FIFO threshold level
+Defines number of data frames in a single data packet. It is recommended that the size of the
+packet does not exceed 1/2 of FIFO space.
+SPI interface is more efficient if configured packet sizes are aligned with data register access
+parallelism:
+–If SPI data register is accessed as a 16-bit register and DSIZE ≤ 8 bits, better to select
+FTHLV = 2, 4, 6.
+–If SPI data register is accessed as a 32-bit register and DSIZE > 8 bits, better to select
+FTHLV = 2, 4, 6, while if DSIZE ≤ 8bit, better to select FTHLV = 4, 8, 12.
+0000: 1-data
+0001: 2-data
+0010: 3-data
+0011: 4-data
+0100: 5-data
+0101: 6-data
+0110: 7-data
+0111: 8-data
+1000: 9-data
+1001: 10-data
+1010: 11-data
+1011: 12-data
+1100: 13-data
+1101: 14-data
+1110: 15-data
+1111: 16-data
+Note: FTHLV[3:2] bits are reserved for instances with a limited set of features.
+Bits 4:0 DSIZE[4:0]: number of bits in a single SPI data frame
+00000: not used
+00001: not used
+00010: not used
+00011: 4 bits
+00100: 5 bits
+00101: 6 bits
+00110: 7 bits
+00111: 8 bits
+.....
+11101: 30 bits
+11110: 31 bits
+11111: 32 bits
+Note: The most significant bit DSIZE[4] is reserved for instances which data size is limited to
+16 bits.
+DSIZE[2:0] bits are fixed to 1 for instances with a limited set of features.

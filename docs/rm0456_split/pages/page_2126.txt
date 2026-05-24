@@ -1,0 +1,73 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 540. PWM input mode timing
+tim_ti1
+
+TIMx_CNT
+
+0004
+
+0000
+
+0001
+
+0002
+
+TIMx_CCR1
+
+0004
+
+TIMx_CCR2
+
+0002
+
+IC1 capture
+IC2 capture
+reset counter
+
+0003
+
+0004
+
+IC2 capture
+pulse width
+measurement
+
+0000
+
+IC1 capture
+pulse width
+measurement
+MSv62325V1
+
+54.3.11
+
+Forced output mode
+In output mode (CCxS bits = 00 in the TIMx_CCMRx register), each output compare signal
+(tim_ocxref and then tim_ocx/tim_ocxn) can be forced to active or inactive level directly by
+software, independently of any comparison between the output compare register and the
+counter.
+To force an output compare signal (tim_ocxref/tim_ocx) to its active level, user just needs to
+write 0101 in the OCxM bits in the corresponding TIMx_CCMRx register. Thus tim_ocxref is
+forced high (tim_ocxref is always active high) and tim_ocx get opposite value to CCxP
+polarity bit.
+For example: CCxP = 0 (tim_ocx active high) => tim_ocx is forced to high level.
+The tim_ocxref signal can be forced low by writing the OCxM bits to 0100 in the
+TIMx_CCMRx register.
+Anyway, the comparison between the TIMx_CCRx shadow register and the counter is still
+performed and allows the flag to be set. Interrupt and DMA requests can be sent
+accordingly. This is described in the output compare mode section below.
+
+54.3.12
+
+Output compare mode
+This function is used to control an output waveform or indicate when a period of time has
+elapsed. Channels 1 to 4 can be output, while channel 5 and 6 are only available inside the
+microcontroller (for instance, for compound waveform generation or for ADC triggering).
+When a match is found between the capture/compare register and the counter, the output
+compare function:
+•

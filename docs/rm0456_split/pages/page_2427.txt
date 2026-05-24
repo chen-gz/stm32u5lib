@@ -1,0 +1,109 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Standalone
+In standalone configuration, the clock generator provides to the GFXTIM, the frame clock
+and the line clock without any external signals.
+Figure 752. Waveforms in standalone
+Display refresh duration
+Line duration
+
+LCCounter
+LCCUF
+FCCounter
+
+1
+
+0
+
+n n-1 n-2 n-3 n-4
+
+2
+
+1
+
+0
+
+n n-1 n-2
+
+FCCUF
+MSv66910V1
+
+The LCCUF (line-clock counter underflow) event acts as line clock and the FCCUF
+(frame-clock counter underflow) acts as frame clock.
+The clock generator can be synchronized by one of the following ways:
+•
+
+by software reload, setting the FCCFR in GFXTIM_CGCR.
+
+•
+
+by hardware reload on an external VSYNC (or TE)
+Figure 753. Active counters and signals in standalone
+FCCUF
+VSYNC
+HSYNC
+
+Line clock counter
+LCCReload
+
+Auto-reload
+
+TE
+SYSCK
+
+22-bit counter
+
+SWReload
+LCCUF
+FCCUF
+VSYNC
+LCCUF HSYNC
+
+Line clock
+
+TE
+Selected function
+FCCUF
+VSYNC
+HSYNC
+TE
+
+Frame clock counter
+FCCReload
+
+Auto-reload
+LCCUF
+VSYNC
+HSYNC
+
+12-bit counter
+
+SWReload
+LCCUF
+FCCUF
+VSYNC
+FCCUF HSYNC
+
+Frame clock
+
+TE
+
+TE
+MSv66911V1
+
+External HSYNC and VSYNC
+When using external HSYNC and VSYNC, the counters are not used for the line and frame
+clock generation. The clock generator copy directly HSYNC to the line clock and VSYNC to
+the frame clock.
+Figure 754. Waveforms with external HSYNC and VSYNC
+Display refresh duration
+VSYNC
+Line
+duration
+
+HSYNC
+MSv66912V1

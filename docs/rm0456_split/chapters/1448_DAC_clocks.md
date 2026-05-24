@@ -1,0 +1,114 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+Table 343. DAC interconnection
+
+35.4.3
+
+Signal name
+
+Source
+
+Source type
+
+dac_hold_ck
+
+ck_lsi or ck_lse
+
+LSI or LSE clock selected in the RCC
+
+dac_chx_trg1 (x = 1, 2)
+
+tim1_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg2 (x = 1, 2)
+
+tim2_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg3 (x = 1, 2)
+
+tim4_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg4 (x = 1, 2)
+
+tim5_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg5 (x = 1, 2)
+
+tim6_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg6 (x = 1, 2)
+
+tim7_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg7 (x = 1, 2)
+
+tim8_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg8 (x = 1, 2)
+
+tim15_trgo
+
+Internal signal from on-chip timers
+
+dac_chx_trg11 (x = 1, 2)
+
+lptim1_ch1
+
+Internal signal from on-chip timers
+
+dac_chx_trg12 (x = 1, 2)
+
+lptim3_ch1
+
+Internal signal from on-chip timers
+
+dac_chx_trg13 (x = 1, 2)
+
+exti9
+
+External pin
+
+DAC clocks
+Two clock sources can be used to update the DAC:
+•
+dac_hclk: DAC peripheral clock (AHB clock)
+•
+
+dac_ker_ck: DAC kernel clock: this clock can be used to synchronize DAC and ADC.
+
+•
+
+dac_hold_ck: low-power clock used in sample and hold mode
+
+The DAC clock is selected in the RCC.
+
+35.4.4
+
+DAC channel enable
+Each DAC channel can be powered on by setting its corresponding ENx bit in the DAC_CR
+register. The DAC channel is then enabled after a tWAKEUP startup time.
+DACxRDY bit is set in the DAC_SR register when the DAC interface is ready to accept data.
+Writing new data or asserting the trigger is not allowed when ENx bit is set while DACxRDY
+signal is reset.
+
+Note:
+
+<!-- pagebreak -->
+

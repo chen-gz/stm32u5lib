@@ -1,0 +1,184 @@
+1.
+
+Initialize channel 2. The application must set the ODDFRM bit in OTG_HCCHAR2.
+
+2.
+
+Set the CHENA bit in OTG_HCCHAR2 to write an IN request to the periodic request
+queue.
+
+3.
+
+The OTG_HS host writes an IN request to the periodic request queue for each
+OTG_HCCHAR2 register write with the CHENA bit set.
+
+4.
+
+The OTG_HS host attempts to send an IN token in the next odd frame.
+
+5.
+
+As soon as the IN packet is received and written to the receive FIFO, the OTG_HS host
+generates an RXFLVL interrupt.
+
+6.
+
+In response to the RXFLVL interrupt, read the received packet status to determine the
+number of bytes received, then read the receive FIFO accordingly. The application
+must mask the RXFLVL interrupt before reading the receive FIFO, and unmask it after
+reading the entire packet.
+
+7.
+
+The core generates an RXFLVL interrupt for the transfer completion status entry in the
+receive FIFO. This time, the application must read and ignore the receive packet status
+when the receive packet status is not an IN data packet (PKTSTS bit in
+OTG_GRXSTSR ≠ 0b0010).
+
+8.
+
+The core generates an XFRC interrupt as soon as the receive packet status is read.
+
+9.
+
+In response to the XFRC interrupt, read the PKTCNT field in OTG_HCTSIZ2. If
+PKTCNT ≠ 0 in OTG_HCTSIZ2, disable the channel before re-initializing the channel
+for the next transfer, if any. If PKTCNT = 0 in OTG_HCTSIZ2, reinitialize the channel
+for the next transfer. This time, the application must reset the ODDFRM bit in
+OTG_HCCHAR2.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Figure 934. Isochronous IN transactions
+Application
+
+1
+
+AHB
+
+Host
+
+USB
+
+init_reg(ch_1)
+Periodic Request
+Queue
+Assume that this queue
+can hold 4 entries.
+
+init_reg(ch_2)
+
+1
+
+write_tx_fifo
+(ch_1)
+
+2
+
+set_ch_en
+(ch_2)
+
+Device
+
+3
+
+1
+MPS
+
+4
+
+ch_1
+
+2
+
+ch_2
+
+3
+Odd
+
+OUT
+
+(micro)
+frame
+
+DATA0
+MPS
+
+5
+6
+
+XferCompl interrupt
+init_reg(ch_1)
+write_tx_fifo
+(ch_1)
+
+4
+1
+MPS
+
+5
+
+IN
+
+DATA0
+
+RxFLvl interrupt
+1
+MPS
+
+6
+
+read_rx_sts
+read_rx_fifo
+
+RxFLvl interrupt
+read_rx_sts
+
+7
+XferCompl interrupt
+
+init_reg(ch_2)
+
+8
+
+ch_1
+ch_2
+
+9
+
+set_ch_en
+(ch_2)
+Even
+OUT
+
+(micro)
+frame
+
+DATA0
+MPS
+
+XferCompl interrupt
+init_reg(ch_1)
+IN
+
+write_tx_fifo
+(ch_1)
+
+1
+MPS
+DATA0
+
+MSv36021V1
+
+1. The grayed elements are not relevant in the context of this figure.
+
+•
+
+Selecting the queue depth
+Choose the periodic and non-periodic request queue depths carefully to match the
+number of periodic/non-periodic endpoints accessed.
+The non-periodic request queue depth affects the performance of non-periodic
+RM0456 Rev 6

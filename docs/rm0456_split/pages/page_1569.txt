@@ -1,0 +1,81 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+Table 386. Programming sequence (continued)
+Operations
+
+Comments
+
+Short circuit detection:
+MDF_SCD0CR = 0x0000 0000
+MDF_SCD1CR = 0x0000 0000
+MDF_SCD2CR = 0x0000 0000
+MDF_SCD3CR = 0x0000 0000
+
+SCD function for each filter is disabled.
+
+Enable interrupt events:
+MDF_DFLT0IER = 0x0000 0202
+MDF_DFLT1IER = 0x0000 0202
+MDF_DFLT2IER = 0x0000 0202
+MDF_DFLT3IER = 0x0000 0202
+
+Enable the interrupt event the application wants to handle.
+In this example, the SATIE and DOVRIE bits are set to 1 to have an
+interrupt if a saturation or an data overflow occurs.
+
+Digital filter control:
+MDF_DFLT0CR = 0x0000 0027
+MDF_DFLT1CR = 0x0000 0027
+MDF_DFLT2CR = 0x0000 0027
+MDF_DFLT3CR = 0x0000 0027
+Wait for DFLTACTIVE = 0 for the filters
+
+NBDIS = 0: no samples discarded
+TRGSRC = 0: TRGO selected as trigger source
+TRGSENS = 0: Trigger on rising edge
+ACQMOD = 2: Synchronous continuous acquisition mode
+DMAEN = 1: DMA interface enabled
+DFLTEN = 1: digital filter enabled
+
+Clear status flags:
+MDF_DFLT0ISR = 0x0000 0FFF
+MDF_DFLT1ISR = 0x0000 0FFF
+MDF_DFLT2ISR = 0x0000 0FFF
+MDF_DFLT3ISR = 0x0000 0FFF
+
+Clear all the status flags before running the filters.
+
+Program the DMA
+Enable the DMA
+
+The DMA must be programmed in order to read the data inside
+MDF_DFLT0DR every time a DMA request is generated.
+Note that when the MDF is in interleaved acquisition mode, data of
+filters 0, 1, 2, and 3 are read via MDF_DFLT0DR register.
+
+Start acquisition:
+MDF_GCR = 0x0000 0031
+
+ILVNB = 3: interleaved mode with DFLT0,1,2, and 3
+TRGO = 1 to trigger the acquisition of all filters waiting for TRGO
+rising edge event
+
+39.7.3
+
+Connection examples
+Figure 357 shows simple connection examples of the MDF to external sensors:
+•
+
+Picture on the left: four digital microphones connected to the MDF
+In this connection, DMIC1 is intended to be used alone. This is why it uses a dedicated
+clock (MDF_CCK0). DMIC1 is also connected to a dedicated data line in case the
+application intends to power-down DMIC2/3/4, when only DMIC1 is used. If the
+application keeps DMIC2/3/4 powered, DMIC2 and DMIC1 can share the same data
+line, reducing the connection to four I/Os.
+If the power consumption is not an issue, when a single microphone is used, all the
+microphones can be connected to the same common clock (MDF_CCK0) and each
+
+RM0456 Rev 6

@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 21 OCTOSPIMRST: OCTOSPIM reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the OCTOSPIM.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 20 SAESRST: SAES hardware accelerator reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the SAES.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 19 PKARST: PKA reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the PKA.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 18 RNGRST: RNG reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the RNG.
+Bit 17 HASHRST: HASH reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the HASH.
+Bit 16 AESRST: AES hardware accelerator reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the AES.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 OTGRST: OTG_FS or OTG_HS reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the OTG_FS or OTG_HS.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 13 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,230 @@
+RM0456 Rev 6
+
+RM0456
+
+RAM configuration controller (RAMCFG)
+•
+
+All internal SRAMs are erased by hardware in case of readout protection (RDP) level
+regression to level 0.5 or level 0. Refer to Section 7: Embedded flash memory (FLASH)
+for more details.
+
+•
+
+The SRAM2 is erased when a system reset occurs if the SRAM2_RST option bit is
+selected in the flash memory user option bytes. SRAM1/3/4/5/6 are erased when
+a system reset occurs if the SRAM_RST option bit is selected in the flash memory user
+option bytes. Refer to Section 7: Embedded flash memory (FLASH) for more details.
+
+•
+
+The SRAM2 and optionally the BKPSRAM are protected by the tamper detection
+circuit, and are erased by hardware in case of tamper detection. BKPSRAM is also
+erased by hardware in case of a backup domain reset. Refer to Section 64: Tamper
+and backup registers (TAMP) for more details.
+
+•
+
+The RAMCFG embeds the registers related to the internal SRAMs ECC, write
+protection, wait-state configuration, and software erase.
+
+The table below summarizes the features supported by each internal SRAM.
+Table 46. Internal SRAMs features
+SRAM feature
+
+SRAM1 SRAM2 SRAM3 SRAM4 SRAM5 SRAM6 BKPSRAM
+
+DMA accessibility in Stop 0/1 modes
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+DMA accessibility in Stop 2 mode
+
+-
+
+-
+
+-
+
+X
+
+-
+
+-
+
+-
+
+Optional retention in Standby mode
+
+-
+
+X
+
+-
+
+-
+
+-
+
+-
+
+X
+
+Optional retention in VBAT mode
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+X
+
+Erased with RDP regression
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Erased or blocked by tamper detection
+
+-
+
+X
+
+-
+
+-
+
+-
+
+-
+
+X(1)
+
+Optionally erased with system reset
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+-
+
+Software erase
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+ECC
+
+-
+
+X
+
+X
+
+-
+
+-
+
+-
+
+X
+
+Write protection
+
+-
+
+X
+
+-
+
+-
+
+-
+
+-
+
+-
+
+Wait states
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+1. Optional: BKPSRAM can be configured to be erased or not on tamper detection.
+
+6.3.2
+
+Error code correction (SRAM2, SRAM3, BKPSRAM)
+The ECC is supported by SRAM2/3 and BKPSRAM when enabled with the SRAM2_ECC,
+SRAM3_ECC, and BKPRAM_ECC user option bits. Refer to Section 7: Embedded flash
+memory (FLASH) for more details.
+Seven ECC bits are added per 32 bits of SRAM, allowing two bits error detection, and
+one bit error correction on memory read access.
+As the ECC is calculated and checked for a 32-bit word, the byte and half-word write
+accesses are managed by the SRAM interface by first reading the whole word, then write
+the word again with the new byte/half-word value. ECC double errors are also detected
+during these byte or half-word AHB write accesses (read/modify/write done by interface).
+The byte or half-word write access latency is WSC[2:0] + 2 AHB clock cycles
+(see Section 6.3.4).
+
+RM0456 Rev 6

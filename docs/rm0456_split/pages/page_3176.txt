@@ -1,0 +1,84 @@
+The application can only transmit multiples of maximum-packet-size data packets
+or multiples of maximum-packet-size packets, plus a short packet at the end. To
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+transmit a few maximum-packet-size packets and a short packet at the end of the
+transfer, the following conditions must be met:
+transfer size[EPNUM] = x × MPSIZ[EPNUM] + sp
+(where x is an integer ≥ 0, and 0 ≤ sp < MPSIZ[EPNUM])
+If (sp > 0), packet count[EPNUM] = x + 1
+Otherwise, packet count[EPNUM] = x;
+MCNT[EPNUM] = packet count[EPNUM]
+–
+
+The application cannot transmit a zero-length data packet at the end of a transfer.
+It can transmit a single zero-length data packet by itself. To transmit a single zerolength data packet:
+
+–
+
+transfer size[EPNUM] = 0
+packet count[EPNUM] = 1
+MCNT[EPNUM] = packet count[EPNUM]
+
+2.
+
+3.
+
+The application can only schedule data transfers one frame at a time.
+–
+
+(MCNT – 1) × MPSIZ ≤ XFERSIZ ≤ MCNT × MPSIZ
+
+–
+
+PKTCNT = MCNT (in OTG_DIEPTSIZx)
+
+–
+
+If XFERSIZ < MCNT × MPSIZ, the last data packet of the transfer is a short
+packet.
+
+–
+
+Note that: MCNT is in OTG_DIEPTSIZx, MPSIZ is in OTG_DIEPCTLx, PKTCNT
+is in OTG_DIEPTSIZx and XFERSIZ is in OTG_DIEPTSIZx
+
+The complete data to be transmitted in the frame must be written into the transmit FIFO
+by the application, before the IN token is received. Even when 1 word of the data to be
+transmitted per frame is missing in the transmit FIFO when the IN token is received, the
+core behaves as when the FIFO is empty. When the transmit FIFO is empty:
+–
+
+A zero data length packet would be transmitted on the USB for isochronous IN
+endpoints
+
+–
+
+A NAK handshake would be transmitted on the USB for interrupt IN endpoints
+
+Internal data flow:
+1.
+
+The application must set the transfer size and packet count fields in the endpointspecific registers and enable the endpoint to transmit the data.
+
+2.
+
+The application must also write the required data to the associated transmit FIFO for
+the endpoint.
+
+3.
+
+Every time the application writes a packet to the transmit FIFO, the transfer size for that
+endpoint is decremented by the packet size. The data are fetched from application
+memory until the transfer size for the endpoint becomes 0.
+
+4.
+
+When an IN token is received for a periodic endpoint, the core transmits the data in the
+FIFO, if available. If the complete data payload (complete packet, in dedicated FIFO
+
+RM0456 Rev 6

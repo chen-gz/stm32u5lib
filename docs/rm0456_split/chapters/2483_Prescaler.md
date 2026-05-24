@@ -1,0 +1,134 @@
+2687
+
+Real-time clock (RTC)
+
+63.3.2
+
+RM0456
+
+RTC pins and internal signals
+Table 632. RTC input/output pins
+Pin name
+
+Signal type
+
+Description
+
+RTC_TS
+
+Input
+
+RTC timestamp input
+
+RTC_REFIN
+
+Input
+
+RTC 50 or 60 Hz reference clock input
+
+RTC_OUT1
+
+Output
+
+RTC output 1
+
+RTC_OUT2
+
+Output
+
+RTC output 2
+
+RTC_OUT1 and RTC_OUT2 which select one of the following two outputs:
+•
+
+CALIB: 512 Hz or 1 Hz clock output (with an LSE frequency of 32.768 kHz). This output
+is enabled by setting the COE bit in the RTC_CR register.
+
+•
+
+TAMPALRM: This output is the OR between rtc_tamp_evt and ALARM signals.
+
+ALARM is enabled by configuring the OSEL[1:0] bits in the RTC_CR register which select
+the alarm A, alarm B or wake-up outputs. rtc_tamp_evt is enabled by setting the TAMPOE
+bit in the RTC_CR register which selects the tamper event outputs.
+Table 633. RTC internal input/output signals
+Internal signal name
+
+Signal type
+
+Description
+
+rtc_ker_ck
+
+Input
+
+RTC kernel clock, also named RTCCLK in
+this document
+
+rtc_pclk
+
+Input
+
+RTC APB clock
+
+rtc_its
+
+Input
+
+RTC internal timestamp event
+
+rtc_tamp_evt
+
+Input
+
+Tamper event (internal or external) detected
+in TAMP peripheral
+
+rtc_tzen
+
+Input
+
+RTC TrustZone enabled
+
+rtc_it
+
+Output
+
+RTC interrupts (refer to Section 63.5: RTC
+interrupts for details)
+
+rtc_alra_trg
+
+Output
+
+RTC alarm A event detection trigger
+
+rtc_alrb_trg
+
+Output
+
+RTC alarm B event detection trigger
+
+rtc_wut_trg
+
+Output
+
+RTC wake-up timer event detection trigger
+
+Output
+
+RTC calendar overflow: this signal is
+generated when the RTC calendar reaches
+its maximum value, on the 31st of December
+99, at 23:59:59. The calendar is then frozen
+and cannot overflow.
+
+rtc_calovf
+
+The RTC kernel clock is usually the LSE at 32.768 kHz although it is possible to select other
+clock sources in the RCC (refer to RCC for more details). Some functions are not available
+in some low-power modes or VBAT when the selected clock is not LSE. Refer to
+Section 63.4: RTC low-power modes for more details.
+
+<!-- pagebreak -->
+

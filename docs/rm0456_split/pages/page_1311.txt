@@ -1,0 +1,93 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+When converting data with a resolution of less than 14 bits (according to bits RES[1:0]), the
+LSBs of the programmed thresholds must be kept cleared, the internal comparison being
+performed on the full 14-bit converted data (left aligned to the half-word boundary).
+Table 318 describes how the comparison is performed for all the possible resolutions for
+analog watchdog 1,2,3.
+Table 318. Analog watchdog 1,2,3 comparison
+Resolution
+(bit
+RES[1:0])
+
+Analog watchdog comparison
+between:
+Comments
+Raw converted
+data, left aligned(1)
+
+Thresholds
+
+00: 14-bit
+
+DATA[13:0]
+
+LTR1[24:0] and
+HTR1[24:0]
+
+01: 12-bit
+
+DATA[13:2],00
+
+LTR1[24:0] and
+HTR1[24:0]
+
+User must configure LTR1[1:0] and
+HTR1[1:0] to 00
+
+10: 10-bit
+
+DATA[13:4],0000
+
+LTR1[24:0] and
+HTR1[24:0]
+
+User must configure LTR1[3:0] and
+HTR1[3:0] to 0000
+
+11: 8-bit
+
+DATA[13:6],000000
+
+LTR1[24:0] and
+HTR1[24:0]
+
+User must configure LTR1[5:0] and
+HTR1[5:0] to 000000
+
+-
+
+1. The watchdog comparison is performed when the oversampling, the gain compensation and the offset
+compensation are complete (the data that are compared can be either signed or unsigned).
+
+Analog watchdog filter for watchdog 1
+When the ADC is configured with only one input channel (selecting several channels in scan
+mode not allowed), a valid ADC conversion data range can be configured through the
+ADC_LTR1 and ADC_HTR1 register:
+•
+
+When converted data belong to the range defined in ADC_LTR1 and ADC_HTR1, a
+DMA request is generated.
+
+•
+
+Otherwise, no DMA request is issued. RDATA register is updated at each conversion. If
+data are out-of-range a number of times higher than the value specified in the
+AWDFILT bit of ADC_HTR1, the AWDx flag is set and the corresponding interrupt is
+issued.
+
+Description of analog watchdog 2 and 3
+The second and third analog watchdogs are more flexible and can guard several selected
+channels by programming the corresponding bits in AWDCHy[19:0] (y=2,3).
+The corresponding watchdog is enabled when any bit of AWDCHy[19:0] (y=2,3) is set.
+The threshold can be up to 25 bits (14-bit resolution with oversampling, OSR = 1024, and
+offset conversion in signed format) and are programmed with the ADC_HTR2, ADC_LTR2,
+ADC_LTR3, and ADC_HTR3 registers.
+When converting data with a resolution of less than 14 bits (according to bits RES[1:0]), the
+LSBs of the programmed thresholds must be kept cleared, the internal comparison being
+performed on the full 14-bit converted data (left aligned).
+
+RM0456 Rev 6

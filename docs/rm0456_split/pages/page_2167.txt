@@ -1,0 +1,61 @@
+RM0456 Rev 6
+
+MSv45771V1
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 582. Counter reset Narrow index pulse (closer view, ARR = 0x07)
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter
+
+5
+
+6
+
+7
+
+4
+
+5
+
+6
+
+0
+
+1
+
+2
+
+3
+
+0
+
+1
+
+2
+
+3
+
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter
+
+7
+
+MSv45772V1
+
+RM0456 Rev 6

@@ -1,0 +1,126 @@
+OPAMP reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+
+RM0456 Rev 6
+
+RM0456
+
+39
+
+Contents
+38.3.2
+
+Initial configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1502
+
+38.3.3
+
+Signal routing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1502
+
+38.3.4
+
+OPAMP modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1503
+
+38.3.5
+
+Calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1506
+
+38.4
+
+OPAMP low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1508
+
+38.5
+
+OPAMP registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1508
+38.5.1
+
+OPAMP1 control/status register (OPAMP1_CSR) . . . . . . . . . . . . . . . 1508
+
+38.5.2
+
+OPAMP1 offset trimming register in normal mode (OPAMP1_OTR) . 1510
+
+38.5.3
+
+OPAMP1 offset trimming register in low-power mode
+(OPAMP1_LPOTR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1510
+
+38.5.4
+
+OPAMP2 control/status register (OPAMP2_CRS) . . . . . . . . . . . . . . . 1511
+
+38.5.5
+
+OPAMP2 offset trimming register in normal mode (OPAMP2_OTR) . 1512
+
+38.5.6
+
+OPAMP2 offset trimming register in low-power mode
+(OPAMP2_LPOTR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1513
+
+38.5.7
+
+OPAMP register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1513
+
+Multi-function digital filter (MDF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1515
+39.1
+
+MDF introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1515
+
+39.2
+
+MDF main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1516
+
+39.3
+
+MDF implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1516
+
+39.4
+
+MDF functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1518
+39.4.1
+
+MDF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1518
+
+39.4.2
+
+MDF pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1519
+
+39.4.3
+
+Serial input interfaces (SITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1520
+
+39.4.4
+
+ADC slave interface (ADCITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1526
+
+39.4.5
+
+Clock generator (CKGEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1527
+
+39.4.6
+
+Bitstream matrix (BSMX) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1529
+
+39.4.7
+
+Short-circuit detectors (SCD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1530
+
+39.4.8
+
+Digital filter processing (DFLT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1532
+
+39.4.9
+
+Out-of-limit detector (OLD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1542
+
+39.4.10 Digital filter acquisition modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1545
+39.4.11 Start-up sequence examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1555
+39.4.12 Break interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1556
+39.4.13 Data transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1557
+39.4.14 Autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1562
+39.4.15 Register protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1563
+
+39.5
+
+MDF low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1564
+
+RM0456 Rev 6

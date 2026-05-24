@@ -1,0 +1,185 @@
+RM0456 Rev 6
+
+RM0456
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Bit 0 TXISIE: TXIS interrupt enable
+0: Disable
+1: Enable
+
+74.8.6
+
+UCPD status register (UCPD_SR)
+Address offset: 0x014
+Reset value: 0x0000 0000
+The flags (single-bit status bitfields) are associated with interrupt request. Interrupt is
+generated if enabled by the corresponding bit of the UCPD_IMR register.
+
+31
+Res.
+
+30
+Res.
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+Res.
+
+20
+
+r
+15
+
+14
+
+13
+
+12
+
+TYPEC TYPEC
+RXMS
+RXERR
+EVT2
+EVT1
+GEND
+r
+
+r
+
+r
+
+r
+
+11
+
+10
+
+9
+
+RXOV RXHRS RXOR
+R
+TDET DDET
+r
+
+r
+
+r
+
+8
+RXNE
+
+7
+Res.
+
+r
+
+6
+
+5
+
+4
+
+HRSTS HRSTD
+TXUND
+ENT
+ISC
+r
+
+r
+
+19
+
+18
+
+17
+
+16
+
+FRSEV TYPEC_VSTATE TYPEC_VSTATE
+T
+_CC2[1:0]
+_CC1[1:0]
+
+r
+
+r
+3
+TXMS
+GABT
+r
+
+r
+
+r
+
+r
+
+2
+
+1
+
+0
+
+TXMS TXMS
+GSENT GDISC
+r
+
+r
+
+TXIS
+r
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 FRSEVT: FRS detection event
+The flag is cleared by setting the FRSEVTCF bit.
+0: No new event
+1: New FRS receive event occurred
+Bits 19:18 TYPEC_VSTATE_CC2[1:0]: CC2 line voltage level
+The status bitfield indicates the voltage level on the CC2 line in its steady state.
+0x0: Lowest
+0x1: Low
+0x2: High
+0x3: Highest
+The voltage variation on the CC2 line during USB PD messages due to the BMC PHY
+modulation does not impact the bitfield value.
+Bits 17:16 TYPEC_VSTATE_CC1[1:0]:
+The status bitfield indicates the voltage level on the CC1 line in its steady state.
+0x0: Lowest
+0x1: Low
+0x2: High
+0x3: Highest
+The voltage variation on the CC1 line during USB PD messages due to the BMC PHY
+modulation does not impact the bitfield value.
+Bit 15 TYPECEVT2: Type-C voltage level event on CC2 line
+The flag indicates a change of the TYPEC_VSTATE_CC2[1:0] bitfield value, which
+corresponds to a new Type-C event. It is cleared by setting the TYPECEVT2CF bit.
+0: No new event
+1: A new Type-C event
+
+RM0456 Rev 6

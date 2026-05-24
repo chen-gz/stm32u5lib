@@ -1,0 +1,125 @@
+Neo-Chrom graphic processor (GPU2D) . . . . . . . . . . . . . . . . . . . . . . 1862
+45.1
+
+GPU2D introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1862
+
+45.2
+
+GPU2D main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1862
+
+45.3
+
+GPU2D implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1863
+
+45.4
+
+GPU2D general description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+RM0456 Rev 6
+
+RM0456
+
+46
+
+Contents
+45.4.1
+
+GPU2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+
+45.4.2
+
+GPU2D pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+
+JPEG codec (JPEG) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1865
+46.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1865
+
+46.2
+
+JPEG codec main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1865
+
+46.3
+
+JPEG codec block functional description . . . . . . . . . . . . . . . . . . . . . . . 1866
+46.3.1
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1866
+
+46.3.2
+
+JPEG internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1866
+
+46.3.3
+
+JPEG decoding procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1867
+
+46.3.4
+
+JPEG encoding procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1869
+
+46.4
+
+JPEG codec interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1872
+
+46.5
+
+JPEG codec registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1872
+46.5.1
+
+JPEG codec control register (JPEG_CONFR0) . . . . . . . . . . . . . . . . 1872
+
+46.5.2
+
+JPEG codec configuration register 1 (JPEG_CONFR1) . . . . . . . . . . 1873
+
+46.5.3
+
+JPEG codec configuration register 2 (JPEG_CONFR2) . . . . . . . . . . 1874
+
+46.5.4
+
+JPEG codec configuration register 3 (JPEG_CONFR3) . . . . . . . . . . 1874
+
+46.5.5
+
+JPEG codec configuration register x (JPEG_CONFRx) . . . . . . . . . . 1875
+
+46.5.6
+
+JPEG control register (JPEG_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1876
+
+46.5.7
+
+JPEG status register (JPEG_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1877
+
+46.5.8
+
+JPEG clear flag register (JPEG_CFR) . . . . . . . . . . . . . . . . . . . . . . . . 1878
+
+46.5.9
+
+JPEG data input register (JPEG_DIR) . . . . . . . . . . . . . . . . . . . . . . . . 1879
+
+46.5.10 JPEG data output register (JPEG_DOR) . . . . . . . . . . . . . . . . . . . . . . 1879
+46.5.11 JPEG quantization memory x (JPEG_QMEMx_y) . . . . . . . . . . . . . . . 1880
+46.5.12 JPEG Huffman min (JPEG_HUFFMINx_y) . . . . . . . . . . . . . . . . . . . . 1880
+46.5.13 JPEG Huffman min x (JPEG_HUFFMINx_y) . . . . . . . . . . . . . . . . . . . 1881
+46.5.14 JPEG Huffman base (JPEG_HUFFBASEx) . . . . . . . . . . . . . . . . . . . 1881
+46.5.15 JPEG Huffman symbol (JPEG_HUFFSYMBx) . . . . . . . . . . . . . . . . . 1882
+46.5.16 JPEG DHT memory (JPEG_DHTMEMx) . . . . . . . . . . . . . . . . . . . . . . 1883
+46.5.17 JPEG Huffman encoder ACx (JPEG_HUFFENC_ACx_y) . . . . . . . . . 1883
+46.5.18 JPEG Huffman encoder DCx (JPEG_HUFFENC_DCx_y) . . . . . . . . 1884
+46.5.19 JPEG codec register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1885
+
+47
+
+Touch sensing controller (TSC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1887
+47.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1887
+
+47.2
+
+TSC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1887
+
+RM0456 Rev 6

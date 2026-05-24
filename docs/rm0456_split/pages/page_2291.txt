@@ -1,0 +1,68 @@
+•
+
+Gated with A and B: the pulse width is 1/4 of one channel period, aligned with both A
+and B edges.
+
+•
+
+Gated with A (or gated with B): the pulse width is 1/2 of one channel period, aligned
+with the two edges on channel A (resp. channel B).
+
+•
+
+Ungated: the pulse width is up to one channel period, without any alignment to the
+edges.
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 652. Index gating options
+Channel A
+
+Channel B
+
+Gated A & B
+
+Gated A
+
+Ungated
+MSv45765V1
+
+The circuitry tolerates jitter on index signal, whatever the gating mode, as shown on
+Figure 653.
+In ungated mode, the signal must be strictly below two encoder periods. If the pulse width is
+greater or equal to two encoder period, the counter is reset multiple times.
+Figure 653. Jittered Index signals
+Channel A
+
+Channel B
+
+Gated A & B
+
+Gated A
+
+Ungated
+Max pulsewidth ungated mode
+MSv45766V1
+
+The timer supports the three gating options identically, without any specific programming
+needed. It is only necessary to define on which encoder state (for example channel A and
+channel B state combination) the index must be synchronized, using the IPOS[1:0] bitfield
+in the TIMx_ECR register.
+The index detection event acts differently depending on counting direction to ensure
+symmetrical operation during speed reversal:
+•
+
+The counter is reset during up-counting (DIR bit = 0).
+
+•
+
+The counter is set to TIMx_ARR when down-counting.
+
+This allows the index to be generated on the very same mechanical angular position
+whatever the counting direction. Figure 654 shows at which position is the index generated,
+for a simplistic example (an encoder providing four edges par mechanical rotation).
+
+RM0456 Rev 6

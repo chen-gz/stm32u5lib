@@ -1,0 +1,188 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+65.6
+
+RM0456
+
+I2C interrupts
+The following table gives the list of I2C interrupt requests.
+Table 671. I2C interrupt requests
+
+Interrupt
+acronym
+
+Interrupt event
+
+Event flag
+
+Enable
+control bit
+
+Interrupt clear
+method
+
+Receive buffer not
+empty
+
+RXNE
+
+RXIE
+
+Read I2C_RXDR
+register
+
+Transmit buffer
+interrupt status
+
+TXIS
+
+TXIE
+
+Write I2C_TXDR
+register
+
+STOP detection
+interrupt flag
+
+STOPF
+
+STOPIE
+
+Write
+STOPCF = 1
+
+Transfer complete
+reload
+
+TCR
+TCIE
+
+I2C_EV
+
+I2C
+
+Write I2C_CR2
+with
+NBYTES[7:0] = 0
+
+Exit the
+Sleep
+mode
+
+Exit the
+Stop
+mode
+
+Exit the
+Stop3,
+Standby,
+Shutdown
+mode
+
+Yes
+
+Yes(1)
+
+No
+
+Yes
+
+Yes(1)
+
+No
+
+Write START = 1
+or STOP = 1
+
+Transfer complete
+
+TC
+
+Address matched
+
+ADDR
+
+ADDRIE
+
+Write
+ADDRCF=1
+
+NACK reception
+
+NACKF
+
+NACKIE
+
+Write NACKCF=1
+
+Address matched
+
+ADDR
+
+ADDRIE
+
+Write
+ADDRCF=1
+
+NACK reception
+
+NACKF
+
+NACKIE
+
+Write NACKCF=1
+
+Bus error
+
+BERR
+
+Write BERRCF=1
+
+Arbitration loss
+
+ARLO
+
+Write ARLOCF=1
+
+Overrun/underrun
+
+OVR
+
+Write OVRCF=1
+Write
+PECERRCF=1
+
+I2C_ERR PEC error
+
+PECERR
+
+Timeout/
+tLOW error
+
+TIMEOUT
+
+Write
+TIMEOUTCF=1
+
+SMBus alert
+
+ALERT
+
+Write
+ALERTCF=1
+
+ERRIE
+
+1. Refer to the I2C implementation table for information about wake-up from Stop mode support per instance.
+
+65.7
+
+I2C DMA requests
+
+65.7.1
+
+Transmission using DMA
+DMA (direct memory access) can be enabled for transmission by setting the TXDMAEN bit
+of the I2C_CR1 register. Data is loaded from an SRAM area configured through the DMA

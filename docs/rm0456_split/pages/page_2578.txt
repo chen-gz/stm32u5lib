@@ -1,0 +1,40 @@
+RM0456 Rev 6
+
+w
+
+w
+
+w
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 20 CITAMP5F: Clear ITAMP5 detection flag
+Writing 1 in this bit clears the ITAMP5F bit in the TAMP_SR register.
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 CITAMP3F: Clear ITAMP3 detection flag
+Writing 1 in this bit clears the ITAMP3F bit in the TAMP_SR register.
+Bit 17 CITAMP2F: Clear ITAMP2 detection flag
+Writing 1 in this bit clears the ITAMP2F bit in the TAMP_SR register.
+Bit 16 CITAMP1F: Clear ITAMP1 detection flag
+Writing 1 in this bit clears the ITAMP1F bit in the TAMP_SR register.
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 CTAMP8F: Clear TAMP8 detection flag
+Writing 1 in this bit clears the TAMP8F bit in the TAMP_SR register.
+Bit 6 CTAMP7F: Clear TAMP7 detection flag
+Writing 1 in this bit clears the TAMP7F bit in the TAMP_SR register.
+Bit 5 CTAMP6F: Clear TAMP6 detection flag
+Writing 1 in this bit clears the TAMP6F bit in the TAMP_SR register.
+Bit 4 CTAMP5F: Clear TAMP5 detection flag
+Writing 1 in this bit clears the TAMP5F bit in the TAMP_SR register.
+Bit 3 CTAMP4F: Clear TAMP4 detection flag
+Writing 1 in this bit clears the TAMP4F bit in the TAMP_SR register.
+Bit 2 CTAMP3F: Clear TAMP3 detection flag
+Writing 1 in this bit clears the TAMP3F bit in the TAMP_SR register.
+Bit 1 CTAMP2F: Clear TAMP2 detection flag
+Writing 1 in this bit clears the TAMP2F bit in the TAMP_SR register.
+Bit 0 CTAMP1F: Clear TAMP1 detection flag
+Writing 1 in this bit clears the TAMP1F bit in the TAMP_SR register.
+
+RM0456 Rev 6

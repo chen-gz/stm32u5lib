@@ -1,0 +1,176 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+18.8.3
+
+RM0456
+
+LPDMA configuration lock register (LPDMA_RCFGLOCKR)
+Address offset: 0x008
+Reset value: 0x0000 0000
+This register can be written by a software agent with secure privileged attribute in order to
+individually lock, for example at boot time, the secure privileged attributes of any DMA
+channel/resource (to lock the setting of LPDMA_SECCFGR, LPDMA_PRIVCFGR for any
+channel x, for example at boot time).
+A read access may be privileged or unprivileged, secure or nonsecure.
+
+Note:
+
+If TZEN = 0, this register cannot be written.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+LOCK3 LOCK2 LOCK1 LOCK0
+rs
+
+rs
+
+rs
+
+rs
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 LOCKx: lock the configuration of LPDMA_SECCFGR.SECx, LPDMA_PRIVCFGR.PRIVx until
+a global DMA reset (x = 3 to 0)
+This bit is cleared after reset and, once set, it cannot be reset until a global DMA reset.
+0: secure privilege configuration of the channel x is writable.
+1: secure privilege configuration of the channel x is not writable.
+
+18.8.4
+
+LPDMA nonsecure masked interrupt status register
+(LPDMA_MISR)
+Address offset: 0x00C
+Reset value: 0x0000 0000
+This register is a read register.
+This is a nonsecure register, containing the masked interrupt status bit MISx for each
+nonsecure channel x (channel x configured with LPDMA_SECCFGR.SECx = 0). It is a
+logical OR of all the flags of LPDMA_CxSR, each source flag being enabled by the
+corresponding interrupt enable bit of LPDMA_CxCR.
+Every bit is de-asserted by hardware when writing 1 to the corresponding flag clear bit in
+LPDMA_CxFCR.
+If a channel x is in secure state (LPDMA_SECCFGR.SECx = 1), a read access to the
+masked interrupt status bit MISx of this channel x returns zero.
+This register may mix privileged and unprivileged information, depending on the privileged
+state of each channel LPDMA_PRIVCFGR.PRIVx. A privileged software can read the full
+nonsecure interrupt status. An unprivileged software is restricted to read the status of
+unprivileged (and nonsecure) channel(s), other privileged bit fields returning zero.

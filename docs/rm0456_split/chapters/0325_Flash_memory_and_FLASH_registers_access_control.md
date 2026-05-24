@@ -1,0 +1,149 @@
+•
+
+Shift OEM2KEY[31:0] then OEM2KEY[63:32] through JTAG or SWD under reset in the
+DBGMCU_DBG_AUTH_HOST register.
+
+•
+
+If this key matches the OEM2KEY value, the RDP regression can be launched by
+setting the OPTSTRT bit.
+
+•
+
+If the key does not match the OEM2KEY value, the RDP regression and any access to
+the flash memory are blocked until a next power-on reset.
+
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+In order to regress from RDP level 2 to RDP level 1, the following unlock sequence must be
+applied:
+•
+
+Shift OEM2KEY[31:0] then OEM2KEY[63:32] through JTAG or SWD under reset in the
+DBGMCU_DBG_AUTH_HOST register.
+
+•
+
+If this key matches the OEM2KEY value:
+
+•
+
+–
+
+the RDP regression is launched by hardware (it is not possible to execute
+instructions when the key is matching).
+
+–
+
+apply a power-on reset (cycle VDD power supply OFF and ON).
+
+if the key does not match the OEM2KEY value, the RDP regression and any access to
+the flash memory are blocked until a next power-on reset.
+
+Attempting to regress from RDP level 2 to RDP level 1 without following these sequences,
+leaves option bytes unchanged.
+Attempting to regress from RDP level 1 to RDP level 0.5 without following these sequences,
+sets the OPTWERR option bit and the option bytes remain unchanged.
+When the lock mechanism is not activated (OEM2LOCK =0), the following happens:
+
+7.7
+
+•
+
+The regression from RDP level 1 to RDP level 0.5 is always granted.
+
+•
+
+The regression from RDP level 2 to RDP level 1 is never granted. When attempting to
+modify the options bytes, the protection error flag OPTWERR is set in the
+FLASH_NSSR register and an interrupt can be generated.
+
+Flash memory and FLASH registers access control
+The tables below summarize all the flash memory and registers accesses status versus
+RDP level, WRP and HDP protections.
+Table 68. Flash memory access versus RDP level when TrustZone is active (TZEN = 1)
+RDP level 0, level 0.5, level 1 no intrusion(1) or level 2
+Secure page
+
+Access type
+
+Secure
+
+Nonsecure page
+
+Fetch
+
+Bus error
+
+Read
+
+RAZ, FLASH illegal
+access event
+
+Write
+Page
+erase
+
+Nonsecure
+
+Fetch
+Read
+Write
+Page
+erase
+
+RDP level 1 with
+intrusion(2)
+
+WI, secure WRPERR
+flag set, FLASH
+illegal access event
+OK
+No WRP: Ok
+WRP pages: WI and
+nonsecure WRPERR
+flag set
+
+HDP area (HDPxEN = 1
+and ACCDIS = 1)
+
+Others
+
+RAZ
+
+Ok
+
+WI, secure WRPERR
+flag set
+
+No WRP: OK
+WRP pages: WI and
+secure WRPERR flag set
+
+(3)
+
+Nonsecure or
+secure page
+
+Bus error
+
+WI, secure
+WRPERR flag set
+
+Bus error
+RAZ, FLASH illegal access event
+WI, nonsecure WRPERR flag set,
+FLASH illegal access event
+
+RM0456 Rev 6
+
+Bus error
+
+WI, nonsecure
+WRPERR flag set
+
+<!-- pagebreak -->
+

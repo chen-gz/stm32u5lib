@@ -1,0 +1,185 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+Figure 750. GFXTIM block diagram
+TE
+
+GFXTIM_TE
+
+gfxtim_ite
+gfxtim_hsync[3:0]
+gfxtim_vsync[3:0]
+
+Source
+Selection
+
+Clock generator
+
+HSYNC
+
+Auto-reload
+
+Auto-reload
+
+22-bit
+line clock counter
+
+12-bit
+frame clock counter
+
+Frame Ck
+
+Control and status
+gfxtim_it
+
+TE
+
+TE Detect
+
+VSYNC
+
+Line Ck
+
+Int. registers
+
+gfxtim_wit
+Absolute timer
+
+gfxtim_hclk
+
+AFCO
+
+Event Generators
+
+AFCC
+
+32-bit APB bus
+
+20-bit frame counter
+
+AFCO
+
+12-bit line counter
+
+ALCO
+RFC1R
+RFC2R
+
+AFCC
+
+Compare 1 register
+
+ALCC1
+
+Compare 1 register
+
+Event generator 1
+
+EV1
+
+Event generator 2
+
+EV2
+
+Event generator 3
+
+EV3
+
+Event generator 4
+
+EV4
+
+ALCO
+TE
+
+ALCC2
+
+Compare 2 register
+
+ALCC1
+ALCC2
+
+gfxtim_ev1
+gfxtim_ev2
+Relative timers
+
+Watchdog timer
+
+wrld
+
+gfxtim_ev3
+gfxtim_ev4
+gfxtim_wrld
+GFXTIM_FCKCAL
+GFXTIM_LCKCAL
+
+Frame Ck
+
+Auto-reload 1
+12-bit
+frame counter 1
+
+Auto-reload 2
+RFC1R
+
+12-bit
+frame counter 2
+
+Line Ck
+
+Frame clock domain
+
+59.3.2
+
+RFC2R
+
+Line Ck
+Frame Ck
+HSYNC
+VSYNC
+TE
+EV1
+EV2
+EV3
+EV4
+
+Auto-reload
+16-bit counter
+
+PALRM
+
+Pre-alarm
+
+Line clock domain
+
+MSv66908V2
+
+GFXTIM pins and internal signals
+Table 617. GFXTIM input/output pins
+Pin name
+
+Signal type
+
+Description
+
+GFXTIM_TE
+
+Input
+
+Tearing effect
+
+GFXTIM_FCKCAL
+
+Output
+
+Frame clock calibration output
+
+GFXTIM_LCKCAL
+
+Output
+
+Line clock calibration output
+
+Table 618. GFXTIM internal signals

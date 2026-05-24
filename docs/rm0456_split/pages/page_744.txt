@@ -1,0 +1,54 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Bits 25:20 DBL_1[5:0]: destination burst length minus 1, between 0 and 63
+The burst length unit is one data named beat within a burst. If DBL_1[5:0] = 0, the burst can
+be named as single. Each data/beat has a width defined by the destination data width
+DDW_LOG2[1:0].
+Note: If a burst transfer crossed a 1-Kbyte address boundary on a AHB transfer, the GPDMA
+modifies and shortens the programmed burst into singles or bursts of lower length, to be
+compliant with the AHB protocol.
+If a burst transfer is of length greater than the FIFO size of the channel x, the GPDMA
+modifies and shortens the programmed burst into singles or bursts of lower length, to be
+compliant with the FIFO size. Transfer performance is lower, with GPDMA re-arbitration
+between effective and lower singles/bursts, but the data integrity is guaranteed.
+Bit 19 DINC: destination incrementing burst
+0: fixed burst
+1: contiguously incremented burst
+The destination address, pointed by GPDMA_CxDAR, is kept constant after a burst
+beat/single transfer, or is incremented by the offset value corresponding to a contiguous data
+after a burst beat/single transfer.
+Bit 18 Reserved, must be kept at reset value.
+Bits 17:16 DDW_LOG2[1:0]: binary logarithm of the destination data width of a burst, in bytes
+00: byte
+01: half-word (2 bytes)
+10: word (4 bytes)
+11: user setting error reported and no transfer issued
+Note: A destination burst transfer must have an aligned address with its data width (start
+address GPDMA_CxDAR[2:0] and if present address offset GPDMA_CxTR3.DAO[2:0],
+versus DDW_LOG2[1:0]). Otherwise a user setting error is reported and no transfer is
+issued.
+When configured in packing mode (PAM[1] = 1 and destination data width different from
+source data width), a source block size must be a multiple of the destination data width
+(see GPDMA_CxBR1.BNDT[2:0] versus DDW_LOG2[1:0]). Else a user setting error is
+reported and none transfer is issued.
+Setting a 8-byte data width causes a user setting error to be reported and none transfer
+is issued.
+Bit 15 SSEC: security attribute of the GPDMA transfer from the source
+If GPDMA_SECCFGR.SECx = 1 and the access is secure:
+0: GPDMA transfer nonsecure
+1: GPDMA transfer secure
+This is a secure register bit. This bit can only be read by a secure software. This bit must be
+written by a secure software when GPDMA_SECCFGR.SECx = 1. A secure write is ignored
+when GPDMA_SECCFGR.SECx = 0.
+When GPDMA_SECCFGR.SECx is deasserted, this SSEC bit is also deasserted by
+hardware (on a secure reconfiguration of the channel as nonsecure), and the GPDMA
+transfer from the source is nonsecure.
+Bit 14 SAP: source allocated port
+This bit is used to allocate the master port for the source transfer
+0: port 0 (AHB) allocated
+1: port 1 (AHB) allocated
+Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.

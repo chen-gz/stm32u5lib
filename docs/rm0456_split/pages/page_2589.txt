@@ -1,0 +1,59 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Communication flow
+In controller mode, the I2C peripheral initiates a data transfer and generates the clock
+signal. Serial data transfers always begin with a START condition and end with a STOP
+condition. Both START and STOP conditions are generated in controller mode by software.
+In target mode, the peripheral recognizes its own 7-bit or 10-bit address, and the general
+call address. The general call address detection can be enabled or disabled by software.
+The reserved SMBus addresses can also be enabled by software.
+Data and addresses are transferred as 8-bit bytes, MSB first. The address is contained in
+the first byte (7-bit addressing) or in the first two bytes (10-bit addressing) following the
+START condition. The address is always transmitted in controller mode.
+The following figure shows the transmission of a single byte. The controller generates nine
+SCL pulses. The transmitter sends the eight data bits to the receiver with the SCL pulses 1
+to 8. Then the receiver sends the acknowledge bit to the transmitter with the ninth SCL
+pulse.
+Figure 780. I²C-bus protocol
+
+SDA
+MSB
+
+ACK
+
+SCL
+1
+
+2
+
+Start
+condition
+
+8
+
+9
+
+Stop
+condition
+MS19854V1
+
+The acknowledge can be enabled or disabled by software. The own addresses of the I2C
+peripheral can be selected by software.
+
+65.4.5
+
+I2C initialization
+Enabling and disabling the peripheral
+Before enabling the I2C peripheral, configure and enable its clock through the RCC, and
+initialize its control registers.
+The I2C peripheral can then be enabled by setting the PE bit of the I2C_CR1 register.
+Disabling the I2C peripheral by clearing the PE bit resets the I2C peripheral. Refer to
+Section 65.4.6 for more details.
+
+Noise filters
+Before enabling the I2C peripheral by setting the PE bit of the I2C_CR1 register, the user
+must configure the analog and/or digital noise filters, as required.

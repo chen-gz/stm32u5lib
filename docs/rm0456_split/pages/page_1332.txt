@@ -1,0 +1,63 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+DMA requests in dual ADC mode
+In all dual ADC modes, it is possible to use two DMA channels (one for the master, one for
+the slave) to transfer the data, like in single mode (refer to Figure 272: DMA Requests in
+regular simultaneous mode when DAMDF[1:0] = 00).
+Figure 272. DMA Requests in regular simultaneous mode when DAMDF[1:0] = 00
+Trigger
+ADC Master regular
+
+Trigger
+
+CH1
+
+CH1
+
+ADC Master EOC
+
+ADC Slave regular
+
+CH2
+
+CH2
+
+ADC Slave EOC
+DMA request from ADC Master
+DMA reads Master
+ADC_DR
+
+DMA reads Mater
+ADC_DR
+
+DMA request from ADC Slave
+DMA reads Slave
+ADC_DR
+
+DMA reads Slave
+ADC_DR
+
+Configuration where each sequence contains only one conversion
+
+MSv31032V2
+
+In simultaneous regular and interleaved modes, it is also possible to save one DMA channel
+and transfer both data using a single DMA channel. For this the DAMDF[1:0] bits must be
+configured in the ADC12_CCR register:
+•
+
+DAMDF[1:0] = 10, 32-bit format: A single DMA request is generated alternatively
+when either the master or slave EOC events have occurred. At that time, the data items
+are alternatively available in the ADC12_CDR2 32-bit register. This mode is used in
+interleaved mode and in regular simultaneous mode when resolution is above 16-bit.
+Example:
+Interleaved dual mode: a DMA request is generated each time a new 32-bit data is
+available:
+1st DMA request: ADC12_CDR2[31:0] = MST_ADC_DR[31:0]
+2nd DMA request: ADC12_CDR2[31:0] = SLV_ADC_DR[31:0]
+
+•

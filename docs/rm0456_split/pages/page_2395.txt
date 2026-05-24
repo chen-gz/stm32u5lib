@@ -1,0 +1,184 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+Table 615. Interrupt events
+
+Interrupt
+vector
+
+Event flag
+
+Enable
+control bit
+
+Interrupt clear
+method
+
+Compare match
+
+CCxIF
+
+CCxIE
+
+Write 1 to CCxCF
+
+Yes
+
+Yes
+
+(2)
+
+CCxIF
+
+CCxIE
+
+Write 1 to CCxCF
+
+Yes
+
+Yes
+
+Over-capture(2)
+
+CCxOF
+
+CCxOIE
+
+Write 1 to
+CCxOCF
+
+Yes
+
+Yes
+
+Auto-reload match
+
+ARRM
+
+ARRMIE
+
+Write 1 to
+ARRMCF
+
+Yes
+
+Yes
+
+External trigger event
+
+EXTTRIG
+
+EXTTRIGIE
+
+Write 1 to
+EXTTRIGCF
+
+Yes
+
+Yes
+
+Auto-reload register
+update OK
+
+ARROK
+
+ARROKIE
+
+Write 1 to
+ARROKCF
+
+Yes
+
+Yes
+
+Capture/compare
+register update OK
+
+CMPxOK
+
+CMPxOKIE
+
+Write 1 to
+CMPxOKCF
+
+Yes
+
+Yes
+
+Direction change to
+up(3)
+
+UP
+
+UPIE
+
+Write 1 to UPCF
+
+Yes
+
+Yes
+
+Direction change to
+down(3)
+
+DOWN
+
+DOWNIE
+
+Write 1 to
+DOWNCF
+
+Yes
+
+Yes
+
+UE
+
+UEIE
+
+Write 1 to UECF
+
+Yes
+
+Yes
+
+REPOK
+
+REPOKIE
+
+Write 1 to
+REPOKCF
+
+Yes
+
+Yes
+
+Interrupt event
+
+Input capture
+
+LPTIMx
+
+Update event
+Repetition register
+update OK
+
+Exit from Exit from Stop
+Sleep mode
+mode(1)
+
+1. Each LPTIM event can wake up the device from Stop mode only if the LPTIM instance supports the wake-up
+from Stop mode feature. Refer to Section 58.3: LPTIM implementation.
+2. If LPTIM does not implement any channel this event does not exist. Refer to Section 58.3: LPTIM
+implementation.
+3. If LPTIM does not support encoder mode feature, this event does not exist. Refer to Section 58.3: LPTIM
+implementation.
+
+58.7
+
+LPTIM registers
+Refer to Section 1.2: List of abbreviations for registers for a list of abbreviations used in
+register descriptions.
+The peripheral registers can only be accessed by words (32-bit).

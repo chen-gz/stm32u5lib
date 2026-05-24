@@ -1,0 +1,42 @@
+90
+
+Contents
+
+RM0456
+10.10.7 PWR wake-up control register 2 (PWR_WUCR2) . . . . . . . . . . . . . . . . 453
+10.10.8 PWR wake-up control register 3 (PWR_WUCR3) . . . . . . . . . . . . . . . . 455
+10.10.9 PWR backup domain control register 1 (PWR_BDCR1) . . . . . . . . . . . 456
+10.10.10 PWR backup domain control register 2 (PWR_BDCR2) . . . . . . . . . . . 457
+10.10.11 PWR disable backup domain register (PWR_DBPR) . . . . . . . . . . . . . 458
+10.10.12 PWR UCPD register (PWR_UCPDR) . . . . . . . . . . . . . . . . . . . . . . . . . 458
+10.10.13 PWR security configuration register (PWR_SECCFGR) . . . . . . . . . . . 459
+10.10.14 PWR privilege control register (PWR_PRIVCFGR) . . . . . . . . . . . . . . . 461
+10.10.15 PWR status register (PWR_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 461
+10.10.16 PWR supply voltage monitoring status register (PWR_SVMSR) . . . . 462
+10.10.17 PWR backup domain status register (PWR_BDSR) . . . . . . . . . . . . . . 463
+10.10.18 PWR wake-up status register (PWR_WUSR) . . . . . . . . . . . . . . . . . . . 464
+10.10.19 PWR wake-up status clear register (PWR_WUSCR) . . . . . . . . . . . . . 465
+10.10.20 PWR apply pull configuration register (PWR_APCR) . . . . . . . . . . . . . 466
+10.10.21 PWR port A pull-up control register (PWR_PUCRA) . . . . . . . . . . . . . . 466
+10.10.22 PWR port A pull-down control register (PWR_PDCRA) . . . . . . . . . . . . 467
+10.10.23 PWR port B pull-up control register (PWR_PUCRB) . . . . . . . . . . . . . . 468
+10.10.24 PWR port B pull-down control register (PWR_PDCRB) . . . . . . . . . . . 468
+10.10.25 PWR port C pull-up control register (PWR_PUCRC) . . . . . . . . . . . . . 469
+10.10.26 PWR port C pull-down control register (PWR_PDCRC) . . . . . . . . . . . 469
+10.10.27 PWR port D pull-up control register (PWR_PUCRD) . . . . . . . . . . . . . 470
+10.10.28 PWR port D pull-down control register (PWR_PDCRD) . . . . . . . . . . . 470
+10.10.29 PWR port E pull-up control register (PWR_PUCRE) . . . . . . . . . . . . . . 471
+10.10.30 PWR port E pull-down control register (PWR_PDCRE) . . . . . . . . . . . 471
+10.10.31 PWR port F pull-up control register (PWR_PUCRF) . . . . . . . . . . . . . . 472
+10.10.32 PWR port F pull-down control register (PWR_PDCRF) . . . . . . . . . . . . 472
+10.10.33 PWR port G pull-up control register (PWR_PUCRG) . . . . . . . . . . . . . 473
+10.10.34 PWR port G pull-down control register (PWR_PDCRG) . . . . . . . . . . . 473
+10.10.35 PWR port H pull-up control register (PWR_PUCRH) . . . . . . . . . . . . . 474
+10.10.36 PWR port H pull-down control register (PWR_PDCRH) . . . . . . . . . . . 474
+10.10.37 PWR port I pull-up control register (PWR_PUCRI) . . . . . . . . . . . . . . . 475
+10.10.38 PWR port I pull-down control register (PWR_PDCRI) . . . . . . . . . . . . . 475
+10.10.39 PWR port J pull-up control register (PWR_PUCRJ) . . . . . . . . . . . . . . 476
+10.10.40 PWR port J pull-down control register (PWR_PDCRJ) . . . . . . . . . . . . 477
+10.10.41 PWR control register 4 (PWR_CR4) . . . . . . . . . . . . . . . . . . . . . . . . . . 477
+10.10.42 PWR control register 5 (PWR_CR5) . . . . . . . . . . . . . . . . . . . . . . . . . . 478
+10.10.43 PWR register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 479

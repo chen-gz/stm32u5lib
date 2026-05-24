@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+rc_w1
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Bit 12 LDORDY: ADC voltage regulator ready
+This bit is set by hardware. It indicates that the ADC internal supply is ready. The ADC is available
+after tADCVREG_SETUP time.
+0: ADC voltage regulator disabled
+1: ADC voltage regulator enabled
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 AWD3: Analog watchdog 3 flag
+This bit is set by hardware when the converted voltage crosses the values programmed in the fields
+LT3[7:0] and HT3[7:0] of ADC_LTR3 & ADC_HTR3 register. It is cleared by software writing 1 to it.
+0: No analog watchdog 3 event occurred (or the flag event was already acknowledged and cleared
+by software)
+1: Analog watchdog 3 event occurred
+Bit 8 AWD2: Analog watchdog 2 flag
+This bit is set by hardware when the converted voltage crosses the values programmed in the fields
+LT2[7:0] and HT2[7:0] of ADC_LTR2 & ADC_HTR2 register. It is cleared by software writing 1 to it.
+0: No analog watchdog 2 event occurred (or the flag event was already acknowledged and cleared
+by software)
+1: Analog watchdog 2 event occurred
+Bit 7 AWD1: Analog watchdog 1 flag
+This bit is set by hardware when the converted voltage crosses the values programmed in the fields
+LT1[11:0] and HT1[11:0] of ADC_LTR1, & ADC_HTR1 register. It is cleared by software. writing 1 to
+it.
+0: No analog watchdog 1 event occurred (or the flag event was already acknowledged and cleared
+by software)
+1: Analog watchdog 1 event occurred
+Bit 6 JEOS: Injected channel end of sequence flag
+This bit is set by hardware at the end of the conversions of all injected channels in the group. It is
+cleared by software writing 1 to it.
+0: Injected conversion sequence not complete (or the flag event was already acknowledged and
+cleared by software)
+1: Injected conversions complete
+Bit 5 JEOC: Injected channel end of conversion flag
+This bit is set by hardware at the end of each injected conversion of a channel when a new data is
+available in the corresponding ADC_JDRy register. It is cleared by software writing 1 to it or by
+reading the corresponding ADC_JDRy register
+0: Injected channel conversion not complete (or the flag event was already acknowledged and
+cleared by software)
+1: Injected channel conversion complete
+Bit 4 OVR: ADC overrun
+This bit is set by hardware when an overrun occurs on a regular channel, meaning that a new
+conversion has completed while the EOC flag was already set. It is cleared by software writing 1 to
+it.
+0: No overrun occurred (or the flag event was already acknowledged and cleared by software)
+1: Overrun has occurred
+
+RM0456 Rev 6

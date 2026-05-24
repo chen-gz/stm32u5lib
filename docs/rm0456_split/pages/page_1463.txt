@@ -1,0 +1,80 @@
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+
+Independent trigger with single triangle generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2.
+
+2.
+
+Configure different trigger sources by setting different values in the TSEL1 and TSEL2
+bitfields.
+
+3.
+
+Configure the two DAC channel WAVEx[1:0] bits as 1x and the same maximum
+amplitude value in the MAMPx[3:0] bits.
+
+4.
+
+Load the dual DAC channel data into the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+When a DAC channel1 trigger arrives, the DAC channel1 triangle counter, with the same
+triangle amplitude, is added to the DHR1 register and the sum is transferred into
+DAC_DOR1 (three dac_hclk clock cycles later). The DAC channel1 triangle counter is then
+updated.
+When a DAC channel2 trigger arrives, the DAC channel2 triangle counter, with the same
+triangle amplitude, is added to the DHR2 register and the sum is transferred into
+DAC_DOR2 (three dac_hclk clock cycles later). The DAC channel2 triangle counter is then
+updated.
+
+Independent trigger with different triangle generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2.
+
+2.
+
+Configure different trigger sources by setting different values in the TSEL1 and TSEL2
+bits.
+
+3.
+
+Configure the two DAC channel WAVEx[1:0] bits as 1x and set different maximum
+amplitude values in the MAMP1[3:0] and MAMP2[3:0] bits.
+
+4.
+
+Load the dual DAC channel data into the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+When a DAC channel1 trigger arrives, the DAC channel1 triangle counter, with a triangle
+amplitude configured by MAMP1[3:0], is added to the DHR1 register and the sum is
+transferred into DAC_DOR1 (three dac_hclk clock cycles later). The DAC channel1 triangle
+counter is then updated.
+When a DAC channel2 trigger arrives, the DAC channel2 triangle counter, with a triangle
+amplitude configured by MAMP2[3:0], is added to the DHR2 register and the sum is
+transferred into DAC_DOR2 (three dac_hclk clock cycles later). The DAC channel2 triangle
+counter is then updated.
+
+Simultaneous software start
+To configure the DAC in this conversion mode, the following sequence is required:
+•
+
+Load the dual DAC channel data to the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+In this configuration, one dac_hclk clock cycle later, the DHR1 and DHR2 registers are
+transferred into DAC_DOR1 and DAC_DOR2, respectively.
+
+Simultaneous trigger without wave generation
+To configure the DAC in this conversion mode, the following sequence is required:
+
+RM0456 Rev 6

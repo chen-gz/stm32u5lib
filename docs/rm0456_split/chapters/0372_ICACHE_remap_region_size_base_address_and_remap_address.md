@@ -1,0 +1,113 @@
+381
+
+Instruction cache (ICACHE)
+
+RM0456
+
+The following figure describes the matching and the output address generation.
+Figure 29. ICACHE remapping address mechanism
+
+31
+
+RI RI-1
+
+0
+
+HADDR_in
+REMAPADDR[31:RI]
+
+000:BASEADDR[28:RI]
+
+==
+
+Address in region x
+
+0
+
+1
+
+31
+
+RI RI-1
+
+HADDR_out
+
+0
+
+HADDR_in[RI-1:0]
+MSv48194V2
+
+The following table summarizes all possible configurations of BASEADDR and
+REMAPADDR sizes (number of significant MSBs) in ICACHE_CRRx, depending on RSIZE.
+Table 86. ICACHE remap region size, base address and remap address
+Region size (Mbytes)
+
+Base address size (MSBs)
+
+Remap address (MSBs)
+
+2
+
+8
+
+11
+
+4
+
+7
+
+10
+
+8
+
+6
+
+9
+
+16
+
+5
+
+8
+
+32
+
+4
+
+7
+
+64
+
+3
+
+6
+
+128
+
+2
+
+5
+
+Care must be taken while programming BASEADDR and REMAPADDR in ICACHE_CRRx:
+if the programmed value is bigger than expected (number of MSBs, see Table 86),
+the unnecessary extra LSBs are ignored.
+Typical remapping example: a 128-Mbyte external RAM region physically located in the
+external address range [0x9000 0000:0x97FF FFFF], remapped in the code section range
+[0x1800 0000:0x1FFF FFFF]:
+•
+
+REMAPADDR[31:21] = 0x480
+
+•
+
+BASEADDR[28:21] = 0xC0
+
+•
+
+HADDR_in[31:27] is compared to 000:BASEADDR[28:27], and
+HADDR_in/BASEADDR[26:21] are ignored for the comparison.
+
+If the comparison matches:
+
+<!-- pagebreak -->
+

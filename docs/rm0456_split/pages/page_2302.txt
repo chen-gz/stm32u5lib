@@ -1,0 +1,65 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Slave mode selection preload for run-time encoder mode update
+It can be necessary to switch from one encoder mode to another during run-time. This is
+typically done at high-speed to decrease the update interrupt rate, by switching from x4 to
+x2 to x1 mode, as shown on Figure 669.
+For this purpose, the SMS[3:0] bit can be preloaded. This is enabled by setting the SMSPE
+enable bit in the TIMx_SMCR register. The trigger for the transfer from SMS[3:0] preload to
+active value can be selected with the SMSPS bit in the TIMx_SMCR register.
+•
+
+SMSPS = 0: the transfer is triggered by the update event (UEV) occurring when the
+counter overflows when up-counting, and underflows when down-counting.
+
+•
+
+SMSPS = 1: the transfer is triggered by the index event.
+Figure 669. Encoder mode change with preload transferred on update (SMSPS = 0)
+x4 mode
+
+x2 mode
+
+x1 mode
+
+Update event
+
+Preload value
+
+Active value
+
+SMS = 0011
+
+SMS = 0011
+
+SMS = 0001
+
+SMS = 0001
+
+SMS = 1110
+
+SMS = 1110
+MSv45781V1
+
+Encoder clock output
+The encoder mode operating principle is not perfectly suited for high-resolution velocity
+measurements, at low speed, as it requires a relatively long integration time to have a
+sufficient number of clock edges and a precise measurement.
+At low speed, a better solution is to do an edge-to-edge clock period measurement. This
+can be achieved using a slave timer. The timer can output the encoder clock information on
+the tim_trgo output. The slave timer can then perform a period measurement and provide
+velocity information for each and every encoder clock edge.
+This mode is enabled by setting the MMS[3:0] bitfield to 1000, in the TIMx_CR2 register. It
+is valid for the following SMS[3:0] values: 0001, 0010, 0011, 1010, 1011, 1100, 1101, 1110,
+1111. Any other SMS[3:0] code is not allowed and may lead to unexpected behavior.
+
+55.4.19
+
+Direction bit output
+It is possible to output a direction signal out of the timer, on the tim_oc3 and tim_oc4 output
+signals (copy of the DIR bit in the TIMx_CR1 register). This is achieved by setting the
+OC3M[3:0] or the OC4M[3:0] bitfield to 1011 in the TIMx_CCMR2 register.

@@ -1,0 +1,199 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+73.14.18 OTG general core configuration register (OTG_GCCFG)
+This register is available in host and device modes.
+Address offset: 0x038
+Reset value: 0x0000 XXXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+25
+
+24
+
+23
+
+FORCE
+VBVAL VBVAL
+HOSTP
+OVEN OVAL
+D
+
+22
+
+21
+
+20
+
+SDEN
+
+VBDEN
+
+PDEN
+
+19
+
+18
+
+17
+
+16
+
+DCDE HVDM HCDP HCDPE
+N
+SRCEN DETEN
+N
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SESS
+VLD
+
+FSVMI
+NUS
+
+FSVPL
+US
+
+CHGD
+ET
+
+r
+
+r
+
+r
+
+r
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bit 28 Reserved, must be kept at reset value.
+Bit 27 Reserved, must be kept at reset value.
+Bit 26 Reserved, must be kept at reset value.
+Bit 25 FORCEHOSTPD: Force host mode pull-downs
+If the ID pin functions are enabled, the host mode pull-downs on DP and DM activate
+automatically. However, whenever that is not the case, yet host mode is required, this bit
+must be used to force the pull-downs active.
+0: Do not force host mode pull-downs
+1: Force host mode pull-downs
+Bit 24 VBVALOVEN: Enables a software override of the VBUS B-session detection.
+0: Use hardware
+1: Use VBVALOVAL to indicate B-session active
+Bit 23 VBVALOVAL: Software override value of the VBUS B-session detection
+0: B-session inactive
+1: B-session active
+Bit 22 SDEN: Battery charging specification – secondary detection enable
+0: Secondary detection disabled
+1: Secondary detection enabled
+Bit 21 VBDEN: VBUS detection enable
+Enables VBUS sensing comparators in order to detect VBUS presence and/or perform OTG
+operation.
+0: VBUS detection disabled
+1: VBUS detection enabled
+Bit 20 PDEN: Battery charging specification – primary detection enable
+0: Primary detection disabled
+1: Primary detection enabled
+Bit 19 DCDEN: Battery charging specification – data contact detection enable
+0: Data Contact Detection disabled
+1: Data Contact Detection enabled
+
+RM0456 Rev 6

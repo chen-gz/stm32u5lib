@@ -1,0 +1,98 @@
+3291
+
+USB on-the-go high-speed (OTG_HS)
+
+73
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+This section applies to STM32U59x/5Ax/5Fx/5Gx devices only.
+
+73.1
+
+Introduction
+Portions Copyright (c) Synopsys, Inc. All rights reserved. Used with permission.
+This section presents the architecture and the programming model of the OTG_HS
+controller.
+The following acronyms are used throughout the section:
+FS
+
+Full-speed
+
+LS
+
+Low-speed
+
+HS
+
+High-speed
+
+MAC
+
+Media access controller
+
+OTG
+
+On-the-go
+
+PFC
+
+Packet FIFO controller
+
+PHY
+
+Physical layer
+
+USB
+
+Universal serial bus
+
+UTMI
+
+USB 2.0 Transceiver Macrocell interface (UTMI)
+
+LPM
+
+Link power management
+
+BCD
+
+Battery charging detector
+
+HNP
+
+Host negotiation protocol
+
+SRP
+
+Session request protocol
+
+References are made to the following documents:
+•
+
+USB On-The-Go Supplement, Revision 2.0
+
+•
+
+Universal Serial Bus Revision 2.0 Specification
+
+•
+
+USB 2.0 Link Power Management Addendum Engineering Change Notice to the USB
+2.0 specification, July 16, 2007
+
+•
+
+Errata for USB 2.0 ECN: Link Power Management (LPM) - 7/2007
+
+•
+
+Battery Charging Specification, Revision 1.2
+
+The USB OTG is a dual-role device (DRD) controller that supports both device and host
+functions and is fully compliant with the On-The-Go Supplement to the USB 2.0
+Specification. It can also be configured as a host-only or device-only controller, fully
+compliant with the USB 2.0 Specification. OTG_HS supports the speeds defined in the
+Table 761: OTG_HS speeds supported below. The only external device required is a charge
+pump for VBUS in OTG mode.

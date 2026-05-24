@@ -1,0 +1,72 @@
+191
+
+System security
+
+3.7.2
+
+RM0456
+
+Embedded flash memory write protection
+The embedded flash memory write protection (WRP) prevents illegal or unwanted
+write/erase to special sections of the embedded flash memory user area (system area is
+permanently write protected).
+Write protected area is defined through the option bytes, writing the start and end
+addresses: two write-protected areas can be defined in each bank, with the granularity of an
+8-Kbyte page.
+WRP areas can be modified through option byte changes unless the corresponding
+FLASH_WRPxA/BR has its UNLOCK option bit cleared (meaning ROM emulation).
+UNLOCK can be set only when regressing from RDP level 1 to level 0.
+
+Note:
+
+Bank erase aborts when it contains a write-protected area (WRP or HDP area).
+
+3.7.3
+
+Tamper detection and response
+Principle
+The devices include active protection of critical security assets against temperature, voltage
+and frequency attacks, with the following features:
+•
+
+erasure of device secrets upon tamper detection
+
+•
+
+improved guarantee of safe execution for the CPU and its associated security
+peripherals, including:
+–
+
+•
+
+out-of-range voltage (example: VBAT, VDDA), temperature and clocking (LSE)
+detection
+
+–
+
+security watchdog IWDG clocked by the internal oscillator LSI
+
+–
+
+possible selection of internal oscillator HSI as system clock
+
+power supply protection
+–
+
+RTC/TAMP domain powered automatically with VDD or VBAT
+
+See Section 64: Tamper and backup registers (TAMP) for more details.
+
+Tamper detection sources
+The devices support eight active input/output pins, allowing four independent active-tamper
+meshes, or up to seven meshes if the same output pin is shared by several input pins (for a
+total of eight active-tamper I/Os). The active-tamper balls are mapped in the center of
+packages that can be used in POS market (such as WLCSP90).
+The active pins are clocked by the LSE, and are functional in all system operating modes
+(Run, Sleep, Stop, Standby or Shutdown), and in VBAT mode.
+Detection time is programmable, and a digital filtering is available (tamper triggered after
+two false comparison in four consecutive comparison samples).
+Note:
+
+<!-- pagebreak -->
+

@@ -1,0 +1,100 @@
+Horizontal timing configuration:
+–
+
+DSI_VLCR.HLINE =
+(HSA + HBP + HACT + HFP) * (PCLK period / Clk lane byte period) =
+(8 + 8 + 480 + 24) * (50 / 8) = 3250
+
+–
+
+DSI_VHSACR.HSA = HSA * (PCLK period/Clk lane byte period) =
+8 * (50 / 8) = 50
+
+–
+
+DSI_VHBPCR.HBP = HBP * (PCLK period / Clk lane byte period) =
+8 * (50 / 8) = 50
+
+Vertical line configuration:
+–
+
+DSI_VVSACR.VSA = 2
+
+–
+
+DSI_VVBPCR.VBP = 2
+
+–
+
+DSI_VVFPCR.VFP = 4
+
+–
+
+DSI_VVACR.VA = 640
+
+RM0456 Rev 6
+
+RM0456
+
+44.14.7
+
+DSI Host (DSI)
+
+Configuring the adapted command mode
+The adapted command mode requires the following parameters to be configured:
+
+44.14.8
+
+•
+
+Command size (CMDSIZE) field of the DSI Host LTDC command configuration register
+(DSI_LCCR) to define the maximum allowed size for a write memory command.
+
+•
+
+The tearing effect source (TESRC) and optionally tearing effect polarity (TEPOL) bits of
+the DSI Wrapper configuration register (DSI_WCFGR).
+
+•
+
+The automatic refresh (AR) bit of the DSI Wrapper configuration register
+(DSI_WCFGR) if the display needs to be updated automatically each time a tearing
+effect event is received.
+
+Configuring the video mode pattern generator
+DSI Host can transmit a color bar pattern without horizontal/vertical color bar and D-PHY
+BER testing pattern without any kind of stimuli.
+Figure 447 shows the programming sequence to send a test pattern:
+1.
+
+Configure the DSI_MCR register to enable video mode. Configure the video mode type
+using DSI_VMCR.VMT.
+
+2.
+
+Configure the DSI_LCOLCR register.
+
+3.
+
+Configure the frame using registers shown in Figure 448 (where the gray area
+indicates the transferred pixels).
+
+4.
+
+Configure the pattern generation mode (DSI_VMCR.PGM) and the pattern orientation
+(DSI_VMCR.PGO), and enable them (DSI_VMCR.PGE).
+Figure 447. Programming sequence to send a test pattern
+
+Video Mode
+selection
+
+Color coding
+configuration
+Video frame
+configuration
+Video pattern generator
+configuration
+
+MSv35875V1
+
+RM0456 Rev 6

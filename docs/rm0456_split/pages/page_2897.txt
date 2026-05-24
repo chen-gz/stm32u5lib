@@ -1,0 +1,155 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Bit 2 WCKCFG: Wrong clock configuration flag.
+This bit is read only.
+0: Clock configuration is correct
+1: Clock configuration does not respect the rule concerning the frame length specification defined in
+Section 69.4.6: Frame synchronization (configuration of FRL[7:0] bit in the SAI_xFRCR register)
+This bit is used only when the audio block operates in master mode (MODE[1] = 0) and NODIV = 0.
+It can generate an interrupt if WCKCFGIE bit is set in SAI_xIM register.
+This flag is cleared when the software sets CWCKCFG bit in SAI_xCLRFR register.
+Bit 1 MUTEDET: Mute detection.
+This bit is read only.
+0: No MUTE detection on the SD input line
+1: MUTE value detected on the SD input line (0 value) for a specified number of consecutive audio
+frame
+This flag is set if consecutive 0 values are received in each slot of a given audio frame and for a
+consecutive number of audio frames (set in the MUTECNT bit in the SAI_xCR2 register).
+It can generate an interrupt if MUTEDETIE bit is set in SAI_xIM register.
+This flag is cleared when the software sets bit CMUTEDET in the SAI_xCLRFR register.
+Bit 0 OVRUDR: Overrun / underrun.
+This bit is read only.
+0: No overrun/underrun error.
+1: Overrun/underrun error detection.
+The overrun and underrun conditions can occur only when the audio block is configured as a
+receiver and a transmitter, respectively.
+It can generate an interrupt if OVRUDRIE bit is set in SAI_xIM register.
+This flag is cleared when the software sets COVRUDR bit in SAI_xCLRFR register.
+
+69.6.8
+
+SAI clear flag register (SAI_ACLRFR)
+Address offset: 0x1C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res. Res. Res. Res. Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+CWCKCF
+G
+
+Res.
+
+29
+
+13
+
+28
+
+12
+
+27
+
+11
+
+10
+
+Res. Res. Res. Res. Res.
+
+Res.
+
+Res.
+
+Res.
+
+CLFSDET CAFSDET
+w
+
+w
+
+CCNRDY
+w
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bit 6 CLFSDET: Clear late frame synchronization detection flag.
+This bit is write only.
+Programming this bit to 1 clears the LFSDET flag in the SAI_xSR register.
+This bit is not used in AC’97 or SPDIF mode
+Reading this bit always returns the value 0.

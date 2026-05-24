@@ -1,0 +1,123 @@
+Signal name
+
+Source/destination
+
+i2c_trg0
+
+lpdma1_ch0_tc
+
+i2c_trg1
+
+lpdma1_ch1_tc
+
+i2c_trg2
+
+lpdma1_ch2_tc
+
+i2c_trg3
+
+lpdma1_ch3_tc
+
+i2c_trg4
+
+exti5
+
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+Table 658. I2C3 interconnection (continued)
+
+65.4.3
+
+Signal name
+
+Source/destination
+
+i2c_trg5
+
+exti8
+
+i2c_trg6
+
+lptim1_ch1
+
+i2c_trg7
+
+lptim3_ch1
+
+i2c_trg8
+
+comp1_out
+
+i2c_trg9
+
+comp2_out
+
+i2c_trg10
+
+rtc_alra_trg
+
+i2c_trg11
+
+rtc_wut_trg
+
+i2c_trg12
+
+-
+
+i2c_trg13
+
+-
+
+i2c_trg14
+
+-
+
+i2c_trg15
+
+-
+
+I2C clock requirements
+The I2C kernel is clocked by i2c_ker_ck.
+The i2c_ker_ck period tI2CCLK must respect the following conditions:
+tI2CCLK < (tLOW - tfilters) / 4
+tI2CCLK < tHIGH
+where tLOW is the SCL low time, tHIGH is the SCL high time, and tfilters is the sum of the
+analog and digital filter delays (when enabled).
+The digital filter delay is DNF[3:0] x tI2CCLK.
+The i2c_pclk clock period tPCLK must respect the condition tPCLK < 4/3 tSCL, where tSCL is
+the SCL period.
+
+Caution:
+
+When the I2C kernel is clocked by i2c_pclk, this clock must respect the conditions for
+tI2CCLK.
+
+65.4.4
+
+I2C mode selection
+The peripheral can operate as:
+•
+
+Target transmitter
+
+•
+
+Target receiver
+
+•
+
+Controller transmitter
+
+•
+
+Controller receiver
+
+By default, the peripheral operates in target mode. It automatically switches from target to
+controller mode upon generating START condition, and from controller to target mode upon
+arbitration loss or upon generating STOP condition. This allows the use of the I2C
+peripheral in a multicontroller I²C-bus environment.
+
+RM0456 Rev 6

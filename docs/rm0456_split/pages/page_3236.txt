@@ -1,0 +1,82 @@
+RM0456 Rev 6
+
+19
+
+18
+
+OEPIN
+IEPINT
+T
+
+17
+
+16
+
+Res.
+
+Res.
+
+1
+
+0
+
+rw
+2
+
+OTGIN
+MMISM
+T
+rw
+
+rw
+
+Res.
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 27 LPMINTM: LPM interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bits 26:24 Reserved, must be kept at reset value.
+Bit 23 RSTDETM: Reset detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 22 FSUSPM: Data fetch suspended mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 21 IISOOXFRM: Incomplete isochronous OUT transfer mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 20 IISOIXFRM: Incomplete isochronous IN transfer mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 19 OEPINT: OUT endpoints interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 18 IEPINT: IN endpoints interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bits 17:16 Reserved, must be kept at reset value.
+Bit 15 EOPFM: End of periodic frame interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 14 ISOODRPM: Isochronous OUT packet dropped interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 13 ENUMDNEM: Enumeration done mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 12 USBRST: USB reset mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 11 USBSUSPM: USB suspend mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 10 ESUSPM: Early suspend mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bits 9:8 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

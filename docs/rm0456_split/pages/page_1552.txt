@@ -1,0 +1,98 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+transfer is properly terminated. DFLTACTIVE goes back to 0 when the filter chain is reset
+and the RXFIFO flushed.
+
+Synchronous snapshot acquisition mode
+In the acquisition modes described on previous sections, the application must wait for filters
+settlings time or the end of conversion before getting a new valid sample. For applications
+very critical in latency, the last valid sample can be get immediately, with an information on
+the age of this sample by using the snapshot acquisition mode.
+In snapshot mode, the DFLTx is continuously acquiring the samples, but the processed
+samples are not stored into the RXFIFO. When a trigger occurs, the last valid sample, the
+current decimation value of MCIC and the sample counter of the INT are stored in
+MDF_SNPS0DR.
+The possible trigger sources are the following:
+•
+
+one of the mdf_trg[13:0] signals
+
+•
+
+OLD event of the corresponding filter
+
+•
+
+TRGO bit
+
+The Synchronous snapshot acquisition mode is selected when ACQMOD[2:0] = 101.
+The sequence below shows the most important programming steps (assuming that DFLTEN
+bits of the filters are set to 0):
+1.
+
+Configure and enable the clock generator (CKGEN), so that the frequency of
+mdf_proc_ck clock is compatible with the targeted application (see examples in
+Table 381).
+
+2.
+
+Enable the CKGEN and, if needed, enable the MDF_CCK0 and MDF_CCK1 clocks.
+
+3.
+
+Program the wanted filter settings and set the ACQMOD[2:0] to 101. FTH is usually
+cleared to 0 to receive an interrupt as soon as the RXFIFO is not empty.
+
+4.
+
+Set the SITFEN bit of the requested data interfaces to 1.
+
+5.
+
+Select the proper trigger source and sensitivity for each filter.
+
+6.
+
+Before setting DFLTEN to 1, wait for DFLTACTIVE = 0: it insures that the previous filter
+deactivation sequence has been properly terminated,
+
+7.
+
+Set DFLTEN to 1 for the filters to enable.
+
+When the trigger condition is met,
+1.
+
+The MDF stores the last valid data provided by the corresponding filter, the value of the
+MCIC decimation counter, and the counter value of INT if selected by SNPSFMT into a
+shadow register.
+
+2.
+
+The snps_evt is activated, indicating that a data is ready. If SSDRIE is set to 1, the
+MDF requests the AHB clock.
+
+3.
+
+When the AHB clock is available the shadow register is stored in MDF snapshot data
+register x (MDF_SNPSxDR) and an interrupt is generated.
+
+4.
+
+In the interrupt sub-routine, the application must do the following:
+a)
+
+Read the data located in MDF_SNPSxDR.
+
+b)
+
+Clear the SSDRF flag by writing it to 1.
+
+As shown in the Figure 346, in snapshot mode, when the trigger event occurs, it is
+resynchronized with the processing clock (mdf_proc_ck), the decimation counter of the
+MCIC (MCIC_CNTR), the integrator counter (INT_CNTR) and the last valid sample (SN+2),
+are stored into a shadow register, and the snps_evt event is generated. When the AHB

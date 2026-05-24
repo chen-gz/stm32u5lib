@@ -1,0 +1,78 @@
+2060
+
+On-the-fly decryption engine (OTFDEC)
+
+RM0456
+
+When the read request is not within an encrypted region, or the decryption is not enabled in
+this region, the AHB data is not changed.
+Note:
+
+When the application sets the MODE bitfield to 11 in OTFDEC_RxCFGR, an additional layer
+of protection is added on top of the AES stream cipher. This enhanced encryption mode can
+only be used with instructions (execute-only region).
+
+52.3.5
+
+Flow control management
+Figure 507 shows how OTFDEC manages one INCR4 AHB burst that corresponds to one
+128-bit AES data block.
+Figure 507. OTFDEC flow control overview (dual burst read request)
+
+AHB Clock
+120MHz
+
+HADDR
+
+Add(A) Add(B) Add(C)
+
+HREADY
+HRDATA
+OTFDEC (AES)
+
+1
+
+Data(A)
+
+Data(B)
+
+Keystream[0]
+
+OTFDEC (XOR)
+
+Data(C)
+
+Data(D)
+
+2
+
+Keystream[1]
+XOR(A)
+
+XOR(B)
+
+>12 cycles
+
+XOR(C)
+
+XOR(D)
+
+MS48974V1
+
+with the following notes:
+
+52.3.6
+
+1.
+
+OTFDEC enforces HREADY signal from the AHB master low as it is not ready to
+decrypt data (keystream computation).
+
+2.
+
+Thanks to the keystream buffer, OTFDEC can be ready to process a new batch of data
+within 12 cycles in this configuration (120 MHz AHB clock, 104 MHz SPI bus delivering
+2 bytes per SPI clock).
+
+OTFDEC error management
+OTFDEC automatically manages errors defined as below:

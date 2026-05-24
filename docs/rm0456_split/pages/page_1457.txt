@@ -1,0 +1,89 @@
+1.
+
+Sample phase: the sample/hold element is charged to the desired voltage. The
+charging time depends on capacitor value (internal or external, selected by the user).
+The sampling time is configured with the TSAMPLEx[9:0] bits in DAC_SHSRx register.
+During the write of the TSAMPLEx[9:0] bits, the BWSTx bit in DAC_SR register is set to
+1 to synchronize between both clocks domains (AHB and low speed clock) and
+allowing the software to change the value of sample phase during the DAC channel
+operation
+
+2.
+
+Hold phase: the DAC output channel is tri-stated, the DAC core and the buffer are
+turned off, to reduce the current consumption. The hold time is configured with the
+THOLDx[9:0] bits in DAC_SHHR register
+
+3.
+
+Refresh phase: the refresh time is configured with the TREFRESHx[7:0] bits in
+DAC_SHRR register
+
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+The timings for the three phases above are in units of LSI/LSE clock periods. As an
+example, to configure a sample time of 350 µs, a hold time of 2 ms and a refresh time of
+100 µs assuming LSI/LSE ~32 KHz is selected:
+•
+
+12 cycles are required for sample phase: TSAMPLEx[9:0] = 11.
+
+•
+
+62 cycles are required for hold phase: THOLDx[9:0] = 62.
+
+•
+
+and 4 cycles are required for refresh period: TREFRESHx[7:0] = 4.
+
+In this example, the power consumption is reduced by almost a factor of 15 versus normal
+modes.
+The formulas to compute the right sample and refresh timings are described in the table
+below, the Hold time depends on the leakage current.
+Table 346. Sample and refresh timings
+Buffer
+State
+
+tSAMP(1)(2)
+
+tREFRESH(2)(3)
+
+Enable
+
+7 μs + (10*RBON*CSH)
+
+7 μs + (RBON*CSH)*ln(2*NLSB)
+
+Disable
+
+3 μs + (10*RBOFF*CSH)
+
+3 μs + (RBOFF*CSH)*ln(2*NLSB)
+
+1. In the above formula, the settling to the desired code value with ½ LSB or accuracy requires 10 constant
+time for 12 bits resolution. For 8-bit resolution, the settling time is 7 constant time.
+2. CSH is the capacitor in sample and hold mode.
+3. The tolerated voltage drop during the hold phase “Vd” is represented by the number of LSBs after the
+capacitor discharging with the output leakage current. The settling back to the desired value with ½ LSB
+error accuracy requires ln(2*Nlsb) constant time of the DAC.
+
+Example of the sample and refresh time calculation with output buffer on
+The values used in the example below are provided as indication only. Refer to the product
+datasheet for product data.
+CSH = 100 nF
+VREF+ = 3.0 V
+Sampling phase:
+tSAMP = 7 μs + (10 * 2000 * 100 * 10-9) = 2.007 ms
+(where RBON = 2 kΩ)
+Refresh phase:
+tREFRESH = 7 μs + (2000 * 100 * 10-9) * ln(2*10) = 606.1 μs
+(where NLSB = 10 (10 LSB drop during the hold phase)
+Hold phase:
+Dv = ileak * thold / CSH = 0.0073 V (10 LSB of 12bit at 3 V)
+ileak = 150 nA (worst case on the IO leakage on all the temperature range)
+thold = 0.0073 * 100 * 10-9 / (150 * 10-9) = 4.867 ms
+
+RM0456 Rev 6

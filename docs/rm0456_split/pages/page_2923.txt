@@ -1,0 +1,85 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+The following registers are reset when the CCE bit of the FDCAN_CCCR register is set:
+•
+
+FDCAN_HPMS: High priority message status
+
+•
+
+FDCAN_RXF0S: Rx FIFO 0 status
+
+•
+
+FDCAN_RXF1S: Rx FIFO 1 status
+
+•
+
+FDCAN_TXFQS: Tx FIFO/queue status
+
+•
+
+FDCAN_TXBRP: Tx buffer request pending
+
+•
+
+FDCAN_TXBTO: Tx buffer transmission occurred
+
+•
+
+FDCAN_TXBCF: Tx buffer cancellation finished
+
+•
+
+FDCAN_TXEFS: Tx event FIFO status
+
+The timeout counter value (TOC[15:0] bit of the FDCAN_TOCV register) is preset to the
+value configured by the TOP[15:0] of the FDCAN_TOCC register when the CCE bit of the
+FDCAN_CCCR is set.
+In addition, the state machines of the Tx handler and Rx handler are held in idle state while
+the CCE bit is set.
+The following registers can be written only when the CCE bit is cleared:
+•
+
+FDCAN_TXBAR: Tx buffer add request
+
+•
+
+FDCAN_TXBCR: Tx buffer cancellation request
+
+The TEST and the MON bits of the FDCAN_CCCR register can be set only by software
+while the INIT and the CCE bits of the FDCAN_CCCR register are both set. Both bits can be
+reset at any time. The DAR bit of FDCAN_CCCR can only be set/cleared while the INIT and
+CCE bits are both set.
+
+Normal operation
+The FDCAN default operating mode after hardware reset is event-driven CAN
+communication. TT operation mode is not supported.
+Once the FDCAN is initialized and the INIT bit of the FDCAN_CCCR register is cleared, the
+FDCAN synchronizes itself to the CAN bus and is ready for communication.
+After passing the acceptance filtering, received messages including message ID and DLC
+are stored into the Rx FIFO 0 or Rx FIFO 1.
+For messages to be transmitted, the Tx FIFO or the Tx queue can be initialized or updated.
+Automated transmission on reception of remote frames is not supported.
+
+CAN FD operation
+There are two variants in the FDCAN protocol:
+•
+
+Long frame mode (LFM), where the data field of a CAN frame may be longer than eight
+bytes.
+
+•
+
+Fast frame mode (FFM), where the control field, data field, and CRC field of a CAN
+frame are transmitted with a higher bit rate compared to the beginning and to the end of
+the frame.
+
+The fast frame mode can be used in combination with the long frame mode.
+The previously reserved bit in CAN frames with 11-bit identifiers and the first previously
+reserved bit in CAN frames with 29-bit identifiers are decoded as FDF bit: FDF recessive
+signifies a CAN FD frame, while FDF dominant signifies a classic CAN frame.

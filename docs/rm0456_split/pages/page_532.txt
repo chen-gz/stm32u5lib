@@ -1,0 +1,175 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.14
+
+RM0456
+
+RCC PLL2 dividers configuration register (RCC_PLL2DIVR)
+Address offset: 0x03C
+Reset value: 0x0101 0280
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+PLL2R[6:0]
+
+15
+
+23
+
+22
+
+21
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+
+PLL2Q[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+PLL2P[6:0]
+rw
+
+20
+
+Res.
+
+PLL2N[8:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:24 PLL2R[6:0]: PLL2 DIVR division factor
+This bitfield is set and reset by software to control the frequency of the pll2_r_ck clock. It can be
+written only when the PLL2 is disabled (PLL2ON = 0 and PLL2RDY = 0).
+0000000: pll2_r_ck = vco2_ck
+0000001: pll2_r_ck = vco2_ck / 2 (default after reset)
+0000010: pll2_r_ck = vco2_ck / 3
+0000011: pll2_r_ck = vco2_ck / 4
+...
+1111111: pll2_r_ck = vco2_ck / 128
+Bit 23 Reserved, must be kept at reset value.
+Bits 22:16 PLL2Q[6:0]: PLL2 DIVQ division factor
+This bitfield is set and reset by software to control the frequency of the pll2_q_ck clock. It can be
+written only when the PLL2 is disabled (PLL2ON = 0 and PLL2RDY = 0).
+0000000: pll2_q_ck = vco2_ck
+0000001: pll2_q_ck = vco2_ck / 2 (default after reset)
+0000010: pll2_q_ck = vco2_ck / 3
+0000011: pll2_q_ck = vco2_ck / 4
+...
+1111111: pll2_q_ck = vco2_ck / 128
+Bits 15:9 PLL2P[6:0]: PLL2 DIVP division factor
+This bitfield is set and reset by software to control the frequency of the pll2_p_ck clock. It can be
+written only when the PLL2 is disabled (PLL2ON = 0 and PLL2RDY = 0).
+0000000: pll2_p_ck = vco2_ck
+0000001: pll2_p_ck = vco2_ck / 2 (default after reset)
+0000010: pll2_p_ck = vco2_ck / 3
+0000011: pll2_p_ck = vco2_ck / 4
+...
+1111111: pll2_p_ck = vco2_ck / 128

@@ -1,0 +1,52 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bits 29:28 IC2F[1:0]: Input capture 2 filter
+This bitfield defines the number of consecutive equal samples that are detected when a level change
+occurs on an external input capture signal before it is considered as a valid level transition. An
+internal clock source must be present to use this feature.
+00: any external input capture signal level change is considered as a valid transition
+01: external input capture signal level change must be stable for at least 2 clock periods before it is
+considered as valid transition.
+10: external input capture signal level change must be stable for at least 4 clock periods before it is
+considered as valid transition.
+11: external input capture signal level change must be stable for at least 8 clock periods before it is
+considered as valid transition.
+Bits 27:26 Reserved, must be kept at reset value.
+Bits 25:24 IC2PSC[1:0]: Input capture 2 prescaler
+This bitfield defines the ratio of the prescaler acting on the CC2 input (IC2).
+00: no prescaler, capture is done each time an edge is detected on the capture input
+01: capture is done once every 2 events
+10: capture is done once every 4 events
+11: capture is done once every 8 events
+Bits 23:20 Reserved, must be kept at reset value.
+Bits 19:18 CC2P[1:0]: Capture/compare 2 output polarity.
+Condition: CC2 as output
+Only bit2 is used to set polarity when output mode is enabled, bit3 is don't care.
+0: OC2 active high
+1: OC2 active low
+Condition: CC2 as input
+This field is used to select the IC2 polarity for capture operations.
+00: rising edge, circuit is sensitive to IC2 rising edge
+01: falling edge, circuit is sensitive to IC2 falling edge
+10: reserved, do not use this configuration.
+11: both edges, circuit is sensitive to both IC2 rising and falling edges.
+Bit 17 CC2E: Capture/compare 2 output enable.
+Condition: CC2 as output
+0: Off - OC2 is not active. Writing '0' to the CC2E bit resets the ue_dma_req signal only if all the
+other LPTIM channels are disabled.
+1: On - OC2 signal is output on the corresponding output pin
+Condition: CC2 as input
+This bit determines if a capture of the counter value can actually be done into the input
+capture/compare register 2 (LPTIM_CCR2) or not.
+0: Capture disabled. Writing '0' to the CC2E bit resets the associated ic2_dma_req signal.
+1: Capture enabled.
+Bit 16 CC2SEL: Capture/compare 2 selection
+This bitfield defines the direction of the channel, input (capture) or output mode.
+0: CC2 channel is configured in output PWM mode
+1: CC2 channel is configured in input capture mode
+Bits 15:14 Reserved, must be kept at reset value.

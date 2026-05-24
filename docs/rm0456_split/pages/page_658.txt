@@ -1,0 +1,166 @@
+667
+
+System configuration controller (SYSCFG)
+
+15.3.7
+
+RM0456
+
+SYSCFG memory erase status register (SYSCFG_MESR)
+Address offset: 0x18
+Power-on reset value: 0x0000 0000
+System reset value: 0x0000 000X (bit 0 not affected by system reset)
+When the system is secure (TZEN = 1), this register can be protected against nonsecure
+access by setting the SYSCFGSEC bit in the SYSCFG_SECCFGR register. When the
+SYSCFGSEC bit is set, only secure access is allowed: nonsecure read/write access is
+RAZ/WI and generates an illegal access event.
+When the system is not secure (TZEN = 0), there is no access restriction. This register can
+be read and written by privileged and unprivileged access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+IPMEE
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+MCLR
+
+rc_w1
+
+rc_w1
+
+Bits 31:17 Reserved, must be kept at reset value.
+Bit 16 IPMEE: ICACHE and PKA SRAM erase status
+This bit is set by hardware when ICACHE and PKA SRAM erase is completed after potential
+tamper detection (refer to Section 64: Tamper and backup registers (TAMP) for more details).
+This bit is cleared by software by writing 1 to it.
+0: ICACHE and PKA SRAM erase on going if not yet cleared by software
+1: ICACHE and PKA SRAM erase done
+Bits 15:1 Reserved, must be kept at reset value.
+Bit 0 MCLR: Erase status of device memories
+This bit is set by hardware when SRAM2, BKPSRAM, ICACHE, DCACHE1/2, PKA SRAM
+erase is completed after power-on reset or tamper detection (refer to Section 64: Tamper and
+backup registers (TAMP) for more details). This bit is not reset by system reset and is cleared
+by software by writing 1 to it.
+0: memory erase on going if not yet cleared by software
+1: Memory erase done

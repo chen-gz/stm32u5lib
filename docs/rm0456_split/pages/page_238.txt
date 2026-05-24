@@ -1,0 +1,41 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 9 LTDCUSBF: illegal access flag for LTDC or USB
+0: no illegal access event
+1: illegal access event
+Note: This bit flags the LTDC on STM32U59x/5Ax/5Fx/5Gx. It flags the USB
+on STM32U535/545. It is reserved on STM32U575/585.
+Bit 8 SAI2F: illegal access flag for SAI2
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 7 SAI1F: illegal access flag for SAI1
+0: no illegal access event
+1: illegal access event
+Bit 6 TIM17F: illegal access flag for TIM7
+0: no illegal access event
+1: illegal access event
+Bit 5 TIM16F: illegal access flag for TIM6
+0: no illegal access event
+1: illegal access event
+Bit 4 TIM15F: illegal access flag for TIM5
+0: no illegal access event
+1: illegal access event
+Bit 3 USART1F: illegal access flag for USART1
+0: no illegal access event
+1: illegal access event
+Bit 2 TIM8F: illegal access flag for TIM8
+0: no illegal access event
+1: illegal access event
+Bit 1 SPI1F: illegal access flag for SPI1
+0: no illegal access event
+1: illegal access event
+Bit 0 TIM1F: illegal access flag for TIM1
+0: no illegal access event
+1: illegal access event

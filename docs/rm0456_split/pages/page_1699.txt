@@ -1,0 +1,120 @@
+RM0456 Rev 6
+
+RM0456
+
+Parallel synchronous slave interface (PSSI)
+Table 422. PSSI input/output pins
+PSSI signal
+name
+
+DCMI signal it
+is shared with
+
+Signal type
+
+PSSI_PDCK
+
+DCMI_PIXCK
+
+Input
+
+PSSI_D[15:0]
+
+DCMI_D[13:0]
+
+Input/output
+
+PSSI_DE
+
+DCMI_HSYNC
+
+Input/output Data enable signal
+
+PSSI_RDY
+
+DCMI_VSYNC
+
+Input/output Ready signal
+
+Description
+Parallel data clock input
+Data output when transmitting, data input when
+receiving
+
+Table 423 shows the PSSI internal input/output signals.
+Table 423. PSSI internal input/output signals
+
+42.3.3
+
+Internal
+signal
+name
+
+Signal type
+
+pssi_it
+
+Output
+
+Interrupt
+
+pssi_dma
+
+Output
+
+DMA request
+
+pssi_hclk
+
+Input
+
+AHB clock
+
+Description
+
+PSSI clock
+The AHB clock frequency must be at least 2.5 times higher than the PSSI_PDCK frequency.
+At frequency ratios lower than 2.5, data might be corrupted or lost during transfers.
+Data transfers are synchronous with PSSI_PDCK. The PSSI_PDCK polarity can be
+configured as follows, through CKPOL bit (bit 5 of PSSI_CR):
+•
+
+•
+
+42.3.4
+
+When CKPOL = 0
+–
+
+Input pins are sampled on PSSI_PDCK falling edge
+
+–
+
+Output pins are driven on PSSI_PDCK rising edge
+
+When CKPOL = 1
+–
+
+Input pins are sampled on PSSI_PDCK rising edge
+
+–
+
+Output pins are driven on PSSI_PDCK falling edge
+
+PSSI data management
+Data direction
+The direction of data transfers is configured through the OUTEN control bit (bit 31 of
+PSSI_CR):
+•
+
+When OUTEN is cleared to 0 (default setting), the PSSI operates in receive mode and
+the data is input on the data pins.
+
+•
+
+When OUTEN is set to 1, the peripheral operates in transmit mode and the data is
+output on the data pins.
+
+OUTEN can be modified only when the ENABLE bit is cleared to 0.
+
+RM0456 Rev 6

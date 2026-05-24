@@ -1,0 +1,62 @@
+RM0456 Rev 6
+
+RM0456
+
+70.2
+
+FD controller area network (FDCAN)
+
+FDCAN main features
+•
+
+Conform with CAN protocol version 2.0 part A, B, and ISO 11898-1: 2015
+
+•
+
+CAN FD with maximum 64 data bytes supported
+
+•
+
+CAN error logging
+
+•
+
+AUTOSAR and J1939 support
+
+•
+
+Improved acceptance filtering
+
+•
+
+Two receive FIFOs of three payloads each (up to 64 bytes per payload)
+
+•
+
+Separate signaling on reception of high priority messages
+
+•
+
+Configurable transmit FIFO/queue of three payloads (up to 64 bytes per payload)
+
+•
+
+Transmit event FIFO
+
+•
+
+Programmable loop-back test mode
+
+•
+
+Maskable module interrupts
+
+•
+
+Two clock domains: APB bus interface and CAN core kernel clock
+
+•
+
+Power-down support
+
+RM0456 Rev 6

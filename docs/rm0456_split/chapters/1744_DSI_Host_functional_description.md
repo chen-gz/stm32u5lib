@@ -1,0 +1,102 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+44.4
+
+DSI Host functional description
+
+44.4.1
+
+General description
+The MIPI® DSI Host includes dedicated video interfaces internally connected to the LTDC
+and a generic APB interface that can be used to transmit information to the display. More in
+detail:
+•
+
+LTDC interface:
+–
+
+Used to transmit information in video mode, in which the transfers from the host
+processor to the peripheral take the form of a real-time pixel stream (DPI).
+
+–
+
+Through a customized mode, this interface can be used to transmit information in
+full bandwidth in the adapted command mode (DBI).
+
+•
+
+APB register interface: allows the transmission of generic information in command
+mode, and follows a proprietary register interface. This interface can operate
+concurrently with either LTDC interface in either video mode or adapted command
+mode.
+
+•
+
+Video mode pattern generator: allows the transmission of horizontal/vertical color bar
+and D-PHY BER testing pattern without any kind of stimuli.
+
+The block diagram is shown in Figure 412.
+Figure 412. DSI block diagram
+
+RGB
+
+LTDC
+interface
+
+LTDC
+Ctrl FIFO
+LTDC
+Pixel FIFO
+
+DSI_D1P
+DSI_D1N
+
+DSI_TE
+APB to
+generic
+
+Packet
+handler
+
+Generic FIFO
+
+D-PHY
+interface
+control
+
+DSI_D0P
+PPI
+
+D-PHY
+
+DSI_D0N
+DSI_CKP
+DSI_CKN
+
+Video mode
+pattern
+generator
+
+32-bit APB bus
+
+dsi_it
+
+Register bank
+
+Error management
+
+MS53556V1
+
+44.4.2
+
+DSI Host pins and internal signals
+Table 435 and Table 436 list, respectively, the DSI pins (alternate functions) and the internal
+input/output signals.
+Table 435. DSI pins
+
+<!-- pagebreak -->
+

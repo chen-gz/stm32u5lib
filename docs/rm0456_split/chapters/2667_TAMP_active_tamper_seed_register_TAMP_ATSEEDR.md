@@ -1,0 +1,54 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Selecting the clock source and the appropriate oversampling method
+The choice of the clock source is done through the Clock Control system (see Section :
+Reset and Clock Control (RCC)). The clock source must be selected through the UE bit
+before enabling the USART.
+The clock source must be selected according to two criteria:
+•
+
+Possible use of the USART in low-power mode
+
+•
+
+Communication speed.
+
+The clock source frequency is usart_ker_ck.
+When the dual clock domain and the wake-up from low-power mode features are supported,
+the usart_ker_ck clock source can be configurable in the RCC (see Section : Reset and
+Clock Control (RCC)). Otherwise the usart_ker_ck clock is the same as usart_pclk.
+The usart_ker_ck clock can be divided by a programmable factor, defined in the
+USART_PRESC register.
+Figure 814. usart_ker_ck clock divider block diagram
+
+usart_ker_ck_pres
+usart_ker_ck
+
+USARTx_PRESC[3:0]
+
+USARTx_BRR register
+and oversampling
+
+MSv40855V1
+
+Some usart_ker_ck sources enable the USART to receive data while the MCU is in lowpower mode. Depending on the received data and wake-up mode selected, the USART
+wakes up the MCU, when needed, in order to transfer the received data, by performing a
+software read to the USART_RDR register or by DMA.
+For the other clock sources, the system must be active to enable USART communications.
+The communication speed range (specially the maximum communication speed) is also
+determined by the clock source.
+The receiver implements different user-configurable oversampling techniques (except in
+synchronous mode) for data recovery by discriminating between valid incoming data and
+noise. This enables obtaining the best a trade-off between the maximum communication
+speed and noise/clock inaccuracy immunity.
+The oversampling method can be selected by programming the OVER8 bit in the
+USART_CR1 register either to 16 or 8 times the baud rate clock (see Figure 815 and
+Figure 816).
+Depending on the application:
+
+<!-- pagebreak -->
+

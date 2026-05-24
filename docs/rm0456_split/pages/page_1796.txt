@@ -1,0 +1,9 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+line, a malfunction occurs. This phenomenon can be avoided by configuring the
+DSI Host to go to low-power once per line.
+
+•

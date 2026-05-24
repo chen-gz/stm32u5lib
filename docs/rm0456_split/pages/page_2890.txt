@@ -1,0 +1,190 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+
+Bits 3:2 PRTCFG[1:0]: Protocol configuration
+These bits are set and cleared by software. These bits have to be configured when the audio block is
+disabled.
+00: Free protocol. Free protocol enables to use the powerful configuration of the audio block to
+address a specific audio protocol (such as I2S, LSB/MSB justified, TDM, PCM/DSP...) by setting
+most of the configuration register bits as well as frame configuration register.
+01: SPDIF protocol
+10: AC’97 protocol
+11: Reserved
+Bits 1:0 MODE[1:0]: SAIx audio block mode
+These bits are set and cleared by software. They must be configured when SAIx audio block is
+disabled.
+00: Master transmitter
+01: Master receiver
+10: Slave transmitter
+11: Slave receiver
+Note: When the audio block is configured in SPDIF mode, the master transmitter mode is forced
+(MODE[1:0] = 00).
+
+69.6.3
+
+SAI configuration register 2 (SAI_ACR2)
+Address offset: 0x08
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+COMP[1:0]
+
+CPL
+
+MUTE
+VAL
+
+MUTE
+
+TRIS
+
+F
+FLUSH
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+w
+
+rw
+
+MUTECNT[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+FTH[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:14 COMP[1:0]: Companding mode.
+These bits are set and cleared by software. The µ-Law and the A-Law log are a part of the CCITT
+G.711 recommendation, the type of complement that is used depends on CPL bit.
+The data expansion or data compression are determined by the state of bit MODE[0].
+The data compression is applied if the audio block is configured as a transmitter.
+The data expansion is automatically applied when the audio block is configured as a receiver.
+Refer to Section : Companding mode for more details.
+00: No companding algorithm
+01: Reserved.
+10: µ-Law algorithm
+11: A-Law algorithm
+Note: Companding mode is applicable only when Free protocol mode is selected.
+
+RM0456 Rev 6

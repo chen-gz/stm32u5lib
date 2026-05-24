@@ -1,0 +1,192 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Bit 2 DXPIE: DXP interrupt enabled
+DXPIE is set by software and cleared by TXTF flag set event.
+0: DXP interrupt disabled
+1: DXP interrupt enabled
+Bit 1 TXPIE: TXP interrupt enable
+TXPIE is set by software and cleared by TXTF flag set event.
+0: TXP interrupt disabled
+1: TXP interrupt enabled
+Bit 0 RXPIE: RXP interrupt enable
+0: RXP interrupt disabled
+1: RXP interrupt enabled
+
+68.8.6
+
+SPI status register (SPI_SR)
+Address offset: 0x014
+Reset value: 0x0000 1002
+All the flags of this register are not cleared automatically when the SPI is reenabled. They
+require specific clearing access exclusively via the flag clearing register as noted in the bits
+descriptions below.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+CTSIZE[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+RXPLVL[1:0]
+
+TXC
+
+SUSP
+
+Res.
+
+MODF
+
+TIFRE
+
+CRCE
+
+OVR
+
+UDR
+
+TXTF
+
+EOT
+
+DXP
+
+TXP
+
+RXP
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RXWNE
+r
+
+r
+
+r
+
+Bits 31:16 CTSIZE[15:0]: number of data frames remaining in current TSIZE session
+The value is not quite reliable when traffic is ongoing on bus or during autonomous operation
+in low-power mode.
+Note: CTSIZE[15:0] bits are not available in instances with limited set of features.
+Bit 15 RXWNE: RxFIFO word not empty
+0: less than four bytes of RxFIFO space is occupied by data
+1: at least four bytes of RxFIFO space is occupied by data
+Note: This bit value does not depend on DSIZE setting and keeps together with RXPLVL[1:0]
+information about RxFIFO occupancy by residual data.

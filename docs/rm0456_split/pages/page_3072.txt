@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 19 OEPINT: OUT endpoint interrupt
+The core sets this bit to indicate that an interrupt is pending on one of the OUT endpoints of
+the core (in device mode). The application must read the OTG_DAINT register to determine
+the exact number of the OUT endpoint on which the interrupt occurred, and then read the
+corresponding OTG_DOEPINTx register to determine the exact cause of the interrupt. The
+application must clear the appropriate status bit in the corresponding OTG_DOEPINTx
+register to clear this bit.
+Note: Only accessible in device mode.
+Bit 18 IEPINT: IN endpoint interrupt
+The core sets this bit to indicate that an interrupt is pending on one of the IN endpoints of the
+core (in device mode). The application must read the OTG_DAINT register to determine the
+exact number of the IN endpoint on which the interrupt occurred, and then read the
+corresponding OTG_DIEPINTx register to determine the exact cause of the interrupt. The
+application must clear the appropriate status bit in the corresponding OTG_DIEPINTx
+register to clear this bit.
+Note: Only accessible in device mode.
+Bits 17:16 Reserved, must be kept at reset value.
+Bit 15 EOPF: End of periodic frame interrupt
+Indicates that the period specified in the periodic frame interval field of the OTG_DCFG
+register (PFIVL bit in OTG_DCFG) has been reached in the current frame.
+Note: Only accessible in device mode.
+Bit 14 ISOODRP: Isochronous OUT packet dropped interrupt
+The core sets this bit when it fails to write an isochronous OUT packet into the Rx FIFO
+because the Rx FIFO does not have enough space to accommodate a maximum size
+packet for the isochronous OUT endpoint.
+Note: Only accessible in device mode.
+Bit 13 ENUMDNE: Enumeration done
+The core sets this bit to indicate that speed enumeration is complete. The application must
+read the OTG_DSTS register to obtain the enumerated speed.
+Note: Only accessible in device mode.
+Bit 12 USBRST: USB reset
+The core sets this bit to indicate that a reset is detected on the USB.
+Note: Only accessible in device mode.
+Bit 11 USBSUSP: USB suspend
+The core sets this bit to indicate that a suspend was detected on the USB. The core enters
+the suspended state when there is no activity on the data lines for an extended period of
+time.
+Note: Only accessible in device mode.
+Bit 10 ESUSP: Early suspend
+The core sets this bit to indicate that an Idle state has been detected on the USB for 3 ms.
+Note: Only accessible in device mode.
+Bits 9:8 Reserved, must be kept at reset value.
+Bit 7 GONAKEFF: Global OUT NAK effective
+Indicates that the Set global OUT NAK bit in the OTG_DCTL register (SGONAK bit in
+OTG_DCTL), set by the application, has taken effect in the core. This bit can be cleared by
+writing the Clear global OUT NAK bit in the OTG_DCTL register (CGONAK bit in
+OTG_DCTL).
+Note: Only accessible in device mode.
+
+RM0456 Rev 6

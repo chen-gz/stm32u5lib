@@ -1,0 +1,226 @@
+RM0456 Rev 6
+
+Entry
+
+RM0456
+
+Debug support (DBG)
+Table 798. Processor ROM table (continued)
+
+Address
+in ROM table
+
+Component
+name
+
+Component
+base address
+
+Component
+Size
+address offset (Kbytes)
+
+0xE00F F024 to
+0xE00F FFC8
+
+Reserved
+
+-
+
+-
+
+-
+
+0x0000 0000
+
+0xE00F FFCC to
+0xE00F FFFC
+
+ROM table registers
+
+-
+
+-
+
+-
+
+See Table 800
+
+Entry
+
+The topology for the CoreSight components in the Cortex -M33 is shown in the figure below.
+Figure 958. CoreSight topology
+
+AHB-AP
+Base
+register 0xE00FE000
+(0xF8)
+
+Processor ROM table
+@0xE00FF000
+0x000 Offset: 0xFFF0F000
+
+0x000
+
+Offset: 0x00001000
+
+0x004
+
+Offset: 0xFFF42000
+
+0x008 Offset: 0xFFF46000
+
+0xFD0
+
+0xFFC
+
+0x000
+
+Register file base
+
+0xFD0
+
+PIDR4
+
+0xFFC
+
+CIDR3
+
+0x004 Offset: 0xFFF02000
+0x008 Offset: 0xFFF03000
+
+MCU ROM table
+@0xE00FE000
+
+System control space (SCS)
+@0xE000E000
+
+0x00C Offset: 0xFFF01000
+0x010
+
+Reserved
+
+0x014 Offset: 0xFFF42000
+0x018 Offset: 0xFFF43000
+
+Top of table
+
+0x01C
+
+Top of table
+
+PIDR4
+
+0xFD0
+
+PIDR4
+
+0x000
+
+Register file base
+
+CIDR3
+
+0xFFC
+
+CIDR3
+
+0xFD0
+
+PIDR4
+
+Trace port (TPIU)
+@0xE0040000
+
+0xFFC
+
+CIDR3
+
+Breakpoint unit (BPU)
+@0xE0002000
+
+0x000 Register file base
+
+0xFD0
+
+0xFFC
+
+Register file base
+
+0xFD0
+
+PIDR4
+
+0xFFC
+
+CIDR3
+
+Instrumentation trace
+(ITM)
+@0xE0000000
+
+Embedded trace (ETM)
+@0xE0041000
+0xFD0
+0x000
+
+Register file base
+
+0xFD0
+
+PIDR4
+
+0xFFC
+
+CIDR3
+
+CIDR3
+
+0xFFC
+
+0x000 Register file base
+
+0xFFC
+
+0x000
+
+0x000
+
+PIDR4
+
+MCU debug (DBGMCU)
+@0xE0044000
+
+0xFD0
+
+Data watchpoint/trace
+(DWT)
+@0xE0001000
+
+Register file base
+
+PIDR4
+
+CIDR3
+
+Cross trigger (CTI)
+@0xE0042000
+0x000
+
+Register file base
+
+0xFD0
+
+PIDR4
+
+0xFFC
+
+CIDR3
+
+PIDR4
+
+CIDR3
+
+MSv62650V2
+
+RM0456 Rev 6

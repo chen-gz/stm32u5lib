@@ -1,0 +1,63 @@
+RM0456 Rev 6
+
+r
+
+WRERR RDERR
+
+r
+
+r
+
+CCF
+
+r
+
+RM0456
+
+Secure AES coprocessor (SAES)
+
+Bit 7 KEYVALID: Key Valid flag
+This bit is set by hardware when the amount of key information defined by KEYSIZE in SAES_CR
+has been loaded in SAES_KEYx key registers.
+0: No valid key information is available in key registers. EN bit in SAES_CR cannot be set.
+1: Valid key information, defined by KEYSIZE in SAES_CR, is loaded in key registers.
+In normal mode when KEYSEL equals to zero, the application must write the key registers in the
+correct sequence, otherwise the KEIF flag of the SAES_ISR register is set and KEYVALID stays at
+zero.
+When KEYSEL is different from zero the BUSY flag is automatically set by SAES. When key is
+loaded successfully, the BUSY flag is cleared and KEYVALID set. Upon an error, the KEIF flag of
+the SAES_ISR register is set, the BUSY flag cleared and KEYVALID kept at zero.
+When the KEIF flag is set, the application must clear it through the SAES_ICR register, otherwise
+KEYVALID cannot be set. See the KEIF bit description for more details.
+For more information on key loading, refer to Section 50.4.12: SAES key registers.
+Bits 6:4 Reserved, must be kept at reset value.
+Bit 3 BUSY: Busy
+This flag indicates whether SAES is idle or busy during GCM payload encryption phase:
+0: Idle
+1: Busy
+The flag is also set upon SAES initialization, upon fetching random number from the RNG, or upon
+transferring a shared key to a target peripheral.
+Bit 2 WRERR: Write error
+This flag indicates the detection of an unexpected write operation to the SAES_DINR register
+(during computation or data output phase):
+0: Not detected
+1: Detected
+The flag is set by hardware. It is cleared by software upon setting the RWEIF bit of the SAES_ISR
+register.
+Upon the flag setting, an interrupt is generated if enabled through the RWEIE bit of the SAES_ISR
+register.
+The flag setting has no impact on the SAES operation. Unexpected write is ignored.
+Bit 1 RDERR: Read error flag
+This flag indicates the detection of an unexpected read operation from the SAES_DOUTR register
+(during computation or data input phase):
+0: Not detected
+1: Detected
+The flag is set by hardware. It is cleared by software upon setting the RWEIF bit of the SAES_ISR
+register.
+Upon the flag setting, an interrupt is generated if enabled through the RWEIE bit of the SAES_ISR
+register.
+The flag setting has no impact on the SAES operation. Unexpected read returns zero.
+Bit 0 CCF: Computation completed flag
+This bit mirrors the CCF bit of the SAES_ISR register.
+
+RM0456 Rev 6

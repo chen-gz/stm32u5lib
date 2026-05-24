@@ -1,0 +1,149 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Bit 12 RFC1RF: Relative frame counter 1 reload flag
+This bit indicates relative frame counter 1 has been reloaded.
+0: No reload occurred on relative frame counter 1.
+1: A reload on relative frame counter 1 occurred.
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 ALCC2F: Absolute line counter compare 2 flag
+This bit indicates match on compare 2 of the absolute line counter.
+0: No match occurred on compare 2 of the absolute line counter.
+1: A match on compare 2 of the absolute line counter occurred.
+Bit 8 ALCC1F: Absolute line counter compare 1 flag
+This bit indicates match on compare 1 of the absolute line counter.
+0: No match occurred on compare 1 of the absolute line counter.
+1: A match on compare 1 of the absolute line counter occurred.
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 AFCC1F: Absolute frame counter compare 1 flag
+This bit indicates match on compare 1 of the absolute frame counter.
+0: No match occurred on compare 1 of the absolute frame counter.
+1: A match on compare 1 of the absolute frame counter occurred.
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 TEF: Tearing-effect flag
+This bit indicates a tearing effect event occurred.
+0: No tearing effect occurred.
+1: A tearing effect occurred.
+Bit 1 ALCOF: Absolute line counter overflow flag
+This bit indicates an overflow occurred on the absolute line counter.
+0: No overflow occurred on the absolute line counter.
+1: A overflow on the absolute line counter occurred.
+Bit 0 AFCOF: absolute frame counter overflow flag
+This bit indicates an overflow occurred on the absolute frame counter.
+0: No overflow occurred on the absolute frame counter.
+1: An overflow on the absolute frame counter occurred.
+
+59.5.9
+
+GFXTIM interrupt clear register (GFXTIM_ICR)
+Address offset: 0x034
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+Res.
+
+CRFC2 CRFC1
+RF
+RF
+w
+
+w
+
+Res.
+
+Res.
+
+25
+
+24
+
+CWDG CWDG
+PF
+AF
+w
+
+w
+
+9
+
+8
+
+CALCC CALCC
+2F
+1F
+w
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+CAFCC
+1F
+
+Res.
+
+w
+
+Bits 31:26 Reserved, must be kept at reset value.

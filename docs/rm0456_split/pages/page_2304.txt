@@ -1,0 +1,53 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+trigger flag is set (TIF bit in the TIMx_SR register) and an interrupt request, or a DMA
+request can be sent if enabled (depending on the TIE and TDE bits in TIMx_DIER register).
+The following figure shows this behavior when the autoreload register TIMx_ARR = 0x36.
+The delay between the rising edge on tim_ti1 and the actual reset of the counter is due to
+the resynchronization circuit on tim_ti1 input.
+Figure 670. Control circuit in reset mode
+
+tim_ti1
+
+UG
+tim_cnt_ck, tim_psc_ck
+Counter register
+
+30 31
+
+32 33 34 35 36 00 01 02 03 00 01 02 03
+
+TIF
+MSv62361V1
+
+Slave mode: Gated mode
+The counter can be enabled depending on the level of a selected input.
+In the following example, the upcounter counts only when tim_ti1 input is low:
+1.
+
+Configure the channel 1 to detect low levels on tim_ti1. Configure the input filter
+duration (in this example, we do not need any filter, so we keep IC1F = 0000). The
+capture prescaler is not used for triggering, so it does not need to be configured. The
+CC1S bits select the input capture source only, CC1S = 01 in TIMx_CCMR1 register.
+Write CC1P = 1 and CC1NP = 0 in TIMx_CCER register to validate the polarity (and
+detect low level only).
+
+2.
+
+Configure the timer in gated mode by writing SMS = 101 in TIMx_SMCR register.
+Select tim_ti1 as the input source by writing TS = 00101 in TIMx_SMCR register.
+
+3.
+
+Enable the counter by writing CEN = 1 in the TIMx_CR1 register (in gated mode, the
+counter does not start if CEN = 0, whatever is the trigger input level).
+
+The counter starts counting on the internal clock as long as tim_ti1 is low and stops as soon
+as tim_ti1 becomes high. The TIF flag in the TIMx_SR register is set both when the counter
+starts or stops.
+The delay between the rising edge on tim_ti1 and the actual stop of the counter is due to the
+resynchronization circuit on tim_ti1 input.

@@ -1,0 +1,243 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Full-duplex communication
+By default, the SPI is configured for full-duplex communication (bits COMM[1:0] = 00 in the
+SPI_CFG2 register). In this configuration, the shift registers of the master and slave are
+linked using two unidirectional lines between the MOSI and the MISO pins. During the SPI
+communication, the data are shifted synchronously on the SCK clock edges provided by the
+master. The master transmits the data to be sent to the slave via the MOSI line and receives
+data from the slave via the MISO line simultaneously. When the data frame transfer is
+complete (all the bits are shifted) the information between the master and slave is
+exchanged.
+Figure 847. Full-duplex single master/ single slave application
+
+Rx shift register
+Tx shift register
+SPI clock
+generator
+
+Master
+
+MISO
+
+MISO
+
+MOSI
+
+MOSI
+
+SCK
+
+SCK
+
+SS(1)
+
+SS(1)
+
+(2)
+
+RDY
+
+(2)
+
+RDY
+
+Tx shift register
+Rx shift register
+
+Slave
+
+MSv50504V1
+
+1. The SS pin interconnection is optional. The slave can be configured to be permanently selected to operate
+in a single master-slave pair (see Section 68.4.7).
+2. The RDY signal provided by the slave can be read by the master optionally.
+
+Half-duplex communication
+The SPI can communicate in half-duplex mode by setting COMM[1:0] = 11 in the SPI_CFG2
+register. In this configuration, one single cross-connection line is used to link the shift
+registers of the master and slave together. During this communication, the data are
+synchronously shifted between the shift registers on the SCK clock edge in the transfer
+direction selected reciprocally by both master and slave with the HDDIR bit in their SPI_CR1
+registers. Note that the SPI must be disabled when changing the direction of the
+communication. In this configuration, the MISO pin at master and the MOSI pin at slave are
+free for other application uses and act as GPIOs.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Figure 848. Half-duplex single master/ single slave application
+
+Rx shift register
+Tx shift register
+SPI clock
+generator
+
+Master
+
+MISO
+
+(2)
+
+MOSI
+
+MISO
+(3)
+Nȍ
+
+MOSI
+
+Rx shift register
+
+SCK
+
+SCK
+
+SS (1)
+
+SS(1)
+
+RDY
+
+(4)
+
+Tx shift register
+
+(2)
+
+(4)
+
+RDY
+
+Slave
+
+MSv50505V1
+
+1. The SS pin interconnection is optional. The slave can be configured to be permanently selected to operate
+in a single master-slave pair (see Section 68.4.7).
+2. In this configuration, the MISO pin at master and MOSI pin at slave can be used as GPIOs
+3. A critical situation can happen when the communication direction is not changed synchronously between
+two nodes working in bidirectional mode. The new transmitter accesses the common data line while the
+former transmitter still keeps an opposite value on the line (the value depends on the SPI configuration and
+communicated data). The nodes can conflict temporarily with opposite output levels on the line until the
+former transmitter changes its data direction setting. It is suggested to insert a serial resistance between
+MISO and MOSI pins in this mode to protect the conflicting outputs and limit the current flow between them.
+4. The RDY signal provided by the slave can be read by the master optionally.
+
+Simplex communications
+The SPI can communicate in simplex mode by setting the SPI in transmit-only or in receiveonly using the COMM[1:0] field in the SPI_CFG2 register. In this configuration, only one line
+is used for the transfer between the shift registers of the master and slave. The remaining
+MISO or MOSI pin pair is not used for communication and can be used as standard GPIOs.
+•
+
+Transmit-only mode: COMM[1:0] = 01
+The master in transmit-only mode generates the clock as long as there are data
+available in the TxFIFO and the master transfer is ongoing.
+The slave in transmit-only mode sends data as long as it receives a clock on the SCK
+pin and the SS pin (or software managed internal signal) is active (see Section 68.4.7).
+
+•
+
+Receive-only mode: COMM[1:0] = 10
+In master mode, the MOSI output is disabled and can be used as a GPIO. The clock
+signal is generated continuously as long as the SPI is enabled and the CSTART bit in
+the SPI_CR1 register is set. The clock is stopped either by software explicitly
+requesting this by setting the CSUSP bit in the SPI_CR1 register or automatically when
+the RxFIFO is full, when the MASRX bit in the SPI_CR1 is set.
+In slave configuration, the MISO output is disabled and the pin can be used as a GPIO.
+The slave continues to receive data from the MOSI pin while its slave select signal is
+active (see Section 68.4.7).
+
+Note:
+
+In whatever master and slave modes, the data pin dedicated for transmission can be
+replaced by the data pin dedicated for reception and vice versa by changing the IOSWP bit
+value in the SPI_CFG2 register (this bit can only be modified when the SPI is disabled).
+Any simplex communication can be replaced by a variant of the half-duplex communication
+with a constant setting of the transfer direction (bidirectional mode is enabled, while the
+HDDIR bit is never changed) or by full-duplex control when unused data line and
+corresponding data flow is ignored.
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+Figure 849. Simplex single master / single slave application
+(master in transmit-only / slave in receive-only mode)
+
+Rx shift register
+Tx shift register
+SPI clock
+generator
+
+Master
+
+MISO
+
+MISO
+
+MOSI
+
+MOSI
+
+SCK
+
+SCK
+
+SS(1)
+
+SS(1)
+
+RDY
+
+(3)
+
+Tx shift register
+Rx shift register
+
+(3)
+
+RDY
+
+Slave
+
+MSv50506V2
+
+1. The SS pin interconnection is optional. The slave can be configured to be permanently selected to operate
+in a single master-slave pair (see Section 68.4.7).
+2. In this configuration, both the MISO pins can be used as GPIOs.
+3. The RDY signal provided by the slave can be read by the master optionally.
+
+68.4.5
+
+Standard multislave communication
+In a configuration with two or more independent slaves, the master uses a star topology with
+dedicated GPIO pins to manage the chip select lines for each slave separately (see Figure
+850.).
+The master must select one of the slaves individually by pulling low the GPIO connected to
+the slave SS input (only one slave can control data on a common MISO line at a given time).
+When this is done, a communication between the master and the selected slave is
+established. In addition to the simplicity, the advantage of this topology is that a specific SPI
+configuration can be applied for each slave as all the communication sessions are
+performed separately just within a single master-slave pair. Optionally, when there is no
+need to read any information from slaves, the master can transmit the same information to
+the multiple slaves.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

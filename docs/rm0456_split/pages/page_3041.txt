@@ -1,0 +1,101 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+which the transfer is not completed in the current frame. This interrupt is asserted
+along with the end of periodic frame interrupt (OTG_GINTSTS/EOPF).
+•
+
+5 OUT endpoints
+–
+
+Each of them can be configured to support the isochronous, bulk or interrupt
+transfer type
+
+–
+
+Each of them has a proper control (OTG_DOEPCTLx), transfer configuration
+(OTG_DOEPTSIZx) and status-interrupt (OTG_DOEPINTx) register
+
+–
+
+Device OUT endpoints common interrupt mask register (OTG_DOEPMSK) is
+available to enable/disable a single kind of endpoint interrupt source on all of the
+OUT endpoints (EP0 included)
+
+–
+
+Support for incomplete isochronous OUT transfer interrupt (INCOMPISOOUT bit
+in OTG_GINTSTS), asserted when there is at least one isochronous OUT
+endpoint on which the transfer is not completed in the current frame. This interrupt
+is asserted along with the end of periodic frame interrupt (OTG_GINTSTS/EOPF).
+
+Endpoint control
+•
+
+The following endpoint controls are available to the application through the device
+endpoint-x IN/OUT control register (OTG_DIEPCTLx/OTG_DOEPCTLx):
+–
+
+Endpoint enable/disable
+
+–
+
+Endpoint activate in current configuration
+
+–
+
+Program USB transfer type (isochronous, bulk, interrupt)
+
+–
+
+Program supported packet size
+
+–
+
+Program Tx FIFO number associated with the IN endpoint
+
+–
+
+Program the expected or transmitted data0/data1 PID (bulk/interrupt only)
+
+–
+
+Program the even/odd frame during which the transaction is received or
+transmitted (isochronous only)
+
+–
+
+Optionally program the NAK bit to always negative-acknowledge the host
+regardless of the FIFO status
+
+–
+
+Optionally program the STALL bit to always stall host tokens to that endpoint
+
+–
+
+Optionally program the SNOOP mode for OUT endpoint not to check the CRC
+field of received data
+
+Endpoint transfer
+The device endpoint-x transfer size registers (OTG_DIEPTSIZx/OTG_DOEPTSIZx) allow
+the application to program the transfer size parameters and read the transfer status.
+Programming must be done before setting the endpoint enable bit in the endpoint control
+register. Once the endpoint is enabled, these fields are read-only as the OTG_FS core
+updates them with the current transfer status.
+The following transfer parameters can be programmed:
+•
+
+Transfer size in bytes
+
+•
+
+Number of packets that constitute the overall transfer size
+
+Endpoint status/interrupt
+The device endpoint-x interrupt registers (OTG_DIEPINTx/OTG_DOPEPINTx) indicate the
+status of an endpoint with respect to USB- and AHB-related events. The application must
+read these registers when the OUT endpoint interrupt bit or the IN endpoint interrupt bit in

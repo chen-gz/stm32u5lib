@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Peripherals interconnect matrix
+
+Active power mode
+This feature remains available down to Stop 2 mode.
+
+16.3.20
+
+Triggers from graphic interfaces to timers
+From DCMI, LTDC, DSI to timers (TIM2/TIM3/TIM4/TIM5) (for STM32U59x/5Ax/5Fx/5Gx)
+and GFXTIM (for STM32U5Fx/5Gx)
+
+Purpose
+DCMI, LTDC and DSI synchronization signals can be used as triggering event to start the
+timers.
+
+Triggering signals
+The inputs (to DCMI, LTDC, and DSI) are directly connected to the timers (TIM2/3/4/5).
+External trigger as described in Table 565: Interconnect to the tim_etr input multiplexer for
+the STM32U59x/5Ax/5Fx/5Gx.
+GFXTIM input trigger as described in Table 619: GFXTIM trigger interconnections.
+
+Active power mode
+This feature remains available down to Sleep mode. Refer to Section 68.6: SPI in low-power
+modes.
+
+16.3.21
+
+Internal tamper sources
+From internal peripherals, clocks or monitoring to tamper.
+
+Purpose
+In order to detect any abnormal activity or tentative to corrupt the device, tampers are
+introduced and alert the system of such undesired event. Different actions can be taken in
+consequences.
+List of tamper sources can be found in Table 644: TAMP interconnection.
+
+Active power mode
+This interconnection is active in all power modes if the tamper source is activated.
+
+16.3.22
+
+Output from tamper to RTC
+From TAMP to RTC
+Purpose
+The RTC can timestamp a tamper event in order to retrieve history in time of such detection.
+The RTC can also control GPIOs and set a signal based on tamp or alarm status outside the
+MCU.
+Refer to section Section 63.3.3: GPIOs controlled by the RTC and TAMP for more details.
+
+RM0456 Rev 6

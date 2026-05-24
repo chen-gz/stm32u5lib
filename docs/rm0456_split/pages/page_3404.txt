@@ -1,0 +1,312 @@
+1.
+
+Program the A(3:2) field in the DPACC register, if using JTAG, with the register address
+within the bank. Program the RnW bit to select a read or write. In the case of a write,
+program the data field with the write data. If using SWD, the A(3:2) and RnW fields are
+part of the packet request word sent to the SW-DP with the APnDP bit reset
+(see Table 792). The write data are sent in the data phase.
+
+2.
+
+To access one of the banked DP registers at address 0x4, the register number must
+first be written to the DP_SELECTR register at address 0x8. Any subsequent read or
+
+RM0456 Rev 6
+
+RM0456
+
+Debug support (DBG)
+write to address 0x4 access the register corresponding to the contents
+of DP_SELECTR.
+
+DP debug port identification register (DP_DPIDR)
+Address offset: 0x0
+Reset value: 0x0BE0 2477 (SW-DP), 0x0BE0 1477 (JTAG-DP)
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+REVISION[3:0]
+r
+15
+
+23
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+VERSION[3:0]
+r
+
+r
+
+r
+
+22
+
+21
+
+20
+
+PARTNO[7:0]
+r
+
+r
+
+r
+
+6
+
+5
+
+4
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+MIN
+r
+
+3
+
+2
+
+1
+
+DESIGNER[10:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+0
+Res.
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:28 REVISION[3:0]: revision code
+0x0 (JTAG-DP): r0p0
+0x0 (SW-DP): r0p0
+Bits 27:20 PARTNO[7:0]: part number for the debug port
+0xBE
+Bits 19:17 Reserved, must be kept at reset value.
+Bit 16 MIN: minimal debug port (MINDP) implementation
+0x1: MINDP implemented (transaction counter and pushed operations are not supported)
+Bits 15:12 VERSION[3:0]: debug port architecture version
+0x1 (JTAG-DP): DPv1
+0x2 (SW-DP): DPv2
+Bits 11:1 DESIGNER[10:0]: JEDEC designer identity code
+0x23B: Arm JEDEC code
+Bit 0 Reserved, must be kept at reset value.
+
+DP abort register (DP_ABORTR)
+Address offset: 0x0
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+DAPAB
+ORT
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ORUN
+WDER STKER
+ERRCL
+RCLR RCLR
+R
+w
+
+w
+
+w
+
+w
+
+Bits 31:5 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,304 @@
+rw
+
+rw
+
+26
+
+25
+
+24
+
+23
+
+AFSEL14[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+10
+
+9
+
+8
+
+7
+
+AFSEL10[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+22
+
+21
+
+20
+
+19
+
+AFSEL13[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+AFSEL9[3:0]
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+18
+
+17
+
+16
+
+AFSEL12[3:0]
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+AFSEL8[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+General-purpose I/Os (GPIO)
+
+Bits 31:0 AFSELy[3:0]: Alternate function selection for port x I/O pin y (y = 15 to 8)
+These bits are written by the software to configure alternate function I/Os.
+0000: AF0
+0001: AF1
+0010: AF2
+0011: AF3
+0100: AF4
+0101: AF5
+0110: AF6
+0111: AF7
+1000: AF8
+1001: AF9
+1010: AF10
+1011: AF11
+1100: AF12
+1101: AF13
+1110: AF14
+1111: AF15
+Note: This field is reserved and must be kept at reset value when the corresponding I/O is
+not available on the selected package.
+
+13.4.11
+
+GPIO port bit reset register (GPIOx_BRR) (x = A to J)
+Address offset: 0x28
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+BR15
+
+BR14
+
+BR13
+
+BR12
+
+BR11
+
+BR10
+
+BR9
+
+BR8
+
+BR7
+
+BR6
+
+BR5
+
+BR4
+
+BR3
+
+BR2
+
+BR1
+
+BR0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 BRy: Port x reset IO pin y (y = 15 to 0)
+These bits are write-only. A read to these bits returns the value 0x0000.
+0: No action on the corresponding ODy bit
+1: Reset the corresponding ODy bit
+Note: This bit is reserved and must be kept at reset value when the corresponding I/O is not
+available on the selected package.
+
+RM0456 Rev 6

@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bit 5 BKCMP5E: tim_brk_cmp5 enable
+This bit enables the tim_brk_cmp5 for the timer’s tim_brk input. tim_brk_cmp5 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp5 input disabled
+1: tim_brk_cmp5 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 4 BKCMP4E: tim_brk_cmp4 enable
+This bit enables the tim_brk_cmp4 for the timer’s tim_brk input. tim_brk_cmp4 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp4 input disabled
+1: tim_brk_cmp4 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 3 BKCMP3E: tim_brk_cmp3 enable
+This bit enables the tim_brk_cmp3 for the timer’s tim_brk input. tim_brk_cmp3 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp3 input disabled
+1: tim_brk_cmp3 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 2 BKCMP2E: tim_brk_cmp2 enable
+This bit enables the tim_brk_cmp2 for the timer’s tim_brk input. tim_brk_cmp2 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp2 input disabled
+1: tim_brk_cmp2 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 1 BKCMP1E: tim_brk_cmp1 enable
+This bit enables the tim_brk_cmp1 for the timer’s tim_brk input. tim_brk_cmp1 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp1 input disabled
+1: tim_brk_cmp1 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 0 BKINE: TIMx_BKIN input enable
+This bit enables the TIMx_BKIN alternate function input for the timer’s tim_brk input.
+TIMx_BKIN input is ‘ORed’ with the other tim_brk sources.
+0: TIMx_BKIN input disabled
+1: TIMx_BKIN input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+
+Note:
+
+Refer to Section 54.3.2: TIM1/TIM8 pins and internal signals for product specific
+implementation.
+
+RM0456 Rev 6

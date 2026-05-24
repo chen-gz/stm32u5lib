@@ -1,0 +1,61 @@
+RM0456 Rev 6
+
+CYCC
+NTENA
+
+POSTRESET[3:0]
+rw
+
+rw
+
+rw
+
+RM0456
+
+Debug support (DBG)
+
+Bit 25 NOCYCCNT: cycle counter support (read only)
+0: supported
+Bit 24 NOPRFCNT: profiling counter support (read only)
+0: supported
+Bit 23 CYCDISS: cycle counter disabled secure.
+Controls whether the cycle counter is disabled in secure mode.
+0: no effect
+1: disable incrementing of the cycle counter when the processor is in secure state
+Bit 22 CYCEVTENA: enable for POSTCNT underflow event counter packet generation
+0: disabled
+1: enabled
+Bit 21 FOLDEVTENA: enable for folded instruction counter overflow event generation
+0: disabled
+1: enabled
+Bit 20 LSUEVTENA: enable for LSU counter overflow event generation
+0: disabled
+1: enabled
+Bit 19 SLEEPEVTENA: enable for sleep counter overflow event generation
+0: disabled
+1: enabled
+Bit 18 EXCEVTENA: enable for exception overhead counter overflow event generation
+0: disabled
+1: enabled
+Bit 17 CPIEVTENA: enable for CPI counter overflow event generation
+0: disabled
+1: enabled
+Bit 16 EXCTRCENA: enable for exception trace generation
+0: disabled
+1: enabled
+Bits 15:13 Reserved, must be kept at reset value.
+Bit 12 PCSAMPLENA: enable for POSTCNT counter to be used as a timer for periodic PC sample
+packet generation
+0: disabled
+1: enabled
+Bits 11:10 SYNCTAP[1:0]: position of the synchronization packet counter tap on the CYCCNT counter
+This field determines the synchronization packet rate.
+00: disabled, no synchronization packets
+01: Tap at CYCCNT[24]
+10: Tap at CYCCNT[26]
+11: Tap at CYCCNT[28]
+Bit 9 CYCTAP: Selects the position of the POSTCNT tap on the CYCCNT counter.
+0: Tap at CYCCNT[6]
+1: Tap at CYCCNT[10]
+
+RM0456 Rev 6

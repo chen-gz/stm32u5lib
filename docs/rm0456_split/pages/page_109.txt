@@ -1,0 +1,117 @@
+RM0456
+
+Output configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 628
+Alternate function configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 628
+High-impedance analog configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 629
+I/O compensation cell block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 649
+GPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 694
+GPDMA channel direct programming without linked-list (GPDMA_CxLLR = 0) . . . . . . . . 695
+GPDMA channel suspend and resume sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 696
+GPDMA channel abort and restart sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 697
+Static linked-list data structure (all Uxx = 1)
+of a linear addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 698
+Static linked-list data structure (all Uxx = 1)
+of a 2D addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 699
+GPDMA dynamic linked-list data structure
+of a linear addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 700
+GPDMA dynamic linked-list data structure
+of a 2D addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 700
+GPDMA channel execution and linked-list programming
+in run-to-completion mode (GPDMA_CxCR.LSM = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 702
+Inserting a LLIn with an auxiliary GPDMA channel y . . . . . . . . . . . . . . . . . . . . . . . . . . . . 704
+GPDMA channel execution and linked-list programming
+in link step mode (GPDMA_CxCR.LSM = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 706
+Building LLIn+1: GPDMA dynamic linked-lists in link step mode . . . . . . . . . . . . . . . . . . . 707
+Replace with a new LLIn’ in register file in link step mode . . . . . . . . . . . . . . . . . . . . . . . . 708
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 1) . . . . . . . . 709
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 2) . . . . . . . . 710
+GPDMA channel execution and linked-list programming . . . . . . . . . . . . . . . . . . . . . . . . . 712
+Programmed 2D addressing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 715
+GPDMA arbitration policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 722
+Trigger hit, memorization, and overrun waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 725
+GPDMA circular buffer programming: update of the memory start address
+with a linear addressing channel . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 726
+Shared GPDMA channel with circular buffering: update of the memory
+start address with a linear addressing channel. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 727
+LPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+LPDMA channel direct programming without linked-list (LPDMA_CxLLR = 0). . . . . . . . . 770
+LPDMA channel suspend and resume sequence. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 771
+LPDMA channel abort and restart sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 772
+Static linked-list data structure (all Uxx = 1) of channel x . . . . . . . . . . . . . . . . . . . . . . . . . 773
+LPDMA dynamic linked-list data structure of an addressing channel x . . . . . . . . . . . . . . 774
+LPDMA channel execution and linked-list programming
+in run-to-completion mode (LPDMA_CxCR.LSM = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 776
+Inserting a LLIn with an auxiliary LPDMA channel y. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 778
+LPDMA channel execution and linked-list programming
+in link step mode (LPDMA_CxCR.LSM = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 780
+Building LLIn+1: LPDMA dynamic linked-lists in link step mode . . . . . . . . . . . . . . . . . . . 781
+Replace with a new LLIn’ in register file in link step mode . . . . . . . . . . . . . . . . . . . . . . . . 782
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 1) . . . . . . . . 783
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 2) . . . . . . . . 784
+LPDMA channel execution and linked-list programming . . . . . . . . . . . . . . . . . . . . . . . . . 786
+LPDMA arbitration policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 790
+Trigger hit, memorization and overrun waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 794
+LPDMA circular buffer programming: update of the memory start address . . . . . . . . . . . 795
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 89.
+
+Shared LPDMA channel with circular buffering:
+update of the memory start address . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 796
+Figure 90. DMA2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 824
+Figure 91. Intel 8080 16-bit mode (RGB565) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 831
+Figure 92. Intel 8080 18/24-bit mode (RGB888) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 831
+Figure 93. DMA2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 859
+Figure 94. Intel 8080 16-bit mode (RGB565) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 866
+Figure 95. Intel 8080 18/24-bit mode (RGB888) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 866
+Figure 96. GFXMMU block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 893
+Figure 97. Virtual buffer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 894
+Figure 98. Virtual buffer and physical buffer memory map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 895
+Figure 99. MMU block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 896
+Figure 100. Block validation/comparator implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 897
+Figure 101. EXTI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 919
+Figure 102. Configurable event trigger logic CPU wake-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 921
+Figure 103. EXTI mux GPIO selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 922
+Figure 104. CRC calculation unit block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+Figure 105. CORDIC convergence for trigonometric functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 951
+Figure 106. CORDIC convergence for hyperbolic functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 952
+Figure 107. CORDIC convergence for square root . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 953
+Figure 108. Block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 962
+Figure 109. Input buffer areas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 964
+Figure 110. Circular input buffer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 965
+Figure 111. Circular input buffer operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 966
+Figure 112. Circular output buffer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 967
+Figure 113. Circular output buffer operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 968
+Figure 114. FIR filter structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 970
+Figure 115. IIR filter structure (direct form 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 972
+Figure 116. X1 buffer initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 977
+Figure 117. Filtering example 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 978
+Figure 118. Filtering example 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 979
+Figure 119. FMC block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 990
+Figure 120. FMC memory banks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
+Figure 121. Mode 1 read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1000
+Figure 122. Mode 1 write access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1001
+Figure 123. Mode A read access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1003
+Figure 124. Mode A write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1003
+Figure 125. Mode 2 and mode B read access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1005
+Figure 126. Mode 2 write access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1006
+Figure 127. Mode B write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1006
+Figure 128. Mode C read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1008
+Figure 129. Mode C write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1009
+Figure 130. Mode D read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1011
+Figure 131. Mode D write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1012
+Figure 132. Muxed read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1014
+Figure 133. Muxed write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1015
+Figure 134. Asynchronous wait during a read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . 1017
+Figure 135. Asynchronous wait during a write access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . 1018
+Figure 136. Wait configuration waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1020
+Figure 137. Synchronous multiplexed read mode waveforms - NOR, PSRAM (CRAM) . . . . . . . . . . 1021
+Figure 138. Synchronous multiplexed write mode waveforms - PSRAM (CRAM). . . . . . . . . . . . . . . 1023
+Figure 139. NAND flash controller waveforms for common memory access. . . . . . . . . . . . . . . . . . . 1035
+
+RM0456 Rev 6

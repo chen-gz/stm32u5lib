@@ -1,0 +1,232 @@
+PWR_CR5
+
+RM0456 Rev 6
+
+Refer to Section 2.3 for the register boundary addresses.
+SRAM6PDS7
+SRAM6PDS6
+SRAM6PDS5
+SRAM6PDS4
+SRAM6PDS3
+SRAM6PDS2
+SRAM6PDS1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SRAM6PDS8
+
+Reset value
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+31
+30
+29
+28
+27
+26
+25
+24
+23
+22
+21
+20
+19
+18
+17
+16
+15
+14
+13
+12
+11
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+
+Offset Register name
+
+Res.
+
+Power control (PWR)
+RM0456
+
+Table 111. PWR register map and reset values (continued)
+
+0
+0
+0
+0
+0
+0
+0
+0
+
+RM0456
+
+Reset and clock control (RCC)
+
+11
+
+Reset and clock control (RCC)
+
+11.1
+
+RCC introduction
+The reset and clock control (RCC) manages the different kind of reset, and generates all
+clocks for the bus and peripherals.
+
+11.2
+
+RCC pins and internal signals
+The table below lists the RCC inputs and output signals connected to package pins or balls.
+Table 112. RCC input/output signals connected to package pins or balls
+
+11.3
+
+Signal name
+
+Signal
+type
+
+NRST
+
+I/O
+
+System reset, can be used to provide reset to external devices
+
+OSC32_IN
+
+I
+
+32 kHz oscillator input
+
+OSC32_OUT
+
+O
+
+32 kHz oscillator output
+
+OSC_IN
+
+I
+
+System oscillator input
+
+OSC_OUT
+
+O
+
+System oscillator output
+
+MCO
+
+O
+
+Output clock for external devices
+
+LSCO
+
+O
+
+Low-speed output clock for external devices
+
+AUDIOCLK
+
+I
+
+External kernel clock input for SAI1, SAI2, MDF1 and ADF1
+
+Description
+
+RCC reset functional description
+There are three types of reset:
+
+11.3.1
+
+•
+
+a system reset
+
+•
+
+a power reset
+
+•
+
+a backup domain reset
+
+Power reset
+A power reset is generated when one of the following events occurs:
+•
+
+a brownout reset (BOR)
+
+•
+
+when exiting Standby mode
+
+•
+
+when exiting Shutdown mode
+
+A BOR sets all registers to their reset values except the ones in the backup domain.
+When exiting Standby mode, all registers in the core domain are set to their reset value.
+Registers outside the core domain (RTC, TAMP, WKUP, IWDG, and Standby/Shutdown
+mode control) are not impacted.
+When exiting Shutdown mode, a brownout reset is generated, resetting all registers except
+those in the backup domain.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

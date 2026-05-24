@@ -1,0 +1,41 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Bits 11:8 WDGCS[3:0]: Watchdog clock source
+This bitfield selects the watchdog clock source.
+0000: Line clock
+0001: Frame clock
+0010: HSYNC rising edge
+0011: HSYNC falling edge
+0100: VSYNC rising edge
+0101: VSYNC falling edge
+0110: TE rising edge
+0111: TE falling edge
+1000: Event 1
+1001: Event 2
+1010: Event 3
+1011: Event 4
+Others: Reserved
+Bits 7:6 Reserved, must be kept at reset value.
+Bits 5:4 WDGHRC[1:0]: Watchdog hardware reload configuration
+This bitfield configures the watchdog hardware reload.
+00: Watchdog hardware reload disabled
+01: Watchdog reloaded a rising edge of gfxtim_wrld
+10: Watchdog reloaded a falling edge of gfxtim_wrld
+11: Reserved
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 WDGS: Watchdog status
+This bit returns the status of the graphic watchdog.
+0: Graphic watchdog disabled
+1: Graphic watchdog enabled
+Bit 1 WDGDIS: Watchdog disable
+This bit disables the graphic watchdog.
+0: No effect
+1: Graphic watchdog disabled
+Bit 0 WDGEN: Watchdog enable
+This bit enables the graphic watchdog.
+0: No effect
+1: Graphic watchdog enabled

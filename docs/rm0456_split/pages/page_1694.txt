@@ -1,0 +1,177 @@
+1696
+
+Digital camera interface (DCMI)
+
+RM0456
+
+Bits 31:24 FEU[7:0]: Frame end delimiter unmask
+This byte specifies the mask to be applied to the code of the frame end delimiter.
+0: The corresponding bit in the FEC byte in DCMI_ESCR is masked while comparing the
+frame end delimiter with the received data.
+1: The corresponding bit in the FEC byte in DCMI_ESCR is compared while comparing the
+frame end delimiter with the received data.
+Bits 23:16 LEU[7:0]: Line end delimiter unmask
+This byte specifies the mask to be applied to the code of the line end delimiter.
+0: The corresponding bit in the LEC byte in DCMI_ESCR is masked while comparing the line
+end delimiter with the received data.
+1: The corresponding bit in the LEC byte in DCMI_ESCR is compared while comparing the
+line end delimiter with the received data.
+Bits 15:8 LSU[7:0]: Line start delimiter unmask
+This byte specifies the mask to be applied to the code of the line start delimiter.
+0: The corresponding bit in the LSC byte in DCMI_ESCR is masked while comparing the line
+start delimiter with the received data.
+1: The corresponding bit in the LSC byte in DCMI_ESCR is compared while comparing the
+line start delimiter with the received data.
+Bits 7:0 FSU[7:0]: Frame start delimiter unmask
+This byte specifies the mask to be applied to the code of the frame start delimiter.
+0: The corresponding bit in the FSC byte in DCMI_ESCR is masked while comparing the
+frame start delimiter with the received data.
+1: The corresponding bit in the FSC byte in DCMI_ESCR is compared while comparing the
+frame start delimiter with the received data.
+
+41.5.9
+
+DCMI crop window start (DCMI_CWSTRT)
+Address offset: 0x20
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+VST[12:0]
+
+HOFFCNT[13:0]
+rw
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bits 28:16 VST[12:0]: Vertical start line count
+The image capture starts with this line number. Previous line data are ignored.
+0x0000: line 1
+0x0001: line 2
+0x0002: line 3
+....
+Bits 15:14 Reserved, must be kept at reset value.
+Bits 13:0 HOFFCNT[13:0]: Horizontal offset count
+This value gives the number of pixel clocks to count before starting a capture.

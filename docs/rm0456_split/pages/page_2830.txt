@@ -1,0 +1,163 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+the pending interrupt requests are blocked to prevent their propagation into the interrupt
+services, except the MODF interrupt request.
+Table 702. SPI wake-up and interrupt requests
+Interrupt event
+
+Event
+flag
+
+Enable
+Control
+bit
+
+Event clear method
+
+Exit from
+Stop and Standby
+modes capability(1)(2)
+
+TxFIFO ready to be loaded (space
+available for one data packet FIFO threshold)
+
+TXP
+
+TXPIE
+
+TXP cleared by hardware when
+TxFIFO contains less than
+FTHLV empty locations
+
+Yes
+
+Data received in RxFIFO (one data
+packet available - FIFO threshold)
+
+RXP
+
+RXPIE
+
+RXP cleared by hardware when
+RxFIFO contains less than
+FTHLV samples
+
+Yes
+
+Both TXP and RXP active
+
+DXP
+
+DXPIE
+
+When TXP or RXP are cleared
+
+Yes
+
+Transmission Transfer Filled
+
+TXTF
+
+TXTFIE
+
+Writing TXTFC to 1
+
+No
+
+Underrun
+
+UDR
+
+UDRIE
+
+Writing UDRC to 1
+
+Yes
+
+Overrun
+
+OVR
+
+OVRIE
+
+Writing OVRC to 1
+
+Yes
+
+CRC Error
+
+CRCE
+
+CRCEIE
+
+Writing CRCEC to 1
+
+Yes
+
+TI Frame Format Error
+
+TIFRE
+
+TIFREIE
+
+Writing TIFREC to 1
+
+No
+
+Mode Fault
+
+MODF
+
+MODFIE
+
+Writing MODFC to 1
+
+No
+
+End Of Transfer (full transfer
+sequence completed - based on
+TSIZE value)
+
+EOT
+
+Writing EOTC to 1
+
+Yes
+
+Master mode suspended
+
+SUSP
+
+Writing SUSPC to 1
+
+Yes
+
+TxFIFO transmission complete
+(TxFIFO empty)
+
+TXC(3)
+
+TXC cleared by hardware when
+a transmission activity starts on
+the bus
+
+No
+
+Interrupt
+vector
+
+SPI
+
+EOTIE
+
+1. All the interrupt events can wake up the system from Sleep mode at each instance. For detailed information about
+instances capabilities to exit from concrete Stop and Standby mode refer to the Functionalities depending on the working
+mode table.
+2. Refer to Section 68.3: SPI implementation for information about Standby mode availability.
+3. The TXC flag behavior depends on the TSIZE setting. When TSIZE>0, the flag fully follows the EOT one including its
+clearing by EOTC.
+
+RM0456 Rev 6

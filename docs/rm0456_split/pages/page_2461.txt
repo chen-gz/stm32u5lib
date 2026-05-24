@@ -1,0 +1,134 @@
+2577
+
+Independent watchdog (IWDG)
+
+RM0456
+
+Table 623. IWDG delays versus actions (1)
+TDRVU, TDPVU
+
+TDWVU
+
+TDEWU
+
+TDRefresh
+
+TDRefAuto
+
+Min
+
+Max
+
+Min
+
+Max
+
+Min
+
+Max
+
+Min
+
+Max
+
+Min
+
+Max
+
+5 Tk
+
+6 Tk
+
+-
+
+6 Tk
+
+-
+
+6 Tk
+
+2 Tk
+
+2 Tk + Tp
+
+-
+
+Tp
+
+1. Tk represents a period of the kernel clock input, Tp represents a period of presc_ck.
+
+61.4.2
+
+IWDG internal signals
+The list of IWDG internal signals is detailed in Table 624.
+Table 624. IWDG internal input/output signals
+
+61.4.3
+
+Signal name
+
+Signal type
+
+Description
+
+iwdg_ker_ck
+
+Input
+
+IWDG kernel clock
+
+iwdg_ker_req
+
+Input
+
+IWDG kernel clock request
+
+iwdg_pclk
+
+Input
+
+IWDG APB clock
+
+iwdg_out_rst
+
+Output
+
+IWDG reset output
+
+iwdg_in_rst
+
+Input
+
+IWDG reset input
+
+iwdg_wkup
+
+Output
+
+IWDG wake-up event
+
+iwdg_it
+
+Output
+
+IWDG early wake-up interrupt
+
+Software and hardware watchdog modes
+The watchdog modes allow the application to select the way the IWDG is enabled, either by
+software commands (Software watchdog mode), or automatically (Hardware watchdog
+mode). All other functions work similarly for both Software and Hardware modes.
+The Software watchdog mode is the default working mode. The independent watchdog is
+started by writing the value 0x0000 CCCC into the IWDG key register (IWDG_KR), and the
+IWDCNT starts counting down from the reset value (0xFFF).
+In the hardware watchdog mode the independent watchdog is started automatically at
+power-on, or every time it is reset (via iwdg_in_rst). The IWDCNT down-counter starts
+counting down from the reset value 0xFFF. The hardware watchdog mode feature is
+enabled through the device option bits, see Section 61.3 for details.
+When the IWDCNT reaches 0x000, a reset signal is generated (iwdg_out_rst asserted).
+Whenever the key value 0x0000 AAAA is written in the IWDG key register (IWDG_KR), the
+IWDG_RLR value is reloaded into the IWDCNT, and the watchdog reset is prevented.
+Due to re-synchronization delays, the IWDG must be refreshed before the IWDCNT
+down-counter reaches 1.
+Once started, the IWDG can be stopped only when it is reset (iwdg_in_rst asserted).
+As shown in Figure 767, when the refresh command is executed, one period of presc_ck
+later, the IWDCNT is reloaded with the content of RL[11:0].

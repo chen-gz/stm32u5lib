@@ -1,0 +1,1620 @@
+RM0456
+
+List of tables
+
+Table 507.
+Table 508.
+Table 509.
+Table 510.
+Table 511.
+Table 512.
+Table 513.
+Table 514.
+Table 515.
+Table 516.
+Table 517.
+Table 518.
+Table 519.
+Table 520.
+Table 521.
+Table 522.
+Table 523.
+Table 524.
+Table 525.
+Table 526.
+Table 527.
+Table 528.
+Table 529.
+Table 530.
+Table 531.
+Table 532.
+Table 533.
+Table 534.
+Table 535.
+Table 536.
+Table 537.
+Table 538.
+Table 539.
+Table 540.
+Table 541.
+Table 542.
+Table 543.
+Table 544.
+Table 545.
+Table 546.
+Table 547.
+Table 548.
+Table 549.
+Table 550.
+Table 551.
+Table 552.
+Table 553.
+Table 554.
+
+Arithmetic multiplication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2076
+Arithmetic comparison . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2076
+CRT exponentiation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2077
+Point on elliptic curve Fp check . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2078
+ECC Fp scalar multiplication. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2078
+ECDSA sign - Inputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2080
+ECDSA sign - Outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2080
+Extended ECDSA sign - Extra outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2081
+ECDSA verification - Inputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2081
+ECDSA verification - Outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2082
+ECC complete addition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2082
+ECC double base ladder. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2083
+ECC projective to affine . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2084
+Family of supported curves for ECC operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2085
+Modular exponentiation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2086
+ECC scalar multiplication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2086
+ECDSA signature average computation time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECDSA verification average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECC double base ladder average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECC projective to affine average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECC complete addition average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+Point on elliptic curve Fp check average computation times . . . . . . . . . . . . . . . . . . . . . 2087
+Montgomery parameters average computation times. . . . . . . . . . . . . . . . . . . . . . . . . . . 2088
+PKA interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2088
+PKA register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2093
+TIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2096
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2096
+Interconnect to the tim_ti1 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2097
+Interconnect to the tim_ti2 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Interconnect to the tim_ti3 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Interconnect to the tim_ti4 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Internal trigger connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Interconnect to the tim_etr input multiplexer for STM32U535/545/575/585 . . . . . . . . . . 2099
+Interconnect to the tim_etr input multiplex for STM2U59x/5Ax/5Fx/5Gx . . . . . . . . . . . . 2099
+Timer break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2100
+Timer break2 interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2100
+System break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2101
+Interconnect to the ocref_clr input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2101
+CCR and ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2134
+CCR register change dithering pattern in center-aligned PWM mode . . . . . . . . . . . . . . 2135
+Behavior of timer outputs versus tim_brk/tim_brk2 inputs . . . . . . . . . . . . . . . . . . . . . . . 2147
+Break protection disarming conditions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2149
+Counting direction versus encoder signals (CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . 2158
+Counting direction versus encoder signals and polarity settings . . . . . . . . . . . . . . . . . . 2162
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2183
+Effect of low-power modes on TIM1/TIM8 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2184
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2184
+Output control bits for complementary tim_ocx and tim_ocxn channels
+with break feature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2211
+Table 555. TIMx register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2234
+Table 556. STM32U5 series general purpose timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2238
+Table 557. TIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2240
+
+RM0456 Rev 6
+
+101/3653
+106
+
+List of tables
+Table 558.
+Table 559.
+Table 560.
+Table 561.
+Table 562.
+Table 563.
+Table 564.
+Table 565.
+Table 566.
+Table 567.
+Table 568.
+Table 569.
+Table 570.
+Table 571.
+Table 572.
+Table 573.
+Table 574.
+Table 575.
+Table 576.
+Table 577.
+Table 578.
+Table 579.
+Table 580.
+Table 581.
+Table 582.
+Table 583.
+Table 584.
+Table 585.
+Table 586.
+Table 587.
+Table 588.
+Table 589.
+Table 590.
+Table 591.
+Table 592.
+Table 593.
+Table 594.
+Table 595.
+Table 596.
+Table 597.
+Table 598.
+Table 599.
+Table 600.
+Table 601.
+Table 602.
+Table 603.
+Table 604.
+Table 605.
+
+102/3653
+
+RM0456
+
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2240
+Interconnect to the tim_ti1 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2241
+Interconnect to the tim_ti2 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2241
+Interconnect to the tim_ti3 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2242
+Interconnect to the tim_ti4 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2242
+TIMx internal trigger connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2242
+Interconnect to the tim_etr input multiplexer
+for STM32U535/545/575/585 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2243
+Interconnect to the tim_etr input multiplexer
+for the STM32U59x/5Ax/5Fx/5Gx . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2243
+Interconnect to the tim_ocref_clr input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2244
+CCR and ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2275
+CCR register change dithering pattern in center-aligned PWM mode . . . . . . . . . . . . . . 2276
+Counting direction versus encoder signals(CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . . 2285
+Counting direction versus encoder signals and polarity settings . . . . . . . . . . . . . . . . . . 2290
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2314
+Effect of low-power modes on TIM2/TIM3/TIM4/TIM5 . . . . . . . . . . . . . . . . . . . . . . . . . . 2314
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2315
+Output control bit for standard tim_ocx channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2336
+TIM2/TIM3/TIM4/TIM5 register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . 2348
+TIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2354
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2355
+Interconnect to the tim_ti1 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2355
+Interconnect to the tim_ti2 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2356
+TIMx internal trigger connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2356
+Timer break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2356
+System break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2357
+Interconnect to the ocref_clr input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2357
+CCR and ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2377
+Break protection disarming conditions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2386
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2397
+Effect of low-power modes on TIM15/TIM16/TIM17 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2398
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2398
+Output control bits for complementary tim_ocx and tim_ocxn channels with break
+feature (TIM15) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2414
+TIM15 register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2427
+Output control bits for complementary tim_oc1 and tim_oc1n channels with break
+feature (TIM16/TIM17) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2440
+TIM16/TIM17 register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2454
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2457
+TIMx_ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2467
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2468
+Effect of low-power modes on TIM6/TIM7 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2468
+Interrupt request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2468
+TIMx register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2474
+STM32U5 series LPTIM features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2476
+LPTIM1/2/3 input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2478
+LPTIM4 input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2478
+LPTIM1/2/3 internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2479
+LPTIM4 internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2479
+LPTIM1/2/3/4 external trigger connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+LPTIM1/2/3/4 input 1 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+
+RM0456 Rev 6
+
+RM0456
+Table 606.
+Table 607.
+Table 608.
+Table 609.
+Table 610.
+Table 611.
+Table 612.
+Table 613.
+Table 614.
+Table 615.
+Table 616.
+Table 617.
+Table 618.
+Table 619.
+Table 620.
+Table 621.
+Table 622.
+Table 623.
+Table 624.
+Table 625.
+Table 626.
+Table 627.
+Table 628.
+Table 629.
+Table 630.
+Table 631.
+Table 632.
+Table 633.
+Table 634.
+Table 635.
+Table 636.
+Table 637.
+Table 638.
+Table 639.
+Table 640.
+Table 641.
+Table 642.
+Table 643.
+Table 644.
+Table 645.
+Table 646.
+Table 647.
+Table 648.
+Table 649.
+Table 650.
+Table 651.
+Table 652.
+Table 653.
+Table 654.
+Table 655.
+Table 656.
+Table 657.
+
+List of tables
+LPTIM1/2 input 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+LPTIM1/2/3 input capture 1 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+LPTIM1 input capture 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2481
+LPTIM2 input capture 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2481
+LPTIM3 input capture 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2481
+Prescaler division ratios . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2483
+Encoder counting scenarios . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2490
+Input capture Glitch filter latency (in counter step unit). . . . . . . . . . . . . . . . . . . . . . . . . . 2494
+Effect of low-power modes on the LPTIM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2499
+Interrupt events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2500
+LPTIM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2524
+GFXTIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2528
+GFXTIM internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2528
+GFXTIM trigger interconnections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2529
+Graphic timer interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2539
+GFXTIM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2560
+STM32U5 series IWDG features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2564
+IWDG delays versus actions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2566
+IWDG internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2566
+Effect of low power modes on IWDG . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2570
+IWDG interrupt request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2572
+IWDG register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2577
+WWDG features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2578
+WWDG internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2579
+WWDG interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2582
+WWDG register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2584
+RTC input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2588
+RTC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2588
+RTC interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2589
+RTC pin PC13 configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2590
+RTC_OUT mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2592
+Effect of low-power modes on RTC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2607
+RTC pins functionality over modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2607
+Nonsecure interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2608
+Secure interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2608
+RTC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2638
+TAMP input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2643
+TAMP internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2643
+TAMP interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2644
+Device resource x tamper protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2650
+Active tamper output change period . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2653
+Minimum ATPER value. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2654
+Active tamper filtered pulse duration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2655
+Effect of low-power modes on TAMP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+TAMP pins functionality over modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+TAMP register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2686
+STM32U535/545/575/585 I2C implementation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2689
+STM32U59x/5Ax/5Fx/5Gx I2C implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2689
+I2C input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2691
+I2C internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2692
+I2C1, I2C2, I2C4, I2C5, I2C6 interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2692
+
+RM0456 Rev 6
+
+103/3653
+106
+
+List of tables
+Table 658.
+Table 659.
+Table 660.
+Table 661.
+Table 662.
+Table 663.
+Table 664.
+Table 665.
+Table 666.
+Table 667.
+Table 668.
+Table 669.
+Table 670.
+Table 671.
+Table 672.
+Table 673.
+Table 674.
+Table 675.
+Table 676.
+Table 677.
+Table 678.
+Table 679.
+Table 680.
+Table 681.
+Table 682.
+Table 683.
+Table 684.
+Table 685.
+Table 686.
+Table 687.
+Table 688.
+Table 689.
+Table 690.
+Table 691.
+Table 693.
+Table 694.
+Table 695.
+Table 696.
+Table 697.
+Table 698.
+Table 699.
+Table 700.
+Table 701.
+Table 702.
+Table 703.
+Table 704.
+Table 705.
+Table 706.
+Table 707.
+Table 708.
+Table 709.
+Table 710.
+
+104/3653
+
+RM0456
+
+I2C3 interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2692
+Comparison of analog and digital filters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2695
+I²C-bus and SMBus specification data setup and hold times . . . . . . . . . . . . . . . . . . . . . 2697
+I2C configuration. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2701
+I²C-bus and SMBus specification clock timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2712
+Timing settings for fI2CCLK of 8 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2722
+Timing settings for fI2CCLK of 16 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2722
+SMBus timeout specifications . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2724
+SMBus with PEC configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2726
+TIMEOUTA[11:0] for maximum tTIMEOUT of 25 ms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2727
+TIMEOUTB[11:0] for maximum tLOW:SEXT and tLOW:MEXT of 8 ms . . . . . . . . . . . . . . . . 2727
+TIMEOUTA[11:0] for maximum tIDLE of 50 µs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2727
+Effect of low-power modes to I2C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2737
+I2C interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2738
+I2C register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2755
+Instance implementation on STM32U5 series . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2758
+USART/LPUART features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2758
+USART/UART input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2761
+USART internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2762
+USART interconnection (USART1/2/3/6 and UART4/5) . . . . . . . . . . . . . . . . . . . . . . . . . 2762
+Noise detection from sampled data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2774
+Tolerance of the USART receiver when BRR [3:0] = 0000. . . . . . . . . . . . . . . . . . . . . . . 2778
+Tolerance of the USART receiver when BRR[3:0] is different from 0000 . . . . . . . . . . . . 2778
+USART frame formats . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2783
+Effect of low-power modes on the USART . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2804
+USART interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2805
+USART register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2844
+Instance implementation on STM32U5 series . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2847
+USART/LPUART features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2847
+LPUART input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2850
+LPUART internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2850
+LPUART interconnections (LPUART1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2851
+Error calculation for programmed baud rates at lpuart_ker_ck_pres= 32.768 kHz . . . . 2862
+Tolerance of the LPUART receiver . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2863
+Effect of low-power modes on the LPUART . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2874
+LPUART interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2875
+LPUART register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2900
+SPI features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2904
+SPI input/output pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2906
+SPI internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2907
+SPI interconnection (SPI1 and SPI2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2907
+SPI interconnection (SPI3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2908
+Effect of low-power modes on the SPI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2934
+SPI wake-up and interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2935
+SPI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2952
+SAI features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2954
+SAI internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2956
+SAI input/output pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2956
+External synchronization selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2959
+MCLK_x activation conditions. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2964
+Clock generator programming examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2967
+SAI_A configuration for TDM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2974
+
+RM0456 Rev 6
+
+RM0456
+Table 711.
+Table 712.
+Table 713.
+Table 714.
+Table 715.
+Table 716.
+Table 717.
+Table 718.
+Table 719.
+Table 720.
+Table 721.
+Table 722.
+Table 723.
+Table 724.
+Table 725.
+Table 726.
+Table 727.
+Table 728.
+Table 729.
+Table 730.
+Table 731.
+Table 732.
+Table 733.
+Table 734.
+Table 735.
+Table 736.
+Table 737.
+Table 738.
+Table 739.
+Table 740.
+Table 741.
+Table 742.
+Table 743.
+Table 744.
+Table 745.
+Table 746.
+Table 747.
+Table 748.
+Table 749.
+Table 750.
+Table 751.
+Table 752.
+Table 753.
+Table 754.
+Table 755.
+Table 756.
+Table 757.
+Table 758.
+Table 759.
+Table 760.
+Table 761.
+Table 762.
+
+List of tables
+TDM frame configuration examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2976
+SOPD pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2980
+Parity bit calculation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2980
+Audio sampling frequency versus symbol rates . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2981
+SAI interrupt sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2990
+SAI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3019
+CAN subsystem I/O signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3025
+CAN subsystem I/O pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3025
+DLC coding in FDCAN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3029
+Possible configurations for frame transmission . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3043
+Rx FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3046
+Rx FIFO element description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3046
+Tx buffer and FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3048
+Tx buffer element description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3048
+Tx event FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3050
+Tx event FIFO element description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3050
+Standard message ID filter element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3051
+Standard message ID filter element field description . . . . . . . . . . . . . . . . . . . . . . . . . . . 3052
+Extended message ID filter element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3052
+Extended message ID filter element field description . . . . . . . . . . . . . . . . . . . . . . . . . . . 3053
+FDCAN register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3083
+STMU535/545 USB implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3087
+USB input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3089
+Double-buffering buffer flag definition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3101
+Bulk double-buffering memory buffers usage (Device mode). . . . . . . . . . . . . . . . . . . . . 3101
+Bulk double-buffering memory buffers usage (Host mode) . . . . . . . . . . . . . . . . . . . . . . 3103
+Isochronous memory buffers usage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3104
+Isochronous memory buffers usage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3105
+Resume event detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3107
+Resume event detection for host . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3108
+Reception status encoding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+Endpoint/channel type encoding. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+Endpoint/channel kind meaning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+Transmission status encoding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+USB register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3128
+Definition of allocated buffer memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3131
+USBSRAM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3134
+OTG_FS speeds supported . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3136
+OTG_FS implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3139
+OTG_FS input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3140
+OTG_FS input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3141
+Compatibility of STM32 low power modes with the OTG . . . . . . . . . . . . . . . . . . . . . . . . 3153
+Core global control and status registers (CSRs). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3161
+Host-mode control and status registers (CSRs) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3162
+Device-mode control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3163
+Data FIFO (DFIFO) access register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3165
+Power and clock gating control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . 3165
+TRDT values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3172
+Minimum duration for soft disconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3209
+OTG_FS register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3232
+OTG_HS speeds supported . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3293
+OTG_HS implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3294
+
+RM0456 Rev 6
+
+105/3653
+106
+
+List of tables
+Table 763.
+Table 764.
+Table 765.
+Table 766.
+Table 767.
+Table 768.
+Table 769.
+Table 770.
+Table 771.
+Table 772.
+Table 773.
+Table 774.
+Table 775.
+Table 776.
+Table 777.
+Table 778.
+Table 779.
+Table 780.
+Table 781.
+Table 782.
+Table 783.
+Table 784.
+Table 785.
+Table 786.
+Table 787.
+Table 788.
+Table 789.
+Table 790.
+Table 791.
+Table 792.
+Table 793.
+Table 794.
+Table 795.
+Table 796.
+Table 797.
+Table 798.
+Table 799.
+Table 800.
+Table 801.
+Table 802.
+Table 803.
+Table 804.
+Table 805.
+Table 806.
+Table 807.
+Table 808.
+Table 809.
+Table 810.
+Table 811.
+Table 812.
+Table 813.
+
+106/3653
+
+RM0456
+
+OTG_HS input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3296
+OTG_HS input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3296
+Compatibility of STM32 low power modes with the OTG . . . . . . . . . . . . . . . . . . . . . . . . 3308
+Core global control and status registers (CSRs). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3316
+Host-mode control and status registers (CSRs) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3317
+Device-mode control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3318
+Data FIFO (DFIFO) access register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3320
+Power and clock gating control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . 3321
+TRDT values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3327
+Minimum duration for soft disconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3370
+OTG_HS register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3396
+UCPD implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3462
+UCPD software trim data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3462
+UCPD signals on pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3463
+UCPD internal signals. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3464
+4b5b symbol encoding table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3466
+Ordered sets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3467
+Validation of ordered sets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3467
+Data size . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3468
+Coding for ANAMODE, ANASUBMODE and link with TYPEC_VSTATE_CCx . . . . . . . 3476
+Type-C sequence (source: 3A); cable/sink connected (Rd on CC1; Ra on CC2) . . . . . 3478
+Effect of low power modes on the UCPD . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3480
+UCPD interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3481
+UCPD register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3497
+JTAG/Serial-wire debug port pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3501
+Trace port pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3501
+Single-wire trace port pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3502
+Authentication signal states . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3503
+JTAG-DP data registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3506
+Packet request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3507
+ACK response. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3508
+Data transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3508
+Debug port register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3515
+Access port register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3521
+MCU ROM table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3522
+Processor ROM table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3522
+MCU ROM table register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3527
+CPU ROM table register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3532
+DWT register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3547
+ITM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3557
+BPU register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3564
+ETM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3588
+TPIU register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3601
+CTI inputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3603
+CTI outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3603
+CTI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3614
+Peripheral clock freeze control bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3616
+Peripheral behavior in debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3617
+Debugger access to freeze register bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3618
+DBGMCU register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3628
+Document revision history . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3636
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+List of figures
+Figure 1.
+Figure 2.
+Figure 3.
+Figure 4.
+Figure 5.
+Figure 6.
+Figure 7.
+Figure 8.
+Figure 9.
+Figure 10.
+Figure 11.
+Figure 12.
+Figure 13.
+Figure 14.
+Figure 15.
+Figure 16.
+Figure 17.
+Figure 18.
+Figure 19.
+Figure 20.
+Figure 21.
+Figure 22.
+Figure 23.
+Figure 24.
+Figure 25.
+Figure 26.
+Figure 27.
+Figure 28.
+Figure 29.
+Figure 30.
+Figure 31.
+Figure 32.
+Figure 33.
+Figure 34.
+Figure 35.
+Figure 36.
+Figure 37.
+Figure 38.
+Figure 39.
+Figure 40.
+Figure 41.
+Figure 42.
+Figure 43.
+Figure 44.
+Figure 45.
+Figure 46.
+
+System architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 131
+SmartRun domain architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 134
+Memory map based on IDAU mapping for STM32U535/545 . . . . . . . . . . . . . . . . . . . . . . 141
+Memory map based on IDAU mapping for STM32U575/585 . . . . . . . . . . . . . . . . . . . . . . 142
+Memory map based on IDAU mapping for STM32U59x/5Ax . . . . . . . . . . . . . . . . . . . . . . 143
+Memory map based on IDAU mapping for STM32U5Fx/5Gx. . . . . . . . . . . . . . . . . . . . . . 144
+Secure/nonsecure partitioning using TrustZone technology. . . . . . . . . . . . . . . . . . . . . . . 154
+Sharing memory map between CPU in secure and nonsecure state . . . . . . . . . . . . . . . . 156
+Secure world transition and memory partitioning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 156
+Global TrustZone framework and TrustZone awareness . . . . . . . . . . . . . . . . . . . . . . . . . 158
+Flash memory TrustZone protections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 162
+Flash memory secure HDP area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170
+Key management principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 179
+Device life-cycle security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 182
+RDP level transition scheme. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 185
+Collaborative development principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188
+External flash memory protection using SFI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 190
+GTZC in Armv8-M subsystem block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197
+GTZC block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 200
+Watermark memory protection controller (region x/sub-regions A and B) . . . . . . . . . . . . 202
+MPCBB block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 203
+SRAM1, SRAM2 with ECC and SRAM3 with ECC memory map . . . . . . . . . . . . . . . . . . 279
+Flash memory security attributes and protections
+in case of no bank swap (SWAP_BANK = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 314
+Flash memory security attributes and protections
+in case of bank swap (SWAP_BANK = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 314
+RDP level transition scheme when TrustZone is disabled (TZEN = 0). . . . . . . . . . . . . . . 322
+RDP level transition scheme when TrustZone is enabled (TZEN = 1) . . . . . . . . . . . . . . . 323
+ICACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 366
+ICACHE TAG and data memories functional view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 368
+ICACHE remapping address mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 372
+DCACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 384
+DCACHE TAG and data memories functional view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 387
+Power supply overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 404
+Brownout reset waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 412
+PVD thresholds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 413
+I/O states in Stop 3 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 433
+I/O states in Standby mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 436
+Simplified diagram of the reset circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 484
+Clock tree for STM32U5 series. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 487
+HSE/ LSE clock sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 488
+MSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 490
+PLL block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 493
+PLL initialization flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 496
+CRS block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 611
+CRS counter behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 613
+Structure of three-volt or five-volt tolerant GPIO (TT or FT) . . . . . . . . . . . . . . . . . . . . . . . 623
+Input floating/pull-up/pull-down configurations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+
+RM0456 Rev 6
+
+107/3653
+126
+
+List of figures
+Figure 47.
+Figure 48.
+Figure 49.
+Figure 50.
+Figure 51.
+Figure 52.
+Figure 53.
+Figure 54.
+Figure 55.
+Figure 56.
+Figure 57.
+Figure 58.
+Figure 59.
+Figure 60.
+Figure 61.
+Figure 62.
+Figure 63.
+Figure 64.
+Figure 65.
+Figure 66.
+Figure 67.
+Figure 68.
+Figure 69.
+Figure 70.
+Figure 71.
+Figure 72.
+Figure 73.
+Figure 74.
+Figure 75.
+Figure 76.
+Figure 77.
+Figure 78.
+Figure 79.
+Figure 80.
+Figure 81.
+Figure 82.
+Figure 83.
+Figure 84.
+Figure 85.
+Figure 86.
+Figure 87.
+Figure 88.
+
+108/3653
+
+RM0456
+
+Output configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 628
+Alternate function configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 628
+High-impedance analog configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 629
+I/O compensation cell block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 649
+GPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 694
+GPDMA channel direct programming without linked-list (GPDMA_CxLLR = 0) . . . . . . . . 695
+GPDMA channel suspend and resume sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 696
+GPDMA channel abort and restart sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 697
+Static linked-list data structure (all Uxx = 1)
+of a linear addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 698
+Static linked-list data structure (all Uxx = 1)
+of a 2D addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 699
+GPDMA dynamic linked-list data structure
+of a linear addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 700
+GPDMA dynamic linked-list data structure
+of a 2D addressing channel x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 700
+GPDMA channel execution and linked-list programming
+in run-to-completion mode (GPDMA_CxCR.LSM = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 702
+Inserting a LLIn with an auxiliary GPDMA channel y . . . . . . . . . . . . . . . . . . . . . . . . . . . . 704
+GPDMA channel execution and linked-list programming
+in link step mode (GPDMA_CxCR.LSM = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 706
+Building LLIn+1: GPDMA dynamic linked-lists in link step mode . . . . . . . . . . . . . . . . . . . 707
+Replace with a new LLIn’ in register file in link step mode . . . . . . . . . . . . . . . . . . . . . . . . 708
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 1) . . . . . . . . 709
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 2) . . . . . . . . 710
+GPDMA channel execution and linked-list programming . . . . . . . . . . . . . . . . . . . . . . . . . 712
+Programmed 2D addressing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 715
+GPDMA arbitration policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 722
+Trigger hit, memorization, and overrun waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 725
+GPDMA circular buffer programming: update of the memory start address
+with a linear addressing channel . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 726
+Shared GPDMA channel with circular buffering: update of the memory
+start address with a linear addressing channel. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 727
+LPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+LPDMA channel direct programming without linked-list (LPDMA_CxLLR = 0). . . . . . . . . 770
+LPDMA channel suspend and resume sequence. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 771
+LPDMA channel abort and restart sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 772
+Static linked-list data structure (all Uxx = 1) of channel x . . . . . . . . . . . . . . . . . . . . . . . . . 773
+LPDMA dynamic linked-list data structure of an addressing channel x . . . . . . . . . . . . . . 774
+LPDMA channel execution and linked-list programming
+in run-to-completion mode (LPDMA_CxCR.LSM = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 776
+Inserting a LLIn with an auxiliary LPDMA channel y. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 778
+LPDMA channel execution and linked-list programming
+in link step mode (LPDMA_CxCR.LSM = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 780
+Building LLIn+1: LPDMA dynamic linked-lists in link step mode . . . . . . . . . . . . . . . . . . . 781
+Replace with a new LLIn’ in register file in link step mode . . . . . . . . . . . . . . . . . . . . . . . . 782
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 1) . . . . . . . . 783
+Replace with a new LLIn’ and LLIn+1’ in memory in link step mode (option 2) . . . . . . . . 784
+LPDMA channel execution and linked-list programming . . . . . . . . . . . . . . . . . . . . . . . . . 786
+LPDMA arbitration policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 790
+Trigger hit, memorization and overrun waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 794
+LPDMA circular buffer programming: update of the memory start address . . . . . . . . . . . 795
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 89.
+
+Shared LPDMA channel with circular buffering:
+update of the memory start address . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 796
+Figure 90. DMA2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 824
+Figure 91. Intel 8080 16-bit mode (RGB565) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 831
+Figure 92. Intel 8080 18/24-bit mode (RGB888) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 831
+Figure 93. DMA2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 859
+Figure 94. Intel 8080 16-bit mode (RGB565) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 866
+Figure 95. Intel 8080 18/24-bit mode (RGB888) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 866
+Figure 96. GFXMMU block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 893
+Figure 97. Virtual buffer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 894
+Figure 98. Virtual buffer and physical buffer memory map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 895
+Figure 99. MMU block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 896
+Figure 100. Block validation/comparator implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 897
+Figure 101. EXTI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 919
+Figure 102. Configurable event trigger logic CPU wake-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 921
+Figure 103. EXTI mux GPIO selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 922
+Figure 104. CRC calculation unit block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+Figure 105. CORDIC convergence for trigonometric functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 951
+Figure 106. CORDIC convergence for hyperbolic functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 952
+Figure 107. CORDIC convergence for square root . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 953
+Figure 108. Block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 962
+Figure 109. Input buffer areas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 964
+Figure 110. Circular input buffer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 965
+Figure 111. Circular input buffer operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 966
+Figure 112. Circular output buffer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 967
+Figure 113. Circular output buffer operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 968
+Figure 114. FIR filter structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 970
+Figure 115. IIR filter structure (direct form 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 972
+Figure 116. X1 buffer initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 977
+Figure 117. Filtering example 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 978
+Figure 118. Filtering example 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 979
+Figure 119. FMC block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 990
+Figure 120. FMC memory banks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
+Figure 121. Mode 1 read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1000
+Figure 122. Mode 1 write access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1001
+Figure 123. Mode A read access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1003
+Figure 124. Mode A write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1003
+Figure 125. Mode 2 and mode B read access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1005
+Figure 126. Mode 2 write access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1006
+Figure 127. Mode B write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1006
+Figure 128. Mode C read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1008
+Figure 129. Mode C write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1009
+Figure 130. Mode D read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1011
+Figure 131. Mode D write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1012
+Figure 132. Muxed read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1014
+Figure 133. Muxed write access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1015
+Figure 134. Asynchronous wait during a read access waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . 1017
+Figure 135. Asynchronous wait during a write access waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . 1018
+Figure 136. Wait configuration waveforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1020
+Figure 137. Synchronous multiplexed read mode waveforms - NOR, PSRAM (CRAM) . . . . . . . . . . 1021
+Figure 138. Synchronous multiplexed write mode waveforms - PSRAM (CRAM). . . . . . . . . . . . . . . 1023
+Figure 139. NAND flash controller waveforms for common memory access. . . . . . . . . . . . . . . . . . . 1035
+
+RM0456 Rev 6
+
+109/3653
+126
+
+List of figures
+
+RM0456
+
+Figure 140. Access to non ‘CE don’t care’ NAND-flash . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1037
+Figure 141. OCTOSPI block diagram in octal configuration
+(for STM32U5 series except STM32U535/545 devices). . . . . . . . . . . . . . . . . . . . . . . . . 1048
+Figure 142. OCTOSPI block diagram in quad configuration
+(for STM32U5 series except STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . 1048
+Figure 143. OCTOSPI block diagram in dual-quad configuration
+(for STM32U5 series except STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . 1049
+Figure 144. OCTOSPI block diagram in octal configuration
+(for STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1049
+Figure 145. OCTOSPI block diagram in quad configuration
+(for STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1050
+Figure 146. OCTOSPI block diagram in dual-quad configuration
+(for STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1050
+Figure 147. SDR read command in octal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1052
+Figure 148. DTR read in octal-SPI mode with DQS (Macronix mode) example . . . . . . . . . . . . . . . . 1055
+Figure 149. SDR write command in octo-SPI mode example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1057
+Figure 150. DTR write in octal-SPI mode (Macronix mode) example . . . . . . . . . . . . . . . . . . . . . . . . 1057
+Figure 151. Example of HyperBus read operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1059
+Figure 152. HyperBus write operation with initial latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1060
+Figure 153. HyperBus read operation with additional latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1061
+Figure 154. HyperBus write operation with additional latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1061
+Figure 155. HyperBus write operation with no latency (register write). . . . . . . . . . . . . . . . . . . . . . . . 1062
+Figure 156. HyperBus read operation page crossing with latency. . . . . . . . . . . . . . . . . . . . . . . . . . . 1062
+Figure 157. D0/D1 data ordering in octal-SPI DTR mode (Micron) - Read access . . . . . . . . . . . . . . 1069
+Figure 158. OctaRAM read operation with reverse data ordering D1/D0 . . . . . . . . . . . . . . . . . . . . . 1070
+Figure 159. NCS when CKMODE = 0 (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1075
+Figure 160. NCS when CKMODE = 1 in SDR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1076
+Figure 161. NCS when CKMODE = 1 in DTR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1076
+Figure 162. NCS when CKMODE = 1 with an abort (T = CLK period). . . . . . . . . . . . . . . . . . . . . . . . 1076
+Figure 163. OCTOSPIM block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1106
+Figure 164. HSPI block diagram for 16-bit configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1114
+Figure 165. HSPI block diagram for dual-octal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1115
+Figure 166. HSPI block diagram for octal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1115
+Figure 167. HSPI block diagram in quad configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1116
+Figure 168. HSPI block diagram for dual-quad configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1117
+Figure 169. SDR read command in 16-bit configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1119
+Figure 170. DTR read in octal-SPI mode with DQS (Macronix mode) example . . . . . . . . . . . . . . . . 1122
+Figure 171. SDR write command in octal-SPI mode example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1124
+Figure 172. DTR write in octal-SPI mode (Macronix mode) example . . . . . . . . . . . . . . . . . . . . . . . . 1124
+Figure 173. Example of HyperBus read operation (8-bit data mode) . . . . . . . . . . . . . . . . . . . . . . . . 1127
+Figure 174. HyperBus write operation with initial latency (8-bit data mode) . . . . . . . . . . . . . . . . . . . 1129
+Figure 175. HyperBus read operation with additional latency (8-bit data mode) . . . . . . . . . . . . . . . . 1129
+Figure 176. HyperBus write operation with additional latency (8-bit data mode) . . . . . . . . . . . . . . . . 1130
+Figure 177. HyperBus write operation with no latency (register write). . . . . . . . . . . . . . . . . . . . . . . . 1130
+Figure 178. HyperBus read operation page crossing with latency (8-bit data mode) . . . . . . . . . . . . 1131
+Figure 179. HyperBus write operation with initial latency (16-bit mode) . . . . . . . . . . . . . . . . . . . . . . 1132
+Figure 180. D0/D1 data ordering in octal-SPI DTR mode (Micron) - Read access . . . . . . . . . . . . . . 1138
+Figure 181. OctaRAM read operation with reverse data ordering D1/D0 . . . . . . . . . . . . . . . . . . . . . 1139
+Figure 182. NCS when CKMODE = 0 (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1145
+Figure 183. NCS when CKMODE = 1 in SDR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1146
+Figure 184. NCS when CKMODE = 1 in DTR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1146
+Figure 185. NCS when CKMODE =1 with an abort (T = CLK period). . . . . . . . . . . . . . . . . . . . . . . . 1146
+
+110/3653
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 186. SDMMC “no response” and “no data” operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1179
+Figure 187. SDMMC (multiple) block read operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1179
+Figure 188. SDMMC (multiple) block write operation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1180
+Figure 189. SDMMC (sequential) stream read operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1180
+Figure 190. SDMMC (sequential) stream write operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1180
+Figure 191. SDMMC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1182
+Figure 192. SDMMC Command and data phase relation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1184
+Figure 193. Control unit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1186
+Figure 194. Command/response path . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1187
+Figure 195. Command path state machine (CPSM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1188
+Figure 196. Data path . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1194
+Figure 197. DDR mode data packet clocking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1195
+Figure 198. DDR mode CRC status / boot acknowledgment clocking. . . . . . . . . . . . . . . . . . . . . . . . 1195
+Figure 199. Data path state machine (DPSM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1196
+Figure 200. CLKMUX unit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1207
+Figure 201. Linked list structures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1209
+Figure 202. Asynchronous interrupt generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1212
+Figure 203. Synchronous interrupt period data read . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1213
+Figure 204. Synchronous interrupt period data write . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1213
+Figure 205. Asynchronous interrupt period data read . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1214
+Figure 206. Asynchronous interrupt period data write . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1215
+Figure 207. Clock stop with SDMMC_CK for DS, HS, SDR12, SDR25. . . . . . . . . . . . . . . . . . . . . . . 1218
+Figure 208. Clock stop with SDMMC_CK for DDR50, SDR50, SDR104 . . . . . . . . . . . . . . . . . . . . . . 1218
+Figure 209. Read Wait with SDMMC_CK < 50 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1219
+Figure 210. Read Wait with SDMMC_CK > 50 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1219
+Figure 211. CMD12 stream timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1222
+Figure 212. CMD5 Sleep Awake procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1224
+Figure 213. Normal boot mode operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1226
+Figure 214. Alternative boot mode operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1227
+Figure 215. Command response R1b busy signaling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1228
+Figure 216. SDMMC state control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1229
+Figure 217. Card cycle power / power up diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1230
+Figure 218. CMD11 signal voltage switch sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1231
+Figure 219. Voltage switch transceiver typical application. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1233
+Figure 220. DLYB block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1261
+Figure 221. ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1269
+Figure 222. ADC clock scheme . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1273
+Figure 223. ADC1 connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1274
+Figure 224. ADC2 connectivity (STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1275
+Figure 225. ADC calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1278
+Figure 226. Enabling/disabling the ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1282
+Figure 227. Bulb mode timing diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1285
+Figure 228. Analog-to-digital conversion time in single conversion . . . . . . . . . . . . . . . . . . . . . . . . . . 1288
+Figure 229. Stopping ongoing regular conversions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1289
+Figure 230. Stopping ongoing regular and injected conversions . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1289
+Figure 231. Triggers are shared between ADC master and ADC slave . . . . . . . . . . . . . . . . . . . . . . 1291
+Figure 232. Injected conversion latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1292
+Figure 233. Single conversions of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1295
+Figure 234. Continuous conversion of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . 1296
+Figure 235. Single conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . 1296
+Figure 236. Continuous conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . 1297
+Figure 237. Right alignment (offset disabled, unsigned value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1299
+
+RM0456 Rev 6
+
+111/3653
+126
+
+List of figures
+
+RM0456
+
+Figure 238. Right alignment (offset enabled, signed value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1299
+Figure 239. Left alignment (offset disabled, unsigned value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1300
+Figure 240. Left alignment (offset enabled, signed value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1300
+Figure 241. Example of overrun (OVRMOD = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1303
+Figure 242. Example of overrun (OVRMOD = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1303
+Figure 243. AUTODLY = 1, regular conversion in continuous mode, software trigger . . . . . . . . . . . 1307
+Figure 244. AUTODLY = 1, regular hardware conversions interrupted by injected conversions
+(DISCEN = 0; JDISCEN = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1307
+Figure 245. AUTODLY = 1, regular hardware conversions interrupted by injected conversions. . . . . . . .
+(DISCEN = 1, JDISCEN = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1308
+Figure 246. AUTODLY = 1, regular continuous conversions interrupted by injected conversions . . 1309
+Figure 247. AUTODLY = 1 in auto- injected mode (JAUTO = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1309
+Figure 248. Analog watchdog guarded area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1310
+Figure 249. ADCy_AWDx_OUT signal generation (on all regular channels). . . . . . . . . . . . . . . . . . . 1312
+Figure 250. ADC_AWDx_OUT signal generation (AWDx flag not cleared by software) . . . . . . . . . . 1313
+Figure 251. ADC_AWDx_OUT signal generation (on a single regular channel) . . . . . . . . . . . . . . . . 1313
+Figure 252. ADC_AWDx_OUT signal generation (on all injected channels) . . . . . . . . . . . . . . . . . . . 1313
+Figure 253. 14-bit result oversampling with 10-bits right shift and rounding . . . . . . . . . . . . . . . . . . . 1315
+Figure 254. Triggered regular oversampling mode (TROVS bit = 1) . . . . . . . . . . . . . . . . . . . . . . . . . 1316
+Figure 255. Regular oversampling modes (4x ratio) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1317
+Figure 256. Regular and injected oversampling modes used simultaneously . . . . . . . . . . . . . . . . . . 1318
+Figure 257. Triggered regular oversampling with injection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1318
+Figure 258. Oversampling in auto-injected mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1319
+Figure 259. Dual ADC block diagram(1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1321
+Figure 260. Injected simultaneous mode on four channels: dual ADC mode . . . . . . . . . . . . . . . . . . 1322
+Figure 261. Regular simultaneous mode on 16 channels: dual ADC mode . . . . . . . . . . . . . . . . . . . 1324
+Figure 262. Interleaved mode on one channel in continuous conversion mode: dual ADC mode . . 1326
+Figure 263. Interleaved mode on one channel in single conversion mode: dual ADC mode . . . . . . 1326
+Figure 264. Interleaved conversion with injection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1327
+Figure 265. Alternate trigger: injected group of each ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1328
+Figure 266. Alternate trigger: Four injected channels (each ADC) in discontinuous mode . . . . . . . . 1329
+Figure 267. Alternate + regular simultaneous . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1330
+Figure 268. Case of trigger occurring during injected conversion . . . . . . . . . . . . . . . . . . . . . . . . . . . 1330
+Figure 269. Interleaved single channel CH0 with injected sequence CH11, CH12 . . . . . . . . . . . . . . 1331
+Figure 270. Two interleaved channels (CH1, CH2) with injected sequence CH11, CH12
+- case 1: Master interrupted first . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1331
+Figure 271. Two Interleaved channels (CH1, CH2) with injected sequence CH11, CH12
+- case 2: Slave interrupted first . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1331
+Figure 272. DMA Requests in regular simultaneous mode when DAMDF[1:0] = 00 . . . . . . . . . . . . . 1332
+Figure 273. DMA requests in regular simultaneous mode when DAMDF[1:0] = 10 . . . . . . . . . . . . . 1333
+Figure 274. DMA requests in interleaved mode when DAMDF[1:0] = 10 . . . . . . . . . . . . . . . . . . . . . 1334
+Figure 275. Temperature sensor channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1336
+Figure 276. VBAT channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1337
+Figure 277. VREFINT channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1338
+Figure 278. ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1381
+Figure 279. ADC calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1384
+Figure 280. Calibration factor forcing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1385
+Figure 281. Enabling/disabling the ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1386
+Figure 282. ADC clock scheme . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1387
+Figure 283. ADC4 connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1389
+Figure 284. Analog-to-digital conversion time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1394
+Figure 285. ADC conversion timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1394
+
+112/3653
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 286. Stopping an ongoing conversion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1395
+Figure 287. Single conversions of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1398
+Figure 288. Continuous conversion of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . 1399
+Figure 289. Single conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . 1399
+Figure 290. Continuous conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . 1400
+Figure 291. Data alignment and resolution (oversampling disabled: OVSE = 0). . . . . . . . . . . . . . . . 1401
+Figure 292. Example of overrun (OVR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1402
+Figure 293. Wait conversion mode (continuous mode, software trigger). . . . . . . . . . . . . . . . . . . . . . 1404
+Figure 294. Auto-off mode state diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1406
+Figure 295. ADC behavior with WAIT = 0 and AUTOFF = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1406
+Figure 296. ADC behavior with WAIT = 1 and AUTOFF = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1407
+Figure 297. Autonomous mode state diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1408
+Figure 298. Analog watchdog guarded area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1409
+Figure 299. ADC_AWDx_OUT signal generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1410
+Figure 300. ADC_AWDx_OUT signal generation (AWDx flag not cleared by software) . . . . . . . . . . 1411
+Figure 301. ADC_AWDx_OUT signal generation (on a single channel) . . . . . . . . . . . . . . . . . . . . . . 1411
+Figure 302. Analog watchdog threshold update . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1412
+Figure 303. 20-bit to 16-bit result truncation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1412
+Figure 304. Numerical example with 5-bits shift and rounding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1413
+Figure 305. Triggered oversampling mode (TOVS bit = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1415
+Figure 306. Temperature sensor and VREFINT channel block diagram . . . . . . . . . . . . . . . . . . . . . . 1416
+Figure 307. VBAT channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1418
+Figure 308. Dual-channel DAC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1446
+Figure 309. Data registers in single DAC channel mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1449
+Figure 310. Data registers in dual DAC channel mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1450
+Figure 311. Timing diagram for conversion with trigger disabled TEN = 0 . . . . . . . . . . . . . . . . . . . . 1451
+Figure 312. DAC LFSR register calculation algorithm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1454
+Figure 313. DAC conversion (SW trigger enabled) with LFSR wave generation. . . . . . . . . . . . . . . . 1454
+Figure 314. DAC triangle wave generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1455
+Figure 315. DAC conversion (SW trigger enabled) with triangle wave generation . . . . . . . . . . . . . . 1455
+Figure 316. DAC sample and hold mode phase diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1458
+Figure 317. VREFBUF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+Figure 318. Comparator block diagrams . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+Figure 319. Window mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+Figure 320. Comparator hysteresis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+Figure 321. Comparator output blanking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1495
+Figure 322. Scaler . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1496
+Figure 323. Standalone mode: external gain setting mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1503
+Figure 324. Follower configuration. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1504
+Figure 325. PGA mode, internal gain setting (x2/x4/x8/x16), inverting input not used . . . . . . . . . . . 1505
+Figure 326. PGA mode, internal gain setting (x2/x4/x8/x16), inverting input used for
+filtering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1506
+Figure 327. MDF block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1518
+Figure 328. SITFx overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1522
+Figure 329. SPI timing example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1523
+Figure 330. Manchester timing example (SITFMOD = 11) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1525
+Figure 331. CKGEN overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1528
+Figure 332. BSMX overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1530
+Figure 333. SCD functional view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1531
+Figure 334. SCD timing example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1531
+Figure 335. DFLT overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1533
+Figure 336. Programmable delay. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1534
+
+RM0456 Rev 6
+
+113/3653
+126
+
+List of figures
+
+RM0456
+
+Figure 337. CIC3 and CIC5 frequency response with decimation ratio = 32 . . . . . . . . . . . . . . . . . . . 1536
+Figure 338. Reshape filter frequency response normalized (FRS / 2 = 1). . . . . . . . . . . . . . . . . . . . . 1541
+Figure 339. Out-of-limit detector thresholds. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1544
+Figure 340. Trigger logic for DFLT and CKGEN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1546
+Figure 341. Asynchronous continuous mode (ACQMOD[2:0] = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . 1547
+Figure 342. Asynchronous single-shot mode (ACQMOD[2:0] = 001) . . . . . . . . . . . . . . . . . . . . . . . . 1548
+Figure 343. Synchronous continuous mode (ACQMOD[2:0] = 010) . . . . . . . . . . . . . . . . . . . . . . . . . 1549
+Figure 344. Synchronous single-shot mode (ACQMOD[2:0] = 011) . . . . . . . . . . . . . . . . . . . . . . . . . 1550
+Figure 345. Window continuous mode (ACQMOD[2:0] = 100) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1551
+Figure 346. Snapshot mode example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1553
+Figure 347. Discard function example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1554
+Figure 348. Start sequence with DFLTEN, in continuous mode, audio configuration . . . . . . . . . . . . 1555
+Figure 349. Start sequence with trigger input, in continuous mode, motor configuration . . . . . . . . . 1556
+Figure 350. Break interface simplified view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1557
+Figure 351. MDF_DFLTxDR data format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1557
+Figure 352. Data re-synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1558
+Figure 353. Data transfer in interleaved-transfer mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1559
+Figure 354. Data path for interleaved- and independent-transfer modes . . . . . . . . . . . . . . . . . . . . . 1561
+Figure 355. Example of overflow and transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1562
+Figure 356. MDF interrupt interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1565
+Figure 357. Sensor connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1570
+Figure 358. Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1571
+Figure 359. Detailed frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1571
+Figure 360. Simplified DFLT view with gain information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1574
+Figure 361. ADF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+Figure 362. SITF overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1604
+Figure 363. SPI timing example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1605
+Figure 364. Manchester timing example (SITFMOD = 11) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1606
+Figure 365. CKGEN overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1609
+Figure 366. BSMX overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1611
+Figure 367. DFLT overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1612
+Figure 368. Programmable delay. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1613
+Figure 369. CIC4 and CIC5 frequency response with decimation ratio = 32 or 16 . . . . . . . . . . . . . . 1614
+Figure 370. Reshape filter frequency response normalized (FRS / 2 = 1). . . . . . . . . . . . . . . . . . . . . 1620
+Figure 371. Trigger logic for DFLT and CKGEN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1622
+Figure 372. Asynchronous continuous mode (ACQMOD[2:0] = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . 1623
+Figure 373. Asynchronous single-shot mode (ACQMOD[2:0] = 001) . . . . . . . . . . . . . . . . . . . . . . . . 1624
+Figure 374. Synchronous continuous mode (ACQMOD[2:0] = 010) . . . . . . . . . . . . . . . . . . . . . . . . . 1625
+Figure 375. Synchronous single-shot mode (ACQMOD[2:0] = 011) . . . . . . . . . . . . . . . . . . . . . . . . . 1626
+Figure 376. Window continuous mode (ACQMOD[2:0] = 100) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1627
+Figure 377. Discard function example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1629
+Figure 378. Start sequence with DFLTEN, in continuous mode, audio configuration . . . . . . . . . . . . 1629
+Figure 379. SAD block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1630
+Figure 380. SAD flow diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1632
+Figure 381. SAD timing diagram example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1638
+Figure 382. ADF_DFLTxDR data format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1638
+Figure 383. Data re-synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1639
+Figure 384. Example of overflow and transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1640
+Figure 385. ADF interrupt interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1643
+Figure 386. Sensor connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1648
+Figure 387. Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1648
+Figure 388. Detailed frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1649
+
+114/3653
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 389. Simplified DFLT view with gain information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1651
+Figure 390. SAD example working with SADMOD = 01 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1654
+Figure 391. SAD example working with SADMOD = 1x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1656
+Figure 392. DCMI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+Figure 393. DCMI signal waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+Figure 394. Timing diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1679
+Figure 395. Frame capture waveforms in snapshot mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1681
+Figure 396. Frame capture waveforms in continuous grab mode . . . . . . . . . . . . . . . . . . . . . . . . . . . 1682
+Figure 397. Coordinates and size of the window after cropping . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1682
+Figure 398. Data capture waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1683
+Figure 399. Pixel raster scan order . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1684
+Figure 400. PSSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+Figure 401. Top-level block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+Figure 402. Data enable in receive mode waveform diagram (CKPOL=0) . . . . . . . . . . . . . . . . . . . . 1702
+Figure 403. Data enable waveform diagram in transmit mode (CKPOL=0). . . . . . . . . . . . . . . . . . . . 1702
+Figure 404. Ready in receive mode waveform diagram (CKPOL=0). . . . . . . . . . . . . . . . . . . . . . . . . 1703
+Figure 405. Bidirectional PSSI_DE/PSSI_RDY waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1704
+Figure 406. Bidirectional PSSI_DE/PSSI_RDY connection diagram . . . . . . . . . . . . . . . . . . . . . . . . 1704
+Figure 407. LTDC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+Figure 408. LTDC synchronous timings. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1715
+Figure 409. Layer window programmable parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1718
+Figure 410. Blending two layers with background . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1720
+Figure 411. Interrupt events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1722
+Figure 412. DSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+Figure 413. DSI Host architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1746
+Figure 414. Flow to update the LTDC interface configuration using shadow registers . . . . . . . . . . . 1751
+Figure 415. Immediate update procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1752
+Figure 416. Configuration update during the transmission of a frame . . . . . . . . . . . . . . . . . . . . . . . . 1752
+Figure 417. Adapted command mode usage flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1754
+Figure 418. 24 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1758
+Figure 419. 18 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1759
+Figure 420. 16 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1759
+Figure 421. 12 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1760
+Figure 422. 8 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1760
+Figure 423. Timing of PRESP_TO after a bus-turn-around . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1763
+Figure 424. Timing of PRESP_TO after a read request (HS or LP). . . . . . . . . . . . . . . . . . . . . . . . . . 1764
+Figure 425. Timing of PRESP_TO after a write request (HS or LP) . . . . . . . . . . . . . . . . . . . . . . . . . 1765
+Figure 426. Effect of prep mode at 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1766
+Figure 427. Command transmission periods within the image area . . . . . . . . . . . . . . . . . . . . . . . . . 1767
+Figure 428. Transmission of commands on the last line of a frame. . . . . . . . . . . . . . . . . . . . . . . . . . 1768
+Figure 429. LPSIZE for non-burst with sync pulses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1769
+Figure 430. LPSIZE for burst or non-burst with sync events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1769
+Figure 431. VLPSIZE for non-burst with sync pulses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1771
+Figure 432. VLPSIZE for non-burst with sync events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1771
+Figure 433. VLPSIZE for burst mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1771
+Figure 434. Location of LPSIZE and VLPSIZE in the image area . . . . . . . . . . . . . . . . . . . . . . . . . . . 1773
+Figure 435. Clock lane and data lane in HS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1774
+Figure 436. Clock lane in HS and data lanes in LP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1775
+Figure 437. Clock lane and data lane in LP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1775
+Figure 438. Command transmission by the generic interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1776
+Figure 439. Vertical color bar mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1778
+Figure 440. Horizontal color bar mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1778
+
+RM0456 Rev 6
+
+115/3653
+126
+
+List of figures
+
+RM0456
+
+Figure 441. RGB888 BER testing pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1779
+Figure 442. Vertical pattern (103x15) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1780
+Figure 443. Horizontal pattern (103x15) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1780
+Figure 444. PLL block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1782
+Figure 445. Error sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1785
+Figure 446. Video packet transmission configuration flow diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 1797
+Figure 447. Programming sequence to send a test pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1799
+Figure 448. Frame configuration registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1800
+Figure 449. GPU2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+Figure 450. JPEG codec block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1866
+Figure 451. TSC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1888
+Figure 452. Surface charge transfer analog I/O group structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1889
+Figure 453. Sampling capacitor voltage variation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1890
+Figure 454. Charge transfer acquisition sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1891
+Figure 455. Spread spectrum variation principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1892
+Figure 456. RNG block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1906
+Figure 457. NIST SP800-90B entropy source model. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1907
+Figure 458. RNG initialization overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1910
+Figure 459. AES block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1923
+Figure 460. ECB encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1925
+Figure 461. CBC encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1926
+Figure 462. CTR encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1927
+Figure 463. GCM encryption and authentication principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1928
+Figure 464. GMAC authentication principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1928
+Figure 465. CCM encryption and authentication principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1929
+Figure 466. Example of suspend mode management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1933
+Figure 467. ECB encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1934
+Figure 468. ECB decryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1934
+Figure 469. CBC encryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1935
+Figure 470. CBC decryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1935
+Figure 471. ECB/CBC encryption (Mode 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1936
+Figure 472. ECB/CBC decryption (Mode 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1937
+Figure 473. Message construction in CTR mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1938
+Figure 474. CTR encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1939
+Figure 475. CTR decryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1939
+Figure 476. Message construction in GCM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1941
+Figure 477. GCM authenticated encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1942
+Figure 478. Message construction in GMAC mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1946
+Figure 479. GMAC authentication mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1946
+Figure 480. Message construction in CCM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1947
+Figure 481. CCM mode authenticated encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1949
+Figure 482. 128-bit block construction with respect to data swap . . . . . . . . . . . . . . . . . . . . . . . . . . . 1954
+Figure 483. DMA transfer of a 128-bit data block during input phase . . . . . . . . . . . . . . . . . . . . . . . . 1956
+Figure 484. DMA transfer of a 128-bit data block during output phase . . . . . . . . . . . . . . . . . . . . . . . 1957
+Figure 485. SAES block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1976
+Figure 486. ECB encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1978
+Figure 487. CBC encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1979
+Figure 488. Example of suspend mode management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1983
+Figure 489. ECB encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1984
+Figure 490. ECB decryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1984
+Figure 491. CBC encryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1985
+Figure 492. CBC decryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1985
+
+116/3653
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 493. ECB/CBC encryption (Mode 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1986
+Figure 494. ECB/CBC decryption (Mode 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1987
+Figure 495. Operation with wrapped keys . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1989
+Figure 496. Usage of Shared-key mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1991
+Figure 497. 128-bit block construction with respect to data swap . . . . . . . . . . . . . . . . . . . . . . . . . . . 1994
+Figure 498. Key protection mechanisms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1996
+Figure 499. DMA transfer of a 128-bit data block during input phase . . . . . . . . . . . . . . . . . . . . . . . . 1997
+Figure 500. DMA transfer of a 128-bit data block during output phase . . . . . . . . . . . . . . . . . . . . . . . 1998
+Figure 501. HASH block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2017
+Figure 502. Message data swapping feature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2019
+Figure 503. HASH suspend/resume mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2025
+Figure 504. OTFDEC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2039
+Figure 505. Typical OTFDEC use in a SoC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2040
+Figure 506. AES CTR decryption flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2041
+Figure 507. OTFDEC flow control overview (dual burst read request) . . . . . . . . . . . . . . . . . . . . . . . 2042
+Figure 508. PKA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2062
+Figure 509. Advanced-control timer block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2095
+Figure 510. Counter timing diagram with prescaler division change from 1 to 2 . . . . . . . . . . . . . . . . 2102
+Figure 511. Counter timing diagram with prescaler division change from 1 to 4 . . . . . . . . . . . . . . . . 2103
+Figure 512. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2104
+Figure 513. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2105
+Figure 514. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2105
+Figure 515. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2106
+Figure 516. Counter timing diagram, update event when ARPE = 0
+(TIMx_ARR not preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2106
+Figure 517. Counter timing diagram, update event when ARPE = 1
+(TIMx_ARR preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2107
+Figure 518. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2108
+Figure 519. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2109
+Figure 520. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2109
+Figure 521. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2110
+Figure 522. Counter timing diagram, update event when repetition counter is not used . . . . . . . . . . 2110
+Figure 523. Counter timing diagram, internal clock divided by 1, TIMx_ARR = 0x6 . . . . . . . . . . . . . 2112
+Figure 524. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2112
+Figure 525. Counter timing diagram, internal clock divided by 4, TIMx_ARR = 0x36 . . . . . . . . . . . . 2113
+Figure 526. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2113
+Figure 527. Counter timing diagram, update event with ARPE = 1 (counter underflow) . . . . . . . . . . 2114
+Figure 528. Counter timing diagram, Update event with ARPE = 1 (counter overflow) . . . . . . . . . . . 2115
+Figure 529. Update rate examples depending on mode and TIMx_RCR register settings . . . . . . . . 2116
+Figure 531. Control circuit in normal mode, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . 2118
+Figure 532. tim_ti2 external clock connection example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2118
+Figure 533. Control circuit in external clock mode 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2119
+Figure 534. External trigger input block . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2120
+Figure 535. Control circuit in external clock mode 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2121
+Figure 536. Capture/compare channel (example: channel 1 input stage) . . . . . . . . . . . . . . . . . . . . . 2121
+Figure 537. Capture/compare channel 1 main circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2122
+Figure 538. Output stage of capture/compare channel (channel 1, idem ch. 2, 3 and 4) . . . . . . . . . 2123
+Figure 539. Output stage of capture/compare channel (channel 5, idem ch. 6) . . . . . . . . . . . . . . . . 2123
+Figure 540. PWM input mode timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2126
+Figure 541. Output compare mode, toggle on tim_oc1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2128
+Figure 542. Edge-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2129
+Figure 543. Center-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2130
+
+RM0456 Rev 6
+
+117/3653
+126
+
+List of figures
+
+RM0456
+
+Figure 544. Dithering principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2131
+Figure 545. Data format and register coding in dithering mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2132
+Figure 546. PWM resolution vs frequency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2133
+Figure 547. PWM dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2134
+Figure 548. Dithering effect on duty cycle in center-aligned PWM mode . . . . . . . . . . . . . . . . . . . . . 2135
+Figure 549. Generation of 2 phase-shifted PWM signals with 50% duty cycle . . . . . . . . . . . . . . . . . 2137
+Figure 550. Combined PWM mode on channel 1 and 3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2138
+Figure 551. 3-phase combined PWM signals with multiple trigger pulses per period . . . . . . . . . . . . 2139
+Figure 552. Complementary output with symmetrical dead-time insertion . . . . . . . . . . . . . . . . . . . . 2140
+Figure 553. Asymmetrical deadtime . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2141
+Figure 554. Dead-time waveforms with delay greater than the negative pulse . . . . . . . . . . . . . . . . . 2141
+Figure 555. Dead-time waveforms with delay greater than the positive pulse. . . . . . . . . . . . . . . . . . 2141
+Figure 556. Break and Break2 circuitry overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2144
+Figure 557. Various output behavior in response to a break event on tim_brk (OSSI = 1) . . . . . . . . 2146
+Figure 558. PWM output state following tim_brk and tim_brk2 assertion (OSSI = 1) . . . . . . . . . . . . 2147
+Figure 559. PWM output state following tim_brk assertion (OSSI = 0) . . . . . . . . . . . . . . . . . . . . . . . 2148
+Figure 560. Output redirection (tim_brk2 request not represented) . . . . . . . . . . . . . . . . . . . . . . . . . . 2149
+Figure 561. tim_ocref_clr input selection multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2150
+Figure 562. Clearing TIMx tim_ocxref . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2151
+Figure 563. 6-step generation, COM example (OSSR = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2152
+Figure 564. Example of one pulse mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2153
+Figure 565. Retriggerable one-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2154
+Figure 566. Pulse generator circuitry . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2155
+Figure 567. Pulse generation on compare event, for edge-aligned and encoder modes . . . . . . . . . 2156
+Figure 568. Extended pulsewidth in case of concurrent triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2157
+Figure 569. Example of counter operation in encoder interface mode. . . . . . . . . . . . . . . . . . . . . . . . 2159
+Figure 570. Example of encoder interface mode with tim_ti1fp1 polarity inverted. . . . . . . . . . . . . . . 2159
+Figure 571. Quadrature encoder counting modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2160
+Figure 572. Direction plus clock encoder mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2161
+Figure 573. Directional clock encoder mode (CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2161
+Figure 574. Directional clock encoder mode (CC1P = CC2P = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2162
+Figure 575. Index gating options . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2163
+Figure 576. Jittered Index signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2163
+Figure 577. Index generation for IPOS[1:0] = 11 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2164
+Figure 578. Counter reading with index gated on channel A (IPOS[1:0] = 11) . . . . . . . . . . . . . . . . . 2164
+Figure 579. Counter reading with index ungated (IPOS[1:0] = 00) . . . . . . . . . . . . . . . . . . . . . . . . . . 2165
+Figure 580. Counter reading with index gated on channel A and B. . . . . . . . . . . . . . . . . . . . . . . . . . 2165
+Figure 581. Encoder mode behavior in case of narrow index pulse (IPOS[1:0] = 11) . . . . . . . . . . . . 2166
+Figure 582. Counter reset Narrow index pulse (closer view, ARR = 0x07) . . . . . . . . . . . . . . . . . . . . 2167
+Figure 583. Index behavior in x1 and x2 mode (IPOS[1:0] = 01). . . . . . . . . . . . . . . . . . . . . . . . . . . . 2168
+Figure 584. Directional index sensitivity. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2168
+Figure 585. Counter reset as function of FIDX bit setting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2169
+Figure 586. Index blanking. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2169
+Figure 587. Index behavior in clock + direction mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2170
+Figure 588. Index behavior in directional clock mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2170
+Figure 589. State diagram for quadrature encoded signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2171
+Figure 590. Up-counting encoder error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2172
+Figure 591. Down-counting encode error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2173
+Figure 592. Encoder mode change with preload transferred on update (SMSPS = 0) . . . . . . . . . . . 2174
+Figure 593. Measuring time interval between edges on three signals . . . . . . . . . . . . . . . . . . . . . . . . 2175
+Figure 594. Example of Hall sensor interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2177
+Figure 595. Control circuit in reset mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2178
+
+118/3653
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 596. Control circuit in Gated mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2179
+Figure 597. Control circuit in trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2180
+Figure 598. Control circuit in external clock mode 2 + trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . 2181
+Figure 599. General-purpose timer block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2239
+Figure 600. Counter timing diagram with prescaler division change from 1 to 2 . . . . . . . . . . . . . . . . 2245
+Figure 601. Counter timing diagram with prescaler division change from 1 to 4 . . . . . . . . . . . . . . . . 2246
+Figure 602. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2247
+Figure 603. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2247
+Figure 604. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2248
+Figure 605. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2248
+Figure 606. Counter timing diagram, Update event when ARPE = 0 (TIMx_ARR not preloaded). . . 2249
+Figure 607. Counter timing diagram, Update event when ARPE = 1 (TIMx_ARR preloaded). . . . . . 2250
+Figure 608. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2251
+Figure 609. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2252
+Figure 610. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2252
+Figure 611. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2253
+Figure 612. Counter timing diagram, Update event . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2253
+Figure 613. Counter timing diagram, internal clock divided by 1, TIMx_ARR = 0x6 . . . . . . . . . . . . . 2255
+Figure 614. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2255
+Figure 615. Counter timing diagram, internal clock divided by 4, TIMx_ARR = 0x36 . . . . . . . . . . . . 2256
+Figure 616. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2256
+Figure 617. Counter timing diagram, Update event with ARPE = 1 (counter underflow). . . . . . . . . . 2257
+Figure 618. Counter timing diagram, Update event with ARPE = 1 (counter overflow) . . . . . . . . . . . 2258
+Figure 619. Control circuit in normal mode, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . 2259
+Figure 620. tim_ti2 external clock connection example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2259
+Figure 621. Control circuit in external clock mode 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2260
+Figure 622. External trigger input block . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2261
+Figure 623. Control circuit in external clock mode 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2262
+Figure 624. Capture/compare channel (example: channel 1 input stage) . . . . . . . . . . . . . . . . . . . . . 2262
+Figure 625. Capture/compare channel 1 main circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2263
+Figure 626. Output stage of capture/compare channel (channel 1, idem ch.2, 3 and 4) . . . . . . . . . . 2263
+Figure 627. PWM input mode timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2266
+Figure 628. Output compare mode, toggle on tim_oc1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2268
+Figure 629. Edge-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2269
+Figure 630. Center-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2270
+Figure 631. Dithering principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2271
+Figure 632. Data format and register coding in dithering mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2272
+Figure 633. PWM resolution vs frequency (16-bit mode). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2273
+Figure 634. PWM resolution vs frequency (32-bit mode). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2273
+Figure 635. PWM dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2274
+Figure 636. Dithering effect on duty cycle in center-aligned PWM mode . . . . . . . . . . . . . . . . . . . . . 2275
+Figure 637. Generation of two phase-shifted PWM signals with 50% duty cycle . . . . . . . . . . . . . . . 2277
+Figure 638. Combined PWM mode on channels 1 and 3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2278
+Figure 639. OCREF_CLR input selection multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2279
+Figure 640. Clearing TIMx tim_ocxref . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2279
+Figure 641. Example of One-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2280
+Figure 642. Retriggerable one-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2282
+Figure 643. Pulse generator circuitry . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2283
+Figure 644. Pulse generation on compare event, for edge-aligned and encoder modes . . . . . . . . . 2283
+Figure 645. Extended pulse width in case of concurrent triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . 2284
+Figure 646. Example of counter operation in encoder interface mode . . . . . . . . . . . . . . . . . . . . . . . 2286
+Figure 647. Example of encoder interface mode with tim_ti1fp1 polarity inverted . . . . . . . . . . . . . . 2286
+
+RM0456 Rev 6
+
+119/3653
+126
+
+List of figures
+
+RM0456
+
+Figure 648. Quadrature encoder counting modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2287
+Figure 649. Direction plus clock encoder mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2288
+Figure 650. Directional clock encoder mode (CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2289
+Figure 651. Directional clock encoder mode (CC1P = CC2P = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2289
+Figure 652. Index gating options . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2291
+Figure 653. Jittered Index signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2291
+Figure 654. Index generation for IPOS[1:0] = 11 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2292
+Figure 655. Counter reading with index gated on channel A (IPOS[1:0] = 11) . . . . . . . . . . . . . . . . . 2292
+Figure 656. Counter reading with index ungated (IPOS[1:0] = 00) . . . . . . . . . . . . . . . . . . . . . . . . . . 2293
+Figure 657. Counter reading with index gated on channel A and B. . . . . . . . . . . . . . . . . . . . . . . . . . 2293
+Figure 658. Encoder mode behavior in case of narrow index pulse (IPOS[1:0] = 11) . . . . . . . . . . . . 2294
+Figure 659. Counter reset Narrow index pulse (closer view, ARR = 0x07) . . . . . . . . . . . . . . . . . . . . 2295
+Figure 660. Index behavior in x1 and x2 mode (IPOS[1:0] = 01). . . . . . . . . . . . . . . . . . . . . . . . . . . . 2296
+Figure 661. Directional index sensitivity. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2296
+Figure 662. Counter reset as function of FIDX bit setting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2297
+Figure 663. Index blanking. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2297
+Figure 664. Index behavior in clock + direction mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2298
+Figure 665. Index behavior in directional clock mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2298
+Figure 666. State diagram for quadrature encoded signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2299
+Figure 667. Up-counting encoder error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2300
+Figure 668. Down-counting encode error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2301
+Figure 669. Encoder mode change with preload transferred on update (SMSPS = 0) . . . . . . . . . . . 2302
+Figure 670. Control circuit in reset mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2304
+Figure 671. Control circuit in gated mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2305
+Figure 672. Control circuit in trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2305
+Figure 673. Control circuit in external clock mode 2 + trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . 2307
+Figure 674. Master/Slave timer example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2307
+Figure 675. Master/slave connection example with 1 channel only timers . . . . . . . . . . . . . . . . . . . . 2308
+Figure 676. Gating TIM_slv with tim_oc1ref of TIM_mstr . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2309
+Figure 677. Gating TIM_slv with Enable of TIM_mstr . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2310
+Figure 678. Triggering TIM_slv with update of TIM_mstr. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2311
+Figure 679. Triggering TIM_slv with Enable of TIM_mstr . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2311
+Figure 680. Triggering TIM_mstr and TIM_slv with TIM_mstr tim_ti1 input . . . . . . . . . . . . . . . . . . . . 2312
+Figure 681. TIM15 block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2353
+Figure 682. TIM16/TIM17 block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2354
+Figure 683. Counter timing diagram with prescaler division change from 1 to 2 . . . . . . . . . . . . . . . . 2358
+Figure 684. Counter timing diagram with prescaler division change from 1 to 4 . . . . . . . . . . . . . . . . 2359
+Figure 685. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2360
+Figure 686. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2361
+Figure 687. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2361
+Figure 688. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2362
+Figure 689. Counter timing diagram, update event when ARPE = 0
+(TIMx_ARR not preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2362
+Figure 690. Counter timing diagram, update event when ARPE = 1
+(TIMx_ARR preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2363
+Figure 691. Update rate examples depending on mode and TIMx_RCR register settings . . . . . . . . 2364
+Figure 692. Control circuit in normal mode, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . 2365
+Figure 693. tim_ti2 external clock connection example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2365
+Figure 694. Control circuit in external clock mode 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2366
+Figure 695. Capture/compare channel (example: channel 1 input stage) . . . . . . . . . . . . . . . . . . . . . 2367
+Figure 696. Capture/compare channel 1 main circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2367
+Figure 697. Output stage of capture/compare channel (channel 1). . . . . . . . . . . . . . . . . . . . . . . . . . 2368
+
+120/3653
+
+RM0456 Rev 6
+
+

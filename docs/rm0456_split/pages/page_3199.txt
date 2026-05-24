@@ -1,0 +1,46 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Host enumeration
+After detecting a peripheral connection the host must start the enumeration process by
+sending USB reset and configuration commands to the new peripheral.
+The application drives a USB reset signaling (single-ended zero) over the USB by keeping
+the port reset bit set in the host port control and status register (PRST bit in OTG_HPRT) for
+a minimum of 10 ms and a maximum of 20 ms. The application takes care of the timing
+count and then of clearing the port reset bit.
+Once the USB reset sequence has completed, the host port interrupt is triggered by the port
+enable/disable change bit (PENCHNG bit in OTG_HPRT). This informs the application that
+the speed of the enumerated peripheral can be read from the port speed field in the host
+port control and status register (PSPD bit in OTG_HPRT) and that the host is starting to
+drive SOFs (FS) or Keep alives (LS). The host is now ready to complete the peripheral
+enumeration by sending peripheral configuration commands.
+
+Host suspend
+The application decides to suspend the USB activity by setting the port suspend bit in the
+host port control and status register (PSUSP bit in OTG_HPRT). The OTG_HS core stops
+sending SOFs and enters the suspended state.
+The suspended state can be optionally exited on the remote device’s initiative (remote
+wake-up). In this case the remote wake-up interrupt (WKUPINT bit in OTG_GINTSTS) is
+generated upon detection of a remote wake-up signaling, the port resume bit in the host port
+control and status register (PRES bit in OTG_HPRT) self-sets, and resume signaling is
+automatically driven over the USB. The application must time the resume window and then
+clear the port resume bit to exit the suspended state and restart the SOF.
+If the suspended state is exited on the host initiative, the application must set the port
+resume bit to start resume signaling on the host port, time the resume window and finally
+clear the port resume bit.
+
+73.7.2
+
+Host channels
+The OTG_HS core instantiates 16 host channels. Each host channel supports an USB host
+transfer (USB pipe). The host is not able to support more than 16 transfer requests at the
+same time. If more than 16 transfer requests are pending from the application, the host
+controller driver (HCD) must re-allocate channels when they become available from
+previous duty, that is, after receiving the transfer completed and channel halted interrupts.
+Each host channel can be configured to support in/out and any type of periodic/nonperiodic
+transaction. Each host channel makes us of dedicated control (OTG_HCCHARx), transfer
+configuration (OTG_HCTSIZx) and status/interrupt (OTG_HCINTx) registers with
+associated mask (OTG_HCINTMSKx) registers.

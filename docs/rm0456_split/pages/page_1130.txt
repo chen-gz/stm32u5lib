@@ -1,0 +1,84 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Figure 176. HyperBus write operation with additional latency (8-bit data mode)
+NCS
+Additional latency
+tRWR= Read write recovery
+
+t ACC = Initial access
+
+CLK
+DQS0
+
+High = 2x Latency count
+Low = 1x Latency count
+Latency count 1
+
+IO[7:0]
+
+47:40 39:32 31:24 23:16 15:8
+
+CLK and data
+are center aligned.
+
+Latency count 2
+Dn
+A
+
+7:0
+
+Dn
+B
+
+Dn+1 Dn+1
+B
+A
+
+Host drives IO[7:0]
+and DQS0
+
+Command-Address
+Host drives IO[7:0] and memory drives DQS0
+
+MSv43496V2
+
+Fixed latency mode
+Some devices or some applications may not want to operate with a variable latency time as
+described above.
+The latency can be forced to 2 x tACC by setting LM of HSPI_HLCR.
+In this HSPI latency mode, the state of the DQS signal is not taken into account by the HSPI
+and an additional latency is always added leading to a fixed 2 x tACC latency time.
+
+Write operation with no latency
+Some devices can also require a zero latency for the write operations. This write-zero
+latency can be forced by setting WZL in HSPI_HLCR.
+Figure 177. HyperBus write operation with no latency (register write)
+NCS
+CLK
+DQS0
+IO[7:0]
+
+Memory drives DQS0 but master ignores
+47:40
+
+39:32
+
+31:24
+
+23:16
+
+Command-Address
+
+15:8
+
+7:0
+
+15:8
+
+7:0
+Data
+MSv43497V2

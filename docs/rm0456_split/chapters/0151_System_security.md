@@ -1,0 +1,117 @@
+RM0456 Rev 6
+
+RM0456
+
+3
+
+System security
+
+System security
+The STM32U5 series devices are designed with a comprehensive set of security features,
+some of which being based on the standard Arm TrustZone technology.
+These security features simplify the process of evaluating IoT devices against security
+standards. They also significantly reduce the cost and complexity of software development
+for OEM and third-party developers, by facilitating the reuse, improving the interoperability,
+and minimizing the API fragmentation.
+This section explains the different security features available on STM32U5 series devices.
+
+3.1
+
+Key security features
+•
+
+Resource isolation using privilege mode and Armv8-M mainline security extension of
+the Cortex-M33, extended to securable I/Os, memories, and peripherals
+
+•
+
+Secure firmware installation (SFI) with device unique cryptographic key pair
+–
+
+leveraging the on-chip immutable bootloader that supports the download of
+the image through USART, USB, I²C, SPI, FDCAN, and JTAG
+
+•
+
+Secure boot thanks to the unique boot entry feature and hide-protect area (HDP)
+mechanism
+
+•
+
+Secure storage, featuring:
+
+•
+
+•
+
+•
+
+–
+
+Nonvolatile on-chip secure storage, protected with secure and HDP areas
+
+–
+
+Battery-powered volatile secure storage, automatically erased in case of tamper
+
+–
+
+Write-only key registers in the AES engines
+
+–
+
+Device 96-bit unique ID and JTAG 32-bit device-specific ID
+
+–
+
+On-chip enhance storage technology, using hardware secret nonvolatile derived
+hardware unique keys (DHUK), and application-defined volatile boot hardware key
+(BHK), both loadable by hardware to the DPA-resistant SAES engine
+
+General purpose cryptographic acceleration:
+–
+
+AES 256-bit engine, supporting ECB, CBC, CTR, GCM, and CCM chaining modes
+
+–
+
+Secure AES 256-bit security coprocessor, supporting ECB and CBC chaining
+modes with side-channel counter-measures and mitigations
+
+–
+
+HASH processor, supporting MD5/SHA-1 checksums and SHA-2 secure hash
+
+–
+
+Public key accelerator (PKA) for RSA/DH (up to 4096 bits) and ECC (up to
+640 bits), implementing side-channel counter measures and mitigations when
+manipulating secrets
+
+–
+
+True random number generator (RNG), NIST SP800-90B pre-certified
+
+On-the-fly decryption of encrypted image stored on external flash memory connected
+through the OCTOSPI:
+–
+
+Almost-zero latency with standard NOR flash memories
+
+–
+
+Can be used to encrypt the image using device-unique secret keys
+
+–
+
+Automatic key erase in case of tamper
+
+Flexible life-cycle scheme with readout protection (RDP), including support for product
+decommissioning (auto-erase)
+–
+
+Debug protection, depending on the RDP level
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

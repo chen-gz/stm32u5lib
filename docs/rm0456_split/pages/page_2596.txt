@@ -1,0 +1,94 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+When RELOAD = 0 in controller mode, the counter can be used in two modes:
+
+Caution:
+
+•
+
+Automatic end (AUTOEND = 1 in the I2C_CR2 register). In this mode, the controller
+automatically sends a STOP condition once the number of bytes programmed in the
+NBYTES[7:0] bitfield is transferred.
+
+•
+
+Software end (AUTOEND = 0 in the I2C_CR2 register). In this mode, a software action
+is expected once the number of bytes programmed in the NBYTES[7:0] bitfield is
+transferred; the TC flag is set and an interrupt is generated if the TCIE bit is set. The
+SCL signal is stretched as long as the TC flag is set. The TC flag is cleared by software
+when the START or STOP bit of the I2C_CR2 register is set. This mode must be used
+when the controller wants to send a RESTART condition.
+
+The AUTOEND bit has no effect when the RELOAD bit is set.
+Table 661. I2C configuration
+
+65.4.8
+
+Function
+
+SBC bit
+
+RELOAD bit
+
+AUTOEND bit
+
+Controller Tx/Rx NBYTES + STOP
+
+X
+
+0
+
+1
+
+Controller Tx/Rx + NBYTES + RESTART
+
+X
+
+0
+
+0
+
+Target Tx/Rx, all received bytes ACKed
+
+0
+
+X
+
+X
+
+Target Rx with ACK control
+
+1
+
+1
+
+X
+
+I2C target mode
+I2C target initialization
+To work in target mode, the user must enable at least one target address. The I2C_OAR1
+and I2C_OAR2 registers are available to program the target own addresses OA1 and OA2,
+respectively.
+OA1 can be configured either in 7-bit (default) or in 10-bit addressing mode, by setting the
+OA1MODE bit of the I2C_OAR1 register.
+OA1 is enabled by setting the OA1EN bit of the I2C_OAR1 register.
+If an additional target addresses are required, the second target address OA2 can be
+configured. Up to seven OA2 LSBs can be masked, by configuring the OA2MSK[2:0] bitfield
+of the I2C_OAR2 register. Therefore, for OA2MSK[2:0] configured from 1 to 6, only
+OA2[7:2], OA2[7:3], OA2[7:4], OA2[7:5], OA2[7:6], or OA2[7] are compared with the
+received address. When OA2MSK[2:0] is other than 0, the address comparator for OA2
+excludes the I2C reserved addresses (0000 XXX and 1111 XXX) and they are not
+acknowledged. If OA2MSK[2:0] = 7, all received 7-bit addresses are acknowledged (except
+reserved addresses). OA2 is always a 7-bit address.
+When enabled through the specific bit, the reserved addresses can be acknowledged if they
+are programmed in the I2C_OAR1 or I2C_OAR2 register with OA2MSK[2:0] = 0.
+OA2 is enabled by setting the OA2EN bit of the I2C_OAR2 register.
+The general call address is enabled by setting the GCEN bit of the I2C_CR1 register.
+When the I2C peripheral is selected by one of its enabled addresses, the ADDR interrupt
+status flag is set, and an interrupt is generated if the ADDRIE bit is set.
+By default, the target uses its clock stretching capability, which means that it stretches the
+SCL signal at low level when required, to perform software actions. If the controller does not
+RM0456 Rev 6

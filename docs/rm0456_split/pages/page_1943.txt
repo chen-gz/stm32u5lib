@@ -1,0 +1,118 @@
+AES_IVR3[31:0]
+
+AES_IVR2[31:0]
+
+AES_IVR1[31:0]
+
+AES_IVR0[31:0]
+
+ICB[127:96]
+
+ICB[95:64]
+
+ICB[63:32]
+
+ICB[31:0]
+32-bit counter = 0x0002
+
+In this mode, the setting 01 of the MODE[1:0] bitfield (key derivation) is forbidden.
+
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+The authentication mechanism in GCM mode is based on a hash function called GF2mul
+that performs multiplication by a fixed parameter, called hash subkey (H), within a binary
+Galois field.
+A GCM message is processed through the following phases, further described in next
+subsections:
+•
+
+Init phase: AES prepares the GCM hash subkey (H).
+
+•
+
+Header phase: AES processes the additional authenticated data (AAD), with hash
+computation only.
+
+•
+
+Payload phase: AES processes the plaintext (P) with hash computation, counter block
+encryption and data XOR-ing. It operates in a similar way for ciphertext (C).
+
+•
+
+Final phase: AES generates the authenticated tag (T) using the last block of the
+message.
+
+GCM init phase
+During this first step, the GCM hash subkey (H) is calculated and saved internally, to be
+used for processing all the blocks. The recommended sequence is:
+1.
+2.
+
+Disable the AES peripheral by clearing the EN bit of the AES_CR register.
+Select GCM chaining mode, by setting to 011 the CHMOD[2:0] bitfield of the AES_CR
+register, and optionally, set the DATATYPE[1:0] bitfield.
+
+3.
+
+Indicate the Init phase, by setting to 00 the GCMPH[1:0] bitfield of the AES_CR
+register.
+
+4.
+
+Set the MODE[1:0] bitfield of the AES_CR register to 00 or 10. Although the bitfield is
+only used in payload phase, it is recommended to set it in the Init phase and keep it
+unchanged in all subsequent phases.
+
+5.
+
+Initialize the AES_KEYRx registers with a key, and initialize AES_IVRx registers with
+the information as defined in Table 472.
+
+6.
+
+Start the calculation of the hash key, by setting to 1 the EN bit of the AES_CR register
+(EN is automatically reset when the calculation finishes).
+
+7.
+
+Wait until the end of computation, indicated by the CCF flag of the AES_SR transiting
+to 1. Alternatively, use the corresponding interrupt.
+
+8.
+
+Clear the CCF flag of the AES_SR register, by setting the CCF bit of the AES_ICR
+register.
+
+GCM header phase
+This phase coming after the GCM Init phase must be completed before the payload phase.
+The sequence to execute, identical for encryption and decryption, is:
+
+Note:
+
+1.
+
+Indicate the header phase, by setting to 01 the GCMPH[1:0] bitfield of the AES_CR
+register. Do not modify the MODE[1:0] bitfield as set in the Init phase.
+
+2.
+
+Enable the AES peripheral by setting the EN bit of the AES_CR register.
+
+3.
+
+If it is the last block and the AAD size in the block is inferior to 128 bits, pad the
+remainder of the block with zeros. Then append the data block into AES in one of ways
+described in Section 49.4.4: AES procedure to perform a cipher operation. No data is
+read during this phase.
+
+4.
+
+Repeat the step 3 until the last additional authenticated data block is processed.
+
+The header phase can be skipped if there is no AAD, that is, Len(A) = 0.
+
+RM0456 Rev 6

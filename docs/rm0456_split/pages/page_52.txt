@@ -1,0 +1,97 @@
+90
+
+Contents
+
+RM0456
+
+47.3
+
+TSC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1888
+47.3.1
+
+TSC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1888
+
+47.3.2
+
+Surface charge transfer acquisition overview . . . . . . . . . . . . . . . . . . 1888
+
+47.3.3
+
+Reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1891
+
+47.3.4
+
+Charge transfer acquisition sequence . . . . . . . . . . . . . . . . . . . . . . . . 1891
+
+47.3.5
+
+Spread spectrum feature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1892
+
+47.3.6
+
+Max count error . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1893
+
+47.3.7
+
+Sampling capacitor I/O and channel I/O mode selection . . . . . . . . . . 1893
+
+47.3.8
+
+Acquisition mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1894
+
+47.3.9
+
+I/O hysteresis and analog switch control . . . . . . . . . . . . . . . . . . . . . . 1894
+
+47.4
+
+TSC low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1895
+
+47.5
+
+TSC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1895
+
+47.6
+
+TSC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1895
+47.6.1
+
+TSC control register (TSC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1895
+
+47.6.2
+
+TSC interrupt enable register (TSC_IER) . . . . . . . . . . . . . . . . . . . . . 1898
+
+47.6.3
+
+TSC interrupt clear register (TSC_ICR) . . . . . . . . . . . . . . . . . . . . . . . 1899
+
+47.6.4
+
+TSC interrupt status register (TSC_ISR) . . . . . . . . . . . . . . . . . . . . . . 1899
+
+47.6.5
+
+TSC I/O hysteresis control register (TSC_IOHCR) . . . . . . . . . . . . . . 1900
+
+47.6.6
+
+TSC I/O analog switch control register
+(TSC_IOASCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1900
+
+47.6.7
+
+TSC I/O sampling control register (TSC_IOSCR) . . . . . . . . . . . . . . . 1901
+
+47.6.8
+
+TSC I/O channel control register (TSC_IOCCR) . . . . . . . . . . . . . . . . 1901
+
+47.6.9
+
+TSC I/O group control status register (TSC_IOGCSR) . . . . . . . . . . . 1902
+
+47.6.10 TSC I/O group x counter register (TSC_IOGxCR) . . . . . . . . . . . . . . . 1902
+47.6.11 TSC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1903
+
+48

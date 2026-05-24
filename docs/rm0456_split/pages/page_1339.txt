@@ -1,0 +1,83 @@
+•
+
+VREFINT_CAL is the VREFINT calibration value (refer to Section 33.3: ADC
+implementation for the value of VREFINT_CAL).
+
+•
+
+VREFINT_DATA is the actual VREFINT output value converted by ADC.
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Converting a supply-relative ADC measurement to an absolute voltage value
+The ADC is designed to deliver a digital value corresponding to the ratio between the
+voltage reference VREF+ and the voltage applied on the converted channel. For most
+application use cases, it is necessary to convert this ratio into a voltage independent of
+VDDA. For applications where VDDA is known and ADC converted values are right-aligned,
+the following formula can be used to calculate this absolute value:
+V REF+
+V CHANNELx = ------------------------------------- × ADC_DATA
+NUM_CODES
+
+For applications where VDDA value is not known, the internal voltage reference and VDDA
+can be replaced by the expression provided in Section : Calculating the actual VREF+
+voltage using the internal reference voltage, resulting in the following formula:
+3.0 V × VREFINT_CAL × ADC_DATA
+V CHANNELx = ---------------------------------------------------------------------------------------------------VREFINT_DATA × NUM_CODES
+
+Where:
+VREFINT_CAL is the VREFINT calibration value (refer to Section 33.3: ADC
+implementation for the value of VREFINT_CAL).
+ADC_DATA is the value measured by the ADC on channel x (right-aligned)
+VREFINT_DATA is the actual VREFINT output value converted by the ADC
+NUM_CODES is the number of ADC output codes. For example with 14-bit
+resolution, it is 214 = 16384 or with 8-bit resolution, 28 = 256.
+Note:
+
+If ADC measurements are done using an output format other than 14-bit right-aligned, all
+the parameters must first be converted to a compatible format before the calculation is
+done.
+
+33.5
+
+ADC interrupts
+For each ADC, an interrupt can be generated:
+•
+
+After ADC power-up, when the ADC is ready (flag ADRDY)
+
+•
+
+On the end of any conversion for regular groups (flag EOC)
+
+•
+
+On the end of a sequence of conversion for regular groups (flag EOS)
+
+•
+
+On the end of any conversion for injected groups (flag JEOC)
+
+•
+
+On the end of a sequence of conversion for injected groups (flag JEOS)
+
+•
+
+When an analog watchdog detection occurs (flag AWD1, AWD2 and AWD3)
+
+•
+
+When the end of sampling phase occurs (flag EOSMP)
+
+•
+
+When the data overrun occurs (OVR flag)
+
+Separate interrupt enable bits are available for flexibility.
+
+RM0456 Rev 6

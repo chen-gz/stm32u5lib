@@ -1,0 +1,103 @@
+RM0456 Rev 6
+
+RM0456
+
+64.2
+
+Tamper and backup registers (TAMP)
+
+TAMP main features
+•
+
+A tamper detection can optionally erase the backup registers, backup SRAM, SRAM2,
+caches, and cryptographic peripherals. The device resources protected by tamper are
+named “device secrets”.
+
+•
+
+32 32-bit backup registers:
+–
+
+•
+
+The backup registers (TAMP_BKPxR) are implemented in the backup domain that
+remains powered-on by VBAT when the VDD power is switched off.
+
+Up to 8 tamper pins for 8 external tamper detection events:
+–
+
+Active tamper mode: continuous comparison between tamper output and input to
+protect from physical open-short attacks.
+
+–
+
+Flexible active tamper I/O management: from 4 meshes (each input associated to
+its own exclusive output) to 7 meshes (single output shared for up to 7 tamper
+inputs)
+
+–
+
+Passive tampers: ultra-low power edge or level detection with internal pull-up
+hardware management.
+
+–
+
+Configurable digital filter.
+
+•
+
+11 internal tamper events to protect against transient or environmental perturbation
+attacks
+
+•
+
+Each tamper can be configured in two modes:
+–
+
+Confirmed mode: immediate erase of secrets on tamper detection, including
+backup registers erase
+
+–
+
+Potential mode: most of the secrets erase following a tamper detection are
+launched by software
+
+•
+
+Any tamper detection can generate a RTC timestamp event.
+
+•
+
+TrustZone support:
+–
+
+Tamper secure or nonsecure configuration.
+
+–
+
+Backup registers configuration in 3 configurable-size areas:
+1 read/write secure area.
+1 write secure/read nonsecure area.
+1 read/write nonsecure area.
+
+–
+
+64.3
+
+Boot hardware key for secure AES, stored in backup registers, protected against
+read and write access.
+
+•
+
+Tamper configuration and backup registers privilege protection
+
+•
+
+Monotonic counter.
+
+TAMP implementation
+STM32U575/585 rev. X devices do not implement the active tamper prescaler extension.
+This feature is implemented in all other STM32U575/585 revisions, and in the other
+STM32U5 series devices.
+
+RM0456 Rev 6

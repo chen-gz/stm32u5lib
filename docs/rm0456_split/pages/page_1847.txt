@@ -1,0 +1,175 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+44.16.6
+
+DSI Wrapper PHY configuration register 0 (DSI_WPCR0)
+Address offset: 0x0418
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FTXSM FTXSM
+DL
+CL
+rw
+
+rw
+
+SWDL1 SWDL0 SWCL
+rw
+
+rw
+
+rw
+
+Bits 31:14 Reserved, must be kept at reset value.
+Bit 13 FTXSMDL: Force in TX Stop mode the data lanes
+This bit forces the data lanes in TX stop mode. It is used to initialize a lane module in transmit
+mode. It causes the lane module to immediately jump to transmit control mode and to begin
+transmitting a stop state (LP-11). It can be used to go back in TX mode after a wrong BTA
+sequence.
+0: No effect
+1: Force the data lanes in TX Stop mode
+Bit 12 FTXSMCL: Force in TX Stop mode the clock lane
+This bit forces the clock lane in TX stop mode. It is used to initialize a lane module in transmit
+mode. It causes the lane module to immediately jump to transmit control mode and to begin
+transmitting a stop state (LP-11). It can be used to go back in TX mode after a wrong BTA
+sequence.
+0: No effect
+1: Force the clock lane in TX Stop mode
+Bits 11:9 Reserved, must be kept at reset value.
+Bit 8 SWDL1: Swap data lane 1 pins
+This bit swaps the pins on clock lane.
+0: Regular clock lane pin configuration
+1: Swapped clock lane pin
+Bit 7 SWDL0: Swap data lane 0 pins
+This bit swaps the pins on data lane 0.
+0: Regular clock lane pin configuration
+1: Swapped clock lane pin
+Bit 6 SWCL: Swap clock lane pins
+This bit swaps the pins on clock lane.
+0: Regular clock lane pin configuration
+1: Swapped clock lane pin
+Bits 5:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

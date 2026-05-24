@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 PE4: PHY error 4
+This bit indicates the LP1 contention error ErrContentionLP1 from lane 0.
+Bit 19 PE3: PHY error 3
+This bit indicates the LP0 contention error ErrContentionLP0 from lane 0.
+Bit 18 PE2: PHY error 2
+This bit indicates the ErrControl error from lane 0.
+Bit 17 PE1: PHY error 1
+This bit indicates the ErrSyncEsc low-power transmission synchronization error from lane 0.
+Bit 16 PE0: PHY error 0
+This bit indicates the ErrEsc escape entry error from lane 0.
+Bit 15 AE15: Acknowledge error 15
+This bit retrieves the DSI protocol violation from the acknowledge error report.
+Bit 14 AE14: Acknowledge error 14
+This bit retrieves the reserved (specific to the device) from the acknowledge error report.
+Bit 13 AE13: Acknowledge error 13
+This bit retrieves the invalid transmission length from the acknowledge error report.
+Bit 12 AE12: Acknowledge error 12
+This bit retrieves the DSI VC ID Invalid from the acknowledge error report.
+Bit 11 AE11: Acknowledge error 11
+This bit retrieves the not recognized DSI data type from the acknowledge error report.
+Bit 10 AE10: Acknowledge error 10
+This bit retrieves the checksum error (long packet only) from the acknowledge error report.
+Bit 9 AE9: Acknowledge error 9
+This bit retrieves the ECC error, multi-bit (detected, not corrected) from the acknowledge
+error report.
+Bit 8 AE8: Acknowledge error 8
+This bit retrieves the ECC error, single-bit (detected and corrected) from the acknowledge
+error report.
+Bit 7 AE7: Acknowledge error 7
+This bit retrieves the reserved (specific to the device) from the acknowledge error report.
+Bit 6 AE6: Acknowledge error 6
+This bit retrieves the false control error from the acknowledge error report.
+Bit 5 AE5: Acknowledge error 5
+This bit retrieves the peripheral timeout error from the acknowledge error report.
+Bit 4 AE4: Acknowledge error 4
+This bit retrieves the LP transmit sync error from the acknowledge error report.
+Bit 3 AE3: Acknowledge error 3
+This bit retrieves the escape mode entry command error from the acknowledge error report.
+
+RM0456 Rev 6

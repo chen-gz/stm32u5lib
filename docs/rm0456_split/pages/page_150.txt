@@ -1,0 +1,31 @@
+150
+
+RM0456
+
+2.3.4
+
+Flash memory overview
+The flash memory is composed of two distinct physical areas:
+•
+
+the main flash memory block, that contains the application program and user data
+
+•
+
+the information block, that is composed of the following parts:
+–
+
+option bytes for hardware and memory protection user configuration
+
+–
+
+system memory that contains ST proprietary code
+
+–
+
+OTP (one-time programmable) area
+
+The flash interface implements instruction access and data access based on the AHB
+protocol. It also implements the logic necessary to carry out the flash memory operations
+(program/erase) controlled through the FLASH registers plus security access control
+features. Refer to Section 7: Embedded flash memory (FLASH) for more details.

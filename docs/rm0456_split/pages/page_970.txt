@@ -1,0 +1,53 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+yn = B.Xn, where Xn = [xn-N,...,xn] is composed of the N+1 elements of X at indexes n - N to
+n.
+This function corresponds to a finite impulse response (FIR) filter, where vector B contains
+the filter coefficients and vector X the sampled data.
+The structure of the filter (direct form) is shown in Figure 114.
+Figure 114. FIR filter structure
+
+b[0]
+
+2R
+
+x[n]
+
+y[n]
+Z-1
+
+b[1]
+
+x[n-1]
+Z-1
+
+b[2]
+
+x[n-2]
+Z-1
+
+b[3]
+
+x[n-3]
+Z-1
+b[N]
+x[n-N]
+MSv47126V1
+
+Note that the cross correlation vector can be calculated by reversing the order of the
+coefficient vector B.
+Input:
+•
+
+X1 buffer contains the elements of vector X. It is a circular buffer of length N + 1 + d.
+
+•
+
+X2 buffer contains the elements of vector B. It is a fixed buffer of length N + 1.
+
+Output:
+•

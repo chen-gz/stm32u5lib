@@ -1,0 +1,240 @@
+Description
+14-bit raw data acquired by ADC1 at
+30 °C (± 5 °C), VDDA = VREF+ = 3.0 V
+(±10 mV)
+
+RM0456 Rev 6
+
+Memory address
+0x0BFA 07A5 - 0x0BFA 07A6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+33.4
+
+ADC functional description
+
+33.4.1
+
+ADC block diagram
+Figure 221 shows the ADC block diagram and Table 305 gives the ADC pin description.
+Figure 221. ADC block diagram
+VREF+
+
+BOOST
+
+RDATA[31:0]
+
+DEEPPWD
+JAUTO
+To internal digital circuit
+
+JL[1:0], JSQx
+L[3:0], SQx
+
+ADVREGEN
+
+CONT
+
+JDATA1[31:0]
+JDATA2[31:0]
+JDATA3[31:0]
+JDATA4[31:0]
+
+REG.
+
+DIFSEL[19:0]
+
+Input
+selection &
+scan
+VINN[i]
+analog input control
+channels
+VINP[i]
+
+ADCx_INi
+
+ADEN/ADDIS
+ADCAL
+ADCALDIF
+
+adc_it
+
+slave
+
+AHB
+interface
+AHB
+interface
+
+adc_dma
+adcx_dat
+[15:0]
+
+Bias & Ref
+
+SAR ADC
+
+adc_hclk
+ROVSM
+
+CONVERTED
+DATA
+
+TROVS
+
+start
+
+BOOST
+
+OVSS[3:0]
+
+Start & Stop
+Control
+AUTDLY
+auto delayed
+
+LINCALRD
+YW6..1
+CALFACT_D
+[10:0]
+CALFACT_S
+[10:0]
+LINCALFACT
+[30:0]
+
+S/W trigger
+
+ADSTART
+start conv
+ADSTP
+stop conv
+
+adc_ext_trg0
+adc_ext_trg1
+
+OSR[9:0]
+OVRMOD
+overrun mode
+
+JOVSE
+
+ALIGN
+left/right
+RES[1:0],
+14,12,10,8 bits
+
+ROVSE
+RSHIFT4..1
+
+OFFSETy[25:0]
+OFFSETy_CH[4:0]
+
+h/w
+trigger
+
+.......
+
+EXTEN[1:0]
+trigger enable
+and edge selection
+
+.......
+
+EXTi mapped at
+product level
+JADSTART
+JADSTP
+
+adc_ker_ck
+
+DMNGT[1:0]
+DAMDF[1:0]
+
+Oversampler
+VIN
+
+SMPx[2:0]
+sampling time
+
+ADRDY
+EOSMP
+EOC
+EOS
+OVR
+JEOC
+JEOS
+AWDx
+
+AHB
+
+Analog
+supply
+(VDDA)
+
+LSHIFT[3:0]
+Oversampling
+options
+
+SSATE
+DISCEN
+DISCNU[2:0]
+Discontinuous
+mode
+
+Analog watchdog 1,2,3
+AWD1
+AWD2
+AWD3
+
+EXTSEL[4:0]
+trigger selection
+
+adc_awd1
+adc_awd2
+adc_awd3
+
+S/W trigger
+AWD1EN
+JAWD1EN
+adc_jext_trg0
+adc_jext_trg1
+
+H/W
+trigger
+
+AWD1SGL
+JDISCEN
+
+JEXTEN[1:0]
+trigger enable
+and edge selection
+
+.......
+
+AWD1CH[4:0]
+LTR1[25:0]
+HTR1[25:0]
+AWD2CH[19:0]
+
+.......
+JEXTi mapped at
+product level
+
+LTR2[25:0]
+HTR2[25:0]
+AWD3CH[19:0]
+
+JEXTSEL[4:0]
+trigger selection
+
+LTR3[25:0]
+HTR3[25:0]
+VREF-
+
+MSv62467V4
+
+RM0456 Rev 6

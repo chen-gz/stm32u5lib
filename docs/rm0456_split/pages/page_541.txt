@@ -1,0 +1,45 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 17 RAMCFGRST: RAMCFG reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the RAMCFG.
+Bit 16 TSCRST: TSC reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the TSC.
+Bit 15 JPEGRST: JPEG reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the JPEG.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 14:13 Reserved, must be kept at reset value.
+Bit 12 CRCRST: CRC reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the CRC.
+Bits 11:4 Reserved, must be kept at reset value.
+Bit 3 MDF1RST: MDF1 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the MDF1.
+Bit 2 FMACRST: FMAC reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the FMAC.
+Bit 1 CORDICRST: CORDIC reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the CORDIC.
+Bit 0 GPDMA1RST: GPDMA1 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the GPDMA1.
+
+RM0456 Rev 6

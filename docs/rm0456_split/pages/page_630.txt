@@ -1,0 +1,74 @@
+642
+
+General-purpose I/Os (GPIO)
+
+13.3.15
+
+RM0456
+
+Using PH3 as GPIO
+PH3 may be used as boot pin (BOOT0) or as a GPIO. Depending on the nSWBOOT0 bit in
+the user option byte, PH3 switches from the input mode to the analog input mode:
+
+13.3.16
+
+•
+
+After the option byte loading phase if nSWBOOT0 = 1.
+
+•
+
+After reset if nSWBOOT0 = 0.
+
+Using PA11 and PA12 as GPIOs (STM32U59x/5Ax/5Fx/5Gx only)
+PA11 and PA12 provide OTG_HS additional functions. There are constraints to use PA11
+and PA12 as standard GPIOs or alternate functions. Refer to Section 10.7.12: USB power
+management in low-power modes (STM32U59x/5Ax/5Fx/5Gx only).
+
+13.3.17
+
+OPAMPx_VINM dedicated pins
+The OPAMPx_VINM dedicated pins are three-volt tolerant and are supplied by VDDA. These
+pins do not feature a complete TT structure as shown in Figure 45, but a direct connection
+to OPAMPx. The OPAMPx_VINM dedicated pins are available on specific packages only
+(refer to the device datasheet for availability of these pins).
+
+13.3.18
+
+TrustZone security
+The TrustZone security is activated by the TZEN option bit in the FLASH_OPTR. When the
+TrustZone is active (TZEN = 1), each I/O pin of GPIO port can be individually configured as
+secure through the GPIOx_SECCFGR register.
+When the selected I/O pin is configured as secure, its corresponding configuration bits for
+alternate function, mode selection, I/O data are secure against a nonsecure access. In case
+of nonsecure access, these bits are RAZ/WI. The GPIO clock and reset control bits in the
+RCC are automatically configured as secure as soon as at least one I/O in the GPIO is
+secure.
+The I/Os with peripherals functions are also conditioned by the peripheral security
+configuration (see Section 5: Global TrustZone controller (GTZC) for more details):
+•
+
+For peripherals for which the I/O pin selection is done through alternate functions
+registers: if the peripheral is configured as secure, it cannot be connected to a
+nonsecure I/O pin. If this is not respected, the input data to the secure peripheral is
+forced to 0 (I/O input pin value is ignored) and the output pin value is forced to 0, thus
+avoiding any secure information leak through nonsecure I/Os.
+
+•
+
+For I/Os with analog switches, directly controlled by peripherals (such as ADC for
+instance): If the I/O is secure, the I/O analog switch cannot be controlled by a
+nonsecure peripheral. If this is not respected, the switch remains open. This prevent
+the redirection of secure data to a nonsecure peripheral or I/O through analog path.
+Refer to Section 3: System security for more details.
+
+•
+
+Some of the paths between I/Os “additional functions” and peripherals are not blocked
+if the I/O is secure and the peripheral is nonsecure. Therefore it is recommended to
+configure those peripherals as secure even when not used by the application. Refer to
+Section 3: System security for the list of concerned peripherals. When the path has a
+security control, it follows the same rule as I/O selection through alternate functions.
+
+Refer to the device pins definition table in datasheet for more information about peripherals
+alternate functions and additional functions mapping.

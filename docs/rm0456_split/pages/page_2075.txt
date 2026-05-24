@@ -1,0 +1,196 @@
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+Table 504. Modular reduction
+Parameters with direction
+
+IN
+
+OUT
+
+53.4.9
+
+Value (note)
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+MODE
+
+0x0D
+
+Operand length
+
+(in bits, not null)
+
+RAM@0x400
+
+Modulus length
+
+(in bits, 8 < value < 4160)
+
+RAM@0x408
+
+Operand A
+
+(0 ≤ A < 2n < 24160)
+
+RAM@0xA50
+4160
+
+Modulus value n
+
+(odd integer only, n < 2
+
+Result A mod n
+
+(0 < result < n)
+
+)
+
+RAM@0xC68
+
+64 bits
+
+ROS
+
+RAM@0xE78
+
+Arithmetic addition
+Arithmetic addition operation consists in the computation of A + B. Operation instructions
+are summarized in Table 505.
+Table 505. Arithmetic addition
+Parameters with direction
+
+IN
+
+OUT
+
+53.4.10
+
+Value (note)
+
+MODE
+
+0x09
+
+Operand length M
+
+(in bits, not null)
+
+Operand A
+
+(0 ≤ A < 2
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+RAM@0x408
+
+64 bits
+
+M)
+
+RAM@0xA50
+
+M)
+
+RAM@0xC68
+
+Operand B
+
+(0 ≤ B < 2
+
+Result: A+B
+
+(0 ≤ result < 2M+1)
+
+RAM@0xE78
+
+ROS
+ROS + 1
+
+Arithmetic subtraction
+Arithmetic subtraction operation consists in the following computations:
+•
+
+If A ≥ B result equals A - B
+
+•
+
+If A < B and M/32 residue is > 0 result equals A + 2int(M/32)*32+1 - B
+
+•
+
+If A < B and M/32 residue is 0 result equals A + 2int(M/32)*32 - B
+
+For the last two bullets the 32-bit word following the most significant word of the output
+equals 0xFFFF FFFF, as result is negative.
+Operation instructions are summarized in Table 506.
+Table 506. Arithmetic subtraction
+Parameters with direction
+
+IN
+
+MODE
+
+0x0A
+
+Operand length M
+
+(in bits, not null)
+
+Operand A
+Operand B
+
+OUT
+
+Value (note)
+
+Result: A-B
+
+(0 ≤ < A < 2
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+RAM@0x408
+
+64 bits
+
+M)
+
+RAM@0xA50
+
+M)
+
+RAM@0xC68
+
+(0 ≤ < B < 2
+
+(0 ≤ result < 2
+
+M)
+
+RM0456 Rev 6
+
+ROS
+
+RAM@0xE78

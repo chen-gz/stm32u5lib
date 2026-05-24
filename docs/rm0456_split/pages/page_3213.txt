@@ -1,0 +1,119 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Table 767. Host-mode control and status registers (CSRs) (continued)
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_HAINT
+
+0x414
+
+Section 73.14.28: OTG host all channels interrupt register (OTG_HAINT)
+
+OTG_HAINTMSK
+
+0x418
+
+Section 73.14.29: OTG host all channels interrupt mask register
+(OTG_HAINTMSK)
+
+OTG_HPRT
+
+0x440
+
+Section 73.14.30: OTG host port control and status register (OTG_HPRT)
+
+OTG_HCCHARx
+
+0x500
+0x520
+...
+0x6E0
+
+Section 73.14.31: OTG host channel x characteristics register
+(OTG_HCCHARx)
+
+OTG_HCSPLTx
+
+0x504
+0x524
+....
+0x6E4
+
+Section 73.14.32: OTG host channel x split control register
+(OTG_HCSPLTx)
+
+OTG_HCINTx
+
+0x508
+0x528
+....
+0x6E8
+
+Section 73.14.33: OTG host channel x interrupt register (OTG_HCINTx)
+
+OTG_HCINTMSKx
+
+0x50C
+0x52C
+....
+0x6EC
+
+Section 73.14.34: OTG host channel x interrupt mask register
+(OTG_HCINTMSKx)
+
+OTG_HCTSIZx
+
+0x510
+0x530
+....
+0x6F0
+
+Section 73.14.35: OTG host channel x transfer size register
+(OTG_HCTSIZx)
+
+OTG_HCDMAx
+
+0x514
+0x534
+....
+0x6F4
+
+Section 73.14.36: OTG host channel x DMA address
+register(OTG_HCDMAx)
+
+Device-mode CSR map
+These registers must be programmed every time the core changes to device mode.
+Table 768. Device-mode control and status registers
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_DCFG
+
+0x800
+
+Section 73.14.38: OTG device configuration register (OTG_DCFG)
+
+OTG_DCTL
+
+0x804
+
+Section 73.14.39: OTG device control register (OTG_DCTL)
+
+OTG_DSTS
+
+0x808
+
+Section 73.14.40: OTG device status register (OTG_DSTS)

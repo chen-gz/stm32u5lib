@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+RM0456
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+Bits 28:20 RXORDSETEN[8:0]: Receiver ordered set enable
+The bitfield determines the types of ordered sets that the receiver must detect. When
+set/cleared, each bit enables/disables a specific function:
+0bXXXXXXXX1: SOP detect enabled
+0bXXXXXXX1X: SOP' detect enabled
+0bXXXXXX1XX: SOP'' detect enabled
+0bXXXXX1XXX: Hard Reset detect enabled
+0bXXXX1XXXX: Cable Detect reset enabled
+0bXXX1XXXXX: SOP'_Debug enabled
+0bXX1XXXXXX: SOP''_Debug enabled
+0bX1XXXXXXX: SOP extension#1 enabled
+0b1XXXXXXXX: SOP extension#2 enabled
+Bits 19:17 PSC_UCPDCLK[2:0]: Pre-scaler division ratio for generating ucpd_clk
+The bitfield determines the division ratio of a kernel clock pre-scaler producing UCPD
+peripheral clock (ucpd_clk).
+0x0: 1 (bypass)
+0x1: 2
+0x2: 4
+0x3: 8
+0x4: 16
+It is recommended to use the pre-scaler so as to set the ucpd_clk frequency in the range
+from 6 to 9 MHz.
+Bit 16 Reserved, must be kept at reset value.
+Bits 15:11 TRANSWIN[4:0]: Transition window duration
+The bitfield determines the division ratio (the bitfield value minus one) of a hbit_clk divider
+producing tTransitionWindow interval.
+0x00: Not supported
+0x01: 2
+0x09: 10 (recommended)
+0x1F: 32
+Set a value that produces an interval of 12 to 20 us, taking into account the ucpd_clk
+frequency and the HBITCLKDIV[5:0] bitfield setting.
+Bits 10:6 IFRGAP[4:0]: Division ratio for producing inter-frame gap timer clock
+The bitfield determines the division ratio (the bitfield value minus one) of a ucpd_clk divider
+producing inter-frame gap timer clock (tInterFrameGap).
+0x00: Not supported
+0x01: 2
+0x0D: 14
+0x0E: 15
+0x0F: 16
+0x1F: 32
+The division ratio 15 is to apply for Tx clock at the USB PD 2.0 specification nominal value.
+The division ratios below 15 are to apply for Tx clock below nominal, and the division ratios
+above 15 for Tx clock above nominal.
+Bits 5:0 HBITCLKDIV[5:0]: Division ratio for producing half-bit clock
+The bitfield determines the division ratio (the bitfield value plus one) of a ucpd_clk divider
+producing half-bit clock (hbit_clk).
+0x00: 1 (bypass)
+0x1A: 27
+0x3F: 64
+
+RM0456 Rev 6

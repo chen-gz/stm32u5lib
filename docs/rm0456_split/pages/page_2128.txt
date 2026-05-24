@@ -1,0 +1,56 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 541. Output compare mode, toggle on tim_oc1
+Write B201h in the CC1R register
+
+CNT
+
+0039
+
+CCR1
+
+003A
+
+003B
+
+B200
+
+B201
+
+B201
+
+003A
+
+tim_oc1ref = tim_oc1
+
+Match detected on CCR1
+Interrupt generated if enabled
+MSv62326V1
+
+54.3.13
+
+PWM mode
+Pulse width modulation mode is used to generate a signal with a frequency determined by
+the value of the TIMx_ARR register and a duty cycle determined by the value of the
+TIMx_CCRx register.
+The PWM mode can be selected independently on each channel (one PWM per tim_ocx
+output) by writing 0110 (PWM mode 1) or 0111 (PWM mode 2) in the OCxM bits in the
+TIMx_CCMRx register. The corresponding preload register must be enabled by setting the
+OCxPE bit in the TIMx_CCMRx register, and eventually the autoreload preload register (in
+upcounting or center-aligned modes) by setting the ARPE bit in the TIMx_CR1 register.
+As the preload registers are transferred to the shadow registers only when an update event
+occurs, before starting the counter, all registers must be initialized by setting the UG bit in
+the TIMx_EGR register.
+tim_ocx polarity is software programmable using the CCxP bit in the TIMx_CCER register. It
+can be programmed as active high or active low. tim_ocx output is enabled by a
+combination of the CCxE, CCxNE, MOE, OSSI, and OSSR bits (TIMx_CCER and
+TIMx_BDTR registers). Refer to the TIMx_CCER register description for more details.
+In PWM mode (1 or 2), TIMx_CNT and TIMx_CCRx are always compared to determine
+whether TIMx_CCRx ≤ TIMx_CNT or TIMx_CNT ≤ TIMx_CCRx (depending on the direction
+of the counter).
+The timer is able to generate PWM in edge-aligned mode or center-aligned mode
+depending on the CMS bits in the TIMx_CR1 register.

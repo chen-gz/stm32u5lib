@@ -1,0 +1,207 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 3 LPTIM1IE: illegal access interrupt enable for LPTIM1
+0: interrupt disabled
+1: interrupt enabled
+Bit 2 I2C3IE: illegal access interrupt enable for I2C3
+0: interrupt disabled
+1: interrupt enabled
+Bit 1 LPUART1IE: illegal access interrupt enable for LPUART1
+0: interrupt disabled
+1: interrupt enabled
+Bit 0 SPI3IE: illegal access interrupt enable for SPI3
+0: interrupt disabled
+1: interrupt enabled
+
+5.10.2
+
+GTZC2 TZIC interrupt enable register 2 (GTZC2_TZIC_IER2)
+Address offset: 0x004
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+MPCB
+SRAM4
+B4_RE
+IE
+GIE
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+TAMPI
+E
+
+RTCIE
+
+SYSCF
+GIE
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+EXTIIE
+
+TZIC2I TZSC2I
+E
+E
+rw
+
+rw
+
+LPDMA
+RCCIE PWRIE
+1IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 MPCBB4_REGIE: illegal access interrupt enable for MPCBB4 registers
+0: interrupt disabled
+1: interrupt enabled
+Bit 24 SRAM4IE: illegal access interrupt enable for SRAM4
+0: interrupt disabled
+1: interrupt enabled
+Bits 23:16 Reserved, must be kept at reset value.
+Bit 15 TZIC2IE: illegal access interrupt enable for GTZC2 TZIC registers
+0: interrupt disabled
+1: interrupt enabled
+Bit 14 TZSC2IE: illegal access interrupt enable for GTZC2 TZSC registers
+0: interrupt disabled
+1: interrupt enabled
+Bits 13:7 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

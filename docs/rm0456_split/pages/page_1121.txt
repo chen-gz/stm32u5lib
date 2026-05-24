@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+Dummy-cycle phase (memory latency)
+In the dummy-cycle phase, 1 to 31 cycles are given without any data being sent or received,
+in order to give the external device, the time to prepare for the data phase when higher clock
+frequencies are used. The number of cycles given during this phase is specified in
+DCYC[4:0] of HSPI_TCR. In both SDR and DTR modes, the duration is specified as a
+number of full CLK cycles.
+When DCYC[4:0] = 00000, the dummy-cycle phase is skipped, and the command sequence
+proceeds directly to the data phase, if present.
+In order to assure enough “turn-around” time for changing the data signals from the output
+mode to the input mode, there must be at least one dummy cycle when using the dual-,
+quad-, octal-, or 16-bit SPI mode, to receive data from the external device.
+In memory-mapped mode, the dummy cycles for the write operations are specified in
+HSPI_WTCR. The dummy cycles for the read operation are specified in HSPI_TCR.
+
+Data phase
+During the data phase, any number of bytes can be sent to or received from the external
+device.
+In indirect mode, the number of bytes to be sent/received is specified in HSPI_DLR. In this
+mode, the data to be sent to the external device must be written to HSPI_DR. In
+indirect-read mode, the data received from the external device is obtained by reading
+HSPI_DR.
+In automatic status-polling mode, the number of bytes to be received is specified in
+HSPI_DLR, and the data received from the external device can be obtained by reading
+HSPI_DR.
+In memory-mapped mode, the data read or written, is sent or received directly over the AHB
+to the Cortex core or to a DMA.
+The data phase can send/receive:
+•
+
+1 bit at a time (over IO0/IO1 (SO/SI respectively) in single-SPI mode)
+
+•
+
+2 bits at a time (over IO0/IO1 in dual-SPI mode)
+
+•
+
+4 bits at a time (over IO0 to IO3 in quad-SPI mode)
+
+•
+
+8 bits at a time (over IO0 to IO7 in octal-SPI mode)
+
+•
+
+16 bits at a time (over IO0 to IO15 in 16-bit SPI mode)
+
+This can be configured using DMODE[2:0] of HSPI_CCR.
+The data can be sent or received in DTR mode (on each rising and falling edge of the clock)
+setting DDTR of HSPI_CCR.
+When DMODE[2:0] = 000, the data phase is skipped, and the command sequence finishes
+immediately by raising the NCS. This configuration must be used only in indirect-write
+mode.
+In memory-mapped mode, the data format for the write operation is specified in
+HSPI_WCCR. The data format for the read operation is specified in HSPI_CCR.
+
+DQS use
+The DQS signal can be used for data strobing during the read transactions when the device
+toggles the DQS aligned with the data.
+
+RM0456 Rev 6

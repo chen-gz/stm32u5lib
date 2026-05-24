@@ -1,0 +1,57 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+35.4.7
+
+RM0456
+
+DAC output voltage
+Digital inputs are converted to output voltages on a linear conversion between 0 and VREF+.
+The analog output voltages on each DAC channel pin are determined by the following
+equation:
+DOR
+DAC output = V REF × ------------4096
+
+where all voltages are expressed in Volt.
+
+35.4.8
+
+DAC trigger selection
+If the TENx control bit is set, the conversion can then be triggered by an external event (timer
+counter, external interrupt line). The TSELx[3:0] control bits determine which out of 16 possible events triggers the conversion as shown in TSELx[3:0] bits of the DAC_CR register.
+These events can be either the software trigger or hardware triggers. Refer to the interconnection table in Section 35.4.2.
+Each time a DAC interface detects a rising edge on the selected trigger source (refer to the
+table below), the last data stored into the DAC_DHRx register are transferred into the
+DAC_DORx register. The DAC_DORx register is updated three dac_hclk cycles after the
+trigger occurs.
+If the software trigger is selected, the conversion starts once the SWTRIG bit is set.
+SWTRIG is reset by hardware once the DAC_DORx register has been loaded with the
+DAC_DHRx register contents.
+
+Note:
+
+TSELx[3:0] bit cannot be changed when the ENx bit is set.
+When software trigger is selected, the transfer from the DAC_DHRx register to the
+DAC_DORx register takes only one dac_hclk clock cycle.
+
+35.4.9
+
+DMA requests
+Each DAC channel has a DMA capability. Two DMA channels are used to service DAC
+channel DMA requests.
+When an external trigger (but not a software trigger) occurs while the DMAENx bit is set, the
+value of the DAC_DHRx register is transferred into the DAC_DORx register when the
+transfer is complete, and a DMA request is generated.
+In dual mode, if both DMAENx bits are set, two DMA requests are generated. If only one
+DMA request is needed, only the corresponding DMAENx bit must be set. In this way, the
+application can manage both DAC channels in dual mode by using one DMA request and a
+unique DMA channel.
+As DAC_DHRx to DAC_DORx data transfer occurred before the DMA request, the very first
+data has to be written to the DAC_DHRx before the first trigger event occurs.
+
+DMA underrun
+The DAC DMA request is not queued so that if a second external trigger arrives before the
+acknowledgment for the first external trigger is received (first request), then no new request
+is issued and the DMA channelx underrun flag DMAUDRx in the DAC_SR register is set,
+reporting the error condition. The DAC channelx continues to convert old data.

@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+
+Bit 1 RWEIF: Read or write error interrupt flag
+This read-only bit is set by hardware when a RDERR or a WRERR error flag is set in the SAES_SR
+register.
+0: No read or write error detected
+1: Read or write error detected (see SAES_SR register for details)
+RWEIF bit is cleared when application sets the corresponding bit of SAES_ICR register. An interrupt
+is generated if the RWEIE bit has been previously set in the SAES_IER register.
+This flags has no meaning when key derivation mode is selected.
+Bit 0 CCF: Computation complete flag
+This flag indicates whether the computation is completed:
+0: Not completed
+1: Completed
+The flag is set by hardware upon the completion of the computation. It is cleared by software, upon
+setting the CCF bit of the SAES_ISR register.
+Upon the flag setting, an interrupt is generated if enabled through the CCFIE bit of the SAES_IER
+register.
+The flag is significant only when the DMAOUTEN bit is 0. It may stay high when DMA_EN is 1.
+
+50.7.19
+
+SAES interrupt clear register (SAES_ICR)
+Address offset: 0x308
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RNGEIF
+
+KEIF
+
+RWEIF
+
+CCF
+
+Reset value: 0x0000 0000
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 RNGEIF: RNG error interrupt flag clear
+Application must set this bit to clear the RNGEIF status bit in SAES_ISR register.
+Bit 2 KEIF: Key error interrupt flag clear
+Setting this bit clears the KEIF status bit of the SAES_ISR register.
+Bit 1 RWEIF: Read or write error interrupt flag clear
+Setting this bit clears the RWEIF status bit of the SAES_ISR register, and both RDERR and
+WRERR flags in the SAES_SR register.
+Bit 0 CCF: Computation complete flag clear
+Setting this bit clears the CCF status bit of the SAES_SR and SAES_ISR registers.
+
+RM0456 Rev 6

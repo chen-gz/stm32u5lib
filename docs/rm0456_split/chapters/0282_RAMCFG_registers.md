@@ -1,0 +1,190 @@
+290
+
+RAM configuration controller (RAMCFG)
+
+6.6
+
+RM0456
+
+RAMCFG registers
+In the registers described below, x refers to:
+
+6.6.1
+
+•
+
+SRAM1/2/3/4 when x = 1/2/3/4 respectively
+
+•
+
+BKPSRAM when x = 5
+
+•
+
+SRAM5 when x = 6
+
+•
+
+SRAM6 when x = 7
+
+RAMCFG memory x control register (RAMCFG_MxCR)
+Address offset: 0x040 * (x - 1), (x = 1 to 7)
+Reset value: 0x0000 000X
+ECCE reset value depends on ECC enable user option bit.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+Res.
+
+14
+
+13
+
+Res.
+
+Res.
+
+12
+Res.
+
+11
+Res.
+
+10
+Res.
+
+18
+
+17
+
+16
+
+WSC[2:0]
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SRAM
+ER
+
+Res.
+
+Res.
+
+Res.
+
+ALE
+
+Res.
+
+Res.
+
+Res.
+
+ECCE
+
+rs
+
+rw
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:16 WSC[2:0]: Wait state configuration
+This field is used to program the number of wait states inserted on the AHB when reading the
+SRAM, depending on its access time.
+000: 0 wait state
+001: 1 wait state
+...
+111: 7 wait states (not needed)
+Bits 15:9 Reserved, must be kept at reset value.
+Bit 8 SRAMER: SRAM erase
+This bit can be set by software only after writing the unlock sequence in the ERASEKEY field
+of the RAMCFG_MxERKEYR register. Setting this bit starts the SRAM erase. This bit is
+automatically cleared by hardware at the end of the erase operation.
+0: No erase operation on going
+1: Erase operation on going
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 ALE: Address latch enable
+0: Failing address not stored in the SRAMx ECC single/double error address registers
+1: Failing address stored in the SRAMx ECC single/double error address registers
+Note: This bit is reserved and must be kept at reset value in SRAM1/4/5/6 control registers.
+Bits 3:1 Reserved, must be kept at reset value.
+
+<!-- pagebreak -->
+

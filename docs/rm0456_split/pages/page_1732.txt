@@ -1,0 +1,181 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+RM0456
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bit 4 CLUTEN: Color look-up table enable
+This bit is set and cleared by software.
+0: Color look-up table disable
+1: Color look-up table enable
+The CLUT is only meaningful for L8, AL44 and AL88 pixel format. Refer to Color look-up
+table (CLUT)
+Bits 3:2 Reserved, must be kept at reset value.
+Bit 1 COLKEN: Color keying enable
+This bit is set and cleared by software.
+0: Color keying disable
+1: Color keying enable
+Bit 0 LEN: Layer enable
+This bit is set and cleared by software.
+0: Layer disabled
+1: Layer enabled
+
+43.7.15
+
+LTDC layer x window horizontal position configuration register
+(LTDC_LxWHPCR)
+Address offset: 0x088 + 0x80 * (x - 1), (x = 1 to 2)
+Reset value: 0x0000 0000
+This register defines the horizontal position (first and last pixel) of the layer 1 or 2 window.
+The first visible pixel of a line is the programmed value of AHBP[11:0] bits + 1 in the
+LTDC_BPCR register.
+The last visible pixel of a line is the programmed value of AAW[11:0] bits in the
+LTDC_AWCR register.
+Example: The LTDC_BPCR register is configured to 0x000E0005 (AHBP[11:0] is 0xE) and
+the LTDC_AWCR register is configured to 0x028E01E5 (AAW[11:0] is 0x28E). To configure
+the horizontal position of a window size of 630x460, with horizontal start offset of 5 pixels in
+the active data area:
+•
+
+layer window first pixel, WHSTPOS[11:0], must be programmed to 0x14 (0xE+1+0x5).
+
+•
+
+layer window last pixel, WHSPPOS[11:0], must be programmed to 0x28A.
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+WHSPPOS[11:0]
+
+WHSTPOS[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bits 27:16 WHSPPOS[11:0]: Window horizontal stop position
+These bits configure the last visible pixel of a line of the layer window.
+WHSPPOS[11:0] must be ≥ AHBP[11:0] bits + 1 (programmed in LTDC_BPCR register).

@@ -1,0 +1,156 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 1 UESM: USART enable in low-power mode
+When this bit is cleared, the USART cannot request its kernel clock and is not functional in
+low-power mode.
+When this bit is set, the USART can wake up the MCU from low-power mode.
+This bit is set and cleared by software.
+0: USART not functional in low-power mode.
+1: USART functional in low-power mode.
+Note: The UESM bit must be set at the initialization phase.
+If the USART does not support the wake-up from low-power mode, this bit is reserved
+and must be kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 0 UE: USART enable
+When this bit is cleared, the USART prescalers and outputs are stopped immediately, and all
+current operations are discarded. The USART configuration is kept, but all the USART_ISR
+status flags are reset. This bit is set and cleared by software.
+0: USART prescaler and outputs disabled, low-power mode
+1: USART enabled
+Note: To enter low-power mode without generating errors on the line, the TE bit must be
+previously reset and the software must wait for the TC bit in the USART_ISR to be set
+before resetting the UE bit.
+The DMA requests are also reset when UE = 0 so the DMA channel must be disabled
+before resetting the UE bit.
+In smartcard mode, (SCEN = 1), the CK is always available when CLKEN = 1,
+regardless of the UE bit value.
+
+66.8.3
+
+USART control register 2 (USART_CR2)
+Address offset: 0x04
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+ADD[7:0]
+
+23
+RTOEN
+
+22
+
+21
+
+ABRMOD[1:0]
+
+20
+ABREN
+
+19
+
+18
+
+17
+
+MSBFI
+DATAINV TXINV
+RST
+
+16
+RXINV
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+SLVEN
+
+SWAP
+
+LINEN
+
+rw
+
+rw

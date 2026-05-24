@@ -1,0 +1,114 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:24 NPTXQTOP[6:0]: Top of the non-periodic transmit request queue
+Entry in the non-periodic Tx request queue that is currently being processed by the MAC.
+Bits 30:27: Channel/endpoint number
+Bits 26:25:
+00: IN/OUT token
+01: Zero-length transmit packet (device IN/host OUT)
+11: Channel halt command
+Bit 24: Terminate (last entry for selected channel/endpoint)
+Bits 23:16 NPTQXSAV[7:0]: Non-periodic transmit request queue space available
+Indicates the amount of free space available in the non-periodic transmit request queue.
+This queue holds both IN and OUT requests.
+0: Non-periodic transmit request queue is full
+1: 1 location available
+2: locations available
+n: n locations available (0 ≤ n ≤ 8)
+Others: Reserved
+Bits 15:0 NPTXFSAV[15:0]: Non-periodic Tx FIFO space available
+Indicates the amount of free space available in the non-periodic Tx FIFO.
+Values are in terms of 32-bit words.
+0: Non-periodic Tx FIFO is full
+1: 1 word available
+2: 2 words available
+n: n words available (where 0 ≤ n ≤ 512)
+Others: Reserved
+
+72.15.15 OTG general core configuration register (OTG_GCCFG)
+Address offset: 0x038
+Reset value: 0x0000 XXXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.

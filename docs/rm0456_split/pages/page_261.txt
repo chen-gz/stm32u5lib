@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 12 ADF1SEC: secure access mode for ADF1
+0: nonsecure
+1: secure
+Bit 11 DAC1SEC: secure access mode for DAC1
+0: nonsecure
+1: secure
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 VREFBUFSEC: secure access mode for VREFBUF
+0: nonsecure
+1: secure
+Bit 8 ADC4SEC: secure access mode for ADC4
+0: nonsecure
+1: secure
+Bit 7 COMPSEC: secure access mode for COMP
+0: nonsecure
+1: secure
+Bit 6 OPAMPSEC: secure access mode for OPAMP
+0: nonsecure
+1: secure
+Bit 5 LPTIM4SEC: secure access mode for LPTIM4
+0: nonsecure
+1: secure
+Bit 4 LPTIM3SEC: secure access mode for LPTIM3
+0: nonsecure
+1: secure
+Bit 3 LPTIM1SEC: secure access mode for LPTIM1
+0: nonsecure
+1: secure
+Bit 2 I2C3SEC: secure access mode for I2C3
+0: nonsecure
+1: secure
+Bit 1 LPUART1SEC: secure access mode for LPUART1
+0: nonsecure
+1: secure
+Bit 0 SPI3SEC: secure access mode for SPI3
+0: nonsecure
+1: secure
+
+RM0456 Rev 6

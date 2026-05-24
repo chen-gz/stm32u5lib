@@ -1,0 +1,66 @@
+191
+
+System security
+
+RM0456
+Figure 10. Global TrustZone framework and TrustZone awareness
+
+Config
+
+Device boundary
+Other bus
+master
+
+CPU
+
+DMA
+
+SAU+IDAU
+MPU
+
+Flash memory
+
+SRAM
+
+OTFDEC
+
+External
+Flash memory
+External
+SRAM
+
+Peripheral
+
+Peripheral
+
+Peripheral
+
+I/O
+
+I/O
+
+Peripheral
+
+Global TrustZone framework
+TrustZone-aware peripherals
+MSv64450V1
+
+Securing peripherals with TZSC
+When the TrustZone security is active, a peripheral is either securable through the TZSC
+in GTZC, or is natively TrustZone-aware, as shown in the previous figure:
+•
+
+A securable peripheral or memory is protected by an AHB/APB firewall gate, that is
+controlled by the TrustZone security controller (TZSC).
+
+•
+
+A TrustZone-aware peripheral or memory is connected directly to the AHB or APB
+interconnect, implementing a specific TrustZone behavior, such as a subset of secure
+registers, or a secure memory area.
+
+When a securable peripheral is made secure-only with the GTZC, if this peripheral is master
+on the interconnect (such as SDMMC), it automatically issues secure transactions. The
+SDMMC is an example of securable master. TrustZone-aware AHB masters like
+Cortex-M33 or DMAs, drive a secure signal in the AHB interconnect, according to their
+security mode, independently to the GTZC.

@@ -1,0 +1,195 @@
+rw
+
+HPFBY
+P
+rw
+
+RM0456 Rev 6
+
+Res.
+
+rw
+
+Res.
+
+Res.
+
+rw
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+Bits 31:10 Reserved, must be kept at reset value.
+Bits 9:8 HPFC[1:0]: High-pass filter cut-off frequency
+This bitfield is set and cleared by software. It is used to select the cut-off frequency of the
+high-pass filter. FPCM represents the sampling frequency at HPF input.
+00: Cut-off frequency = 0.000625 x FPCM
+01: Cut-off frequency = 0.00125 x FPCM
+10: Cut-off frequency = 0.00250 x FPCM
+11: Cut-off frequency = 0.00950 x FPCM
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bit 7 HPFBYP: High-pass filter bypass
+This bit is set and cleared by software. It is used to bypass the high-pass filter.
+0: HPF not bypassed (default value)
+1: HPF bypassed
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+Bits 6:5 Reserved, must be kept at reset value.
+Bit 4 RSFLTD: Reshaper filter decimation ratio
+This bit is set and cleared by software. It is used to select the decimation ratio for the reshape
+filter.
+0: Decimation ratio is 4 (default value).
+1: Decimation ratio is 1.
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 RSFLTBYP: Reshaper filter bypass
+This bit is set and cleared by software. It is used to bypass the reshape filter and its
+decimation block.
+0: Reshape filter not bypassed (default value)
+1: Reshape filter bypassed
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+
+39.8.8
+
+MDF integrator configuration register x (MDF_DFLTxINTR)
+Address offset: 0x094 + 0x80 * x, (x = 0 to 5)
+Reset value: 0x0000 0000
+This register is used to the integrator (INT) settings. The number of registers is equal to the
+amount of filters. Refer to Section 39.3 for details.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+INTVAL[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+Res.
+
+Res.
+
+INTDIV[1:0]
+rw
+
+rw
+
+Bits 31:11 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

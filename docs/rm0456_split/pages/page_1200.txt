@@ -1,0 +1,9 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+with DATACOUNT = 0, the transfer is completed normally, there is no DABORT
+flag.
+•

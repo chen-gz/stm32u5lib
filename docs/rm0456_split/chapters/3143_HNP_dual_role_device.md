@@ -1,0 +1,21 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+else if (DTERR)
+{
+Reset Error Count
+}
+
+The application is expected to write the requests as and when the request queue space is
+available and until the XFRC interrupt is received.
+•
+
+Bulk and control IN transactions
+A typical bulk or control IN pipelined transaction-level operation is shown in Figure 905.
+See channel 2 (ch_2). The assumptions are:
+
+<!-- pagebreak -->
+

@@ -1,0 +1,137 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Figure 933. Isochronous OUT transactions
+Application
+
+1
+
+AHB
+
+Host
+
+USB
+
+init_reg(ch_1)
+Periodic Request
+Queue
+Assume that this queue
+can hold 4 entries.
+
+init_reg(ch_2)
+
+1
+
+write_tx_fifo
+(ch_1)
+
+2
+
+set_ch_en
+(ch_2)
+
+Device
+
+3
+
+1
+MPS
+
+4
+
+ch_1
+
+2
+
+ch_2
+
+3
+OUT
+
+Odd
+(micro)
+frame
+
+D A T A0
+MPS
+
+5
+6
+
+XferCompl interrupt
+init_reg(ch_1)
+write_tx_fifo
+(ch_1)
+
+4
+1
+MPS
+
+5
+
+IN
+
+D A T A0
+
+RxFLvl interrupt
+1
+MPS
+
+6
+
+read_rx_sts
+read_rx_fifo
+
+RxFLvl interrupt
+read_rx_sts
+
+7
+XferCompl interrupt
+
+init_reg(ch_2)
+
+8
+
+ch_1
+ch_2
+
+9
+
+set_ch_en
+(ch_2)
+Even
+OUT
+
+(micro)
+frame
+
+D A T A0
+MPS
+
+XferCompl interrupt
+init_reg(ch_1)
+IN
+
+write_tx_fifo
+(ch_1)
+
+1
+MPS
+
+DA TA
+0
+
+MSv36022V1
+
+1. The grayed elements are not relevant in the context of this figure.
+
+•
+
+Interrupt service routine for isochronous OUT/IN transactions
+Code sample: isochronous OUT
+
+Unmask (FRMOR/XFRC)
+if (XFRC)

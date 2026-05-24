@@ -1,0 +1,71 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Data FIFO (DFIFO) access register map
+These registers, available in both host and device modes, are used to read or write the FIFO
+space for a specific endpoint or a channel, in a given direction. If a host channel is of type
+IN, the FIFO can only be read on the channel. Similarly, if a host channel is of type OUT, the
+FIFO can only be written on the channel.
+Table 756. Data FIFO (DFIFO) access register map
+FIFO access register section
+
+Offset address
+
+Access
+
+Device IN endpoint 0/Host OUT Channel 0: DFIFO write access
+Device OUT endpoint 0/Host IN Channel 0: DFIFO read access
+
+0x1000–0x1FFC
+
+w
+r
+
+Device IN endpoint 1/Host OUT Channel 1: DFIFO write access
+Device OUT endpoint 1/Host IN Channel 1: DFIFO read access
+
+0x2000–0x2FFC
+
+w
+r
+
+...
+
+...
+
+...
+
+Device IN endpoint x(1)/Host OUT Channel x(1): DFIFO write access
+0xX000–0xXFFC
+Device OUT endpoint x(1)/Host IN Channel x(1): DFIFO read access
+
+w
+r
+
+1. Where x is 5in device mode and 11 in host mode.
+
+Power and clock gating CSR map
+There is a single register for power and clock gating. It is available in both host and device
+modes.
+Table 757. Power and clock gating control and status registers
+Acronym
+OTG_PCGCCTL
+
+72.15
+
+Offset address
+0xE00–0xE04
+
+Register name
+Section 72.15.54: OTG power and clock gating control
+register (OTG_PCGCCTL)
+
+OTG_FS registers
+These registers are available in both host and device modes, and do not need to be
+reprogrammed when switching between these modes.
+Bit values in the register descriptions are expressed in binary unless otherwise specified.
+
+RM0456 Rev 6

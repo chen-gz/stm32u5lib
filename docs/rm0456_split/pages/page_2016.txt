@@ -1,0 +1,29 @@
+2015
+
+Hash processor (HASH)
+
+RM0456
+
+51
+
+Hash processor (HASH)
+
+51.1
+
+Introduction
+The hash processor is a fully compliant implementation of the secure hash algorithm
+(SHA-1, SHA2-224, SHA2-256), the MD5 (message-digest algorithm 5) hash algorithm and
+the HMAC (keyed-hash message authentication code) algorithm. HMAC is suitable for
+applications requiring message authentication.
+The hash processor computes FIPS (Federal Information Processing Standards) approved
+digests of length of 160, 224, 256 bits, for messages of up to (264 – 1) bits. It also computes
+128-bit digests for the MD5 algorithm.
+
+51.2
+
+HASH main features
+•
+
+•
+
+•

@@ -1,0 +1,115 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Starting several filters synchronously
+If the ADF is used with MDF instances (if present in the product), it is possible to start
+simultaneously the acquisition of all the filters. This synchronization capability depends on
+the way the triggers are connected in the product. Generally, an ADF is able to trigger MDF
+instances, if its adf_trgo signal is connected as trigger input to those blocks (see
+Section 40.4.2: ADF pins and internal signals to check trigger capabilities).
+In the following programming example, one ADF has its adf_trgo signal connected to some
+MDFs. To start the acquisition of several filters synchronously, the following sequence must
+be performed (assuming that DFLTEN bits of the filters are set to 0):
+On MDFs receiving the adf_trgo trigger:
+1.
+
+Enable the CKGEN (CKGDEN = 1) and, if needed, enable the ADF_CCK0 and
+ADF_CCK1 clocks.
+
+2.
+
+Set to 1 the SITFEN bit of the requested data interfaces.
+
+3.
+
+For each filter, set the acquisition mode to synchronous (ACQMOD[2:0] = 01x).
+
+4.
+
+For each filter, set TRGSRC[3:0] in order to select the adf_trgo trigger input.
+
+5.
+
+For each filter, set TRGSENS to 0 (rising edge).
+
+6.
+
+For each filter, set DFLTEN to 1.
+
+On the ADF generating the adf_trgo trigger:
+1.
+
+Enable the CKGEN (CKGDEN = 1) and, if needed, enable the ADF_CCK[1:0] clocks.
+
+2.
+
+Set to 1 the SITFEN bit of the requested data interfaces.
+
+3.
+
+Set the acquisition mode to synchronous (ACQMOD[2:0] = 01x).
+
+4.
+
+Set TRGSRC[3:0] to 0 (TRGO selected).
+
+5.
+
+Set TRGSENS to 0 (rising edge).
+
+6.
+
+Set DFLTEN to 1.
+
+7.
+
+Read TRGO bit until it is read to 0.
+
+8.
+
+Set TRGO to 1. Then the acquisition sequence for all selected filters starts immediately.
+
+To trigger a new acquisition (in case of single-shot) the application must do the following:
+1.
+
+Check that the previous acquisition is completed, by waiting DFLTRUN = 0.
+
+2.
+
+Read TRGO until it is read to 0.
+
+3.
+
+Set again the bit TRGO to 1.
+
+Discarded samples
+The ADF offers the possibility to program the amount of samples to be discarded after each
+restart:
+•
+
+to avoid capturing samples affected by the impulse response of the filter
+
+•
+
+to delay the acquisition of filters by a specific amount of samples
+
+The discard function is controlled via NBDIS[7:0] as follows:
+•
+
+When NBDIS[7:0] = 0, the discard function is disabled.
+
+•
+
+When NBDIS[7:0] ≠ 0, the discard function is activated in one of the following condition:
+–
+
+when the DFLTEN bit goes to 1
+
+–
+
+every time an acquisition is started in (A)synchronous single-shot modes
+
+Refer to Figure 371 to Figure 375, and Figure 377.

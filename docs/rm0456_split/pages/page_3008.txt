@@ -1,0 +1,187 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+To avoid spurious clearing of some bits, it is recommended to clear them with a load
+instruction where all bits which must not be altered are written with 1, and all bits to be
+cleared are written with 0 (these bits can only be cleared by software). Read-modify-write
+cycles must be avoided because between the read and the write operations another bit can
+be set by the hardware and the next write clears it before the device has the time to service
+the event.
+
+31
+Res.
+
+30
+
+29
+
+LS_ DCON_
+DCON STAT
+r
+
+r
+
+15
+
+14
+
+13
+
+CTR
+
+PMA
+OVR
+
+ERR
+
+r
+
+rc_w0
+
+rc_w0
+
+28
+Res.
+
+12
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+Res.
+
+20
+Res.
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+WKUP
+
+SUSP
+
+RST_
+DCON
+
+SOF
+
+ESOF
+
+L1REQ
+
+Res.
+
+Res.
+
+DIR
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+r
+
+19
+Res.
+
+3
+
+18
+Res.
+
+2
+
+17
+
+16
+
+DDISC
+
+THR
+512
+
+rc_w0
+
+rc_w0
+
+1
+
+0
+
+IDN[3:0]
+r
+
+r
+
+r
+
+r
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 LS_DCON: Low speed device connected
+– Host mode:
+This bit is set by hardware when an LS device connection is detected. Device connection is
+signaled after LS J-state is sampled for 22 consecutive cycles of the USB clock (48 MHz)
+from the unconnected state.
+Bit 29 DCON_STAT: Device connection status
+– Host mode:
+This bit contains information about device connection status. It is set by hardware when a
+LS/FS device is attached to the host while it is reset when the device is disconnected.
+0: No device connected
+1: FS or LS device connected to the host
+Bits 28:18 Reserved, must be kept at reset value.
+Bit 17 DDISC: Device connection
+– Host mode
+This bit is set when a device connection is detected. This bit is read/write but only 0 can be
+written and writing 1 has no effect.
+Bit 16 THR512: 512 byte threshold interrupt
+This bit is set to 1 by the hardware when 512 bytes have been transmitted or received during
+isochronous transfers. This bit is read/write but only 0 can be written and writing 1 has no
+effect. Note that no information is available to indicate the associated channel/endpoint,
+however in practice only one ISO endpoint/channel with such large packets can be
+supported, so that channel.
+Bit 15 CTR: Completed transfer in host mode
+This bit is set by the hardware to indicate that an endpoint/channel has successfully
+completed a transaction; using DIR and IDN bits software can determine which
+endpoint/channel requested the interrupt. This bit is read-only.
+
+RM0456 Rev 6

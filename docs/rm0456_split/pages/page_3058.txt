@@ -1,0 +1,130 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+Table 754. Host-mode control and status registers (CSRs) (continued)
+
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_HPRT
+
+0x440
+
+Section 72.15.27: OTG host port control and status register (OTG_HPRT)
+
+OTG_HCCHARx
+
+0x500
+0x520
+...
+0x660
+
+Section 72.15.28: OTG host channel x characteristics register
+(OTG_HCCHARx)
+
+OTG_HCINTx
+
+0x508
+0x528
+....
+0x668
+
+Section 72.15.29: OTG host channel x interrupt register (OTG_HCINTx)
+
+OTG_HCINTMSKx
+
+0x50C
+0x52C
+....
+0x66C
+
+Section 72.15.30: OTG host channel x interrupt mask register
+(OTG_HCINTMSKx)
+
+OTG_HCTSIZx
+
+0x510
+0x530
+....
+0x670
+
+Section 72.15.31: OTG host channel x transfer size register
+(OTG_HCTSIZx)
+
+Device-mode CSR map
+These registers must be programmed every time the core changes to device mode.
+Table 755. Device-mode control and status registers
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_DCFG
+
+0x800
+
+Section 72.15.33: OTG device configuration register (OTG_DCFG)
+
+OTG_DCTL
+
+0x804
+
+Section 72.15.34: OTG device control register (OTG_DCTL)
+
+OTG_DSTS
+
+0x808
+
+Section 72.15.35: OTG device status register (OTG_DSTS)
+
+OTG_DIEPMSK
+
+0x810
+
+Section 72.15.36: OTG device IN endpoint common interrupt mask
+register (OTG_DIEPMSK)
+
+OTG_DOEPMSK
+
+0x814
+
+Section 72.15.37: OTG device OUT endpoint common interrupt mask
+register (OTG_DOEPMSK)
+
+OTG_DAINT
+
+0x818
+
+Section 72.15.38: OTG device all endpoints interrupt register
+(OTG_DAINT)
+
+OTG_DAINTMSK
+
+0x81C
+
+Section 72.15.39: OTG all endpoints interrupt mask register
+(OTG_DAINTMSK)
+
+OTG_DVBUSDIS
+
+0x828
+
+Section 72.15.40: OTG device VBUS discharge time register
+(OTG_DVBUSDIS)
+
+OTG_DVBUSPULSE
+
+0x82C
+
+Section 72.15.41: OTG device VBUS pulsing time register
+(OTG_DVBUSPULSE)
+
+RM0456 Rev 6

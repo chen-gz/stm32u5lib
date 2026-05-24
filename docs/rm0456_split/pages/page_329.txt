@@ -1,0 +1,278 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+7.8
+
+FLASH interrupts
+Table 78. Flash interrupt requests
+
+Interrupt
+vector
+
+Exit Stop
+and
+Standby
+modes
+
+Event flag
+
+Event flag/interrupt
+clearing method
+
+Secure end
+of operation
+
+Secure EOP(1)
+
+Write secure EOP = 1
+
+Secure
+EOPIE
+
+Yes
+
+No
+
+Secure
+operation
+error
+
+Secure OPERR(2)
+
+Write secure OPERR = 1
+
+Secure
+ERRIE
+
+Yes
+
+No
+
+Nonsecure
+end of
+operation
+
+Nonsecure
+EOP(1)
+
+Write nonsecure EOP = 1
+
+Nonsecure
+EOPIE
+
+Yes
+
+No
+
+Nonsecure
+operation
+error
+
+Nonsecure
+OPERR(2)
+
+Write nonsecure
+OPERR = 1
+
+Nonsecure
+ERRIE
+
+Yes
+
+No
+
+ECC
+correction
+
+ECCC
+
+Write ECCC=1
+
+ECCCIE
+
+Yes
+
+No
+
+FLASH_S
+
+FLASH
+
+Interrupt
+Exit Sleep
+enable
+mode
+control bit
+
+Interrupt
+event
+
+1. Secure EOP (resp. nonsecure EOP) is set only if secure EOPIE (resp. nonsecure EOPIE) is set.
+2. Secure OPERR (resp. nonsecure OPERR) is set only if secure ERRIE (resp. nonsecure ERRIE) is set.
+
+7.9
+
+FLASH registers
+
+7.9.1
+
+FLASH access control register (FLASH_ACR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+Access: no wait state when no flash memory read is ongoing; word, half-word, and byte
+access
+This register is nonsecure. It can be read and written by both secure and nonsecure access.
+This register can be protected against unprivileged access when NSPRIV = 1
+in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+PRFTE
+N
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+Res.
+
+SLEEP
+_PD
+
+PDRE
+Q2
+
+PDRE
+Q1
+
+LPM
+
+rw
+
+rs
+
+rs
+
+rw
+
+Res.
+
+rw
+
+LATENCY[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+--
+
+Bits 31:15 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

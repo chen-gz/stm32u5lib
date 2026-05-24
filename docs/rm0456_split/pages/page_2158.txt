@@ -1,0 +1,172 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Table 549. Counting direction versus encoder signals (CC1P = CC2P = 0)
+
+Active edge
+
+SMS[3:0]
+
+Counting on
+tim_ti1 only
+x1 mode
+
+1110
+
+Counting on
+tim_ti2 only
+x1 mode
+
+1111
+
+Counting on
+tim_ti1 only
+x2 mode
+
+0001
+
+Counting on
+tim_ti2 only
+x2 mode
+
+0010
+
+Counting on
+tim_ti1 and
+tim_ti2
+x4 mode
+
+0011
+
+Level on
+opposite
+signal
+(tim_ti1fp1 for
+tim_ti2,
+tim_ti2fp2 for
+tim_ti1)
+
+tim_ti1fp1 signal
+
+tim_ti2fp2 signal
+
+Rising
+
+Falling
+
+Rising
+
+Falling
+
+High
+
+Down
+
+Up
+
+No count
+
+No count
+
+Low
+
+No count
+
+No count
+
+No count
+
+No count
+
+High
+
+No count
+
+No count
+
+Up
+
+Down
+
+Low
+
+No count
+
+No count
+
+No count
+
+No count
+
+High
+
+Down
+
+Up
+
+No count
+
+No count
+
+Low
+
+Up
+
+Down
+
+No count
+
+No count
+
+High
+
+No count
+
+No count
+
+Up
+
+Down
+
+Low
+
+No count
+
+No count
+
+Down
+
+Up
+
+High
+
+Down
+
+Up
+
+Up
+
+Down
+
+Low
+
+Up
+
+Down
+
+Down
+
+Up
+
+A quadrature encoder can be connected directly to the MCU without external interface logic.
+However, comparators are normally be used to convert the encoder’s differential outputs to
+digital signals. This greatly increases noise immunity. The third encoder output which
+indicate the mechanical zero position, may be connected to the external trigger input and
+trigger a counter reset.
+Figure 569 gives an example of counter operation, showing count signal generation and
+direction control. It also shows how input jitter is compensated where both edges are
+selected. This might occur if the sensor is positioned near to one of the switching points. For
+this example the configuration is the following:

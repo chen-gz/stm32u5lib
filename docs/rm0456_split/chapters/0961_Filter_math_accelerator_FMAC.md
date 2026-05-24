@@ -1,0 +1,70 @@
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+
+26
+
+Filter math accelerator (FMAC)
+
+26.1
+
+FMAC introduction
+The filter math accelerator unit performs arithmetic operations on vectors. It comprises a
+multiplier/accumulator (MAC) unit, together with address generation logic which allows it to
+index vector elements held in local memory.
+The unit includes support for circular buffers on input and output, which allows digital filters
+to be implemented. Both finite and infinite impulse response filters can be realized.
+The unit allows frequent or lengthy filtering operations to be offloaded from the CPU, freeing
+up the processor for other tasks. In many cases it can accelerate such calculations
+compared to a software implementation, resulting in a speed-up of time critical tasks.
+
+26.2
+
+FMAC main features
+•
+
+16 x 16-bit multiplier
+
+•
+
+24 + 2-bit accumulator with addition and subtraction
+
+•
+
+16-bit input and output data
+
+•
+
+256 x 16-bit local memory
+
+•
+
+Up to three areas can be defined in memory for data buffers (two input, one output),
+defined by programmable base address pointers and associated size registers
+
+•
+
+Input and output buffers can be circular
+
+•
+
+Filter functions: FIR, IIR (direct form 1)
+
+•
+
+Vector functions: Dot product, convolution, correlation
+
+•
+
+AHB slave interface
+
+•
+
+DMA read and write data channels
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

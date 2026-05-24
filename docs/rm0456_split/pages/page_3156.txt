@@ -1,0 +1,80 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+else
+{
+Re-initialize Channel
+}
+}
+
+•
+
+Isochronous IN transactions
+The assumptions are:
+–
+
+The application is attempting to receive one packet (up to 1 maximum packet size)
+in every frame starting with the next odd frame (transfer size = 1 024 bytes).
+
+–
+
+The receive FIFO can hold at least one maximum-packet-size packet and two
+status word per packet (1 031 bytes).
+
+–
+
+Periodic request queue depth = 4.
+
+The sequence of operations is as follows:
+1.
+
+Initialize channel 2. The application must set the ODDFRM bit in OTG_HCCHAR2.
+
+2.
+
+Set the CHENA bit in OTG_HCCHAR2 to write an IN request to the periodic request
+queue.
+
+3.
+
+The OTG_FS host writes an IN request to the periodic request queue for each
+OTG_HCCHAR2 register write with the CHENA bit set.
+
+4.
+
+The OTG_FS host attempts to send an IN token in the next odd frame.
+
+5.
+
+As soon as the IN packet is received and written to the receive FIFO, the OTG_FS host
+generates an RXFLVL interrupt.
+
+6.
+
+In response to the RXFLVL interrupt, read the received packet status to determine the
+number of bytes received, then read the receive FIFO accordingly. The application
+must mask the RXFLVL interrupt before reading the receive FIFO, and unmask it after
+reading the entire packet.
+
+7.
+
+The core generates an RXFLVL interrupt for the transfer completion status entry in the
+receive FIFO. This time, the application must read and ignore the receive packet status
+when the receive packet status is not an IN data packet (PKTSTS bit in
+OTG_GRXSTSR ≠ 0b0010).
+
+8.
+
+The core generates an XFRC interrupt as soon as the receive packet status is read.
+
+9.
+
+In response to the XFRC interrupt, read the PKTCNT field in OTG_HCTSIZ2. If
+PKTCNT ≠ 0 in OTG_HCTSIZ2, disable the channel before re-initializing the channel
+for the next transfer, if any. If PKTCNT = 0 in OTG_HCTSIZ2, reinitialize the channel
+for the next transfer. This time, the application must reset the ODDFRM bit in
+OTG_HCCHAR2.
+
+RM0456 Rev 6

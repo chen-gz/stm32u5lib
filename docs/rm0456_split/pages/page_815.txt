@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+Bits 15:14 TRIGM[1:0]: trigger mode
+These bits define the transfer granularity for its conditioning by the trigger.
+If the channel x is enabled (LPDMA_CxCR.EN asserted) with TRIGPOL[1:0] = 0b00 or 0b11,
+these TRIGM[1:0] bits are ignored.
+Else, a DMA transfer is conditioned by at least one trigger hit:
+00: at block level: the first single read of each block transfer is conditioned by one hit trigger.
+01: same as 00
+10: at link level: a LLI link transfer is conditioned by one hit trigger. The LLI data transfer (if
+any) is not conditioned.
+11: at programmed single level: each programmed single read is conditioned by one hit
+trigger.
+The LPDMA monitoring of a trigger for channel x is started when the channel is
+enabled/loaded with a new active trigger configuration: rising or falling edge on a selected
+trigger (TRIGPOL[1:0] = 0b01 or respectively TRIGPOL[1:0] = 0b10).
+The monitoring of this trigger is kept active during the triggered and uncompleted (data or
+link) transfer; and if a new trigger is detected then, this hit is internally memorized to grant the
+next transfer, as long as the defined rising or falling edge is not modified, and the
+TRIGSEL[4:0] is not modified, and the channel is enabled.
+Transferring a next LLIn+1 that updates the LPDMA_CxTR2 with a new value for any of
+TRIGSEL[4:0] or TRIGPOL[1:0], resets the monitoring, trashing the memorized hit of the
+formerly defined LLIn trigger.
+After a first new trigger hitn+1 is memorized, if another second trigger hitn+2 is detected and if
+the hitn triggered transfer is still not completed, hitn+2 is lost and not memorized, and a trigger
+overrun flag is reported (LPDMA_CxSR.TOF = 1), an interrupt is generated if enabled
+(LPDMA_CxCR.TOIE = 1). The channel is not automatically disabled by hardware due to a
+trigger overrun.
+Bits 13:12 Reserved, must be kept at reset value.
+Bit 11 BREQ: block hardware request
+If the channel x is activated (LPDMA_CxCR.EN asserted) with SWREQ = 1 (software request
+for a memory-to-memory transfer), this bit is ignored. Else:
+0: the selected hardware request is driven by a peripheral with a hardware
+request/acknowledge protocol at a single level.
+1: the selected hardware request is driven by a peripheral with a hardware
+request/acknowledge protocol at a block level (see Section 18.3.4).
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 SWREQ: software request
+This bit is internally taken into account when LPDMA_CxCR.EN is asserted.
+0: no software request. The selected hardware request REQSEL[4:0] is taken into account.
+1: software request for a memory-to-memory transfer. The default selected hardware request
+as per REQSEL[4:0] is ignored.
+Bits 8:5 Reserved, must be kept at reset value.
+Bits 4:0 REQSEL[4:0]: DMA hardware request selection
+These bits are ignored if channel x is activated (LPDMA_CxCR.EN asserted) with
+SWREQ = 1 (software request for a memory-to-memory transfer). Else, the selected
+hardware request is internally taken into account as per Section 18.3.3.
+Caution: The user must not assign a same input hardware request (same REQSEL[4:0]
+value) to different active DMA channels (LPDMA_CxCR.EN = 1 and
+LPDMA_CxTR2.SWREQ = 0 for these channels). DMA is not intended to hardware
+support the case of simultaneous enabled channels incorrectly configured with a
+same hardware peripheral request signal, and there is no user setting error
+reporting.
+
+RM0456 Rev 6

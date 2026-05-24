@@ -1,0 +1,275 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Table 320. ADC interrupts
+Event
+flag
+
+Enable
+Control
+bit
+
+ADC ready
+
+ADRDY
+
+ADRDYIE
+
+End of conversion of a
+regular group
+
+EOC
+
+EOCIE
+
+End of conversion
+sequence of a regular
+group
+
+EOS
+
+EOSIE
+
+End of conversion of an
+injected group
+
+JEOC
+
+JEOCIE
+
+Interrupt
+vector
+
+ADC
+
+Interrupt event
+
+End of conversion
+sequence of an injected
+group
+
+JEOS
+
+JEOSIE
+
+Analog watchdog 1 status
+bit is set
+
+AWD1
+
+AWD1IE
+
+Analog watchdog 2 status
+bit is set
+
+AWD2
+
+AWD2IE
+
+Analog watchdog 3 status
+bit is set
+
+AWD3
+
+AWD3IE
+
+End of sampling phase
+
+EOSMP EOSMPIE
+
+Overrun
+
+33.6
+
+OVR
+
+Exit from
+Interrupt
+Sleep
+clear method
+mode
+
+Set by
+hardware and
+cleared by
+software
+
+Exit from
+Stop 0,
+Stop 1
+and Stop
+2 modes
+
+Exit from
+Stop 3,
+Standby
+modes
+
+No
+
+No
+
+Yes
+
+OVRIE
+
+ADC registers (for each ADC)
+Refer to Section 1.2 for a list of abbreviations used in register descriptions.
+
+33.6.1
+
+ADC interrupt and status register (ADC_ISR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+LDO
+RDY
+
+Res.
+
+Res.
+
+AWD3
+
+AWD2
+
+AWD1
+
+JEOS
+
+JEOC
+
+OVR
+
+EOS
+
+EOC
+
+EOSMP ADRDY
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Res.
+
+Res.
+
+r
+
+Bits 31:13 Reserved, must be kept at reset value.

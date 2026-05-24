@@ -1,0 +1,136 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Table 761. OTG_HS speeds supported
+-
+
+73.2
+
+HS (480 Mbit/s)
+
+FS (12 Mbit/s)
+
+LS (1.5 Mbit/s)
+
+Host mode
+
+X
+
+X
+
+X
+
+Device mode
+
+X
+
+X
+
+-
+
+OTG_HS main features
+The main features can be divided into three categories: general, host-mode, and
+device-mode features.
+
+73.2.1
+
+General features
+The OTG_HS interface general features are the following:
+•
+
+It is USB-IF certified to the Universal Serial Bus Specification Rev 2.0.
+
+•
+
+OTG_HS supports the following PHY interfaces:
+–
+
+•
+
+•
+
+–
+
+Integrated support for A-B device identification (ID line)
+
+–
+
+It allows host to turn VBUS off to conserve battery power in OTG applications.
+
+–
+
+It supports OTG monitoring of VBUS levels with internal comparators.
+
+It is software-configurable to operate as:
+–
+
+•
+
+A UTMI interface for internal HS PHY
+
+It includes support (PHY) for the optional On-The-Go (OTG) protocol detailed
+in the On-The-Go Supplement Rev 2.0 specification
+
+USB On-The-Go Full-Speed Dual Role device
+
+It supports HS SOF and LS Keep-alives with
+–
+
+SOF pulse PAD connectivity
+
+–
+
+SOF pulse internal connection to timer (TIMx)
+
+–
+
+Configurable framing period
+
+–
+
+Configurable end of frame interrupt
+
+•
+
+OTG_HS embeds an internal DMA with thresholding support and software selectable
+AHB burst type in DMA mode.
+
+•
+
+It includes power saving features such as system stop during USB suspend, switch-off
+of clock domains internal to the digital core, PHY and DFIFO power management.
+
+•
+
+It features a dedicated RAM of 4 Kbytes with advanced FIFO control:
+–
+
+Configurable partitioning of RAM space into different FIFOs for flexible and
+efficient use of RAM
+
+–
+
+Each FIFO can hold multiple packets.
+
+–
+
+Dynamic memory allocation
+
+–
+
+Configurable FIFO sizes that are not powers of 2 to allow the use of contiguous
+memory locations
+
+•
+
+It guarantees max USB bandwidth for up to one frame (1 ms) without system
+intervention.
+
+•
+
+It supports charging port detection as described in Battery Charging Specification
+Revision 1.2.
+
+RM0456 Rev 6

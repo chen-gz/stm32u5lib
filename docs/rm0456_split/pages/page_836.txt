@@ -1,0 +1,84 @@
+856
+
+Chrom-ART Accelerator controller (DMA2D)
+
+19.3.14
+
+RM0456
+
+•
+
+Memory transfer (only in blending mode and in blending with fixed color FG mode):
+PL bits in DMA2D_NLR odd while CM in DMA2D_BGPFCCR is A4 or L4.
+
+•
+
+Memory transfer (only in blending mode and in blending with fixed color FG mode):
+LO bits in DMA2D_BGOR are odd while CM in DMA2D_BGPFCCR is A4 or L4, and
+LOM bit in DMA2D_CR is pixel mode.
+
+•
+
+Memory transfer (except in memory-to-memory mode and except
+in memory-to-memory mode with blending and fixed color FG): MA bits in
+DMA2D_OMAR are not aligned with CM bits in DMA2D_OPFCCR.
+
+•
+
+Memory transfer (except in memory to memory mode): CM bits in DMA2D_OPFCCR
+are invalid.
+
+•
+
+Memory transfer with byte swapping: PL bits in DMA2D_NLR are odd or MA bits in
+DMA2D_OMAR are odd, or LO in bytes (resulting from LOM in DMA2D_CR and LO
+bits in DMA2D_OOR) are odd while SB = 1 in DMA2D_OPFCCR.
+
+•
+
+Memory transfer: NL = 0x0 in DMA2D_NLR
+
+•
+
+Memory transfer: PL = 0x0 i nDMA2D_NLR
+
+•
+
+Memory transfer: MODE bits in DMA2D_CR are invalid.
+
+DMA2D transfer control (start, suspend, abort and completion)
+Once the DMA2D is configured, the transfer can be launched by setting START
+in DMA2D_CR. Once the transfer is completed, START is automatically reset and TCIF flag
+in DMA2D_ISR is raised. An interrupt can be generated if TCIE is set in DMA2D_CR.
+The user application can suspend the DMA2D at any time by setting SUSP in DMA2D_CR.
+The transaction can then be aborted by setting ABORT in DMA2D_CR, or can be restarted
+by resetting SUSP in DMA2D_CR.
+The user application can abort at any time an ongoing transaction by setting ABORT
+in DMA2D_CR. In this case, the TCIF flag is not raised.
+Automatic CLUT transfers can also be aborted or suspended by using ABORT or SUSP
+in DMA2D_CR.
+
+19.3.15
+
+Watermark
+A watermark can be programmed to generate an interrupt when the last pixel of a given line
+has been written to the destination memory area.
+The line number is defined by LW[15:0] in DMA2D_LWR.
+When the last pixel of this line has been transferred, the TWIF flag in DMA2D_ISR is raised,
+and an interrupt is generated if TWIE is set in DMA2D_CR.
+
+19.3.16
+
+Error management
+Two kind of errors can be triggered:
+•
+
+AHB master port errors signaled by TEIF in DMA2D_ISR
+
+•
+
+conflicts caused by a CLUT access (CPU trying to access the CLUT while a CLUT
+loading or a DMA2D transfer is ongoing) signaled by CAEIF in DMA2D_ISR.
+
+Both flags are associated to their own interrupt enable flag in DMA2D_CR to generate an
+interrupt if need be (TEIE and CAEIE).

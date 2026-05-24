@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Bit 13 SBX: source byte exchange within the unaligned half-word of each source word
+If the source data width is shorter than a word, this bit is ignored.
+If the source data width is a word:
+0:no byte-based exchange within the unaligned half-word of each source word
+1: the two consecutive bytes within the unaligned half-word of each source word are
+exchanged.
+Bits 12:11 PAM[1:0]: padding/alignment mode
+If DDW_LOG2[1:0] = SDW_LOG2[1:0]: if the data width of a burst destination transfer is
+equal to the data width of a burst source transfer, these bits are ignored.
+Else, in the following enumerated values, the condition PAM_1 is when destination data width
+is higher than source data width, and the condition PAM_2 is when source data width is
+higher than destination data width.
+Condition: PAM_1
+00: source data is transferred as right aligned, padded with 0s up to the destination data
+width
+01: source data is transferred as right aligned, sign extended up to the destination data width
+10-11: successive source data are FIFO queued and packed at the destination data width, in
+a left (LSB) to right (MSB) order (named little endian), before a destination transfer
+Condition: PAM_2
+00: source data is transferred as right aligned, left-truncated down to the destination data
+width
+01: source data is transferred as left-aligned, right-truncated down to the destination data
+width
+Note: 10-11: source data is FIFO queued and unpacked at the destination data width, to be
+transferred in a left (LSB) to right (MSB) order (named little endian) to the destination
+Bit 10 Reserved, must be kept at reset value.
+Bits 9:4 SBL_1[5:0]: source burst length minus 1, between 0 and 63
+The burst length unit is one data named beat within a burst. If SBL_1[5:0] = 0, the burst can
+be named as single. Each data/beat has a width defined by the destination data width
+SDW_LOG2[1:0].
+Note: If a burst transfer crossed a 1-Kbyte address boundary on a AHB transfer, the GPDMA
+modifies and shortens the programmed burst into singles or bursts of lower length, to be
+compliant with the AHB protocol.
+If a burst transfer is of length greater than the FIFO size of the channel x, the GPDMA
+modifies and shortens the programmed burst into singles or bursts of lower length, to be
+compliant with the FIFO size. Transfer performance is lower, with GPDMA re-arbitration
+between effective and lower singles/bursts, but the data integrity is guaranteed.
+Bit 3 SINC: source incrementing burst
+0: fixed burst
+1: contiguously incremented burst
+The source address, pointed by GPDMA_CxSAR, is kept constant after a burst beat/single
+transfer or is incremented by the offset value corresponding to a contiguous data after a burst
+beat/single transfer.
+Bit 2 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

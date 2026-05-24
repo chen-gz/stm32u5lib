@@ -1,0 +1,129 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Figure 246. AUTODLY = 1, regular continuous conversions interrupted by injected conversions
+ADSTART(1)
+ADC
+state
+
+RDY
+
+CH1
+regular
+
+CH2
+regular
+
+DLY
+
+DLY
+
+CH6
+CH5
+injected injected
+
+DLY CH1
+CH3
+regular
+regular
+DLY (CH3)
+
+DLY
+
+DLY (CH2)
+
+DLY (CH1)
+EOC
+EOS
+ADC_DR read
+access
+ADC_DR
+
+D1
+
+D2
+
+D3
+Ignored
+
+Injected
+trigger
+
+DLY (inj)
+
+JEOS
+ADC_JDR1
+
+D5
+D6
+
+ADC_JDR2
+by s/w
+
+by h/w
+
+Indicative timings
+MS31023V3
+
+1. AUTDLY = 1.
+2. Regular configuration: EXTEN[1:0] = 0x0 (software trigger), CONT = 1, DISCEN = 0, CHANNELS = 1, 2, 3.
+3. Injected configuration: JEXTEN[1:0] = 0x1 (hardware trigger), JDISCEN = 0, CHANNELS = 5,6.
+
+Figure 247. AUTODLY = 1 in auto- injected mode (JAUTO = 1)
+ADSTART(1)
+ADC state
+
+No delay
+RDY
+
+CH1
+regular
+
+DLY (CH1)
+
+CH2
+CH6
+DLY (inj)
+CH5
+CH3
+regular
+regular injected injected
+
+DLY
+
+CH1
+regular
+
+EOC
+EOS
+ADC_DR read access
+ADC_DR
+
+D1
+
+D2
+
+D3
+
+JEOS
+ADC_JDR1
+
+D5
+D6
+
+ADC_JDR2
+by s/w
+
+by h/w
+
+Indicative timings
+MS31024V4
+
+1. AUTDLY = 1.
+2. Regular configuration: EXTEN[1:0] = 0x0 (software trigger), CONT = 1, DISCEN = 0, CHANNELS = 1, 2.
+3. Injected configuration: JAUTO = 1, CHANNELS = 5,6.
+
+RM0456 Rev 6

@@ -1,0 +1,108 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+In Stop 2, Stop 3, and Standby modes, it is possible to use PA11 and PA12 as standard
+GPIOs or alternate functions. However, when entering the Stop 2, Stop 3 and Standby low
+power modes, the OTG_HS PHY power is switched off by hardware and PA11 (driven by
+OTG_HS_DM) and PA12 (driven by OTG_HS_DP) are strongly pulled-down. Setting the
+FORCE_USBPWR bit in PWR_CR1 maintain the OTG_HS PHY supply and allows to use
+PA11 and PA12 as GPIOs.
+
+Note:
+
+Setting the FORCE_USBPWR bit induces an extra consumption (typically 50 µA when
+VDD11USBDIS is set) in Stop 2, Stop 3, and Standby modes. If this is not acceptable, then
+FORCE_USBPWR bit must remain cleared and in this case, PA11 and PA12 must be kept
+at low level during Stop 2, Stop 3, and Standby modes.
+
+10.7.13
+
+Power modes output pins
+In order to help the debug, three signals are available as device pins alternate functions:
+•
+
+CSLEEP
+
+•
+
+When set, CSLEEP indicates that the CPU is in Sleep mode: WFI or WFE has been
+executed. When cleared, CSLEEP indicates that the CPU is in Run mode.
+CDSTOP
+When set, CDSTOP indicates that the CPU domain (CD) is in CStop mode, meaning
+that the following conditions are filled:
+–
+
+WFI or WFE has been executed with CPU SLEEPDEEP = 1.
+
+–
+
+No AHB/APB clock is running in the CPU domain.
+
+When cleared, CDSTOP indicates that the CPU domain is not in CStop mode:
+AHB/APB clocks run in the CPU domain.
+•
+
+SRDSTOP
+When set, SRDSTOP indicates that the SmartRun domain (SRD) is in DStop mode,
+meaning that the following conditions are filled:
+–
+
+WFI or WFE has been executed with CPU SLEEPDEEP = 1.
+
+–
+
+No AHB/APB clock is running in the SRD domain.
+
+When cleared, SRDSTOP indicates that the SmartRun domain is not in DStop mode:
+AHB/APB clocks run in the SRD domain.
+Note:
+
+The AHB/APB clocks run after WFI or WFE has been executed if an autonomous peripheral
+requests its bus clock in Stop mode. The peripherals bus clock request can delay or prevent
+the device to enter low-power modes (refer to Section 10.7.2 and Section 10.7.4).
+The table below explains the MCU power mode depending on these signals states.
+Table 108. Power modes output states versus MCU power modes
+MCU power modes(1)
+
+CSLEEP CDSTOP SRDSTOP
+0
+
+0
+
+0
+
+Run mode
+
+1
+
+0
+
+0
+
+Sleep mode or
+Stop 0 or Stop 1 mode, with AHB/APB clocks running in CPU domain (CD) and
+SmartRun domain (SRD)
+
+1
+
+1
+
+0
+
+Stop 0, Stop 1 or Stop 2 mode, with AHB/APB clocks running in
+SmartRun domain (SRD)
+
+1
+
+1
+
+1
+
+Stop 0, Stop 1, or Stop 2 mode
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

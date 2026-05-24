@@ -1,0 +1,94 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 ADF1EN: ADF1 clock enable
+This bit is set and cleared by software.
+0: ADF1 clock disabled
+1: ADF1 clock enabled
+Bit 9 LPDMA1EN: LPDMA1 clock enable
+This bit is set and cleared by software.
+0: LPDMA1 clock disabled
+1: LPDMA1 clock enabled
+Bits 8:7 Reserved, must be kept at reset value.
+Bit 6 DAC1EN: DAC1 clock enable
+This bit is set and cleared by software.
+0: DAC1 clock disabled
+1: DAC1 clock enabled
+Bit 5 ADC4EN: ADC4 clock enable
+This bit is set and cleared by software.
+0: ADC4 clock disabled
+1: ADC4 clock enabled
+Bits 4:3 Reserved, must be kept at reset value.
+Bit 2 PWREN: PWR clock enable
+This bit is set and cleared by software.
+0: PWR clock disabled
+1: PWR clock enabled
+Bit 1 Reserved, must be kept at reset value.
+Bit 0 LPGPIO1EN: LPGPIO1 enable
+This bit is set and cleared by software.
+0: LPGPIO1 clock disabled
+1: LPGPIO1 clock enabled
+
+11.8.33
+
+RCC APB1 peripheral clock enable register 1 (RCC_APB1ENR1)
+Address offset: 0x09C
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+Note:
+
+When the peripheral clock is not active, read or write access to peripheral registers is
+not supported.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+SPI2E
+N
+
+Res.
+
+WWDG
+EN
+
+rw

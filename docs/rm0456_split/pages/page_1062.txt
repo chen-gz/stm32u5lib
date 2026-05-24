@@ -1,0 +1,107 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+Write operation with no latency
+Some devices can also require a zero latency for the write operations. This write-zero
+latency can be forced by setting WZL in OCTOSPI_HLCR.
+Figure 155. HyperBus write operation with no latency (register write)
+NCS
+CLK
+DQS
+
+Memory drives DQS but master ignores
+39:32
+
+47:40
+
+IO[7:0]
+
+31:24
+
+23:16
+
+15:8
+
+7:0
+
+Command-Address
+
+15:8
+
+7:0
+Data
+MSv71587V1
+
+Latency on page-crossing during the read operations
+An additional latency can be needed by some devices for the read operation when crossing
+pages.
+The initial latency must be respected for any page access, as a consequence, when the first
+access is close to the page boundary, a latency is automatically added at the page crossing
+to respect the tACC time.
+Figure 156. HyperBus read operation page crossing with latency
+12 clock
+initial latency
+
+NCS
+
+9 words
+data
+
+CLK
+3 clock initial page
+crossing latency
+
+DQS
+IO[7:0]
+
+A0 02
+
+46 8A 80
+
+07
+
+Read from Address = 123457h
+
+dd
+
+dd dd dd
+
+dd dd dd dd dd dd
+
+dd dd dd dd
+
+Address Address
+123457 123458
+
+Address Address Address
+12345D 12345E 12345F
+
+Address Address
+123460 123461
+
+MSv71588V1
+
+28.4.7
+
+Specific features
+The OCTOSPI supports some specific features, such as:
+•
+
+Wrap support
+
+•
+
+NCS boundary and refresh
+
+•
+
+Communication regulation
+
+Wrap support
+The OCTOSPI supports a hybrid wrap as defined by the HyperBus protocol. A hybrid wrap
+is also supported in the regular-command protocol.
+In hybrid wrap, the transaction can continue after the initial wrap with an incremental
+access.

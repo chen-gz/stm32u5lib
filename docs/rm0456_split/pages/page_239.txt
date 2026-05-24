@@ -1,0 +1,229 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+5.7.7
+
+GTZC1 TZIC status register 3 (GTZC1_TZIC_SR3)
+Address offset: 0x018
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+DCAC
+GFXM
+OCTOS OCTOS
+HSPI1_
+GFXM GPU2D RAMC
+FSMC_ SDMM
+JPEGF HE2_R
+MU_RE
+PI2_RE PI1_RE
+REGF
+MUF
+F
+FGF
+REGF
+C2F
+EGF
+GF
+GF
+GF
+
+17
+
+16
+
+SDMM OCTOS
+C1F
+PIMF
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SAESF
+
+PKAF
+
+RNGF
+
+HASHF
+
+AESF
+
+OTGF
+
+DCMIF
+
+TSCF
+
+CRCF
+
+FMACF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+DCAC ICACH
+ADC12
+DMA2D
+HE1_R E_REG
+F
+F
+EGF
+F
+r
+
+r
+
+r
+
+r
+
+CORDI
+MDF1F
+CF
+r
+
+r
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bit 28 JPEGF: illegal access flag for JPEG
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 27 DCACHE2_REGF: illegal access flag for DCACHE2 registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 26 HSPI1_REGF: illegal access flag for HSPI1 registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 25 GFXMMU_REGF: illegal access flag for GFXMMU registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 24 GFXMMUF: illegal access flag for GFXMMU
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+
+RM0456 Rev 6

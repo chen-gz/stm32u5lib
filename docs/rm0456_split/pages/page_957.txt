@@ -1,0 +1,202 @@
+No DMA request is generated to program the CORDIC_CSR register. DMA mode is
+therefore useful only when repeatedly performing the same function with the same settings.
+The scale factor cannot be changed during a series of DMA transfers.
+
+RM0456 Rev 6
+
+RM0456
+
+CORDIC coprocessor (CORDIC)
+
+Note:
+
+Each DMA request must be acknowledged, as a result of the DMA performing an access to
+the CORDIC_WDATA or CORDIC_RDATA register. If an extraneous access to the relevant
+register occurs before this, the acknowledge is asserted prematurely, and may block the
+DMA channel. Therefore, when the DMA read channel is enabled, CPU access to the
+CORDIC_RDATA register must be avoided. Similarly, the processor must avoid accessing
+the CORDIC_WDATA register when the DMA write channel is enabled.
+
+25.4
+
+CORDIC registers
+The CORDIC registers can be accessed only in 32-bit word format
+
+25.4.1
+
+CORDIC control/status register (CORDIC_CSR)
+Address offset: 0x00
+Reset value: 0x0000 0050
+
+31
+RRDY
+
+30
+Res.
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+
+24
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+ARG
+SIZE
+
+RES
+SIZE
+
+N
+ARGS
+
+NRES
+
+DMA
+WEN
+
+DMA
+REN
+
+IEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+15
+
+14
+
+13
+
+12
+
+11
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+10
+
+9
+
+8
+
+7
+
+SCALE[2:0]
+rw
+
+rw
+
+PRECISION[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+FUNC[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 RRDY: Result ready flag
+0: No new data in output register
+1: CORDIC_RDATA register contains new data.
+This bit is set by hardware when a CORDIC operation completes. It is reset by hardware
+when the CORDIC_RDATA register is read (NRES+1) times.
+When this bit is set, if the IEN bit is also set, the CORDIC interrupt is asserted. If the
+DMAREN bit is set, a DMA read channel request is generated. While this bit is set, no new
+calculation is started.
+Bits 30:23 Reserved, must be kept at reset value.
+Bit 22 ARGSIZE: Width of input data
+0: 32-bit
+1: 16-bit
+ARGSIZE selects the number of bits used to represent input data.
+If 32-bit data is selected, the CORDIC_WDATA register expects arguments in q1.31 format.
+If 16-bit data is selected, the CORDIC_WDATA register expects arguments in q1.15 format.
+The primary argument (ARG1) is written to the least significant half-word, and the secondary
+argument (ARG2) to the most significant half-word.
+Bit 21 RESSIZE: Width of output data
+0: 32-bit
+1: 16-bit
+RESSIZE selects the number of bits used to represent output data.
+If 32-bit data is selected, the CORDIC_RDATA register contains results in q1.31 format.
+If 16-bit data is selected, the least significant half-word of CORDIC_RDATA contains the
+primary result (RES1) in q1.15 format, and the most significant half-word contains the
+secondary result (RES2), also in q1.15 format.
+
+RM0456 Rev 6

@@ -1,0 +1,122 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+Figure 137. Synchronous multiplexed read mode waveforms - NOR, PSRAM (CRAM)
+Memory transaction = burst of 4 half words
+HCLK
+
+CLK
+
+A[25:16]
+
+addr[25:16]
+
+NEx
+
+NOE
+
+NWE
+
+High
+
+NADV
+
+NWAIT
+(WAITCFG=0)
+inserted wait state
+
+(DATLAT + 2)
+CLK cycles
+A/D[15:0]
+
+Addr[15:0]
+
+data1
+
+1 clock 1 clock
+cycle cycle
+
+data1
+
+data2
+
+Data strobes
+
+data3
+
+data4
+
+Data strobes
+ai17723g
+
+1. Byte lane outputs (NBL are not shown; for NOR access, they are held high, and, for PSRAM (CRAM)
+access, they are held low.
+
+Table 240. FMC_BCRx bitfields (Synchronous multiplexed read mode)
+Bit number
+
+Bit name
+
+Value to set
+
+31
+
+FMCEN
+
+0x1
+
+30:24
+
+Reserved
+
+0x000
+
+23:22
+
+NBLSET[1:0]
+
+Don’t care
+
+20
+
+CCLKEN
+
+As needed
+
+19
+
+CBURSTRW
+
+18:16
+
+CPSIZE
+
+15
+
+ASYNCWAIT
+
+0x0
+
+14
+
+EXTMOD
+
+0x0
+
+13
+
+WAITEN
+
+To be set to 1 if the memory supports this feature, to be kept at 0
+otherwise
+
+No effect on synchronous read
+0x0 (no effect in Asynchronous mode)
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,88 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+Warning:
+
+The MDF_CKIx pin cannot be used in LF_MASTER SPI mode.
+
+The normal SPI interface is a more flexible interface than the LF_MASTER SPI, but the
+mdf_proc_ck frequency must be at least four times higher than the sensor clock.
+The application can select MDF_CCK0, MDF_CCK1 or MDF_CKIx clock for the capture of
+the data received via the MDF_SDIx pin.
+The MDF can generate a clock to the sensors via MDF_CCK0 or MDF_CCK1 if needed.
+For all SPI modes, all SITFs can share the same clock input (MDF_CCK0 or MDF_CCK1),
+in order to optimize the amount of requested I/Os.
+For all SPI modes, the serial data is captured using the rising and the falling edge of the
+selected clock. The SITFx always provides the following bitstreams:
+•
+
+bitstream received using the bitstream clock falling edge (bsx_f)
+
+•
+
+bitstream received using the bitstream clock rising edge (bsx_r)
+
+According to the sensors connected, one of the two bitstreams may not be available.
+The application can select the wanted stream via the BSMX matrix.
+Figure 329. SPI timing example
+FBS
+MDF_CCKy or
+MDF_CKIx
+MDF_SDIx
+
+L0
+
+R0
+
+L1
+
+R1
+
+L2
+
+R2
+
+L3
+
+R3
+
+bsx_ck
+bsx_r
+
+L0
+
+L1
+
+L2
+
+L3
+
+bsx_f
+
+R0
+
+R1
+
+R2
+
+R3
+
+Sampling point
+MSv62655V1
+
+To properly synchronize/receive the data stream, the frequency of the mdf_proc_ck clock
+must be adjusted according to the constraints listed in Table 375.
+
+Clock absence detection
+A no-clock-transition period may be detected when the serial interface works in normal SPI
+mode. This feature can be used to detect a clock failure in the SPI link.
+The application can program a timeout value via the STH[4:0] bitfield of the corresponding
+SITFx. If the MDF does not detect clock transitions for a duration of STH[4:0] x Tmdf_proc_ck,
+then the CKABF flag is set.
+An interrupt can be generated if CKABIE is set to 1. The STH[4:0] bitfield is in the MDF
+serial interface control register x (MDF_SITFxCR).
+
+RM0456 Rev 6

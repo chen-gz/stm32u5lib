@@ -1,0 +1,62 @@
+The MDF does not support receiving interleaved data from
+one of the ADCITF input.
+
+RM0456 Rev 6
+
+RM0456
+
+39.4.5
+
+Multi-function digital filter (MDF)
+
+Clock generator (CKGEN)
+The RCC (reset and clock controller) provides the following clocks to the MDF:
+•
+
+AHB clock (mdf_hclk) used for the register interface
+
+•
+
+kernel clock (mdf_ker_ck) mainly used by all other parts of the circuit via the CKGEN
+
+Those clocks are not supposed to be phase locked, so all signals crossing those clock
+domains are re-synchronized.
+The clock generator (CKGEN) is responsible of the generation of the processing clock, and
+the clock provided to the MDF_CCK0 and MDF_CCK1 pins. All those clocks are generated
+from the mdf_ker_ck.
+The processing clock (mdf_proc_ck) is used to run all the signals processing and to resample the incoming serial or parallel stream.
+Note:
+
+The reshape filter (RSFLT) needs up to 24 cycles of mdf_proc_ck clock to process a
+sample.
+To adapt the kernel clock frequency provided by the RCC, the following dividers are
+available:
+•
+
+PROCDIV[6:0] used to adapt the kernel clock frequency to the constraints of the
+parallel and serial interfaces, and to the processing blocks
+
+•
+
+CCKDIV[3:0] used to adapt the frequency of the MDF_CCK0 and MDF_CCK1 clocks
+
+PROCDIV[6:0] and CCKDIV[3:0] must be programmed when no clock is provided to the
+dividers (CKGDEN = 0).
+The mdf_proc_ck generation is controlled by CKGDEN.
+In addition, the CKGMOD bit allows the application to define the way to trigger the CCKDIV
+divider:
+•
+
+When CKGMOD = 0, the CCKDIV divider is started as soon as CKGDEN is set to 1.
+
+•
+
+When CKGMOD = 1, the CCKDIV divider is started when CKGDEN is set to 1 and the
+programmed trigger condition occurred.
+
+All bits and fields controlling the CKGEN are in MDF_CKGCR.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

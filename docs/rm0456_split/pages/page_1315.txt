@@ -1,0 +1,145 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 253. 14-bit result oversampling with 10-bits right shift and rounding
+31
+
+23
+
+24-bit data
+OSR=1024
+
+0
+
+31
+
+7
+
+23
+
+31
+
+23
+
+0
+
+D13..D0
+
+15
+
+0
+
+31
+
+OVSS[3:0]=0
+
+Right shifting and rounding
+15
+7
+
+0
+
+24-bit data
+OSR=1024
+
+0
+
+D23..D0
+
+14-bit data
+OSR=1024
+
+14-bit data
+OSR=1024
+
+15
+
+7
+
+OVSS[3:0]=1010
+
+0
+
+0xFFE258
+
+23
+
+Right shifting and rounding
+15
+7
+
+0
+
+0x3FF8
+
+OVSS[3:0]=0
+
+0
+OVSS[3:0]=1010
+MSv62476V2
+
+The conversion timings in oversampling mode do not change: the sample time is maintained
+during the whole oversampling sequence. A new data is provided every N conversions with
+an equivalent delay equal to N x TCONV = N x (tSMPL + tSAR). The flags are set as follows:
+•
+
+The end of the sampling phase (EOSMP) is set after each sampling phase.
+
+•
+
+The end of conversion (EOC) occurs once every N conversions, when the
+oversampled result is available.
+
+•
+
+The end of sequence (EOS) occurs once the sequence of oversampled data is
+completed (i.e. after N x sequence length conversions total).
+
+Operating modes supported during oversampling
+In oversampling mode, most of the ADC operating modes are maintained:
+
+Note:
+
+•
+
+Single or continuous mode conversions
+
+•
+
+ADC conversions start either by software or with triggers
+
+•
+
+ADC stop during a conversion (abort)
+
+•
+
+Data read via CPU or DMA with overrun detection
+
+•
+
+Low-power modes (AUTDLY)
+
+•
+
+Programmable resolution: in this case, the reduced conversion values (configured
+through the RES[1:0] bits of the ADC_CFGR1 register) are accumulated, truncated,
+rounded, and shifted in the same way as 14-bit conversions.
+
+The alignment mode is not available when working with oversampled data. The ALIGN bit in
+ADC_CFGR is ignored and the data are always provided right-aligned.
+
+Analog watchdog
+The analog watchdog functionality is maintained, with the following differences:
+•
+
+The RES[1:0] bits are ignored. The comparison is always done using the full 25-bit
+values, HTRx[24:0] and LTRx[24:0].
+
+•
+
+The comparison is performed on the oversampled accumulated value before shifting.
+
+RM0456 Rev 6

@@ -1,0 +1,66 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+indicated channel, the STATTX field now has transitioned to DISABLE. In the case of a NAK
+being received (when the peripheral is not ready) STATTX is now in NAK. In the case of a
+STALL response, STATTX is in STALL. In this last case, the bus must be reset.
+On receiving the ACK receipt by the device, the USB_CHEPnR register is updated in the
+following way: DTOGTX bit is toggled.
+An error condition is signaled via the bits VTTX and ERR_TX if one of the following
+conditions occurs:
+•
+
+No handshake being received in time
+
+•
+
+False EOP
+
+•
+
+Bit stuffing error
+
+•
+
+Invalid handshake PID
+
+Data reception in Device mode (OUT and SETUP packets)
+These two tokens are handled by the USB peripheral more or less in the same way; the
+differences in the handling of SETUP packets are detailed in the following paragraph about
+control transfers. When receiving an OUT/SETUP PID, if the address matches a valid
+endpoint, the USB peripheral accesses the contents of the ADDRn_RX and COUNTn_RX
+fields inside the buffer descriptor table entry related to the addressed endpoint. The content
+of the ADDRn_RX field is stored directly in its internal register ADDR. Internal register
+COUNT is now reset and the values of BLSIZE and NUM_BLOCK bit fields, which are read
+within USB_CHEP_RXBD_n content, are used to initialize BUF_COUNT, an internal 16-bit
+counter, which is used to check the buffer overrun condition (all these internal registers are
+not accessible by software). Data bytes subsequently received by the USB peripheral are
+packed in half-words (the first byte received is stored as least significant byte) and then
+transferred to the packet buffer starting from the address contained in the internal ADDR
+register while BUF_COUNT is decremented and COUNT is incremented at each byte
+transfer. When the end of DATA packet is detected, the correctness of the received CRC is
+tested and only if no errors occurred during the reception, an ACK handshake packet is sent
+back to the transmitting host.
+In case of wrong CRC or other kinds of errors (bit-stuff violations, frame errors, etc.), data
+bytes are still copied in the packet memory buffer, at least until the error detection point, but
+the ACK packet is not sent and the ERR bit in USB_ISTR register is set. However, there is
+usually no software action required in this case: the USB peripheral recovers from reception
+errors and remains ready for the next transaction to come. If the addressed endpoint is not
+valid, a NAK or STALL handshake packet is sent instead of the ACK, according to bits
+STATRX in the USB_CHEPnR register, and no data is written in the reception memory
+buffers.
+Reception memory buffer locations are written starting from the address contained in the
+ADDRn_RX for a number of bytes corresponding to the received data packet length, or up
+to the last allocated memory location, as defined by BLSIZE and NUM_BLOCK, whichever
+comes first. In this way, the USB peripheral never writes beyond the end of the allocated
+reception memory buffer area. If the length of the data packet payload (actual number of
+bytes used by the application) is greater than the allocated buffer, the USB peripheral
+detects a buffer overrun condition. In this case, a STALL handshake is sent instead of the
+usual ACK to notify the problem to the host, no interrupt is generated and the transaction is
+considered failed.
+When the transaction is completed correctly, by sending the ACK handshake packet, the
+internal COUNT register is copied back in the COUNTn_RX location inside the buffer
+
+RM0456 Rev 6

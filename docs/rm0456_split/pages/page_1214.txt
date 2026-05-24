@@ -1,0 +1,82 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+In SDR50, SDR104, and DDR50, selected by register bit BUSSPEED, due to propagation
+delay from the card to host, the interrupt period is asynchronous.
+
+Note:
+
+•
+
+The card interrupt period ends after 0 to 2 SDMMC_CK cycles after the end bit of a
+command that transfers data block(s) (Command sent with the CMDTRANS bit is set),
+or when the DTEN bit is set. At the host the interrupt period ends after the end bit of a
+command that transfers data block(s). A card interrupt issued in the 1 to 2 cycles after
+the command end bit are not detected by the host during this interrupt period.
+
+•
+
+The card interrupt period resumes 2 to 4 SDMMC_CK after the completion of the last
+data block. The host resumes the interrupt period always 2 cycles after the last data
+block.
+
+•
+
+There is NO interrupt period at the data block gap.
+
+DTEN must not be used to start data transfer with SD and e•MMC cards.
+Figure 205. Asynchronous interrupt period data read
+SDMMC_CK
+
+sdmmc_fb_ck
+
+SDMMC_CMD
+
+S
+
+Command data
+E
+R
+
+tOP
+
+SDMMC_D0
+
+S
+
+Data
+
+E
+
+SDMMC_D1
+
+S
+
+Data
+
+E
+
+S
+
+Data
+
+E
+
+SDMMC_D2
+SDMMC_D3
+Interrupt period
+
+tOP
+IRQ
+
+IRQ
+
+Data1
+
+0 CK – 2 CK
+
+2 CK
+MSv40940V3

@@ -1,0 +1,358 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+up to 6
+48 kHz
+
+up to 4
+
+up to 2
+
+up to 8
+
+up to 6
+16 kHz
+up to 4
+
+up to 2
+
+bit clock
+(SCK_A)
+
+Frame sync.
+(FS_A)
+
+Comments
+
+frequency
+
+frequency
+
+NBSLOT
+
+up to 8
+
+Wanted
+SAI_CKn
+frequency
+
+DS
+
+Microphone
+Nber of
+sampling
+microphones
+rate
+
+FRL
+
+Table 711. TDM frame configuration examples(1)(2)
+
+3.072 MHz
+
+24.576 MHz
+
+384 kHz
+
+63
+
+0b111
+
+1
+
+2 slots of 32 bits per frame
+
+3.072 MHz
+
+24.576 MHz
+
+384 kHz
+
+63
+
+0b100
+
+3
+
+4 slots of 16 bits per frame
+
+3.072 MHz
+
+24.576 MHz
+
+384 kHz
+
+63
+
+0b010
+
+7
+
+8 slots of 8 bits per frame
+
+3.072 MHz
+
+18.432 MHz
+
+384 kHz
+
+47
+
+0b110
+
+1
+
+2 slots of 24 bits per frame
+
+3.072 MHz
+
+18.432 MHz
+
+384 kHz
+
+47
+
+0b100
+
+2
+
+3 slots of 16 bits per frame
+
+3.072 MHz
+
+18.432 MHz
+
+384 kHz
+
+47
+
+0b010
+
+5
+
+6 slots of 8 bits per frame
+
+3.072 MHz
+
+12.288 MHz
+
+384 kHz
+
+31
+
+0b111
+
+0
+
+1 slot of 32 bits per frame
+
+3.072 MHz
+
+12.288 MHz
+
+384 kHz
+
+31
+
+0b100
+
+1
+
+2 slots of 16 bits per frame
+
+3.072 MHz
+
+12.288 MHz
+
+384 kHz
+
+31
+
+0b010
+
+3
+
+4 slots of 8 bits per frame
+
+3.072 MHz
+
+6.144 MHz
+
+384 kHz
+
+15
+
+0b100
+
+0
+
+1 slots of 16 bits per frame
+
+3.072 MHz
+
+6.144 MHz
+
+384 kHz
+
+15
+
+0b010
+
+1
+
+2 slots of 8 bits per frame
+
+1.024 MHz
+
+8.192 MHz
+
+128 kHz
+
+63
+
+0b111
+
+1
+
+2 slots of 32 bits per frame
+
+1.024 MHz
+
+8.192 MHz
+
+128 kHz
+
+63
+
+0b100
+
+3
+
+4 slots of 16 bits per frame
+
+1.024 MHz
+
+8.192 MHz
+
+128 kHz
+
+63
+
+0b010
+
+7
+
+8 slots of 8 bits per frame
+
+1.024 MHz
+
+6.144 MHz
+
+128 kHz
+
+47
+
+0b110
+
+1
+
+2 slots of 24 bits per frame
+
+1.024 MHz
+
+6.144 MHz
+
+128 kHz
+
+47
+
+0b010
+
+5
+
+6 slots of 8 bits per frame
+
+1.024 MHz
+
+4.096 MHz
+
+128 kHz
+
+31
+
+0b111
+
+0
+
+1 slot of 32 bits per frame
+
+1.024 MHz
+
+4.096 MHz
+
+128 kHz
+
+31
+
+0b100
+
+1
+
+2 slots of 16 bits per frame
+
+1.024 MHz
+
+4.096 MHz
+
+128 kHz
+
+31
+
+0b010
+
+3
+
+4 slots of 8 bits per frame
+
+1.024 MHz
+
+2.048 MHz
+
+128 kHz
+
+15
+
+0b100
+
+0
+
+1 slot of 16 bits per frame
+
+1.024 MHz
+
+2.048 MHz
+
+128 kHz
+
+15
+
+0b010
+
+1
+
+2 slots of 8 bits per frame
+
+1. Refer to Table 710: SAI_A configuration for TDM mode for additional information on TDM configuration. The sai_a_ker_ck
+clock frequency provided to the SAI must be a multiple of the SCK_A frequency, and MCKDIV must be programmed
+accordingly.
+2. The above sai_a_ker_ck frequencies are given as examples only. Refer to section Reset and clock controller (RCC) to
+check if they can be generated on the device.
+3. The table above gives allowed settings for a decimation ratio of 64.
+
+Adjusting the delay lines
+When the PDM interface is enabled, the application can adjust on-the-fly the delay cells of
+each microphone input via the SAI_PDMDLY register.
+The new delay values become effective after two audio frames.

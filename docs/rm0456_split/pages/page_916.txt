@@ -1,0 +1,276 @@
+917
+
+Nested vectored interrupt controller (NVIC)
+
+RM0456
+
+Priority
+
+Position
+
+Table 187. STM32U5 series vector table(1) (continued)
+Type of
+priority
+
+Acronym
+
+Description
+
+Address
+
+104 112
+
+Settable MDF1_FLT2
+
+MDF1 filter 2 global interrupt
+
+0x0000 01E0
+
+105 113
+
+Settable MDF1_FLT3
+
+MDF1 filter 3 global interrupt
+
+0x0000 01E4
+
+106 114
+
+Settable UCPD1
+
+UCPD1 global interrupt
+
+0x0000 01E8
+
+107 115
+
+Settable ICACHE
+
+Instruction cache global interrupt
+
+0x0000 01EC
+
+108 116
+
+Settable OTFDEC1
+
+OTFDEC1 secure global interrupt
+
+0x0000 01F0
+
+109 117
+
+Settable OTFDEC2
+
+OTFDEC2 secure global interrupt
+
+0x0000 01F4
+
+110 118
+
+Settable LPTIM4
+
+LPTIM4 global interrupt
+
+0x0000 01F8
+
+111 119
+
+Settable DCACHE1
+
+Data cache global interrupt
+
+0x0000 01FC
+
+112 120
+
+Settable ADF1_FLT0
+
+ADF1 filter 0 global interrupt
+
+0x0000 0200
+
+113 121
+
+Settable ADC4
+
+ADC4 (12 bits) global interrupt
+
+0x0000 0204
+
+114 122
+
+Settable LPDMA1_CH0
+
+LPDMA1 SmartRun channel 0 global interrupt
+
+0x0000 0208
+
+115 123
+
+Settable LPDMA1_CH1
+
+LPDMA1 SmartRun channel 1 global interrupt
+
+0x0000 020C
+
+116 124
+
+Settable LPDMA1_CH2
+
+LPDMA1 SmartRun channel 2 global interrupt
+
+0x0000 0210
+
+117 125
+
+Settable LPDMA1_CH3
+
+LPDMA1 SmartRun channel 3 global interrupt
+
+0x0000 0214
+
+118 126
+
+Settable DMA2D
+
+DMA2D global interrupt
+
+0x0000 0218
+
+119 127
+
+Settable DCMI_PSSI
+
+DCMI/PSSI global interrupt
+
+0x0000 021C
+
+120 128
+
+Settable OCTOSPI2
+
+OCTOSPI2 global interrupt
+
+0x0000 0220
+
+121 129
+
+Settable MDF1_FLT4
+
+MDF1 filter 4 global interrupt
+
+0x0000 0224
+
+122 130
+
+Settable MDF1_FLT5
+
+MDF1 filter 5 global interrupt
+
+0x0000 0228
+
+123 131
+
+Settable CORDIC
+
+CORDIC interrupt
+
+0x0000 022C
+
+124 132
+
+Settable FMAC
+
+FMAC interrupt
+
+0x0000 0230
+
+125 133
+
+Settable
+
+LSECSS interrupt(2)
+MSI PLL unlock interrupt(2)
+
+0x0000 0234
+
+126 134
+
+Settable USART6
+
+USART6 global interrupt
+
+0x0000 0238
+
+127 135
+
+Settable I2C5_ER
+
+I2C5 error interrupt
+
+0x0000 023C
+
+128 136
+
+Settable I2C5_EV
+
+I2C5 event interrupt
+
+0x0000 0240
+
+129 137
+
+Settable I2C6_ER
+
+I2C6 error interrupt
+
+0x0000 0244
+
+130 138
+
+Settable I2C6_EV
+
+I2C6 event interrupt
+
+0x0000 0248
+
+131 139
+
+Settable HSPI1
+
+Hexadeca-SPI1 global interrupt
+
+0x0000 024C
+
+132 140
+
+Settable GPU2D_IRQ
+
+GPU2D interrupt
+
+0x0000 0250
+
+133 141
+
+Settable GPU2D_IRQSYS
+
+GPU2D system interrupt
+
+0x0000 0254
+
+134 142
+
+Settable GFXMMU
+
+GFXMMU global error interrupt
+
+0x0000 0258
+
+135 143
+
+Settable LCD_TFT
+
+LTDC global interrupt
+
+0x0000 025C

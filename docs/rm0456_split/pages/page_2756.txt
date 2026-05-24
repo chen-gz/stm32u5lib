@@ -1,0 +1,57 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+When the dual clock domain and the wake-up from low-power mode features are supported,
+the lpuart_ker_ck clock source can be configured in the RCC (see Section Reset and clock
+controller (RCC)). Otherwise, the lpuart_ker_ck is the same as lpuart_pclk.
+The lpuart_ker_ck can be divided by a programmable factor in the LPUART_PRESC
+register.
+Figure 838. lpuart_ker_ck clock divider block diagram
+
+lpuart_ker_ck_pres
+lpuart_ker_ck
+
+LPUARTx_PRESC[3:0]
+
+LPUARTx_BRR
+register and
+oversampling
+
+MSv40859V1
+
+Some lpuart_ker_ck sources enable the LPUART to receive data while the MCU is in lowpower mode. Depending on the received data and wake-up mode selection, the LPUART
+wakes up the MCU, when needed, in order to transfer the received data by software reading
+the LPUART_RDR register or by DMA.
+For the other clock sources, the system must be active to enable LPUART communications.
+The communication speed range (specially the maximum communication speed) is also
+determined by the clock source.
+The receiver samples each incoming bit as close as possible to the middle of the bit-period.
+Only a single sample is taken of each of the incoming bits.
+Note:
+
+There is no noise detection for data.
+
+Framing error
+A framing error is detected when the stop bit is not recognized on reception at the expected
+time, following either a desynchronization or excessive noise.
+When the framing error is detected:
+•
+
+The FE bit is set by hardware.
+
+•
+
+The invalid data is transferred from the Shift register to the LPUART_RDR register.
+
+•
+
+No interrupt is generated in case of single byte communication. However, this bit rises
+at the same time as the RXNE bit which itself generates an interrupt. In case of
+multibuffer communication, an interrupt is issued if the EIE bit is set in the
+LPUART_CR3 register.
+
+The FE bit is reset by writing 1 to the FECF in the LPUART_ICR register.
+
+RM0456 Rev 6

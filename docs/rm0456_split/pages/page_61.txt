@@ -1,0 +1,107 @@
+General-purpose timers (TIM2/TIM3/TIM4/TIM5) . . . . . . . . . . . . . . . . 2237
+55.1
+
+TIM2/TIM3/TIM4/TIM5 introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . 2237
+
+55.2
+
+TIM2/TIM3/TIM4/TIM5 main features . . . . . . . . . . . . . . . . . . . . . . . . . . 2237
+
+55.3
+
+TIM2/TIM3/TIM4/TIM5 implementation . . . . . . . . . . . . . . . . . . . . . . . . 2238
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+55.4
+
+TIM2/TIM3/TIM4/TIM5 functional description . . . . . . . . . . . . . . . . . . . . 2239
+55.4.1
+
+Block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2239
+
+55.4.2
+
+TIM2/TIM3/TIM4/TIM5 pins and internal signals . . . . . . . . . . . . . . . . 2240
+
+55.4.3
+
+Time-base unit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2244
+
+55.4.4
+
+Counter modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2246
+
+55.4.5
+
+Clock selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2258
+
+55.4.6
+
+Capture/compare channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2262
+
+55.4.7
+
+Input capture mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2264
+
+55.4.8
+
+PWM input mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2265
+
+55.4.9
+
+Forced output mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2266
+
+55.4.10 Output compare mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2266
+55.4.11 PWM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2268
+55.4.12 Asymmetric PWM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2276
+55.4.13 Combined PWM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2277
+55.4.14 Clearing the tim_ocxref signal on an external event . . . . . . . . . . . . . 2278
+55.4.15 One-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2280
+55.4.16 Retriggerable one-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2281
+55.4.17 Pulse on compare mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2282
+55.4.18 Encoder interface mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2284
+55.4.19 Direction bit output . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2302
+55.4.20 UIF bit remapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2303
+55.4.21 Timer input XOR function . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2303
+55.4.22 Timers and external trigger synchronization . . . . . . . . . . . . . . . . . . . 2303
+55.4.23 Timer synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2307
+55.4.24 ADC triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2312
+55.4.25 DMA burst mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2313
+55.4.26 TIM2/TIM3/TIM4/TIM5 DMA requests . . . . . . . . . . . . . . . . . . . . . . . . 2314
+55.4.27 Debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2314
+55.4.28 TIM2/TIM3/TIM4/TIM5 low-power modes . . . . . . . . . . . . . . . . . . . . . 2314
+55.4.29 TIM2/TIM3/TIM4/TIM5 interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2315
+
+55.5
+
+TIM2/TIM3/TIM4/TIM5 registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2316
+55.5.1
+
+TIMx control register 1 (TIMx_CR1)(x = 2 to 5) . . . . . . . . . . . . . . . . . 2316
+
+55.5.2
+
+TIMx control register 2 (TIMx_CR2)(x = 2 to 5) . . . . . . . . . . . . . . . . . 2317
+
+55.5.3
+
+TIMx slave mode control register (TIMx_SMCR)(x = 2 to 5) . . . . . . . 2319
+
+55.5.4
+
+TIMx DMA/Interrupt enable register (TIMx_DIER)(x = 2 to 5) . . . . . . 2323
+
+55.5.5
+
+TIMx status register (TIMx_SR)(x = 2 to 5) . . . . . . . . . . . . . . . . . . . . 2324
+
+55.5.6
+
+TIMx event generation register (TIMx_EGR)(x = 2 to 5) . . . . . . . . . . 2326
+
+RM0456 Rev 6

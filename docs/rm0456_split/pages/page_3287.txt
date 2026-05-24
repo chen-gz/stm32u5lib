@@ -1,0 +1,54 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 30 EPDIS: Endpoint disable
+The application sets this bit to stop transmitting/receiving data on an endpoint, even before
+the transfer for that endpoint is complete. The application must wait for the endpoint
+disabled interrupt before treating the endpoint as disabled. The core clears this bit before
+setting the endpoint disabled interrupt. The application must set this bit only if endpoint
+enable is already set for this endpoint.
+Bit 29 SODDFRM: Set odd frame
+Applies to isochronous IN and OUT endpoints only.
+Writing to this field sets the Even/Odd frame (EONUM) field to odd frame.
+Bit 28 SEVNFRM: Set even frame
+Applies to isochronous OUT endpoints only.
+Writing to this field sets the Even/Odd frame (EONUM) field to even frame.
+Bit 27 SNAK: Set NAK
+A write to this bit sets the NAK bit for the endpoint.
+Using this bit, the application can control the transmission of NAK handshakes on an
+endpoint. The core can also set this bit for OUT endpoints on a transfer completed interrupt,
+or after a SETUP is received on the endpoint.
+Bit 26 CNAK: Clear NAK
+A write to this bit clears the NAK bit for the endpoint.
+Bits 25:22 Reserved, must be kept at reset value.
+Bit 21 STALL: STALL handshake
+Applies to non-control, non-isochronous OUT endpoints only (access type is rw).
+The application sets this bit to stall all tokens from the USB host to this endpoint. If a NAK
+bit, Global IN NAK, or Global OUT NAK is set along with this bit, the STALL bit takes
+priority. Only the application can clear this bit, never the core.
+Applies to control endpoints only (access type is rs).
+The application can only set this bit, and the core clears it, when a SETUP token is received
+for this endpoint. If a NAK bit, Global IN NAK, or Global OUT NAK is set along with this bit,
+the STALL bit takes priority. Irrespective of this bit’s setting, the core always responds to
+SETUP data packets with an ACK handshake.
+Bit 20 SNPM: Snoop mode
+This bit configures the endpoint to Snoop mode. In Snoop mode, the core does not check
+the correctness of OUT packets before transferring them to application memory.
+Bits 19:18 EPTYP[1:0]: Endpoint type
+This is the transfer type supported by this logical endpoint.
+00: Control
+01: Isochronous
+10: Bulk
+11: Interrupt
+Bit 17 NAKSTS: NAK status
+Indicates the following:
+0: The core is transmitting non-NAK handshakes based on the FIFO status.
+1: The core is transmitting NAK handshakes on this endpoint.
+When either the application or the core sets this bit:
+The core stops receiving any data on an OUT endpoint, even if there is space in the Rx
+FIFO to accommodate the incoming packet.
+Irrespective of this bit’s setting, the core always responds to SETUP data packets with an
+ACK handshake.

@@ -1,0 +1,76 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Figure 833. RS232 CTS flow control
+CTS
+
+CTS
+
+CTS
+Transmit data register
+TDR
+
+Data 2
+
+TX
+
+Data 1
+
+Data 3
+
+empty
+
+Stop Start
+bit bit
+
+Data 2
+
+Writing data 3 in TDR
+
+empty
+
+Start
+Stop
+Idle
+bit
+bit
+
+Data 3
+
+Transmission of Data 3 is
+delayed until CTS = 0
+MSv68793V1
+
+Note:
+
+For correct behavior, CTS must be deasserted at least three USART clock source periods
+before the end of the current character. In addition, it must be noted that the CTSCF flag
+may not be set for pulses shorter than 2 x PCLK periods.
+
+RS485 driver enable
+The driver enable feature is enabled by setting bit DEM in the USART_CR3 control register.
+This enables the user to activate the external transceiver control, through the DE (driver
+enable) signal. The deassertion time is the time between the end of the last stop bit, in a
+transmitted message, and the de-activation of the DE signal. It is programmed using the
+DEDT [4:0] bitfields in the USART_CR1 control register. The polarity of the DE signal can be
+configured using the DEP bit in the USART_CR3 control register.
+In USART, the DEAT and DEDT are expressed in sample time units (1/8 or 1/16 bit time,
+depending on the oversampling rate).
+
+66.5.22
+
+USART autonomous mode
+The USART peripheral can be functional in Stop mode thanks to the autonomous mode.
+This mode can also be used in Run and Sleep mode. The UESM bit must be set prior to
+entering low-power mode.
+The APB clock is requested by the peripheral each time the USART status needs to be
+updated. Once the USART receives the APB clock, it generates either an interrupt or a DMA
+request, depending on the peripheral configuration.
+If an interrupt is generated, the device wakes up from Stop mode. If no interrupt is
+generated, the device remains in Stop mode but the kernel and APB clocks are still
+available for the USART and all the autonomous peripherals enabled in the reset and clock
+controller (RCC). If DMA requests are enabled, the data are directly transferred to/from the
+SRAM thanks to the DMA while the product remains in Stop mode.

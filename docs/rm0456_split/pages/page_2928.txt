@@ -1,0 +1,75 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Disabled automatic retransmission mode (DAR)
+According to the CAN specification (see ISO11898-1, 6.3.3 Recovery Management), the
+FDCAN provides means for automatic retransmission of frames that have lost arbitration or
+have been disturbed by errors during transmission. By default, automatic retransmission is
+enabled. The DAR mode can be disabled through the DAR bit of the FDCAN_CCCR
+register.
+Frame transmission in DAR mode
+In DAR mode, all transmissions are automatically canceled after they have been started on
+the CAN bus. A Tx buffer Tx request pending bit (TRPx in FDCAN_TXBRP) is reset after
+successful transmission, when a transmission has not yet been started at the point of
+cancellation, when it has been aborted due to lost arbitration, or when an error has occurred
+during frame transmission.
+•
+
+•
+
+•
+
+Successful transmission
+–
+
+The corresponding Tx buffer transmission occurred bit TOx is set in
+FDCAN_TXBTO register.
+
+–
+
+The corresponding Tx buffer cancellation finished bit CFx is cleared in the
+FDCAN_TXBCF register.
+
+Successful transmission in spite of cancellation
+–
+
+The corresponding Tx buffer transmission occurred bit TOx is set in the
+FDCAN_TXBTO register.
+
+–
+
+The corresponding Tx buffer cancellation finished bit CFx is set in the
+FDCAN_TXBCF register.
+
+Arbitration loss or frame transmission disturbed
+–
+
+The corresponding Tx buffer transmission occurred bit TOx is cleared in the
+FDCAN_TXBTO register.
+
+–
+
+The corresponding Tx buffer cancellation finished bit CFx is set in the
+FDCAN_TXBCF register.
+
+In case of a successful frame transmission, and if the storage of Tx events is enabled, a Tx
+event FIFO element is written with event type ET = 10 (transmission in spite of cancellation).
+
+Power-down (Sleep mode)
+Power-down entry
+The FDCAN can be set into power-down mode controlled by setting the CSR bit of the
+FDCAN_CCCR register. As long as the clock stop request is active, CSR is read as 1.
+When all pending transmission requests have completed, the FDCAN waits until the busidle state is detected. The FDCAN then sets the INIT bit of the FDCAN_CCCR register to
+prevent any further CAN transfers. Now, the FDCAN acknowledges that it is ready for
+power-down by setting the CSA bit of the FDCAN_CCCR register. In this state, before the
+clocks are switched off, further register accesses can be made. A write access to the INIT
+bit has no effect. Now, the module clock inputs can be switched off.
+Power-down exit
+To leave power-down mode, the application has to turn on the module clocks before clearing
+the CSR bit. The FDCAN acknowledges this by clearing the CSA bit. Afterwards, the
+application can restart CAN communication by clearing the INIT bit.
+
+RM0456 Rev 6

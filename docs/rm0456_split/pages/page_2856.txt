@@ -1,0 +1,72 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+
+FS signal role
+The FS signal can have a different meaning depending on the FS function. FSDEF bit in the
+SAI_xFRCR register selects which meaning it has:
+•
+
+0: start of frame, like, for instance, the PCM/DSP, TDM, AC’97, audio protocols,
+
+•
+
+1: start of frame and channel side identification within the audio frame like for the I2S or
+the MSB- or LSB-justified protocols.
+
+When the FS signal is considered as a start of frame and channel side identification within
+the frame, the number of declared slots must be considered to be half the number for the left
+channel and half the number for the right channel. If the number of bit clock cycles on half
+audio frame is greater than the number of slots dedicated to a channel side, and TRIS = 0, 0
+is sent for transmission for the remaining bit clock cycles in the SAI_xCR2 register.
+Otherwise, if TRIS = 1, the SD line is released to high-Z. In reception mode, the remaining
+bit clock cycles are not considered until the channel side changes.
+Figure 861. FS role is start of frame + channel side identification (FSDEF = TRIS = 1)
+Number of slots not aligned with the audio frame
+Audio frame
+Half of frame
+FS
+
+sck
+
+slot
+
+Slot 0 ON
+
+Slot 3 ON Slot 4 OFF Slot 5 ON
+
+Slot 1 OFF Slot 2 ON
+
+Number of slots aligned with the audio frame
+Audio frame
+Half of frame
+
+FS
+
+sck
+
+slot
+
+Slot 0
+
+Slot 1
+
+Slot 2
+
+Slot 3
+
+Slot 4
+
+Slot 5
+MS30038V2
+
+1. The frame length must be even.
+
+If the FSDEF bit in SAI_xFRCR is kept clear, so FS signal is equivalent to a start of frame,
+and if the number of slots defined in NBSLOT[3:0] in SAI_xSLOTR multiplied by the number
+of bits by slot configured in SLOTSZ[1:0] in SAI_xSLOTR is less than the frame size (bit
+FRL[7:0] in the SAI_xFRCR register), then:
+
+RM0456 Rev 6

@@ -1,0 +1,117 @@
+The DMAT bit must not be cleared before the DMA end of transfer.
+
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+Figure 829. Transmission using DMA
+Idle
+preamble
+
+Frame 1
+
+Frame 2
+
+Frame 3
+
+TX line
+Set by hardware
+Cleared by DMA write
+
+TXE flag
+
+Set by hardware
+Cleared by DMA write
+
+Ignored by the DMA because the
+transfer is complete
+
+DMA request
+USART_TDR
+
+Set by hardware
+
+F1
+
+F2
+
+F3
+Set by
+hardware
+
+TC flag
+DMA writes
+to USART_TDR
+Set by
+hardware
+
+DMA transfer
+complete flag
+
+Cleared by software
+
+The software
+The DMA
+The DMA
+The DMA
+configures DMA
+to send 3 data writes F1 into writes F2 into writes F3 into
+USART_TDR USART_TDR USART_TDR
+blocks and
+enables USART
+
+The DMA
+transfer is
+complete
+
+The software waits until TC = 1
+
+ai17192d
+
+Note:
+
+When FIFO management is enabled, the DMA request is triggered by transmit FIFO not full
+(that is, TXFNF = 1).
+
+Reception using DMA
+DMA mode can be enabled for reception by setting the DMAR bit in the USART_CR3
+register. Data are loaded from the USART_RDR register to an SRAM area configured using
+the DMA peripheral (refer to section direct memory access controller (DMA)) whenever a
+data byte is received. To map a DMA channel for USART reception, use the following
+procedure:
+1.
+
+Write the USART_RDR register address in the DMA control register to configure it as
+the source of the transfer. The data is moved from this address to the memory after
+each RXNE (RXFNE in case FIFO mode is enabled) event.
+
+2.
+
+Write the memory address in the DMA control register to configure it as the destination
+of the transfer. The data is loaded from USART_RDR to this memory area after each
+RXNE (RXFNE in case FIFO mode is enabled) event.
+
+3.
+
+Configure the total number of bytes to be transferred to the DMA control register.
+
+4.
+
+Configure the channel priority in the DMA control register
+
+5.
+
+Configure interrupt generation after half/ full transfer as required by the application.
+
+6.
+
+Activate the channel in the DMA control register.
+
+When the number of data transfers programmed in the DMA controller is reached, the DMA
+controller generates an interrupt on the DMA channel interrupt vector.
+Note:
+
+The DMAR bit must not be cleared before the DMA end of transfer.
+
+RM0456 Rev 6

@@ -1,0 +1,45 @@
+1710
+
+Parallel synchronous slave interface (PSSI)
+
+RM0456
+
+Figure 402. Data enable in receive mode waveform diagram (CKPOL=0)
+
+PSSI_PDCK
+
+PSSI_D[15:0]
+
+PSSI_DE
+
+MSv48846V2
+
+If the PSSI_DE alternate output function is enabled (through DERDYCFG) in transmit mode
+(OUTEN=1), the PSSI drives PSSI_DE on the same PSSI_PDCK edge that the one used to
+drive the data (D[15:0]). If a new 8 or 16-bit data (as programmed in the EDM[1:0] control
+bits in PSSI_CR) is available for transmission in the internal FIFO, this data is output on the
+data outputs (D[15:0]) and the PSSI_DE output becomes active on the current PSSI_PDCK
+edge. Otherwise (if the TX FIFO is empty), the D[15:0] outputs remains unchanged on the
+next clock edge and the PSSI_DE output becomes inactive.
+Figure 403. Data enable waveform diagram in transmit mode (CKPOL=0)
+
+PSSI_PDCK
+
+PSSI_D[15:0]
+
+PSSI_DE
+
+MSv48847V2
+
+Ready (PSSI_RDY) alternate function output
+The ready signal, PSSI_RDY, is an optional signal. It is driven by the receiving device and
+indicates whether data is being accepted in the current cycle. When PSSI_RDY is inactive,
+it means that the data must not be sampled by the receiver at the next clock edge.
+This alternate function signal can be enabled using the DERDYCFG control bits (bits 20:18
+of PSSI_CR). PSSI_RDY polarity is configured through the RDYPOL control bit (bit 6 of
+PSSI_CR). PSSI_RDY is active low when RDYPOL is cleared to 0, and high when RDYPOL
+set to 1.
+The direction of the PSSI_RDY signal is defined by the OUTEN (bit 31 of PSSI_CR). It is set
+in the opposite direction compared to the PSSI_DE and data signals.
+If the PSSI_RDY alternate output function is enabled (through DERDYCFG) in receive
+mode (OUTEN=0), the PSSI drives PSSI_RDY one PSSI_PDCK half cycle after it samples

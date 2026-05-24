@@ -1,0 +1,86 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+73.14.56 OTG device OUT endpoint 0 transfer size register
+(OTG_DOEPTSIZ0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3388
+73.14.57 OTG device OUT endpoint x DMA address register
+(OTG_DOEPDMAx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3389
+73.14.58 OTG device OUT endpoint x control register [alternate]
+(OTG_DOEPCTLx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3389
+73.14.59 OTG device OUT endpoint x control register [alternate]
+(OTG_DOEPCTLx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3391
+73.14.60 OTG device OUT endpoint x transfer size register
+(OTG_DOEPTSIZx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3393
+73.14.61 OTG power and clock gating control register (OTG_PCGCCTL) . . . 3394
+73.14.62 OTG power and clock gating control register 1 (OTG_PCGCCTL1) . 3395
+73.14.63 OTG_HS register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3396
+
+73.15 OTG_HS programming model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3403
+73.15.1 Core initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3403
+73.15.2 Host initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3404
+73.15.3 Device initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3405
+73.15.4 DMA mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3405
+73.15.5 Host programming model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3405
+73.15.6 Device programming model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3438
+73.15.7 Worst case response time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3458
+73.15.8 OTG programming model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3460
+
+74
+
+USB Type-C®/USB Power Delivery interface (UCPD) . . . . . . . . . . . . 3461
+74.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3461
+
+74.2
+
+UCPD main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3461
+
+74.3
+
+UCPD implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3462
+
+74.4
+
+UCPD functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3462
+74.4.1
+
+UCPD block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3463
+
+74.4.2
+
+UCPD reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3464
+
+74.4.3
+
+Physical layer protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3465
+
+74.4.4
+
+UCPD BMC transmitter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3471
+
+74.4.5
+
+UCPD BMC receiver . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3473
+
+74.4.6
+
+UCPD Type-C pull-ups (Rp) and pull-downs (Rd) . . . . . . . . . . . . . . . 3474
+
+74.4.7
+
+UCPD Type-C voltage monitoring and de-bouncing . . . . . . . . . . . . . 3475
+
+74.4.8
+
+UCPD fast role swap (FRS) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3475
+
+74.4.9
+
+UCPD DMA Interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3475
+
+74.4.10 Wake-up from Stop mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3475
+
+RM0456 Rev 6

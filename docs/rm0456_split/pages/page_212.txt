@@ -1,0 +1,141 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 6 ICACHE_REGSEC: secure access mode for ICACHE registers
+0: nonsecure
+1: secure
+Bit 5 DMA2DSEC: secure access mode for register of DMA2D
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 4 TSCSEC: secure access mode for TSC
+0: nonsecure
+1: secure
+Bit 3 CRCSEC: secure access mode for CRC
+0: nonsecure
+1: secure
+Bit 2 FMACSEC: secure access mode for FMAC
+0: nonsecure
+1: secure
+Bit 1 CORDICSEC: secure access mode for CORDIC
+0: nonsecure
+1: secure
+Bit 0 MDF1SEC: secure access mode for MDF1
+0: nonsecure
+1: secure
+
+5.6.5
+
+GTZC1 TZSC privilege configuration register 1
+(GTZC1_TZSC_PRIVCFGR1)
+Address offset: 0x020
+Reset value: 0x0000 0000
+Write-privileged access only.
+This register can be read or written only by secure privileged transaction when
+corresponding GTZC1_TZSC_SECCFGR register signal is set to1. If a given SEC bit is not
+set, the equivalent PRIV bit can be read/written by nonsecure privileged transaction.
+Read accesses are authorized for any type of transactions, secure or not, privileged or not.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+CRSPR I2C2PR I2C1PR UART5 UART4 USART USART
+IV
+IV
+IV
+PRIV
+PRIV
+3PRIV 2PRIV
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+SPI2P
+RIV
+
+23
+
+21
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+IWDGP WWDG TIM7P
+RIV
+PRIV
+RIV
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.

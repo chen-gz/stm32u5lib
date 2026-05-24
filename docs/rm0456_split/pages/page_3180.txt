@@ -1,0 +1,44 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+Once the MAC receives an IN token, this information (token received) is synchronized to the
+AHB clock by the PFC (the PFC runs on the AHB clock). The PFC then reads the data from
+the SPRAM and writes them into the dual clock source buffer. The MAC then reads the data
+out of the source buffer (4 deep).
+If the AHB is running at a higher frequency than the PHY, the application can use a smaller
+value for TRDT (in OTG_GUSBCFG).
+Figure 913 has the following signals:
+•
+
+tkn_rcvd: Token received information from MAC to PFC
+
+•
+
+dynced_tkn_rcvd: Doubled sync tkn_rcvd, from PCLK to HCLK domain
+
+•
+
+spr_read: Read to SPRAM
+
+•
+
+spr_addr: Address to SPRAM
+
+•
+
+spr_rdata: Read data from SPRAM
+
+•
+
+srcbuf_push: Push to the source buffer
+
+•
+
+srcbuf_rdata: Read data from the source buffer. Data seen by MAC
+
+To calculate the value of TRDT, refer to Table 758: TRDT values.
+Figure 913. TRDT max timing case
+
+RM0456 Rev 6

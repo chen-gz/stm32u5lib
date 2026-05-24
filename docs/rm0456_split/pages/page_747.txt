@@ -1,0 +1,110 @@
+rw
+
+Res.
+
+Res.
+
+22
+
+20
+
+19
+
+18
+
+17
+
+16
+
+TRIGSEL[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+REQSEL[6:0]
+rw
+
+RM0456 Rev 6
+
+21
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Bits 31:30 TCEM[1:0]: transfer complete event mode
+These bits define the transfer granularity for the transfer complete and half transfer complete
+events generation.
+00: at block level (when GPDMA_CxBR1.BNDT[15:0] = 0): the complete (and the half)
+transfer event is generated at the (respectively half of the) end of a block.
+Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register
+file with GPDMA_CxBR1.BNDT[15:0] = 0), then neither the complete transfer event nor
+the half transfer event is generated.
+01: channel x (x = 0 to 11), same as 00, channel x (x =12 to 15), at 2D/repeated block level
+(when GPDMA_CxBR1.BRC[10:0] = 0 and GPDMA_CxBR1.BNDT[15:0] = 0). The complete
+(and the half) transfer event is generated at the end (respectively half of the end) of the
+2D/repeated block.
+Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register
+file with GPDMA_CxBR1.BNDT[15:0] = 0), then neither the complete transfer event nor
+the half transfer event is generated.
+10: at LLI level: the complete transfer event is generated at the end of the LLI transfer,
+including the update of the LLI if any. The half transfer event is generated at the half of the
+LLI data transfer The LLI data transfer is a block transfer or a 2D/repeated block transfer for
+channel x (x =12 to 15), if any data transfer.
+Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register
+file with GPDMA_CxBR1.BNDT[15:0] = 0), then the half transfer event is not generated,
+and the transfer complete event is generated when is completed the loading of the LLI 1.
+11: at channel level: the complete transfer event is generated at the end of the last LLI
+transfer. The half transfer event is generated at the half of the data transfer of the last LLI.
+The last LLI updates the link address GPDMA_CxLLR.LA[15:2] to zero and clears all the
+GPDMA_CxLLR update bits (UT1, UT2, UB1, USA, UDA and ULL, plus UT3 and UB2). If the
+channel transfer is continuous/infinite, no event is generated.
+Bits 29:26 Reserved, must be kept at reset value.
+Bits 25:24 TRIGPOL[1:0]: trigger event polarity
+These bits define the polarity of the selected trigger event input defined by TRIGSEL[6:0].
+00: no trigger (masked trigger event)
+01: trigger on the rising edge
+10: trigger on the falling edge
+11: same as 00
+Bit 23 Reserved, must be kept at reset value.
+Bits 22:16 TRIGSEL[6:0]: trigger event input selection
+These bits select the trigger event input of the GPDMA transfer (as per Section 17.3.5),
+with an active trigger event if TRIGPOL[1:0] ≠ 00.
+
+RM0456 Rev 6

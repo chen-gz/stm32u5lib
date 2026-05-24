@@ -1,0 +1,221 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.7
+
+OTG interrupt mask register (OTG_GINTMSK)
+Address offset: 0x018
+Reset value: 0x0000 0000
+This register works with the core interrupt register to interrupt the application. When an
+interrupt bit is masked, the interrupt associated with that bit is not generated. However, the
+core interrupt (OTG_GINTSTS) register bit corresponding to that interrupt is still set.
+
+31
+WUIM
+
+30
+SRQIM
+
+29
+
+28
+
+DISCIN CIDSC
+T
+HGM
+
+27
+
+26
+
+LPMIN PTXFE
+TM
+M
+
+25
+
+24
+
+23
+
+HCIM
+
+PRTIM
+
+RSTDE
+TM
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+EOPF
+M
+
+ISOOD
+RPM
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+ENUM USBRS USBSU ESUSP
+DNEM
+T
+SPM
+M
+rw
+
+rw
+
+rw
+
+rw
+
+22
+
+21
+
+20
+
+Res.
+
+IPXFR
+M/IISO
+OXFR
+M
+
+IISOIX
+FRM
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+6
+
+GONA GINAK NPTXF RXFLV
+KEFFM EFFM
+EM
+LM
+rw
+
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+OEPIN
+IEPINT
+T
+
+SOFM
+rw
+
+17
+
+16
+
+Res.
+
+Res.
+
+1
+
+0
+
+OTGIN
+MMISM
+T
+rw
+
+Res.
+
+rw
+
+Bit 31 WUIM: Resume/remote wake-up detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both host and device modes.
+Bit 30 SRQIM: Session request/new session detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both host and device modes.
+Bit 29 DISCINT: Disconnect detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in host mode.
+Bit 28 CIDSCHGM: Connector ID status change mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both host and device modes.
+Bit 27 LPMINTM: LPM interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both host and device modes.
+Bit 26 PTXFEM: Periodic Tx FIFO empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in host mode.
+Bit 25 HCIM: Host channels interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in host mode.
+
+RM0456 Rev 6

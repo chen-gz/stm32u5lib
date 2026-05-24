@@ -1,0 +1,126 @@
+ADF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+40.4.2
+
+ADF pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+
+40.4.3
+
+Serial input interface (SITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1603
+
+40.4.4
+
+ADC slave interface (ADCITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1607
+
+40.4.5
+
+Clock generator (CKGEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1608
+
+40.4.6
+
+Bitstream matrix (BSMX) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1610
+
+40.4.7
+
+Digital filter processing (DFLT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1611
+
+40.4.8
+
+Digital filter acquisition modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1621
+
+40.4.9
+
+Start-up sequence examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1629
+
+40.4.10 Sound activity detection (SAD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1630
+40.4.11 Data transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1638
+40.4.12 Autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1641
+40.4.13 Register protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1641
+
+40.5
+
+ADF low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1642
+
+40.6
+
+ADF interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1642
+
+40.7
+
+ADF application information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1644
+
+40.8
+
+40.7.1
+
+ADF configuration examples for audio capture . . . . . . . . . . . . . . . . . 1644
+
+40.7.2
+
+Programming examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1645
+
+40.7.3
+
+Connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1647
+
+40.7.4
+
+Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1648
+
+40.7.5
+
+Total ADF gain . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1649
+
+40.7.6
+
+How to compute SAD thresholds . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1652
+
+ADF registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1656
+40.8.1
+
+ADF global control register (ADF_GCR) . . . . . . . . . . . . . . . . . . . . . . 1656
+
+40.8.2
+
+ADF clock generator control register (ADF_CKGCR) . . . . . . . . . . . . 1657
+
+40.8.3
+
+ADF serial interface control register 0 (ADF_SITF0CR) . . . . . . . . . . 1659
+
+40.8.4
+
+ADF bitstream matrix control register 0 (ADF_BSMX0CR) . . . . . . . . 1660
+
+40.8.5
+
+ADF digital filter control register 0 (ADF_DFLT0CR) . . . . . . . . . . . . . 1661
+
+40.8.6
+
+ADF digital filer configuration register 0 (ADF_DFLT0CICR) . . . . . . . 1663
+
+40.8.7
+
+ADF reshape filter configuration register 0 (ADF_DFLT0RSFR) . . . . 1664
+
+40.8.8
+
+ADF delay control register 0 (ADF_DLY0CR) . . . . . . . . . . . . . . . . . . 1665
+
+40.8.9
+
+ADF DFLT0 interrupt enable register (ADF_DFLT0IER) . . . . . . . . . . 1666
+
+40.8.10 ADF DFLT0 interrupt status register 0 (ADF_DFLT0ISR) . . . . . . . . . 1667
+40.8.11 ADF SAD control register (ADF_SADCR) . . . . . . . . . . . . . . . . . . . . . 1668
+40.8.12 ADF SAD configuration register (ADF_SADCFGR) . . . . . . . . . . . . . 1670
+40.8.13 ADF SAD sound level register (ADF_SADSDLVR) . . . . . . . . . . . . . . 1671
+40.8.14 ADF SAD ambient noise level register (ADF_SADANLVR) . . . . . . . . 1672
+40.8.15 ADF digital filter data register 0 (ADF_DFLT0DR) . . . . . . . . . . . . . . . 1672
+RM0456 Rev 6

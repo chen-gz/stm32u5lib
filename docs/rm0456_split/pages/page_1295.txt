@@ -1,0 +1,82 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+The ADC also notifies the end of Sampling phase by setting the status bit EOSMP (for
+regular conversions only). EOSMP flag is cleared by software by writing 1 to it. An interrupt
+can be generated if bit EOSMPIE is set.
+
+33.4.24
+
+End of conversion sequence (EOS, JEOS)
+The ADC notifies the application for each end of regular sequence (EOS) and for each end
+of injected sequence (JEOS) event.
+The ADC sets the EOS flag as soon as the last data of the regular conversion sequence is
+available in the ADC_DR register. An interrupt can be generated if bit EOSIE is set. EOS
+flag is cleared by the software either by writing 1 to it.
+The ADC sets the JEOS flag as soon as the last data of the injected conversion sequence is
+complete. An interrupt can be generated if bit JEOSIE is set. JEOS flag is cleared by the
+software either by writing 1 to it.
+
+33.4.25
+
+Timing diagrams example (single/continuous modes,
+hardware/software triggers)
+Figure 233. Single conversions of a sequence, software trigger
+
+ADSTART(1)
+EOC
+EOS
+ADC state(2)
+
+RDY
+
+CH1
+
+ADC_DR
+by SW
+
+CH9
+
+CH10
+
+CH17
+
+D1
+
+D9
+
+D10
+
+RDY
+
+by HW
+
+D17
+
+CH1
+
+CH9
+
+CH10
+
+CH17
+
+RDY
+
+D1
+
+D9
+
+D10
+
+D17
+
+Indicative timings
+MS30549V1
+
+1. EXTEN[1:0] = 0x0, CONT = 0
+2. Channels selected = 1,9, 10, 17; AUTDLY = 0.
+
+RM0456 Rev 6

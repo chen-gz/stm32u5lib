@@ -1,0 +1,81 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+The spi_pclk clock signal feeds the peripheral bus interface. It must be active when
+accesses to the SPI registers are required.
+The SPI working in slave mode handles a data flow using the serial interface clock derived
+from the external SCK signal provided by the external master SPI device. That is why the
+SPI slave is able to receive and send data even when the spi_pclk and spi_ker_ck clock
+signals are inactive. As a consequence, a specific slave logic working within the serial
+interface clock domain needs some additional traffic to be set up correctly (for example
+when underrun or overrun is evaluated, see Section 68.5.2 for details). This cannot be done
+when the bus becomes idle. In some specific cases, the slave even requires the clock
+generator working (see Section 68.5.1).
+When the SPI works as a master, the RCC must provide the spi_ker_ck kernel clock to the
+peripheral during communication to feed the serial interface clock via the clock generator
+where it can be divided by prescaler or bypassed. The signal is then provided to the slaves
+via the SCK pin and internally to the serial interface domain of the master.
+
+68.4.2
+
+SPI pins and internal signals
+Up to five I/O pins are dedicated to SPI communication with external devices.
+•
+
+MISO: master in / slave out data. In the general case, this pin is used to transmit data in
+slave mode and receive data in master mode.
+
+•
+
+MOSI: master out / slave in data. In the general case, this pin is used to transmit data in
+master mode and receive data in slave mode.
+
+•
+
+SCK: serial clock output pin for SPI masters and input pin for SPI slaves.
+
+•
+
+SS: slave select pin. Depending on the SPI and SS settings, this pin can be used to
+either:
+–
+
+Select an individual slave device for communication
+
+–
+
+Synchronize the data frame, or
+
+–
+
+Detect a conflict between multiple masters
+
+See Section 68.4.7 for details.
+•
+
+RDY: optional status pin signaling slave FIFO occupancies and so the slave availability
+to continue the transfer without any risk of data flow corruption. It can be checked by
+the master to control the temporal suspension of the ongoing communication.
+
+The SPI bus enables the communication between one master device and one or more slave
+devices. The bus consists of at least two wires: one for the clock signal and the other for
+synchronous data transfer. Other signals are optional and can be added depending on the
+data exchange between SPI nodes and their communication control management.
+Refer to Table 697 and Table 698 for the list of SPI input / output pins and internal signals.
+Table 697. SPI input/output pins
+Pin name
+
+Description
+
+MISO(1)
+
+Input/output Master data input / slave data output
+
+(1)
+
+Input/output Master data output / slave data input
+
+MOSI

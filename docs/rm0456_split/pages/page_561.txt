@@ -1,0 +1,196 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 8 OCTOSPI2EN: OCTOSPI2 clock enable
+This bit is set and cleared by software.
+0: OCTOSPI2 clock disabled
+1: OCTOSPI2 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 OCTOSPI1EN: OCTOSPI1 clock enable
+This bit is set and cleared by software.
+0: OCTOSPI1 clock disabled
+1: OCTOSPI1 clock enabled
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 FSMCEN: FSMC clock enable
+This bit is set and cleared by software.
+0: FSMC clock disabled
+1: FSMC clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+
+11.8.32
+
+RCC AHB3 peripheral clock enable register (RCC_AHB3ENR)
+Address offset: 0x094
+Reset value: 0x8000 0000
+Access: no wait state; word, half-word, and byte access
+
+Note:
+
+When the peripheral clock is not active, read or write access to peripheral registers is
+not supported.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SRAM4
+EN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+GTZC2
+EN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PWRE
+N
+
+Res.
+
+LPGPI
+O1EN
+
+rw
+
+rw
+
+ADF1E LPDMA
+N
+1EN
+rw
+
+rw
+
+DAC1E ADC4E
+N
+N
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 SRAM4EN: SRAM4 clock enable
+This bit is set and reset by software.
+0: SRAM4 clock disabled
+1: SRAM4 clock enabled
+Bits 30:13 Reserved, must be kept at reset value.
+Bit 12 GTZC2EN: GTZC2 clock enable
+This bit is set and cleared by software.
+0: GTZC2 clock disabled
+1: GTZC2 clock enabled
+
+RM0456 Rev 6

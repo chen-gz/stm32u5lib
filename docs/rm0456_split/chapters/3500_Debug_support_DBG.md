@@ -1,0 +1,310 @@
+RM0456 Rev 6
+
+w
+
+w
+
+w
+
+w
+
+RM0456
+
+Debug support (DBG)
+
+Bits 7:0 INTACK[7:0]: trigger acknowledge
+There is one bit of the register for each CTITRIGOUT output. When a 1 is written to a bit in
+this register, the corresponding CTITRIGOUT output is acknowledged, causing it to be
+cleared.
+
+CTI application trigger set register (CTI_APPSETR)
+Address offset: 0x014
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+APPSET[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0
+
+APPSET[3:0]: channel event setting
+Read:
+XXX0: channel 0 event inactive
+XXX0: channel 0 event active
+XX0X: channel 1 event inactive
+XX1X: channel 1 event active
+X0XX: channel 2 event inactive
+X1XX: channel 2 event active
+0XXX: channel 3 event inactive
+1XXX: channel 3 event active
+Write:
+XXX0: no effect
+XXX0: Sets event on channel 0.
+XX0X: no effect
+XX1X: Sets event on channel 1.
+X0XX: no effect
+X1XX: Sets event on channel 2.
+0XXX: no effect
+1XXX: Sets event on channel 3.
+
+CTI application trigger clear register (CTI_APPCLEAR)
+Address offset: 0x018
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+APPCLEAR[3:0]
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+<!-- pagebreak -->
+

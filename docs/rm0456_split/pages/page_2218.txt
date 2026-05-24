@@ -1,0 +1,42 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bit 29 BK2BID: Break2 bidirectional
+Refer to BKBID description
+Bit 28 BKBID: Break bidirectional
+0: Break input tim_brk in input mode
+1: Break input tim_brk in bidirectional mode
+In the bidirectional mode (BKBID bit set to 1), the break input is configured both in input
+mode and in open drain output mode. Any active break event asserts a low logic level on the
+Break input to indicate an internal break event to external devices.
+Note: This bit cannot be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.
+Bit 27 BK2DSRM: Break2 disarm
+Refer to BKDSRM description
+Bit 26 BKDSRM: Break disarm
+0: Break input tim_brk is armed
+1: Break input tim_brk is disarmed
+This bit is cleared by hardware when no break source is active.
+The BKDSRM bit must be set by software to release the bidirectional output control (opendrain output in Hi-Z state) and then be polled it until it is reset by hardware, indicating that the
+fault condition has disappeared.
+Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.
+Bit 25 BK2P: Break 2 polarity
+0: Break input tim_brk2 is active low
+1: Break input tim_brk2 is active high
+Note: This bit cannot be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.
+Bit 24 BK2E: Break 2 enable
+This bit enables the complete break 2 protection, see Figure 556: Break and Break2 circuitry
+overview).
+0: Break2 function disabled
+1: Break2 function enabled
+Note: The BRKIN2 must only be used with OSSR = OSSI = 1.
+Note: This bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in
+TIMx_BDTR register).
+Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.

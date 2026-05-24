@@ -1,0 +1,181 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+Bit 7 DMAT: DMA enable transmitter
+This bit is set/reset by software
+1: DMA mode is enabled for transmission
+0: DMA mode is disabled for transmission
+Bit 6 DMAR: DMA enable receiver
+This bit is set/reset by software
+1: DMA mode is enabled for reception
+0: DMA mode is disabled for reception
+Bits 5:4 Reserved, must be kept at reset value.
+Bit 3 HDSEL: Half-duplex selection
+Selection of single-wire half-duplex mode
+0: Half-duplex mode is not selected
+1: Half-duplex mode is selected
+This bit can only be written when the LPUART is disabled (UE = 0).
+Bits 2:1 Reserved, must be kept at reset value.
+Bit 0 EIE: Error interrupt enable
+Error Interrupt Enable Bit is required to enable interrupt generation in case of a framing
+error, overrun error or noise flag (FE = 1 or ORE = 1 or NE = 1 in the LPUART_ISR register).
+0: Interrupt is inhibited
+1: An interrupt is generated when FE = 1 or ORE = 1 or NE = 1 in the LPUART_ISR register.
+
+67.7.6
+
+LPUART baud rate register (LPUART_BRR)
+This register can only be written when the LPUART is disabled (UE = 0). It may be
+automatically updated by hardware in auto baud rate detection mode.
+Address offset: 0x0C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+BRR[19:16]
+
+BRR[15:0]
+rw
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bits 19:0 BRR[19:0]: LPUART baud rate division (LPUARTDIV)
+
+Note:
+
+It is forbidden to write values lower than 0x300 in the LPUART_BRR register.
+Provided that LPUART_BRR must be ≥ 0x300 and LPUART_BRR is 20 bits, a care must be
+taken when generating high baud rates using high lpuart_ker_ck_pres values.
+lpuart_ker_ck_pres must be in the range [3 x baud rate..4096 x baud rate].
+
+67.7.7
+
+LPUART request register (LPUART_RQR)
+Address offset: 0x18
+Reset value: 0x0000 0000

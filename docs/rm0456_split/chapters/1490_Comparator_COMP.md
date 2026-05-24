@@ -1,0 +1,123 @@
+1489
+
+Comparator (COMP)
+
+RM0456
+
+37
+
+Comparator (COMP)
+
+37.1
+
+Introduction
+The device embeds two ultra-low-power comparators COMP1 and COMP2.
+These comparators can be used for a variety of functions including:
+
+37.2
+
+•
+
+Wake-up from low-power mode triggered by an analog signal
+
+•
+
+Analog signal conditioning
+
+•
+
+Cycle-by-cycle current control loop when combined with a PWM output from a timer
+
+COMP main features
+•
+
+37.3
+
+Each comparator has configurable plus and minus inputs used for flexible voltage
+selection:
+–
+
+Multiplexed I/O pins
+
+–
+
+DAC channel1 and channel2
+
+–
+
+Internal reference voltage and three submultiple values (1/4, 1/2, 3/4) provided by
+a scaler (buffered voltage divider)
+
+•
+
+Programmable hysteresis
+
+•
+
+Programmable speed/consumption
+
+•
+
+Outputs that can be redirected to an I/O or to timer inputs for triggering break events for
+fast PWM shutdowns
+
+•
+
+Comparator outputs with blanking source
+
+•
+
+Comparators that can be combined as a window comparator
+
+•
+
+Interrupt generation capability for each comparator with wake-up from Sleep and Stop
+modes (through the EXTI controller)
+
+COMP implementation
+The following table describes COMP features on the STM32U5 Series devices.
+Table 354. COMP features(1)
+
+C
+
+COMP modes/features
+
+STM32U535/545
+
+Other devices
+
+COMP1
+
+X
+
+X
+
+COMP1 INPy maximum input
+
+y=6
+
+y=3
+
+COMP1_INPSEL[2:0] reserved codes
+
+≥ 101
+
+≥ 011
+
+COMP2
+
+-
+
+X
+
+Window comparator feature
+
+-
+
+X
+
+1. ‘X’ = supported
+‘-’ = non supported
+
+<!-- pagebreak -->
+

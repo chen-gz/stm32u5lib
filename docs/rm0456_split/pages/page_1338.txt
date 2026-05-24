@@ -1,0 +1,36 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 277. VREFINT channel block diagram
+
+VREFEN control bit
+Internal power
+block
+
+VREFINT
+
+ADCx
+
+ADC input
+
+MSv41033V7
+
+Note:
+
+The VREFEN bit of the ADC12_CCR register must be set to enable the conversion of the
+ADC internal channels to which VREFINT is connected (see Section 33.4.4: ADC
+connectivity for more details).
+
+Calculating the actual VREF+ voltage using the internal reference voltage
+The VDDA power supply voltage applied to the microcontroller may be subject to variation or
+not precisely known. The embedded internal voltage reference (VREFINT) and its calibration
+data acquired by the ADC during the manufacturing process at VREF+ = 3.0 V can be used
+to evaluate the actual VREF+ voltage level, if VREF+ pin is connected to a variable VDDA
+power supply.
+The following formula gives the actual VREF+ voltage supplying the device:
+V REF+ = 3.0 V × VREFINT_CAL ⁄ VREFINT_DATA
+
+Where:

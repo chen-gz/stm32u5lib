@@ -1,0 +1,52 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+In interrupt mode, when all the RXFIFOs working in interleaved-transfer mode have a data
+ready, the FTHF flag of RXFIFO0 is asserted to allow the interrupt generation. The
+application is then supposed to read sequentially one sample of each RXFIFOs, via
+MDF_DFLT0DR. The FTHF event is released when the first data is read.
+For the RXFIFOs working in interleaved-transfer mode, the interrupt mode is enabled by
+setting FTHIE to 1 in MDF_DFLT0DR and by defining the amount of RXFIFOs working in
+interleaved-transfer mode via ILVNB[3:0]. FTHIE of the other RXFIFOs working in
+interleaved-transfer mode (RXFIFO1 to ILVNB[3:0]) are not taken into account.
+The interleaved-transfer mode can only be applied starting at RXFIFO0 up to RXFIFOk. The
+number of RXFIFOs working in interleaved-transfer mode are defined by ILVNB[3:0].
+When ILVNB[3:0] = 0, all RXFIFOs work in independent-transfer mode.
+The interleaved-transfer mode can be used only for digital filters delivering samples
+perfectly synchronous each other. This is typically the case of sound capture with an array
+of digital microphones sharing the same bitstream clock.
+Caution:
+
+Note:
+
+To make the MDF working properly in interleaved-transfer mode, the following rules
+must be respected:
+•
+
+All filters working in interleaved-transfer mode must be all synchronized together,
+meaning that all filters must select the same ACQMOD[2:0] (must be equal to 010 or
+011), the same trigger source and the same trigger sensitivity.
+
+•
+
+All filters working in interleaved-transfer mode must have the same configuration.
+
+•
+
+All sensors providing the data for the filters working in interleaved-transfer mode must
+use the same bitstream clock frequency.
+
+•
+
+The maximum delay difference applied with SPKDLY[6:0] for the filters working in
+interleaved-transfer mode must remain strictly lower than the RXFIFO depth. Normally
+this delay does not need to exceed one TPCM period.
+
+Both independent- and interleaved-transfer modes can work in parallel: for example, the first
+RXFIFOs (RXFIFO0 to RXFIFOk) may work in interleaved-transfer mode when the others
+(RXFIFO(k+1) to RXFIFO(N)) works in independent-transfer mode.
+If the AHB clock is not present when a data transfer must be performed, the MDF first
+requests the AHB clock (refer to Section 39.4.5: Clock generator (CKGEN) for details).

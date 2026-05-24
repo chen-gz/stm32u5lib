@@ -1,0 +1,171 @@
+w
+
+w
+
+16
+
+CSDM
+MC1F
+
+COCT
+OSPIM
+F
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+CDCA CICAC
+CSAES
+CRNG CHASH
+CDCMI CADC1
+CDMA2
+CFMA
+CPKAF
+CAESF COTGF
+CHE1_ HE_RE
+CTSCF CCRCF
+F
+F
+F
+F
+2F
+DF
+CF
+REGF
+GF
+w
+
+17
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+RM0456 Rev 6
+
+w
+
+w
+
+w
+
+w
+
+w
+
+CCOR CMDF1
+DICF
+F
+w
+
+w
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bit 28 CJPEGF: clear the illegal access flag for JPEG
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 27 CDCACHE2_REGF: clear the illegal access flag for DCACHE2 registers
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 26 CHSPI1_REGF: clear the illegal access flag for HSPI1 registers
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 25 CGFXMMU_REGF: clear the illegal access flag for GFXMMU registers
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 24 CGFXMMUF: clear the illegal access flag for GFXMMU
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 23 CGPU2DF: clear the illegal access flag for GPU2D
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 CRAMCFGF: clear the illegal access flag for RAMCFG
+0: no action
+1: status flag cleared
+Bit 21 COCTOSPI2_REGF: clear the illegal access flag for OCTOSPI2 registers
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+
+RM0456 Rev 6

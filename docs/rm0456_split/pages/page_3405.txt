@@ -1,0 +1,181 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+Bit 4 ORUNERRCLR: overrun error clear
+0: no effect
+1: STICKYORUN bit cleared in DP_CTRL/STATR register
+Bit 3 WDERRCLR: write data error clear
+0: no effect
+1: WDATAERR bit cleared in DP_CTRL/STATR register
+Bit 2 STKERRCLR: sticky error clear
+0: no effect
+1: STICKYERR bit cleared in DP_CTRL/STATR register
+Bit 1 Reserved, must be kept at reset value.
+Bit 0 DAPABORT: current AP transaction aborted if excessive number of WAIT responses returned
+This bit indicates that the transaction is stalled.
+0: no effect
+1: transaction aborted
+
+DP control and status register (DP_CTRL/STATR)
+Address offset: 0x4
+Reset value: 0x0000 0000
+This register is accessible when DP_SELECTR.DPBANKSEL[3:0] = 0x0.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+CDBG
+PWRU
+PACK
+
+CDBG
+PWRU
+PREQ
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+WDATA
+ERR
+
+READ
+OK
+
+STICK
+YERR
+
+r
+
+r
+
+r
+
+Res.
+
+Res.
+
+Res.
+
+STICK ORUN
+YORU DETEC
+N
+T
+r
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bit 29 CDBGPWRUPACK: debug power-up acknowledge (see description in Section 75.2.5)
+0: DCLK gated
+1: DCLK enabled
+Bit 28 CDBGPWRUPREQ: debug power-up request
+This bit controls the DCLK enable request signal.
+0: requests DCLK gating
+1: requests DCLK enable
+Bits 27:8 Reserved, must be kept at reset value.

@@ -1,0 +1,199 @@
+DATA{4*x}[7:0]
+
+HLEN{2*y+1}
+[3:0]
+
+Reset value
+JPEG_HUFFENC
+_DC1
+
+DATA{4*x+1}[7:0]
+
+HLEN{2*y+1}
+[3:0]
+
+Reset value
+JPEG_HUFFENC
+_DC0
+
+Res.
+
+DATA{4*x+2}[7:0]
+
+HLEN{2*y+1}
+[3:0]
+
+Reset value
+JPEG_HUFFENC
+_AC1
+
+DATA{4*x}[7:0]
+
+Res.
+
+Res.
+
+0x7E00x7FC
+
+DATA{4*x+3}[7:0]
+
+Reserved
+JPEG_HUFFENC
+_AC0
+
+DATA{4*x+1}[7:0]
+
+X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X
+
+Res.
+
+0x7C00x7DC
+
+DATA{4*x+2}[7:0]
+
+X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X
+
+Res.
+
+0x6600x7BC
+
+DATA{4*x+3}[7:0]
+
+DATA{2*x}[8:0
+X X X X X X X X X
+
+Res.
+
+Reset value
+
+DATA{2*x+1}[8:0
+X X X X X X X X X
+
+Res.
+
+Reset value
+
+0x4FC
+0x5000x65C
+
+Res.
+
+JPEG_DHTMEM
+
+Res.
+
+0x3600x4F8
+
+Res.
+
+JPEG_HUFFSYMB
+
+Res.
+
+0x2100x35C
+
+Res.
+
+JPEG_HUFFBASE
+
+Res.
+
+0x1900x20C
+
+X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X
+Res.
+
+Reset value
+
+HCODE{2*y}[7:0]
+
+HCODE{2*y}[7:0]
+
+X X X X X X X X X X X X
+
+RM0456
+
+Touch sensing controller (TSC)
+
+47
+
+Touch sensing controller (TSC)
+
+47.1
+
+Introduction
+The touch sensing controller provides a simple solution for adding capacitive sensing
+functionality to any application. Capacitive sensing technology is able to detect finger
+presence near an electrode that is protected from direct touch by a dielectric (for example
+glass, plastic). The capacitive variation introduced by the finger (or any conductive object) is
+measured using a proven implementation based on a surface charge transfer acquisition
+principle.
+The touch sensing controller is fully supported by the STMTouch touch sensing firmware
+library, which is free to use and allows touch sensing functionality to be implemented reliably
+in the end application.
+
+47.2
+
+TSC main features
+The touch sensing controller has the following main features:
+
+Note:
+
+•
+
+Proven and robust surface charge transfer acquisition principle
+
+•
+
+Supports up to 24 capacitive sensing channels
+
+•
+
+Up to 8 capacitive sensing channels can be acquired in parallel offering a very good
+response time
+
+•
+
+Spread spectrum feature to improve system robustness in noisy environments
+
+•
+
+Full hardware management of the charge transfer acquisition sequence
+
+•
+
+Programmable charge transfer frequency
+
+•
+
+Programmable sampling capacitor I/O pin
+
+•
+
+Programmable channel I/O pin
+
+•
+
+Programmable max count value to avoid long acquisition when a channel is faulty
+
+•
+
+Dedicated end of acquisition and max count error flags with interrupt capability
+
+•
+
+One sampling capacitor for up to 3 capacitive sensing channels to reduce the system
+components
+
+•
+
+Compatible with proximity, touchkey, linear and rotary touch sensor implementation
+
+•
+
+Designed to operate with STMTouch touch sensing firmware library
+
+The number of capacitive sensing channels is dependent on the size of the packages and
+subject to I/O availability.
+
+RM0456 Rev 6

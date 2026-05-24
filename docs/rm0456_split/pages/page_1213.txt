@@ -1,0 +1,171 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+In DS, HS, SDR12, and SDR25 mode, selected by register bit BUSSPEED, the interrupt
+period is synchronous to the SD clock.
+
+Note:
+
+•
+
+The interrupt period ends at the next clock from the end bit of a command that transfers
+data block(s) (Command sent with the CMDTRANS bit is set), or when the DTEN bit is
+set.
+
+•
+
+The interrupt period resumes 2 SDMMC_CK after the completion of the data block.
+
+•
+
+At the data block gap the interrupt period is limited to 2 SDMMC_CK cycles.
+
+DTEN must not be used to start data transfer with SD and e•MMC cards.
+Figure 203. Synchronous interrupt period data read
+SDMMC_CK
+
+SDMMC_CMD
+
+S
+
+Command data
+E
+R
+
+SDMMC_D0
+
+S
+
+Data
+
+E
+
+S
+
+Data
+
+E
+
+SDMMC_D1
+
+S
+
+Data
+
+E
+
+S
+
+Data
+
+E
+
+SDMMC_D2
+SDMMC_D3
+
+S
+
+Data
+
+E
+
+S
+
+Data
+
+E
+
+Interrupt period
+
+IRQ
+
+Data1
+
+IRQ
+2 CK
+
+Data1
+
+2 CK
+MSv40195V2
+
+Figure 204. Synchronous interrupt period data write
+SDMMC_CK
+
+SDMMC_CMD
+
+S
+
+Command data
+E
+W
+
+S
+
+RSP
+
+E
+
+SDMMC_D0
+
+S
+
+Data
+
+E
+
+SDMMC_D1
+
+S
+
+Data
+
+SDMMC_D2
+SDMMC_D3
+
+S
+
+Data
+
+Interrupt period
+
+IRQ
+
+S CRC status E
+
+S
+
+Data
+
+E
+
+E
+
+S
+
+Data
+
+E
+
+E
+
+S
+
+Data
+
+E
+
+IRQ
+
+Data1
+
+2 CK
+
+Data1
+
+2 CK
+MSv40196V2
+
+RM0456 Rev 6

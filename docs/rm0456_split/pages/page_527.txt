@@ -1,0 +1,185 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 1:0 PLL1SRC[1:0]: PLL1 entry clock source
+This bitfield is set and cleared by software to select PLL1 clock source. It can be written only
+when the PLL1 is disabled. In order to save power, when no PLL1 is used, this bitfield value
+must be zero.
+00: No clock sent to PLL1
+01: MSIS clock selected as PLL1 clock entry
+10: HSI16 clock selected as PLL1 clock entry
+11: HSE clock selected as PLL1 clock entry
+
+11.8.10
+
+RCC PLL2 configuration register (RCC_PLL2CFGR)
+Address offset: 0x02C
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+PLL2R
+EN
+
+PLL2Q
+EN
+
+PLL2P
+EN
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+PLL2F
+RACEN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PLL2M[3:0]
+rw
+
+rw
+
+rw
+
+Res.
+rw
+
+Res.
+
+rw
+
+PLL2RGE[1:0]
+
+PLL2SRC[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bit 18 PLL2REN: PLL2 DIVR divider output enable
+This bit is set and reset by software to enable the pll2_r_ck output of the PLL2. To save
+power, PLL2REN and PLL2R bits must be set to 0 when pll2_r_ck is not used.
+0: pll2_r_ck output disabled
+1: pll2_r_ck output enabled
+Bit 17 PLL2QEN: PLL2 DIVQ divider output enable
+This bit is set and reset by software to enable the pll2_q_ck output of the PLL2. To save
+power, PLL2QEN and PLL2Q bits must be set to 0 when pll2_q_ck is not used.
+0: pll2_q_ck output disabled
+1: pll2_q_ck output enabled
+Bit 16 PLL2PEN: PLL2 DIVP divider output enable
+This bit is set and reset by software to enable the pll2_p_ck output of the PLL2. To save
+power, PLL2PEN and PLL2P bits must be set to 0 when pll2_p_ck is not used.
+0: pll2_p_ck output disabled
+1: pll2_p_ck output enabled
+Bits 15:12 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

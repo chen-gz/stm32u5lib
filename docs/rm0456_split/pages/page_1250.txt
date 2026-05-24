@@ -1,0 +1,241 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Bit 2 CTIMEOUTC: CTIMEOUT flag clear bit
+Set by software to clear the CTIMEOUT flag.
+0: CTIMEOUT not cleared
+1: CTIMEOUT cleared
+Bit 1 DCRCFAILC: DCRCFAIL flag clear bit
+Set by software to clear the DCRCFAIL flag.
+0: DCRCFAIL not cleared
+1: DCRCFAIL cleared
+Bit 0 CCRCFAILC: CCRCFAIL flag clear bit
+Set by software to clear the CCRCFAIL flag.
+0: CCRCFAIL not cleared
+1: CCRCFAIL cleared
+
+31.10.13 SDMMC mask register (SDMMC_MASKR)
+Address offset: 0x03C
+Reset value: 0x0000 0000
+This register determines which status flags generate an interrupt request by setting the
+corresponding bit to 1.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+CK
+STOP
+IE
+
+VSW
+ENDIE
+
+ACK
+TIME
+OUTIE
+
+rw
+
+rw
+
+10
+
+9
+
+Res.
+
+Res.
+
+Res.
+
+IDMA
+BTCIE
+
+15
+
+14
+
+13
+
+12
+
+11
+
+RX
+FIFO
+HFIE
+
+TX
+FIFO
+HEIE
+
+Res.
+
+DA
+BORT
+IE
+
+rw
+
+rw
+
+rw
+
+Res.
+
+rw
+
+22
+
+21
+
+ACK
+FAILIE
+
+SDIO
+ITIE
+
+BUSY
+D0
+ENDIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+DBCK DHOLD DATA
+ENDIE
+IE
+ENDIE
+rw
+
+rw
+
+23
+
+CMD
+SENT
+IE
+
+CMDR
+ENDIE
+
+rw
+
+rw
+
+rw
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+TX
+FIFO
+EIE
+
+RX
+FIFO
+FIE
+
+Res.
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+C
+TIME
+OUTIE
+
+DCRC
+FAILIE
+
+CCRC
+FAILIE
+
+rw
+
+rw
+
+rw
+
+RX
+TX
+D
+OVER UNDER TIME
+RIE
+RIE
+OUTIE
+rw
+
+rw
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bit 28 IDMABTCIE: IDMA buffer transfer complete interrupt enable
+Set and cleared by software to enable/disable the interrupt generated when the IDMA has
+transferred all data belonging to a memory buffer.
+0: IDMA buffer transfer complete interrupt disabled
+1: IDMA buffer transfer complete interrupt enabled
+Bit 27 Reserved, must be kept at reset value.
+Bit 26 CKSTOPIE: Voltage switch clock stopped interrupt enable
+Set and cleared by software to enable/disable interrupt caused by voltage switch clock
+stopped.
+0: Voltage switch clock stopped interrupt disabled
+1: Voltage switch clock stopped interrupt enabled
+Bit 25 VSWENDIE: Voltage switch critical timing section completion interrupt enable
+Set and cleared by software to enable/disable the interrupt generated when voltage switch
+critical timing section completion.
+0: Voltage switch critical timing section completion interrupt disabled
+1: Voltage switch critical timing section completion interrupt enabled

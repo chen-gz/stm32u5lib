@@ -1,0 +1,182 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 8:0 PLL3N[8:0]: Multiplication factor for PLL3 VCO
+This bitfield is set and reset by software to control the multiplication factor of the VCO. It can be
+written only when the PLL is disabled (PLL3ON = 0 and PLL3RDY = 0).
+0x003: PLL3N = 4
+0x004: PLL3N = 5
+0x005: PLL3N = 6
+...
+0x080: PLL3N = 129 (default after reset)
+...
+0x1FF: PLL3N = 512
+Others: reserved
+VCO output frequency = Fref3_ck x PLL3N, when fractional value 0 has been loaded in PLL3FRACN,
+with:
+–
+PLL3N between 4 and 512
+–
+input frequency Fref3_ck between 4 and 16MHz
+
+11.8.17
+
+RCC PLL3 fractional divider register (RCC_PLL3FRACR)
+Address offset: 0x048
+Reset value: 0x0000 0000
+Access: no wait state; word and half-word access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+PLL3FRACN[12:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:3 PLL3FRACN[12:0]: Fractional part of the multiplication factor for PLL3 VCO
+This bitfield is set and reset by software to control the fractional part of the VCO multiplication factor.
+It can be written at any time, allowing dynamic fine-tuning of the PLL3 VCO.
+VCO output frequency = Fref3_ck x (PLL3N + (PLL3FRACN / 213)), with:
+–
+PLL3N must be between 4 and 512.
+–
+PLL3FRACN can be between 0 and 213 - 1.
+–
+The input frequency Fref3_ck must be between 4 and 16 MHz.
+In order to change the FRACN value on-the-fly even if the PLL is enabled, the application must
+proceed as follows:
+–
+Set the bit PLL3FRACEN to 0.
+–
+Write the new fractional value into PLL3FRACN.
+–
+Set the bit PLL3FRACEN to 1.
+Bits 2:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

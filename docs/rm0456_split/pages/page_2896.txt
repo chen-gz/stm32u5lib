@@ -1,0 +1,87 @@
+r
+
+RM0456 Rev 6
+
+r
+
+FREQ
+r
+
+18
+
+17
+
+16
+
+FLVL[2:0]
+r
+
+r
+
+r
+
+2
+
+1
+
+0
+
+WCKCFG MUTEDET OVRUDR
+r
+
+r
+
+r
+
+RM0456
+
+Serial audio interface (SAI)
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:16 FLVL[2:0]: FIFO level threshold.
+This bit is read only. The FIFO level threshold flag is managed only by hardware and its setting
+depends on SAI block configuration (transmitter or receiver mode).
+000: FIFO empty (transmitter and receiver modes)
+001: FIFO ≤ ¼ but not empty (transmitter mode), FIFO < ¼ but not empty (receiver mode)
+010: ¼ < FIFO ≤ ½ (transmitter mode), ¼ ≤ FIFO < ½ (receiver mode)
+011: ½ < FIFO ≤ ¾ (transmitter mode), ½ ≤ FIFO < ¾ (receiver mode)
+100: ¾ < FIFO but not full (transmitter mode), ¾ ≤ FIFO but not full (receiver mode)
+101: FIFO full (transmitter and receiver modes)
+Others: Reserved
+Bits 15:7 Reserved, must be kept at reset value.
+Bit 6 LFSDET: Late frame synchronization detection.
+This bit is read only.
+0: No error.
+1: Frame synchronization signal is not present at the right time.
+This flag can be set only if the audio block is configured in slave mode.
+It is not used in AC’97 or SPDIF mode.
+It can generate an interrupt if LFSDETIE bit is set in the SAI_xIM register.
+This flag is cleared when the software sets bit CLFSDET in SAI_xCLRFR register
+Bit 5 AFSDET: Anticipated frame synchronization detection.
+This bit is read only.
+0: No error.
+1: Frame synchronization signal is detected earlier than expected.
+This flag can be set only if the audio block is configured in slave mode.
+It is not used in AC’97 or SPDIF mode.
+It can generate an interrupt if AFSDETIE bit is set in SAI_xIM register.
+This flag is cleared when the software sets CAFSDET bit in SAI_xCLRFR register.
+Bit 4 CNRDY: Codec not ready.
+This bit is read only.
+0: External AC’97 Codec is ready
+1: External AC’97 Codec is not ready
+This bit is used only when the AC’97 audio protocol is selected in the SAI_xCR1 register and
+configured in receiver mode.
+It can generate an interrupt if CNRDYIE bit is set in SAI_xIM register.
+This flag is cleared when the software sets CCNRDY bit in SAI_xCLRFR register.
+Bit 3 FREQ: FIFO request.
+This bit is read only.
+0: No FIFO request.
+1: FIFO request to read or to write the SAI_xDR.
+The request depends on the audio block configuration:
+– If the block is configured in transmission mode, the FIFO request is related to a write request
+operation in the SAI_xDR.
+– If the block configured in reception, the FIFO request related to a read request operation from the
+SAI_xDR.
+This flag can generate an interrupt if FREQIE bit is set in SAI_xIM register.
+
+RM0456 Rev 6

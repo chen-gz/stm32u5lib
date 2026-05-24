@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+This feature can be used for monitoring the counting direction (or rotation direction) in
+encoder mode, or to have a signal indicating the up/down phases in center-aligned PWM
+mode.
+
+55.4.20
+
+UIF bit remapping
+The IUFREMAP bit in the TIMx_CR1 register forces a continuous copy of the update
+interrupt flag (UIF) into bit 31 of the timer counter register’s bit 31 (TIMxCNT[31]). This is
+used to atomically read both the counter value and a potential roll-over condition signaled by
+the UIFCPY flag. It eases the calculation of angular speed by avoiding race conditions
+caused, for instance, by a processing shared between a background task (counter reading)
+and an interrupt (update interrupt).
+There is no latency between the UIF and UIFCPY flag assertions.
+In 32-bit timer implementations, when the IUFREMAP bit is set, bit 31 of the counter is
+overwritten by the UIFCPY flag upon read access (the counter’s most significant bit is only
+accessible in write mode).
+
+55.4.21
+
+Timer input XOR function
+The TI1S bit in the TIM1xx_CR2 register, allows the input filter of channel 1 to be connected
+to the output of an XOR gate, combining the three input pins tim_ti1, tim_ti2 and tim_ti3.
+The XOR output can be used with all the timer input functions such as trigger or input
+capture.
+An example of this feature used to interface Hall sensors is given in Section 54.3.29:
+Interfacing with Hall sensors.
+
+55.4.22
+
+Timers and external trigger synchronization
+The TIMx timers can be synchronized with an external trigger in several modes: Reset
+mode, Gated mode, Trigger mode, Reset + trigger and gated + reset modes.
+
+Slave mode: Reset mode
+The counter and its prescaler can be reinitialized in response to an event on a trigger input.
+Moreover, if the URS bit from the TIMx_CR1 register is low, an update event UEV is
+generated. Then all the preloaded registers (TIMx_ARR, TIMx_CCRx) are updated.
+In the following example, the upcounter is cleared in response to a rising edge on tim_ti1
+input:
+1.
+
+Configure the channel 1 to detect rising edges on tim_ti1. Configure the input filter
+duration (in this example, we do not need any filter, so we keep IC1F = 0000). The
+capture prescaler is not used for triggering, so it does not need to be configured. The
+CC1S bits select the input capture source only, CC1S = 01 in the TIMx_CCMR1
+register. Write CC1P = 0 and CC1NP = 0 in TIMx_CCER register to validate the polarity
+(and detect rising edges only).
+
+2.
+
+Configure the timer in reset mode by writing SMS = 100 in TIMx_SMCR register. Select
+tim_ti1 as the input source by writing TS = 00101 in TIMx_SMCR register.
+
+3.
+
+Start the counter by writing CEN = 1 in the TIMx_CR1 register.
+
+The counter starts counting on the internal clock, then behaves normally until tim_ti1 rising
+edge. When tim_ti1 rises, the counter is cleared and restarts from 0. In the meantime, the
+
+RM0456 Rev 6

@@ -1,0 +1,108 @@
+90
+
+Contents
+
+RM0456
+40.8.16 ADF register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1672
+
+41
+
+Digital camera interface (DCMI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+41.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+
+41.2
+
+DCMI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+
+41.3
+
+DCMI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+41.3.1
+
+DCMI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+
+41.3.2
+
+DCMI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+
+41.3.3
+
+DCMI clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+
+41.3.4
+
+DCMI DMA interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+
+41.3.5
+
+DCMI physical interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+
+41.3.6
+
+DCMI synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1679
+
+41.3.7
+
+DCMI capture modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1681
+
+41.3.8
+
+DCMI crop feature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1682
+
+41.3.9
+
+DCMI JPEG format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1683
+
+41.3.10 DCMI FIFO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1683
+41.3.11 DCMI data format description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1684
+
+41.4
+
+DCMI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1686
+
+41.5
+
+DCMI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1686
+41.5.1
+
+DCMI control register (DCMI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1686
+
+41.5.2
+
+DCMI status register (DCMI_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1689
+
+41.5.3
+
+DCMI raw interrupt status register (DCMI_RIS) . . . . . . . . . . . . . . . . 1689
+
+41.5.4
+
+DCMI interrupt enable register (DCMI_IER) . . . . . . . . . . . . . . . . . . . 1690
+
+41.5.5
+
+DCMI masked interrupt status register (DCMI_MIS) . . . . . . . . . . . . . 1691
+
+41.5.6
+
+DCMI interrupt clear register (DCMI_ICR) . . . . . . . . . . . . . . . . . . . . . 1692
+
+41.5.7
+
+DCMI embedded synchronization code register (DCMI_ESCR) . . . . 1693
+
+41.5.8
+
+DCMI embedded synchronization unmask register (DCMI_ESUR) . 1693
+
+41.5.9
+
+DCMI crop window start (DCMI_CWSTRT) . . . . . . . . . . . . . . . . . . . . 1694
+
+41.5.10 DCMI crop window size (DCMI_CWSIZE) . . . . . . . . . . . . . . . . . . . . . 1695
+41.5.11 DCMI data register (DCMI_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1695
+41.5.12 DCMI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1696
+
+42

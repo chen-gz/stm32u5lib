@@ -1,0 +1,52 @@
+3639
+
+Revision history
+
+RM0456
+Table 813. Document revision history (continued)
+
+Date
+
+Revision
+
+Changes
+
+– Line 23 in Table 156: EXTI line connections
+– Bit 23 in Section 21.6.1 to Section 21.6.7, Section 21.6.10, and Section 21.6.11
+– Section 21.6.8: EXTI external interrupt selection register (EXTI_EXTICRm)
+– Bulb sampling mode
+– CALINDEX[3:0] in ADC_CR
+– New Extended calibration mode
+– Table 249: Memory location of the temperature sensor calibration values
+– Section 21.7.13: ADC power register (ADC_PWRR)
+– New Section 55.3: TAMP implementation
+– Active tamper detection
+– ATCKSEL desc in Section 50.6.5: TAMP active tamper control register 1
+16-Mar-2022 3 (cont’d)
+(TAMP_ATCR1)
+– Note in Table 514: STM32U575/585 IWDG features
+– Configuring the IWDG when the window option is enabled
+– New Updating the window comparator
+– Section 48.4.6: Register access protection
+– KEY[15:0] desc in Section 48.7.1: IWDG key register (IWDG_KR)
+– Table 653: UCPD implementation and Table 654: UCPD software trim data
+– New Section 64.5.5: UCPD software trimming
+– Section 64.8.3: UCPD configuration register 3 (UCPD_CFGR3)
+– TREVISION desc in DP target identification register (DP_TARGETIDR)
+– REV_ID desc in DBGMCU identity code register (DBGMCU_IDCODE)
+Full scope updated to cover all STM32U5 series products:
+– STM32U535/545,
+– STM32U575/585 rev X and above,
+– STM32U59x/5Ax,
+– STM32U5Fx/5Gx.
+
+16-Feb-2023
+
+4
+
+12-Oct-2023
+
+5
+
+<!-- pagebreak -->
+

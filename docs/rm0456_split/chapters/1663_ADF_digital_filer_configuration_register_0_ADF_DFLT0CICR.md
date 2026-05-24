@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+40.8.6
+
+ADF digital filer configuration register 0 (ADF_DFLT0CICR)
+Address offset: 0x08C
+Reset value: 0x0000 0000
+This register is used to control the main CIC filter.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+25
+
+24
+
+rw
+
+rw
+
+rw
+
+rw
+
+22
+
+20
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+rw
+
+21
+
+SCALE[5:0]
+
+MCICD[7:0]
+rw
+
+23
+
+rw
+
+rw
+
+CICMOD[2:0]
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+MCICD
+8
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+rw
+0
+
+DATSRC[1:0]
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:20 SCALE[5:0]: Scaling factor selection
+This bitfield is set and cleared by software. It is used to select the gain to be applied at CIC
+output (see Table 396 for details). If the application attempts to write a new gain value while
+the previous one is not yet applied, this new gain value is ignored. Reading back this bitfield
+informs the application on the current gain value.
+000000: 0 dB
+000001: + 3.5 dB
+000010: + 6 dB or shift left by 1 bit
+...
+011000: + 72 dB or shift left by 12 bits
+100000: - 48.2 dB or shift right by 8 bits (default value)
+100001: - 44.6 dB
+100010: - 42.1 dB or shift right by 7 bits
+100011: - 38.6 dB
+...
+101110: -6 dB or shift right by 1 bit
+101111: -2.5 dB
+Others: Reserved
+Bits 19:17 Reserved, must be kept at reset value.
+Bits 16:8 MCICD[8:0]: CIC decimation ratio selection
+This bitfield is set and cleared by software.It is used to select the CIC decimation ratio.
+A decimation ratio smaller than two is not allowed. The decimation ratio is given by
+(CICDEC+1).
+0: Decimation ratio is 2.
+1: Decimation ratio is 2.
+2: Decimation ratio is 3.
+3: Decimation ratio is 4.
+...
+511: Decimation ratio is 512.
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 7 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

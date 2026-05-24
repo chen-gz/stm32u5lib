@@ -1,0 +1,304 @@
+3086
+
+FD controller area network (FDCAN)
+
+70.4.11
+
+RM0456
+
+FDCAN timeout counter value register (FDCAN_TOCV)
+Address offset: 0x002C
+Reset value: 0x0000 FFFF
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+rc_w
+
+TOC[15:0]
+rc_w
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 TOC[15:0]: Timeout counter
+The timeout counter is decremented in multiples of CAN bit times [1 … 16] depending on the
+configuration of the TCP[3:0] bitfield of the FDCAN_TSCC register. When decremented to 0,
+the TOO interrupt flag is set in FDCAN_IR and the timeout counter is stopped. Start and
+reset/restart conditions are configured via TOS[1:0] in FDCAN_TOCC.
+
+70.4.12
+
+FDCAN error counter register (FDCAN_ECR)
+Address offset: 0x0040
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+RP
+r
+
+11
+
+10
+
+9
+
+23
+
+22
+
+21
+
+20
+
+rc_r
+
+rc_r
+
+rc_r
+
+rc_r
+
+7
+
+6
+
+5
+
+4
+
+r
+
+r
+
+r
+
+18
+
+17
+
+16
+
+rc_r
+
+rc_r
+
+rc_r
+
+rc_r
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+CEL[7:0]
+
+8
+
+REC[6:0]
+r
+
+19
+
+TEC[7:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:16 CEL[7:0]: CAN error logging
+The counter is incremented each time when a CAN protocol error causes the transmit error
+counter or the receive error counter to be incremented. It is reset by read access to CEL[7:0].
+The counter stops at 0xFF; the next increment of TEC[7:0] or REC[6:0] sets the ELO
+interrupt flag in FDCAN_IR.
+Access type is rc_r: cleared on read.
+Bit 15 RP: Receive error passive
+0: The receive error counter is below the error passive level of 128.
+1: The receive error counter has reached the error passive level of 128.
+Bits 14:8 REC[6:0]: Receive error counter
+Actual state of the receive error counter, values between 0 and 127.
+Bits 7:0 TEC[7:0]: Transmit error counter
+Actual state of the transmit error counter, values between 0 and 255.
+When the ASM bit of the FDCAN_CCCR is set, the CAN protocol controller does not
+increment TEC and REC when a CAN protocol error is detected, but CEL[7:0] is still
+incremented.

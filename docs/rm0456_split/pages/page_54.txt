@@ -1,0 +1,68 @@
+90
+
+Contents
+
+RM0456
+49.4.18 AES error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1957
+
+49.5
+
+AES interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1958
+
+49.6
+
+AES processing latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1959
+
+49.7
+
+AES registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1960
+49.7.1
+
+AES control register (AES_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1960
+
+49.7.2
+
+AES status register (AES_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1962
+
+49.7.3
+
+AES data input register (AES_DINR) . . . . . . . . . . . . . . . . . . . . . . . . 1964
+
+49.7.4
+
+AES data output register (AES_DOUTR) . . . . . . . . . . . . . . . . . . . . . 1964
+
+49.7.5
+
+AES key register 0 (AES_KEYR0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1965
+
+49.7.6
+
+AES key register 1 (AES_KEYR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1965
+
+49.7.7
+
+AES key register 2 (AES_KEYR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1966
+
+49.7.8
+
+AES key register 3 (AES_KEYR3) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1966
+
+49.7.9
+
+AES initialization vector register 0 (AES_IVR0) . . . . . . . . . . . . . . . . . 1966
+
+49.7.10 AES initialization vector register 1 (AES_IVR1) . . . . . . . . . . . . . . . . . 1967
+49.7.11 AES initialization vector register 2 (AES_IVR2) . . . . . . . . . . . . . . . . . 1967
+49.7.12 AES initialization vector register 3 (AES_IVR3) . . . . . . . . . . . . . . . . . 1967
+49.7.13 AES key register 4 (AES_KEYR4) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1968
+49.7.14 AES key register 5 (AES_KEYR5) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1968
+49.7.15 AES key register 6 (AES_KEYR6) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1968
+49.7.16 AES key register 7 (AES_KEYR7) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1969
+49.7.17 AES suspend registers (AES_SUSPxR) . . . . . . . . . . . . . . . . . . . . . . 1969
+49.7.18 AES interrupt enable register (AES_IER) . . . . . . . . . . . . . . . . . . . . . 1970
+49.7.19 AES interrupt status register (AES_ISR) . . . . . . . . . . . . . . . . . . . . . . 1970
+49.7.20 AES interrupt clear register (AES_ICR) . . . . . . . . . . . . . . . . . . . . . . . 1971
+49.7.21 AES register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1972
+
+50

@@ -1,0 +1,58 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 441. RGB888 BER testing pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1779
+Figure 442. Vertical pattern (103x15) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1780
+Figure 443. Horizontal pattern (103x15) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1780
+Figure 444. PLL block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1782
+Figure 445. Error sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1785
+Figure 446. Video packet transmission configuration flow diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 1797
+Figure 447. Programming sequence to send a test pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1799
+Figure 448. Frame configuration registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1800
+Figure 449. GPU2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+Figure 450. JPEG codec block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1866
+Figure 451. TSC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1888
+Figure 452. Surface charge transfer analog I/O group structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1889
+Figure 453. Sampling capacitor voltage variation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1890
+Figure 454. Charge transfer acquisition sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1891
+Figure 455. Spread spectrum variation principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1892
+Figure 456. RNG block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1906
+Figure 457. NIST SP800-90B entropy source model. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1907
+Figure 458. RNG initialization overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1910
+Figure 459. AES block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1923
+Figure 460. ECB encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1925
+Figure 461. CBC encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1926
+Figure 462. CTR encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1927
+Figure 463. GCM encryption and authentication principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1928
+Figure 464. GMAC authentication principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1928
+Figure 465. CCM encryption and authentication principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1929
+Figure 466. Example of suspend mode management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1933
+Figure 467. ECB encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1934
+Figure 468. ECB decryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1934
+Figure 469. CBC encryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1935
+Figure 470. CBC decryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1935
+Figure 471. ECB/CBC encryption (Mode 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1936
+Figure 472. ECB/CBC decryption (Mode 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1937
+Figure 473. Message construction in CTR mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1938
+Figure 474. CTR encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1939
+Figure 475. CTR decryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1939
+Figure 476. Message construction in GCM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1941
+Figure 477. GCM authenticated encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1942
+Figure 478. Message construction in GMAC mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1946
+Figure 479. GMAC authentication mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1946
+Figure 480. Message construction in CCM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1947
+Figure 481. CCM mode authenticated encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1949
+Figure 482. 128-bit block construction with respect to data swap . . . . . . . . . . . . . . . . . . . . . . . . . . . 1954
+Figure 483. DMA transfer of a 128-bit data block during input phase . . . . . . . . . . . . . . . . . . . . . . . . 1956
+Figure 484. DMA transfer of a 128-bit data block during output phase . . . . . . . . . . . . . . . . . . . . . . . 1957
+Figure 485. SAES block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1976
+Figure 486. ECB encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1978
+Figure 487. CBC encryption and decryption principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1979
+Figure 488. Example of suspend mode management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1983
+Figure 489. ECB encryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1984
+Figure 490. ECB decryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1984
+Figure 491. CBC encryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1985
+Figure 492. CBC decryption. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1985

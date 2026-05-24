@@ -1,0 +1,91 @@
+90
+
+Contents
+
+RM0456
+55.5.7
+
+TIMx capture/compare mode register 1 (TIMx_CCMR1)(x = 2 to 5) . 2327
+
+55.5.8
+
+TIMx capture/compare mode register 1 [alternate]
+(TIMx_CCMR1)(x = 2 to 5) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2329
+
+55.5.9
+
+TIMx capture/compare mode register 2 (TIMx_CCMR2)(x = 2 to 5) . 2331
+
+55.5.10 TIMx capture/compare mode register 2 [alternate]
+(TIMx_CCMR2)(x = 2 to 5) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2332
+55.5.11 TIMx capture/compare enable register (TIMx_CCER)(x = 2 to 5) . . . 2335
+55.5.12 TIMx counter (TIMx_CNT)(x = 2 to 5) . . . . . . . . . . . . . . . . . . . . . . . . 2337
+55.5.13 TIMx prescaler (TIMx_PSC)(x = 2 to 5) . . . . . . . . . . . . . . . . . . . . . . . 2337
+55.5.14 TIMx autoreload register (TIMx_ARR)(x = 2 to 5) . . . . . . . . . . . . . . . 2338
+55.5.15 TIMx capture/compare register 1 (TIMx_CCR1)(x = 2 to 5) . . . . . . . 2338
+55.5.16 TIMx capture/compare register 2 (TIMx_CCR2)(x = 2 to 5) . . . . . . . 2339
+55.5.17 TIMx capture/compare register 3 (TIMx_CCR3)(x = 2 to 5) . . . . . . . 2340
+55.5.18 TIMx capture/compare register 4 (TIMx_CCR4)(x = 2 to 5) . . . . . . . 2341
+55.5.19 TIMx timer encoder control register (TIMx_ECR)(x = 2 to 5) . . . . . . . 2342
+55.5.20 TIMx timer input selection register (TIMx_TISEL)(x = 2 to 5) . . . . . . 2343
+55.5.21 TIMx alternate function register 1 (TIMx_AF1)(x = 2 to 5) . . . . . . . . . 2344
+55.5.22 TIMx alternate function register 2 (TIMx_AF2)(x = 2 to 5) . . . . . . . . . 2345
+55.5.23 TIMx DMA control register (TIMx_DCR)(x = 2 to 5) . . . . . . . . . . . . . . 2346
+55.5.24 TIMx DMA address for full transfer (TIMx_DMAR)(x = 2 to 5) . . . . . . 2347
+55.5.25 TIMx register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2348
+
+56
+
+General purpose timers (TIM15/TIM16/TIM17) . . . . . . . . . . . . . . . . . 2351
+56.1
+
+TIM15/TIM16/TIM17 introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2351
+
+56.2
+
+TIM15 main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2351
+
+56.3
+
+TIM16/TIM17 main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2352
+
+56.4
+
+TIM15/TIM16/TIM17 functional description . . . . . . . . . . . . . . . . . . . . . 2353
+56.4.1
+
+Block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2353
+
+56.4.2
+
+TIM15/TIM16/TIM17 pins and internal signals . . . . . . . . . . . . . . . . . . 2354
+
+56.4.3
+
+Time-base unit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2357
+
+56.4.4
+
+Counter modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2359
+
+56.4.5
+
+Repetition counter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2363
+
+56.4.6
+
+Clock selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2364
+
+56.4.7
+
+Capture/compare channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2366
+
+56.4.8
+
+Input capture mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2368
+
+56.4.9
+
+PWM input mode (only for TIM15) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2370
+
+56.4.10 Forced output mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2371

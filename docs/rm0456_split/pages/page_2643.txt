@@ -1,0 +1,191 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Bit 31 TEXTEN: Extended clock timeout enable
+0: Extended clock timeout detection is disabled
+1: Extended clock timeout detection is enabled. When a cumulative SCL stretch for more
+than tLOW:EXT is done by the I2C interface, a timeout error is detected (TIMEOUT = 1).
+Bits 30:28 Reserved, must be kept at reset value.
+Bits 27:16 TIMEOUTB[11:0]: Bus timeout B
+This field is used to configure the cumulative clock extension timeout:
+–
+Controller mode: the controller cumulative clock low extend time (tLOW:MEXT) is
+detected
+–
+Target mode: the target cumulative clock low extend time (tLOW:SEXT) is detected
+tLOW:EXT = (TIMEOUTB + TIDLE = 01) x 2048 x tI2CCLK
+Note: These bits can be written only when TEXTEN = 0.
+Bit 15 TIMOUTEN: Clock timeout enable
+0: SCL timeout detection is disabled
+1: SCL timeout detection is enabled. When SCL is low for more than tTIMEOUT (TIDLE = 0) or
+high for more than tIDLE (TIDLE = 1), a timeout error is detected (TIMEOUT = 1).
+Bits 14:13 Reserved, must be kept at reset value.
+Bit 12 TIDLE: Idle clock timeout detection
+0: TIMEOUTA is used to detect SCL low timeout
+1: TIMEOUTA is used to detect both SCL and SDA high timeout (bus idle condition)
+Note: This bit can be written only when TIMOUTEN = 0.
+Bits 11:0 TIMEOUTA[11:0]: Bus timeout A
+This field is used to configure:
+The SCL low timeout condition tTIMEOUT when TIDLE = 0
+tTIMEOUT= (TIMEOUTA + 1) x 2048 x tI2CCLK
+The bus idle condition (both SCL and SDA high) when TIDLE = 1
+tIDLE= (TIMEOUTA + 1) x 4 x tI2CCLK
+Note: These bits can be written only when TIMOUTEN = 0.
+
+65.9.7
+
+I2C interrupt and status register (I2C_ISR)
+Address offset: 0x18
+Reset value: 0x0000 0001
+Access: no wait states
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+BUSY
+
+Res.
+
+ALERT
+
+OVR
+
+ARLO
+
+BERR
+
+TCR
+
+TC
+
+ADDR
+
+RXNE
+
+TXIS
+
+TXE
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+rs
+
+rs
+
+r
+
+r
+
+TIMEO PECER
+UT
+R
+r
+
+r
+
+23
+
+21
+
+20
+
+19
+
+18
+
+17
+
+ADDCODE[6:0]
+
+Bits 31:24 Reserved, must be kept at reset value.

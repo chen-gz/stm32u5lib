@@ -1,0 +1,98 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+More generally, assume that the following requests are present:
+•
+
+I requests (I ≥ 0) assigned to priority 0
+If I > 0, these requests are noted from i = 0 to I-1.
+
+•
+
+J requests (J ≥ 0) assigned to priority 1
+If J > 0, these requests are noted from j = 0 to J-1.
+
+•
+
+K requests (K > 0) assigned to priority 2
+These requests are noted from k = 0 to K-1
+
+•
+
+L requests (L ≥ 0) assigned to priority 3
+If L > 0, these requests are noted from l = 0 to L-1.
+
+As BQ3 is the reserved bandwidth to time-sensitive requests, the bandwidth for each request
+L with priority 3 is:
+•
+
+Bl = BQ3 / L for L > 0 (else: Bl = 0)
+
+The bandwidth for each non-time sensitive queue is:
+•
+
+BQ0 = 1/3 * (1 - BQ3)
+
+•
+
+BQ1 = 1/3 * (1 - BQ3)
+
+•
+
+BQ2 = 1/3 * (1 - BQ3)
+
+The bandwidth for the set of requests with priority 0 is:
+•
+
+BP0 = I / (I + J + K) * BQ0
+
+The bandwidth for each request i with priority 0 is:
+•
+
+Bi = BP0 / I for L > 0 (else BP0 = 0)
+
+The bandwidth for the set of requests with priority 1 and routed to queue 0 is:
+•
+
+BP1,Q0 = J / (I + J + K) * BQ0
+
+The bandwidth for the set of requests with priority 1 and routed to queue 1 is:
+•
+
+BP1,Q1 = J / (J + K) * BQ1
+
+The total bandwidth for the set of requests with priority 1 is:
+•
+
+BP1 = BP1,Q0 + BP1,Q1
+
+The bandwidth for each request j with priority 1 is:
+•
+
+Bj = BP1 / J for J > 0 (else Bj = 0)
+
+The bandwidth for the set of requests with priority 2 and routed to queue 0 is:
+•
+
+BP2,Q0 = K / (I + J + K) * BQ0
+
+The bandwidth for the set of requests with priority 2 and routed to queue 1 is:
+•
+
+BP2,Q1 = K / (J + K) * BQ1
+
+The bandwidth for the set of requests with priority 2 and routed to queue 2 is:
+•
+
+BP2,Q2 = BQ2
+
+The total bandwidth for the set of requests with priority 2 is:
+•
+
+BP2 = BP2,Q0 + BP2,Q1+ BP2,Q2
+
+The bandwidth for each request k with priority 2 is:
+•

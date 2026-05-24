@@ -1,0 +1,64 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 527. Counter timing diagram, update event with ARPE = 1 (counter underflow)
+
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+06
+
+05
+
+04
+
+03
+
+02
+
+01
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter underflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+Auto-reload preload
+register
+
+FD
+
+36
+
+Write a new value in TIMx_ARR
+Auto-reload active
+register
+
+FD
+
+36
+MSv62314V1

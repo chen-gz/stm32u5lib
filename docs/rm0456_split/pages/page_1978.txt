@@ -1,0 +1,100 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+Special key operation is selected using the KMOD[1:0] bitfield of the SAES_CR register.
+See Section 50.4.10 and Section 50.4.9 for details.
+
+Typical data processing
+Typical usage of the SAES is described in Section 50.4.4: SAES procedure to perform a
+cipher operation on page 1979.
+Note:
+
+The outputs of the intermediate AEA stages are never revealed outside the cryptographic
+boundary, with the exclusion of the IVI bitfield.
+
+Chaining modes
+The following chaining modes are supported by SAES, selected through the CHMOD[2:0]
+bitfield of the SAES_CR register:
+
+Note:
+
+•
+
+Electronic code book (ECB)
+
+•
+
+Cipher block chaining (CBC)
+
+The chaining mode may be changed only when SAES is disabled (bit EN of the SAES_CR
+register cleared).
+Principle of each SAES chaining mode is provided in the following subsections.
+Detailed information is in dedicated sections, starting from Section 50.4.8: SAES basic
+chaining modes (ECB, CBC).
+
+Electronic codebook (ECB) mode
+Figure 486. ECB encryption and decryption principle
+Encryption
+Plaintext block 1
+
+key
+
+Encrypt
+
+Ciphertext block 1
+
+Plaintext block 2
+
+key
+
+Encrypt
+
+Ciphertext block 2
+
+Plaintext block 3
+
+key
+
+Encrypt
+
+Ciphertext block 3
+
+Decryption
+Plaintext block 1
+
+Legend
+
+key
+
+Decrypt
+
+Plaintext block 2
+
+key
+
+Decrypt
+
+Plaintext block 3
+
+key
+
+Decrypt
+
+input
+output
+key
+scheduling
+
+Ciphertext block 1
+
+Ciphertext block 2
+
+Ciphertext block 3
+MSv42140V1
+
+ECB is the simplest mode of operation. There are no chaining operations, and no special
+initialization stage. The message is divided into blocks and each block is encrypted or
+decrypted separately.

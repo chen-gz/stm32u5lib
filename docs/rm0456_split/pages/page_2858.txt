@@ -1,0 +1,143 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+Figure 863. Slot size configuration with FBOFF = 0 in SAI_xSLOTR
+
+Audio block is transmitter
+
+Audio block is receiver
+
+Slot size = data size
+
+Slot size = data size
+
+data size
+
+slotx
+
+data size
+
+data size
+slotx
+
+data size
+
+slotx
+
+00..00
+
+data size
+
+slotx
+
+16-bit
+slotx
+
+X..X
+
+data size
+16-bit
+
+00..00
+
+data size
+
+slotx
+
+data size
+
+32-bit
+
+XX..XX
+
+32-bit
+X: don’t care
+MSv30033V1
+
+It is possible to choose the position of the first data bit to transfer within the slots. This offset
+is configured by FBOFF[4:0] bits in the SAI_xSLOTR register. 0 values are injected in
+transmitter mode from the beginning of the slot until this offset position is reached. In
+reception, the bit in the offset phase is ignored. This feature targets the LSB justified
+protocol (if the offset is equal to the slot size minus the data size).
+Figure 864. First bit offset
+
+slotx
+
+Audio block is transmitter
+
+Audio block is receiver
+
+Slot size = data size
+
+Slot size = data size
+slotx
+
+data size
+
+data size
+data size
+
+data size
+
+FBOFF
+
+FBOFF
+data size
+
+00
+slotx
+
+XX
+
+00
+slotx
+
+16-bit
+
+data size
+
+00..00
+
+XX
+
+16-bit
+FBOFF = SLOT SZ -DS
+
+FBOFF = SLOT SZ -DS
+slotx
+
+data size
+
+slotx
+
+XX .. XX
+
+data size
+
+32-bit
+X: don’t care
+
+32-bit
+
+MS30034V1
+
+It is mandatory to respect the following conditions to avoid bad SAI behavior:
+•
+
+FBOFF ≤(SLOTSZ - DS)
+
+•
+
+DS ≤SLOTSZ
+
+•
+
+NBSLOT x SLOTSZ ≤FRL (frame length)
+
+The number of slots must be even when bit FSDEF in the SAI_xFRCR register is set.
+In AC’97 and SPDIF protocol (bit PRTCFG[1:0] = 10 or PRTCFG[1:0] = 01), the slot size is
+automatically set as defined in Section 69.4.11: AC’97 link controller.
+
+RM0456 Rev 6

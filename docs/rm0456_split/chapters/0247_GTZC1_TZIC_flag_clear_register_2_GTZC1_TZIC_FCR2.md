@@ -1,0 +1,194 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 3 CTIM5F: clear the illegal access flag for TIM5
+0: no action
+1: status flag cleared
+Bit 2 CTIM4F: clear the illegal access flag for TIM4
+0: no action
+1: status flag cleared
+Bit 1 CTIM3F: clear the illegal access flag for TIM3
+0: no action
+1: status flag cleared
+Bit 0 CTIM2F: clear the illegal access flag for TIM2
+0: no action
+1: status flag cleared
+
+5.7.10
+
+GTZC1 TZIC flag clear register 2 (GTZC1_TZIC_FCR2)
+Address offset: 0x024
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CGFXT
+CLTDC
+CTIM1
+CDSIF
+CSAI2F CSAI1F
+IMF
+USBF
+7F
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+CTIM1
+6F
+w
+
+CTIM1 CUSAR CTIM8
+CTIM1
+CSPI1F
+5F
+T1F
+F
+F
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:12 Reserved, must be kept at reset value.
+Bit 11 CGFXTIMF: clear the illegal access flag for GFXTIM
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 10 CDSIF: clear the illegal access flag for DSI
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 9 CLTDCUSBF: clear the illegal access flag for LTDC or USB
+0: no action
+1: status flag cleared
+Note: This bit controls the LTDC on STM32U59x/5Ax/5Fx/5Gx. It controls the USB
+on STM32U535/545. It is reserved on STM32U575/585.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

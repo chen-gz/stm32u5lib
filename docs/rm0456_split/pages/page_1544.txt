@@ -1,0 +1,84 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Figure 339. Out-of-limit detector thresholds
+
+Out-off-limit detector (OLD)
+
+THINB
+
+OLDTHH[25:0]
+
++
+old_thh
+
+old_evt
+old_thl
+
+Logic
+
+-
+
+To
+interrupt
+
+'Ļ
++
+
+From
+DATSRC
+MUX
+
+OLDTHL[25:0]
+
+-
+
+To
+break
+
+ACIC[3:1],
+ACICF
+
+old_brk
+
++225 - 1
+
+OLDTHH[25:0]
+
+OLDTHL[25:0]
+-225
+THHF
+THLF
+
+(due to old_evt[x])
+
+A
+
+Writing OLDF to 1
+
+Writing OLDF to 1
+
+THINB = 0
+
+mdf_evt_it[x]/mdf_it[x]
+
+old_brk[x]
+MSv62674V1
+
+Status flags are available in order to inform the application that an OLD event is detected.
+Latched events are cleared by writing 1 into the OLDF bit.
+As shown in Figure 339, when THINB = 0, the interrupt signal remains active as long as the
+signal is outside the gray area. At position A, the application clears the interrupt, but the
+interrupt is re-asserted because the signal is still outside the gray area. When the
+application clears OLDF, THHF and THLF are cleared as well.
+An OLD event can be assigned to one or several break output signals (mdf_break[3:0]). The
+break signal assignment to a given OLD event is done by BKOLD[3:0] in the MDF out-of
+limit detector control register x (MDF_OLDxCR).
+Note:
+
+The generation of break signals is independent from the interrupts generation.
+
+OLD activation sequence example

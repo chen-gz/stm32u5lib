@@ -1,0 +1,221 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+Table 100. Functionalities depending on the working mode(1) (continued)
+
+-
+
+-
+
+-
+
+Public key accelerator
+(PKA)(7)
+
+O
+
+O
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+On-the-fly decryption
+(OTFDEC)(7)
+
+O
+
+O
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+HASH accelerator
+
+O
+
+O
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+CRC calculation unit
+
+O
+
+O
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+GPIOs
+
+O
+
+O
+
+O
+
+O
+
+O
+
+O
+
+(21)
+
+24
+pins
+
+(21)
+
+24
+pins
+
+(22)
+
+24
+pins
+
+-
+
+Peripheral
+
+Run
+
+Sleep
+-
+
+Wake-up capability
+
+-
+
+Wake-up capability
+
+Standby Shutdown
+
+Wake-up capability
+
+Stop 3
+
+Wake-up capability
+
+Stop 2
+
+Wake-up capability
+
+Stop 0/1
+
+VBAT
+
+1. Y = yes (enable). O = optional (disable by default, can be enabled by software). - = not available.
+Gray cells highlight the wake-up capability in each mode.
+2. The flash memory can be configured in power-down mode. By default, it is not in power-down mode.
+3. The SRAMs can be powered on or off independently.
+4. The SRAM clock can be gated on or off independently.
+5. ECC error interrupt or NMI wakes up from this Stop mode.
+6. 8 Kbytes, 56 Kbytes or full SRAM2 content can be preserved.
+7. This feature is only available on some STM32U5 Series devices. Refer to the device datasheet for availability of its
+associated peripheral.
+8. Sub-blocks or full SRAM1, SRAM3, SRAM5, SRAM6, full SRAM2 and SRAM4 can be powered-off to save power
+consumption. SRAM1, SRAM2, SRAM3, SRAM4, SRAM5, and SRAM6 can be accessed by GPDMA in Stop 0 and Stop 1
+modes. SRAM4 can be accessed by LPDMA in Stop 0, Stop 1, and Stop 2 modes.
+9. GPDMA transfers are functional and autonomous in Stop mode, and generates a wake-up interrupt on transfer events.
+10. LPDMA transfers are functional and autonomous in Stop mode, and generates a wake-up interrupt on transfer events.
+11. Some peripherals with autonomous mode and wake-up from Stop capability can request HSI16, MSIS or MSIK to be
+enabled. In this case, the oscillator is woken up by the peripheral, and is automatically put off when no peripheral needs it.
+12. OTG_FS and USB are functional in voltage scaling range 1, 2, and 3. OTG_HS is functional in voltage scaling
+range 1 and 2.
+13. OTG_HS cannot wake up from Stop 1 mode.
+14. USART and LPUART reception and transmission is functional and autonomous in Stop mode, in asynchronous, and
+in SPI master modes, and generates a wake-up interrupt on transfer events.
+15. I2C reception and transmission is functional and autonomous in Stop mode, and generates a wake-up interrupt
+on transfer events.
+16. SPI reception and transmission is functional and autonomous in Stop mode, and generates a wake-up interrupt
+on transfer events.
+17. ADC conversion is functional and autonomous in Stop mode, and generates a wake-up interrupt on conversion events.
+18. LPTIM is functional and autonomous in Stop mode, and generates a wake-up interrupt on events.
+19. MDF and ADF is functional and autonomous in Stop mode, and generates a wake-up interrupt on events.
+20. DSI is functional in voltage scaling range 1 and 2.
+21. I/Os can be configured with internal pull-up, pull-down or floating in Standby mode.
+22. I/Os can be configured with internal pull-up, pull-down or floating in Shutdown mode but the configuration is lost
+when exiting Shutdown mode.
+
+RM0456 Rev 6

@@ -1,0 +1,280 @@
+VSWITCH
+
+BOOTEN
+
+BOOTMOD
+
+CMDTRAN
+
+WAITPEND
+
+CMDSTOP
+
+WAITINT
+
+Table 282. Specific Commands overview
+
+1
+
+x
+
+x
+
+x
+
+x
+
+x
+
+x
+
+Start voltage switch sequence
+
+0
+
+1
+
+x
+
+x
+
+x
+
+x
+
+x
+
+Start normal boot
+
+0
+
+1
+
+1
+
+x
+
+x
+
+x
+
+x
+
+Start alternative boot
+
+0
+
+0
+
+1
+
+x
+
+x
+
+x
+
+x
+
+Stop alternative boot.
+
+0
+
+0
+
+0
+
+1
+
+x
+
+x
+
+x
+
+Send command with associated data transfer.
+
+0
+
+0
+
+0
+
+0
+
+1
+
+1
+
+x
+
+e•MMC stream data transfer, command
+(STOP_TRANSMISSION) pending until end of data transfer.
+
+0
+
+0
+
+0
+
+0
+
+1
+
+0
+
+x
+
+e•MMC stream data transfer, command different from
+(STOP_TRANSMISSION) pending until end of data transfer.
+
+0
+
+0
+
+0
+
+0
+
+0
+
+1
+
+x
+
+Send command (STOP_TRANSMISSION), stopping any
+ongoing data transmission.
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+1
+
+Enter e•MMC wait interrupt (Wait-IRQ) mode.
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+Any other none specific command
+
+Description
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+The command/response path implements the status flags and associated clear bits shown
+in Table 283:
+Table 283. Command path status flags
+
+Flag
+
+Description
+
+CMDSENT
+
+Set at the end of the command without response (CPSM moves from Send to Idle).
+
+CMDREND
+
+Set at the end of the command response when the CRC is OK (CPSM moves from Receive to
+Idle).
+
+CCRCFAIL
+
+Set at the end of the command response when the CRC is FAIL (CPSM moves from Receive to
+Idle).
+
+CTIMEOUT
+
+Set after the command when no response start bit received before the timeout (CPSM moves
+from Wait to Idle).
+
+CKSTOP
+
+Set after the voltage switch (VSWITCHEN = 1) command response when the CRC is OK and the
+SDMMC_CK is stopped (no impact on CPSM).
+
+VSWEND
+
+Set after the voltage switch (VSWITCH = 1) timeout of 5 ms + 1 ms (no impact on CPSM).
+
+CPSMACT
+
+Command transfer in progress (CPSM not in Idle state).
+
+The command path error handling is shown in Table 284:
+Table 284. Command path error handling
+Error
+
+CPSM state
+
+Timeout
+
+Wait
+
+CRC status Receive
+
+Cause
+
+Card action
+
+Host action
+
+No start bit in
+time
+
+Unknown
+
+Reset or cycle power
+card(1)
+
+Negative
+status
+
+Command ignored
+
+Resend command(1)
+
+Transmission
+error
+
+Command accepted
+
+Resend command(1)
+
+CPSM action
+Move to Idle
+
+Move to Idle
+
+1. When CMDTRANS is set, also a stop_transmission command must be send to move the DPSM to Idle.
+
+Data path
+The data path subunit transfers data on the SDMMC_D[7:0] lines to and from cards. The
+data transmit path is clocked on the SDMMC_CK and sends data to the card. The data
+receive path is clocked on the sdmmc_rx_ck and receives data from the card. Figure 196
+shows the data path block diagram.
+
+RM0456 Rev 6

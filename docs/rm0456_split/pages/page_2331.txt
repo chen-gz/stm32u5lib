@@ -1,0 +1,186 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+Bit 3 OC1PE: Output compare 1 preload enable
+0: Preload register on TIMx_CCR1 disabled. TIMx_CCR1 can be written at anytime, the
+new value is taken in account immediately.
+1: Preload register on TIMx_CCR1 enabled. Read/Write operations access the preload
+register. TIMx_CCR1 preload value is loaded in the active register at each update event.
+Bit 2 OC1FE: Output compare 1 fast enable
+This bit decreases the latency between a trigger event and a transition on the timer output.
+It must be used in one-pulse mode (OPM bit set in TIMx_CR1 register), to have the output
+pulse starting as soon as possible after the starting trigger.
+0: CC1 behaves normally depending on counter and CCR1 values even when the trigger is
+ON. The minimum delay to activate CC1 output when an edge occurs on the trigger input is
+5 clock cycles.
+1: An active edge on the trigger input acts like a compare match on CC1 output. Then, OC
+is set to the compare level independently from the result of the comparison. Delay to sample
+the trigger input and to activate CC1 output is reduced to three clock cycles. OCFE acts
+only if the channel is configured in PWM1 or PWM2 mode.
+Bits 1:0 CC1S[1:0]: Capture/Compare 1 selection
+This bitfield defines the direction of the channel (input/output) as well as the used input.
+00: CC1 channel is configured as output.
+01: CC1 channel is configured as input, tim_ic1 is mapped on tim_ti1.
+10: CC1 channel is configured as input, tim_ic1 is mapped on tim_ti2.
+11: CC1 channel is configured as input, tim_ic1 is mapped on tim_trc. This mode is working
+only if an internal trigger input is selected through TS bit (TIMx_SMCR register)
+Note: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER).
+
+55.5.9
+
+TIMx capture/compare mode register 2 (TIMx_CCMR2)(x = 2 to 5)
+Address offset: 0x01C
+Reset value: 0x0000 0000
+The same register can be used for input capture mode (this section) or for output compare
+mode (next section). The direction of a channel is defined by configuring the corresponding
+CCxS bits. All the other bits of this register have a different function for input capture and for
+output compare modes. It is possible to combine both modes independently (for example
+channel 1 in input capture mode and channel 2 in output compare mode).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+IC4F[3:0]
+rw
+
+rw
+
+IC4PSC[1:0]
+
+CC4S[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+IC3F[3:0]
+rw
+
+rw
+
+IC3PSC[1:0]
+
+CC3S[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+Input capture mode
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:12 IC4F[3:0]: Input capture 4 filter
+Bits 11:10 IC4PSC[1:0]: Input capture 4 prescaler
+
+RM0456 Rev 6

@@ -1,0 +1,266 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+1. Refer to Section 40.3: ADF implementation for details.
+2. ADF_FLT0 vector corresponds to the assertion of adf_flt0_it signal.
+
+40.7
+
+ADF application information
+
+40.7.1
+
+ADF configuration examples for audio capture
+Table 405 gives some examples of the ADF settings for the digital microphones, focusing on
+16 and 48 kHz output data rate.
+Configurations #1 and #2 are for very low-power use-cases and have a reduced
+signal-to-noise ratio. The user must also insure that the selected digital microphone can
+work properly at 512 kHz. These configurations can be used for sound detection. The
+RSFLT is not used to reduce as much as possible the frequency of the kernel clock
+(adf_ker_ck).
+Configurations #3, #4, #9, #10, #11 give signal-to-noise ratios around 115 dB, with an ideal
+microphone model, with a sinus signal of 997 Hz. Using the RSFLT allows a good control on
+the in-band ripple, and a good image rejection.
+Configurations #7, #8, #10 give signal-to-noise ratio around 120 dB, with an ideal
+microphone model, using a sinus signal of 997 Hz.
+
+#6
+
+3.072
+
+#7
+#8
+
+4.096
+
+#9
+#10
+
+6.144
+
+#11
+#12
+
+7.680
+
+5
+
+32 0x2B (- 14.5 dB)
+
+1
+
+2
+
+5
+
+16
+
+1
+
+2
+
+5
+
+1
+
+6
+
+2
+
+0x01 (+ 3.5 dB)
+
+0
+
+0
+
+16
+
+0x01 (+ 3.5 dB)
+
+0
+
+0
+
+5
+
+8
+
+0x0B (+ 33.6 dB)
+
+2
+
+5
+
+12 0x06 (+ 18.1 dB)
+
+1
+
+2
+
+5
+
+24
+
+1
+
+2
+
+5
+
+32 0x27 (- 26.6 dB)
+
+3
+
+2
+
+5
+
+16
+
+0x02 (+ 6.0 dB)
+
+2
+
+2
+
+5
+
+24
+
+0x2C (- 12 dB)
+
+1
+
+2
+
+5
+
+16
+
+0x01 (+ 3.5 dB)
+
+1
+
+2
+
+5
+
+20
+
+0x2E (- 6.0 dB)
+
+0
+
+0
+
+0x2C (- 12 dB)
+0
+
+0
+
+0
+
+1.024
+
+2.048
+
+x
+
+0
+
+0
+
+0
+
+=>
+
+3.072
+
+RM0456 Rev 6
+
+-
+
+32
+
+-
+
+64
+
+32
+
+64
+
+64
+
+1.024
+
+16
+
+32
+
+32
+
+0.512
+
+8
+
+48
+96
+
+64
+64
+
+8
+0.512
+
+16
+8
+
+0.768
+1.536
+
+128
+
+2.048
+
+64
+
+3.072
+
+96
+
+6.144
+
+64
+
+192
+
+3.072
+
+48
+
+7.680
+
+80
+
+192
+
+3.840
+
+48
+
+64
+
+2.048
+
+16
+
+4.096
+
+1. CICMOD = 100 for CIC order equal to 4. CICMOD = 101 for CIC order equal to 5.
+
+<!-- pagebreak -->
+

@@ -1,0 +1,163 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 3 VBVALOVAL: VBUS valid override value
+This bit is used to set override value for vbusvalid signal when VBVALOEN bit is set.
+0: vbusvalid value is '0' when VBVALOEN = 1
+1: vbusvalid value is '1' when VBVALOEN = 1
+Note: Only accessible in host mode.
+Bit 2 VBVALOEN: VBUS valid override enable
+This bit is used to enable/disable the software to override the vbusvalid signal using the
+VBVALOVAL bit.
+0: Override is disabled and vbusvalid signal from the respective PHY selected is used
+internally by the core
+1: Internally vbusvalid received from the PHY is overridden with VBVALOVAL bit value
+Note: Only accessible in host mode.
+Bits 1:0 Reserved, must be kept at reset value.
+
+73.14.2
+
+OTG interrupt register (OTG_GOTGINT)
+The application reads this register whenever there is an OTG interrupt and clears the bits in
+this register to clear the OTG interrupt.
+Address offset: 0x004
+Reset value: 0x0000 0000
+
+31
+Res.
+
+30
+
+29
+
+Res.
+
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+Res.
+
+20
+Res.
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+ADTO
+CHG
+
+Res.
+
+Res.
+
+rc_w1
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SEDET
+
+Res.
+
+Res.
+
+rc_w1
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bit 18 ADTOCHG: A-device timeout change
+The core sets this bit to indicate that the A-device has timed out while waiting for the B-device
+to connect.
+Note: Accessible in both device and host modes.
+Bits 17:3 Reserved, must be kept at reset value.
+Bit 2 SEDET: Session end detected
+The core sets this bit to indicate that the level of the voltage on VBUS is no longer valid for a
+B-Peripheral session when VBUS < 0.8 V.
+Note: Accessible in both device and host modes.
+Bits 1:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

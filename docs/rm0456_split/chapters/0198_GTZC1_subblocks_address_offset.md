@@ -1,0 +1,117 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+The tables below shows the address offset of GTZC subblocks versus GTZC base address
+(refer to Section 2.3 for GTZC1 and GTZC2 base addresses).
+Table 29. GTZC1 subblocks address offset
+GTZC1 subblock
+
+Address offset
+
+GTZC1_TZSC
+
+0x0
+
+GTZC1_TZIC
+
+0x400
+
+GTZC1_MPCBB1
+
+0x800
+
+GTZC1_MPCBB2
+
+0xC00
+
+GTZC1_MPCBB3
+
+0x1000
+
+GTZC1_MPCBB5
+
+0x1400
+
+GTZC1_MPCBB6
+
+0x1800
+
+Table 30. GTZC2 subblocks address offset
+GTZC2 subblocks
+
+Address offset
+
+GTZC2_TZSC
+
+0x0
+
+GTZC2_TZIC
+
+0x400
+
+GTZC2_MPCBB4
+
+0x800
+
+The table below describes the characteristics of the available MPCWM.
+
+MPC
+
+Target memory
+interface
+
+Number of sec/nonsec and priv/unpriv
+regions
+
+Watermark
+granularity
+(bytes)
+
+STM32U575/585
+
+STM32U59x/5Ax
+
+STM32U5Fx/5Gx
+
+GTZC
+
+STM32U535/545
+
+Table 31. MPCWM resource assignment
+
+MPCWM1
+
+OCTOSPI1
+
+2
+
+128 K
+
+X
+
+X
+
+X
+
+X
+
+2
+
+128 K
+
+-
+
+X
+
+X
+
+X
+
+MPCWM2 FSMC_NOR bank
+GTZC1
+
+<!-- pagebreak -->
+

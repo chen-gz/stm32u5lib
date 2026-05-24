@@ -1,0 +1,198 @@
+RM0456 Rev 6
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+59.5.8
+
+GFXTIM interrupt status register (GFXTIM_ISR)
+Address offset: 0x030
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+WDGA
+F
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+EV4F
+
+EV3F
+
+EV2F
+
+EV1F
+
+r
+
+r
+
+r
+
+r
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+AFCC1
+F
+
+Res.
+
+TEF
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+WDGP
+F
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RFC2R RFC1R
+F
+F
+r
+
+r
+
+ALCC2 ALCC1
+F
+F
+r
+
+r
+
+r
+
+r
+
+ALCOF AFCOF
+r
+
+r
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 WDGPF: Watchdog pre-alarm flag
+This bit indicates that a graphic watchdog pre-alarm occurred.
+0: No graphic watchdog pre-alarm occurred.
+1: A graphic watchdog pre-alarm occurred.
+Bit 24 WDGAF: Watchdog alarm flag
+This bit indicates that a graphic watchdog alarm occurred.
+0: No graphic watchdog alarm occurred.
+1: A graphic watchdog alarm occurred.
+Bits 23:20 Reserved, must be kept at reset value.
+Bit 19 EV4F: Event 4 flag
+This bit indicates a complex event 4 occurred.
+0: No complex event 4 occurred.
+1: A complex event 4 occurred.
+Bit 18 EV3F: Event 3 flag
+This bit indicates a complex event 3 occurred.
+0: No complex event 3 occurred.
+1: A complex event 3 occurred.
+Bit 17 EV2F: Event 2 flag
+This bit indicates a complex event 2 occurred.
+0: No complex event 2 occurred.
+1: A complex event 2 occurred.
+Bit 16 EV1F: Event 1 flag
+This bit indicates a complex event 1 occurred.
+0: No complex event 1 occurred.
+1: Complex event 1 occurred.
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 RFC2RF: Relative frame counter 2 reload flag
+This bit indicates relative frame counter 2 has been reloaded.
+0: No reload occurred on relative frame counter 2.
+1: A reload on relative frame counter 2 occurred.
+
+RM0456 Rev 6

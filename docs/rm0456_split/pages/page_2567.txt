@@ -1,0 +1,54 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bits 13:11 ATOSEL2[2:0]: Active tamper shared output 2 selection
+000: TAMPOUTSEL2 = TAMP_OUT1
+001: TAMPOUTSEL2 = TAMP_OUT2
+010: TAMPOUTSEL2 = TAMP_OUT3
+011: TAMPOUTSEL2 = TAMP_OUT4
+100: TAMPOUTSEL2 = TAMP_OUT5
+101: TAMPOUTSEL2 = TAMP_OUT6
+110: TAMPOUTSEL2 = TAMP_OUT7
+111: TAMPOUTSEL2 = TAMP_OUT8
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bits 12:11 are the mirror of ATOSEL2[1:0] in the TAMP_ATCR1, and so can also be read or
+written through TAMP_ATCR1.
+Bits 10:8 ATOSEL1[2:0]: Active tamper shared output 1 selection
+000: TAMPOUTSEL1 = TAMP_OUT1
+001: TAMPOUTSEL1 = TAMP_OUT2
+010: TAMPOUTSEL1 = TAMP_OUT3
+011: TAMPOUTSEL1 = TAMP_OUT4
+100: TAMPOUTSEL1 = TAMP_OUT5
+101: TAMPOUTSEL1 = TAMP_OUT6
+110: TAMPOUTSEL1 = TAMP_OUT7
+111: TAMPOUTSEL1 = TAMP_OUT8
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bits 9:8 are the mirror of ATOSEL1[1:0] in the TAMP_ATCR1, and so can also be read or
+written through TAMP_ATCR1.
+Bits 7:0 Reserved, must be kept at reset value.
+
+Note:
+
+Changing the active tampers configuration in this register is not allowed when a TAMPxAM
+bit is set, unless the corresponding TAMPxE bits are all cleared in the TAMP_CR1 register.
+All tampers configured in active mode must be enabled at the same time (by setting all
+related TAMPxE in the same TAMP_CR1 write).
+All tampers configured in active mode must be disabled at the same time (by clearing all
+related TAMPxE in the same TAMP_CR1 write).
+A minimum duration of 1 CK_ATPRE period must be waited for after disabling the active
+tampers and before re-enabling them.
+
+64.7.9
+
+TAMP secure configuration register (TAMP_SECCFGR)
+If TZEN = 1, this register can be written only when the APB access is secure. If TZEN = 0,
+BKPRWSEC[7:0], BKPWSEC[7:0] and BHKLOCK can be written with nonsecure APB
+access, and TAMPSEC, CNT1SEC cannot be written.
+This register can be globally write-protected, or each bit of this register can be individually
+write-protected against unprivileged access depending on the TAMP_PRIVCFGR
+configuration (refer to Section 64.4.7: TAMP privilege protection modes).

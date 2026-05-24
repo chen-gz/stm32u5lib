@@ -1,0 +1,78 @@
+RM0456 Rev 6
+
+RM0456
+
+Basic timers (TIM6/TIM7)
+The counter is clocked by the prescaler output tim_cnt_ck, which is enabled only when the
+counter enable bit (CEN) in the TIMx_CR1 register is set.
+Note that the actual counter enable signal tim_cnt_en is set one clock cycle after CEN bit
+set.
+
+Prescaler description
+The prescaler can divide the counter clock frequency by any factor between 1 and 65536. It
+is based on a 16-bit counter controlled through a 16-bit register (in the TIMx_PSC register).
+It can be changed on the fly as the TIMx_PSC control register is buffered. The new
+prescaler ratio is taken into account at the next update event.
+Figure 724 and Figure 725 give some examples of the counter behavior when the prescaler
+ratio is changed on the fly.
+Figure 724. Counter timing diagram with prescaler division change from 1 to 2
+tim_psc_ck
+
+CEN
+tim_cnt_ck
+
+Counter register
+
+F7
+
+F8
+
+F9
+
+FA FB FC
+
+01
+
+00
+
+02
+
+03
+
+Update event (UEV)
+
+Prescaler control register
+
+0
+
+1
+
+Write a new value in TIMx_PSC
+Prescaler buffer
+
+0
+
+Prescaler counter
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+MSv50998V1
+
+RM0456 Rev 6

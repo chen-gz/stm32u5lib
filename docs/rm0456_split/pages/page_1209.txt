@@ -1,0 +1,322 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+When the IDMA has finished transferring all data, according IDMABSIZE and ULA, and the
+DPSM has completed the transfer, according DATALENGHT, the DATAEND flag is set.
+In the following cases, the linked list provides more buffer space than the data to transfer
+which means the current linked list buffer data has not completely be transfered:
+•
+
+the ULA bit is set, and all SDMMC data according DATALENGTH has been transfered
+(DATAEND flag)
+
+•
+
+a transfer error (DCRCFAIL when DATACOUNT > 0, RXOVERR, TXUNDERR) occurs
+
+•
+
+a transfer is hold (DTHOLD)
+
+In all above cases, the IDMA linked list is stopped and the FIFO is flushed/reset. Before
+starting or restarting a new SDMMC transfer, the software must initialize a new linked list
+with correct IDMABASE and IDMABSIZE.
+When a IDMA transfer error occurs (see Section : IDMA transfer error management) or
+when the linked list does not provide sufficient buffer space:
+•
+
+the linked list ends with ULA = 0 and all last linked list buffer data has been transfered,
+and not all SDMMC data according DATALENGTH has been transfered. The SDMMC
+transfer is stopped and an IDMA transfer error is generated (see Section : IDMA
+transfer error management).
+
+For a given linked list item, the base address is given by the linked list base IDMABA
+register value plus the linked list offset IDMALA register value.
+The content of each linked list item can be specified by the ULS bit, which makes possible to
+optionally load the IDMABSIZE, resulting in a 3-word linked list structure. When the
+IDMABSIZE is not to be loaded (fixed size buffers) a compacted reduced 2-word linked list
+structure can be used containing only the IDMABASER and the IDMALAR values.
+
+Registers
+Linked
+list 0
+
+Linked
+list 0
+
+Linked
+list 1
+
+IDMABASE
+
+D
+M
+A
+AL
+IDMABASE
+IDMABSIZE
+
+D
+
+A
+AL
+
+I
+A+
+
+M
+
+AB
+
+ID
+
+Linked
+list last
+
+ULA=0, ULS=0, ABR=1, IDMALA
+IDMABASE
+
+A
+AL
+
+M
+
+IDMABASE
+IDMABSIZE
+
+M
+
+IDMABASE
+
+ID
+
+A+
+AB
+
+A
+
+AL
+
+Linked
+list last
+
+I
+A+
+AB
+
+A
+AL
+
+M
+
+M
+ULA=0, ULS=1, ABR=1, IDMALA
+
+Linked list 2
+
+A
+AL
+
+M
+
+ID
+
+M
+
+ID
+
+ID
+
+A+
+
+IDMABSIZE
+
+ULA=0, ULS=0, ABR=1, IDMALA
+
+M
+
+A
+AL
+IDMABASE
+
+D
+
+IDMABASE
+
+IDMABASE
+
+D
+
+M
+I
+A+
+AB
+
+AB
+
+M
+
+ID
+
+Linked
+list 1
+
+IDMABASE
+
+D
+M
+
+A
+
+ID
+
+AL
+
+M
+
+D
+
++I
+
+ULA=1, ULS=1, ABR=1, IDMALA
+
+ULA=1, ULS=0, ABR=1, IDMALA
+
+A
+I
+A+
+AB
+
+I
+A+
+AB
+
+A
+AB
+
+M
+
+IDMABSIZE
+
+ULA=1, ULS=1, ABR=1, IDMALA
+
+AL
+
+M
+
+ID
+
+M
+
+ID
+
+ID
+
+IDMABASE
+
+ULA=1, ULS=0, ABR=1, IDMALA
+
+M
+
+A
+
+AL
+
+M
+
+A
+
+AL
+
+M
+ULA=1, ULS=1, ABR=1, IDMALA
+
+IDMABASE
+IDMABSIZE
+
+ID
+
+A+
+
+IDMABSIZE
+
+ULA=1, ULS=0, ABR=X, IDMALA
+
+Linked
+list last
+
+ULA=1, ULS=0, ABR=1, IDMALA
+
+AB
+
+ULA=1, ULS=0, ABR=1, IDMALA
+
+M
+
+ULA=1, ULS=0, ABR=1, IDMALA
+
+IDMABASE
+
+ID
+
+A+
+
+IDMABSIZE
+
+ULA=1, ULS=0, ABR=X, IDMALA
+
+ID
+
+AB
+
+M
+
+ID
+
+IDMABASE
+
+Registers
+
+ULA=1, ULS=1, ABR=X, IDMALA
+
+Linked
+list 0
+
+Mixed size buffers
+linked list structure
+
+Linked
+list 1
+
+Fixed size buffers
+Compacted linked list structure
+
+Linked
+list 2
+
+Variable size buffers
+Full linked list structure
+
+ID
+
+A+
+
+AB
+
+M
+
+ID
+
+Registers
+
+Figure 201. Linked list structures
+
+IDMABASE
+MSv47491V2
+
+There is no restriction on mixing both linked list item structures in a single list, this enables
+the IDMABSIZE to be updated only when needed.
+
+RM0456 Rev 6

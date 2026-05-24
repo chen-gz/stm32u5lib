@@ -1,0 +1,85 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+•
+
+Set the OBL_LAUNCH option bit to start option bytes loading or perform a power-on
+reset.
+
+•
+
+Check that OEM1LOCK is set.
+
+In order to activate OEM2 lock mechanism, the following steps are needed:
+
+Note:
+
+•
+
+Check that the OEM2LOCK bit is not set or that the readout protection is at level 0 or
+0.5.
+
+•
+
+Write a 64-bit key in FLASH_OEM2KEYR1 and FLASH_OEM2KEYR2.
+
+•
+
+Launch option modification by setting the OPTSTRT bit in FLASH_NSCR.
+
+•
+
+Wait for the BSY bit to be cleared and check that OPTWERR is not set.
+
+•
+
+Set the OBL_LAUNCH option bit to start option bytes loading or perform a power-on
+reset.
+
+•
+
+Check that OEM2LOCK is set.
+
+The OEM1KEY and OEM2KEY must not contain only 1 or only 0.
+
+OEM1 RDP lock mechanism
+The OEM1 RDP lock mechanism is active when the OEM1LOCK bit is set. It blocks the
+RDP level 1 to RDP level 0 regression.
+In order to regress from RDP level 1 to RDP level 0, the following unlock sequence must be
+applied:
+•
+
+Shift OEM1KEY[31:0] then OEM1KEY[63:32] through JTAG or SWD in the
+DBGMCU_DBG_AUTH_HOST register.
+
+•
+
+If this key matches the OEM1KEY value, the RDP regression can be launched by
+setting the OPTSTRT bit.
+
+•
+
+If the key does not match the OEM1KEY value, the RDP regression and any access to
+the flash memory are blocked until a next power-on reset.
+
+Attempting to regress from RDP level 1 to RDP level 0 without following this sequence sets
+the OPTWERR option bit and the option bytes remain unchanged.
+When the lock mechanism is not activated (OEM1LOCK =0), the regression from RDP level
+1 to RDP level 0 is always granted.
+
+OEM2 RDP lock mechanism
+The OEM2 RDP lock mechanism is active when the OEM2LOCK bit is set. It allows the
+following actions:
+•
+
+Block RDP level 1 to RDP level 0.5 regression.
+
+•
+
+Authorize RDP level 2 to RDP level 1 regression.
+
+In order to regress from RDP level 1 to RDP level 0.5, the following unlock sequence must
+be applied:

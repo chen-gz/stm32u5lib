@@ -1,0 +1,240 @@
+1696
+
+Digital camera interface (DCMI)
+
+RM0456
+
+Half resolution image extraction
+This is a modification of the previous reception modes, being applicable to monochrome,
+RGB or Y extraction modes.
+This mode is used to only store a half resolution image. It is selected through OELS and
+LSM control bits.
+
+41.4
+
+DCMI interrupts
+Five interrupts are generated. All interrupts are maskable by software. The global interrupt
+(dcmi_it) is the OR of all the individual interrupts. The table below gives the list of all
+interrupts.
+Table 420. DCMI interrupts
+
+Interrupt
+acronym
+
+dcmi_it
+
+41.5
+
+Interrupt clear
+method
+
+Exits
+Sleep
+mode
+
+Exists
+Stop and
+Standby
+modes
+
+Interrupt event
+
+Event flag
+
+Enable
+control bit
+
+End of line
+
+LINE_RIS
+
+LINE_IE
+
+Set LINE_ISC
+
+Yes
+
+No
+
+End of frame capture
+
+FRAME_RIS
+
+FRAME_IE
+
+Set FRAME_ISC
+
+Yes
+
+No
+
+Overrun of data reception
+
+OVR_RIS
+
+OVR_IE
+
+Set OVR_ISC
+
+Yes
+
+No
+
+Synchronization frame
+
+VSYNC_RIS
+
+VSYNC_IE
+
+Set VSYNC_ISC
+
+Yes
+
+No
+
+Detection of an error in the
+embedded
+synchronization frame
+detection
+
+ERR_RIS
+
+ERR_IE
+
+Set ERR_ISC
+
+Yes
+
+No
+
+DCMI registers
+Refer to Section 1.2 on page 127 for list of abbreviations used in register descriptions. All
+DCMI registers must be accessed as 32-bit words, otherwise a bus error occurs.
+
+41.5.1
+
+DCMI control register (DCMI_CR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+OELS
+
+LSM
+
+OEBS
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+Res.
+
+ENABL
+E
+rw
+
+13
+Res.
+
+12
+Res.
+
+11
+
+10
+
+9
+
+8
+
+EDM[1:0]
+
+FCRC[1:0]
+
+rw
+
+rw
+
+rw
+
+7
+
+5
+
+PCKPO
+VSPOL HSPOL
+L
+
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.

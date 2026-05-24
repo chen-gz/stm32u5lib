@@ -1,0 +1,183 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 6 EXTIIE: illegal access interrupt enable for EXTI
+0: interrupt disabled
+1: interrupt enabled
+Bit 5 LPDMA1IE: illegal access interrupt enable for LPDMA
+0: interrupt disabled
+1: interrupt enabled
+Bit 4 RCCIE: illegal access interrupt enable for RCC
+0: interrupt disabled
+1: interrupt enabled
+Bit 3 PWRIE: illegal access interrupt enable for PWR
+0: interrupt disabled
+1: interrupt enabled
+Bit 2 TAMPIE: illegal access interrupt enable for TAMP
+0: interrupt disabled
+1: interrupt enabled
+Bit 1 RTCIE: illegal access interrupt enable for RTC
+0: interrupt disabled
+1: interrupt enabled
+Bit 0 SYSCFGIE: illegal access interrupt enable for SYSCFG
+0: interrupt disabled
+1: interrupt enabled
+
+5.10.3
+
+GTZC2 TZIC status register 1 (GTZC2_TZIC_SR1)
+Address offset: 0x010
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+I2C3F
+
+LPUAR
+T1F
+
+SPI3F
+
+r
+
+r
+
+r
+
+Res.
+
+Res.
+
+Res.
+
+ADF1F DAC1F
+r
+
+r
+
+Res.
+
+VREFB
+COMP OPAMP LPTIM4 LPTIM3 LPTIM1
+ADC4F
+UFF
+F
+F
+F
+F
+F
+r
+
+r
+
+r
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bit 12 ADF1F: illegal access flag for ADF1
+0: no illegal access event
+1: illegal access event
+Bit 11 DAC1F: illegal access flag for DAC1
+0: no illegal access event
+1: illegal access event
+Bit 10 Reserved, must be kept at reset value.
+
+<!-- pagebreak -->
+

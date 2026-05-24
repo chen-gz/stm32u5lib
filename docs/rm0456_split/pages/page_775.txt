@@ -1,0 +1,62 @@
+configured with at least the following:
+–
+
+the first LLI0, internal linked-list register file: LPDMA_CxTR1, LPDMA_CxTR2,
+LPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR and LPDMA_CxLLR
+
+–
+
+the last LLIN, described by the linked-list data structure in memory, as defined by
+the LPDMA_CxLLR reflecting the before last LLIN-1
+
+completed when LPDMA_CxLLR[31:0] = 0 and LPDMA_CxBR1.BNDT[15:0] = 0, at
+the end of the last LLIN-1 transfer
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+LPDMA_CxLLR[31:0] = 0 is the condition of a linked-list based channel completion and
+means the following:
+•
+
+The 16 low significant bits LPDMA_CxLLR.LA[15:0] of the next link address are null.
+
+•
+
+All the update bits Uxx of LPDMA_CxLLR are null (UT1, UT2, UB1, USA, UDA, ULL).
+
+The channel may never be completed when LPDMA_CxLLR.LSM = 0:
+•
+
+•
+
+If the last LLIN is recursive, pointing to itself as a next LLI:
+–
+
+either LPDMA_CxLLR.ULL = 1 and LPDMA_CxLLR.LA[15:2] is updated by the
+same value
+
+–
+
+or LPDMA_CxLLR.ULL = 0
+
+If LLIN is pointing to a previous LLI.
+
+In the typical run-to-completion mode, the allocation of a LPDMA channel, including its fine
+programming, is done once during the LPDMA initialization. In order to have a reserved data
+communication link and LPDMA service during run-time, for continuously repeated transfers
+(from/to a peripheral respectively to/from memory or for memory-to-memory transfers). This
+reserved data communication link can consist of a channel, or the channel can be shared
+and a repeated transfer consists of a sequence of LLIs.
+Figure 78 depicts the LPDMA channel execution and its registers programming in run-tocompletion mode.
+Note:
+
+Figure 78 is not intended to illustrate how often a TCEF can be raised, depending on the
+programmed value of TCEM[1:0] in LPDMA_CxTR2. It can be raised at (each) block
+completion, at (each) 2D block completion, at (each) LLI completion, or only at channel
+completion. In run-to-completion mode, whatever is the value of TCEM[1:0], at the channel
+completion, the hardware always set TCEF = 1 and disables the channel.
+
+RM0456 Rev 6

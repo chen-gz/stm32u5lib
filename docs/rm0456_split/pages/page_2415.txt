@@ -1,0 +1,182 @@
+2526
+
+Low-power timer (LPTIM)
+
+58.7.15
+
+RM0456
+
+LPTIM configuration register 2 (LPTIM_CFGR2)
+Address offset: 0x024
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+IC2SEL[1:0]
+
+Res.
+
+Res.
+
+IC1SEL[1:0]
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+3
+
+2
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+5
+
+4
+
+IN2SEL[1:0]
+rw
+
+rw
+
+16
+
+rw
+
+rw
+
+1
+
+0
+
+IN1SEL[1:0]
+rw
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bits 21:20 IC2SEL[1:0]: LPTIM input capture 2 selection
+The IC2SEL bits control the LPTIM Input capture 2 multiplexer, which connects LPTIM Input capture
+2 to one of the available inputs.
+00: lptim_ic2_mux0
+01: lptim_ic2_mux1
+10: lptim_ic2_mux2
+11: lptim_ic2_mux3
+For connection details refer to Section 58.4.3: LPTIM input and trigger mapping.
+Bits 19:18 Reserved, must be kept at reset value.
+Bits 17:16 IC1SEL[1:0]: LPTIM input capture 1 selection
+The IC1SEL bits control the LPTIM Input capture 1 multiplexer, which connects LPTIM Input capture
+1 to one of the available inputs.
+00: lptim_ic1_mux0
+01: lptim_ic1_mux1
+10: lptim_ic1_mux2
+11: lptim_ic1_mux3
+For connection details refer to Section 58.4.3: LPTIM input and trigger mapping.
+Bits 15:6 Reserved, must be kept at reset value.
+Bits 5:4 IN2SEL[1:0]: LPTIM input 2 selection
+The IN2SEL bits control the LPTIM input 2 multiplexer, which connects LPTIM input 2 to one of the
+available inputs.
+00: lptim_in2_mux0
+01: lptim_in2_mux1
+10: lptim_in2_mux2
+11: lptim_in2_mux3
+For connection details refer to Section 58.4.3: LPTIM input and trigger mapping.
+Bits 3:2 Reserved, must be kept at reset value.
+Bits 1:0 IN1SEL[1:0]: LPTIM input 1 selection
+The IN1SEL bits control the LPTIM input 1 multiplexer, which connects LPTIM input 1 to one of the
+available inputs.
+00: lptim_in1_mux0
+01: lptim_in1_mux1
+10: lptim_in1_mux2
+11: lptim_in1_mux3
+For connection details refer to Section 58.4.3: LPTIM input and trigger mapping.

@@ -1,0 +1,93 @@
+RM0456 Rev 6
+
+Res.
+
+w
+
+19
+
+18
+
+17
+
+16
+
+CEV4F CEV3F CEV2F CEV1F
+w
+
+w
+
+w
+
+w
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+CTEF
+w
+
+CALCO CAFCO
+F
+F
+w
+
+w
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+Bit 25 CWDGPF: Clear watchdog pre-alarm flag
+This bit clears WDGPF in GXFXTIM_ISR.
+0: No effect
+1: WDGPF cleared
+Bit 24 CWDGAF: Clear watchdog alarm flag
+This bit clears WDGAF in GXFXTIM_ISR.
+0: No effect
+1: WDGAF cleared
+Bits 23:20 Reserved, must be kept at reset value.
+Bit 19 CEV4F: Clear event 4 flag
+This bit clears EV4F in GXFXTIM_ISR.
+0: No effect
+1: EV4F cleared
+Bit 18 CEV3F: Clear event 3 flag
+This bit clears EV3F in GXFXTIM_ISR.
+0: No effect
+1: EV3F cleared
+Bit 17 CEV2F: Clear event 2 flag
+This bit clears EV2F in GXFXTIM_ISR.
+0: No effect
+1: EV2F cleared
+Bit 16 CEV1F: Clear event 1 flag
+This bit EV1F in GXFXTIM_ISR.
+0: No effect
+1: EV1F cleared
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 CRFC2RF: Clear relative frame counter 2 reload flag
+This bit clears RFC2RF in GXFXTIM_ISR.
+0: No effect
+1: RFC2RF cleared
+Bit 12 CRFC1RF: Clear relative frame counter 1 reload flag
+This bit clears RFC1RF in GXTIM_ISR.
+0: No effect
+1: RFC1RF cleared
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 CALCC2F: Clear absolute line counter compare 2 flag
+This bit clears ALCC2F in GXTIM_ISR.
+0: No effect
+1: ALCC2F cleared
+Bit 8 CALCC1F: Clear absolute line counter compare 1 flag
+This bit clears ALCC1F in GXTIM_ISR.
+0: No effect
+1: ALCC1F cleared
+Bits 7:5 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

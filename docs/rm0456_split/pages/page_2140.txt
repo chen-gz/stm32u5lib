@@ -1,0 +1,43 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+reference waveform tim_ocxref, it generates two outputs tim_ocx and tim_ocxn. If tim_ocx
+and tim_ocxn are active high:
+•
+
+The tim_ocx output signal is the same as the reference signal except for the rising
+edge, which is delayed relative to the reference rising edge.
+
+•
+
+The tim_ocxn output signal is the opposite of the reference signal except for the rising
+edge, which is delayed relative to the reference falling edge.
+
+If the delay is greater than the width of the active output (tim_ocx or tim_ocxn) then the
+corresponding pulse is not generated.
+The following figures show the relationships between the output signals of the dead-time
+generator and the reference signal tim_ocxref considering CCxP = 0, CCxNP = 0, MOE = 1,
+CCxE = 1 and CCxNE = 1 in these examples.
+Figure 552. Complementary output with symmetrical dead-time insertion
+tim_ocxref
+
+tim_ocx
+delay
+tim_ocxn
+delay
+MSv62332V1
+
+The DTAE bit in the TIMx_DTR2 is used to differentiate the deadtime values for rising and
+falling edges of the reference signal, as shown on Figure 553.
+In asymmetrical mode (DTAE = 1), the rising edge-referred deadtime is defined by the
+DTG[7:0] bitfield in the TIMx_BDTR register, while the falling edge-referred is defined by the
+DTGF[7:0] bitfield in the TIMx_DTR2 register. The DTAE bit must be written before enabling
+the counter and must not be modified while CEN = 1.
+It is possible to have the deadtime value updated on-the-fly during pwm operation, using a
+preload mechanism. The deadtime bitfield DTG[7:0] and DTGF[7:0] are preloaded when the
+DTPE bit is set, in the TIMX_DTR2 register. The preload value is loaded in the active
+register on the next update event.
+Note:

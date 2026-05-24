@@ -1,0 +1,99 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+except when crossing a page boundary (for PSRAM). In this case, the AHB burst is
+broken into two FIFO entries.
+At startup the FMC pins must be configured by the user application. The FMC I/O pins which
+are not used by the application can be used for other purposes.
+The FMC registers that define the external device type and associated characteristics are
+usually set at boot time and do not change until the next reset or power-up.
+However, only a few bits can be changed on-the-fly:
+•
+
+MBKEN, FMCEN, WEN bits in FMC_BCRx register
+
+•
+
+ECCEN and PBKEN bits in the FMC_PCR register
+
+•
+
+IFS, IRS and ILS bits in the FMC_SR register
+
+Follow the below sequence to modify parameters while the FMC is enabled:
+
+27.3
+
+1.
+
+First disable the FMC controller to prevent further accesses to any memory controller
+while the register is modified.
+
+2.
+
+Update all required configurations.
+
+3.
+
+Enable the FMC controller again.
+
+FMC block diagram
+The FMC consists of the following main blocks:
+•
+
+The AHB interface (including the FMC configuration registers)
+
+•
+
+The NOR flash/PSRAM/SRAM controller
+
+The block diagram is shown in the figure below.
+Figure 119. FMC block diagram
+FMC interrupts to NVIC
+
+FMC_NL (or NADV)
+FMC_CLK
+From clock
+controller
+HCLK
+
+NOR/PSRAM
+memory
+controller
+
+Configuration
+registers
+NAND
+memory
+controller
+
+NOR/PSRAM
+signals
+
+FMC_NBL[1:0]
+
+NOR / PSRAM / SRAM
+shared signals
+
+FMC_A[25:0]
+FMC_D[15:0]
+
+Shared signals
+
+FMC_NE[4:1]
+FMC_NOE
+FMC_NWE
+FMC_NWAIT
+
+NOR / PSRAM / SRAM
+shared signals
+
+FMC_NCE
+FMC_INT
+
+NAND signals
+
+MS34473V3

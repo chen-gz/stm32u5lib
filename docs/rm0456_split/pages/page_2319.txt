@@ -1,0 +1,193 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+55.5.3
+
+TIMx slave mode control register (TIMx_SMCR)(x = 2 to 5)
+Address offset: 0x008
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+ETP
+
+ECE
+
+ETPS[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+25
+
+24
+
+SMSPS SMSPE
+rw
+
+rw
+
+9
+
+8
+
+ETF[3:0]
+rw
+
+23
+
+22
+
+Res.
+
+Res.
+
+7
+
+6
+
+MSM
+rw
+
+rw
+
+21
+
+20
+
+TS[4:3]
+rw
+
+rw
+
+5
+
+4
+
+TS[2:0]
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+SMS[3]
+
+3
+
+2
+
+1
+
+rw
+
+OCCS
+rw
+
+rw
+
+0
+
+SMS[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 SMSPS: SMS preload source
+This bit selects whether the events that triggers the SMS[3:0] bitfield transfer from preload to
+active
+0: The transfer is triggered by the Timer’s Update event
+1: The transfer is triggered by the Index event
+Bit 24 SMSPE: SMS preload enable
+This bit selects whether the SMS[3:0] bitfield is preloaded
+0: SMS[3:0] bitfield is not preloaded
+1: SMS[3:0] preload is enabled
+Bits 23:22 Reserved, must be kept at reset value.
+Bits 19:17 Reserved, must be kept at reset value.
+Bit 15 ETP: External trigger polarity
+This bit selects whether tim_etr_in or tim_etr_in is used for trigger operations
+0: tim_etr_in is non-inverted, active at high level or rising edge
+1: tim_etr_in is inverted, active at low level or falling edge
+Bit 14 ECE: External clock enable
+This bit enables External clock mode 2.
+0: External clock mode 2 disabled
+1: External clock mode 2 enabled. The counter is clocked by any active edge on the tim_etrf
+signal.
+Note: Setting the ECE bit has the same effect as selecting external clock mode 1 with tim_trgi
+connected to tim_etrf (SMS = 111 and TS = 00111).
+It is possible to simultaneously use external clock mode 2 with the following slave
+modes: reset mode, gated mode and trigger mode. Nevertheless, tim_trgi must not be
+connected to tim_etrf in this case (TS bits must not be 00111).
+If external clock mode 1 and external clock mode 2 are enabled at the same time, the
+external clock input is tim_etrf.
+Bits 13:12 ETPS[1:0]: External trigger prescaler
+External trigger signal tim_etrp frequency must be at most 1/4 of tim_ker_ck frequency. A
+prescaler can be enabled to reduce tim_etrp frequency. It is useful when inputting fast
+external clocks on tim_etr_in.
+00: Prescaler OFF
+01: tim_etrp frequency divided by 2
+10: tim_etrp frequency divided by 4
+11: tim_etrp frequency divided by 8
+
+RM0456 Rev 6

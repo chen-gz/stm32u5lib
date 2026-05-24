@@ -1,0 +1,69 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Table 645. Device resource x tamper protection
+Potential tamper
+or BKBLOCK
+
+-
+
+Confirmed tamper
+or BKERASE
+
+RPCFGx = 0
+
+No effect on device resource x
+
+No effect on device resource x
+
+RPCFGx = 1
+
+Device secret x protected as
+described by
+tamp_potential_ercfgx(1)
+
+Device secret x protected as
+described by
+tamp_confirmed_ercfgx(1)
+
+1. Refer to Table 644: TAMP interconnection.
+
+Device secrets access blocked by software
+By default, the device secrets can be accessed by the application, except if a tamper event
+flag is detected: the device secrets access is not possible as long as a tamper flag is set.
+It is possible to block the access to the device secrets by software, by setting the BKBLOCK
+bit of the TAMP_CR2 register. The device secrets access is possible only when
+BKBLOCK = 0 and no tamper flag is set.
+
+64.4.11
+
+Tamper detection configuration and initialization
+Each input can be enabled by setting the corresponding TAMPxE bits to 1 in the TAMP_CR
+register.
+Each TAMP_INx tamper detection input is associated with a flag TAMPxF in the TAMP_SR
+register.
+By setting the TAMPxIE bit in the TAMP_IER register, an interrupt is generated when a
+tamper detection event occurs (when TAMPxF is set). Setting TAMPxIE is not allowed when
+the corresponding TAMPxMSK is set.
+
+Trigger output generation on tamper event
+The tamper event detection can be used as trigger input by the low-power timers.
+When TAMPxMSK bit is cleared in TAMP_CR register, the TAMPxF flag must be cleared by
+software in order to allow a new tamper detection on the same pin.
+When TAMPxMSK bit is set, the TAMPxF flag is masked, and kept cleared in TAMP_SR
+register. This configuration permits the low-power timers to be triggered automatically in
+Stop mode, without requiring the system wake-up to perform the TAMPxF clearing. In this
+case, the backup registers are not cleared.
+This feature is available only when the tamper is configured in level detection with filtering
+mode (TAMPFLT ≠ 00 and active mode is not selected). Refer to Section : Level detection
+with filtering on tamper inputs (passive mode).
+
+Timestamp on tamper event
+With TAMPTS set to 1 in the RTC_CR, any internal or external tamper event causes a
+timestamp to occur. In case a timestamp occurs due to tamper event, either the TSF bit or
+the TSOVF bit is set in RTC_SR, in the same manner as if a normal timestamp event
+occurs.
+Note:

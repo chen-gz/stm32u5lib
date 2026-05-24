@@ -1,0 +1,38 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 1 NSPRIV: RCC nonsecure function privilege configuration
+This bit is set and reset by software. It can be written only by privileged access, secure or
+nonsecure.
+0: Read and write to RCC nonsecure functions can be done by privileged or unprivileged
+access.
+1: Read and write to RCC nonsecure functions can be done by privileged access only.
+Bit 0 SPRIV: RCC secure function privilege configuration
+This bit is set and reset by software. It can be written only by a secure privileged access.
+0: Read and write to RCC secure functions can be done by privileged or unprivileged access.
+1: Read and write to RCC secure functions can be done by privileged access only.
+
+11.8.53
+
+RCC register map
+
+0
+
+0
+
+RCC_ICSCR2
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.

@@ -1,0 +1,33 @@
+290
+
+RAM configuration controller (RAMCFG)
+Caution:
+
+RM0456
+
+In case of a byte or half-word write on SRAM with ECC, the read/modify/write operation is
+done in a buffer. The buffer content is written into the SRAM two AHB clock cycles after the
+SRAM AHB is released (when SRAM is no more accessed).
+
+Single and double ECC errors
+When a single error is detected, it is automatically corrected, and SEDC/CSEDC bits are set
+in RAMCFG_MxISR and RAMCFG_MxICR respectively. The associated ECC single error
+address RAMCFG_MxSEAR is updated only if the single error interrupt is enabled (SEIE bit
+of RAMCFG_MxIER is set), and if the ALE bit is set in RAMCFG_MxCR.
+Caution:
+
+Single errors cannot be detected when the SEDC bit is set.
+When a double error is detected, DED and CDED bits are set in RAMCFG_MxISR and
+RAMCFG_MxICR respectively. The associated ECC double error address
+RAMCFG_MxDEAR is updated only if the double error interrupt is enabled (DEIE bit of
+RAMCFG_MxIER is set) or NMI is enabled by ECCNMI, and if the ALE bit is set in
+RAMCFG_MxCR.
+
+Caution:
+
+Double errors cannot be detected when the DED bit is set.
+
+SRAM3 ECC specific management
+When the ECC is enabled for SRAM3, only the first 256 Kbytes of SRAM3 are with ECC.
+The next 192 Kbytes for STM32U575/585 or 512 Kbytes for STM32U59x/5Ax/5Fx/5Gx are
+without ECC, and the last block is used to store the ECC, so cannot be used for application.

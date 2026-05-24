@@ -1,0 +1,204 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.38
+
+RM0456
+
+RCC AHB2 peripheral clock enable in Sleep and
+Stop modes register 1 (RCC_AHB2SMENR1)
+Address offset: 0x0B4
+Reset value: 0xFFFF FFFF
+Access: no wait state; word, half-word, and byte access
+This register only configures the clock gating, not the clock source itself. When a bit is set
+in Stop mode, the corresponding peripheral clock is enabled only when a peripheral
+(this one or another) requests the AHB or APB clock (refer to Section 11.4.24).
+
+31
+
+30
+
+SRAM3 SRAM2
+SMEN SMEN
+rw
+
+rw
+
+15
+
+14
+
+OTGH
+SPHYS
+MEN
+
+OTGS
+MEN
+
+rw
+
+rw
+
+29
+Res.
+
+28
+
+27
+
+SDMM SDMM
+C2SME C1SME
+N
+N
+
+26
+Res.
+
+Res.
+
+9
+
+rw
+
+rw
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+DCMI_
+PSSIS
+MEN
+
+Res.
+
+ADC12
+SMEN
+
+rw
+
+25
+
+rw
+
+24
+
+23
+
+OTFDE OTFDE
+C2SME C1SME
+N
+N
+rw
+
+rw
+
+8
+
+7
+
+22
+Res.
+
+6
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+OCTOS
+SAESS PKASM RNGS HASHS AESSM
+PIMSM
+MEN
+EN
+MEN
+MEN
+EN
+EN
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+GPIOJ GPIOIS GPIOH GPIOG GPIOF GPIOE GPIOD GPIOC GPIOB GPIOA
+SMEN
+MEN
+SMEN SMEN SMEN SMEN SMEN SMEN SMEN SMEN
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 SRAM3SMEN: SRAM3 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SRAM3 clocks disabled by the clock gating during Sleep and Stop modes
+1: SRAM3 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 30 SRAM2SMEN: SRAM2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SRAM2 clocks disabled by the clock gating during Sleep and Stop modes
+1: SRAM2 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 SDMMC2SMEN: SDMMC2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SDMMC2 clocks disabled by the clock gating during Sleep and Stop modes
+1: SDMMC2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 27 SDMMC1SMEN: SDMMC1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SDMMC1 clocks disabled by the clock gating during Sleep and Stop modes
+1: SDMMC1 clocks enabled by the clock gating during Sleep and Stop modes
+Bits 26:25 Reserved, must be kept at reset value.

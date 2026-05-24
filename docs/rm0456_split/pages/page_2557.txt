@@ -1,0 +1,165 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bit 5 TAMP6NOER: Tamper 6 no erase
+0: Tamper 6 event detection is in confirmed mode(1).
+1: Tamper 6 event detection is in potential mode(2).
+Bit 4 TAMP5NOER: Tamper 5 no erase
+0: Tamper 5 event detection is in confirmed mode(1).
+1: Tamper 5 event detection is in potential mode(2).
+Bit 3 TAMP4NOER: Tamper 4 no erase
+0: Tamper 4 event detection is in confirmed mode(1).
+1: Tamper 4 event detection is in potential mode(2).
+Bit 2 TAMP3NOER: Tamper 3 no erase
+0: Tamper 3 event detection is in confirmed mode(1).
+1: Tamper 3 event detection is in potential mode(2).
+Bit 1 TAMP2NOER: Tamper 2 no erase
+0: Tamper 2 event detection is in confirmed mode(1).
+1: Tamper 2 event detection is in potential mode(2).
+Bit 0 TAMP1NOER: Tamper 1 no erase
+0: Tamper 1 event detection is in confirmed mode(1).
+1: Tamper 1 event detection is in potential mode(2).
+1. The effects of tamper detection in confirmed mode is described with tamp_confirmed and tamp_confirmed_ercfgx signals in
+Table 644: TAMP interconnection.
+2. The effects of tamper detection in potential mode is described with tamp_potential and tamp_potential_ercfgx signals in
+Table 644: TAMP interconnection.
+
+64.7.3
+
+TAMP control register 3 (TAMP_CR3)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x08
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+ITAMP ITAMP ITAMP
+13NOE 12NOE 11NOE
+R
+R
+R
+rw
+
+rw
+
+rw
+
+Res.
+
+ITAMP9 ITAMP8 ITAMP7 ITAMP6 ITAMP5
+NOER NOER NOER NOER NOER
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 Reserved, must be kept at reset value.
+Bit 13 Reserved, must be kept at reset value.

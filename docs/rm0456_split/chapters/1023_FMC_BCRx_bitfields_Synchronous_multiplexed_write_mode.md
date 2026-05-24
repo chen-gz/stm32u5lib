@@ -1,0 +1,155 @@
+Bit number
+
+Bit name
+
+Value to set
+
+31:30
+
+DATAHLD
+
+Don’t care
+
+29:28
+
+ACCMOD
+
+0x0
+
+27-24
+
+DATLAT
+
+Data latency
+
+27-24
+
+DATLAT
+
+Data latency
+
+23-20
+
+CLKDIV
+
+0x0 to get CLK = HCLK
+0x1 to get CLK = 2 × HCLK
+..
+
+19-16
+
+BUSTURN
+
+Time between NEx high to NEx low (BUSTURN HCLK).
+
+15-8
+
+DATAST
+
+Don’t care
+
+7-4
+
+ADDHLD
+
+Don’t care
+
+3-0
+
+ADDSET
+
+Don’t care
+
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+Figure 138. Synchronous multiplexed write mode waveforms - PSRAM (CRAM)
+Memory transaction = burst of 2 half words
+
+HCLK
+
+CLK
+
+A[25:16]
+
+addr[25:16]
+
+NEx
+Hi-Z
+NOE
+
+NWE
+
+NADV
+
+NWAIT
+(WAITCFG = 0)
+inserted wait state
+
+(DATLAT + 2)
+CLK cycles
+A/D[15:0]
+
+Addr[15:0]
+
+data1
+
+data1
+
+data2
+
+1 clock 1 clock
+cycle cycle
+
+ai14731g
+
+1. The memory must issue NWAIT signal one cycle in advance, accordingly WAITCFG must be programmed to 0.
+2. Byte Lane (NBL) outputs are not shown, they are held low while NEx is active.
+
+Table 242. FMC_BCRx bitfields (Synchronous multiplexed write mode)
+Bit number
+
+Bit name
+
+31
+
+FMCEN
+
+0x1
+
+30:24
+
+Reserved
+
+0x000
+
+23:22
+20
+19
+18:16
+15
+14
+
+Value to set
+
+NBLSET[1:0] Don’t care
+CCLKEN
+
+As needed
+
+CBURSTRW 0x1
+CPSIZE
+
+As needed (0x1 for CRAM 1.5)
+
+ASYNCWAIT 0x0
+EXTMOD
+
+0x0
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

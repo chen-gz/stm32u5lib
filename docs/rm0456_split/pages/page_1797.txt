@@ -1,0 +1,90 @@
+–
+
+Configure the horizontal sync duration (DSI_VHSACR.HSA) with the time taken by
+an LTDC horizontal sync active period measured in cycles of lane byte clock
+(normally a period of 8 ns).
+
+–
+
+Configure the horizontal back-porch duration (DSI_VHBPCR.HBP) with the time
+taken by the LTDC horizontal back-porch period measured in cycles of lane byte
+clock (normally a period of 8 ns). Special attention must be given to the calculation
+of this parameter.
+
+Define the vertical line configuration:
+–
+
+Configure the vertical sync duration (DSI_VVSACR.VSA) with the number of lines
+existing in the LTDC vertical sync active period.
+
+–
+
+Configure the vertical back-porch duration (DSI_VVBPCR.VBP) with the number
+of lines existing in the LTDC vertical back-porch period.
+
+–
+
+Configure the vertical front-porch duration (DSI_VVFPCR.VFP) with the number of
+lines existing in the LTDC vertical front-porch period.
+
+–
+
+Configure the vertical active duration (DSI_VVACR.VA) with the number of lines
+existing in the LTDC vertical active period.
+
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+Figure 446 illustrates the steps for configuring the DPI packet transmission.
+Figure 446. Video packet transmission configuration flow diagram
+Global configuration
+Configure the DPI I/F
+
+NO
+
+YES
+
+Burst Mode
+
+Determine the
+DSI link to pixel ratio
+
+Configure
+video_packet_size
+
+Enable
+multiple packets
+YES
+
+If the DSI link to
+pixel ratio is >1
+NO
+
+Determine number of pixel per packet
+Calculate the number of chunks
+Determine the chunk overhead
+(needs to be  12 or = 6)
+
+Determine number
+of pixel per packet
+
+If the DSI chunk
+overhead is  12
+
+Enable
+null packets
+NO
+YES
+
+Calculate:
+Hline_time - Hsa_time - Hbp_time
+
+Null packet size
+
+Configure:
+VSA lines- VBP lines - Vact lines - VFP lines
+MSv35876V1
+
+RM0456 Rev 6

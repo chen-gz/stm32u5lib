@@ -1,0 +1,251 @@
+tim_ocx output state
+
+0
+
+Output disabled (not driven by the timer: Hi-Z)
+
+1
+
+Output enabled (tim_ocx = tim_ocxref + Polarity)
+
+The state of the external IO pins connected to the standard tim_ocx channels depends only
+on the GPIO registers when CCxE = 0.
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+55.5.12
+
+TIMx counter (TIMx_CNT)(x = 2 to 5)
+Address offset: 0x024
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+UIF
+CPY_
+CNT
+[31]
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+CNT[30:16]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CNT[15:0]
+rw
+
+Bit 31 UIFCPY_CNT[31]: Value depends on IUFREMAP in TIMx_CR1.
+If UIFREMAP = 0
+CNT[31]: Most significant bit of counter value
+If UIFREMAP = 1
+UIFCPY: UIF Copy
+This bit is a read-only copy of the UIF bit of the TIMx_ISR register
+Bits 30:0 CNT[30:0]: Least significant part of counter value
+Non-dithering mode (DITHEN = 0)
+The register holds the counter value.
+Dithering mode (DITHEN = 1)
+The register holds the non-dithered part in CNT[30:0]. The fractional part is not available.
+
+55.5.13
+
+TIMx prescaler (TIMx_PSC)(x = 2 to 5)
+Address offset: 0x028
+Reset value: 0x0000
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+PSC[15:0]
+rw
+
+Bits 15:0 PSC[15:0]: Prescaler value
+The counter clock frequency tim_cnt_ck is equal to ftim_psc_ck / (PSC[15:0] + 1).
+PSC contains the value to be loaded in the active prescaler register at each update event
+(including when the counter is cleared through UG bit of TIMx_EGR register or through
+trigger controller when configured in “reset mode”).
+
+RM0456 Rev 6

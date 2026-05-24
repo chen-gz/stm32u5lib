@@ -1,0 +1,41 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Table 117 summarizes the RCC secured bits following the security configuration bit
+in RCC_SECCFGR register.
+When one security configuration bit is set, some configuration and status bits are secured.
+The RCC registers may contain secure and nonsecure bits:
+•
+
+Secured bits: read and write operations are only allowed by a secure access.
+Nonsecure read returns 0 and write accesses are ignored. No illegal access event is
+generated.
+
+•
+
+Nonsecure bits: no restriction. Read and write operations are allowed by both secure
+and nonsecure accesses.
+
+•
+
+A nonsecure write access to RCC_SECCFGR is ignored and generates an illegal
+access event. An illegal access interrupt is generated if the RCC illegal access interrupt
+is enabled in the GTZC TZIC registers. RCC_SECCFGR can be read by secure or
+nonsecure access.
+
+When the TrustZone security is disabled (TZEN = 0 in FLASH_OPTR), all registers are
+nonsecure. RCC_SECCFGR write accesses are ignored.
+Table 117. RCC security configuration summary
+Configuration bit in
+RCC_SECCFGR
+
+HSISEC
+
+HSESEC
+
+MSISEC
+
+LSISEC

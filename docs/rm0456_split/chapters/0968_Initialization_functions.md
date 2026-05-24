@@ -1,0 +1,123 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+Figure 113. Circular output buffer operation
+
+y[n-7]
+y[n-6]
+y[n-5]
+y[n-4]
+y[n-3]
+y[n-2]
+y[n-1]
+y[n]
+y[n-10]
+y[n-9]
+y[n-8]
+
+Next sample
+Read pointer
+
+Next sample
+Read pointer
+
+Filter using seven
+samples
+y[n-7] to y[n-1]
+
+y[n-8]
+y[n-7]
+y[n-6]
+y[n-5]
+y[n-4]
+y[n-3]
+y[n-2]
+y[n-1]
+y[n-11]
+y[n-10]
+y[n-9]
+
+Read pointer
+
+Next sample
+
+Filter finishes current
+output sample. No free
+space in buffer, so full
+flag is set and execution
+stalled.
+
+y[n-7]
+y[n-6]
+y[n-5]
+y[n-4]
+y[n-3]
+y[n-2]
+y[n-1]
+y[n]
+
+Read pointer
+
+Next sample
+
+Four samples are read
+out. Read pointer is
+incremented by 4 and
+wraps to beginning of
+buffer space.
+Space now available in
+buffer so execution
+resumes.
+
+y[n-7]
+y[n-6]
+y[n-5]
+y[n-4]
+y[n-3]
+y[n-2]
+y[n-1]
+y[n]
+
+Four more samples are
+read out. Read pointer is
+incremented by 4.
+Number of unread
+samples in buffer is less
+than watermark, so empty
+flag is set.
+MSv45874V1
+
+26.3.5
+
+Initialization functions
+The following functions initialize the FMAC unit. They are triggered by writing the
+appropriate value in the FUNC bitfield of the FMAC_PARAM register, with the START bit
+set. The P and Q bitfields must also contain the appropriate parameter values for each
+function as detailed below. The R bitfield is not used. When the function completes, the
+START bit is automatically reset by hardware.
+During initialization, it is recommended that the DMA requests and interrupts be disabled.
+The transfer of data into the FMAC memory can be done by software or by memory-tomemory DMA transfers, since no flow control is required.
+
+Load X1 buffer
+This function pre-loads the X1 buffer with N values, starting from the address in X1_BASE.
+Successive writes to the FMAC_WDATA register load the write data into the X1 buffer and
+increment the write address. The write pointer points to the address X1_BASE + N when the
+function completes.
+The function can be used to pre-load the buffer with the elements of a vector, or to initialize
+the input storage elements of a filter.
+Parameters
+•
+
+The parameter P contains the number of values, N, to be loaded into the X1 buffer.
+
+•
+
+The parameters Q and R are not used.
+
+The function completes when N writes have been performed to the FMAC_WDATA register.
+
+<!-- pagebreak -->
+

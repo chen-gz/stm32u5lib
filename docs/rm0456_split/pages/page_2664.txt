@@ -1,0 +1,130 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+In the USART, the start bit is detected when a specific sequence of samples is recognized.
+This sequence is: 1 1 1 0 X 0 X 0X 0X 0 X 0X 0.
+Figure 813. Start bit detection when oversampling by 16 or 8
+
+RX state
+
+Idle
+
+Start bit
+
+RX line
+Ideal
+sample
+clock
+
+1
+
+2
+
+3
+
+Real
+sample
+clock
+
+X
+
+X
+
+X X
+
+4
+
+5 6
+
+7
+
+X
+
+X
+
+X
+
+8 9 10 11 12 13 14 15 16
+Sampled values
+X
+
+9
+
+10 11 12 13 14 15 16
+6/16
+
+7/16
+
+7/16
+One-bit time
+
+Conditions
+to validate 1
+the start bit
+
+1 1
+
+0
+
+Falling edge
+detection
+
+X
+
+0
+
+X
+
+0
+
+X
+
+At least 2 bits
+out of 3 at 0
+
+0
+
+0 0
+
+0
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+At least 2 bits
+out of 3 at 0
+ai15471d
+
+Note:
+
+If the sequence has not completed, the start bit detection aborts and the receiver returns to
+the idle state (no flag is set), where it waits for a falling edge.
+The start bit is confirmed (RXNE flag set and interrupt generated if RXNEIE = 1, or RXFNE
+flag set and interrupt generated if RXFNEIE = 1 if FIFO mode enabled) if the 3 sampled bits
+are at 0 (first sampling on the 3rd, 5th and 7th bits finds the 3 bits at 0 and second sampling
+on the 8th, 9th and 10th bits also finds the 3 bits at 0).
+The start bit is validated but the NE noise flag is set if,
+•
+
+for both samplings, 2 out of the 3 sampled bits are at 0 (sampling on the 3rd, 5th and
+7th bits and sampling on the 8th, 9th and 10th bits), or
+
+•
+
+for one of the samplings (sampling on the 3rd, 5th and 7th bits or sampling on the 8th,
+9th and 10th bits), 2 out of the 3 bits are found at 0.
+If neither of the above conditions are met, the start detection aborts and the receiver returns
+to the idle state (no flag is set).
+
+RM0456 Rev 6

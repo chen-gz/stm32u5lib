@@ -1,0 +1,471 @@
+DELAY bits
+
+14-bit resolution
+
+12-bit resolution
+
+10-bit resolution
+
+8-bit resolution
+
+0000
+
+1 * Fadc_ker_ck
+
+1 * Fadc_ker_ck
+
+1 * Fadc_ker_ck
+
+1 * Fadc_ker_ck
+
+0001
+
+2 * Fadc_ker_ck
+
+2 * Fadc_ker_ck
+
+2 * Fadc_ker_ck
+
+2 * Fadc_ker_ck
+
+0010
+
+3 * Fadc_ker_ck
+
+3 * Fadc_ker_ck
+
+3 * Fadc_ker_ck
+
+3 * Fadc_ker_ck
+
+0011
+
+4 * Fadc_ker_ck
+
+4 * Fadc_ker_ck
+
+4 * Fadc_ker_ck
+
+4 * Fadc_ker_ck
+
+0100
+
+5 * Fadc_ker_ck
+
+5 * Fadc_ker_ck
+
+5 * Fadc_ker_ck
+
+5 * Fadc_ker_ck
+
+0101
+
+6 * Fadc_ker_ck
+
+6 * Fadc_ker_ck
+
+6 * Fadc_ker_ck
+
+6 * Fadc_ker_ck
+
+0110
+
+7 * Fadc_ker_ck
+
+7 * Fadc_ker_ck
+
+7 * Fadc_ker_ck
+
+7 * Fadc_ker_ck
+
+0111
+
+8 * Fadc_ker_ck
+
+8 * Fadc_ker_ck
+
+8 * Fadc_ker_ck
+
+8 * Fadc_ker_ck
+
+1000
+
+9 * Fadc_ker_ck
+
+9 * Fadc_ker_ck
+
+9 * Fadc_ker_ck
+
+9 * Fadc_ker_ck
+
+1001
+
+10 * Fadc_ker_ck
+
+10 * Fadc_ker_ck
+
+10 * Fadc_ker_ck
+
+10 * Fadc_ker_ck
+
+1010
+
+11 * Fadc_ker_ck
+
+11 * Fadc_ker_ck
+
+11 * Fadc_ker_ck
+
+11 * Fadc_ker_ck
+
+1011
+
+12 * Fadc_ker_ck
+
+12 * Fadc_ker_ck
+
+12 * Fadc_ker_ck
+
+12 * Fadc_ker_ck
+
+1100
+
+13 * Fadc_ker_ck
+
+13 * Fadc_ker_ck
+
+13 * Fadc_ker_ck
+
+13 * Fadc_ker_ck
+
+1101
+
+14 * Fadc_ker_ck
+
+14 * Fadc_ker_ck
+
+14 * Fadc_ker_ck
+
+13 * Fadc_ker_ck
+
+1110
+
+15 * Fadc_ker_ck
+
+15 * Fadc_ker_ck
+
+15 * Fadc_ker_ck
+
+13 * Fadc_ker_ck
+
+1111
+
+16 * Fadc_ker_ck
+
+16 * Fadc_ker_ck
+
+15 * Fadc_ker_ck
+
+13 * Fadc_ker_ck
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+33.7.3
+
+ADC common regular data register for dual mode (ADC12_CDR)
+Address offset: 0x0C
+Reset value: 0x0000 0000
+The address offset is relative to the master ADC base address + 0x300.
+ADC1 and ADC2 are controlled by the same interface.
+This register is available only the devices that support dual mode (see Section 33.3: ADC
+implementation).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+RDATA_SLV[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RDATA_MST[15:0]
+r
+
+r
+
+Bits 31:16 RDATA_SLV[15:0]: Regular data of the slave ADC
+In dual mode, these bits contain the regular data of the slave ADC. Refer to Section 33.4.32:
+Dual ADC modes.
+The data alignment is applied as described in Section : Data register, data alignment and
+offset (ADC_DR, ADC_JDRy, OFFSETy, OFFSETy_CH, OVSS, LSHIFT, USAT, SSAT))
+Bits 15:0 RDATA_MST[15:0]: Regular data of the master ADC.
+In dual mode, these bits contain the regular data of the master ADC. Refer to
+Section 33.4.32: Dual ADC modes.
+The data alignment is applied as described in Section : Data register, data alignment and
+offset (ADC_DR, ADC_JDRy, OFFSETy, OFFSETy_CH, OVSS, LSHIFT, USAT, SSAT))
+In DAMDF[1:0] = 11 mode, bits 15:8 contains SLV_ADC_DR[7:0], bits 7:0 contains
+MST_ADC_DR[7:0].
+
+33.7.4
+
+ADC common regular data register for 32-bit dual mode
+(ADC12_CDR2)
+Address offset: 0x10
+Reset value: 0x0000 0000
+The address offset is relative to the master ADC base address + 0x300.
+ADC1 and ADC2 are controlled by the same interface.
+This register is available only the devices that support dual mode (see Section 33.3: ADC
+implementation).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+RDATA_ALT[31:16]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RDATA_ALT[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RM0456 Rev 6

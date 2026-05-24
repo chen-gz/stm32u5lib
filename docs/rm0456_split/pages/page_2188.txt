@@ -1,0 +1,28 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bit 13 OIS3N: Output idle state 3 (tim_oc3n output)
+Refer to OIS1N bit
+Bit 12 OIS3: Output idle state 3 (tim_oc3n output)
+Refer to OIS1 bit
+Bit 11 OIS2N: Output idle state 2 (tim_oc2n output)
+Refer to OIS1N bit
+Bit 10 OIS2: Output idle state 2 (tim_oc2 output)
+Refer to OIS1 bit
+Bit 9 OIS1N: Output idle state 1 (tim_oc1n output)
+0: tim_oc1n = 0 after a dead-time when MOE = 0
+1: tim_oc1n = 1 after a dead-time when MOE = 0
+Note: This bit can not be modified as long as LOCK level 1, 2 or 3 has been programmed
+(LOCK bits in TIMx_BDTR register).
+Bit 8 OIS1: Output idle state 1 (tim_oc1 output)
+0: tim_oc1 = 0 (after a dead-time) when MOE = 0
+1: tim_oc1 = 1 (after a dead-time) when MOE = 0
+Note: This bit can not be modified as long as LOCK level 1, 2 or 3 has been programmed
+(LOCK bits in TIMx_BDTR register).
+Bit 7 TI1S: tim_ti1 selection
+0: The tim_ti1_in[15:0] multiplexer output is connected to tim_ti1 input
+1: tim_ti1_in[15:0], tim_ti2_in[15:0] and tim_ti3_in[15:0] multiplexers outputs are XORed and
+connected to the tim_ti1 input

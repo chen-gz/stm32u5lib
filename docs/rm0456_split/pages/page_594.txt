@@ -1,0 +1,55 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bits 17:16 USART6SEL[1:0]: USART6 kernel clock source selection
+These bits are used to select the USART6 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: LSE selected
+Note: The USART6 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or LSE.
+This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bit 15 DSISEL: DSI kernel clock source selection
+This bit is used to select the DSI kernel clock source.
+0: PLL3 “P” (pll3_p_ck) selected
+1: DSI PHY PLL output selected
+Note: This bit is only available on some devices in the STM32U5 Series.
+Refer to the device datasheet for availability of its associated peripheral.
+If not present, consider this bit as reserved and keep it at reset value.
+Bit 14 SDMMCSEL: SDMMC1 and SDMMC2 kernel clock source selection
+This bit is used to select the SDMMC kernel clock source. It is recommended to change it
+only after reset and before enabling the SDMMC.
+0: ICLK clock selected
+1: PLL1 “P” (pll1_p_ck) selected, in case higher than 48 MHz is needed (for SDR50 mode)
+Bits 13:12 RNGSEL[1:0]: RNG kernel clock source selection
+These bits are used to select the RNG kernel clock source.
+00: HSI48 selected
+01: HSI48 / 2 selected, can be used in range 4
+10: HSI16 selected
+11: reserved
+Bit 11 SAESSEL: SAES kernel clock source selection
+This bit is used to select the SAES kernel clock source.
+0: SHSI selected
+1: SHSI / 2 selected, can be used in range 4
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 10:8 SAI2SEL[2:0]: SAI2 kernel clock source selection
+These bits are used to select the SAI2 kernel clock source.
+000: PLL2 “P” (pll2_p_ck) selected
+001: PLL3 “P” (pll3_p_ck) selected
+010: PLL1 “P” (pll1_p_ck) selected
+011: input pin AUDIOCLK selected
+100: HSI16 clock selected
+others: reserved
+Note: If the selected clock is the external clock and this clock is stopped, a switch to another
+clock is impossible.
+This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.

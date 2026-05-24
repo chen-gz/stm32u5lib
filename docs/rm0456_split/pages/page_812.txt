@@ -1,0 +1,47 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Bits 17:16 DDW_LOG2[1:0]: binary logarithm of the destination data width of a single in bytes
+00: byte
+01: half-word (2 bytes)
+10: word (4 bytes)
+11: user setting error reported and no transfer issued
+Note: Setting a 8-byte data width causes a user setting error to be reported and none transfer
+is issued.
+A destination single transfer must have an aligned address with its data width (start
+address LPDMA_CxDAR[2:0] versus DDW_LOG2[1:0]). Otherwise a user setting error
+is reported and none transfer is issued.
+Bit 15 SSEC: security attribute of the LPDMA transfer from the source
+If LPDMA_SECCFGR.SECx = 1 and the access is secure:
+0: LPDMA transfer nonsecure
+1: LPDMA transfer secure
+This is a secure register bit. This bit can only be read by a secure software. This bit must be
+written by a secure software when LPDMA_SECCFGR.SECx =1 . A secure write is ignored
+when LPDMA_SECCFGR.SECx = 0.
+When LPDMA_SECCFGR.SECx is de-asserted, this SSEC bit is also de-asserted by
+hardware (on a secure reconfiguration of the channel as nonsecure), and the LPDMA
+transfer from the source is nonsecure.
+Bits 14:12 Reserved, must be kept at reset value.
+Bit 11 PAM: padding/alignment mode
+If DDW_LOG2[1:0] = SDW_LOG2[1:0]: if the data width of a single destination transfer is
+equal to the data width of a single source transfer, this bit is ignored.
+Else, in the following enumerated values, the condition PAM_1 is when destination data width
+is higher that source data width, and the condition PAM_2 is when destination data width is
+higher than source data width.
+Condition: PAM_1
+0: source data is transferred as right aligned, padded with 0s up to the destination data width
+1: source data is transferred as right aligned, sign extended up to the destination data width
+Condition: PAM_2
+0: source data is transferred as right aligned, left-truncated down to the destination data width
+1: source data is transferred as left-aligned, right-truncated down to the destination data
+width
+Bits 10:4 Reserved, must be kept at reset value.
+Bit 3 SINC: source incrementing single
+0: fixed single
+1: contiguously incremented single
+The source address, pointed by LPDMA_CxSAR, is kept constant after a single transfer or is
+incremented by the offset value corresponding to a contiguous data after a single transfer.
+Bit 2 Reserved, must be kept at reset value.

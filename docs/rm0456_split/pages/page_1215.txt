@@ -1,0 +1,128 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+Figure 206. Asynchronous interrupt period data write
+SDMMC_CK
+
+sdmmc_fb_ck
+
+SDMMC_CMD
+
+S
+
+Command data
+E
+W
+
+S
+
+RSP
+
+E
+
+tOP
+
+tOP
+
+SDMMC_D0
+
+S
+
+Data
+
+E
+
+SDMMC_D1
+
+S
+
+Data
+
+E
+
+S
+
+Data
+
+E
+
+SDMMC_D2
+SDMMC_D3
+Interrupt period
+
+S CRC status E
+
+tOP
+
+tOP
+
+IRQ
+
+IRQ
+
+Data1
+
+0 CK - 2 CK
+
+2 CK – 4 CK
+MSv40192V2
+
+When transferring Open-ended multiple block data and using DTMODE “block data transfer
+ending with STOP_TRANSMISSION command”, the SDMMC masks the interrupt period
+after the last data block until the end of the CMD12 STOP_TRANSMISSION command.
+The interrupt period is applicable for both memory and I/O operations.
+In 4-bit mode interrupts can be differentiated from other signaling according Table 293.
+Table 293. 4-bit mode Start, interrupt, and CRC-status Signaling detection
+SDMMC data line
+
+Start
+
+Interrupt
+
+CRC-status
+
+SDMMC_D0
+
+0
+
+1 or CRC-status
+
+0
+
+SDMMC_D1
+
+0
+
+0
+
+X
+
+SDMMC_D2
+
+0
+
+1 or Read Wait
+
+X
+
+SDMMC_D3
+
+0
+
+1
+
+X
+
+SD I/O suspend and resume
+This function is NOT supported in SDIO version 4.00 or later.
+Within a multifunction SD I/O or a card with both I/O and memory functions, there are
+multiple devices (I/O and memory) that share access to the e•MMC/SD bus. To share
+access to the host among multiple devices, SD I/O and combo cards optionally implement
+the concept of suspend/resume. When a card supports suspend/resume, the host can
+temporarily halt (suspend) a data transfer operation to one function or memory to free the
+bus for a higher-priority transfer to a different function or memory. After this higher-priority
+transfer is complete, the original transfer is restarted (resume) where it left off.
+
+RM0456 Rev 6

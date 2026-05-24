@@ -1,0 +1,55 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+The periodic wake-up flag can be routed to the TAMPALRM output provided it has been
+enabled through bits OSEL[1:0] of RTC_CR register. TAMPALRM output polarity can be
+configured through the POL bit in the RTC_CR register.
+System reset, as well as low-power modes (Sleep, Stop, and Standby) have no influence on
+the wake-up timer.
+
+63.3.11
+
+RTC initialization and configuration
+RTC Binary, BCD or Mixed mode
+By default the RTC is in BCD mode (BIN = 00 in the RTC_ICSR register): the RTC_SSR
+register contains the subsecond field SS[15:0], clocked by ck_apre, allowing to generate a
+1 Hz clock to update the calendar registers in BCD format (RTC_TR and RTC_DR).
+When the RTC is configured in binary mode (BIN = 01 in the RTC_ICSR register): the
+RTC_SSR register contains the binary counter SS[31:0], clocked by ck_apre. The calendar
+registers in BCD format (RTC_TR and RTC_DR) are not used.
+When the RTC is configured in mixed mode (BIN = 10 or 11 in the RTC_ICSR register): the
+RTC_SSR register contains the binary counter SS[31:0], clocked by ck_apre. The calendar
+is updated (1 second increment) each time the SSR[BCDU+7:0] reaches 0.
+
+RTC register write protection
+After system reset, the RTC registers are protected against parasitic write access by the
+DBP bit in the power control peripheral (refer to the PWR power control section). DBP bit
+must be set in order to enable RTC registers write access.
+After Backup domain reset, some of the RTC registers are write-protected: RTC_TR,
+RTC_DR, RTC_PRER, RTC_CALR, RTC_SHIFTR, the bits INIT, BIN and BCDU in
+RTC_ICSR and the bits FMT, SUB1H, ADD1H, REFCKON in RTC_CR.
+The following steps are required to unlock the write protection on the protected RTC
+registers.
+1.
+
+Write 0xCA into the RTC_WPR register.
+
+2.
+
+Write 0x53 into the RTC_WPR register.
+
+Writing a wrong key reactivates the write protection.
+The protection mechanism is not affected by system reset.
+The registers protected by INITPRIV are write-protected by the INIT KEY.
+The registers protected by CALPRIV are write-protected by the CAL KEY.
+In case PRIV or INITPRIV is set in the RTC_PRIVCFGR, and/or SEC or INITSEC is set in
+the RTC_SECCFGR: the INIT KEY is unlocked and locked only if the write accesses into
+the RTC_WPR register are done in the privilege and security mode defined by PRIV,
+INITPRIV, SEC, INITSEC configuration.
+In case PRIV or CALPRIV is set in the RTC_PRIVCFGR, and/or SEC or CALSEC is set in
+the RTC_SECCFGR: the CAL KEY is unlocked and locked only if the write accesses into
+the RTC_WPR register are done in the privilege and security mode defined by PRIV,
+CALPRIV, SEC, CALSEC configuration.

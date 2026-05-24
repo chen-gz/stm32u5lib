@@ -1,0 +1,78 @@
+The trigger selection cannot be changed on-the-fly.
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 231. Triggers are shared between ADC master and ADC slave
+ADC MASTER
+adc_ext0_trg
+EXTi mapped at
+adc_ext1_trg
+product level ....... .......
+
+External regular trigger
+
+adc_ext31_trg
+EXTSEL[4:0]
+
+External injected trigger
+
+JEXTSEL[4:0]
+ADC SLAVE
+
+External regular trigger
+
+EXTSEL[4:0]
+adc_jext0_trg
+JEXTi mapped at adc_jext1_trg
+....... .......
+product level
+adc_jext31_trg
+
+External injected trigger
+
+JEXTSEL[4:0]
+MSv41035V2
+
+Refer to Table ADC external triggers for regular channels and Table ADC external triggers
+for injected channels in Section 33.4.2: ADC pins and internal signals for the connection of
+the above internal analog inputs to external ADC pins or internal signals.
+
+33.4.20
+
+Injected channel management
+Triggered injection mode
+To use triggered injection, the JAUTO bit must be cleared in the ADC_CFGR1 register:
+
+Note:
+
+1.
+
+Start the conversion of a group of regular channels either by an external trigger or by
+setting the ADSTART bit in the ADC_CR register.
+
+2.
+
+If an external injected trigger occurs or if the JADSTART bit in the ADC_CR register is
+set during the conversion of a regular group of channels, the current conversion is
+reset and the injected channel sequence switches are launched (all the injected
+channels are converted once).
+
+3.
+
+Then, the regular conversion of the regular group of channels is resumed from the last
+interrupted regular conversion.
+
+4.
+
+If a regular event occurs during an injected conversion, the injected conversion is not
+interrupted but the regular sequence is executed at the end of the injected sequence.
+Figure 232 shows the corresponding timing diagram.
+
+When using triggered injection, one must ensure that the interval between trigger events is
+longer than the injection sequence. For instance, if the sequence length is 44 ADC clock
+cycles (that is two conversions with a minimum sampling time), the minimum interval
+between triggers must be 45 ADC clock cycles.
+RM0456 Rev 6

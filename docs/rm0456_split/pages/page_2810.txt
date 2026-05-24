@@ -1,0 +1,96 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+Figure 852. Scheme of SS control logic
+SSIOP control
+SSI control
+SSM control
+Master
+mode
+
+Slave
+mode
+
+SS(SSI) <> SSIOP
+
+OK
+
+Non active
+
+SS(SSI) = SSIOP
+
+Conflict
+
+Active
+
+SS_IN
+
+1
+SS
+pin
+
+SS_IN
+
+0
+GPIO
+logic
+
+SSOM, MIDI
+MSSI control
+SS
+output
+control
+
+SS_OUT
+Master mode & HW SS
+management (SSM=0)
+only
+
+SS
+output
+logic
+
+SSOE control
+SS external
+logic
+
+SS internal logic
+MSv40470V2
+
+When the hardware output SS control is applied (SSM = 0, SSOE = 1), by configuration of
+the MIDI[3:0] and MSSI[3:0] bitfields, the user can control the timing of the SS signal
+between data frames and can insert an extra delay at the beginning of every transfer (to
+separate the SS and clock starts). This can be useful when the slave needs to slow down
+the flow to obtain sufficient room for correct data handling (see Figure 853).
+Figure 853. Data flow timing control (SSOE = 1, SSOM = 0, SSM = 0)
+SS
+SCK
+MOSI
+MISO
+
+MSB
+
+MSSI[3:0]
+
+LSB
+
+tSCK
+
+DSIZE[4:0] + 1
+
+MSB
+
+MIDI[3:0]
+DSIZE[4:0] + 1
+MSv40472V1
+
+1. MSSI[3:0] = 0011, MIDI[3:0] = 0011 (SCK flow is continuous when MIDI[3:0] = 0).
+2. CPHA = 0, CPOL = 0, SSIOP = 0, LSBFRST = 0.
+
+Additionally, setting the SSOM bit invokes a specific mode, which interleaves pulses
+between data frames if there is a sufficient space to provide them (MIDI[3:0] must be set
+greater than one SPI period). Some configuration examples are shown in Figure 854.
+
+RM0456 Rev 6

@@ -1,0 +1,74 @@
+RM0456 Rev 6
+
+RM0456
+
+44.12
+
+DSI Host (DSI)
+
+Functional description: D-PHY management
+The embedded MIPI® D-PHY is control directly by the DSI Host and is configured through
+the DSI Wrapper.
+A dedicated PLL and a dedicated bias are also embedded to supply the clock and the power
+supply to the DSI and D-PHY.
+
+44.12.1
+
+D-PHY configuration
+The D-PHY configuration is carried out through the DSI Wrapper, thanks to the DSI_WPCRx
+registers.
+
+Slew-rate tuning on pins
+To fine tune DSI communication, slew-rates can be adjusted:
+•
+
+clock slew rate for HS-TX speed through the DSI_DPCSRCR
+
+•
+
+data slew rate for HS-TX speed through the DSI_DPDL0SRCR and DSI_DPDL1SRCR
+
+Band setting
+The frequency band of the D-PHY is controlled by the DSI_DPCBCR register for the clock
+lane and by the DSI_DPDL0BCR and DSI_DPDL1BCR for the data lanes, it must be
+adjusted for clock and data lanes.
+
+Custom lane configuration
+To ease DSI integration, lane pins can be swapped on a lane as described in Table 444.
+Table 444. Custom lane configuration
+Function
+
+Swap lane pins
+
+44.12.2
+
+Lane
+
+Enable bit in DSI_WPCR0
+
+Clock lane
+
+SWCL
+
+Data lane 0
+
+SWDL0
+
+Data lane 1
+
+SWDL1
+
+D-PHY HS2LP and LP2HS durations
+The DSI system is able to switch to LP mode during blanking period if there is enough time
+between two HS transmission.
+To be able to make the scheduling and estimate if it is possible or not to make the switch,
+the duration of the transitions from HS to LP and from LP to HS must be programmed in the
+DSI Host in the DSI_CLTCR register for the clock lane and in the DSI_DLTCR register for
+the data lanes.
+Table 445 gives an estimation of the values to be programmed for these timings, expressed
+in lane byte clock cycles.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

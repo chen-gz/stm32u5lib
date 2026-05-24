@@ -1,0 +1,65 @@
+RM0456 Rev 6
+
+RM0456
+
+58.4.14
+
+Low-power timer (LPTIM)
+
+Timer counter reset
+In order to reset the content of LPTIM_CNT register, two reset mechanisms are
+implemented:
+•
+
+Note:
+
+The synchronous reset mechanism: the synchronous reset is controlled by the
+COUNTRST bit in the LPTIM_CR register. After setting the COUNTRST bitfield to '1',
+the reset signal is propagated in the LPTIM kernel clock domain. So it is important to
+note that a few clock pulses of the LPTIM kernel logic elapse before the reset is taken
+into account. This makes the LPTIM counter count few extra pluses between the time
+when the reset is triggered and it become effective. Since the COUNTRST bit is
+located in the APB clock domain and the LPTIM counter is located in the LPTIM kernel
+clock domain, a delay of 3 clock cycles of the kernel clock is needed to synchronize the
+reset signal issued by the APB clock domain when writing '1' to the COUNTRST bit.
+
+The software should ensure that COUNRST bit is '0' before generating every synchronous
+reset.
+•
+
+The asynchronous reset mechanism: the asynchronous reset is controlled by the
+RSTARE bit located in the LPTIM_CR register. When this bit is set to '1', any read
+access to the LPTIM_CNT register resets its content to zero. Asynchronous reset must
+be triggered within a timeframe in which no LPTIM core clock is provided. For example
+when LPTIM Input1 is used as external clock source, the asynchronous reset must be
+applied only when there is enough insurance that no toggle occurs on the LPTIM
+Input1.
+To read reliably the content of the LPTIM_CNT register two successive read accesses
+must be performed and compared. A read access can be considered reliable when the
+value of the two read accesses is equal. Unfortunately when asynchronous reset is
+enabled there is no possibility to read twice the LPTIM_CNT register.
+
+Warning:
+
+58.4.15
+
+There is no mechanism inside the LPTIM that prevents the
+two reset mechanisms from being used simultaneously. The
+developer must make sure that these two mechanisms are
+used exclusively.
+
+Encoder mode
+This mode allows handling signals from quadrature encoders used to detect angular
+position of rotary elements. Encoder interface mode acts simply as an external clock with
+direction selection. This means that the counter just counts continuously between 0 and the
+auto-reload value programmed into the LPTIM_ARR register (0 up to ARR or ARR down to
+0 depending on the direction). Therefore LPTIM_ARR must be configured before starting
+the counter. From the two external input signals, Input1 and Input2, a clock signal is
+generated to clock the LPTIM counter. The phase between those two signals determines
+the counting direction.
+The Encoder mode is only available when the LPTIM is clocked by an internal clock source.
+The signals frequency on both Input1 and Input2 inputs must not exceed the LPTIM internal
+clock frequency divided by 4. This is mandatory in order to guarantee a proper operation of
+the LPTIM.
+
+RM0456 Rev 6

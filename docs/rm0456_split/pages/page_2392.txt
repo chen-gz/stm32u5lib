@@ -1,0 +1,65 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+Figure 749. PWM mode with immediate update versus preloaded update
+Write to CCRx
+
+Write to CCRx
+
+Write to CCRx
+
+LPTIM_CNT
+
+LPTIM_CCRx
+
+PWM mode with
+immediate update
+PRELOAD = 0
+
+OCx
+
+PWM mode with
+preloaded update
+PRELOAD = 1
+
+OCx
+MSv50938V2
+
+Note:
+
+For both PWM modes, the compare match, auto-reload match, and the update event flags
+are set one LPTIM counter cycle later after the corresponding event, the OCxREF level is
+also changed one LPTIM counter cycle later after the corresponding event. For instance
+when the LPTIM_CCRx is set to 3 the CCxIF is set when the LPTIM_CNT = 4. Figure 747
+illustrates this behavior.
+
+58.4.20
+
+Autonomous mode
+When clocked by oscillators available in this mode (refer to RCC), the LPTIM can operate in
+autonomous mode, remaining then fully functional in Stop mode where the APB clock is
+stopped. The APB clock is requested by the peripheral each time a data must be transferred
+from or to the SRAM. Once the APB clock is received by the peripheral, either an interrupt
+or a DMA request is generated, depending on the LPTIM configuration.
+In order to offload the CPU (in Run mode) or to avoid to wake it up when in Stop mode, it is
+possible to use LPTIM DMA requests to transfer the captured values when in input capture
+mode or to update LPTIM registers when in PWM mode.
+When in Stop mode, the LPTIM counter can be automatically started after the detection of
+an active edge on one of its external input triggers.
+
+Input capture mode
+To operate autonomously in Stop mode, the input capture DMA request must be enabled by
+setting the CCxDE bit in the LPTIM_DIER register.
+Each time a counter value is captured and available in the LPTIM_CCRx register, the APB
+clock is requested by the peripheral and a DMA request is generated. The captured value is
+then transferred to the SRAM. The CCxIF flag is automatically cleared by hardware once
+the captured value is read by APB (can be any bus master like CPU or DMA).
+
+PWM mode
+The LPTIM can be configured to autonomously change, at each update event, the output
+waveform pulse width and/or the duty cycle without any CPU intervention. To enable this
+autonomous mode, the corresponding UEDE bit must be set in the LPTIM_DIER register.
+
+RM0456 Rev 6

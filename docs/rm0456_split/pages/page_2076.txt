@@ -1,0 +1,149 @@
+2093
+
+Public key accelerator (PKA)
+
+53.4.11
+
+RM0456
+
+Arithmetic multiplication
+Arithmetic multiplication operation consists in the computation of AxB. Operation
+instructions are summarized in Table 507.
+Table 507. Arithmetic multiplication
+Parameters with direction
+
+IN
+
+OUT
+
+53.4.12
+
+Value (note)
+
+MODE
+
+0x0B
+
+Operand length M
+
+(in bits, not null)
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+RAM@0x408
+
+64 bits
+
+Operand A
+
+M
+
+(0 ≤ A < 2 )
+
+RAM@0xA50
+
+Operand B
+
+M
+
+(0 ≤ B < 2 )
+
+RAM@0xC68
+
+Result: AxB
+
+(0 ≤ result < 22M)
+
+RAM@0xE78
+
+ROS
+2xROS
+
+Arithmetic comparison
+Arithmetic comparison operation consists in the following computation:
+•
+
+If A = B then result = 0xED2C
+
+•
+
+If A > B then result = 0x7AF8
+
+•
+
+If A < B then result = 0x916A
+
+Operation instructions for arithmetic comparison are summarized in Table 508.
+Table 508. Arithmetic comparison
+Parameters with direction
+
+IN
+
+OUT
+
+53.4.13
+
+Value (note)
+
+MODE
+
+0x0C
+
+Operand length M
+
+(in bits, not null)
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+RAM@0x408
+
+64 bits
+
+Operand A
+
+(0 ≤ A < 2
+
+M)
+
+RAM@0xA50
+
+Operand B
+
+(0 ≤ B < 2M)
+
+RAM@0xC68
+
+Result A?B
+
+0xED2C, 0x7AF8 or 0x916A
+
+RAM@0xE78
+
+ROS
+64 bits
+
+RSA CRT exponentiation
+For efficiency many popular crypto libraries such as OpenSSL RSA use the following
+optimization for decryption and signing based on the chinese remainder theorem (CRT):
+•
+
+p and q are precomputed primes, stored as part of the private key
+
+•
+
+dP= d mod (p -1)
+
+•
+•

@@ -1,0 +1,141 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Bit 4 ALCEN: Absolute line counter enable
+This bit enables the absolute line counter.
+0: No effect
+1: Absolute line counter enabled
+Bits 3:2 Reserved, must be kept at reset value.
+Bit 1 FAFCR: Force absolute frame counter reset
+This bit forces the reset of the absolute frame counter.
+0: No effect
+1: Absolute frame counter reset forced
+Bit 0 AFCEN: Absolute frame counter enable
+This bit enables the absolute frame counter.
+0: No effect
+1: Absolute frame counter enabled
+
+59.5.4
+
+GFXTIM timers disable register (GFXTIM_TDR)
+Address offset: 0x00C
+Reset value: 0x0000 0000
+
+31
+Res.
+
+30
+
+29
+
+Res.
+
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+
+20
+
+Res.
+
+RFC2D
+IS
+
+19
+Res.
+
+18
+Res.
+
+17
+
+16
+
+Res.
+
+RFC1D
+IS
+
+w
+15
+Res.
+
+14
+
+13
+
+Res.
+
+Res.
+
+12
+Res.
+
+11
+Res.
+
+10
+Res.
+
+9
+Res.
+
+8
+Res.
+
+7
+Res.
+
+6
+Res.
+
+5
+
+4
+
+Res.
+
+ALCDI
+S
+w
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 RFC2DIS: Relative frame counter 2 disable
+This bit disables the relative frame counter 2.
+0: No effect
+1: Relative frame counter 2 disabled
+Bits 19:17 Reserved, must be kept at reset value.
+Bit 16 RFC1DIS: Relative frame counter 1 disable
+This bit disables the relative frame counter 1.
+0: No effect
+1: Relative frame counter 1 disabled
+Bits 15:5 Reserved, must be kept at reset value.
+Bit 4 ALCDIS: Absolute line counter disable
+This bit disables the absolute line counter.
+0: No effect
+1: Absolute line counter disabled
+Bits 3:1 Reserved, must be kept at reset value.

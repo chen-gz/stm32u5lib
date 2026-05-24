@@ -1,0 +1,57 @@
+2526
+
+Low-power timer (LPTIM)
+
+58.4.12
+
+RM0456
+
+Counter mode
+The LPTIM counter can be used to count external events on the LPTIM input1 or it can be
+used to count internal clock cycles. The CKSEL and COUNTMODE bits control which
+source is used for updating the counter.
+In case the LPTIM is configured to count external events on Input1, the counter can be
+updated following a rising edge, falling edge or both edges depending on the value written
+to the CKPOL[1:0] bits.
+The count modes below can be selected, depending on CKSEL and COUNTMODE values:
+•
+
+CKSEL = 0: the LPTIM is clocked by an internal clock source
+–
+
+COUNTMODE = 0
+The LPTIM is configured to be clocked by an internal clock source and the LPTIM
+counter is configured to be updated following each internal clock pulse.
+
+–
+
+COUNTMODE = 1
+The LPTIM external Input1 is sampled with the internal clock provided to the
+LPTIM.
+Consequently, in order not to miss any event, the frequency of the changes on the
+external Input1 signal must never exceed the frequency of the internal clock
+provided to the LPTIM. Also, the internal clock provided to the LPTIM must not be
+prescaled (PRESC[2:0] = 000).
+
+•
+
+CKSEL = 1: the LPTIM is clocked by an external clock source
+COUNTMODE value is don’t care.
+In this configuration, the LPTIM has no need for an internal clock source (except if the
+glitch filters are enabled). The signal injected on the LPTIM external input1 is used as
+system clock for the LPTIM. This configuration is suitable for operation modes where
+no embedded oscillator is enabled.
+For this configuration, the LPTIM counter can be updated either on rising edges or
+falling edges of the input1 clock signal but not on both rising and falling edges.
+Since the signal injected on the LPTIM external input1 is also used to clock the LPTIM
+kernel logic, there is some initial latency (after the LPTIM is enabled) before the counter
+is incremented. More precisely, the first five active edges on the LPTIM external Input1
+(after LPTIM is enable) are lost.
+
+58.4.13
+
+Timer enable
+The ENABLE bit located in the LPTIM_CR register is used to enable/disable the LPTIM
+kernel logic. After setting the ENABLE bit, a delay of two counter clock cycles is needed
+before the LPTIM is actually enabled.
+The LPTIM_CFGR register must be modified only when the LPTIM is disabled.

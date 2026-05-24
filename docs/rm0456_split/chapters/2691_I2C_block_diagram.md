@@ -1,0 +1,174 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+ignored by the IrDA decoder and if the Receiver is busy (when the USART is receiving
+decoded data from the USART), data on the TX from the USART to IrDA is not
+encoded. While receiving data, transmission must be avoided as the data to be
+transmitted may be corrupted.
+•
+
+A 0 is transmitted as a high pulse and a 1 is transmitted as a 0. The width of the pulse
+is specified as 3/16th of the selected bit period in normal mode (see Figure 828).
+
+•
+
+The SIR decoder converts the IrDA compliant receive signal into a bit stream for
+USART.
+
+•
+
+The SIR receive logic interprets a high state as a logic one and low pulses as logic
+zeros.
+
+•
+
+The transmit encoder output has the opposite polarity to the decoder input. The SIR
+output is in low state when Idle.
+
+•
+
+The IrDA specification requires the acceptance of pulses greater than 1.41 µs. The
+acceptable pulse width is programmable. Glitch detection logic on the receiver end
+filters out pulses of width less than two periods, where the period equals
+PSC / usart_ker_ck_pres (PSC being the prescaler value programmed in the PSC[7:0]
+bitfield of the USART_GTPR register). Pulses of width less than one period are always
+rejected, but those of width greater than one and less than two periods may be
+accepted or rejected, those greater than two periods are accepted as a pulse. The IrDA
+encoder/decoder does not work when PSC = 0.
+
+•
+
+The receiver can communicate with a low-power transmitter.
+
+•
+
+In IrDA mode, the stop bits in the USART_CR2 register must be configured to 1 stop
+bit.
+
+IrDA low-power mode
+•
+
+Transmitter
+In low-power mode, the pulse width is not maintained at 3 / 16 of the bit period. Instead,
+the width of the pulse is three times the IrDA low-power period. The IrDA low-power
+frequency minimum value is 1.42 MHz. Generally, this value is 1.8432 MHz
+(1.42 MHz < IrDA low-power frequency < 2.12 MHz). A low-power mode
+programmable divisor divides the system clock to achieve this value.
+
+•
+
+Receiver
+Receiving in low-power mode is similar to receiving in normal mode. For glitch
+detection the USART must discard pulses of duration shorter than one IrDA low-power
+period. A valid low is accepted only if its duration is greater than two IrDA low-power
+periods.
+
+Note:
+
+IrDA low-power period = PSC / usart_ker_ck_pres, where PSC corresponds to the value
+programmed in the PSC[7:0] bitfield of the USART_GTPR register.
+A pulse of width less than two and greater than one IrDA low-power period may or may not
+be rejected.
+The receiver set-up time must be managed by software. The IrDA physical layer
+specification specifies a minimum of 10 ms delay between transmission and reception.
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+Figure 827. IrDA SIR ENDEC block diagram
+
+IrDA
+SIR
+Transmit
+Encoder
+
+TX
+
+SIREN
+
+USART_TX
+
+USART
+
+USART
+
+SIR
+Receive
+DEcoder
+
+RX
+
+USART_RX
+
+MSv31164V2
+
+Figure 828. IrDA data modulation (3/16) - normal mode
+
+TX
+
+Start
+bit
+0
+
+Stop
+bit
+1
+
+0
+
+1
+
+0
+
+0
+
+1
+
+1
+
+0
+
+1
+
+IrDA_OUT
+Bit period
+
+IrDA_IN
+
+RX
+
+0
+
+1
+
+0
+
+3/16
+
+1
+
+0
+
+0
+
+1
+
+1
+
+0
+
+1
+
+MSv31165V1
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,39 @@
+2584
+
+System window watchdog (WWDG)
+
+62.4.3
+
+RM0456
+
+Enabling the watchdog
+When the user option WWDG_SW selects “Software window watchdog”, the watchdog is
+always disabled after a reset. It is enabled by setting the WDGA bit in the WWDG_CR
+register, then it cannot be disabled again, except by a reset.
+When the user option WWDG_SW selects “Hardware window watchdog”, the watchdog is
+always enabled after a reset, it cannot be disabled.
+
+62.4.4
+
+Controlling the down-counter
+This down-counter is free-running, counting down even if the watchdog is disabled. When
+the watchdog is enabled, the T6 bit must be set to prevent generating an immediate reset.
+The T[5:0] bits contain the number of increments that represent the time delay before the
+watchdog produces a reset. The timing varies between a minimum and a maximum value,
+due to the unknown status of the prescaler when writing to the WWDG_CR register (see
+Figure 772). The WWDG configuration register (WWDG_CFR) contains the high limit of the
+window: to prevent a reset, the down-counter must be reloaded when its value is lower than
+or equal to the window register value, and greater than 0x3F. Figure 772 describes the
+window watchdog process.
+
+Note:
+
+The T6 bit can be used to generate a software reset (the WDGA bit is set and the T6 bit is
+cleared).
+
+62.4.5
+
+How to program the watchdog timeout
+Use the formula in Figure 772 to calculate the WWDG timeout.
+
+Warning:

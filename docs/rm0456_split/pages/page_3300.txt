@@ -1,0 +1,90 @@
+RM0456 Rev 6
+
+RM0456
+
+73.15.3
+
+USB on-the-go high-speed (OTG_HS)
+
+Device initialization
+The application must perform the following steps to initialize the core as a device on powerup or after a mode change from host to device.
+1.
+
+Program the following fields in the OTG_DCFG register:
+–
+
+Device speed
+
+–
+
+Non-zero-length status OUT handshake
+
+–
+
+Periodic Frame Interval
+
+2.
+
+Program the Device threshold control register. This is required only if you are using
+DMA mode and you are planning to enable thresholding.
+
+3.
+
+Clear the DCTL.SDIS bit. The core issues a connect after this bit is cleared.
+
+4.
+
+Program the OTG_GINTMSK register to unmask the following interrupts:
+–
+
+USB reset
+
+–
+
+Enumeration done
+
+–
+
+Early suspend
+
+–
+
+USB suspend
+
+–
+
+SOF
+
+5.
+
+Wait for the USBRST interrupt in OTG_GINTSTS. It indicates that a reset has been
+detected on the USB that lasts for about 10 ms on receiving this interrupt.
+
+6.
+
+Wait for the ENUMDNE interrupt in OTG_GINTSTS. This interrupt indicates the end of
+reset on the USB. On receiving this interrupt, the application must read the OTG_DSTS
+register to determine the enumeration speed and perform the steps listed in Endpoint
+initialization on enumeration completion.
+
+At this point, the device is ready to accept SOF packets and perform control transfers on
+control endpoint 0.
+
+73.15.4
+
+DMA mode
+The OTG host uses the AHB master interface to fetch the transmit packet data (AHB to
+USB) and receive the data update (USB to AHB). The AHB master uses the programmed
+DMA address (OTG_HCDMAx register in host mode and
+OTG_DIEPDMAx/OTG_DOEPDMAx register in peripheral mode) to access the data
+buffers.
+
+73.15.5
+
+Host programming model
+Channel initialization
+The application must initialize one or more channels before it can communicate with
+connected devices. To initialize and enable a channel, the application must perform the
+following steps:
+
+RM0456 Rev 6

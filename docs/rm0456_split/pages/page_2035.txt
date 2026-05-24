@@ -1,0 +1,177 @@
+RM0456 Rev 6
+
+RM0456
+
+Hash processor (HASH)
+
+Bit 2 DMAS: DMA Status
+This bit provides information on the DMA interface activity. It is set with DMAE and cleared
+when DMAE = 0 and no DMA transfer is ongoing. No interrupt is associated with this bit.
+0: DMA interface is disabled (DMAE = 0) and no transfer is ongoing
+1: DMA interface is enabled (DMAE = 1) or a transfer is ongoing
+Bit 1 DCIS: Digest calculation completion interrupt status
+This bit is set by hardware when a digest becomes ready (the whole message has been
+processed). It is cleared by writing it to 0 or by writing the INIT bit to 1 in the HASH_CR
+register.
+0: No digest available in the HASH_HRx registers (zeros are returned)
+1: Digest calculation complete, a digest is available in the HASH_HRx registers. An interrupt
+is generated if the DCIE bit is set in the HASH_IMR register.
+Bit 0 DINIS: Data input interrupt status
+This bit is set by hardware when the FIFO is ready to get a new block (16 locations are free).
+It is cleared by writing it to 0 or by writing the HASH_DIN register.
+0: Less than 16 locations are free in the input buffer
+1: A new block can be entered into the input buffer. An interrupt is generated if the DINIE bit is
+set in the HASH_IMR register.
+When DINIS=0, HASH_CSRx registers reads as zero.
+
+51.6.7
+
+HASH context swap registers
+These registers contain the complete internal register states of the hash processor. They
+are useful when a suspend/resume operation has to be performed because a high-priority
+task needs to use the hash processor while it is already used by another task.
+When such an event occurs, the HASH_CSRx registers have to be read and the read
+values have to be saved in the system memory space. Then the hash processor can be
+used by the preemptive task, and when the hash computation is complete, the saved
+context can be read from memory and written back into the HASH_CSRx registers.
+HASH_CSRx registers can be read only when DINIS equals to 1, otherwise zeros are
+returned.
+
+HASH context swap register x (HASH_CSRx)
+Address offset: 0x0F8 + x * 0x4, (x = 0 to 53)
+Reset value: 0x0000 0002 (HASH_CSR0)
+Reset value: 0x0000 0000 (HASH_CSR1 to 53)
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+CSx[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CSx[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 CSx[31:0]: Context swap x
+Refer to Section 51.6.7: HASH context swap registers introduction.
+
+RM0456 Rev 6

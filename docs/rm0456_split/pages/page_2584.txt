@@ -1,0 +1,274 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+•
+
+Wake-up from Stop mode
+
+•
+
+Autonomous functionality in Stop mode
+
+For information on I2C instantiation, refer to Section 65.3: I2C implementation.
+
+65.3
+
+I2C implementation
+This section provides an implementation overview with respect to the I2C instantiation.
+Table 653. STM32U535/545/575/585 I2C implementation
+I2C features(1)
+
+I2C1
+
+I2C2
+
+I2C3
+
+I2C4
+
+7-bit addressing mode
+
+X
+
+X
+
+X
+
+X
+
+10-bit addressing mode
+
+X
+
+X
+
+X
+
+X
+
+Standard-mode (up to 100 kbit/s)
+
+X
+
+X
+
+X
+
+X
+
+Fast-mode (up to 400 kbit/s)
+
+X
+
+X
+
+X
+
+X
+
+Fast-mode Plus with 20 mA output drive I/Os (up to 1 Mbit/s)
+
+X
+
+X
+
+X
+
+X
+
+Independent clock
+
+X
+
+X
+
+X
+
+X
+
+Autonomous mode
+
+X
+
+X
+
+X
+
+X
+
+Wake-up from Stop mode
+
+(2)
+
+X
+
+X(2)
+
+X(3)
+
+X(2)
+
+SMBus/PMBus
+
+X
+
+X
+
+X
+
+X
+
+1. X = supported.
+2. Wake-up supported from Stop 0 and Stop 1 modes.
+3. Wake-up supported from Stop 0, Stop 1 and Stop 2 modes.
+
+Table 654. STM32U59x/5Ax/5Fx/5Gx I2C implementation
+I2C features(1)
+
+I2C1
+
+I2C2
+
+I2C3
+
+I2C4
+
+I2C5
+
+I2C6
+
+7-bit addressing mode
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+10-bit addressing mode
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Standard-mode (up to 100 kbit/s)
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Fast-mode (up to 400 kbit/s)
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Fast-mode Plus with 20 mA output drive I/Os (up to 1 Mbit/s)
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Independent clock
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Autonomous mode
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Wake-up from Stop mode
+
+X
+
+(2)
+
+X(2)
+
+X(3)
+
+X(2)
+
+X(2)
+
+X(2)
+
+SMBus/PMBus
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+1. X = supported.
+2. Wake-up supported from Stop 0 and Stop 1 modes.
+3. Wake-up supported from Stop 0, Stop 1 and Stop 2 modes.
+
+RM0456 Rev 6

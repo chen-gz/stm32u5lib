@@ -1,0 +1,32 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+Bit 31 MSK4: Alarm A date mask
+0: Alarm A set if the date/day match
+1: Date/day don’t care in alarm A comparison
+Bit 30 WDSEL: Week day selection
+0: DU[3:0] represents the date units
+1: DU[3:0] represents the week day. DT[1:0] is don’t care.
+Bits 29:28 DT[1:0]: Date tens in BCD format
+Bits 27:24 DU[3:0]: Date units or day in BCD format
+Bit 23 MSK3: Alarm A hours mask
+0: Alarm A set if the hours match
+1: Hours don’t care in alarm A comparison
+Bit 22 PM: AM/PM notation
+0: AM or 24-hour format
+1: PM
+Bits 21:20 HT[1:0]: Hour tens in BCD format
+Bits 19:16 HU[3:0]: Hour units in BCD format
+Bit 15 MSK2: Alarm A minutes mask
+0: Alarm A set if the minutes match
+1: Minutes don’t care in alarm A comparison
+Bits 14:12 MNT[2:0]: Minute tens in BCD format
+Bits 11:8 MNU[3:0]: Minute units in BCD format
+Bit 7 MSK1: Alarm A seconds mask
+0: Alarm A set if the seconds match
+1: Seconds don’t care in alarm A comparison
+Bits 6:4 ST[2:0]: Second tens in BCD format.
+Bits 3:0 SU[3:0]: Second units in BCD format.

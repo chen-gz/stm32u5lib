@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+OTG_HCCHAR1 to control. During the setup stage, the application is expected to set
+the PID field in OTG_HCTSIZ1 to SETUP.
+•
+
+Interrupt OUT transactions
+A typical interrupt OUT operation is shown in Figure 906. The assumptions are:
+–
+
+The application is attempting to send one packet in every frame (up to 1 maximum
+packet size), starting with the odd frame (transfer size = 1 024 bytes)
+
+–
+
+The periodic transmit FIFO can hold one packet (1 Kbyte)
+
+–
+
+Periodic request queue depth = 4
+
+The sequence of operations is as follows:
+1.
+
+Initialize and enable channel 1. The application must set the ODDFRM bit in
+OTG_HCCHAR1.
+
+2.
+
+Write the first packet for channel 1.
+
+3.
+
+Along with the last word write of each packet, the OTG_FS host writes an entry to the
+periodic request queue.
+
+4.
+
+The OTG_FS host attempts to send an OUT token in the next (odd) frame.
+
+5.
+
+The OTG_FS host generates an XFRC interrupt as soon as the last packet is
+transmitted successfully.
+
+6.
+
+In response to the XFRC interrupt, reinitialize the channel for the next transfer.
+
+RM0456 Rev 6

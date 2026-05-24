@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+Chrom-GRC (GFXMMU)
+A block is considered as valid (physically mapped) when:
+•
+
+Line is enable.
+
+•
+
+The block number is greater or equal to the first valid block.
+
+•
+
+The block number is lower or equal to the last valid block.
+
+When the block is valid, the physical address generated is considered as correct.
+If the result of the MMU evaluation is not valid, the write operations are ignored, and read
+operations return the default 32-bit value stored in the default value (DV) field of the
+GFXMMU default value register (GFXMMU_DVR).
+
+Block offset address calculation within the buffer
+The block number is added to the line offset to get the offset of the block within the physical
+buffer.
+As a consequence, the line offset stored in the LUT is given by the following formula:
+Line offset = [(Number of visible blocks already used) - (1st visible block)] x block size
+with:
+•
+
+The maximum value for the line offset is when all the block of all the line are used. As
+the consequence the line offset for the last line can be maximum:
+1023 x 256 x 16 = 0x3F:F00x
+
+•
+
+The minimum value for the line offset is when the last block of the first line is the first
+valid block: -255*16 = - 0xFFx i.e 0x3F:F01x
+
+As the consequence the full range of the line offset entry of the LUT is used.
+Carry is not taken into account as this stage to be able to perform negative offset
+calculations (values from 0x3F:F01x to 0x3F:FFFx)
+As the block offset is within a 4-Mbyte buffer, the address generated is 22-bit wide.
+
+Block offset address calculation
+Once the offset of the block within the buffer as been calculated, this value is added to the
+offset of the block respective to the physical buffer base address.
+The offset of the blocks are defined in registers as shown in Figure 100:
+Figure 100. Block validation/comparator implementation
+Add[23:22]
+
+PBufferOffset
+pBuffer0Offset[22:4]
+pBuffer1Offset[22:4]
+
+pBufferOffset[22:4]
+
+pBuffer2Offset[22:4]
+pBuffer3Offset[22:4]
+MSv43803V1
+
+The resulting address and the buffer offset address must be on 23-bit.
+The carry is taken into account to trigger address overflow. The carry is propagated to the
+GFXMMU status register (GFXMMU_SR) to set the buffer x overflow flag (BxOF).
+
+RM0456 Rev 6

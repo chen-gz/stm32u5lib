@@ -1,0 +1,69 @@
+1904
+
+Touch sensing controller (TSC)
+
+RM0456
+
+The reading of the sampling capacitor I/O, to determine if the voltage across CS has
+reached the given threshold, is performed at the end of the pulse low state.
+Note:
+
+The following TSC control register configurations are forbidden:
+
+•
+•
+
+47.3.5
+
+bits PGPSC are set to 000 and bits CTPL are set to 0001
+bits PGPSC are set to 001 and bits CTPL are set to 0000
+
+Spread spectrum feature
+The spread spectrum feature generates a variation of the charge transfer frequency. This is
+done to improve the robustness of the charge transfer acquisition in noisy environments and
+also to reduce the induced emission. The maximum frequency variation is in the range of
+10% to 50% of the nominal charge transfer period. For instance, for a nominal charge
+transfer frequency of 250 kHz (4 µs), the typical spread spectrum deviation is 10% (400 ns)
+which leads to a minimum charge transfer frequency of ~227 kHz.
+In practice, the spread spectrum consists of adding a variable number of SSCLK periods to
+the pulse high state using the principle shown below:
+Figure 455. Spread spectrum variation principle
+Deviation value
+(SSD +1)
+
+3
+2
+1
+0
+
+n-1 n
+
+n+1
+
+Number of pulses
+MS30933V1
+
+The table below details the maximum frequency deviation with different HCLK settings:
+Table 457. Spread spectrum deviation versus AHB clock frequency
+fHCLK
+
+Spread spectrum step
+
+Maximum spread spectrum deviation
+
+80 MHz
+
+12.5 ns
+
+3205.1 ns
+
+160 MHz
+
+6.25 ns
+
+1602.6 ns
+
+The spread spectrum feature can be disabled/enabled using the SSE bit in the TSC_CR
+register. The frequency deviation is also configurable to accommodate the device HCLK
+clock frequency and the selected charge transfer frequency through the SSPSC and
+SSD[6:0] bits in the TSC_CR register.

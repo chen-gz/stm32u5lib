@@ -1,0 +1,129 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+The system clock maximum frequency is 160 MHz. After a system reset, the MSIS
+oscillator, at 4 MHz, is selected as system clock. When a clock source is used directly or
+through the PLL as a system clock, it is not possible to stop it.
+A switch from one clock source to another occurs only if the target clock source is ready
+(clock stable after startup delay or PLL locked). If a clock source that is not yet ready is
+selected, the switch occurs when the clock source becomes ready. Status bits in RCC_CR
+indicate which clocks are ready and which clock is currently used as a system clock.
+The table below gives the different bus frequencies depending on the product voltage range.
+Table 114. Bus maximum frequency
+
+11.4.10
+
+Product voltage range
+
+AHB1/AHB2/AHB3/APB1/APB2/APB3
+
+Range 1
+
+160 MHz
+
+Range 2
+
+110 MHz
+
+Range 3
+
+55 MHz
+
+Range 4
+
+25 MHz
+
+Clock source frequency versus voltage scaling
+The table below gives the different clock source frequencies depending on the product
+voltage range.
+Table 115. Clock source maximum frequency
+
+Voltage
+range
+
+Clock frequency
+MSIS, MSIK
+
+HSI16
+
+HSI48
+
+SHSI
+
+HSE
+
+PLL outputs (VCO min to max)
+
+Range 1
+
+All ranges
+
+Allowed
+
+Allowed
+
+Allowed
+
+50 MHz
+
+208 MHz(1) (128 to 544 MHz)
+
+Range 2
+
+All ranges
+
+Allowed
+
+Allowed
+
+Allowed
+
+50 MHz
+
+110 MHz (128 to 544 MHz)
+
+Range 3
+
+All ranges
+
+Allowed
+
+Allowed
+
+Allowed
+
+50 MHz
+
+55 MHz (128 to 330 MHz)
+
+Range 4
+
+Up to 24 MHz
+range
+
+Allowed
+
+Allowed
+Allowed
+25 MHz
+(divided by 2) (divided by 2)
+
+Not allowed
+
+1. The maximum frequency depends on peripherals connected to PLL outputs.
+
+11.4.11
+
+Clock security system (CSS)
+The CSS can be activated by software. In this case, the clock detector is enabled after
+the HSE oscillator wake-up time, and disabled when this oscillator is stopped.
+If a failure is detected on the HSE clock, the HSE oscillator is automatically disabled. A clock
+failure event is sent to some timers break input and an interrupt is generated to inform the
+software about the failure (clock security system interrupt CSSI). This allows the MCU to
+perform rescue operations. The CSSI is linked to the Cortex-M33 NMI (nonmaskable
+interrupt) exception vector.
+
+Note:

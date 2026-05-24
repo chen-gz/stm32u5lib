@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Bits 31:23 Reserved, must be kept at reset value.
+Bits 22:16 Reserved, must be kept at reset value.
+Bit 15 DEP: Driver enable polarity selection
+0: DE signal is active high.
+1: DE signal is active low.
+This bit can only be written when the LPUART is disabled (UE = 0).
+Bit 14 DEM: Driver enable mode
+This bit enables the user to activate the external transceiver control, through the DE signal.
+0: DE function is disabled.
+1: DE function is enabled. The DE signal is output on the RTS pin.
+This bit can only be written when the LPUART is disabled (UE = 0).
+Bit 13 DDRE: DMA Disable on reception Error
+0: DMA is not disabled in case of reception error. The corresponding error flag is set but
+RXNE is kept 0 preventing from overrun. As a consequence, the DMA request is not
+asserted, so the erroneous data is not transferred (no DMA request), but next correct
+received data is transferred.
+1: DMA is disabled following a reception error. The corresponding error flag is set, as well as
+RXNE. The DMA request is masked until the error flag is cleared. This means that the
+software must first disable the DMA request (DMAR = 0) or clear RXNE before clearing the
+error flag.
+This bit can only be written when the LPUART is disabled (UE = 0).
+Note: The reception errors are: parity error, framing error or noise error.
+Bit 12 OVRDIS: Overrun Disable
+This bit is used to disable the receive overrun detection.
+0: Overrun Error Flag, ORE is set when received data is not read before receiving new data.
+1: Overrun functionality is disabled. If new data is received while the RXNE flag is still set
+the ORE flag is not set and the new received data overwrites the previous content of the
+LPUART_RDR register.
+This bit can only be written when the LPUART is disabled (UE = 0).
+Note: This control bit enables checking the communication flow w/o reading the data.
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 CTSIE: CTS interrupt enable
+0: Interrupt is inhibited
+1: An interrupt is generated whenever CTSIF = 1 in the LPUART_ISR register
+Bit 9 CTSE: CTS enable
+0: CTS hardware flow control disabled
+1: CTS mode enabled, data is only transmitted when the CTS input is deasserted (tied to 0).
+If the CTS input is asserted while data is being transmitted, then the transmission completes
+before stopping. If data is written into the data register while CTS is asserted, the
+transmission is postponed until CTS is deasserted.
+This bit can only be written when the LPUART is disabled (UE = 0)
+Bit 8 RTSE: RTS enable
+0: RTS hardware flow control disabled
+1: RTS output enabled, data is only requested when there is space in the receive buffer. The
+transmission of data is expected to cease after the current character has been transmitted.
+The RTS output is deasserted (pulled to 0) when data can be received.
+This bit can only be written when the LPUART is disabled (UE = 0).
+
+RM0456 Rev 6

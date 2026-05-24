@@ -1,0 +1,154 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+39.4
+
+MDF functional description
+
+39.4.1
+
+MDF block diagram
+Figure 327. MDF block diagram
+From the ADC
+
+MDF
+
+ADCITF 1/2 (1)
+(ADC interface)
+
+(2)
+mdf_flt[x:0]_evt_it
+
+bs0_r
+
+mdf_flt[x:0]_rx_it
+
+RX
+FIFO0
+
+Digital filter
+processing (DFLT0)
+
+mdf_flt[x:0]_dma
+
+bs0_f
+
+SCD0
+
+bs_flt0
+
+bs1_r
+
+REGIF
+
+TRIG0
+
+AHB
+
+bs1_f
+RX
+FIFO1
+
+Digital filter
+processing (DFLT1)
+
+SCD1
+
+...
+
+Digital filter
+processing (DFLTx)
+
+(4)
+
+MDF_CKI0
+
+SITF1
+
+MDF_SDI1
+
+(serial
+interface)
+
+MDF_CKI1
+
+….
+
+bsx_r
+mdf_hclk
+
+RX
+FIFOx
+
+MDF_SDI0
+
+(serial
+interface)
+
+BSMX
+bs_flt1
+
+TRIG1
+
+SITF0
+
+….
+
+mdf_flt[x:0]_it
+
+SCDx
+
+bsx_f
+
+(3)
+
+SITFx
+
+MDF_SDIx
+
+(serial
+interface)
+
+MDF_CKIx
+
+bs_fltx
+
+TRIGx
+
+mdf_trg[13:0]_0
+mdf_trg[13:0]_1
+
+mdf_trgi[13:0]
+
+mdf_trg[13:0]_2
+
+TRIG_CK
+
+mdf_trg[13:0]_3
+mdf_trgo
+mdf_bus_ckreq
+
+CKGEN and control
+
+mdf_ker_ck
+
+MDF_CCK0
+MDF_CCK1
+
+mdf_ker_ckreq
+mdf_break[3:0]
+
+AHB clock domain
+
+mdf_ker_ck clock domain
+MSv62653V3
+
+1. Refer to Section 39.3: MDF implementation to check if the ADCITF is available, and which ADCs are
+connected.
+2. Not always implemented, refer to the vector table of the product for details.
+3. Refer to Section 39.3: MDF implementation to check the number of filter instances available.
+4. The number of trigger inputs depends on the product. Refer to Section 39.3: MDF implementation for
+details.

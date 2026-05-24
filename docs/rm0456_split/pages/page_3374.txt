@@ -1,0 +1,84 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Upon sending the CRC packet, the TXMSGSENT flag is set to indicate the completion of
+the message transmission.
+
+Hard Reset transmission
+As soon as it is known that a Hard Reset needs to be transmitted, setting the TXHRST bit of
+the UCPD_CR register forces the internal state machine to generate the correct sequence.
+The value of UCPD_TX_ORDSET does not require update in this precise case (the correct
+code for Hard Reset is sent by UCPD).
+The USB Power Delivery specification requires that in the case of an ongoing message
+transmission, the Hard Reset takes precedence. In this case, for example, UCPD truncates
+the payload of the current message, appending EOP to the end. No notification is available
+via the registers (for example through the TXMSGSEND flag). This is justified by the fact
+that the Hard Reset takes precedence over any previous activity (for which it is therefore no
+longer important to know if it is completed).
+
+Use of DMA for transmission
+DMA (Direct Memory Access) can be enabled for transmission by setting the TXDMAEN bit
+in the UCPD_CR register.
+For each message:
+
+74.5.4
+
+•
+
+Prepare the whole message in memory (starting with two header bytes)
+
+•
+
+Program the DMA operation with a length corresponding to the two header bytes plus a
+number of data bytes corresponding to the number of data words multiplied by four
+
+•
+
+Write TXSEND to initiate the message transfer
+
+•
+
+If TXMSGDISC then go back to previous line (TXSEND)
+
+•
+
+Wait for DMA transfer complete interrupt (that is, when last Tx byte written to UCPD)
+
+•
+
+Double-check subsequent TXMSGSENT interrupt appears
+
+USB PD receive
+Notification of start of the receive message sequence is triggered by an interrupt on
+UCPD_SR (bit RXORDDET).
+The information is recovered by reading:
+•
+
+UCPD_RX_SOP (on interrupt RXORDDET)
+
+•
+
+UCPD_RXDR (on interrupt RXNE, repeats for each byte)
+
+•
+
+UCPD_RXPAYSZ (on interrupt RXMSGEND)
+
+The data previously read from UCPD_RXDR above must be discarded at this point if the
+RXERR flag is set.
+If the CRC is valid, the received data is transferred to the protocol layer.
+For debug purposes, it may be desirable to track statistics of the number of incorrect
+K-codes received (this is done only when 3/4 K-codes were valid as defined in the
+specification). This is facilitated through:
+•
+
+RXSOP3OF4 bit indicating the presence of at least one invalid K-code
+
+•
+
+RXSOPKINVALID bitfield identifying the order of invalid K-code in the ordered set
+
+RM0456 Rev 6

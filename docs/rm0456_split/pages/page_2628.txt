@@ -1,0 +1,25 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+SMBus controller receiver
+When the SMBus controller wants to receive, at the end of the transfer, the PEC followed by
+a STOP condition, the automatic end mode can be selected (AUTOEND = 1). The
+PECBYTE bit must be set and the target address programmed before setting the START bit.
+In this case, after the receipt of NBYTES[7:0] - 1 data bytes, the next received byte is
+automatically checked versus the I2C_PECR register content. A NACK response is given to
+the PEC byte, followed by a STOP condition.
+When the SMBus controller receiver wants to receive, at the end of the transfer, the PEC
+byte followed by a RESTART condition, the software mode must be selected (AUTOEND =
+0). The PECBYTE bit must be set and the target address programmed before setting the
+START bit. In this case, after the receipt of NBYTES[7:0] - 1 data bytes, the next received
+byte is automatically checked versus the I2C_PECR register content. The TC flag is set
+after the PEC byte reception, stretching the SCL line low. The RESTART condition can be
+programmed in the TC interrupt subroutine.
+Caution:
+
+The PECBYTE bit has no effect when the RELOAD bit is set.
+
+RM0456 Rev 6

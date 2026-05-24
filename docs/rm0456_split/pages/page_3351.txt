@@ -1,0 +1,89 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+mode) for the frame is not present in the FIFO, then the core generates an IN token
+received when Tx FIFO empty interrupt for the endpoint.
+
+5.
+
+6.
+
+–
+
+A zero-length data packet is transmitted on the USB for isochronous IN endpoints
+
+–
+
+A NAK handshake is transmitted on the USB for interrupt IN endpoints
+
+The packet count for the endpoint is decremented by 1 under the following conditions:
+–
+
+For isochronous endpoints, when a zero- or non-zero-length data packet is
+transmitted
+
+–
+
+For interrupt endpoints, when an ACK handshake is transmitted
+
+–
+
+When the transfer size and packet count are both 0, the transfer completed
+interrupt for the endpoint is generated and the endpoint enable is cleared.
+
+At the “Periodic frame Interval” (controlled by PFIVL in OTG_DCFG), when the core
+finds non-empty any of the isochronous IN endpoint FIFOs scheduled for the current
+frame non-empty, the core generates an IISOIXFR interrupt in OTG_GINTSTS.
+
+Application programming sequence:
+1.
+
+Program the OTG_DIEPCTLx register with the endpoint characteristics and set the
+CNAK and EPENA bits.
+
+2.
+
+Write the data to be transmitted in the next frame to the transmit FIFO.
+
+3.
+
+Asserting the ITTXFE interrupt (in OTG_DIEPINTx) indicates that the application has
+not yet written all data to be transmitted to the transmit FIFO.
+
+4.
+
+If the interrupt endpoint is already enabled when this interrupt is detected, ignore the
+interrupt. If it is not enabled, enable the endpoint so that the data can be transmitted on
+the next IN token attempt.
+
+5.
+
+Asserting the XFRC interrupt (in OTG_DIEPINTx) with no ITTXFE interrupt in
+OTG_DIEPINTx indicates the successful completion of an isochronous IN transfer. A
+read to the OTG_DIEPTSIZx register must give transfer size = 0 and packet count = 0,
+indicating all data were transmitted on the USB.
+
+6.
+
+Asserting the XFRC interrupt (in OTG_DIEPINTx), with or without the ITTXFE interrupt
+(in OTG_DIEPINTx), indicates the successful completion of an interrupt IN transfer. A
+read to the OTG_DIEPTSIZx register must give transfer size = 0 and packet count = 0,
+indicating all data were transmitted on the USB.
+
+7.
+
+Asserting the incomplete isochronous IN transfer (IISOIXFR) interrupt in
+OTG_GINTSTS with none of the aforementioned interrupts indicates the core did not
+receive at least 1 periodic IN token in the current frame.
+
+•
+
+Incomplete isochronous IN data transfers
+
+This section describes what the application must do on an incomplete isochronous IN data
+transfer.
+Internal data flow:
+1.

@@ -1,0 +1,177 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+44.15.11 DSI Host video mode configuration register (DSI_VMCR)
+Address offset: 0x0038
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PGO
+
+Res.
+
+Res.
+
+Res.
+
+PGM
+
+Res.
+
+Res.
+
+Res.
+
+PGE
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+8
+
+LPCE FBTAAE LPHFPE LPHBPE LPVAE LPVFPE LPVBPE LPVSAE
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+0
+
+VMT[1:0]
+rw
+
+rw
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bit 24 PGO: Pattern generator orientation
+This bit configures the color bar orientation.
+0: Vertical color bars.
+1: Horizontal color bars.
+Bits 23:21 Reserved, must be kept at reset value.
+Bit 20 PGM: Pattern generator mode
+This bit configures the pattern generator mode.
+0: Color bars (horizontal or vertical).
+1: BER pattern (vertical only).
+Bits 19:17 Reserved, must be kept at reset value.
+Bit 16 PGE: Pattern generator enable
+This bit enables the video mode pattern generator.
+0: Pattern generator is disabled.
+1: Pattern generator is enabled.
+Bit 15 LPCE: Low-power command enable
+This bit enables the command transmission only in low-power mode.
+0: Command transmission in low-power mode is disabled.
+1: Command transmission in low-power mode is enabled.
+Bit 14 FBTAAE: Frame bus-turn-around acknowledge enable
+This bit enables the request for an acknowledge response at the end of a frame.
+0: Acknowledge response at the end of a frame is disabled.
+1: Acknowledge response at the end of a frame is enabled.
+Bit 13 LPHFPE: Low-power horizontal front-porch enable
+This bit enables the return to low-power inside the horizontal front-porch (HFP) period when
+timing allows.
+0: Return to low-power inside the HFP period is disabled.
+1: Return to low-power inside the HFP period is enabled.
+Bit 12 LPHBPE: Low-power horizontal back-porch enable
+This bit enables the return to low-power inside the horizontal back-porch (HBP) period when
+timing allows.
+0: Return to low-power inside the HBP period is disabled.
+1: Return to low-power inside the HBP period is enabled.

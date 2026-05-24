@@ -1,0 +1,68 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Figure 195. Command path state machine (CPSM)
+Reset
+SDMMC_CMD write
+and
+CPSMEN = 1
+and
+and
+WAITPEND = 1
+
+Pending
+
+Idle
+
+SDMMC_CMD write
+and
+CPSMEN = 1
+and
+BOOTEN = 1
+
+DPSM send CMD
+or
+WAITPEND = 0
+
+BOOTMODE = 0
+and
+BOOTEN = 1
+
+End of response
+or
+CRC status error
+
+SDMMC_CMD write
+and
+CPSMEN = 1
+and
+WAITPEND = 0
+and
+BOOTEN = 0
+
+Receive
+
+BOOTMODE = 0
+and
+BOOTEN = 0
+
+Start bit detected
+
+End of CMD
+and
+WAITRESP = 00
+
+Boot
+
+Wait
+
+BOOTMODE = 1
+
+Send
+
+•
+
+•

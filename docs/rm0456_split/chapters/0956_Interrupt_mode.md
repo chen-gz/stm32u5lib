@@ -1,0 +1,57 @@
+960
+
+CORDIC coprocessor (CORDIC)
+
+25.3.8
+
+RM0456
+
+Interrupt mode
+By setting the interrupt enable (IE) bit in the CORDIC_CSR register, an interrupt is
+generated whenever the RRDY flag is set. The interrupt is cleared when the flag is reset.
+This mode allows the result of the calculation to be read under interrupt service routine, and
+hence given a priority relative to other tasks. However, it is slower than directly reading the
+result, or polling the flag, due to the interrupt handling delays.
+
+25.3.9
+
+DMA mode
+If the DMA write enable (DMAWEN) bit is set in the CORDIC_CSR register, and no
+operation is pending, a DMA write channel request is generated. The DMA controller can
+transfer a primary input argument (ARG1) from memory into the CORDIC_WDATA register.
+Writing into the register deasserts the DMA request. If NARGS = 1 in the CORDIC_CSR
+register, a second DMA write channel request is generated to transfer the secondary input
+argument (ARG2) into the CORDIC_WDATA register. When all input arguments have been
+written, and any ongoing calculation has been completed (by reading the results), a new
+calculation is started and another DMA write channel request is generated.
+If the DMA read enable (DMAREN) bit is set in the CORDIC_CSR register, the RRDY flag
+going active generates a DMA read channel request. The DMA controller can then transfer
+the primary result (RES1) from the CORDIC_RDATA register to memory. Reading the
+register deasserts the DMA request. If NRES = 1 in the CORDIC_CSR register, a second
+DMA request is generated to read out the secondary result (RES2). When all results have
+been read, the RRDY flag is deasserted.
+The DMA read and write channels can be enabled separately. If both channels are enabled,
+the CORDIC can autonomously perform repeated calculations on a buffer of data without
+processor intervention. This allows the processor to perform other tasks. The DMA
+controller is operating in memory-to-peripheral mode for the write channel, and peripheralto-memory mode for the read channel. The sequence is started by the processor setting the
+DMAWEN flag, the DMA read and write requests are generated as fast as the CORDIC can
+process the data.
+In some cases, the input data may be stored in memory, and the output is transferred at
+regular intervals to another peripheral, such as a digital-to-analog converter. In this case,
+the destination peripheral generates a DMA request each time it needs a new data. The
+DMA controller can directly fetch the next sample from the CORDIC_RDATA register (in this
+case the DMA controller is operating in memory-to-peripheral mode, even though the
+source is a peripheral register). The act of reading the result allows the CORDIC to start a
+new calculation, which in turn generates a DMA write channel request, and the DMA
+controller transfers the next input value to the CORDIC_WDATA register. The DMA write
+channel is enabled (DMAWEN = 1), but the read channel must not be enabled.
+In a similar way, data coming from another peripheral, such as an ADC, can be transferred
+directly to the CORDIC_WDATA register (in peripheral-to-memory mode). The DMA write
+channel must not be enabled. The CORDIC processes the input data and generates a DMA
+read request when complete, if DMAREN = 1. The DMA controller then transfers the result
+from CORDIC_RDATA register to memory (peripheral-to-memory mode).
+
+Note:
+
+<!-- pagebreak -->
+

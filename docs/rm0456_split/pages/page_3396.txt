@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Debug support (DBG)
+
+75.2
+
+DBG functional description
+
+75.2.1
+
+DBG block diagram
+Figure 956. Block diagram of debug support infrastructure
+Trace port
+
+JTAG/Serial-wire port
+DWT
+
+JTDI
+SWJ-DP
+
+JTDO
+
+AHB-AP
+
+JTMS/SWDIO
+
+BPU
+
+ITM
+
+TRACECK
+
+TPIU
+
+TRACED[3:0]
+
+AHB
+
+TRACESWO
+
+ETM
+
+Core
+
+JTCK/SWCLK
+
+PPB
+
+nJTRST
+CPU
+Cortex®-M33
+
+DBG_MCU
+ROM
+table
+
+CTI
+
+MSv49702V1
+
+75.2.2
+
+DBG pins and internal signals
+Table 787. JTAG/Serial-wire debug port pins
+JTAG debug port
+
+SW debug port
+
+Pin
+assignment
+
+Pin name
+Type
+
+Description
+
+Type
+
+Description
+
+JTMS/SWDIO
+
+I
+
+JTAG test mode select
+
+IO
+
+Serial-wire data in/out
+
+PA13
+
+JTCK/SWCLK
+
+I
+
+JTAG test clock
+
+I
+
+Serial-wire clock
+
+PA14
+
+JTDI(1)
+
+I
+
+JTAG test data input
+
+-
+
+-
+
+PA15
+
+JTDO
+
+O
+
+JTAG test data output
+
+-
+
+-
+
+PB3
+
+nJTRST
+
+I
+
+JTAG test reset
+
+-
+
+-
+
+PB4
+
+1. TDI is hosted on the same IO as a USBPD-CC line. To avoid pull-up/down conflict, a user option can help to decide
+whether the pad is used as TDI or as CC.
+
+Table 788. Trace port pins
+Pin name
+
+Type
+
+Description
+
+TRACED0
+
+Trace synchronous data out 0
+
+TRACED1
+
+Trace synchronous data out 1
+
+TRACED2
+
+O
+
+Trace synchronous data out 2
+
+TRACED3
+
+Trace synchronous data out 3
+
+TRACECK
+
+Trace clock
+
+RM0456 Rev 6
+
+Pin assignment
+
+Refer to the datasheet

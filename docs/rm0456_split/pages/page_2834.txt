@@ -1,0 +1,56 @@
+19
+
+rw
+
+rw
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Bits 30:28 MBR[2:0]: master baud rate prescaler setting
+000: SPI master clock/2
+001: SPI master clock/4
+010: SPI master clock/8
+011: SPI master clock/16
+100: SPI master clock/32
+101: SPI master clock/64
+110: SPI master clock/128
+111: SPI master clock/256
+Note: MBR setting is considered at slave working at TI mode, too (see Section 68.5.1: TI
+mode).
+Bits 27:23 Reserved, must be kept at reset value.
+Bit 22 CRCEN: hardware CRC computation enable
+0: CRC calculation disabled
+1: CRC calculation enabled
+Bit 21 Reserved, must be kept at reset value.
+Bits 20:16 CRCSIZE[4:0]: length of CRC frame to be transferred and compared
+Most significant bits are taken into account from polynomial calculation when CRC result is
+transferred or compared. The length of the polynomial is not affected by this setting.
+The value must be equal or a multiple of the data size configured through the DSIZE bitfield.
+Its maximum size corresponds to the instance maximum data size.
+00000: not used
+00001: not used
+00010: not used
+00011: 4 bits
+00100: 5 bits
+00101: 6 bits
+00110: 7 bits
+00111: 8 bits
+.....
+11101: 30 bits
+11110: 31 bits
+11111: 32 bits
+Note: The most significant bit at CRCSIZE bit field is reserved for the peripheral instances
+where data size is limited to 16 bits.
+The CRCSIZE[2:0] bits are fixed to 1 for the peripheral instances with a limited set of
+features.
+Bit 15 TXDMAEN: Tx DMA stream enable
+0: Tx DMA disabled
+1: Tx DMA enabled
+Bit 14 RXDMAEN: Rx DMA stream enable
+0: Rx-DMA disabled
+1: Rx-DMA enabled
+Bits 13:10 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,115 @@
+Secure digital input/output MultiMediaCard interface (SDMMC) . . 1178
+31.1
+
+SDMMC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1178
+
+31.2
+
+SDMMC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1178
+
+31.3
+
+SDMMC bus topology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1179
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+31.4
+
+SDMMC operation modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1181
+
+31.5
+
+SDMMC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1182
+
+31.6
+
+31.5.1
+
+SDMMC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1182
+
+31.5.2
+
+SDMMC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 1182
+
+31.5.3
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1183
+
+31.5.4
+
+SDMMC adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1185
+
+31.5.5
+
+SDMMC AHB slave interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1207
+
+31.5.6
+
+SDMMC AHB master interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1208
+
+31.5.7
+
+AHB and SDMMC_CK clock relation . . . . . . . . . . . . . . . . . . . . . . . . . 1211
+
+Card functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1211
+31.6.1
+
+SD I/O mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1211
+
+31.6.2
+
+CMD12 send timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1219
+
+31.6.3
+
+Sleep (CMD5) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1223
+
+31.6.4
+
+Interrupt mode (Wait-IRQ) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1224
+
+31.6.5
+
+Boot operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1225
+
+31.6.6
+
+Response R1b handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1228
+
+31.6.7
+
+Reset and card cycle power . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1229
+
+31.7
+
+Hardware flow control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1230
+
+31.8
+
+Ultra-high-speed phase I (UHS-I) voltage switch . . . . . . . . . . . . . . . . . 1230
+
+31.9
+
+SDMMC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1233
+
+31.10 SDMMC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1235
+31.10.1 SDMMC power control register (SDMMC_POWER) . . . . . . . . . . . . . 1235
+31.10.2 SDMMC clock control register (SDMMC_CLKCR) . . . . . . . . . . . . . . 1236
+31.10.3 SDMMC argument register (SDMMC_ARGR) . . . . . . . . . . . . . . . . . . 1238
+31.10.4 SDMMC command register (SDMMC_CMDR) . . . . . . . . . . . . . . . . . 1238
+31.10.5 SDMMC command response register (SDMMC_RESPCMDR) . . . . 1240
+31.10.6 SDMMC response x register (SDMMC_RESPxR) . . . . . . . . . . . . . . 1241
+31.10.7 SDMMC data timer register (SDMMC_DTIMER) . . . . . . . . . . . . . . . 1241
+31.10.8 SDMMC data length register (SDMMC_DLENR) . . . . . . . . . . . . . . . 1242
+31.10.9 SDMMC data control register (SDMMC_DCTRL) . . . . . . . . . . . . . . . 1243
+31.10.10 SDMMC data counter register (SDMMC_DCNTR) . . . . . . . . . . . . . . 1244
+31.10.11 SDMMC status register (SDMMC_STAR) . . . . . . . . . . . . . . . . . . . . . 1245
+31.10.12 SDMMC interrupt clear register (SDMMC_ICR) . . . . . . . . . . . . . . . . 1248
+31.10.13 SDMMC mask register (SDMMC_MASKR) . . . . . . . . . . . . . . . . . . . . 1250
+31.10.14 SDMMC acknowledgment timer register (SDMMC_ACKTIMER) . . . 1253
+31.10.15 SDMMC DMA control register (SDMMC_IDMACTRLR) . . . . . . . . . . 1253
+
+RM0456 Rev 6

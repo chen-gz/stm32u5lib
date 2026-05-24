@@ -1,0 +1,38 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Table 224. FMC_BCRx bitfields (mode 1) (continued)
+Bit number
+
+Bit name
+
+Value to set
+
+5:4
+
+MWID
+
+As needed
+
+3:2
+
+MTYP
+
+As needed, exclude 0x2 (NOR flash memory)
+
+1
+
+MUXE
+
+0x0
+
+0
+
+MBKEN
+
+0x1
+
+Table 225. FMC_BTRx bitfields (mode 1)

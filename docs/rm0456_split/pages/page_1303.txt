@@ -1,0 +1,131 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 241. Example of overrun (OVRMOD = 0)
+
+ADSTART
+EOC
+OVR
+ADSTP
+TRGx
+ADC state
+
+RDY
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+D1
+
+D2
+
+D3
+
+---
+
+CH11
+
+CH12
+
+CH13
+
+STOP
+
+RDY
+
+ADC_DR read
+access
+ADC_DR
+
+D4
+D5
+
+D4
+ADC_DR
+(FIFO_DATA)
+
+D10
+
+D9
+na
+
+D10
+by s/w
+
+by h/w
+
+triggered
+
+D12
+Indicative timings
+
+MSv69549V1
+
+Figure 242. Example of overrun (OVRMOD = 1)
+
+ADSTART
+EOC
+
+OVR
+ADSTP
+TRGx
+ADC state
+
+RDY
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+D1
+
+D2
+
+D3
+
+ADC_DR read access
+ADC_DR
+(OVRMOD =1)
+
+by s/w
+
+by h/w
+
+CH5
+CH6
+Overun
+
+triggered
+
+D4
+
+D5
+
+CH7
+
+STOP
+
+RDY
+
+D6
+
+Indicative timings
+MSv65301V1
+
+Note:
+
+There is no overrun detection on the injected channels since there is a dedicated data
+register for each of the four injected channels.
+
+RM0456 Rev 6

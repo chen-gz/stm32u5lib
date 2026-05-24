@@ -1,0 +1,134 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.36
+
+RM0456
+
+RCC APB3 peripheral clock enable register (RCC_APB3ENR)
+Address offset: 0x0A8
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+COMP OPAMP LPTIM4 LPTIM3 LPTIM1
+EN
+EN
+EN
+EN
+EN
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+LPUAR
+I2C3EN
+T1EN
+
+rw
+
+rw
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 RTCAPBEN: RTC and TAMP APB clock enable
+This bit is set and cleared by software.
+0: RTC and TAMP APB clock disabled
+1: RTC and TAMP APB clock enabled
+Bit 20 VREFEN: VREFBUF clock enable
+This bit is set and cleared by software.
+0: VREFBUF clock disabled
+1: VREFBUF clock enabled
+Bits 19:16 Reserved, must be kept at reset value.
+Bit 15 COMPEN: COMP clock enable
+This bit is set and cleared by software.
+0: COMP clock disabled
+1: COMP clock enabled
+Bit 14 OPAMPEN: OPAMP clock enable
+This bit is set and cleared by software.
+0: OPAMP clock disabled
+1: OPAMP clock enabled
+Bit 13 LPTIM4EN: LPTIM4 clock enable
+This bit is set and cleared by software.
+0: LPTIM4 clock disabled
+1: LPTIM4 clock enabled
+Bit 12 LPTIM3EN: LPTIM3 clock enable
+This bit is set and cleared by software.
+0: LPTIM3 clock disabled
+1: LPTIM3 clock enabled
+Bit 11 LPTIM1EN: LPTIM1 clock enable
+This bit is set and cleared by software.
+0: LPTIM1 clock disabled
+1: LPTIM1 clock enabled
+Bits 10:8 Reserved, must be kept at reset value.

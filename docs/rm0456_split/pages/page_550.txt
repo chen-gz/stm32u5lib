@@ -1,0 +1,206 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 5 LPTIM2RST: LPTIM2 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the LPTIM2.
+Bits 4:2 Reserved, must be kept at reset value.
+Bit 1 I2C4RST: I2C4 reset
+This bit is set and cleared by software
+0: No effect
+1: Reset the I2C4.
+Bit 0 Reserved, must be kept at reset value.
+
+11.8.27
+
+RCC APB2 peripheral reset register (RCC_APB2RSTR)
+Address offset: 0x07C
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+DSIRS LTDCR
+T
+ST
+
+25
+
+24
+
+GFXTI USBRS
+MRST
+T
+
+23
+
+22
+
+21
+
+Res.
+
+SAI2R
+ST
+
+SAI1R
+ST
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+TIM17
+RST
+
+TIM16
+RST
+
+TIM15
+RST
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SPI1R
+ST
+
+TIM1R
+ST
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+Res.
+
+USART TIM8R
+1RST
+ST
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 DSIRST: DSI reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the DSI.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 26 LTDCRST: LTDC reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the LTDC.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 25 GFXTIMRST: GFXTIM reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the GFXTIM.
+Note: .This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.

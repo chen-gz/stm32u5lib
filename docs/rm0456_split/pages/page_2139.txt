@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 551. 3-phase combined PWM signals with multiple trigger pulses per period
+ARR
+CCR5
+CCR6
+CCR1
+CCR4
+CCR2
+CCR3
+Counter
+tim_oc5ref
+tim_oc1refc
+
+GC5C[3:0]
+
+tim_oc2refc
+tim_oc3refc
+Preload 100
+Active
+
+xxx
+001
+
+xxx
+100
+
+tim_oc4ref
+tim_oc6ref
+tim_trgo2
+MSv62331V1
+
+The tim_trgo2 waveform shows how the ADC can be synchronized on given 3-phase PWM
+signals. Refer to Section 54.3.31: ADC triggers for more details.
+
+54.3.17
+
+Complementary outputs and dead-time insertion
+The advanced-control timers (TIM1/TIM8) can output two complementary signals and
+manage the switching-off and the switching-on instants of the outputs.
+This time is generally known as dead-time and it has to be adjusted depending on the
+devices that are connected to the outputs and their characteristics (such as intrinsic delays
+of level-shifters, or delays due to power switches).
+The polarity of the outputs (main output tim_ocx or complementary tim_ocxn) can be
+selected independently for each output. This is done by writing to the CCxP and CCxNP bits
+in the TIMx_CCER register.
+The complementary signals tim_ocx and tim_ocxn are activated by a combination of several
+control bits: the CCxE and CCxNE bits in the TIMx_CCER register and the MOE, OISx,
+OISxN, OSSI, and OSSR bits in the TIMx_BDTR and TIMx_CR2 registers. Refer to
+Table 554: Output control bits for complementary tim_ocx and tim_ocxn channels with break
+feature for more details. In particular, the dead-time is activated when switching to the idle
+state (MOE falling down to 0).
+Dead-time insertion is enabled by setting both CCxE and CCxNE bits, and the MOE bit if the
+break circuit is present. There is one 10-bit dead-time generator for each channel. From a
+
+RM0456 Rev 6

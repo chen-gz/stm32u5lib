@@ -1,0 +1,54 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Bits 15:13 TRIGSEL[2:0]: Trigger selector
+The TRIGSEL bits select the trigger source that serves as a trigger event for the LPTIM among the
+below 8 available sources:
+000: lptim_ext_trig0
+001: lptim_ext_trig1
+010: lptim_ext_trig2
+011: lptim_ext_trig3
+100: lptim_ext_trig4
+101: lptim_ext_trig5
+110: lptim_ext_trig6
+111: lptim_ext_trig7
+See Section 58.4.3: LPTIM input and trigger mapping for details.
+Bit 12 Reserved, must be kept at reset value.
+Bits 11:9 PRESC[2:0]: Clock prescaler
+The PRESC bits configure the prescaler division factor. It can be one among the following division
+factors:
+000: /1
+001: /2
+010: /4
+011: /8
+100: /16
+101: /32
+110: /64
+111: /128
+Bit 8 Reserved, must be kept at reset value.
+Bits 7:6 TRGFLT[1:0]: Configurable digital filter for trigger
+The TRGFLT value sets the number of consecutive equal samples that are detected when a level
+change occurs on an internal trigger before it is considered as a valid level transition. An internal
+clock source must be present to use this feature
+00: any trigger active level change is considered as a valid trigger
+01: trigger active level change must be stable for at least 2 clock periods before it is considered as
+valid trigger.
+10: trigger active level change must be stable for at least 4 clock periods before it is considered as
+valid trigger.
+11: trigger active level change must be stable for at least 8 clock periods before it is considered as
+valid trigger.
+Bit 5 Reserved, must be kept at reset value.
+Bits 4:3 CKFLT[1:0]: Configurable digital filter for external clock
+The CKFLT value sets the number of consecutive equal samples that are detected when a level
+change occurs on an external clock signal before it is considered as a valid level transition. An
+internal clock source must be present to use this feature
+00: any external clock signal level change is considered as a valid transition
+01: external clock signal level change must be stable for at least 2 clock periods before it is
+considered as valid transition.
+10: external clock signal level change must be stable for at least 4 clock periods before it is
+considered as valid transition.
+11: external clock signal level change must be stable for at least 8 clock periods before it is
+considered as valid transition.

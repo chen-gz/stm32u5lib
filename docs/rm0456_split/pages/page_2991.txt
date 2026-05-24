@@ -1,0 +1,55 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+change their value on the fly. When the data transfer operation is completed, notified by a
+CTR interrupt event, they can be accessed again to re-enable a new operation.
+
+Data transmission in Device mode (IN packets)
+When receiving an IN token packet, if the received address matches a configured and valid
+endpoint, the USB peripheral accesses the contents of CHEP_TXBD_n (fields ADDRn_TX
+and COUNTn_TX) inside the buffer descriptor table entry related to the addressed endpoint.
+The content of these locations is stored in its internal 16-bit registers ADDR and COUNT
+(not accessible by software). The packet memory is accessed again to read the first byte to
+be transmitted (refer to Structure and usage of packet buffers on page 3093) and the USB
+peripheral starts sending a DATA0 or DATA1 PID according to USB_CHEPnR bit DTOGTX.
+When the PID is completed, the first byte, read from buffer memory, is loaded into the output
+shift register to be transmitted on the USB bus. After the last data byte is transmitted, the
+computed CRC is sent. If the addressed endpoint is not valid, a NAK or STALL handshake
+packet is sent instead of the data packet, according to STATTX bits in the USB_CHEPnR
+register.
+The ADDRn_TX field in the internal register CHEP_TXBD_n is used as a pointer to the
+current buffer memory location while COUNT is used to count the number of remaining
+bytes to be transmitted. Each half-word read from the packet buffer memory is transmitted
+over the USB bus starting from the least significant byte. Transmission buffer memory is
+read starting from the address pointed by ADDRn_TX for COUNTn_TX/4 words. If a
+transmitted packet is composed of an odd number of bytes, only the lower half of the last
+half-word accessed is used.
+On receiving the ACK receipt by the host, the USB_CHEPnR register is updated in the
+following way: DTOGTX bit is toggled, the endpoint is made invalid by setting
+STATTX = 10 (NAK) and bit VTTX is set. The application software must first identify the
+endpoint, which is requesting microcontroller attention by examining the IDN and DIR bits in
+the USB_ISTR register. Servicing of the VTTX event starts, clearing the interrupt bit; the
+application software then prepares another buffer full of data to be sent, updates the
+COUNTn_TX table location with the number of byte to be transmitted during the next
+transfer, and finally sets STATTX to 11 (VALID) to re-enable transmission. While the
+STATTX bits are equal to 10 (NAK), any IN request addressed to that endpoint is NAKed,
+indicating a flow control condition: the USB host retries the transaction until it succeeds. It is
+mandatory to execute the sequence of operations in the above mentioned order to avoid
+losing the notification of a second IN transaction addressed to the same endpoint
+immediately following the one which triggered the CTR interrupt.
+
+Data transmission in Host mode (OUT packets)
+Data transmission in Host mode follows the same general principles as Device mode. The
+main differences are due to the protocol. For example the host initiates the transmission
+whereas the device responds to the incoming token.
+ADDRn_TX must be set to the location in the packet memory reserved for the packet for
+transmission. The contents of an OUT packet are then written to that address in the packet
+memory and COUNTn_TX must be updated (when necessary) to indicate the number of
+bytes in the packet.
+DEVADDR must be written for the correct endpoint and then STATTX must be set to 11
+(VALID) in order to trigger the transmit. The transmission is then scheduled by the HFS.
+After a successful transmission the CTR interrupt (correct transfer) is triggered. By
+examining IDN and DIR bits, the corresponding channel and direction is understood. On the

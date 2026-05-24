@@ -1,0 +1,73 @@
+RM0456 Rev 6
+
+RM0456
+
+System security
+
+Tamper and backup registers (TAMP)
+Like all TrustZone-aware peripherals, a nonsecure read/write access to a secured TAMP
+register is RAZ/WI. It also generates an illegal access event that triggers a secure illegal
+access interrupt if the TAMP illegal access event is enabled in the TZIC.
+After a backup domain power-on reset, all TAMP registers can be read or written in both
+secure and nonsecure modes. The secure boot code can change this security setup,
+making some registers secure or not as needed, using the TAMP_SECCFGR register.
+When TAMPSEC is set in TAMP_SECCFGR:
+•
+
+Writing the TAMP registers is possible only in secure mode. Backup registers have
+their own write protection (see below).
+
+•
+
+Reading the TAMP registers (except for TAMP_SECCFGR, TAMP_PRIVCFGR and
+TAMP_MISR) returns zero if the access is nonsecure. Backup registers have their own
+read protection (see below).
+
+The application can also:
+
+Note:
+
+•
+
+make TAMP_COUNTR register read and write secure-only by setting the CNT1SEC bit
+in TAMP_SECCFGR secure register
+
+•
+
+in backup registers increase security for two of the three protection zones configured
+using BKPRWSEC[7:0] and BKPWSEC[7:0] bitfields in TAMP_SECCFGR:
+–
+
+protection zone 1 is read nonsecure, write nonsecure
+
+–
+
+protection zone 2 is read nonsecure, write secure
+
+–
+
+protection zone 3 is read secure, write secure
+
+The TAMP security configuration is not affected by a system reset.
+See Section 64: Tamper and backup registers (TAMP) for more details.
+
+General-purpose I/Os (GPIO)
+When the TrustZone security is activated (TZEN = 1), each I/O pin of the GPIO port can be
+individually configured as secure through the GPIOx_SECCFGR registers. Only a secure
+application can write to GPIOx_SECCFGR registers. After boot, each I/O pin of GPIO is set
+as secure.
+When an I/O pin is configured as secure, its corresponding configuration bits for alternate
+function (AF), mode selection (MODE), and I/O data are RAZ/WI in case of nonsecure
+access.
+When the digital alternate function is used (input/output mode), in order to protect the data
+transiting from/to the I/O managed by a secure peripheral, the devices add a secure
+alternate function gate on the path between the peripheral and its allocated I/Os:
+•
+
+If the peripheral is secure, the I/O pin must also be secure to allow input/output of data.
+
+•
+
+If the peripheral is not secure, the connection is allowed regardless of the I/O pin state.
+
+RM0456 Rev 6

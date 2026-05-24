@@ -1,0 +1,110 @@
+Error management (privileged-only)
+–
+
+Any unprivileged transaction trying to access a privileged resource is considered
+as illegal. There is no illegal access event generated for illegal unprivileged read
+and write accesses.
+
+–
+
+The addressed resource follows a silent-fail behavior, returning all zero data for
+read and ignoring any write.
+
+–
+
+When an illegal unprivileged access occurs, no bus error is generated, except
+when this access is an instruction fetch, accessing a privileged memory or a
+peripheral register.
+
+RM0456 Rev 6
+
+RM0456
+
+System security
+
+Managing security in privileged-aware peripherals
+TrustZone-aware peripherals also implement privileged-only access mode. The privileged
+protection is valid even if TZEN = 0:
+
+•
+
+Embedded flash memory
+By default all embedded flash registers can be read or programmed in both privileged
+and unprivileged modes.
+When secure privileged bit SPRIV is set in FLASH_PRIVCFGR, reading and writing
+the flash secure registers are possible only in privileged mode. Write access to this bit
+is ignored if TrustZone is deactivated (TZEN = 0).
+When nonsecure privileged bit NSPRIV is set in FLASH_PRIVCFGR, reading and
+writing the flash nonsecure registers are possible only in privileged mode.
+Regarding privileged protection of the embedded flash memory, the devices offer the
+following features:
+
+Note:
+
+–
+
+The system flash memory can be accessed both in privileged and unprivileged
+modes.
+
+–
+
+Each watermark-based secure area, including its secure HDP area, is accessible
+in secure-privileged and secure-unprivileged mode, if applicable.
+
+–
+
+Each 8-Kbyte page of the embedded flash memory can be programmed on-the-fly
+as privileged only, using the block-based privileged configuration registers
+FLASH_PRIV1BBRx and FLASH_PRIV2BBRx. An unprivileged page is
+accessible by a privileged or unprivileged access.
+
+Switching a page from privileged to unprivileged does not erase the content of the page.
+When applicable, an erase or program operation is always available to privileged code, and
+is available to unprivileged code only for unprivileged pages or unprivileged memory.
+
+•
+
+On-the-fly encryption/decryption (OTFDEC)
+When privileged bit PRIV is set in OTFDEC_PRIVCFGR, the OTFDEC can only be
+initialized by a privileged application.
+
+Note:
+
+OTFDEC_PRIVCFGR can be read by both privileged and unprivileged code.
+
+•
+
+Direct memory access controllers (LPDMA and GPDMA)
+When a DMA channel x is defined as privileged (PRIVx = 1 in
+LP/GPDMA_PRIVCFGR), special rules apply when accessing privileged/unprivileged
+source or destination. Those rules are summarized on the table below.
+Table 16. DMA channel use (privilege)
+Privileged DMA channel x (PRIVx = 1)
+
+Unprivileged DMA channel y (PRIVy = 0)
+
+Destination
+Privileged source
+Privileged
+Unprivileged
+
+Unprivileged source
+
+Privileged source
+
+Unprivileged source
+
+Transfer blocked(1)
+
+OK
+
+Transfer blocked
+
+OK
+
+1. When a transfer is blocked, the transfer completes but the corresponding writes are ignored, and reads return zeros.
+
+See Section 18: Low-power direct memory access controller (LPDMA) and Section 17:
+General purpose direct memory access controller (GPDMA) for more details.
+
+RM0456 Rev 6

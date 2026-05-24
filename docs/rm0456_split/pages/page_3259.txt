@@ -1,0 +1,192 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 15:14 XACTPOS[1:0]: Transaction position
+This field is used to determine whether to send all, first, middle, or last payloads with each
+OUT transaction.
+11: All. This is the entire data payload of this transaction (which is less than or equal to 188
+bytes)
+10: Begin. This is the first data payload of this transaction (which is larger than 188 bytes)
+00: Mid. This is the middle payload of this transaction (which is larger than 188 bytes)
+01: End. This is the last payload of this transaction (which is larger than 188 bytes)
+Bits 13:7 HUBADDR[6:0]: Hub address
+This field holds the device address of the transaction translator hub.
+Bits 6:0 PRTADDR[6:0]: Port address
+This field is the port number of the recipient transaction translator.
+
+73.14.33 OTG host channel x interrupt register (OTG_HCINTx)
+This register indicates the status of a channel with respect to USB- and AHB-related events.
+It is shown in Figure 926. The application must read this register when the host channels
+interrupt bit in the core interrupt register (HCINT bit in OTG_GINTSTS) is set. Before the
+application can read this register, it must first read the host all channels interrupt
+(OTG_HAINT) register to get the exact channel number for the host channel-x interrupt
+register. The application must clear the appropriate bit in this register to clear the
+corresponding bits in the OTG_HAINT and OTG_GINTSTS registers.
+Address offset: 0x508 + 0x20 * x, (x = 0 to 15)
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+DTERR
+
+FRM
+OR
+
+BBERR TXERR
+
+NYET
+
+ACK
+
+NAK
+
+STALL
+
+AHB
+ERR
+
+CHH
+
+XFRC
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rc_w1
+
+Bits 31:11 Reserved, must be kept at reset value.
+Bit 10 DTERR: Data toggle error.
+Bit 9 FRMOR: Frame overrun.
+Bit 8 BBERR: Babble error.
+Bit 7 TXERR: Transaction error.
+Indicates one of the following errors occurred on the USB.
+CRC check failure
+Timeout
+Bit stuff error
+False EOP
+Bit 6 NYET: Not yet ready response received interrupt.
+Bit 5 ACK: ACK response received/transmitted interrupt.
+Bit 4 NAK: NAK response received interrupt.

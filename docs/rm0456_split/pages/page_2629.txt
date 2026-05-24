@@ -1,0 +1,117 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Figure 808. Bus transfer diagrams for SMBus controller receiver
+Example SMBus controller receiver 2 bytes + PEC, automatic end mode (STOP)
+RXNE
+
+Address
+
+S
+
+A
+
+data1
+
+A
+
+RXNE
+
+data2
+
+A
+
+RXNE
+PEC
+
+NA
+
+legend:
+P
+
+transmission
+reception
+
+INIT
+
+EV2
+
+EV1
+
+EV3
+SCL stretch
+
+NBYTES xx
+
+3
+
+INIT: program target address, program NBYTES = 3, AUTOEND=1, set PECBYTE, set START
+EV1: RXNE ISR: rd data1
+EV2: RXNE ISR: rd data2
+EV3: RXNE ISR: rd PEC
+
+Example SMBus controller receiver 2 bytes + PEC, software end mode (RESTART)
+RXNE
+
+RXNE
+
+legend:
+
+RXNE TC
+
+transmission
+S Address A
+
+data1
+
+data2
+
+A
+EV1
+
+INIT
+
+A
+
+PEC
+
+EV2
+
+NA
+EV3
+
+Restart Address
+EV4
+
+reception
+SCL stretch
+
+NBYTES
+xx
+
+3
+
+N
+
+INIT: program target address, program NBYTES = 3, AUTOEND = 0, set PECBYTE, set START
+EV1: RXNE ISR: rd data1
+EV2: RXNE ISR: rd data2
+EV3: RXNE ISR: read PEC
+EV4: TC ISR: program target address, program NBYTES = N, set START
+MSv19872V3
+
+65.4.16
+
+Autonomous mode
+The I2C peripheral can autonomously operate as controller or target in Stop mode as long
+as NOSTRETCH = 0. The autonomous mode is not supported when NOSTRETCH = 1.
+Besides Stop mode, the autonomous mode can also be used in Run and Sleep modes.
+The APB clock is requested by the peripheral each time the I2C status needs to be updated.
+Once the APB clock is received by the peripheral, either an interrupt or a DMA request is
+generated, depending on the I2C configuration.
+If an interrupt is generated, the device wakes up from Stop mode.
+If there is no interrupt, the device remains in Stop mode, but the kernel and AHB/APB clocks
+are available for the I2C peripheral and all the autonomous peripherals enabled in the RCC.

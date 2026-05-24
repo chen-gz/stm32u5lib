@@ -1,0 +1,59 @@
+363
+
+Embedded flash memory (FLASH)
+Note:
+
+RM0456
+
+To validate the WRP options, the option bytes must be reloaded through the OBL_LAUNCH
+bit in the flash control register.
+Table 63. WRP protection
+
+WRP registers values (x = 1/2 y = A/B)
+
+WRP area
+
+WRPxy_PSTRT = WRPxy_PEND
+
+Page WRPxy is protected.
+
+WRPxy_PSTRT > WRPxy_PEND
+
+No WRP area
+
+WRPxy_PSTRT < WRPxy_PEND
+
+The pages from WRPxy_PSTRT to WRPxy_PEND are protected.
+
+Write protection lock
+Each WRP area can be independently locked by writing 0 to UNLOCK in FLASH_WRP1AR,
+FLASH_WRP1BR, FLASH_WRP2AR, or FLASH_WRP2BR. Once a WRP area is locked,
+it is not possible to modify its settings. In order to unlock a WRP area, a regression
+to RDP level 0 must be launched.
+In order to make the WRP area immutable and act as a ROM, the following actions are
+needed:
+•
+
+If RDP level is 0, 0.5 or 1, provision a OEM1KEY in order to prevent a regression to
+RDP level 0 for users not knowing the key.
+
+•
+
+If RDP level is 2, either provision a OEM1KEY (refer to first bullet) or do not provision a
+OEM2KEY (preventing regression from level 2 to level 1).
+
+For more information on RDP regressions, refer to Device life cycle managed by readout
+protection (RDP) transitions.
+
+7.6.2
+
+Readout protection (RDP)
+The readout protection protects the flash main memory, the option bytes, the backup
+registers, the backup RAM and the SRAMs. In order to reach the best protection level, it is
+recommended to activate TrustZone and to set the RDP Level 2 with password
+authentication regression enabled (refer to Readout protection levels when TrustZone is
+enabled).
+
+Readout protection levels when TrustZone is disabled
+There are three levels of readout protection from no protection (level 0) to maximum
+protection or no debug (level 2).

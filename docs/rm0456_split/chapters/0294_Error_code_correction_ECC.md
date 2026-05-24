@@ -1,0 +1,140 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+1. When DUALBANK = 1 in option bytes, the bank 2 base address is 0x0808 0000 for 1-Mbyte dual-bank
+STM32U575/585 devices.
+
+Table 53. Flash module 4-Mbyte dual-bank organization for
+STM32U59x/5Ax/5Fx/5Gx(1)
+Flash area
+
+Bank 1
+
+Main memory
+
+Bank 2
+
+Nonsecure information block
+
+Secure information block
+
+Flash memory address
+
+Size
+
+Name
+
+0x0800 0000 - 0x0800 1FFF
+
+8 Kbytes
+
+Page 0
+
+0x0800 2000 - 0x0800 3FFF
+
+8 Kbytes
+
+Page 1
+
+...
+
+...
+
+...
+
+0x081F E000 - 0x081F FFFF
+
+8 Kbytes
+
+Page 255
+
+0x0820 0000 - 0x0820 1FFF
+
+8 Kbytes
+
+Page 0
+
+0x0820 2000 - 0x0820 3FFF
+
+8 Kbytes
+
+Page 1
+
+...
+
+...
+
+...
+
+0x083F E000 - 0x083F FFFF
+
+8 Kbytes
+
+Page 255
+
+0x0BF9 0000 - 0x0BF9 7FFF
+
+32 Kbytes
+
+System memory
+
+0x0BFA 0000 - 0x0BFA 01FF
+
+512 bytes
+
+OTP area
+
+0x0FF8 0000 - 0x0FF8 5FFF
+
+24 Kbytes
+
+RSS
+
+0x0FF8 6000 - 0x0FF8 7FFF
+
+8 Kbytes
+
+RSS library
+
+0x0FFA 0000 - 0x0FFA 01FF
+
+512 bytes
+
+OTP area alias
+
+1. When DUALBANK = 1 in option bytes, the bank 2 base address is 0x0810 0000 for 2-Mbyte dual-bank
+STM32U59x/5Ax/5Fx/5Gx devices.
+
+Note:
+
+The secure information block is only accessible when TrustZone is active.
+
+7.3.2
+
+Error code correction (ECC)
+Data in flash memory are 137-bit words: Nine bits are added per quad-word (128 bits).
+The ECC mechanism supports:
+•
+
+one error detection and correction
+
+•
+
+two errors detection
+
+When one error is detected and corrected, the ECCC flag (ECC correction) is set
+in FLASH_ECCR. If the ECCCIE bit is set, an interrupt is generated.
+When two errors are detected, the ECCD flag (ECC detection) is set in FLASH_ECCR.
+In this case, an NMI is generated.
+When an ECC error is detected, the address of the failing quad-word and its associated
+bank are saved in ADDR_ECC[19:0] and BK_ECC in FLASH_ECCR.
+ADDR_ECC[3:0] are always cleared.
+When ECCC or ECCD is set, ADDR_ECC and BK_ECC are not updated if a new ECC error
+occurs. FLASH_ECCR is updated only when ECC flags are cleared.
+Caution:
+
+<!-- pagebreak -->
+

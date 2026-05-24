@@ -1,0 +1,175 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Bit 5 THLF: Low-threshold status flag
+This bit is set by hardware and cleared by software by writing this bit to 1. It indicates the
+status of the low-threshold comparator when the last OLDx event occurred. This bit gives
+additional information on the conditions triggering the last OLDx event. It can be cleared by
+writing OLDF flag to 1.
+0: The signal was higher than OLDTHL when the last OLDx event occurred.
+1: The signal was lower than OLDTHL when the last OLDx event occurred.
+Bit 4 OLDF: OLDx flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no OLDx event is detected. Write 0 has no effect.
+1: Read 1 means that an OLDx event is detected Write 1 clears THHF, THLF and OLDF.
+Bit 3 RXNEF: RXFIFO not-empty flag
+this bit is set and cleared by hardware according to the RXFIFO level.
+0: RXFIFO empty
+1: RXFIFO not empty
+Bit 2 SSDRF: Snapshot data ready flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no data is available. Write 0 has no effect.
+1: Read 1 means that a new data is available. Write 1 clears this flag.
+Bit 1 DOVRF: Data overflow flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no overflow is detected. Write 0 has no effect.
+1: Read 1 means that an overflow is detected; Write 1 clears this flag.
+Bit 0 FTHF: RXFIFO threshold flag
+This bit is set by hardware and cleared by hardware when the RXFIFO level is lower than
+the threshold.
+0: RXFIFO threshold not reached
+1: RXFIFO threshold reached
+
+39.8.18
+
+MDF offset error compensation control register x (MDF_OECxCR)
+Address offset: 0x0B4 + 0x80 * x, (x = 0 to 5)
+Reset value: 0x0000 0000
+This register contains the offset compensation value. The number of registers is equal to the
+amount of filters. Refer to Section 39.3 for details.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+25
+
+24
+
+23
+
+22
+
+21
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+OFFSET[25:16]
+
+OFFSET[15:0]
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.

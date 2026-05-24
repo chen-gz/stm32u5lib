@@ -1,0 +1,84 @@
+•
+
+If the B-side of the USB cable is connected with a floating ID wire, the integrated pullup resistor detects a high ID level and the default peripheral role is confirmed. In this
+configuration the OTG_FS complies with the standard FSM described in section 4.2.4:
+ID pin of the On-the-Go specification Rev2.0, supplement to the USB2.0.
+
+•
+
+If the A-side of the USB cable is connected with a grounded ID, the OTG_FS issues an
+ID line status change interrupt (CIDSCHG bit in OTG_GINTSTS) for host software
+initialization, and automatically switches to the host role. In this configuration the
+OTG_FS complies with the standard FSM described by section 4.2.4: ID pin of the Onthe-Go specification Rev2.0, supplement to the USB2.0.
+
+RM0456 Rev 6
+
+RM0456
+
+72.5.2
+
+USB on-the-go full-speed (OTG_FS)
+
+HNP dual role device
+The HNP capable bit in the Global USB configuration register (HNPCAP bit in OTG_
+GUSBCFG) enables the OTG_FS core to dynamically change its role from A-host to Aperipheral and vice-versa, or from B-Peripheral to B-host and vice-versa according to the
+host negotiation protocol (HNP). The current device status can be read by the combined
+values of the connector ID status bit in the Global OTG control and status register (CIDSTS
+bit in OTG_GOTGCTL) and the current mode of operation bit in the global interrupt and
+status register (CMOD bit in OTG_GINTSTS).
+The HNP program model is described in detail in Section 72.16: OTG_FS programming
+model.
+
+72.5.3
+
+SRP dual role device
+The SRP capable bit in the global USB configuration register (SRPCAP bit in
+OTG_GUSBCFG) enables the OTG_FS core to switch off the generation of VBUS for the Adevice to save power. Note that the A-device is always in charge of driving VBUS regardless
+of the host or peripheral role of the OTG_FS.
+The SRP A/B-device program model is described in detail in Section 72.16: OTG_FS
+programming model.
+
+72.6
+
+OTG_FS as a USB peripheral
+This section gives the functional description of the OTG_FS in the USB peripheral mode.
+The OTG_FS works as an USB peripheral in the following circumstances:
+•
+
+OTG B-Peripheral
+–
+
+•
+
+–
+•
+
+If the ID line is present, functional and connected to the B-side of the USB cable,
+and the HNP-capable bit in the Global USB Configuration register (HNPCAP bit in
+OTG_GUSBCFG) is cleared.
+
+Peripheral only (see Figure 895: OTG_FS peripheral-only connection)
+–
+
+Note:
+
+OTG A-device state after the HNP switches the OTG_FS to its peripheral role
+
+B-device
+–
+
+•
+
+OTG B-device default state if B-side of USB cable is plugged in
+
+OTG A-Peripheral
+
+The force device mode bit (FDMOD) in the Section 72.15.4: OTG USB
+configuration register (OTG_GUSBCFG) is set to 1, forcing the OTG_FS core to
+work as an USB peripheral-only. In this case, the ID line is ignored even if it is
+present on the USB connector.
+
+To build a bus-powered device implementation in case of the B-device or peripheral-only
+configuration, an external regulator has to be added, that generates the necessary powersupply from VBUS.
+
+RM0456 Rev 6

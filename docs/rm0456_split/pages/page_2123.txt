@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Figure 538. Output stage of capture/compare channel (channel 1, idem ch. 2, 3 and 4)
+TIMx_SMCR
+OCCS
+tim_ocref_clr
+
+To the master mode
+controller
+
+0
+
+0
+
+tim_etrf
+
+1
+‘0’
+
+ocref_clr_int
+
+tim_oc1refc
+
+tim_oc1ref
+
+tim_oc1_dt
+
+CNT>CCR1
+
+Output
+mode
+CNT=CCR1
+controller
+
+Ouput
+selector
+
+Dead-time
+generator
+
+x0
+01
+
+1
+
+11
+
+CC1P
+
+Output
+enable
+circuit
+
+tim_oc1
+
+Output
+enable
+circuit
+
+tim_oc1n
+
+TIMx_CCER
+tim_oc1n_dt
+
+tim_ocxref(1)
+tim_oc5ref
+
+‘0’
+
+11
+0
+
+10
+0x
+
+1
+
+CC1NE CC1E
+TIMx_CCER
+OC1CE OC1M[3:0]
+
+DTG[7:0]
+
+CC1NE CC1E
+
+CC1NP
+
+MOE OSSI OSSR
+
+TIMx_CCMR1
+
+TIMx_BDTR
+
+TIMx_CCER
+
+TIMx_CCER
+
+TIMx_BDTR
+OIS1 OIS1N
+TIMx_CR2
+MSv62323V3
+
+1. tim_ocxref, where x is the rank of the complementary channel
+
+Figure 539. Output stage of capture/compare channel (channel 5, idem ch. 6)
+TIMx_SMCR
+OCCS
+tim_ocref_clr
+
+0
+
+tim_etrf
+
+1
+
+To the master
+mode controller
+
+ocref_clr_int
+‘0’
+
+0
+
+0
+
+1
+
+1
+
+CC5E
+
+CC5P
+
+TIMx_CCER
+
+TIMx_CCER
+
+CNT > CCR5
+
+Output
+mode
+CNT = CCR5
+controller
+
+OC5CE
+
+tim_oc5ref
+
+OC5M[3:0]
+
+Output
+enable
+circuit
+
+tim_oc5
+
+(1)
+
+CC5E TIMx_CCER
+MOE
+
+OSSI TIMx_BDTR
+
+TIMx_CCMR3
+OIS5
+
+TIMx_CR2
+MSv62324V3
+
+1. Not available externally.
+
+The capture/compare block is made of one preload register and one shadow register. Write
+and read always access the preload register.
+
+RM0456 Rev 6

@@ -1,0 +1,239 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+54.6.14
+
+TIMx autoreload register (TIMx_ARR)(x = 1, 8)
+Address offset: 0x02C
+Reset value: 0x0000 FFFF
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+ARR[19:16]
+
+ARR[15:0]
+rw
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bits 19:0 ARR[19:0]: Autoreload value
+ARR is the value to be loaded in the actual autoreload register.
+Refer to the Section 54.3.3: Time-base unit for more details about ARR update and
+behavior.
+The counter is blocked while the autoreload value is null.
+Non-dithering mode (DITHEN = 0)
+The register holds the autoreload value.
+Dithering mode (DITHEN = 1)
+The register holds the integer part in ARR[19:4]. The ARR[3:0] bitfield contains the dithered
+part.
+
+54.6.15
+
+TIMx repetition counter register (TIMx_RCR)(x = 1, 8)
+Address offset: 0x030
+Reset value: 0x0000
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+REP[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 15:0 REP[15:0]: Repetition counter reload value
+This bitfield defines the update rate of the compare registers (i.e. periodic transfers from
+preload to active registers) when preload registers are enable. It also defines the update
+interrupt generation rate, if this interrupt is enable.
+When the repetition down-counter reaches zero, an update event is generated and it
+restarts counting from REP value. As the repetition counter is reloaded with REP value only
+at the repetition update event UEV, any write to the TIMx_RCR register is not taken in
+account until the next repetition update event.
+It means in PWM mode (REP+1) corresponds to:
+– the number of PWM periods in edge-aligned mode
+– the number of half PWM period in center-aligned mode.
+
+RM0456 Rev 6

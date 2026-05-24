@@ -1,0 +1,130 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Figure 250. ADC_AWDx_OUT signal generation (AWDx flag not cleared by software)
+ADC
+STATE
+
+RDY
+
+Conversion1
+
+Conversion2
+
+Conversion3
+
+inside
+
+outside
+
+inside
+
+Conversion4 Conversion5
+outside
+
+Conversion6
+
+Conversion7
+
+outside
+
+inside
+
+outside
+
+EOC FLAG
+not cleared by S/W
+AWDx FLAG
+ADCy_AWDx_OUT
+
+- Converting regular channels 1,2,3,4,5,6,7
+- Regular channels 1,2,3,4,5,6,7 are all guarded
+MS31026V1
+
+Figure 251. ADC_AWDx_OUT signal generation (on a single regular channel)
+ADC
+Conversion1
+STATE
+outside
+
+Conversion2
+
+Conversion1
+
+Conversion2 Conversion1
+
+inside
+
+outside
+
+Conversion2
+
+Conversion1 Conversion2
+outside
+
+EOC FLAG
+EOS FLAG
+cleared
+by S/W
+
+cleared
+by S/W
+
+AWDx FLAG
+ADCy_AWDx_OUT
+
+- Converting regular channels 1 and 2
+- Only channel 1 is guarded
+MS31027V1
+
+Figure 252. ADC_AWDx_OUT signal generation (on all injected channels)
+ADC
+STATE
+
+RDY
+
+Conversion1
+inside
+
+Conversion2
+outside
+
+Conversion3 Conversion4
+inside
+outside
+
+Conversion
+outside
+
+Conversion
+outside
+
+cleared
+by S/W
+
+cleared
+by S/W
+
+Conversion
+inside
+
+JEOS FLAG
+
+AWDx FLAG
+
+cleared
+by S/W
+
+cleared
+by S/W
+
+ADCy_AWDx_OUT
+
+- Converting the injected channels 1, 2, 3, 4
+- All injected channels 1, 2, 3, 4 are guarded
+MS31028V1
+
+RM0456 Rev 6

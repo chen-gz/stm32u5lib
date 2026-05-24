@@ -1,0 +1,72 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+The FIFO can be in one of the following states:
+•
+
+The transmit FIFO refers to the transmit logic and data buffer when sending data out to
+the card. (DTDIR = 0)
+
+•
+
+The receive FIFO refers to the receive logic and data buffer when receiving data in from
+the card. (DTDIR = 1)
+
+The end of a correctly completed SDMMC data transfer from the FIFO is indicated by the
+DATAEND flags driven by the data path subunit. Any incorrect (aborted) SDMMC data
+transfer from the FIFO is indicated by one of the error flags (DCRCFAIL, DTIMEOUT,
+DABORT) driven by the data path subunit, or one of the FIFO error flags (TXUNDERR,
+RXOVERR) driven by the FIFO control.
+The data FIFO can be accessed in the following ways, see Table 288.
+Table 288. Data FIFO access
+Data FIFO access
+
+IDMAEN
+
+From firmware via AHB slave interface
+
+0
+
+From IDMA via AHB master interface
+
+1
+
+Transmit FIFO:
+Data can be written to the transmit FIFO when the DPSM has been activated
+(DPSMACT = 1).
+When IDMAEN = 1 the FIFO is fully handled by the IDMA.
+When IDMAEN = 0 the FIFO is controlled by firmware via the AHB slave interface. The
+transmit FIFO is accessible via sequential addresses. The transmit FIFO contains a data
+output register that holds the data word pointed to by the read pointer. When the data path
+subunit has loaded its shift register, it increments the read pointer and drives new data out.
+The transmit FIFO is handled in the following way:
+1.
+
+Write the data length into DATALENGTH and the block length in DBLOCKSIZE.
+–
+
+2.
+
+Set the SDMMC in transmit mode (DTDIR = 0).
+–
+
+3.
+
+4.
+
+Configures the FIFO in transmit mode.
+
+Enable the data transfer
+–
+
+either by sending a command from the CPSM with the CMDTRANS bit set
+
+–
+
+or by setting DTEN bit
+
+When (DPSMACT = 1) write data to the FIFO.
+–

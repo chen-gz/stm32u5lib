@@ -1,0 +1,70 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+Res.
+
+ITAMP3 ITAMP2 ITAMP1
+NOER NOER NOER
+rw
+
+rw
+
+rw
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 12 ITAMP13NOER: Internal tamper 13 no erase
+0: Internal tamper 13 event detection is in confirmed mode(1).
+1: Internal tamper 13 event detection is in potential mode(2).
+Bit 11 ITAMP12NOER: Internal tamper 12 no erase
+0: Internal tamper 12 event detection is in confirmed mode(1).
+1: Internal tamper 12 event detection is in potential mode(2).
+Bit 10 ITAMP11NOER: Internal tamper 11 no erase
+0: Internal tamper 11 event detection is in confirmed mode(1).
+1: Internal tamper 11 event detection is in potential mode(2).
+Bit 9 Reserved, must be kept at reset value.
+Bit 8 ITAMP9NOER: Internal tamper 9 no erase
+0: Internal tamper 9 event detection is in confirmed mode(1).
+1: Internal tamper 9 event detection is in potential mode(2).
+Bit 7 ITAMP8NOER: Internal tamper 8 no erase
+0: Internal tamper 8 event detection is in confirmed mode(1).
+1: Internal tamper 8 event detection is in potential mode(2).
+Bit 6 ITAMP7NOER: Internal tamper 7 no erase
+0: Internal tamper 7 event detection is in confirmed mode(1).
+1: Internal tamper 7 event detection is in potential mode(2).
+Bit 5 ITAMP6NOER: Internal tamper 6 no erase
+0: Internal tamper 6 event detection is in confirmed mode(1).
+1: Internal tamper 6 event detection is in potential mode(2).
+Bit 4 ITAMP5NOER: Internal tamper 5 no erase
+0: Internal tamper 5 event detection is in confirmed mode(1).
+1: Internal tamper 5 event detection is in potential mode(2).
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 ITAMP3NOER: Internal tamper 3 no erase
+0: Internal tamper 3 event detection is in confirmed mode(1).
+1: Internal tamper 3 event detection is in potential mode(2).
+Bit 1 ITAMP2NOER: Internal tamper 2 no erase
+0: Internal tamper 2 event detection is in confirmed mode(1).
+1: Internal tamper 2 event detection is in potential mode(2).
+Bit 0 ITAMP1NOER: Internal tamper 1 no erase
+0: Internal tamper 1 event detection is in confirmed mode(1).
+1: Internal tamper 1 event detection is in potential mode(2).
+1. The effects of internal tamper detection in confirmed mode is described with tamp_confirmed and tamp_confirmed_ercfgx
+signals in Table 644: TAMP interconnection
+2. The effects of internal tamper detection in potential mode is described with tamp_potential and tamp_potential_ercfgx
+signals in Table 644: TAMP interconnection.
+
+64.7.4
+
+TAMP filter control register (TAMP_FLTCR)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+
+RM0456 Rev 6

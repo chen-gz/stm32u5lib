@@ -1,0 +1,72 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Injected simultaneous mode
+This mode is selected by programming bits DUAL[4:0] = 00101
+This mode converts an injected group of channels. The external trigger source comes from
+the injected group multiplexer of the master ADC (selected by the JEXTSEL[4:0] bits in the
+ADC_JSQR register).
+Note:
+
+Do not convert the same channel on the two ADCs (no overlapping sampling times for the
+two ADCs when converting the same channel).
+In simultaneous mode, one must convert sequences with the same length and inside a
+sequence, the N-th conversion in master and slave must be configured with the same
+sampling time.
+Regular conversions can be performed on one or all ADCs. In that case, they are
+independent of each other and are interrupted when an injected event occurs. They are
+resumed at the end of the injected conversion group.
+•
+
+At the end of injected sequence of conversion event (JEOS) on the master ADC, the
+converted data is stored into the master ADC_JDRy registers and a JEOS interrupt is
+generated (if enabled)
+
+•
+
+At the end of injected sequence of conversion event (JEOS) on the slave ADC, the
+converted data is stored into the slave ADC_JDRy registers and a JEOS interrupt is
+generated (if enabled)
+
+•
+
+As the duration of the master injected sequence is equal to the duration of the slave
+injected one (like in Figure 260), it is possible for the software to enable only one of the
+two JEOS interrupts (for example master JEOS) and read both converted data (from
+master ADC_JDRy and slave ADC_JDRy registers).
+Figure 260. Injected simultaneous mode on four channels: dual ADC mode
+
+MASTER ADC
+SLAVE ADC
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+CH15
+
+CH14
+
+CH13
+
+CH12
+
+Trigger
+Sampling
+
+End of injected sequence on
+MASTER and SLAVE ADC
+
+Conversion
+MS31900V1
+
+If JDISCEN = 1, each simultaneous conversion of the injected sequence requires an
+injected trigger event to occur.
+This mode can be combined with AUTDLY mode:

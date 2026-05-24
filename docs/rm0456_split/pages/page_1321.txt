@@ -1,0 +1,64 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 259. Dual ADC block diagram(1)
+Regular data register
+(32-bits)
+
+Regular
+channels
+Slave ADC
+
+Injected
+channels
+ADCx_INP0,
+ADCx_INN0
+ADCx_INP2,
+ADCx_INN2
+
+Internal triggers
+
+Address/data bus
+
+Injected data registers
+(4 x32-bits)
+
+Internal analog inputs
+
+Regular data register
+(32-bits)
+
+GPIO
+ports
+
+ADCx_INP19,
+ADCx_INN19
+
+Injected data registers
+(4 x32-bits)
+Regular
+channels
+
+Internal analog inputs
+Injected
+channels
+
+Dual mode
+control
+
+Start trigger mux.
+(regular group)
+
+Master ADC
+Start trigger mux.
+(injected group)
+
+MSv41029V2
+
+1. External triggers also exist on slave ADC but are not shown for the purposes of this diagram.
+2. The ADC common data register (ADC12_CDR) contains both the master and slave ADC regular converted
+data.
+
+RM0456 Rev 6

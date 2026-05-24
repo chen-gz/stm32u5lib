@@ -1,0 +1,36 @@
+90
+
+Contents
+
+RM0456
+31.10.16 SDMMC IDMA buffer size register (SDMMC_IDMABSIZER) . . . . . . 1254
+31.10.17 SDMMC IDMA buffer base address register
+(SDMMC_IDMABASER) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1255
+31.10.18 SDMMC IDMA linked list address register (SDMMC_IDMALAR) . . . 1255
+31.10.19 SDMMC IDMA linked list memory base register
+(SDMMC_IDMABAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1256
+31.10.20 SDMMC data FIFO registers x (SDMMC_FIFORx) . . . . . . . . . . . . . . 1257
+31.10.21 SDMMC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1257
+
+32
+
+Delay block (DLYB) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+32.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.2
+
+DLYB main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.3
+
+DLYB implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.4
+
+DLYB functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.5
+
+33

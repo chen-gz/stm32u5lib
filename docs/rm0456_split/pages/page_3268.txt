@@ -1,0 +1,202 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 1 EPDM: Endpoint disabled interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 0 XFRCM: Transfer completed interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+
+73.14.42 OTG device OUT endpoint common interrupt mask register
+(OTG_DOEPMSK)
+This register works with each of the OTG_DOEPINTx registers for all endpoints to generate
+an interrupt per OUT endpoint. The OUT endpoint interrupt for a specific status in the
+OTG_DOEPINTx register can be masked by writing into the corresponding bit in this
+register. Status bits are masked by default.
+Address offset: 0x814
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+OUT
+PKT
+ERRM
+
+EPDM
+
+XFRC
+M
+
+rw
+
+rw
+
+Res.
+
+NYET
+MSK
+
+NAK
+MSK
+
+BERR
+M
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+STS
+B2B
+PHSR
+STUPM
+XM
+rw
+
+OTEPD
+AHB
+STUPM
+M
+ERRM
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bit 14 NYETMSK: NYET interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 13 NAKMSK: NAK interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 12 BERRM: Babble error interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 Reserved, must be kept at reset value.
+Bit 8 OUTPKTERRM: Out packet error mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 B2BSTUPM: Back-to-back SETUP packets received mask
+Applies to control OUT endpoints only.
+0: Masked interrupt
+1: Unmasked interrupt
+
+RM0456 Rev 6

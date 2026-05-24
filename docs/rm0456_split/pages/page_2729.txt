@@ -1,0 +1,50 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 5 RXFNE: RXFIFO not empty
+RXFNE bit is set by hardware when the RXFIFO is not empty, meaning that data can be
+read from the USART_RDR register. Every read operation from the USART_RDR frees a
+location in the RXFIFO.
+RXFNE is cleared when the RXFIFO is empty. The RXFNE flag can also be cleared by
+writing 1 to the RXFRQ in the USART_RQR register.
+An interrupt is generated if RXFNEIE = 1 in the USART_CR1 register.
+0: Data is not received
+1: Received data is ready to be read.
+Bit 4 IDLE: Idle line detected
+This bit is set by hardware when an Idle Line is detected. An interrupt is generated if
+IDLEIE = 1 in the USART_CR1 register. It is cleared by software, writing 1 to the IDLECF in
+the USART_ICR register.
+0: No Idle line is detected
+1: Idle line is detected
+Note: The IDLE bit is not set again until the RXFNE bit has been set (that is, a new idle line
+occurs).
+If mute mode is enabled (MME = 1), IDLE is set if the USART is not mute (RWU = 0),
+whatever the mute mode selected by the WAKE bit. If RWU = 1, IDLE is not set.
+Bit 3 ORE: Overrun error
+This bit is set by hardware when the data currently being received in the shift register is
+ready to be transferred into the USART_RDR register while RXFF = 1. It is cleared by a
+software, writing 1 to the ORECF, in the USART_ICR register.
+An interrupt is generated if RXFNEIE = 1 in the USART_CR1 register, or EIE = 1 in the
+USART_CR3 register.
+0: No overrun error
+1: Overrun error is detected
+Note: When this bit is set, the USART_RDR register content is not lost but the shift register is
+overwritten. An interrupt is generated if the ORE flag is set during multi buffer
+communication if the EIE bit is set.
+This bit is permanently forced to 0 (no overrun detection) when the bit OVRDIS is set in
+the USART_CR3 register.
+Bit 2 NE: Noise detection flag
+This bit is set by hardware when noise is detected on a received frame. It is cleared by
+software, writing 1 to the NFCF bit in the USART_ICR register.
+0: No noise is detected
+1: Noise is detected
+Note: This bit does not generate an interrupt as it appears at the same time as the RXFNE bit
+which itself generates an interrupt. An interrupt is generated when the NE flag is set
+during multi buffer communication if the EIE bit is set.
+When the line is noise-free, the NE flag can be disabled by programming the ONEBIT
+bit to 1 to increase the USART tolerance to deviations (Refer to Section 66.5.9:
+Tolerance of the USART receiver to clock deviation).
+This error is associated with the character in the USART_RDR.

@@ -1,0 +1,107 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Direction change is signalized by the two down and up flags in the LPTIM_ISR register. An
+interrupt can be generated for both direction change events if enabled through the DOWNIE
+bit.
+To activate the Encoder mode the ENC bit has to be set to 1. The LPTIM must first be
+configured in Continuous mode.
+When Encoder mode is active, the LPTIM counter is modified automatically following the
+speed and the direction of the incremental encoder. Therefore, its content always
+represents the encoder’s position. The count direction, signaled by the Up and Down flags,
+correspond to the rotation direction of the encoder rotor.
+According to the edge sensitivity configured using the CKPOL[1:0] bits, different counting
+scenarios are possible. The following table summarizes the possible combinations,
+assuming that Input1 and Input2 do not switch at the same time.
+Table 612. Encoder counting scenarios
+Active edge
+
+Rising Edge
+
+Falling Edge
+
+Both Edges
+
+Level on opposite
+signal (Input1 for
+Input2, Input2 for
+Input1)
+
+Input1 signal
+
+Input2 signal
+
+Rising
+
+Falling
+
+Rising
+
+Falling
+
+High
+
+Down
+
+No count
+
+Up
+
+No count
+
+Low
+
+Up
+
+No count
+
+Down
+
+No count
+
+High
+
+No count
+
+Up
+
+No count
+
+Down
+
+Low
+
+No count
+
+Down
+
+No count
+
+Up
+
+High
+
+Down
+
+Up
+
+Up
+
+Down
+
+Low
+
+Up
+
+Down
+
+Down
+
+Up
+
+The following figure shows a counting sequence for Encoder mode where both-edge
+sensitivity is configured.
+Caution:

@@ -1,0 +1,81 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+Host channels are divided in two categories:
+–
+
+Periodic channels: isochronous and interrupt traffic types. With guaranteed
+bandwith access.
+
+–
+
+Non-periodic channels: bulk and control traffic types. With best effort service.
+
+The host frame scheduler organizes the full-speed frame in 3 sequential windows
+–
+
+Periodic service window
+
+–
+
+Non-periodic service window
+
+–
+
+Black security window
+
+At the start of a new frame, the host scheduler:
+
+71.5
+
+1.
+
+First considers all periodic channels which were active (STAT bits VALID) at the start of
+frame
+
+2.
+
+Executes single round of service of periodic channels, the periodic service window, in
+hardware priority order from CH#1 to CH#8. For bidirectional channels it executes the
+OUT direction first
+
+3.
+
+When the periodic round is finished, HFS closes the periodic service window and stops
+servicing periodic traffic even if some periodic channel was re-enabled or some new
+channel was enabled after the SOF.
+
+4.
+
+Starts servicing all non-periodic channels which are currently active (STAT bits VALID)
+in hardware priority order from CH#1 to CH#8. For bidirectional channels it executes
+the OUT direction first.
+
+5.
+
+Executes multiple round-robin service cycles of non-periodic channels until almost the
+end of frame
+
+6.
+
+Non-periodic traffic can be requested at any time and is serviced by HFS with best
+effort latency, with the exception of a black security window at the end of the frame
+where new injected requests are directly postponed to the next frame to avoid babbles.
+This is also true for pending transactions which have not been serviced ahead of the
+security window.
+
+Programming considerations for Device and Host modes
+In the following sections, the expected interactions between the USB peripheral and the
+application program are described, in order to ease application software development.
+
+71.5.1
+
+Generic USB Device programming
+This part describes the main tasks required of the application software in order to obtain
+USB compliant behavior. The actions related to the most general USB events are taken into
+account and paragraphs are dedicated to the special cases of double-buffered endpoints
+and isochronous transfers. Apart from system reset, an action is always initiated by the USB
+peripheral, driven by one of the USB events described below.

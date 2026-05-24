@@ -1,0 +1,302 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Debug support (DBG)
+
+Bits 3:0 TRIGINEN[3:0]: trigger input event enable
+Enables or disables a cross trigger event on each of the four channels when CTITRIGINx is
+activated (x = 0 to 7).
+0000: Trigger does not generate events on channels.
+XXX1: Trigger x generates events on channel 0.
+XX1X: Trigger x generates events on channel 1.
+X1XX: Trigger x generates events on channel 2.
+1XXX: Trigger x generates events on channel 3.
+
+CTI trigger output x enable register (CTI_OUTENxR)
+Address offset: 0x0A0 + 0x4 * x, (x = 0 to 7)
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TRIGOUTEN[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 TRIGOUTEN[3:0]: trigger output event enable
+For each channel, defines whether an event on that channel generates a trigger on
+CTITRIGOUTx (x = 0 to 7).
+0000: Channel events do not generate triggers on trigger outputs.
+XXX1: Channel 0 events generate triggers on trigger output x.
+XX1X: Channel 1 events generate triggers on trigger output x.
+X1XX: Channel 2 events generate triggers on trigger output x.
+1XXX: Channel 3 events generate triggers on trigger output x.
+
+CTI trigger input status register (CTI_TRGISTSR)
+Address offset: 0x130
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TRIGINSTATUS[7:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bits 7:0 TRIGINSTATUS[7:0]: trigger input status
+There is one bit of the register for each CTITRIGINx input. When a bit is set to 1, it indicates
+that the corresponding trigger input is active. When it is set to 0, the corresponding trigger
+input is inactive.
+
+RM0456 Rev 6

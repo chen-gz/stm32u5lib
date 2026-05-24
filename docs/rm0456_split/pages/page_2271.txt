@@ -1,0 +1,71 @@
+When starting in center-aligned mode, the current up-down configuration is used. It
+means that the counter counts up or down depending on the value written in the DIR bit
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+in the TIMx_CR1 register. Moreover, the DIR and CMS bits must not be changed at the
+same time by the software.
+•
+
+•
+
+Writing to the counter while running in center-aligned mode is not recommended as it
+can lead to unexpected results. In particular:
+–
+
+The direction is not updated if a value greater than the autoreload value is written
+in the counter (TIMx_CNT>TIMx_ARR). For example, if the counter was counting
+up, it continues to count up.
+
+–
+
+The direction is updated if 0 or the TIMx_ARR value is written in the counter but no
+update event UEV is generated.
+
+The safest way to use center-aligned mode is to generate an update by software
+(setting the UG bit in the TIMx_EGR register) just before starting the counter and not to
+write the counter while it is running.
+
+Dithering mode
+The PWM mode effective resolution can be increased by enabling the dithering mode, using
+the DITHEN bit in the TIMx_CR1 register. This applies to both the CCR (for duty cycle
+resolution increase) and ARR (for PWM frequency resolution increase).
+The operating principle is to have the actual CCR (or ARR) value slightly changed (adding
+or not one timer clock period) over 16 consecutive PWM periods, with predefined patterns.
+This allows a 16-fold resolution increase, considering the average duty cycle or PWM
+period. Figure 631 presents the dithering principle applied to four consecutive PWM cycles.
+Figure 631. Dithering principle
+Average duty cycle
+
+7
+
+5
+
+DC = 7/5
+
+DC = (7+¼)/5
+
+DC = (7+½)/5
+
+DC = (7+¾)/5
+
+DC = 8/5
+1 clock cycle
+
+MSv45752V1
+
+When the dithering mode is enabled, the register coding is changed as following (see
+Figure 632 for example):
+•
+
+The four LSBs are coding for the enhanced resolution part (fractional part).
+
+•
+
+The MSBs are left-shifted by four places and are coding for the base value. In 16-bit
+mode, the 16-bit format is maintained.
+
+RM0456 Rev 6

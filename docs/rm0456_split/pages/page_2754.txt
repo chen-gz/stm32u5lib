@@ -1,0 +1,75 @@
+•
+
+When FIFO mode is disabled, the RXNE bit is set. It indicates that the content of the
+shift register is transferred to the RDR. In other words, data has been received and can
+be read (as well as its associated error flags).
+
+•
+
+When FIFO mode is enabled, the RXFNE bit is set indicating that the RXFIFO is not
+empty. Reading the LPUART_RDR returns the oldest data entered in the RXFIFO.
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+When a data is received, it is stored in the RXFIFO, together with the corresponding
+error bits.
+•
+
+An interrupt is generated if the RXNEIE (RXFNEIE in case of FIFO mode) bit is set.
+
+•
+
+The error flags can be set if a frame error, noise, or an overrun error has been detected
+during reception.
+
+•
+
+In multibuffer communication mode:
+
+•
+
+–
+
+When FIFO mode is disabled, the RXNE flag is set after every byte received and
+is cleared by the DMA read of the receive data register.
+
+–
+
+When FIFO mode is enabled, the RXFNE flag is set when the RXFIFO is not
+empty. After every DMA request, a data is retrieved from the RXFIFO. DMA
+request is triggered by RXFIFO is not empty, that is, there is a data in the RXFIFO
+to be read.
+
+In single-buffer mode:
+–
+
+When FIFO mode is disabled, clearing the RXNE flag is done by performing a
+software read from the LPUART_RDR register. The RXNE flag can also be
+cleared by writing 1 to the RXFRQ in the LPUART_RQR register. The RXNE bit
+must be cleared before the end of the reception of the next character to avoid an
+overrun error.
+
+–
+
+When FIFO mode is enabled, the RXFNE flag is set when the RXFIFO is not
+empty. After every read operation from the LPUART_RDR register, a data is
+retrieved from the RXFIFO. When the RXFIFO is empty, the RXFNE flag is
+cleared. The RXFNE flag can also be cleared by writing 1 to the RXFRQ bit in the
+LPUART_RQR register. When the RXFIFO is full, the first entry in the RXFIFO
+must be read before the end of the reception of the next character to avoid an
+overrun error. The RXFNE flag generates an interrupt if the RXFNEIE bit is set.
+Alternatively, interrupts can be generated and data can be read from RXFIFO
+when the RXFIFO threshold is reached. In this case, the CPU can read a block of
+data defined by the programmed threshold.
+
+Break character
+When a break character is received, the LPUART handles it as a framing error.
+
+Idle character
+When an idle frame is detected, it is handled in the same way as a data character reception
+except that an interrupt is generated if the IDLEIE bit is set.
+
+RM0456 Rev 6

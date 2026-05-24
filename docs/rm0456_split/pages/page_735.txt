@@ -1,0 +1,185 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.2
+
+GPDMA privileged configuration register (GPDMA_PRIVCFGR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+A write access to this register must be privileged. A read access can be privileged or
+unprivileged, secure or nonsecure.
+This register can mix secure and nonsecure information. If a channel x is configured as
+secure (GPDMA_SECCFGR.SECx = 1), the PRIVx bit can be written only by a secure (and
+privileged) agent.
+A write access is ignored at bit level if the corresponding channel x is locked
+(GPDMA_RCFGLOCKR.LOCKx = 1).
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN =1.
+This register must be programmed at a bit level, at the initialization/closure of a GPDMA
+channel (GPDMA_CxCR.EN = 0), to individually allocate any channel x to the privileged or
+unprivileged world.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+PRIV8
+
+PRIV7
+
+PRIV6
+
+PRIV5
+
+PRIV4
+
+PRIV3
+
+PRIV2
+
+PRIV1
+
+PRIV0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+PRIV15 PRIV14 PRIV13 PRIV12 PRIV11 PRIV10 PRIV9
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 PRIVx: privileged state of channel x (x = 15 to 0)
+0: unprivileged
+1: privileged
+
+17.8.3
+
+GPDMA configuration lock register (GPDMA_RCFGLOCKR)
+Address offset: 0x08
+Reset value: 0x0000 0000
+This register can be written by a software agent with secure privileged attributes in order to
+individually lock, for example at boot time, the secure privileged attributes of any GPDMA
+
+RM0456 Rev 6

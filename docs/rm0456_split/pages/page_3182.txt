@@ -1,0 +1,106 @@
+1.
+
+To save power, the application suspends and turns off port power when the bus is idle
+by writing the port suspend and port power bits in the host port control and status
+register.
+
+2.
+
+PHY indicates port power off by deasserting the VBUS_VALID signal.
+
+3.
+
+The device must detect SE0 for at least 2 ms to start SRP when VBUS power is off.
+
+4.
+
+To initiate SRP, the device turns on its data line pull-up resistor for 5 to 10 ms. The
+OTG_FS controller detects data-line pulsing.
+
+5.
+
+The device drives VBUS above the A-device session valid (2.0 V minimum) for VBUS
+pulsing.
+The OTG_FS controller interrupts the application on detecting SRP. The session
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+request detected bit is set in Global interrupt status register (SRQINT set in
+OTG_GINTSTS).
+6.
+
+The application must service the session request detected interrupt and turn on the
+port power bit by writing the port power bit in the host port control and status register.
+The PHY indicates port power-on by asserting the VBUS_VALID signal.
+
+7.
+
+When the USB is powered, the device connects, completing the SRP process.
+
+B-device session request protocol
+The application must set the SRP-capable bit in the core USB configuration register. This
+enables the OTG_FS controller to initiate SRP as a B-device. SRP is a means by which the
+OTG_FS controller can request a new session from the host.
+Figure 915. B-device SRP
+Suspend
+
+6
+1
+
+VBUS_VALID
+
+2
+
+B_VALID
+
+3
+DISCHRG_VBUS
+4
+SESS_END
+5
+
+8
+Data line pulsing
+
+Connect
+
+DP
+
+DM
+
+Low
+7
+VBUS pulsing
+
+CHRG_VBUS
+
+ai15682c
+
+1. VBUS_VALID = VBUS valid signal from PHY
+B_VALID = B-peripheral valid session to PHY
+DISCHRG_VBUS = discharge signal to PHY
+SESS_END = session end signal to PHY
+CHRG_VBUS = charge VBUS signal to PHY
+DP = Data plus line
+DM = Data minus line
+
+The following points refer and describe the signal numeration shown in the Figure 915:
+1.
+
+To save power, the host suspends and turns off port power when the bus is idle.
+The OTG_FS controller sets the early suspend bit in the core interrupt register after 3
+ms of bus idleness. Following this, the OTG_FS controller sets the USB suspend bit in
+the core interrupt register.
+The OTG_FS controller informs the PHY to discharge VBUS.
+
+2.
+
+The PHY indicates the session’s end to the device. This is the initial condition for SRP.
+The OTG_FS controller requires 2 ms of SE0 before initiating SRP.
+For a USB 1.1 full-speed serial transceiver, the application must wait until VBUS
+discharges to 0.2 V after BSVLD (in OTG_GOTGCTL) is deasserted. This discharge
+
+RM0456 Rev 6

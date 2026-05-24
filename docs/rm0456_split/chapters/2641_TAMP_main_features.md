@@ -1,0 +1,288 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+completed. The latency of the second write access can be up to 2x i2c_pclk +
+6 x i2c_ker_ck.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+15
+
+14
+
+13
+
+12
+
+11
+
+OA2EN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+OA2MSK[2:0]
+rw
+
+rw
+
+OA2[7:1]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+0
+Res.
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 OA2EN: Own address 2 enable
+0: Own address 2 disabled. The received target address OA2 is NACKed.
+1: Own address 2 enabled. The received target address OA2 is ACKed.
+Bits 14:11 Reserved, must be kept at reset value.
+Bits 10:8 OA2MSK[2:0]: Own address 2 masks
+000: No mask
+001: OA2[1] is masked and don’t care. Only OA2[7:2] are compared.
+010: OA2[2:1] are masked and don’t care. Only OA2[7:3] are compared.
+011: OA2[3:1] are masked and don’t care. Only OA2[7:4] are compared.
+100: OA2[4:1] are masked and don’t care. Only OA2[7:5] are compared.
+101: OA2[5:1] are masked and don’t care. Only OA2[7:6] are compared.
+110: OA2[6:1] are masked and don’t care. Only OA2[7] is compared.
+111: OA2[7:1] are masked and don’t care. No comparison is done, and all (except reserved)
+7-bit received addresses are acknowledged.
+Note: These bits can be written only when OA2EN = 0.
+As soon as OA2MSK ≠ 0, the reserved I2C addresses (0b0000xxx and 0b1111xxx) are
+not acknowledged, even if the comparison matches.
+Bits 7:1 OA2[7:1]: Interface address
+7-bit addressing mode: 7-bit address
+Note: These bits can be written only when OA2EN = 0.
+Bit 0 Reserved, must be kept at reset value.
+
+65.9.5
+
+I2C timing register (I2C_TIMINGR)
+Address offset: 0x10
+Reset value: 0x0000 0000
+Access: no wait states
+
+31
+
+30
+
+29
+
+28
+
+PRESC[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+rw
+
+rw
+
+rw
+
+rw
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+SCLH[7:0]
+
+<!-- pagebreak -->
+

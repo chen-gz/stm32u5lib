@@ -1,0 +1,51 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+if (XFRC)
+{
+Reset Error Count
+Mask ACK
+De-allocate Channel
+}
+else
+if (STALL or FRMOR)
+{
+Mask ACK
+Unmask CHH
+Disable Channel
+if (STALL)
+{
+Transfer Done = 1
+}
+}
+else
+if (NAK or TXERR)
+{
+Rewind Buffer Pointers
+Reset Error Count
+Mask ACK
+Unmask CHH
+Disable Channel
+}
+else
+if (CHH)
+{
+Mask CHH
+if (Transfer Done or (Error_count == 3))
+{
+De-allocate Channel
+}
+else
+{
+Re-initialize Channel (in next b_interval - 1 Frame)
+}
+}
+else
+if (ACK)
+{
+Reset Error Count
+Mask ACK
+}

@@ -1,0 +1,235 @@
+24
+
+23
+
+22
+
+21
+
+VBAT VSENSE VREF
+EN
+SEL
+EN
+
+RM0456 Rev 6
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+PRESC[3:0]
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bit 24 VBATEN: VBAT enable
+This bit is set and cleared by software to enable/disable the VBAT channel.
+0: VBAT channel disabled
+1: VBAT channel enabled
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing)
+Bit 23 VSENSESEL: Temperature sensor selection
+This bit is set and cleared by software to enable/disable the temperature sensor.
+0: Temperature sensor disabled
+1: Temperature sensor enabled
+Note: Software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP to 1
+(which ensures that no conversion is ongoing).
+Bit 22 VREFEN: VREFINT enable
+This bit is set and cleared by software to enable/disable the VREFINT buffer.
+0: VREFINT disabled
+1: VREFINT enabled
+Note: Software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP to 1
+(which ensures that no conversion is ongoing).
+Bits 21:18 PRESC[3:0]: ADC prescaler
+Set and cleared by software to select the frequency of the clock to the ADC.
+0000: input ADC clock not divided
+0001: input ADC clock divided by 2
+0010: input ADC clock divided by 4
+0011: input ADC clock divided by 6
+0100: input ADC clock divided by 8
+0101: input ADC clock divided by 10
+0110: input ADC clock divided by 12
+0111: input ADC clock divided by 16
+1000: input ADC clock divided by 32
+1001: input ADC clock divided by 64
+1010: input ADC clock divided by 128
+1011: input ADC clock divided by 256
+Other: Reserved
+Note: Software is allowed to write these bits only when the ADC is disabled (ADCAL = 0,
+ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+Bits 17:0 Reserved, must be kept at reset value.
+
+34.7.19
+
+ADC register map
+The following table summarizes the ADC registers.
+
+3
+
+2
+
+1
+
+0
+
+EOC
+
+EOSMP
+
+ADRDY
+
+0
+
+4
+
+0
+
+EOS
+
+0
+
+5
+
+0
+
+OVR
+
+14
+Res.
+
+6
+
+15
+Res.
+
+0
+
+Res.
+
+16
+Res.
+
+7
+
+17
+Res.
+
+Res.
+
+18
+Res.
+
+8
+
+19
+Res.
+
+AWD1
+
+20
+Res.
+
+9
+
+21
+Res.
+
+AWD2
+
+22
+Res.
+
+AWD3
+
+23
+Res.
+
+11
+
+24
+Res.
+
+10
+
+25
+Res.
+
+Res.
+
+26
+Res.
+
+12
+
+27
+Res.
+
+EOCAL
+
+28
+Res.
+
+RM0456 Rev 6
+
+13
+
+29
+Res.
+
+Reset value
+
+LDORDY
+
+30
+
+ADC_ISR
+
+Res.
+
+31
+
+0x00
+
+Register name
+
+Res.
+
+Offset
+
+Res.
+
+Table 339. ADC register map and reset values
+
+0
+
+0
+
+0
+
+0
+
+0

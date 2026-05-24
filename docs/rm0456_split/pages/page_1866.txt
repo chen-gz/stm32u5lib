@@ -1,0 +1,71 @@
+1886
+
+JPEG codec (JPEG)
+
+RM0456
+
+46.3
+
+JPEG codec block functional description
+
+46.3.1
+
+General description
+The block diagram of the JPEG codec is shown in Figure 450.
+Figure 450. JPEG codec block diagram
+32-bit AHB bus
+Data stream IN
+
+Data stream OUT
+
+Status, control and
+configuration
+Registers
+
+Input FIFO
+
+HuffEnc
+RAM
+
+Output FIFO
+
+DHTMem
+RAM
+
+Encoder
+
+Quantifier
+
+QMem
+RAM
+
+Decoder
+
+HuffMin
+RAM
+
+JPEG
+
+jpeg_it
+jpeg_hclk
+
+HuffBase
+RAM
+
+jpeg_ifnf_trg
+jpeg_ift_trg
+
+HuffSymb
+RAM
+
+jpeg_ofne_trg
+jpeg_oft_trg
+
+jpeg_eoc_trg
+MSv42133V2
+
+46.3.2
+
+JPEG internal signals
+Table 452 lists the JPEG internal signals.
+Table 452. JPEG internal signals

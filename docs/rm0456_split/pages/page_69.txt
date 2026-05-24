@@ -1,0 +1,195 @@
+61.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2564
+
+61.2
+
+IWDG main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2564
+
+61.3
+
+IWDG implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2564
+
+61.4
+
+IWDG functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2565
+61.4.1
+
+IWDG block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2565
+
+61.4.2
+
+IWDG internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2566
+
+61.4.3
+
+Software and hardware watchdog modes . . . . . . . . . . . . . . . . . . . . . 2566
+
+61.4.4
+
+Window option . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2567
+
+61.4.5
+
+Debug . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2570
+
+61.4.6
+
+Register access protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2570
+
+61.5
+
+IWDG low power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2570
+
+61.6
+
+IWDG interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2571
+
+61.7
+
+IWDG registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2572
+61.7.1
+
+IWDG key register (IWDG_KR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2572
+
+61.7.2
+
+IWDG prescaler register (IWDG_PR) . . . . . . . . . . . . . . . . . . . . . . . . 2573
+
+RM0456 Rev 6
+
+RM0456
+
+62
+
+63
+
+Contents
+61.7.3
+
+IWDG reload register (IWDG_RLR) . . . . . . . . . . . . . . . . . . . . . . . . . . 2574
+
+61.7.4
+
+IWDG status register (IWDG_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2574
+
+61.7.5
+
+IWDG window register (IWDG_WINR) . . . . . . . . . . . . . . . . . . . . . . . 2575
+
+61.7.6
+
+IWDG early wake-up interrupt register (IWDG_EWCR) . . . . . . . . . . 2576
+
+61.7.7
+
+IWDG register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2577
+
+System window watchdog (WWDG) . . . . . . . . . . . . . . . . . . . . . . . . . 2578
+62.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2578
+
+62.2
+
+WWDG main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2578
+
+62.3
+
+WWDG implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2578
+
+62.4
+
+WWDG functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2579
+62.4.1
+
+WWDG block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2579
+
+62.4.2
+
+WWDG internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2579
+
+62.4.3
+
+Enabling the watchdog . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2580
+
+62.4.4
+
+Controlling the down-counter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2580
+
+62.4.5
+
+How to program the watchdog timeout . . . . . . . . . . . . . . . . . . . . . . . 2580
+
+62.4.6
+
+Debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2581
+
+62.5
+
+WWDG interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2582
+
+62.6
+
+WWDG registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2582
+62.6.1
+
+WWDG control register (WWDG_CR) . . . . . . . . . . . . . . . . . . . . . . . . 2582
+
+62.6.2
+
+WWDG configuration register (WWDG_CFR) . . . . . . . . . . . . . . . . . . 2583
+
+62.6.3
+
+WWDG status register (WWDG_SR) . . . . . . . . . . . . . . . . . . . . . . . . 2584
+
+62.6.4
+
+WWDG register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2584
+
+Real-time clock (RTC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2585
+63.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2585
+
+63.2
+
+RTC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2585
+
+63.3
+
+RTC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2586
+63.3.1
+
+RTC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2586
+
+63.3.2
+
+RTC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2588
+
+63.3.3
+
+GPIOs controlled by the RTC and TAMP . . . . . . . . . . . . . . . . . . . . . . 2589
+
+63.3.4
+
+RTC secure protection modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2592
+
+63.3.5
+
+RTC privilege protection modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2593
+
+63.3.6
+
+Clock and prescalers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2594
+
+63.3.7
+
+Real-time clock and calendar . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2596
+
+63.3.8
+
+Calendar ultra-low power mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2596
+
+RM0456 Rev 6

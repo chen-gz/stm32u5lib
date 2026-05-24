@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bits 7:4 IC1F[3:0]: Input capture 1 filter
+This bitfield defines the frequency used to sample tim_ti1 input and the length of the digital filter
+applied to tim_ti1. The digital filter is made of an event counter in which N consecutive events are
+needed to validate a transition on the output:
+0000: No filter, sampling is done at fDTS
+0001: fSAMPLING = ftim_ker_ck, N = 2
+0010: fSAMPLING = ftim_ker_ck, N = 4
+0011: fSAMPLING = ftim_ker_ck, N = 8
+0100: fSAMPLING = fDTS/2, N = 6
+0101: fSAMPLING = fDTS/2, N = 8
+0110: fSAMPLING = fDTS/4, N = 6
+0111: fSAMPLING = fDTS/4, N = 8
+1000: fSAMPLING = fDTS/8, N = 6
+1001: fSAMPLING = fDTS/8, N = 8
+1010: fSAMPLING = fDTS/16, N = 5
+1011: fSAMPLING = fDTS/16, N = 6
+1100: fSAMPLING = fDTS/16, N = 8
+1101: fSAMPLING = fDTS/32, N = 5
+1110: fSAMPLING = fDTS/32, N = 6
+1111: fSAMPLING = fDTS/32, N = 8
+Bits 3:2 IC1PSC[1:0]: Input capture 1 prescaler
+This bitfield defines the ratio of the prescaler acting on CC1 input (tim_ic1). The prescaler is reset as
+soon as CC1E = 0 (TIMx_CCER register).
+00: no prescaler, capture is done each time an edge is detected on the capture input
+01: capture is done once every 2 events
+10: capture is done once every 4 events
+11: capture is done once every 8 events
+Bits 1:0 CC1S[1:0]: Capture/compare 1 Selection
+This bitfield defines the direction of the channel (input/output) as well as the used input.
+00: CC1 channel is configured as output
+01: CC1 channel is configured as input, tim_ic1 is mapped on tim_ti1
+10: CC1 channel is configured as input, tim_ic1 is mapped on tim_ti2
+11: CC1 channel is configured as input, tim_ic1 is mapped on tim_trc. This mode is working only if an
+internal trigger input is selected through TS bit (TIMx_SMCR register)
+Note: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER).
+
+54.6.8
+
+TIMx capture/compare mode register 1 [alternate]
+(TIMx_CCMR1)(x = 1, 8)
+Address offset: 0x018
+Reset value: 0x0000 0000
+The same register can be used for output compare mode (this section) or for input capture
+mode (previous section). The direction of a channel is defined by configuring the
+corresponding CCxS bits. All the other bits of this register have a different function for input
+capture and for output compare modes. It is possible to combine both modes independently
+(for example channel 1 in input capture mode and channel 2 in output compare mode).
+
+RM0456 Rev 6

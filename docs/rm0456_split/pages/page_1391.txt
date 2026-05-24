@@ -1,0 +1,83 @@
+–
+
+Sequence length configured through CHSELx bits in ADC_CHSELR register
+
+–
+
+Sequence direction: the channels are scanned in a forward direction (from the
+lowest to the highest channel number) or backward direction (from the highest to
+the lowest channel number) depending on the value of SCANDIR bit
+(SCANDIR = 0: forward scan, SCANDIR = 1: backward scan)
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+–
+•
+
+Any channel can belong to in these sequences
+
+Fully-configurable sequencer
+The CHSELRMOD bit is set in ADC_CFGR1 register.
+–
+
+Sequencer length is up to eight channels
+
+–
+
+The order in which the channels are scanned is independent from the channel
+number. Any order can be configured through SQ1[3:0] to SQ8[3:0] bits in
+ADC_CHSELR register.
+
+–
+
+Only 15 channels can be selected in this sequence (refer to Section 34.7.10: ADC
+channel selection register [alternate] (ADC_CHSELR).
+
+–
+
+If the sequencer detects SQx[3:0] = 0b1111, the following SQx[3:0] registers are
+ignored.
+
+–
+
+If no 0b1111 is programmed in SQx[3:0], the sequencer scans full eight channels.
+
+The software is allowed to program the CHSEL, SCANDIR and CHSELRMOD bit only when
+ADSTART bit is cleared in ADC_CR register. This ensures that no conversion is ongoing. If
+the ADC operated in software trigger mode, set ADSTP bit then wait until ADSTP bit
+become 0 before reconfiguring these registers. This sequence must be respected even if
+ADSTART bit is cleared to 0 after the conversion,
+
+Temperature sensor, DAC output, VREFINT, VBAT, and VCORE internal channels
+The temperature sensor, the internal DAC channels, the internal reference voltage
+(VREFINT), VBAT, and VCORE are connected to ADC internal channels. Refer to Table ADC
+interconnection in Section 34.4.2: ADC pins and internal signals for details.
+
+34.4.10
+
+Programmable sampling time (SMPx[2:0])
+Before starting a conversion, the ADC needs to establish a direct connection between the
+voltage source to be measured and the embedded sampling capacitor of the ADC. This
+sampling time must be enough for the input voltage source to charge the sample and hold
+capacitor to the input voltage level.
+Having a programmable sampling time allows the conversion speed to be trimmed
+according to the input resistance of the input voltage source.
+The ADC samples the input voltage for a number of ADC clock cycles that can be modified
+using the SMP1[2:0] and SMP2[2:0] bits in the ADC_SMPR register.
+Each channel can choose one out of two sampling times configured in SMP1[2:0] and
+SMP2[2:0] bitfields, through SMPSELx bits in ADC_SMPR register.
+The total conversion time is calculated as follows:
+tCONV = Sampling time + 12.5 x ADC clock cycles
+Example:
+With ADC_CLK = 16 MHz and a sampling time of 1.5 ADC clock cycles:
+tCONV = 1.5 + 12.5 = 14 ADC clock cycles = 0.875 µs
+The ADC indicates the end of the sampling phase by setting the EOSMP flag.
+
+I/O analog switch voltage booster
+The resistance of the I/O analog switch increases when the VDDA voltage is too low. The
+sampling time must consequently be adapted accordingly (refer to the device datasheet for
+
+RM0456 Rev 6

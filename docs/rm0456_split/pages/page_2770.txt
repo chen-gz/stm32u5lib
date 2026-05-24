@@ -1,0 +1,234 @@
+RM0456 Rev 6
+
+RM0456
+
+67.6
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+LPUART interrupts
+Refer to Table 694 for a detailed description of all LPUART interrupt requests.
+Table 694. LPUART interrupt requests
+
+Interrupt
+vector
+
+LPUART
+
+Event
+flag
+
+Enable
+Control
+bit
+
+Transmit data
+register empty
+
+TXE
+
+TXEIE
+
+Write TDR
+
+Yes
+
+Transmit FIFO Not
+Full
+
+TXFNF
+
+TXFNFIE TXFIFO full
+
+Yes
+
+Transmit FIFO
+Empty
+
+TXFE
+
+TXFEIE
+
+Write TDR or write 1
+in TXFRQ
+
+Transmit FIFO
+threshold reached
+
+TXFT
+
+TXFTIE
+
+Write TDR
+
+Yes
+
+CTS interrupt
+
+CTSIF
+
+CTSIE
+
+Write 1 in CTSCF
+
+No
+
+Transmission
+Complete
+
+TC
+
+TCIE
+
+Write TDR or write 1
+in TCCF
+
+Yes
+
+Receive data
+register not empty
+(data ready to be
+read)
+
+RXNE
+
+RXNEIE
+
+Read RDR or write
+1 in RXFRQ
+
+Yes
+
+Receive FIFO Not
+Empty
+
+RXFNE
+
+Read RDR until
+RXFNEIE RXFIFO empty or
+write 1 in RXFRQ
+
+Yes
+
+Receive FIFO Full
+
+RXFF(2)
+
+RXFFIE
+
+Read RDR
+
+Yes
+
+Receive FIFO
+threshold reached
+
+RXFT
+
+RXFTIE
+
+Read RDR
+
+Yes
+
+Overrun error
+detected
+
+ORE
+
+RXNEIE/RX
+FNEIE
+
+Write 1 in ORECF
+
+Yes
+
+Idle line detected
+
+IDLE
+
+IDLEIE
+
+Write 1 in IDLECF
+
+Parity error
+
+PE
+
+PEIE
+
+Write 1 in PECF
+
+Yes(3)
+
+Noise error in
+multibuffer
+communication.
+
+NE
+
+Write 1 in NFCF
+
+Yes(3)
+
+Overrun error in
+multibuffer
+communication.
+
+ORE(4)
+
+Write 1 in ORECF
+
+Yes
+
+Framing Error in
+multibuffer
+communication.
+
+FE
+
+Write 1 in FECF
+
+Yes(3)
+
+Character match
+
+CMF
+
+Write 1 in CMCF
+
+Yes(5)
+
+Interrupt event
+
+EIE
+
+CMIE
+
+Interrupt clear
+method
+
+Exit from Exit from
+Sleep
+Stop(1)
+modes
+mode
+
+Yes
+
+.Yes
+
+Exit from
+Standby
+mode
+
+Yes
+
+No
+
+No
+
+1. The LPUART can wake up the device from Stop mode only if the peripheral instance supports the wake-up from Stop mode
+feature. Refer to Section 67.3: LPUART implementation for the list of supported Stop modes.
+
+RM0456 Rev 6

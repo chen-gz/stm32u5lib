@@ -1,0 +1,38 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 222. ADC clock scheme
+RCC
+(Reset and clock
+controller)
+
+ADC1 and ADC2
+adc_hclk
+
+adc_ker_ck
+
+AHB interface
+
+/1, 2, 4, 6, 8, 10,
+12, 16, 32, 64,
+128, 256
+
+Fadc_ker_ck
+
+Analog ADC1, 2
+
+Bits PREC[3:0]
+of ADCCx_CCR
+
+MSv65324V2
+
+1. Refer to the RCC section for information on adc_hclk and adc_ker_ck generation.
+
+Clock ratio constraint between ADC clock and AHB clock
+There are generally no constraints to be respected for the ratio between the ADC clock and
+the AHB clock. However, the ratio must be carefully chosen to avoid any overrun especially
+if the clock AHB is much slower than the ADC clock.
+
+RM0456 Rev 6

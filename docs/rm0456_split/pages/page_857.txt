@@ -1,0 +1,110 @@
+RM0456 Rev 6
+
+RM0456
+
+20
+
+Chrom-ART Accelerator controller (DMA2D)
+
+Chrom-ART Accelerator controller (DMA2D)
+This section only applies to STM32U5Fx/5Gx devices.
+
+20.1
+
+DMA2D introduction
+The Chrom-ART Accelerator (DMA2D) is a specialized DMA dedicated to image
+manipulation. It can perform the following operations:
+•
+
+Filling a part or the whole of a destination image with a specific color
+
+•
+
+Copying a part or the whole of a source image into a part or the whole of a destination
+image
+
+•
+
+Copying a part or the whole of a source image into a part or the whole of a destination
+image with a pixel format conversion
+
+•
+
+Blending a part and/or two complete source images with different pixel format and copy
+the result into a part or the whole of a destination image with a different color format
+
+All the classical color coding schemes are supported from 4-bit up to 32-bit per pixel with
+indexed or direct color mode, including block based YCbCr to handle JPEG decoder output.
+The DMA2D has its own dedicated memories for CLUTs (color look-up tables).
+
+20.2
+
+DMA2D main features
+The main DMA2D features are:
+•
+
+Single AHB master bus architecture
+
+•
+
+AHB slave programming interface supporting 8-,16-,32-bit accesses (except for CLUT
+accesses which are 32-bit)
+
+•
+
+User-programmable working area size
+
+•
+
+User-programmable offset for sources and destination areas expressed in pixels or
+bytes
+
+•
+
+User-programmable sources and destination addresses on the whole memory space
+
+•
+
+Up to two sources with blending operation
+
+•
+
+Alpha value that can be modified (source value, fixed value, or modulated value)
+
+•
+
+User programmable source and destination color format
+
+•
+
+Up to 12 color formats supported from 4-bit up to 32-bit per pixel with indirect or direct
+color coding
+
+•
+
+Block based (8x8) YCbCr support with 4:4:4, 4:2:2 and 4:2:0 chroma sub-sampling
+factors
+
+•
+
+2 internal memories for CLUT storage in indirect color mode
+
+•
+
+Automatic CLUT loading or CLUT programming via the CPU
+
+•
+
+User programmable CLUT size
+
+•
+
+Internal timer to control AHB bandwidth
+
+•
+
+6 operating modes: register-to-memory, memory-to-memory, memory-to-memory with
+pixel format conversion, memory-to-memory with pixel format conversion and blending,
+memory-to memory with pixel format conversion, blending and fixed color foreground,
+
+RM0456 Rev 6

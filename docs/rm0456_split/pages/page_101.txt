@@ -1,0 +1,164 @@
+RM0456
+
+JPEG codec register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1885
+Acquisition sequence summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1890
+Spread spectrum deviation versus AHB clock frequency . . . . . . . . . . . . . . . . . . . . . . . . 1892
+I/O state depending on its mode and IODEF bit value . . . . . . . . . . . . . . . . . . . . . . . . . . 1893
+Effect of low-power modes on TSC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1895
+Interrupt control bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1895
+TSC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1903
+RNG internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1906
+RNG interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1914
+RNG initialization times. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1915
+RNG configurations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1915
+Configuration selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1916
+RNG register map and reset map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1921
+AES/SAES features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1923
+AES internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1924
+CTR mode initialization vector definition. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1939
+GCM last block definition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1941
+Initialization of AES_IVRx registers in GCM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1942
+Initialization of AES_IVRx registers in CCM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1949
+Key endianness in AES_KEYRx registers (128- or 256-bit key length) . . . . . . . . . . . . . 1955
+AES interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1959
+Processing latency for ECB, CBC and CTR . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1959
+Processing latency for GCM and CCM (in clock cycles). . . . . . . . . . . . . . . . . . . . . . . . . 1959
+AES register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1972
+AES/SAES features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1975
+SAES internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1976
+Key endianness in SAES_KEYRx registers (128- or 256-bit key length) . . . . . . . . . . . . 1995
+SAES interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2000
+Processing latency for ECB, CBC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2001
+SAES register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2014
+HASH internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2018
+Hash processor outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2021
+Processing time (in clock cycle) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2027
+HASH interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2028
+HASH register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2036
+OTFDEC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2039
+OTFDEC interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2043
+OTFDEC register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2057
+Internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2062
+PKA integer arithmetic functions list . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2063
+PKA prime field (Fp) elliptic curve functions list . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2064
+Montgomery parameter computation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2070
+Modular addition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2071
+Modular subtraction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2071
+Montgomery multiplication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2072
+Modular exponentiation (normal mode) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2073
+Modular exponentiation (fast mode) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2073
+Modular exponentiation (protected mode) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2074
+Modular inversion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2074
+Modular reduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2075
+Arithmetic addition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2075
+Arithmetic subtraction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2075
+
+RM0456 Rev 6
+
+RM0456
+
+List of tables
+
+Table 507.
+Table 508.
+Table 509.
+Table 510.
+Table 511.
+Table 512.
+Table 513.
+Table 514.
+Table 515.
+Table 516.
+Table 517.
+Table 518.
+Table 519.
+Table 520.
+Table 521.
+Table 522.
+Table 523.
+Table 524.
+Table 525.
+Table 526.
+Table 527.
+Table 528.
+Table 529.
+Table 530.
+Table 531.
+Table 532.
+Table 533.
+Table 534.
+Table 535.
+Table 536.
+Table 537.
+Table 538.
+Table 539.
+Table 540.
+Table 541.
+Table 542.
+Table 543.
+Table 544.
+Table 545.
+Table 546.
+Table 547.
+Table 548.
+Table 549.
+Table 550.
+Table 551.
+Table 552.
+Table 553.
+Table 554.
+
+Arithmetic multiplication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2076
+Arithmetic comparison . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2076
+CRT exponentiation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2077
+Point on elliptic curve Fp check . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2078
+ECC Fp scalar multiplication. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2078
+ECDSA sign - Inputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2080
+ECDSA sign - Outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2080
+Extended ECDSA sign - Extra outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2081
+ECDSA verification - Inputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2081
+ECDSA verification - Outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2082
+ECC complete addition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2082
+ECC double base ladder. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2083
+ECC projective to affine . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2084
+Family of supported curves for ECC operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2085
+Modular exponentiation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2086
+ECC scalar multiplication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2086
+ECDSA signature average computation time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECDSA verification average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECC double base ladder average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECC projective to affine average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+ECC complete addition average computation times . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2087
+Point on elliptic curve Fp check average computation times . . . . . . . . . . . . . . . . . . . . . 2087
+Montgomery parameters average computation times. . . . . . . . . . . . . . . . . . . . . . . . . . . 2088
+PKA interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2088
+PKA register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2093
+TIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2096
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2096
+Interconnect to the tim_ti1 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2097
+Interconnect to the tim_ti2 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Interconnect to the tim_ti3 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Interconnect to the tim_ti4 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Internal trigger connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2098
+Interconnect to the tim_etr input multiplexer for STM32U535/545/575/585 . . . . . . . . . . 2099
+Interconnect to the tim_etr input multiplex for STM2U59x/5Ax/5Fx/5Gx . . . . . . . . . . . . 2099
+Timer break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2100
+Timer break2 interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2100
+System break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2101
+Interconnect to the ocref_clr input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2101
+CCR and ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2134
+CCR register change dithering pattern in center-aligned PWM mode . . . . . . . . . . . . . . 2135
+Behavior of timer outputs versus tim_brk/tim_brk2 inputs . . . . . . . . . . . . . . . . . . . . . . . 2147
+Break protection disarming conditions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2149
+Counting direction versus encoder signals (CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . 2158
+Counting direction versus encoder signals and polarity settings . . . . . . . . . . . . . . . . . . 2162
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2183
+Effect of low-power modes on TIM1/TIM8 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2184
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2184
+Output control bits for complementary tim_ocx and tim_ocxn channels
+with break feature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2211
+Table 555. TIMx register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2234
+Table 556. STM32U5 series general purpose timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2238
+Table 557. TIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2240
+
+RM0456 Rev 6

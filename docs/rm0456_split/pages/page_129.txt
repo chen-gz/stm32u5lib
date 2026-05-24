@@ -1,0 +1,181 @@
+RM0456 Rev 6
+
+RM0456
+
+Memory and bus architecture
+
+2
+
+Memory and bus architecture
+
+2.1
+
+System architecture
+The STM32U5 series architecture relies on an Arm Cortex-M33 core optimized for execution
+thanks to an instruction cache having a direct access to the embedded flash memory.
+This architecture also features a 32-bit multilayer AHB bus matrix that interconnects master
+and slave as shown in the tables below.
+
+Masters
+
+Comments
+
+STM32U535/545
+
+STM32U575/585
+
+STM32U59x/5Ax
+
+STM32U5Fx/5Gx
+
+Table 1. Implementation of masters on STM32U5 Series
+
+Cortex-M33 Fast
+C-bus
+
+Connecting Cortex-M33 (with Arm TrustZone® mainline and
+FPU) to the internal SRAMs and flash memory through ICACHE.
+
+X
+
+X
+
+X
+
+X
+
+Cortex-M33 Slow
+C-bus
+
+Connecting Cortex-M33 (with Arm TrustZone mainline and FPU)
+to the external memories through ICACHE.
+
+X
+
+X
+
+X
+
+X
+
+Cortex-M33 S-bus
+
+Connecting the Cortex-M33 (with Arm TrustZone mainline
+and FPU) to internal SRAMs without latency.
+Connecting Cortex-M33 (with Arm TrustZone mainline and FPU)
+to the external memories through DCACHE2.
+
+2
+masters
+X
+
+3 masters
+X
+
+X
+
+X
+
+GPDMA1
+
+-
+
+2 masters
+
+DMA2D
+
+-
+
+-
+
+X
+
+X
+
+X
+
+SDMMC1
+
+-
+
+X
+
+X
+
+X
+
+X
+
+SDMMC2
+
+-
+
+-
+
+X
+
+X
+
+X
+
+LTDC
+
+-
+
+-
+
+-
+
+X
+
+X
+
+GPU2D M1 port
+
+Graphic processing unit M1 port
+
+-
+
+-
+
+X
+
+X
+
+GPU2D M0 port
+
+Graphic processing unit M0 port through DCACHE2
+
+-
+
+-
+
+X
+
+X
+
+GFXMMU master port
+
+-
+
+-
+
+-
+
+X
+
+X
+
+OTG_HS
+
+-
+
+-
+
+-
+
+X
+
+X
+
+RM0456 Rev 6

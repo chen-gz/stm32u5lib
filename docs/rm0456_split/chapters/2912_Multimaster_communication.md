@@ -1,0 +1,162 @@
+rw
+
+26
+
+Res.
+
+14
+
+Res.
+
+27
+
+11
+
+24
+
+DLYM4L[2:0]
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+DLYM2L[2:0]
+rw
+
+rw
+
+23
+
+22
+
+Res.
+
+10
+
+Res.
+rw
+
+25
+
+7
+
+RM0456 Rev 6
+
+20
+
+DLYM3R[2:0]
+rw
+
+rw
+
+6
+
+5
+
+4
+
+DLYM1R[2:0]
+rw
+
+rw
+
+19
+
+18
+
+Res.
+
+rw
+
+Res.
+rw
+
+21
+
+3
+
+16
+
+DLYM3L[2:0]
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+Res.
+rw
+
+17
+
+DLYM1L[2:0]
+rw
+
+rw
+
+rw
+
+RM0456
+
+Serial audio interface (SAI)
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:28 DLYM4R[2:0]: Delay line for second microphone of pair 4
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D4 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.
+Bit 27 Reserved, must be kept at reset value.
+Bits 26:24 DLYM4L[2:0]: Delay line for first microphone of pair 4
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 of TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D4 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.
+Bit 23 Reserved, must be kept at reset value.
+Bits 22:20 DLYM3R[2:0]: Delay line for second microphone of pair 3
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D3 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.
+Bit 19 Reserved, must be kept at reset value.
+Bits 18:16 DLYM3L[2:0]: Delay line for first microphone of pair 3
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D3 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,51 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 19 UCPD1SEC: secure access mode for UCPD1
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 18 FDCAN1SEC: secure access mode for FDCAN1
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 17 LPTIM2SEC: secure access mode for LPTIM2
+0: nonsecure
+1: secure
+Bit 16 I2C4SEC: secure access mode for I2C4
+0: nonsecure
+1: secure
+Bit 15 CRSSEC: secure access mode for CRS
+0: nonsecure
+1: secure
+Bit 14 I2C2SEC: secure access mode for I2C2
+0: nonsecure
+1: secure
+Bit 13 I2C1SEC: secure access mode for I2C1
+0: nonsecure
+1: secure
+Bit 12 UART5SEC: secure access mode for UART5
+0: nonsecure
+1: secure
+Bit 11 UART4SEC: secure access mode for UART4
+0: nonsecure
+1: secure
+Bit 10 USART3SEC: secure access mode for USART3
+0: nonsecure
+1: secure
+Bit 9 USART2SEC: secure access mode for USART2
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 8 SPI2SEC: secure access mode for SPI2
+0: nonsecure
+1: secure

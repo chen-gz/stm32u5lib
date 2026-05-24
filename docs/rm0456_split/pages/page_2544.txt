@@ -1,0 +1,72 @@
+The backup registers are also erased when the readout protection of the flash is changed
+from level 1 to level 0.
+
+RM0456 Rev 6
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Tamper detection – confirmed mode
+The confirmed mode is selected for TAMPx (external tamper x) when TAMPxNOER = 0 in
+the TAMP_CR2 register. The confirmed mode is selected for ITAMPx (internal tamper x)
+when ITAMPxNOER = 0 in the TAMP_CR3 register. The effects of a tamper detection in
+confirmed mode are described with tamp_confirmed and tamp_confirmed_ercfgx signals in
+the Table 644: TAMP interconnection.
+This mode is selected to erase automatically the device secrets when the tamper is
+detected.
+
+Tamper detection – potential mode
+The potential mode is selected for TAMPx (external tamper x) when TAMPxNOER = 1 in the
+TAMP_CR2 register. The potential tamper mode is selected for ITAMPx (internal tamper x)
+when ITAMPxNOER = 1 in the TAMP_CR3 register. The effects of a tamper detection in
+potential mode are described with tamp_potential and tamp_potential_ercfgx signals in the
+Table 644: TAMP interconnection.
+This mode is selected to avoid irreversible erasure of some device secrets when the tamper
+is detected. In this mode, some device secrets are not erased when the corresponding
+tamper event is detected. In addition, the read and write accesses to these device secrets
+are blocked as soon as the tamper detection flag is set in potential mode, until this flag is
+cleared by setting the corresponding clear flag in the TAMP_SCR register. Therefore the
+software can perform some checks to discriminate false from true tampers, and decide to
+launch secrets erase only in case of the potential tamper is confirmed to be a true tamper.
+The device secrets are erased by software by setting the BKERASE bit in the TAMP_CR2
+register.
+
+Potential tamper to confirmed tamper timeout
+Some internal tampers generate a tamper event if the independent watchdog reset occurs
+when another tamper flag is set (refer to Table 644: TAMP interconnection). The IWDG
+tamper must be configured with ITAMPxNOER = 0. This permits the erasure of device
+secrets to be forced by hardware after a timeout, in case the previous tamper event was in
+potential mode. This is equivalent to change the “potential tamper” into “confirmed tamper” if
+a watchdog reset occurs before any software decision following the potential tamper event.
+
+Device resources protection configuration
+Some device resources can be configured in order to be included to the list of the device
+secrets protected by tamper detection.
+When ERCFGz = 0 in the TAMP_ERCFGR, the device resource associated to ERCFGz is
+not protected by the TAMP peripheral:
+•
+
+It is not affected by tamper detection (whatever confirmed or potential mode)
+
+•
+
+It is not affected by BKERASE software command
+
+•
+
+It is not affected by BKBLOCK software command
+
+When ERCFGz = 1 in the TAMP_ERCFGR, the device resource associated to ERCFGz is
+protected by the TAMP peripheral:
+•
+
+It is affected by confirmed tamper detection and BKERASE software command, as
+described with tamp_confirmed_ercfgz signal in Table 644: TAMP interconnection
+
+•
+
+It is affected by potential tamper detection and BKBLOCK software command, as
+described with tamp_potential_ercfgz signal in Table 644: TAMP interconnection
+
+RM0456 Rev 6

@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 25 CMPCBB1_REGF: clear the illegal access flag for MPCBB1 registers
+0: no action
+1: status flag cleared
+Bit 24 CSRAM1F: clear the illegal access flag for SRAM1
+0: no action
+1: status flag cleared
+Bit 23 CMPCBB6_REGF: clear the illegal access flag for MPCBB6 registers
+0: no action
+1: status flag cleared
+This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 CSRAM6F: clear the illegal access flag for SRAM6
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 21 Reserved, must be kept at reset value.
+Bit 20 CHSPI1_MEMF: clear the illegal access flag for HSPI1 memory bank
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 19 COCTOSPI2_MEMF: clear the illegal access flag for OCTOSPI2 memory bank
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 18 CBKPSRAMF: clear the illegal access flag for MPCWM3 (BKPSRAM) memory bank
+0: no action
+1: status flag cleared
+Bit 17 CFSMC_MEMF: clear the illegal access flag for MPCWM2 (FSMC NAND) and MPCWM3
+(FSMC NOR)
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 16 COCTOSPI1_MEMF: clear the illegal access flag for MPCWM1 (OCTOSPI1) memory bank
+0: no action
+1: status flag cleared
+Bit 15 CTZIC1F: clear the illegal access flag for GTZC1 TZIC registers
+0: no action
+1: status flag cleared
+
+RM0456 Rev 6

@@ -1,0 +1,69 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+31.5.6
+
+RM0456
+
+SDMMC AHB master interface
+The AHB master interface is used to transfer the data between a memory and the FIFO
+using the SDMMC IDMA.
+
+SDMMC IDMA
+Direct memory access (DMA) is used to provide high-speed transfer between the SDMMC
+FIFO and the memory. The AHB master optimizes the bandwidth of the system bus. The
+SDMMC internal DMA (IDMA) provides one channel to be used either for transmit or
+receive.
+The IDMA is enabled by the IDMAEN bit and supports burst transfers of 8 beats.
+•
+
+In transmit burst transfer mode:
+–
+
+•
+
+Data are fetched in burst from memory whenever the FIFO is empty for the
+number of burst transfers, until all data according DATALENGTH has been
+transfered. When the DATALENGTH is not an integer multiple of the burst size the
+remaining, smaller then burst size data is transfered using single transfer mode.
+When the DATALENGTH is not an integer multiple of 4, the last remaining data (1,
+2 or 3 bytes) are fetched with a word transfer.
+
+In receive burst transfer mode:
+–
+
+Data are stored in burst in to memory whenever the FIFO contains the number of
+burst transfers, until all data according DATALENGTH has been transfered.
+When the DATALENGTH is not an integer multiple of the burst transfer the
+remaining, smaller then burst size data, is transfered using single transfer mode.
+When the DATALENGTH is not an integer multiple of 4, the last remaining data (1,
+2 or 3 bytes) are stored with halfword and or byte transfers.
+
+In addition the IDMA provides the following channel configurations selected by bit
+IDMABMODE:
+•
+
+single buffered channel
+
+•
+
+linked list channel
+
+Single buffered channel
+In single buffer configuration the data at the memory side is accessed in a linear matter
+starting from the base address IDMABASE. When the IDMA has finished transferring all
+data the and the DPSM has completed the transfer the DATAEND flag is set.
+
+Linked list channel
+In linked list configuration, IDMAMODE = 1, the data at the memory side is subsequently
+accessed from linked buffers, located at base address IDMABASE. The size of the memory
+buffers is defined by IDMABSIZE. The buffer size must be an integer multiple of the burst
+size. The bit ULA is used to indicate if a new linked list buffer configuration has to be loaded
+from the linked list table. A new linked list configuration is loaded when the ULA bit for the
+current linked list item is set.
+The first linked list item configuration is programmed by firmware directly in the SDMMC
+registers.
+When the IDMA has finished transferring all the data of one linked list buffer, according
+IDMABSIZE, and when the linked list item ULA bit is set, the IDMA loads the new linked list
+item from the linked list table, and continues transferring data from the next linked list buffer.

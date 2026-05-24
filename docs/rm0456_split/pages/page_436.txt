@@ -1,0 +1,94 @@
+482
+
+Power control (PWR)
+
+RM0456
+Figure 36. I/O states in Standby mode
+
+IO state retention disabled
+GPIO mode
+
+Normal
+
+Floating
+
+Normal (default after reset)
+
+System mode
+
+Run
+
+Standby (Vcore off)
+
+Run
+
+Standby entry
+
+WFI/WFE/Sleep on exit
+
+APC (PWR)
+Wakeup request
+IO state retention enabled
+GPIO mode
+
+Normal
+
+State retained (PU/PD)
+Standby (Vcore off)
+
+System mode
+
+Run
+
+Standby entry
+
+WFI/WFE/Sleep on exit
+
+APC (PWR)
+
+Normal
+Run
+
+Clear
+
+Set
+
+Wakeup request
+MSv66125V1
+
+Table 106. Standby mode
+Standby mode
+
+Description
+WFI (wait for interrupt) or WFE (wait for event) while:
+– SLEEPDEEP bit is set in Cortex-M33 system control register
+– No interrupt (for WFI) or event (for WFE) pending
+– LPMS = 10x in PWR_CR1 (1)
+– WUFx bits cleared in PWR_WUSR
+
+Mode entry
+
+On Return from ISR while:
+– SLEEPDEEP bit is set in Cortex-M33 system control register
+– SLEEPONEXIT = 1
+– No interrupt pending
+– LPMS = 10x in PWR_CR1(1)
+– WUFx bits cleared in PWR_WUSR
+– RTC/TAMP flags corresponding to the chosen wake-up source, cleared
+
+Mode exit
+
+WKUPx pin edge, RTC/TAMP event/interrupt, NRST pin external reset, IWDG reset, BOR reset
+
+Wake-up latency Reset phase
+1. The Standby mode is also entered if LPMS = 11X in PWR_CR1 with BREN = 1 in PWR_BDCR1.
+
+10.7.11
+
+Shutdown mode
+The lowest power consumption is reached in Shutdown mode. It is based on the Deepsleep
+mode with the voltage regulator disabled. The core domain is consequently powered off.
+The PLL, HSI16, MSIS, MSIK and HSE oscillators are also switched off.
+The SRAMs and register contents are lost except for registers in the backup domain. The
+BOR is not available in Shutdown mode. No power voltage monitoring is possible in this
+mode, therefore the switch to backup domain is not supported: VBAT mode is not

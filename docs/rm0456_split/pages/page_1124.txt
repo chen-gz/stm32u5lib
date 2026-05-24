@@ -1,0 +1,93 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+In SDR mode, when the HSPI drives the IO0/SO and IO1 to IO15 signals, these signals
+transition only with the falling edge of CLK.
+When receiving data in SDR mode, the HSPI assumes that the external devices also send
+the data using CLK falling edge. By default (when SSHIFT = 0 in HSPI_TCR), the signals
+are sampled using the following (rising) edge of CLK.
+Figure 171. SDR write command in octal-SPI mode example
+
+§
+
+NCS
+
+02h
+
+FDh
+
+A[31:24]
+
+A[23:16]
+
+A[15:8]
+
+A[7:0]
+
+D0
+
+D1
+
+§§
+
+IO[7:0]
+
+§
+
+CLK
+
+D254
+
+D255
+MSv43490V1
+
+Double-transfer rate (DTR) mode
+Each of the instruction, address, alternate-byte, and data phases can be configured to
+operate in DTR mode setting IDTR, ADDTR, ABDTR, and DDTR in HSPI_CCR.
+In memory-mapped mode, the DTR mode for each phase of the write operations is specified
+in HSPI_WCCR. The DTR mode for each phase of the read operations is specified in
+HSPI_CCR.
+In DTR mode, when the HSPI drives the IO0/SO and IO1to IO7 signals in the instruction,
+address, and alternate-byte phases, a bit is sent or received on each of the falling and rising
+edges of CLK.
+In DTR mode, when the HSPI drives the IO0 to IO15 signals in the data phases, a bit is sent
+or received on each of the falling and rising edges of CLK.
+When receiving data in DTR mode, the HSPI assumes that the external devices also send
+the data using both CLK rising and falling edges. When DDTR = 1 in HSPI_CCR,
+the software must clear SSHIFT in HSPI_TCR. Thus, the signals are sampled one half of a
+CLK cycle later (on the following, opposite edge).
+Figure 172. DTR write in octal-SPI mode (Macronix mode) example
+
+CLK
+IO[7:0]
+
+02h
+
+FDh A[31:24] A[23:16] A[15:8] A[7:0]
+
+D1
+
+D0
+
+Word Unit
+
+у у у
+
+у
+
+NCS
+
+D255
+
+D254
+
+Word Unit
+MSv43491V1
+
+Dual-quad configuration
+When DMM = 1 in HSPI_CR, the HSPI is in dual-memory configuration: if DMODE = 011,
+two external quad-SPI devices (device A and device B) are used in order to send/receive
+eight bits (or 16 bits in DTR mode) every cycle, effectively doubling the throughput.

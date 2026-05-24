@@ -1,0 +1,124 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+Figure 790. Transfer sequence flow for I2C target receiver, NOSTRETCH = 1
+Target reception
+
+Target initialization
+
+No
+No
+I2C_ISR.RXNE
+=1?
+
+I2C_ISR.STOPF
+=1?
+
+Yes
+
+Yes
+Set I2C_ICR.STOPCF
+
+Read I2C_RXDR.RXDATA
+
+MSv19856V3
+
+Figure 791. Transfer bus diagrams for I2C target receiver
+(mandatory events only)
+Legend
+
+Example I2C target receiver 3 bytes, NOSTRETCH = 0:
+ADDR
+
+RXNE
+
+RXNE
+
+RXNE
+
+Transmission
+Reception
+
+S
+
+Address
+
+A
+
+data1
+
+A
+
+data2
+
+data3
+
+A
+
+EV1
+
+EV2
+
+EV3
+
+A
+
+SCL stretch
+
+EV4
+
+RXNE
+
+EV1: ADDR ISR: check ADDCODE and DIR, set ADDRCF
+EV2: RXNE ISR: rd data1
+EV3: RXNE ISR: rd data2
+EV4: RXNE ISR: rd data3
+
+Legend
+
+Example I2C target receiver 3 bytes, NOSTRETCH = 1:
+
+Transmission
+
+RXNE
+S
+
+Address
+
+A
+
+data 1
+
+RXNE
+data 2
+
+A
+
+EV1
+
+RXNE
+data 3
+
+A
+
+EV2
+
+A
+
+Reception
+P
+
+SCL stretch
+
+EV3
+
+RXNE
+
+EV1: RXNE ISR: rd data1
+EV2: RXNE ISR: rd data2
+EV3: RXNE ISR: rd data3
+MSv19857V5
+
+RM0456 Rev 6

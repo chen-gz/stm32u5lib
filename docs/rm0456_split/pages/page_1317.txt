@@ -1,0 +1,64 @@
+•
+
+In continued mode, the accumulation restarts from the last valid data (prior to the
+conversion abort request due to the injected trigger). This ensures that oversampling is
+complete whatever the injection frequency (providing at least one regular conversion
+can be completed between triggers);
+
+•
+
+In resumed mode, the accumulation restarts from 0 (previous conversions results are
+ignored). This mode guarantees that all data used for oversampling were converted
+back-to-back within a single time-slot. Care must be taken to have an injection trigger
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+period above the oversampling period length. If this condition is not respected, the
+oversampling cannot be completed and the regular sequencer is blocked.
+Figure 255 gives examples for an oversampling ratio of 4x.
+Figure 255. Regular oversampling modes (4x ratio)
+Oversampling
+stopped
+
+Oversampling
+continued
+
+Regular channels Ch(N)0 Ch(N)1 Ch(N)2 Ch(N)3 Ch(M)0 Ch(M)1
+Abort
+Trigger
+Injected channels Ch(J)
+
+Ch(M)1 Ch(M)2 Ch(M)3 Ch(O)0
+
+Ch(K)
+
+JEOC
+Continued mode: ROVSE = 1, JOVSE = 0, ROVSM = 0, TROVS = X
+
+Oversampling
+aborted
+
+Oversampling
+resumed
+
+Regular channels Ch(N)0 Ch(N)1 Ch(N)2 Ch(N)3 Ch(M)0 Ch(M)1
+Abort
+Trigger
+Injected channels Ch(J)
+
+Ch(M)0 Ch(M)1 Ch(M)2 Ch(M)3
+
+Ch(K)
+
+JEOC
+Resumed mode: ROVSE = 1, JOVSE = 0, ROVSM = 1, TROVS = X
+MS34456V1
+
+Oversampling injected channels only
+The injected oversampling mode bit, JOVSE, enables oversampling solely for conversions
+in the injected sequencer.
+
+RM0456 Rev 6

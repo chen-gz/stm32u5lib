@@ -1,0 +1,93 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+•
+
+VDDA = 1.58 V (COMPs) / 1.6 V (DACs, OPAMPs) / 1.62 V (ADCs) / 1.8 V (VREFBUF)
+to 3.6 V
+VDDA is the external analog power supply for A/D converters, D/A converters, voltage
+reference buffer, operational amplifiers and comparators. The VDDA voltage level is
+independent from the VDD voltage and must be connected to VDD or VSS (preferably
+to VDD) when these peripherals are not used.
+
+•
+
+VDDSMPS = 1.71 V to 3.6 V
+VDDSMPS is the external power supply for the SMPS step-down converter. It is provided
+externally through VDDSMPS supply pin, and must be connected to the same supply
+as VDD pin when the SMPS is used in the application. When the SMPS is not used, it
+is recommended to connect both VDDSMPS and VLXSMPS to GND.
+
+•
+Note:
+
+VLXSMPS is the switched SMPS step-down converter output.
+
+The SMPS power supply pins are available only on a specific package with SMPS
+step-down converter option.
+•
+
+VDDUSB = 3.0 V to 3.6 V
+VDDUSB is the external independent power supply for USB/OTG_FS/OTG_HS
+transceivers. The VDDUSB voltage level is independent from the VDD voltage and must
+preferably be connected to VDD when the USB is not used.
+
+•
+
+VDD11USB = 1.0 V to 1.26 V (only available on STM32U59x/5Ax/5Fx/5Gx devices)
+VDD11USB is the external power supply for the OTG_HS transceiver. This supply is only
+available on specific packages and must be connected to VDD11.
+
+•
+
+VDDIO2 = 1.08 V to 3.6 V
+VDDIO2 is the external power supply for 14 I/Os (port G[15:2]). The VDDIO2 voltage level
+is independent from the VDD voltage and must preferably be connected to VDD when
+PG[15:2] are not used.
+
+•
+
+VBAT = 1.65 V to 3.6 V (functionality guaranteed down to VBOR_VBAT minimum value,
+refer to the product datasheet)
+VBAT is the power supply when VDD is not present (through power switch) for RTC,
+TAMP, external and internal clocks 32 kHz oscillator, backup registers and optionally
+backup SRAM.
+
+•
+
+VDDDSI = 1.71 V to 3.6 V (only available on STM32U59x/5Ax/5Fx/5Gx devices)
+VDDDSI is the external power supply for the DSI controller. It is provided externally
+through VDDDSI supply pin, and must be connected to the same supply as VDD pin.
+
+•
+
+VDD11DSI = 1.0 V to 1.26 V (only available on STM32U59x/5Ax/5Fx/5Gx devices)
+VDD11DSI is the external power supply for the DSI transceiver and must be connected
+to VDD11 pin.
+
+•
+
+VREF-, VREF+
+VREF+ is the input reference voltage for ADCs and DACs. It is also the output of the
+internal voltage reference buffer when enabled.
+VREF+ can be grounded when ADCs and DACs are not active.
+The internal voltage reference buffer supports four output voltages, that are configured
+with VRS bit in the VREFBUF_CSR register:
+–
+
+VREF+ around 1.5 V. This requires VDDA ≥ 1.8 V.
+
+–
+
+VREF+ around 1.8 V. This requires VDDA ≥ 2.1 V.
+
+–
+
+VREF+ around 2.048 V. This requires VDDA ≥ 2.4 V.
+
+–
+
+VREF+ around 2.5 V. This requires VDDA ≥ 2.8 V.
+RM0456 Rev 6

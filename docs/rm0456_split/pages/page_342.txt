@@ -1,0 +1,197 @@
+363
+
+Embedded flash memory (FLASH)
+
+7.9.13
+
+RM0456
+
+FLASH option register (FLASH_OPTR)
+Address offset: 0x40
+Reset value: 0xXXXX XXXX (bits 0 to 31 loaded with values from the flash memory at OBL)
+ST production value: 0x1FEF F8AA
+Access: no wait state when no option bytes modification is ongoing; word, half-word, and
+byte access.
+This register is nonsecure. It can be read and written by both secure and nonsecure access.
+This register can be protected against unprivileged access when NSPRIV = 1
+in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+TZEN
+
+IO_VD
+DIO2_
+HSLV
+
+29
+
+28
+
+27
+
+IO_VD
+PA15_ NBOO
+D_HSL
+PUPEN
+T0
+V
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+NSWB SRAM2 SRAM2 SRAM3 BKPRA DUALB SWAP_ WWDG IWDG_ IWDG_ IWDG_
+OOT0 _RST
+_ECC _ECC M_ECC ANK
+BANK
+_SW STDBY STOP
+SW
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+SRAM_ NRST_ NRST_ NRST_
+RST
+SHDW STDBY STOP
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+BOR_LEV[2:0]
+rw
+
+rw
+
+RDP[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 TZEN: Global TrustZone security enable
+0: Global TrustZone security disabled
+1: Global TrustZone security enabled
+Bit 30 IO_VDDIO2_HSLV: High-speed IO at low VDDIO2 voltage configuration bit
+This bit can be set only with VDDIO2 below 2.7 V.
+0: High-speed IO at low VDDIO2 voltage feature disabled (VDDIO2 can exceed 2.7 V)
+1: High-speed IO at low VDDIO2 voltage feature enabled (VDDIO2 remains below 2.7 V)
+Bit 29 IO_VDD_HSLV: High-speed IO at low VDD voltage configuration bit
+This bit can be set only with VDD below 2.7V
+0: High-speed IO at low VDD voltage feature disabled (VDD can exceed 2.7 V)
+1: High-speed IO at low VDD voltage feature enabled (VDD remains below 2.7 V)
+Bit 28 PA15_PUPEN: PA15 pull-up enable
+0: USB power delivery dead-battery enabled/TDI pull-up deactivated
+1: USB power delivery dead-battery disabled/TDI pull-up activated
+Bit 27 NBOOT0: NBOOT0 option bit
+0: NBOOT0 = 0
+1: NBOOT0 = 1
+Bit 26 NSWBOOT0: Software BOOT0
+0: BOOT0 taken from the option bit NBOOT0
+1: BOOT0 taken from PH3/BOOT0 pin
+Bit 25 SRAM2_RST: SRAM2 erase when system reset
+0: SRAM2 erased when a system reset occurs
+1: SRAM2 not erased when a system reset occurs
+Bit 24 SRAM2_ECC: SRAM2 ECC detection and correction enable
+0: SRAM2 ECC check enabled
+1: SRAM2 ECC check disabled

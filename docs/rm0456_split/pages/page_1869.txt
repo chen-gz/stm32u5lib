@@ -1,0 +1,71 @@
+RM0456 Rev 6
+
+RM0456
+
+JPEG codec (JPEG)
+When decoding two images successively, the START bit of the JPEG_CONFR0 register
+must be set again (even if already 1) after the header processing of the second image is
+completed.
+
+DMA generation for output FIFO
+A DMA request is generated when the 32-byte output FIFO becomes at least half-full, that
+is, when there are at least 16 bytes of data.
+A burst transfer is launched by the DMA to read 16 bytes of data.
+Reads return 0 if the output FIFO is empty.
+Once the decoding process is done, no extra bytes must remain in the output FIFO and no
+DMA request must be pending as the JPEG decoding generates blocks of 64 bytes.
+In case of abort of the JPEG codec operations by resetting the START bit of the
+JPEG_CONFR0 register, the output FIFO can be flushed by setting the OFF bit (input FIFO
+flush) of the JPEG_CR register.
+Prior to flushing the FIFO, the DMA for the output FIFO must be disabled to prevent an
+unwanted DMA request upon flushing the FIFO.
+
+Interrupt or DMA trigger generation for output FIFO
+The output FIFO can be managed using interrupts or DMA triggers through two flags
+according to the FIFO state:
+•
+
+Output FIFO not empty flag: a 32-bit value can be read out.
+
+•
+
+Output FIFO threshold flag: 8 words (32 bytes) can be read out.
+
+Reads return 0 if the output FIFO is empty.
+In case of abort of the JPEG codec operations by resetting the START bit of the
+JPEG_CONFR0 register, the output FIFO can be flushed. If the FIFO needs to be flushed, it
+must be done by software setting the FF bit (FIFO flush) of the JPEG_CR register.
+Prior to flushing the FIFO:
+•
+
+The interrupts for the output FIFO must be disabled to prevent unwanted interrupt
+request upon flushing the FIFO.
+
+•
+
+The DMA channel must be stopped to prevent an unwanted DMA trigger.
+
+The output FIFO must be flushed at the end of processing before any JPEG configuration
+change.
+
+46.3.4
+
+JPEG encoding procedure
+The JPEG codec can encode a JPEG stream as defined in the ISO/IEC 10918-1
+specification.
+It can optionally generate the JPEG header.
+The JPEG codec is configured in encode mode resetting the DE bit (decode enable) of the
+JPEG_CONFR1 register.
+The configuration used for encoding the JPEG must be loaded in the JPEG codec:
+•
+
+JPEG codec configuration registers
+
+•
+
+Quantization tables
+
+•
+
+Huffman tables
+RM0456 Rev 6

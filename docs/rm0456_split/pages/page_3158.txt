@@ -1,0 +1,92 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+transfers. The deeper the queue (along with sufficient FIFO size), the more often the
+core is able to pipeline non-periodic transfers. If the queue size is small, the core is
+able to put in new requests only when the queue space is freed up.
+The core’s periodic request queue depth is critical to perform periodic transfers as
+scheduled. Select the periodic queue depth, based on the number of periodic transfers
+scheduled in a microframe. If the periodic request queue depth is smaller than the
+periodic transfers scheduled in a microframe, a frame overrun condition occurs.
+•
+
+Handling babble conditions
+OTG_FS controller handles two cases of babble: packet babble and port babble.
+Packet babble occurs if the device sends more data than the maximum packet size for
+the channel. Port babble occurs if the core continues to receive data from the device at
+EOF2 (the end of frame 2, which is very close to SOF).
+When OTG_FS controller detects a packet babble, it stops writing data into the Rx
+buffer and waits for the end of packet (EOP). When it detects an EOP, it flushes already
+written data in the Rx buffer and generates a Babble interrupt to the application.
+When OTG_FS controller detects a port babble, it flushes the Rx FIFO and disables the
+port. The core then generates a port disabled interrupt (HPRTINT in OTG_GINTSTS,
+PENCHNG in OTG_HPRT). On receiving this interrupt, the application must determine
+that this is not due to an overcurrent condition (another cause of the port disabled
+interrupt) by checking POCA in OTG_HPRT, then perform a soft reset. The core does
+not send any more tokens after it has detected a port babble condition.
+
+72.16.5
+
+Device programming model
+Endpoint initialization on USB reset
+1.
+
+Set the NAK bit for all OUT endpoints
+–
+
+2.
+
+Unmask the following interrupt bits
+–
+
+3.
+
+4.
+
+SNAK = 1 in OTG_DOEPCTLx (for all OUT endpoints)
+INEP0 = 1 in OTG_DAINTMSK (control 0 IN endpoint)
+
+–
+
+OUTEP0 = 1 in OTG_DAINTMSK (control 0 OUT endpoint)
+
+–
+
+STUPM = 1 in OTG_DOEPMSK
+
+–
+
+XFRCM = 1 in OTG_DOEPMSK
+
+–
+
+XFRCM = 1 in OTG_DIEPMSK
+
+–
+
+TOM = 1 in OTG_DIEPMSK
+
+Set up the data FIFO RAM for each of the FIFOs
+–
+
+Program the OTG_GRXFSIZ register, to be able to receive control OUT data and
+setup data. If thresholding is not enabled, at a minimum, this must be equal to 1
+max packet size of control endpoint 0 + 2 words (for the status of the control OUT
+data packet) + 10 words (for setup packets).
+
+–
+
+Program the OTG_DIEPTXF0 register (depending on the FIFO number chosen) to
+be able to transmit control IN data. At a minimum, this must be equal to 1 max
+packet size of control endpoint 0.
+
+Program the following fields in the endpoint-specific registers for control OUT endpoint
+0 to receive a SETUP packet
+–
+
+STUPCNT = 3 in OTG_DOEPTSIZ0 (to receive up to 3 back-to-back SETUP
+packets)
+
+RM0456 Rev 6

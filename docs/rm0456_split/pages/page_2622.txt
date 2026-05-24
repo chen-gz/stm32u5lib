@@ -1,0 +1,121 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+If the SMBus peripheral performs a cumulative SCL stretch for longer than the (TIMEOUTB
++ 1) x 2048 x tI2CCLK period, and within the timeout interval described in Bus idle detection
+section, the TIMEOUT flag of the I2C_ISR register is set.
+Refer to Table 668.
+
+Caution:
+
+Changing the TIMEOUTB[11:0] bitfield value is not allowed when the TEXTEN bit is set.
+
+Bus idle detection
+To check the tIDLE period, the TIMEOUTA[11:0] bitfield associated with 12-bit timer must be
+loaded with the timer reload value. Keep the TIDLE bit at 1 to detect both SCL and SDA high
+level timeout. Then set the TIMOUTEN bit of the I2C_TIMEOUTR register to enable the
+timer.
+If both the SCL and SDA lines remain high for longer than the
+(TIMEOUTA + 1) x 4 x tI2CCLK period, the TIMEOUT flag of the I2C_ISR register is set.
+Refer to Table 669.
+Caution:
+
+Changing the TIMEOUTA[11:0] bitfield and the TIDLE bit values is not allowed when the
+TIMEOUTEN bit is set.
+
+65.4.13
+
+SMBus I2C_TIMEOUTR register configuration examples
+The following tables provide examples of settings to reach desired tTIMEOUT, tLOW:SEXT,
+tLOW:MEXT, and tIDLE timings at different fI2CCLK frequencies.
+Table 667. TIMEOUTA[11:0] for maximum tTIMEOUT of 25 ms
+tTIMEOUT
+
+fI2CCLK
+
+TIMEOUTA[11:0]
+
+TIDLE
+
+TIMEOUTEN
+
+8 MHz
+
+0x61
+
+0
+
+1
+
+98 x 2048 x 125 ns = 25 ms
+
+16 MHz
+
+0xC3
+
+0
+
+1
+
+196 x 2048 x 62.5 ns = 25 ms
+
+Table 668. TIMEOUTB[11:0] for maximum tLOW:SEXT and tLOW:MEXT of 8 ms
+tLOW:SEXT
+tLOW:MEXT
+
+fI2CCLK
+
+TIMEOUTB[11:0]
+
+TEXTEN
+
+8 MHz
+
+0x1F
+
+1
+
+32 x 2048 x 125 ns = 8 ms
+
+16 MHz
+
+0x3F
+
+1
+
+64 x 2048 x 62.5 ns = 8 ms
+
+Table 669. TIMEOUTA[11:0] for maximum tIDLE of 50 µs
+tIDLE
+
+fI2CCLK
+
+TIMEOUTA[11:0]
+
+TIDLE
+
+TIMEOUTEN
+
+8 MHz
+
+0x63
+
+1
+
+1
+
+100 x 4 x 125 ns = 50 µs
+
+16 MHz
+
+0xC7
+
+1
+
+1
+
+200 x 4 x 62.5 ns = 50 µs
+
+RM0456 Rev 6

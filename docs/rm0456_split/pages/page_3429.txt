@@ -1,0 +1,213 @@
+3631
+
+Debug support (DBG)
+•
+
+RM0456
+
+interrupt overhead
+
+A DWT comparator compares the value held in its DWT_COMPxR with one of the following:
+•
+
+a data address
+
+•
+
+an instruction address
+
+•
+
+a data value
+
+•
+
+the cycle-count value, for COMP 0 only
+
+For address matching, the comparator can use a mask, so it matches a range of addresses.
+On a successful match, the comparator generates one of the following:
+•
+
+one or more DWT data trace packets, containing one or more of:
+–
+
+the address of the instruction that caused a data access
+
+–
+
+an address offset, bits[15:0] of the data access address
+
+–
+
+the matched data value
+
+•
+
+a watchpoint debug event, on either the PC value or the accessed data address
+
+•
+
+a CMPMATCH[N] event, that signals the match outside the DWT unit
+
+A watchpoint debug event either generates a DebugMonitor exception, or causes the
+processor to halt execution and enter debug state.
+For more details on how to use the DWT, refer to the Armv8-M Architecture Reference
+Manual [3].
+
+75.6.1
+
+DWT registers
+The DWT registers are located at address range 0xE000 1000 to 0xE000 1FFC.
+
+DWT control register (DWT_CTRLR)
+Address offset: 0x000
+Reset value: 0x4000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SLEEP
+NOTR NOEXT NOCY NOPRF CYCDI CYCEV FOLDE LSUEV
+EXCEV CPIEV EXCTR
+EVTEN
+CPKT
+TRIG
+CCNT
+CNT
+SS
+TENA VTENA TENA
+TENA TENA CENA
+A
+
+NUMCOMP[3:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+PCSA
+MPLEN
+A
+rw
+
+SYNCTAP[1:0]
+rw
+
+rw
+
+CYCTA
+P
+rw
+
+POSTINIT[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 NUMCOMP[3:0]: number of comparators implemented (read only)
+0x4: four comparators
+Bit 27 NOTRCPKT: trace sampling and exception tracing support (read only)
+0: supported
+Bit 26 NOEXTTRIG: external match signal, CMPMATCH support (read only)
+0: supported

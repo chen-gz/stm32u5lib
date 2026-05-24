@@ -1,0 +1,110 @@
+RM0456 Rev 6
+
+RM0456
+
+Tamper and backup registers (TAMP)
+As illustrated in Figure 778, if FLTEN = 0, any mismatch between the TAMP_OUTy output
+and the associated TAMP_INx input when the latter is sampled generates a tamper. This is
+the case in all three examples (a), (b) and (c).
+If FLTEN = 1, example (a) does not generate a tamper, since only one mismatch is detected
+in four consecutive comparisons. In example (b), a tamper is generated since two
+successive mismatches are detected. Example (c) also generates a tamper, since two
+mismatches occur in four consecutive comparisons, even though the mismatches do not
+occur on successive samples.
+Setting FLTEN = 1 avoids unwanted detection of tampers due to glitches, bounce or
+transitory states on the TAMP_INx inputs, by ignoring single pulses which are shorter than
+one period of CK_ATPRE, programmed in the ATCKSEL field of the TAMP_ATCR1 register.
+The minimum filtered pulse width is listed in Table 648 for each possible setting of
+ATCKSEL, assuming fRTCCLK = 32.768 kHz.
+Table 648. Active tamper filtered pulse duration
+ATCKSEL[3:0]
+
+CK_ATPRE frequency
+
+Minimum filtered pulse width (ms)
+
+0x0
+
+fRTCCLK
+
+0.030
+
+0x1
+
+fRTCCLK/2
+
+0.061
+
+0x2
+
+fRTCCLK/4
+
+0.122
+
+0x3
+
+fRTCCLK/8
+
+0.244
+
+0x4
+
+fRTCCLK/16
+
+0.488
+
+0x5
+
+fRTCCLK/32
+
+0.977
+
+0x6
+
+fRTCCLK/64
+
+1.953
+
+0x7
+
+fRTCCLK/128
+
+3.906
+
+(1)
+
+fRTCCLK/2048
+
+62.500(2)
+
+0xB
+
+1. These values are supported only when the active tamper prescaler extension is supported. Refer to
+Section 64.3: TAMP implementation.
+2. This setting requires that (PREDIV_A+1) = 128 and (PREDIV_S+1) is a multiple of 16.
+
+Note:
+
+Multiple pulses which are shorter than one CK_ATPRE period may nevertheless cause a
+tamper if they result in two mismatches in four consecutive comparisons.
+
+Caution:
+
+Entering RTC initialization mode stops CK_ATPRE and CK_ATPER clocks when
+ATCKSEL[3] = 1. Therefore, TAMP_OUTy pin stops toggling until INIT mode exit.
+Refer to section Section : Calendar initialization and configuration.
+Refer also to RTC alarm A subsecond register (RTC_ALRMASSR), RTC alarm B
+subsecond register (RTC_ALRMBSSR), RTC alarm A binary mode register
+(RTC_ALRABINR) and RTC alarm B binary mode register (RTC_ALRBBINR) in case
+RTC binary mode is used in conjunction with ATCKSEL[3] = 1.
+
+Caution:
+
+Caution: The active tamper detection is no more functional in case of calendar overflow
+when ATCKSEL[3] = 1. It is mandatory to enable the internal tamper 5 on calendar overflow
+to ensure tamper protection.
+The pseudo-random generator must be initialized with a seed. This is done by writing
+consecutively four 32-bit random values in the TAMP_ATSEEDR register. Programming the
+seed automatically sends it to the PRNG. As long as the new seed is transferred and
+
+RM0456 Rev 6

@@ -1,0 +1,50 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+Bit 28 DMAEN2: DAC channel2 DMA enable
+This bit is set and cleared by software.
+0: DAC channel2 DMA mode disabled
+1: DAC channel2 DMA mode enabled
+Note: This bit is available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Bits 27:24 MAMP2[3:0]: DAC channel2 mask/amplitude selector
+These bits are written by software to select mask in wave generation mode or amplitude in
+triangle generation mode.
+0000: Unmask bit0 of LFSR/ triangle amplitude equal to 1
+0001: Unmask bits[1:0] of LFSR/ triangle amplitude equal to 3
+0010: Unmask bits[2:0] of LFSR/ triangle amplitude equal to 7
+0011: Unmask bits[3:0] of LFSR/ triangle amplitude equal to 15
+0100: Unmask bits[4:0] of LFSR/ triangle amplitude equal to 31
+0101: Unmask bits[5:0] of LFSR/ triangle amplitude equal to 63
+0110: Unmask bits[6:0] of LFSR/ triangle amplitude equal to 127
+0111: Unmask bits[7:0] of LFSR/ triangle amplitude equal to 255
+1000: Unmask bits[8:0] of LFSR/ triangle amplitude equal to 511
+1001: Unmask bits[9:0] of LFSR/ triangle amplitude equal to 1023
+1010: Unmask bits[10:0] of LFSR/ triangle amplitude equal to 2047
+≥ 1011: Unmask bits[11:0] of LFSR/ triangle amplitude equal to 4095
+Note: These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Bits 23:22 WAVE2[1:0]: DAC channel2 noise/triangle wave generation enable
+These bits are set/reset by software.
+00: wave generation disabled
+01: Noise wave generation enabled
+10: Triangle wave generation enabled
+11: Reserved
+Note: Only used if bit TEN2 = 1 (DAC channel2 trigger enabled)
+These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Bits 21:18 TSEL2[3:0]: DAC channel2 trigger selection
+These bits select the external event used to trigger DAC channel2
+0000: SWTRIG2
+0001: dac_ch2_trg1
+0010: dac_ch2_trg2
+...
+1111: dac_ch2_trg15
+Refer to the trigger selection tables in Section 35.4.2: DAC pins and internal signals for
+details on trigger configuration and mapping.
+Note: Only used if bit TEN2 = 1 (DAC channel2 trigger enabled).
+These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.

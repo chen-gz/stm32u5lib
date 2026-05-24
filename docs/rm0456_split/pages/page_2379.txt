@@ -1,0 +1,59 @@
+2526
+
+Low-power timer (LPTIM)
+
+58.4.8
+
+RM0456
+
+Operating mode
+The LPTIM features two operating modes:
+•
+
+Continuous mode: the timer is free running, the timer is started from a trigger event and
+never stops until the timer is disabled
+
+•
+
+One-shot mode: the timer is started from a trigger event and stops when an LPTIM
+update event is generated.
+
+One-shot mode
+To enable the one-shot counting, the SNGSTRT bit must be set.
+A new trigger event re-starts the timer. Any trigger event occurring after the counter starts
+and before the next LPTIM update event, is discarded.
+In case an external trigger is selected, each external trigger event arriving after the
+SNGSTRT bit is set, and after the repetition counter has stopped (after the update event),
+and if the repetition register content is different from zero, the repetition counter gets
+reloaded with the value already contained by the repetition register and a new one-shot
+counting cycle is started as shown in Figure 739.
+Figure 739. LPTIM output waveform, single-counting mode configuration
+when repetition register content is different than zero (with PRELOAD = 1)
+LPTIM_RCR
+
+Repetition counter
+
+2
+
+2
+
+1
+
+0
+
+2
+
+LPTIM_ARR
+Compare
+
+0
+PWM
+External trigger event
+Ignored external trigger event
+
+MSv47414V1
+
+- Set-once mode activated:
+Note that when the WAVE bitfield in the LPTIM_CFGR register is set, the Set-once mode is
+activated. In this case, the counter is only started once following the first trigger, and any
+subsequent trigger event is discarded as shown in Figure 740.

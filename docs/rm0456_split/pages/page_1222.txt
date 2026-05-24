@@ -1,0 +1,65 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Figure 211. CMD12 stream timing
+SDMMC_CK
+
+CMD12
+
+SDMMC_CMD
+
+SDMMC_D0
+
+E
+
+Stream data last byte
+
+E
+NST
+MSv40942V1
+
+To stop the read stream transfer after the last byte, the CMD12 end bit timing must occur
+after the last data stream byte. The following read stream data procedure applies:
+1.
+
+Wait for all data to be received by the DPSM and read from the FIFO (DATAEND flag).
+–
+
+2.
+
+Send CMD12 by the CPSM.
+–
+
+Note:
+
+The DPSM does not receive more data than indicated by DATALENGTH, even if
+the card is sending more data.
+CMD12 stops the card sending data.
+
+The SDMMC does not receive any more data from the card when DATACOUNT = 0, even
+when the card continues sending data.
+
+Block operation and CMD12
+To stop block transfer at the end of the data, the CMD12 end bit must be sent after the last
+block end bit.
+When writing data to the card the CMD12 end bit must be sent after the write data block
+CRC token end bit. This requires the CMD12 sending to be tied to the data block
+transmission timing. To stop an Open-ended Multiple block write, the following procedure
+applies:
+1.
+
+Before starting the data transfer, set DTMODE to “block data transfer ending with
+STOP_TRANSMISSION command”.
+
+2.
+
+Wait for all data to be sent by the DPSM and the CRC token to be received, (DATAEND
+flag).
+–
+
+3.
+
+–

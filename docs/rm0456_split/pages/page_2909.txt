@@ -1,0 +1,163 @@
+3020
+
+Serial audio interface (SAI)
+
+69.6.16
+
+RM0456
+
+SAI clear flag register (SAI_BCLRFR)
+Address offset: 0x3C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res. Res. Res. Res. Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+CWCKCF
+G
+
+Res.
+
+29
+
+13
+
+28
+
+12
+
+27
+
+11
+
+10
+
+Res. Res. Res. Res. Res.
+
+Res.
+
+Res.
+
+Res.
+
+CLFSDET CAFSDET
+w
+
+w
+
+CCNRDY
+w
+
+w
+
+CMUTE COVRUD
+DET
+R
+w
+
+w
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bit 6 CLFSDET: Clear late frame synchronization detection flag.
+This bit is write only.
+Programming this bit to 1 clears the LFSDET flag in the SAI_xSR register.
+This bit is not used in AC’97or SPDIF mode
+Reading this bit always returns the value 0.
+Bit 5 CAFSDET: Clear anticipated frame synchronization detection flag.
+This bit is write only.
+Programming this bit to 1 clears the AFSDET flag in the SAI_xSR register.
+It is not used in AC’97or SPDIF mode.
+Reading this bit always returns the value 0.
+Bit 4 CCNRDY: Clear Codec not ready flag.
+This bit is write only.
+Programming this bit to 1 clears the CNRDY flag in the SAI_xSR register.
+This bit is used only when the AC’97 audio protocol is selected in the SAI_xCR1 register.
+Reading this bit always returns the value 0.
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 CWCKCFG: Clear wrong clock configuration flag.
+This bit is write only.
+Programming this bit to 1 clears the WCKCFG flag in the SAI_xSR register.
+This bit is used only when the audio block is set as master (MODE[1] = 0) and NODIV = 0 in the
+SAI_xCR1 register.
+Reading this bit always returns the value 0.
+Bit 1 CMUTEDET: Mute detection flag.
+This bit is write only.
+Programming this bit to 1 clears the MUTEDET flag in the SAI_xSR register.
+Reading this bit always returns the value 0.
+Bit 0 COVRUDR: Clear overrun / underrun.
+This bit is write only.
+Programming this bit to 1 clears the OVRUDR flag in the SAI_xSR register.
+Reading this bit always returns the value 0.

@@ -1,0 +1,170 @@
+1886
+
+JPEG codec (JPEG)
+
+RM0456
+
+Bits 27:24 HLEN{2*y+1}[3:0]: Huffman length {2*y+1}
+Number of bits in the Huffman code HCODE{2*y+1} minus 1.
+Bits 23:16 HCODE{2*y+1}[7:0]: Huffman code {2*y+1}
+8 least significant bits of the Huffman code.
+If the Huffman code is less than 8 bits long, the unused bits must be 0.
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:8 HLEN{2*y}[3:0]: Huffman length {2*y}
+Number of bits in the Huffman code HCODE{2*y} minus 1.
+Bits 7:0 HCODE{2*y}[7:0]: Huffman code {2*y}
+8 least significant bits of the Huffman code.
+If the Huffman code is less than 8 bits long, the unused bits must be 0.
+
+46.5.18
+
+JPEG Huffman encoder DCx (JPEG_HUFFENC_DCx_y)
+Address offset: 0x7C0 + 0x20*x + 0x4*y, (x = 0 to 1; y = 0 to 7)
+Reset value: 0xXXXX XXXX
+This memory defines the Huffman codes used during the encoding process of DC
+components.
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+HLEN{2*y+1}[3:0]
+
+20
+
+19
+
+17
+
+16
+
+HCODE{2*y+1}[7:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+HLEN{2*y}[3:0]
+rw
+
+rw
+
+rw
+
+HCODE{2*y}[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bits 27:24 HLEN{2*y+1}[3:0]: Huffman length {2*y+1}
+Number of bits in the Huffman code HCODE{2*y+1} minus 1.
+Bits 23:16 HCODE{2*y+1}[7:0]: Huffman code {2*y+1}
+8 least significant bits of the Huffman code.
+If the Huffman code is less than 8 bits long, the unused bits must be 0.
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:8 HLEN{2*y}[3:0]: Huffman length {2*y}
+Number of bits in the Huffman code HCODE{2*y} minus 1.
+Bits 7:0 HCODE{2*y}[7:0]: Huffman code {2*y}
+8 least significant bits of the Huffman code.
+If the Huffman code is less than 8 bits long, the unused bits must be 0.

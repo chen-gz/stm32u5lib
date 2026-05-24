@@ -1,0 +1,14 @@
+1111
+
+Octo-SPI I/O manager (OCTOSPIM)
+
+RM0456
+
+This internal timer guarantees a latency between the falling edge of the REQ signal of the
+active OCTOSPI (the active one releases the bus), and the rising edge of the ACK signal to
+the requesting OCTOSPI (the bus is granted to the requesting one).
+The REQ2ACK_TIME field of the configuration register OCTOSPIM_CR defines the
+duration.
+
+Pin mapping in multiplexed mode
+In multiplexed mode, the mapping of the bus is done as described below:

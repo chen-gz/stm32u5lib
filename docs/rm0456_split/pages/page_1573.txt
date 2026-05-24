@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+If the RSFLT is bypassed, then a peak-to-peak signal amplitude of 24 bits is accepted. The
+resulting data size is given by:
+GDB SCALE
+
+⎛ ---------------------------⎞
+20
+DS SCALE = N × log 2 ( D1 ) + log 2 ⎜ 10
+⎟ + DS IN
+⎝
+⎠
+
+The data size at SCALE output (DSSCALE) is expressed in bits and GdBSCALE represents
+the gain selected by SCALE[5:0], in dB.
+
+RSFLT gain
+The RSFLT gain in the useful bandwidth is typically 9.5 dB, but due to ripple a margin of
+about ± 0.5 dB must be considered. Typically, the RSFLT increases the bit size by BGRSFLT:
+BG RSFLT = 10
+
+9.5
+dB
+----------------20
+
+= 2.98 = 1.6 bits
+
+INT gain
+The INT block can also introduce a gain if the rescaling value is different from the integration
+value.
+G INT = IVAL
+------------IDIV
+
+and:
+IVAL
+GdB INT = 20 × log 10 ⎛ -------------⎞
+⎝ IDIV ⎠
+
+The bit growth of the INT is then given by the following formula:
+IVAL
+BG INT = log 2 ⎛ -------------⎞
+⎝ IDIV ⎠
+
+IVAL represents the integration value selected by INTVAL[6:0], and IDIV represents the
+integrator output division selected by INTDIV[1:0].
+Note:
+
+The HPF filter has a gain of 0 dB.
+
+RM0456 Rev 6

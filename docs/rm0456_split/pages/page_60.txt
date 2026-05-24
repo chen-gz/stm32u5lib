@@ -1,0 +1,58 @@
+90
+
+Contents
+
+RM0456
+54.6.4
+
+TIMx DMA/interrupt enable register (TIMx_DIER)(x = 1, 8) . . . . . . . . 2194
+
+54.6.5
+
+TIMx status register (TIMx_SR)(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . 2195
+
+54.6.6
+
+TIMx event generation register (TIMx_EGR)(x = 1, 8) . . . . . . . . . . . . 2198
+
+54.6.7
+
+TIMx capture/compare mode register 1 (TIMx_CCMR1)
+(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2199
+
+54.6.8
+
+TIMx capture/compare mode register 1 [alternate]
+(TIMx_CCMR1)(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2201
+
+54.6.9
+
+TIMx capture/compare mode register 2 (TIMx_CCMR2)
+(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2204
+
+54.6.10 TIMx capture/compare mode register 2 [alternate]
+(TIMx_CCMR2)(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2205
+54.6.11 TIMx capture/compare enable register (TIMx_CCER)(x = 1, 8) . . . . 2208
+54.6.12 TIMx counter (TIMx_CNT)(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . . . . . 2212
+54.6.13 TIMx prescaler (TIMx_PSC)(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . . . 2212
+54.6.14 TIMx autoreload register (TIMx_ARR)(x = 1, 8) . . . . . . . . . . . . . . . . . 2213
+54.6.15 TIMx repetition counter register (TIMx_RCR)(x = 1, 8) . . . . . . . . . . . 2213
+54.6.16 TIMx capture/compare register 1 (TIMx_CCR1)(x = 1, 8) . . . . . . . . . 2214
+54.6.17 TIMx capture/compare register 2 (TIMx_CCR2)(x = 1, 8) . . . . . . . . . 2214
+54.6.18 TIMx capture/compare register 3 (TIMx_CCR3)(x = 1, 8) . . . . . . . . . 2215
+54.6.19 TIMx capture/compare register 4 (TIMx_CCR4)(x = 1, 8) . . . . . . . . . 2216
+54.6.20 TIMx break and dead-time register (TIMx_BDTR)(x = 1, 8) . . . . . . . 2217
+54.6.21 TIMx capture/compare register 5 (TIMx_CCR5)(x = 1, 8) . . . . . . . . . 2221
+54.6.22 TIMx capture/compare register 6 (TIMx_CCR6)(x = 1, 8) . . . . . . . . . 2222
+54.6.23 TIMx capture/compare mode register 3 (TIMx_CCMR3)
+(x = 1, 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2223
+54.6.24 TIMx timer deadtime register 2 (TIMx_DTR2)(x = 1, 8) . . . . . . . . . . . 2224
+54.6.25 TIMx timer encoder control register (TIMx_ECR)(x = 1, 8) . . . . . . . . 2225
+54.6.26 TIMx timer input selection register (TIMx_TISEL)(x = 1, 8) . . . . . . . . 2226
+54.6.27 TIMx alternate function option register 1 (TIMx_AF1)(x = 1, 8) . . . . . 2227
+54.6.28 TIMx alternate function register 2 (TIMx_AF2)(x = 1, 8) . . . . . . . . . . 2230
+54.6.29 TIMx DMA control register (TIMx_DCR)(x = 1, 8) . . . . . . . . . . . . . . . 2232
+54.6.30 TIMx DMA address for full transfer (TIMx_DMAR)(x = 1, 8) . . . . . . . 2234
+54.6.31 TIMx register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2234
+
+55

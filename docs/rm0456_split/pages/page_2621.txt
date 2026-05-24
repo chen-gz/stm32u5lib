@@ -1,0 +1,82 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+The SMBus device default address (0b1100 001) is enabled by setting the SMBDEN bit of
+the I2C_CR1 register.
+The SMBus host address (0b0001 000) is enabled by setting the SMBHEN bit of the
+I2C_CR1 register.
+The alert response address (0b0001100) is enabled by setting the ALERTEN bit of the
+I2C_CR1 register.
+
+Packet error checking
+PEC calculation is enabled by setting the PECEN bit of the I2C_CR1 register. Then the PEC
+transfer is managed with the help of the hardware byte counter associated with the
+NBYTES[7:0] bitfield of the I2C_CR2 register. The PECEN bit must be configured before
+enabling the I2C.
+The PEC transfer is managed with the hardware byte counter, so the SBC bit must be set
+when interfacing the SMBus in target mode. The PEC is transferred after transferring
+NBYTES[7:0] - 1 data bytes, if the PECBYTE bit is set and the RELOAD bit is cleared. If
+RELOAD is set, PECBYTE has no effect.
+Caution:
+
+Changing the PECEN configuration is not allowed when the I2C peripheral is enabled.
+Table 666. SMBus with PEC configuration
+Mode
+
+SBC bit RELOAD bit AUTOEND bit PECBYTE bit
+
+Controller Tx/Rx NBYTES + PEC+ STOP
+
+X
+
+0
+
+1
+
+1
+
+Controller Tx/Rx NBYTES + PEC +
+ReSTART
+
+X
+
+0
+
+0
+
+1
+
+Target Tx/Rx with PEC
+
+1
+
+0
+
+X
+
+1
+
+Timeout detection
+The timeout detection is enabled by setting the TIMOUTEN and TEXTEN bits of the
+I2C_TIMEOUTR register. The timers must be programmed in such a way that they detect a
+timeout before the maximum time given in the SMBus specification.
+tTIMEOUT check
+To check the tTIMEOUT parameter, load the 12-bit TIMEOUTA[11:0] bitfield with the timer
+reload value. Keep the TIDLE bit at 0 to detect the SCL low level timeout.
+Then set the TIMOUTEN bit of the I2C_TIMEOUTR register, to enable the timer.
+If SCL is tied low for longer than the (TIMEOUTA + 1) x 2048 x tI2CCLK period, the TIMEOUT
+flag of the I2C_ISR register is set.
+Refer to Table 667.
+Caution:
+
+Changing the TIMEOUTA[11:0] bitfield and the TIDLE bit values is not allowed when the
+TIMEOUTEN bit is set.
+tLOW:SEXT and tLOW:MEXT check
+
+A 12-bit timer associated with the TIMEOUTB[11:0] bitfield allows checking tLOW:SEXT for the
+I2C peripheral operating as a target, or tLOW:MEXT when it operates as a controller. As the
+standard only specifies a maximum, the user can choose the same value for both. The timer
+is then enabled by setting the TEXTEN bit in the I2C_TIMEOUTR register.

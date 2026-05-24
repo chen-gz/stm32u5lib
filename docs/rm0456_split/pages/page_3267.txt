@@ -1,0 +1,186 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+73.14.41 OTG device IN endpoint common interrupt mask register
+(OTG_DIEPMSK)
+This register works with each of the OTG_DIEPINTx registers for all endpoints to generate
+an interrupt per IN endpoint. The IN endpoint interrupt for a specific status in the
+OTG_DIEPINTx register can be masked by writing to the corresponding bit in this register.
+Status bits are masked by default.
+Address offset: 0x810
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+NAKM
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TXFU
+RM
+
+Res.
+
+INEPN
+EM
+
+TOM
+
+AHB
+ERRM
+
+EPDM
+
+XFRC
+M
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+INEPN ITTXFE
+MM
+MSK
+rw
+
+Bits 31:14 Reserved, must be kept at reset value.
+Bit 13 NAKM: NAK interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bits 12:10 Reserved, must be kept at reset value.
+Bit 9 Reserved, must be kept at reset value.
+Bit 8 TXFURM: FIFO underrun mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 INEPNEM: IN endpoint NAK effective mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 5 INEPNMM: IN token received with EP mismatch mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 4 ITTXFEMSK: IN token received when Tx FIFO empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 3 TOM: Timeout condition mask (Non-isochronous endpoints)
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 2 AHBERRM: AHB error mask
+0: Masked interrupt
+1: Unmasked interrupt

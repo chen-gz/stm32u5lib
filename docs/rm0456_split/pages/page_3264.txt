@@ -1,0 +1,189 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bits 1:0 DSPD[1:0]: Device speed
+Indicates the speed at which the application requires the core to enumerate, or the
+maximum speed the application can support. However, the actual bus speed is determined
+only after the chirp sequence is completed, and is based on the speed of the USB host to
+which the core is connected.
+00: High speed
+01: Full speed
+10: Reserved
+11: Reserved
+
+73.14.39 OTG device control register (OTG_DCTL)
+Address offset: 0x804
+Reset value: 0x0000 0002
+31
+Res.
+
+30
+Res.
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+
+21
+
+Res.
+
+Res.
+
+20
+Res.
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+DS
+BESL
+RJCT
+
+Res.
+
+Res.
+
+rw
+15
+Res.
+
+14
+Res.
+
+13
+Res.
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+Res.
+
+PO
+PRG
+DNE
+
+CGO
+NAK
+
+SGO
+NAK
+
+CGI
+NAK
+
+SGI
+NAK
+
+rw
+
+w
+
+w
+
+w
+
+w
+
+6
+
+5
+
+4
+
+TCTL[2:0]
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+GON
+STS
+
+GIN
+STS
+
+SDIS
+
+RWU
+SIG
+
+r
+
+r
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bit 18 DSBESLRJCT: Deep sleep BESL reject
+Core rejects LPM request with BESL value greater than BESL threshold programmed. NYET
+response is sent for LPM tokens with BESL value greater than BESL threshold. By default,
+the deep sleep BESL reject feature is disabled.
+Bits 17:12 Reserved, must be kept at reset value.
+Bit 11 POPRGDNE: Power-on programming done
+The application uses this bit to indicate that register programming is completed after a wakeup from power down mode.
+Bit 10 CGONAK: Clear global OUT NAK
+Writing 1 to this field clears the Global OUT NAK.
+Bit 9 SGONAK: Set global OUT NAK
+Writing 1 to this field sets the Global OUT NAK.
+The application uses this bit to send a NAK handshake on all OUT endpoints.
+The application must set the this bit only after making sure that the Global OUT NAK effective
+bit in the core interrupt register (GONAKEFF bit in OTG_GINTSTS) is cleared.
+Bit 8 CGINAK: Clear global IN NAK
+Writing 1 to this field clears the Global IN NAK.
+Bit 7 SGINAK: Set global IN NAK
+Writing 1 to this field sets the Global non-periodic IN NAK.The application uses this bit to
+send a NAK handshake on all non-periodic IN endpoints.
+The application must set this bit only after making sure that the Global IN NAK effective bit in
+the core interrupt register (GINAKEFF bit in OTG_GINTSTS) is cleared.
+
+RM0456 Rev 6

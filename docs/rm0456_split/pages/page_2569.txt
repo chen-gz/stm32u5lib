@@ -1,0 +1,170 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bit 15 CNT1SEC: Monotonic counter 1 secure protection
+0: Monotonic counter 1 (TAMP_COUNT1R) can be read and written when the APB access is
+secure or nonsecure.
+1: Monotonic counter 1 (TAMP_COUNT1R) can be read and written only when the APB
+access is secure.
+Bits 14:8 Reserved, must be kept at reset value.
+Bits 7:0 BKPRWSEC[7:0]: Backup registers read/write protection offset
+BKPRWSEC value must be from 0 to 32.
+Protection zone 1 is defined for backup registers from TAMP_BKP0R to TAMP_BKPxR
+(x = BKPRWSEC-1, with BKPRWSEC ≥ 1).
+–
+if TZEN=1, these backup registers can be read and written only with secure access.
+If BKPRWSEC = 0: there is no protection zone 1.
+Refer to Figure 775: Backup registers protection zones.
+Note: If TZEN=0: the protection zone 1 can be read and written with nonsecure access.
+Note: If BKPRWPRIV is set, BKPRWSEC[7:0] can be written only in privileged mode.
+
+64.7.10
+
+TAMP privilege configuration register (TAMP_PRIVCFGR)
+This register can be written only when the APB access is privileged.
+When TZEN = 1, this register can be write-protected, or each bit of this register can be
+individually write-protected against nonsecure access depending on the TAMP_SECCFGR
+configuration (refer to Section 64.4.5: TAMP secure protection modes).
+Address offset: 0x24
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+TAMP
+PRIV
+
+30
+
+29
+
+BKP
+BKPR
+WPRIV WPRIV
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+CNT1
+PRIV
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw

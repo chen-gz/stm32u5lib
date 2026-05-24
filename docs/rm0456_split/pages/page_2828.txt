@@ -1,0 +1,62 @@
+RM0456 Rev 6
+
+RM0456
+
+68.5.3
+
+Serial peripheral interface (SPI)
+
+CRC computation
+Two separate CRC calculators are implemented to check the reliability of transmitted and
+received data. The CRC polynomial configuration depends on the instance. Refer to
+Section 68.3: SPI implementation for more information.
+The length of the polynomial is defined by the most significant bit of the value stored in the
+SPI_CRCPOLY register. It must be greater than the data frame size (in bits) defined in the
+DSIZE[4:0] bitfield of the SPI_CFG1 register. To obtain a full-size polynomial, the polynomial
+length must exceed the maximum data size of the peripheral instance, and the CRC33_17
+bit of the SPI_CR1 register must be set to select the most significant bit of the polynomial
+string.
+For example, to select the standard CRC16-CCITT (XMODEM) polynomial x^16 + x^12 +
+x^5 + 1:
+•
+
+For a 32-bit instance: write 0x11021 to the SPI_CRCPOLY register and clear the
+CRC33_17 bit.
+
+•
+
+For a 16-bit instance: to obtain the full size, write 0x1021, and set the CRC33_17 bit.
+
+The CRCSIZE field of the SPI_CFG1 register then defines how many most significant bits
+from the CRC calculation registers are transferred and compared as CRC frame. It is
+defined independently from the data frame length, but it must be either equal or an integer
+multiple of the data frame size. Its size cannot exceed the maximum data size of the
+instance.
+To fully benefit from the CRC calculation capability, the polynomial length setting must
+correspond to the CRC frame size, else the bits unused at the calculation are transferred
+and expected all zero at the end of the CRC frame if its size is set greater than the
+polynomial length.
+
+CRC principle
+The CRC calculation is enabled by setting the CRCEN bit of the SPI_CFG1 register before
+the SPI is enabled (SPE = 1). The CRC value is then calculated using the CRC polynomial
+defined by the CRCPOLY register and CRC33_17 bit. When SPI is enabled, the CRC
+polynomial can be changed but only in the case when there is no traffic on the bus.
+The CRC computation is done, bit by bit, on the sampling clock edge defined by the CPHA
+and CPOL bits of the SPI_CR1 register. The calculated CRC value is checked automatically
+at the end of the data block defined by the SPI_CR2 register exclusively.
+When a mismatch is detected between the CRC calculated internally on the received data
+and the CRC received from the transmitter, a CRCE flag is set to indicate a data corruption
+error. The right procedure for handling the CRC depends on the SPI configuration and the
+chosen transfer management.
+
+CRC transfer management
+Communication starts and continues normally until the last data frame has been sent or
+received in the SPI_DR register.
+The length of the transfer must be defined by TSIZE. When the desired number of data is
+transferred, the TXCRC is transmitted and the data received on the line are compared to the
+RXCRC value.
+Whatever the CRCSIZE configuration, TSIZE cannot be set to 0xFFFF for a full-featured
+instance, and to 0x3FF for a limited-featured instance, if CRC is enabled.
+
+RM0456 Rev 6

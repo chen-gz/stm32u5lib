@@ -1,0 +1,56 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 VDD11USBDIS: OTG_HS VDD11USB disable
+This bit is protected against nonsecure access when SYSCLKSEC = 1 in RCC_SECCFGR.
+It is protected against unprivileged access when SYSCLKSEC = 1 in RCC_SECCFGR and
+SPRIV = 1 in PWR_PRIVCFGR, or when SYSCLKSEC = 0 and NSPRIV = 1.
+0: VDD11USB enabled
+1: VDD11USB disabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 20 USBBOOSTEN: OTG_HS EPOD booster enable
+This bit is protected against nonsecure access when SYSCLKSEC = 1 in RCC_SECCFGR.
+It is protected against unprivileged access when SYSCLKSEC = 1 in RCC_SECCFGR and
+SPRIV = 1 in PWR_PRIVCFGR, or when SYSCLKSEC = 0 and NSPRIV = 1.
+This bit must be set in range 1 and range 2 before enabling the OTG_HS.
+This bit is reset when going in all Stop modes.
+0: OTG_HS booster disabled
+1: OTG_HS booster enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 19 USBPWREN: OTG_HS power enable
+This bit is protected against nonsecure access when SYSCLKSEC = 1 in RCC_SECCFGR.
+It is protected against unprivileged access when SYSCLKSEC = 1 in RCC_SECCFGR and
+SPRIV = 1 in PWR_PRIVCFGR, or when SYSCLKSEC = 0 and NSPRIV = 1.
+0: OTG_HS power disabled
+1: OTG_HS power enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 18 BOOSTEN: EPOD booster enable
+This bit is protected against nonsecure access when SYSCLKSEC = 1 in RCC_SECCFGR.
+It is protected against unprivileged access when SYSCLKSEC = 1 in RCC_SECCFGR and
+SPRIV = 1 in PWR_PRIVCFGR, or when SYSCLKSEC = 0 and NSPRIV = 1.
+This bit must be set in range 1 and range 2 before increasing the system clock frequency
+above 55 MHz. This bit is reset when going in all Stop modes.
+0: Booster disabled
+1: Booster enabled
+Bits 17:16 VOS[1:0]: Voltage scaling range selection
+This field is protected against nonsecure access when SYSCLKSEC = 1 in
+RCC_SECCFGR. It is protected against unprivileged access when SYSCLKSEC = 1 in
+RCC_SECCFGR and SPRIV = 1 in PWR_PRIVCFGR, or when SYSCLKSEC = 0 and
+NSPRIV = 1.
+00: Range 4 (lowest power)
+01: Range 3
+10: Range 2
+11: Range 1 (highest frequency)
+Bit 15 VOSRDY: Ready bit for VCORE voltage scaling output selection
+0: Not ready, voltage level < VOS selected level
+1: Ready, voltage level ≥ VOS selected level

@@ -1,0 +1,64 @@
+RM0456 Rev 6
+
+RM0456
+
+69.4.3
+
+Serial audio interface (SAI)
+
+Main SAI modes
+Each audio subblock of the SAI can be configured to be master or slave via the MODE bits
+in the SAI_xCR1 register of the selected audio block.
+
+Master mode
+In master mode, the SAI delivers the timing signals to the external connected device:
+•
+
+The bit clock and the frame synchronization are output on pin SCK_x and FS_x,
+respectively.
+
+•
+
+If needed, the SAI can also generate a master clock on the MCLK_x pin.
+
+Both SCK_x, FS_x and MCLK_x are configured as outputs.
+
+Slave mode
+The SAI expects to receive timing signals from an external device.
+•
+
+If the SAI subblock is configured in asynchronous mode, then the SCK_x and FS_x
+pins are configured as inputs.
+
+•
+
+If the SAI subblock is configured to operate synchronously with another SAI interface or
+with the second audio subblock, the corresponding SCK_x and FS_x pins are left free
+to be used as general purpose I/Os.
+
+In slave mode, the MCLK_x pin is not used and can be assigned to another function.
+It is recommended to enable the slave device before enabling the master.
+
+Configuring and enabling SAI modes
+Each audio block can use a different audio protocol. When PRTCFG[1:0] of the SAI_xCR1
+register is set to 0, the free protocol mode is selected and each SAI subblock can emulate
+I2S standards, LSB- or MSB-justified, PCM/DSP, TDM, or AC’97 protocols.
+Each audio subblock can be independently defined as a transmitter or receiver through the
+MODE bit in the SAI_xCR1 register of the corresponding audio block. As a result, the
+SAI_SD_x pin is respectively configured as an output or an input.
+Two master audio blocks in the same SAI can be configured with two different MCLK and
+SCK clock frequencies. In this case, they have to be configured in asynchronous mode.
+Each of the audio blocks in the SAI is enabled by the SAIEN bit in the SAI_xCR1 register. As
+soon as this bit is active, the transmitter or the receiver is sensitive to the activity on the
+clock, data, and synchronization lines in slave mode.
+In master Tx mode, enabling the audio block immediately generates the bit clock for the
+external slaves even if there is no data in the FIFO. However, FS signal generation is
+conditioned by the presence of data in the FIFO. After the FIFO receives the first data to
+transmit, this data is output to external slaves. If there is no data to transmit in the FIFO, 0
+values are then sent in the audio frame with an underrun flag generation.
+In slave mode, the audio frame starts when the audio block is enabled and when a start of
+frame is detected.
+In Slave Tx mode, no underrun event is possible on the first frame after the audio block is
+enabled, because the mandatory operating sequence in this case is:
+
+RM0456 Rev 6

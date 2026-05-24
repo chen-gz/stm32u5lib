@@ -1,0 +1,166 @@
+When DPSM has been started with DTEN, after an error (DTIMEOUT) the DPSM
+moves to the Idle state when the FIFO is empty and when IDMAEN = 0 reset with
+FIFORST.
+
+R_W state: the data path Read Wait the bus.
+–
+
+The DPSM moves to the Wait_R state when the Read Wait stop bit (RWSTOP) is
+set, and start the receive timeout.
+
+–
+
+If the CPSM Abort signal is set, wait for the FIFO to be empty and when
+IDMAEN = 0 reset with FIFORST, then moves to the Idle state and sets the
+DABORT flag.
+
+Receive state: the data path receives serial data from a card. Pack the data in bytes
+and written it to the data FIFO. Depending on the transfer mode selected in the data
+control register (DTMODE), the data transfer mode can be either block or stream:
+–
+
+In block mode, when the data block size (DBLOCKSIZE) number of data bytes are
+received, the DPSM waits until it receives the CRC code.
+
+–
+
+In SDIO multibyte mode, when the data block size (DATALENGTH) number of
+data bytes are received, the DPSM waits until it receives the CRC code.
+
+a)
+
+If the received CRC code matches the internally generated CRC code, the DPSM
+moves to the
+- R_W state when RWSTART = 1 and DATACOUNT > zero, the DBCKEND flag is
+set.
+- Wait_R state otherwise.
+
+b)
+
+If the received CRC code fails the internally generated CRC code any further data
+reception is prevented.
+- When not all data has been received (DATACOUNT > 0), the CRC fail status flag
+(DCRCFAIL) is set and the DPSM stays in the Receive state.
+- When all data has been received (DATACOUNT = 0), wait for the FIFO to be
+empty after which the CRC fail status flag (DCRCFAIL) is set and the DPSM
+moves to the Idle state.
+
+–
+
+In stream mode, the DPSM receives data while the data counter
+DATACOUNT > 0. When the counter is zero, the remaining data in the shift
+register is written to the data FIFO, and the DPSM moves to the Wait_R state.
+
+–
+
+When a FIFO overrun error occurs, the DPSM sets the FIFO overrun error flag
+(RXOVERR) and any further data reception is prevented. The DPSM stays in the
+Receive state.
+
+–
+
+When an CPSM Abort signal is received:
+- If the CPSM Abort signal is received before the 2 last bits of the data with
+DATACOUNT = 0, the transfer is aborted. The remaining data in the shift register
+is written to the data FIFO, wait for the FIFO to be empty and when IDMAEN = 0
+reset with FIFORST, then the DPSM moves to the Idle state and the DABORT flag
+is set.
+- If the CPSM Abort signal is received during or after the 2 last bits of the transfer
+with DATACOUNT = 0, the transfer is completed normally. The DPSM stays in the
+Receive state no DABORT flag is generated.
+
+–
+
+When DPSM has been started with DTEN, after an error (DCRCFAIL when
+DATACOUNT > 0, or RXOVERR) the DPSM moves to the Idle state when the
+FIFO is empty and when IDMAEN = 0 reset with FIFORST.
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+•
+
+Note:
+
+Wait_S state: the data path waits for data to be available from the FIFO.
+–
+
+If the data counter DATACOUNT > 0, waits until the data FIFO empty flag
+(TXFIFOE) is de-asserted and DTHOLD is not set, and moves to the Send state.
+
+–
+
+If the data counter (DATACOUNT) = 0 the DPSM moves to the Idle state.
+- When DTHOLD is disabled, the DATAEND flag is set.
+- When DTHOLD is enabled, the DHOLD flag is set.
+
+–
+
+When DTHOLD is set and the DATACOUNT > 0
+- When IDMA is enabled, the DBCKEND flag is set and subsequently the FIFO is
+flushed, furthermore the DPSM moves to the Idle state and the DHOLD flag is set.
+- When IDMA is disabled the DBCKEND flag is set. Wait for the FIFO to be reset
+by software with FIFORST, then DPSM moves to the Idle state and issues the
+DHOLD flag.
+
+–
+
+When DTHOLD is set and DATACOUNT = 0 the transfer is completed normally.
+
+–
+
+When receiving the CPSM Abort signal
+- If the CPSM Abort signal is received before the 2 last bits of the data with
+DATACOUNT = 0, the transfer is aborted, wait for the FIFO to be empty and when
+IDMAEN = 0 reset with FIFORST, then the DPSM moves to the Idle state and sets
+the DABORT flag.
+- If the CPSM Abort signal is received during or after the 2 last bits of the transfer
+with DATACOUNT = 0, normal operation is continued, there is no DABORT flag
+since the transfer has completed normally.
+
+The DPSM remains in the Wait_S state for at least two clock periods to meet the NWR timing
+requirements, where NWR is the number of clock cycles between the reception of the card
+response and the start of the data transfer from the host.
+•
+
+Send state: the DPSM starts sending data to a card. Depending on the transfer mode
+bit in the data control register, the data transfer mode can be either block, SDIO
+multibyte or stream:
+–
+
+In block mode, when the data block size (DBLOCKSIZE) number of data bytes are
+send, the DPSM sends an internally generated CRC code and end bit, and moves
+to the Busy state and start the transmit timeout.
+
+–
+
+In SDIO multibyte mode, when the data block size (DATALENGTH) number of
+data bytes are send, the DPSM sends an internally generated CRC code and end
+bit, and moves to the Busy state and start the transmit timeout.
+
+–
+
+In stream mode, the DPSM sends data to a card while the data counter
+DATACOUNT > 0. When the data counter reaches zero moves to the Busy state
+and start the transmit timeout.
+Before sending the last stream byte according to DATACOUNT, the DPSM issues
+a trigger on the send CMD signal. This signal is used by the CPSM to sent any
+pending command (CMD12 Stop Transmission command).
+
+–
+
+If a FIFO underrun error occurs, the DPSM sets the FIFO underrun error flag
+(TXUNDERR). The DPSM stays in the Send state.
+
+–
+
+When receiving the CPSM Abort signal
+- If the CPSM Abort signal is received before the 2 last bits of the transfer with
+DATACOUNT = 0, the transfer is aborted. The DPSM sends a last data bit
+followed by an end bit. The FIFO is disabled/flushed, and the DPSM moves to the
+Busy state to wait for not busy before setting the DABORT flag.
+- If the CPSM Abort signal is received during or after the 2 last bits of the transfer
+
+RM0456 Rev 6

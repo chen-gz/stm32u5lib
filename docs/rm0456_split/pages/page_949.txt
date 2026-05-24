@@ -1,0 +1,86 @@
+RM0456 Rev 6
+
+RM0456
+
+CORDIC coprocessor (CORDIC)
+x · 0.5 is programmed in ARG1 and the factor n = 1 must be programmed in the SCALE
+parameter.
+The secondary argument is not used.
+The primary result is the hyperbolic arctangent, atanh x. RES1 must be multiplied by 2 to
+obtain the correct value.
+The secondary result is not used.
+
+Natural logarithm
+Table 206. Natural logarithm parameters
+Parameter
+
+Description
+
+ARG1
+
+x · 2-n
+
+ARG2
+
+Not applicable
+
+RES1
+
+2-(n+1).ln x
+
+RES2
+
+Not applicable
+
+SCALE
+
+n
+
+Range
+[0.054 0.875]
+[-0.279 0.137]
+[1 4]
+
+This function calculates the natural logarithm of the input argument x.
+The primary argument is the input value x. Only values of x in the range 0.107 to 9.35 are
+supported. The value x must be scaled by a factor 2-n, such that x · 2-n < 1-2-n. The scaled
+value x · 2-n is programmed in ARG1 and the factor n must be programmed in the SCALE
+parameter.
+Table 207 lists the valid scaling factors, n, and the corresponding ranges of x and ARG1.
+Table 207. Natural log scaling factors and corresponding ranges
+n
+
+x range
+
+ARG1 range
+
+1
+
+0.107 ≤ x < 1
+
+0.0535 ≤ ARG1 < 0.5
+
+2
+
+1≤x<3
+
+0.25 ≤ ARG1 < 0.75
+
+3
+
+3≤x<7
+
+0.375 ≤ ARG1 < 0.875
+
+4
+
+7 ≤ x ≤ 9.35
+
+0.4375 ≤ ARG1 < 0.584
+
+The secondary argument is not used.
+The primary result is the natural logarithm, ln x. RES1 must be multiplied by 2(n+1) to obtain
+the correct value.
+The secondary result is not used.
+
+RM0456 Rev 6

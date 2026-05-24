@@ -1,0 +1,155 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Table 338. ADC wake-up and interrupt requests
+Interrupt
+vector
+
+ADC
+
+Exit from
+Sleep
+mode
+
+Exit from
+Stop
+mode(1)
+
+Interrupt
+event
+
+Event flag
+
+Enable
+Interrupt clear method
+Control bit
+
+LDO ready
+
+LDORDY
+
+LDORDYIE
+
+Program LDORDY to 1
+
+Yes
+
+End of
+calibration
+
+EOCAL
+
+EOCALIE
+
+Program EOCAL to 1
+
+Yes
+
+ADC ready
+
+ADRDY
+
+ADRDYIE
+
+Program ADRDY to 1
+
+Yes
+
+End of
+conversion
+
+EOC
+
+EOCIE
+
+Program EOC to 1 and
+red ADC_DR
+
+Yes
+
+End of
+sequence of
+conversions
+
+EOS
+
+EOSIE
+
+Program EOS to 1
+
+Yes
+
+Analog
+watchdog 1
+status bit is
+set
+
+AWD1
+
+AWD1IE
+
+Program AWD1 to 1
+
+Yes
+
+Analog
+watchdog 2
+status bit is
+set
+
+AWD2
+
+AWD2IE
+
+Program AWD2 to 1
+
+Yes
+
+Analog
+watchdog 3
+status bit is
+set
+
+AWD3
+
+AWD3IE
+
+Program AWD2 to 1
+
+Yes
+
+End of
+sampling
+phase
+
+EOSMP
+
+EOSMPIE
+
+Program EOSMP to 1
+
+No
+
+Overrun
+
+OVR
+
+OVRIE
+
+Program OVR to 1
+
+Yes
+
+Yes
+
+Exit from
+Standby
+mode
+
+No
+
+1. The ADC can wake up the device from Stop mode only if the peripheral instance supports the wake-up from Stop mode
+feature. Refer to Section 34.3: ADC implementation for the list of supported Stop modes.

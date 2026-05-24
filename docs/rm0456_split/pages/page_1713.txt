@@ -1,0 +1,102 @@
+RM0456 Rev 6
+
+RM0456
+
+LCD-TFT display controller (LTDC)
+The internal signals of the LTDC are given in the table below.
+Table 429. LTDC internal signals
+Names
+
+Signal type
+
+Description
+
+ltdc_hclk
+
+Input
+
+LTDC AHB clock
+
+ltdc_pclk
+
+Input
+
+LTDC APB clock for register access
+
+ltdc_ker_ck
+
+Input
+
+LTDC kernel clock used for LCD_CLK (pixel clock) generation
+
+ltdc_it
+
+Output
+
+LTDC global interrupt request
+
+ltdc_err_it
+
+Output
+
+LTDC global error interrupt request
+
+ltdc_li
+
+Output
+
+LTDC line interrupt flag
+
+The table below shows how the LTDC flags are connected.
+Table 430. LTDC trigger interconnection
+
+43.3.3
+
+Trigger name
+
+Direction
+
+Trigger source/destination
+
+ltdc_li
+
+Output
+
+gpdma_trigsel[47]
+
+LTDC reset and clocks
+The LTDC controller peripheral uses the following clock domains:
+•
+
+AHB clock domain (ltdc_aclk)
+This domain contains the LTDC AHB master interface for data transfer from the
+memories to the layer FIFO and the frame-buffer configuration register.
+
+•
+
+APB clock domain (ltdc_pclk)
+This domain contains the global configuration registers and the interrupt register.
+
+•
+
+Pixel clock domain (LCD_CLK)
+This domain contains the pixel data generation, the layer configuration register as well
+as the LTDC interface signal generator. The LCD_CLK output must be configured
+following the panel requirements. The LCD_CLK is generated from a specific PLL
+output (refer to the reset and clock control section).
+
+The table below summarizes the clock domain for each register.
+Table 431. Clock domain for each register
+LTDC register
+
+Clock domain
+
+LTDC_LxCR
+LTDC_LxCFBAR
+
+ltdc_hclk
+
+LTDC_LxCFBLR
+LTDC_LxCFBLNR
+
+RM0456 Rev 6

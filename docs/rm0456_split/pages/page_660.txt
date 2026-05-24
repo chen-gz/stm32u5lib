@@ -1,0 +1,44 @@
+667
+
+System configuration controller (SYSCFG)
+
+RM0456
+
+Bit 5 CS3: HSPI I/Os code selection
+This bit selects the code to be applied for the compensation cell of the HSPI I/Os supplied by
+VDD.
+0: HSPI I/O code from the cell (available in the SYSCFG_CCVR)
+1: HSPI I/O code from the SYSCFG compensation cell code register (SYSCFG_CCCR)
+Note: The compensation cell acts on the GPIOs with HSPI alternate functions but
+independently of this mode or AF configuration. Compensation cell 1 does not have
+effect on these GPIOs.
+This bit is only available on some devices in the STM32U5 Series; refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 4 EN3: HSPI I/Os compensation cell enable
+This bit enables the compensation cell of the HSPI I/Os supplied by VDD.
+0: HSPI I/O compensation cell disabled
+1: HSPI I/O compensation cell enabled
+Note: The compensation cell acts on the GPIOs with HSPI alternate functions but
+independently of this mode or AF configuration. Compensation cell 1 does not have
+effect on these GPIOs.
+This bit is only available on some devices in the STM32U5 Series; refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 3 CS2: VDDIO2 I/O code selection
+This bit selects the code to be applied for the compensation cell of the I/Os supplied by
+VDDIO2.
+0: VDDIO2 I/O code from the cell (available in SYSCFG_CCVR)
+1: VDDIO2 I/O code from SYSCFG_CCCR
+Bit 2 EN2: VDDIO2 I/O compensation cell enable
+This bit enables the compensation cell of the I/Os supplied by VDDIO2.
+0: VDDIO2 I/O compensation cell disabled
+1: VDDIO2 I/O compensation cell enabled
+Bit 1 CS1: VDD I/O code selection
+This bit selects the code to be applied for the compensation cell of the I/Os supplied by VDD.
+0: VDD I/O code from the cell (available in the SYSCFG_CCVR)
+1: VDD I/O code from the SYSCFG compensation cell code register (SYSCFG_CCCR)
+Bit 0 EN1: VDD I/O compensation cell enable
+This bit enables the compensation cell of the I/Os supplied by VDD.
+0: VDD I/O compensation cell disabled
+1: VDD I/O compensation cell enabled

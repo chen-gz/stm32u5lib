@@ -1,0 +1,108 @@
+2563
+
+Independent watchdog (IWDG)
+
+RM0456
+
+61
+
+Independent watchdog (IWDG)
+
+61.1
+
+Introduction
+The independent watchdog (IWDG) peripheral offers a high safety level, thanks to its
+capability to detect malfunctions due to software or hardware failures.
+The IWDG is clocked by an independent clock, and stays active even if the main clock fails.
+In addition, the watchdog function is performed in the VDD voltage domain, allowing the
+IWDG to remain functional even in low power modes. Refer to Section 61.3 to check the
+capability of the IWDG in this product.
+The IWDG is best suited for applications that require the watchdog to run as a totally
+independent process outside the main application, making it very reliable to detect any
+unexpected behavior.
+
+61.2
+
+61.3
+
+IWDG main features
+•
+
+12-bit down-counter
+
+•
+
+Dual voltage domain, thus enabling operation in low power modes
+
+•
+
+Independent clock
+
+•
+
+Early wake-up interrupt generation
+
+•
+
+Reset generation
+–
+
+In case of timeout
+
+–
+
+In case of refresh outside the expected window
+
+IWDG implementation
+Table 622. STM32U5 series IWDG features(1)
+IWDG modes/features
+LSI used as IWDG kernel clock (iwdg_ker_ck)
+
+X
+
+Window function
+
+X
+
+Early wake-up interrupt generation
+
+X
+
+System reset generation(2)
+
+X
+
+Capability to work in system Stop
+
+X
+
+Capability to work in system Standby
+
+X
+
+Capability to generate a wake-up interrupt in system Stop(3)
+
+X
+
+Capability to generate a wake-up interrupt in system Standby
+
+-
+
+Capability to be frozen when the microcontroller enters in debug mode(4)
+
+X
+
+Option bytes to control the activity in Stop mode(5)
+
+X
+
+Option bytes to control the activity in Standby mode(6)
+
+X
+
+Option bytes to control the hardware mode(7)
+
+X
+
+1. ‘X’ = supported, ‘-’ = not supported.
+2. Refer to the RCC section for additional information.

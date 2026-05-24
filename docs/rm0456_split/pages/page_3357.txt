@@ -1,0 +1,112 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+74.3
+
+RM0456
+
+UCPD implementation
+The devices have one UCPD controller to support one USB Type-C port.
+Table 774. UCPD implementation(1)
+UCPD feature
+
+STM32U575/585
+Rev. X
+
+Other STM32U5xx
+device variants
+except
+STM32U535/545
+
+Dead battery support via UCPDx_DBCC1 and
+UCPDx_DBCC2 external signals
+
+X
+
+X
+
+UCPDx_FRSTX1/2 as alternate function pins
+
+X
+
+X
+
+Fully automatic trimming
+
+X(2)
+
+-(3)
+
+USB PD receiver hardware filter control
+
+X
+
+X
+
+Discrete-component PHY support
+
+-
+
+-
+
+1. “X” = supported, “-” = not supported
+2. No software trimming required.
+3. Apply software trimming as described in Section 74.5.5: UCPD software trimming.
+
+The following table gives the memory locations of trim data stored in the non-volatile
+memory, to use in the software trimming procedure described in Section 74.5.5: UCPD
+software trimming.
+Table 775. UCPD software trim data
+Non-volatile memory location
+Name
+
+74.4
+
+Address
+
+Bits
+
+3A0_CC1[3:0]
+
+0x0BFA 0545
+
+3:0
+
+3A0_CC2[3:0]
+
+0x0BFA 0547
+
+3:0
+
+1A5_CC1[3:0]
+
+0x0BFA 07A7
+
+3:0
+
+1A5_CC2[3:0]
+
+0x0BFA 07A8
+
+3:0
+
+Rd_CC1[3:0]
+
+0x0BFA 0544
+
+3:0
+
+Rd_CC2[3:0]
+
+0x0BFA 0546
+
+3:0
+
+UCPD functional description
+The UCPD peripheral provides hardware support for the USB Power Delivery control
+interface specification, using I/Os specifically designed for that purpose.
+The built-in PHY directly detects Type-C voltage levels, supports Power Delivery BIST
+carrier mode 2 (Tx only), BIST test data (Tx and Rx), and Power Delivery Rx FRS signaling.
+For Power Delivery FRS Tx signaling, the device can be configured to control, through
+UCPD_FRSTX1/2 pins (alternate functions), external NMOS transistors that ensure lowresistance pull-down on CC lines.

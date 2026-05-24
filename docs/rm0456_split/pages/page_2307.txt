@@ -1,0 +1,74 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 673. Control circuit in external clock mode 2 + trigger mode
+
+tim_ti1
+
+CEN
+
+ETR
+
+tim_cnt_ck, tim_psc_ck
+
+Counter register
+
+34
+
+35
+
+36
+
+TIF
+MSv62364V1
+
+55.4.23
+
+Timer synchronization
+The TIMx timers are linked together internally for timer synchronization or chaining. When
+one timer is configured in Master mode, it can reset, start, stop, or clock the counter of
+another timer configured in Slave mode.
+Figure 674 and Figure 675 show examples of master/slave timer connections.
+Figure 674. Master/Slave timer example
+TIM_mstr
+
+TIM_slv
+
+Clock
+TS
+
+MMS
+
+SMS
+
+UEV
+
+Prescaler
+
+Counter
+
+Master
+mode
+control
+
+tim_trgo
+
+tim_itr
+
+Slave
+mode
+control
+
+CK_PSC
+Prescaler
+
+Counter
+
+Input
+trigger
+selection
+MSv62375V1
+
+RM0456 Rev 6

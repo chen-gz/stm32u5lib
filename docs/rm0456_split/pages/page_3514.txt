@@ -1,0 +1,183 @@
+DEV_ID[11:0]
+
+RM0456 Rev 6
+
+r
+
+r
+
+RM0456
+
+Debug support (DBG)
+
+Bits 31:16 REV_ID[15:0]: revision
+For STM32U5Fx/5Gx
+0x1001: revision Z
+For STM32U59x/5Ax
+0x3001: revision X
+0x3002: revision W
+For STM32U575/585
+0x2001: revision X
+0x3001: revision W
+0x3007: revision U
+For STM32U535/545
+0x1001: revision Z
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:0 DEV_ID[11:0]: device identification
+0x455: STM32U535/545
+0x476: STM32U5Fx/5Gx
+0x481: STM32U59x/5Ax
+0x482: STM32U575/585
+
+DBGMCU configuration register (DBGMCU_CR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TRACE_MODE
+[1:0]
+rw
+
+rw
+
+TRACE TRACE
+_EN
+_IOEN
+rw
+
+rw
+
+Res.
+
+DBG_S
+DBG_S
+TANDB
+TOP
+Y
+rw
+
+Res.
+
+rw
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bits 7:6 TRACE_MODE[1:0]: trace pin assignment
+0x0: trace pins assigned for asynchronous mode (TRACESWO)
+0x1: trace pins assigned for synchronous mode with a port width of 1 (TRACECK,
+TRACED0)
+0x2: trace pins assigned for synchronous mode with a port width of 2 ((TRACECK,
+TRACED0-1)
+0x3: trace pins assigned for synchronous mode with a port width of 4 ((TRACECK,
+TRACED0-3)
+
+RM0456 Rev 6

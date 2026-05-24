@@ -1,0 +1,93 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+The receive FIFO is handled in the following way:
+1.
+
+Write the data length into DATALENGTH and the block length in DBLOCKSIZE.
+–
+
+2.
+
+Set the SDMMC in receive mode (DTDIR = 1).
+–
+
+3.
+
+4.
+
+6.
+
+Configures the FIFO in receive mode.
+
+Enable the DPSM transfer
+–
+
+either by sending a command from the CPSM with the CMDTRANS bit set
+
+–
+
+or by setting DTEN bit.
+
+When (DPSMACT = 1) the FIFO is ready to receive data.
+–
+
+5.
+
+For block data transfer (DTMODE = 0), DATALENGTH must be an integer multiple
+of DBLOCKSIZE.
+
+The DPSM writes the received data to the FIFO.
+- The SDMMC keeps receiving data as long as FIFO is not full, hardware flow
+control during the data transfer is used to prevent FIFO overrun.
+
+Read data from the FIFO.
+–
+
+When the FIFO is handled by software, wait until the FIFO is half full (RXFIFOHF
+flag), read data from the FIFO until FIFO is empty (RXFIFOE = 1).
+- When last data has been received, read data from the FIFO until FIFO is empty
+(DATAEND = 1).
+
+–
+
+When the FIFO is handled by the IDMA, the IDMA transfers the FIFO date.
+
+SDMMC has completely received all data and the DPSM is disabled (DPSMACT = 0).
+
+In case of a data transfer hold when IDMAEN = 0, the firmware must read the remaining
+data until the FIFO is empty and reset the FIFO with the FIFORST register bit. This causes
+the DPSM to go to the Idle state (DPSMACT = 0).
+In case of a data transfer error when IDMAEN = 0, the firmware must stop reading the FIFO
+and flush and reset the FIFO with the FIFORST register bit. This causes the DPSM to go to
+the Idle state (DPSMACT = 0).
+The receive FIFO status flags are listed in Table 290.
+Table 290. Receive FIFO status flags
+Flag
+
+Description
+
+RXFIFOF
+
+Set to high when all receive FIFO words contain valid data
+
+RXFIFOE
+
+Set to high when the receive FIFO does not contain valid data.
+
+RXFIFOHF
+
+Set to high when half or more receive FIFO words contain valid data.
+
+RXOVERR
+
+Set to high when an overrun error occurs. This flag is cleared by writing to the
+SDMMC Clear register.
+
+CLKMUX unit
+The CLKMUX selects the source for clock sdmmc_rx_ck to be used with the received data
+and command response. The receive data clock source can be selected by the clock control
+register bit SELCLKRX, between:

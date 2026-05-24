@@ -1,0 +1,72 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+Decryption in Wrapped-key mode
+Recommended sequence to unwrap (i.e. decrypt) a wrapped key is described below:
+1.
+
+Verify that BUSY = 0 in SAES_SR (no RNG random number fetch in progress).
+
+2.
+3.
+
+Disable the SAES peripheral by clearing the EN bit of the SAES_CR register.
+SAES_CR register, select the Mode 2 by setting to 01 the MODE[1:0] bitfield, and
+select ECB or CBC chaining mode by setting CHMOD[2:0] to 000 or 001, respectively.
+Key size must be properly configured using KEYSIZE bit, and KMOD[1:0] bitfield must
+be set as 01 (wrapped key). Data type selection with DATATYPE[1:0] bitfield must be
+the same as the one used during encryption (that is, 0x0). The KEYSIZE information is
+used both for the decryption key and for the key to be decrypted.
+
+4.
+
+If the decrypted key is not to share with a different security context (different security
+attribute), the KEYPROT bit of the SAES_CR register must also be set.
+Select the DHUK by setting the KEYSEL[2:0] bitfield of the SAES_CR register to 001 or
+100. Upon successful key loading, the SAES_SR register BUSY bit is cleared and
+KEYVALID bit set. Refer to Section 50.4.12: SAES key registers for detail on
+KEYSEL = 100 usage.
+
+5.
+
+Enable SAES by setting the EN bit of the SAES_CR register.
+
+6.
+
+Wait until the CCF flag is set in the SAES_SR register.
+
+7.
+
+Clear the CCF flag. Decryption key is available in AES core, and SAES is disabled
+automatically.
+
+8.
+
+In SAES_CR register select the Mode 3 by setting to 10 the MODE[1:0] bitfield.
+
+9.
+
+Write the SAES_IVRx registers with the initialization vector if CBC mode has been
+selected in previous step.
+
+10. Enable SAES by setting the EN bit of the SAES_CR register.
+11. Write the SAES_DINR register four times to input the encrypted random key (MSB first,
+see Table 481 on page 1995).
+12. Wait until the CCF flag is set in the SAES_SR register.
+13. Clear the CCF flag, then repeat steps 10 and 11 if KEYSIZE is 256 bits.
+When the decrypted key is loaded in key registers, KEYSEL[2:0] of the SAES_CR register is
+automatically cleared. Hence, after this sequence, the decrypted wrapped key is available in
+SAES_KEYRx registers, immediately usable by the application software for any AES
+operation (normal key mode, that is, with KMOD[1:0] = 00).
+Decrypted wrapped key can be shared with an application running in a different security
+context (different security attribute) if KEYPROT bit was cleared during step 2.
+Note:
+
+When KMOD[1:0] = 01 (wrapped key) and MODE[1:0] = 10 (decryption) a read access to
+SAES_DOUTR register triggers a read error (RDERR).
+When KEYSEL[2:0] = 001 (DHUK) or 100 (DHUK XOR BHK), the application software
+must use the same privilege, security, KMOD[1:0], CHMOD[2:0] and KEYSIZE context for
+encryption and decryption. Otherwise, the result is incorrect.

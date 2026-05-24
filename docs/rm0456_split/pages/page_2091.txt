@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+
+53.7.2
+
+PKA status register (PKA_SR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+ADDR
+ERRF
+
+RAM
+ERRF
+
+18
+
+17
+
+16
+
+Res.
+
+PROC
+ENDF
+
+BUSY
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+OP
+ERRF
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+INITOK
+r
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 OPERRF: Operation error flag
+0: No event error
+1: An illegal or unknown operation has been selected in PKA_CR register
+This bit is cleared using OPERRFC bit in PKA_CLRFR.
+Bit 20 ADDRERRF: Address error flag
+0: No address error
+1: Address access is out of range (unmapped address)
+This bit is cleared using ADDRERRFC bit in PKA_CLRFR.
+Bit 19 RAMERRF: PKA RAM error flag
+0: No PKA RAM access error
+1: An AHB access to the PKA RAM occurred while the PKA core was computing and using its
+internal RAM (AHB PKA_RAM access are not allowed while PKA operation is in progress).
+This bit is cleared using RAMERRFC bit in PKA_CLRFR.
+Bit 18 Reserved, must be kept at reset value.
+Bit 17 PROCENDF: PKA end of operation flag
+0: Operation in progress
+1: PKA operation is completed. This flag is set when the BUSY bit is deasserted.
+Bit 16 BUSY: Busy flag
+This bit is set whenever a PKA operation is in progress (START = 1 in PKA_CR). It is automatically
+cleared when the computation is complete, making PKA RAM accessible again.
+0: No operation is in progress (default)
+1: An operation is in progress
+If PKA is started with a wrong opcode, it stays busy for a couple of cycles, then it aborts automatically
+the operation and goes back to ready (BUSY = 0).
+Bits 15:2 Reserved, must be kept at reset value.
+Bit 1 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

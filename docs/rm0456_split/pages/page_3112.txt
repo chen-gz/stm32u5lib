@@ -1,0 +1,198 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 21 STALL: STALL handshake
+The application can only set this bit, and the core clears it when a SETUP token is received
+for this endpoint. If a NAK bit, a Global IN NAK or Global OUT NAK is set along with this bit,
+the STALL bit takes priority.
+Bit 20 Reserved, must be kept at reset value.
+Bits 19:18 EPTYP[1:0]: Endpoint type
+Hardcoded to ‘00’ for control.
+Bit 17 NAKSTS: NAK status
+Indicates the following:
+0: The core is transmitting non-NAK handshakes based on the FIFO status
+1: The core is transmitting NAK handshakes on this endpoint.
+When this bit is set, either by the application or core, the core stops transmitting data, even
+if there are data available in the Tx FIFO. Irrespective of this bit’s setting, the core always
+responds to SETUP data packets with an ACK handshake.
+Bit 16 Reserved, must be kept at reset value.
+Bit 15 USBAEP: USB active endpoint
+This bit is always set to 1, indicating that control endpoint 0 is always active in all
+configurations and interfaces.
+Bits 14:2 Reserved, must be kept at reset value.
+Bits 1:0 MPSIZ[1:0]: Maximum packet size
+The application must program this field with the maximum packet size for the current logical
+endpoint.
+00: 64 bytes
+01: 32 bytes
+10: 16 bytes
+11: 8 bytes
+
+72.15.44 OTG device IN endpoint x control register (OTG_DIEPCTLx)
+Address offset: 0x900 + 0x20 * x, (x = 1 to 5)
+Reset value: 0x0000 0000
+The application uses this register to control the behavior of each logical endpoint other than
+endpoint 0.
+31
+
+30
+
+EPENA EPDIS
+
+29
+
+28
+
+27
+
+26
+
+SODD
+FRM
+
+SD0
+PID/
+SEVN
+FRM
+
+SNAK
+
+CNAK
+
+25
+
+24
+
+23
+
+22
+
+TXFNUM[3:0]
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+STALL
+
+Res.
+
+EPTYP[1:0]
+
+NAK
+STS
+
+EO
+NUM/
+DPID
+
+rs
+
+rs
+
+w
+
+w
+
+w
+
+w
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+USBA
+EP
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+r
+
+r
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+MPSIZ[10:0]
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw

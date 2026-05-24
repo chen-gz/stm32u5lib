@@ -1,0 +1,50 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Bit 15 Reserved, must be kept at reset value.
+Bits 14:12 DLYM2R[2:0]: Delay line for second microphone of pair 2
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D2 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.
+Bit 11 Reserved, must be kept at reset value.
+Bits 10:8 DLYM2L[2:0]: Delay line for first microphone of pair 2
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D2 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.
+Bit 7 Reserved, must be kept at reset value.
+Bits 6:4 DLYM1R[2:0]: Delay line adjust for second microphone of pair 1
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D1 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.
+Bit 3 Reserved, must be kept at reset value.
+Bits 2:0 DLYM1L[2:0]: Delay line adjust for first microphone of pair 1
+This bitfield is set and cleared by software.
+000: No delay
+001: Delay of 1 TSAI_CK period
+010: Delay of 2 TSAI_CK periods
+...
+111: Delay of 7 TSAI_CK periods
+This bitfield can be changed on-the-fly.
+Note: This bitfield can be used only if D1 line is available.Refer to Section 69.3: SAI implementation to
+check if it is available.

@@ -1,0 +1,153 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+
+58.4
+
+LPTIM functional description
+
+58.4.1
+
+LPTIM block diagram
+Figure 736. LPTIM1/2/3 block diagram(1)
+LPTIM
+Kernel clock domain
+
+Edge
+detector
+
+lptim_in2_mux1
+lptim_in2_mux2
+lptim_in2_mux3
+
+Glitch
+filter
+
+Up/down
+
+LPTIM_IN2
+lptim_in1_mux1
+lptim_in1_mux2
+lptim_in1_mux3
+
+Encoder
+
+LPTIM_IN1
+lptim_ext_trigx
+
+Glitch
+filter
+LPTIM
+register
+interface
+
+lptim_pclk
+
+lptim_it
+
+Edge
+detector
+
+Synchronzation
+
+32-bit APB bus
+
+APB clock
+domain
+
+Glitch
+filter
+
+CNTSTRT/
+SNGSTRT
+
+LPTIM_RCR
+16-bit ARR
+Repetition
+counter
+
+Mux trigger
+
+IRQ
+interface
+
+LPTIM_ETR
+
+1
+
+1
+
+0
+
+16-bit counter
+
+Count mode
+1
+
+lptim_ker_ck
+
+clkmux
+
+Prescaler clkpresc
+
+0
+
+lptim_wakeup
+lpti1
+
+Glitch
+filter & ic1 Preedge
+scaler
+detector
+
+lpti2
+
+Glitch
+filter & ic2 Preedge
+scaler
+detector
+
+LPTIM_CH1
+lptim_ic1_mux1
+lptim_ic1_mux2
+lptim_ic1_mux3
+LPTIM_CH2
+lptim_ic2_mux1
+lptim_ic2_mux2
+lptim_ic2_mux3
+
+ic1ps
+
+oc1
+oc1ref
+Capture/compare1
+Output
+register
+control
+
+ic2ps
+
+oc2
+oc2ref
+Capture/compare2
+Output
+register
+control
+
+lptim_ch1
+
+LPTIM_CH1
+lptim_ch2
+
+LPTIM_CH2
+
+lptim_ic1_dma
+lptim_ic2_dma
+lptim_ue_dma
+MSv50909V5
+
+1. Some I/Os may not be available, refer to Section 58.4.2: LPTIM pins and internal signals.
+
+RM0456 Rev 6

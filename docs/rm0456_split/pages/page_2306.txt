@@ -1,0 +1,78 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Slave mode selection preload for run-time encoder mode update
+The SMS[3:0] bit can be preloaded. This is enabled by setting the SMSPE enable bit in the
+TIMx_SMCR register. The trigger for the transfer from SMS[3:0] preload to active value is
+the update event (UEV) occurring when the counter overflows.
+
+Slave mode – combined reset + trigger mode
+In this case, a rising edge of the selected trigger input (tim_trgi) reinitializes the counter,
+generates an update of the registers, and starts the counter.
+This mode is used for one-pulse mode.
+
+Slave mode – combined gated + reset mode
+The counter clock is enabled when the trigger input (tim_trgi) is high. The counter stops and
+is reset as soon as the trigger becomes low. Both start and stop of the counter are
+controlled.
+This mode is used to detect out-of-range PWM signal (duty cycle exceeding a maximum
+expected value).
+
+Slave mode – external clock mode 2 + trigger mode
+The external clock mode 2 can be used in addition to another slave mode (except external
+clock mode 1 and encoder mode). In this case, the tim_etr_in signal is used as external
+clock input, and another input can be selected as trigger input when operating in reset
+mode, gated mode, or trigger mode. It is recommended not to select tim_etr_in as tim_trgi
+through the TS bits of TIMx_SMCR register.
+In the following example, the upcounter is incremented at each rising edge of the tim_etr_in
+signal as soon as a rising edge of tim_ti1 occurs:
+1.
+
+2.
+
+3.
+
+Configure the external trigger input circuit by programming the TIMx_SMCR register as
+follows:
+–
+
+ETF = 0000: no filter.
+
+–
+
+ETPS = 00: prescaler disabled.
+
+–
+
+ETP = 0: detection of rising edges on tim_etr_in and ECE = 1 to enable the
+external clock mode 2.
+
+Configure the channel 1 as follows, to detect rising edges on TI:
+–
+
+IC1F = 0000: no filter.
+
+–
+
+The capture prescaler is not used for triggering and does not need to be
+configured.
+
+–
+
+CC1S = 01in TIMx_CCMR1 register to select only the input capture source.
+
+–
+
+CC1P = 0 and CC1NP = 0 in TIMx_CCER register to validate the polarity (and
+detect rising edge only).
+
+Configure the timer in trigger mode by writing SMS = 110 in TIMx_SMCR register.
+Select tim_ti1 as the input source by writing TS = 00101 in TIMx_SMCR register.
+
+A rising edge on tim_ti1 enables the counter and sets the TIF flag. The counter then counts
+on tim_etr_in rising edges.
+The delay between the rising edge of the tim_etr_in signal and the actual reset of the
+counter is due to the resynchronization circuit on tim_etrp input.

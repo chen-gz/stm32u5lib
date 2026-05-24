@@ -1,0 +1,149 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+Table 447. Error causes and recovery (continued)
+
+DSI Host interrupt
+and status register
+
+0
+
+0
+
+0
+
+0
+
+0
+
+Bit
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Error cause
+
+Recommended method
+to handle the error
+
+AE5
+
+The acknowledge with error
+packet contains this error.
+The display timeout counters
+for a HS reception and LP
+transmission expire.
+
+It is possible that the Host and device
+timeout counters are not correctly
+configured. The device HS_TX timeout
+must be shorter than the Host HS_RX
+timeout. Host LP_RX timeout must be
+longer than the device LP_TX timeout.
+Check and confirm that the Host
+configuration is consistent with the device
+specifications. This error is automatically
+recovered, although there is no guarantee
+that all the packets in the transmission or
+reception are complete. For additional
+information about this error, see section
+7.2.2 of the DSI Specification 1.1.
+
+AE4
+
+The acknowledge with error
+packet contains this error.
+The device reports that the
+LPDT is not aligned in an 8-bit
+boundary
+
+There is no guarantee that the device
+properly receives the packets.
+Transmit the packets again. For additional
+information about this error, see section
+7.1.5 of the DSI Specification.
+
+AE3
+
+The acknowledge with error
+packet contains this error.
+The device does not recognize
+the escape mode entry
+command.
+
+The device does not recognize the escape
+mode entry code.
+Check the device capability. For additional
+information about this error, see section
+7.1.4 of the DSI Specification.
+Repeat the transmission to the device.
+
+AE2
+
+The acknowledge with error
+packet contains this error.
+The device detects the HS
+transmission did not end in an
+8-bit boundary when the EoT
+sequence is detected.
+
+There is no guarantee that the device
+properly received the packets. Retransmission must be performed. Transmit
+the packets again. For additional
+information about this error, see section
+7.1.3 of the DSI Specification 1.1.
+
+AE1
+
+The device discards the incoming
+The acknowledge with error
+transmission. Re-transmission must be
+packet contains this error.
+performed by the Host. For additional
+The device detects that the SoT
+information about this error, see section
+leader sequence is corrupted.
+7.1.2 of the DSI Specification 1.1.
+The device is tolerant to single bit and
+some multi-bit errors in the SoT sequence
+but the packet correctness is
+compromised. If the packet content was
+important, transmit the packets again. For
+additional information about this error, see
+section 7.1.1 of the DSI Specification 1.1.
+The LTDC frequency is too slow compared
+to the DSI bandwidth. Increase the LTDC
+frequency or decrease the DSI bandwidth.
+
+Name
+
+0
+
+0
+
+AE0
+
+The acknowledge with error
+packet contains this error.
+The device reports that the SoT
+sequence is received with
+errors but synchronization can
+still be achieved.
+
+1
+
+19
+
+PBUE
+
+An underflow occurs in the
+LTDC payload buffer.

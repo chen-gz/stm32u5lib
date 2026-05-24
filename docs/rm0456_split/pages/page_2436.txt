@@ -1,0 +1,203 @@
+RM0456 Rev 6
+
+16
+
+rw
+
+rw
+
+1
+
+0
+
+TES[1:0]
+rw
+
+rw
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+Bits 1:0 TES[1:0]: Tearing source
+This bitfield selects the tearing-effect source.
+00: TE input pad selected
+01: gfxtim_ite selected
+10: HSYNC input selected by SYNCS[1:0]
+11: VSYNC input selected by SYNCS[1:0]
+
+59.5.2
+
+GFXTIM clock generator configuration register (GFXTIM_CGCR)
+Address offset: 0x004
+Reset value: 0x0000 0000
+
+31
+
+30
+
+Res.
+
+15
+
+29
+
+28
+
+FCCHRS[2:0]
+rw
+
+rw
+
+rw
+
+14
+
+13
+
+12
+
+Res.
+
+LCCHRS[2:0]
+rw
+
+rw
+
+rw
+
+27
+
+26
+
+25
+
+24
+
+23
+
+Res.
+
+Res.
+
+Res.
+
+FCCFR
+
+Res.
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+Res.
+
+LCCFR
+
+Res.
+
+Res.
+
+Res.
+
+LCCCS
+
+Res.
+
+w
+
+w
+
+22
+
+21
+
+20
+
+FCCCS[2:0]
+
+19
+
+18
+
+Res.
+
+rw
+
+17
+
+16
+
+FCS[2:0]
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+LCS[2:0]
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:28 FCCHRS[2:0]: Frame clock counter hardware reload source
+This bitfield configures the hardware reload source for the frame clock counter.
+000: No hardware reload
+001: Line- -clock counter underflow
+010: HSYNC rising edge
+011: HSYNC falling edge
+100: VSYNC rising edge
+101: VSYNC falling edge
+110: TE rising edge
+111: TE falling edge
+Bits 27:25 Reserved, must be kept at reset value.
+Bit 24 FCCFR: Frame clock counter force reload
+This bit forces frame clock counter reload
+0: No effect
+1: Frame clock counter reload forced
+Bit 23 Reserved, must be kept at reset value.
+Bits 22:20 FCCCS[2:0]: Frame clock counter clock source
+This bitfield configures the clock source for the frame clock counter.
+000: Frame clock counter disabled
+001: Line clock counter underflow
+010: HSYNC rising edge
+011: HSYNC falling edge
+100: VSYNC rising edge
+101: VSYNC falling edge
+110: TE rising edge
+111: TE falling edge
+Bit 19 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

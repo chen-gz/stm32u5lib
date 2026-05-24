@@ -1,0 +1,148 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Figure 906. Normal interrupt OUT
+Application
+
+1
+
+AHB
+
+Host
+
+USB
+
+init_reg(ch_1)
+
+init_reg(ch_2)
+
+1
+
+write_tx_fifo
+(ch_1)
+
+2
+
+set_ch_en
+(ch_2)
+
+Device
+
+Periodic Request Queue
+Assume that this queue
+can hold 4 entries.
+
+3
+
+1
+MPS
+
+4
+
+ch_1
+
+2
+
+ch_2
+
+3
+OU T
+
+Odd
+(micro)
+
+D ATA0
+M PS
+
+frame
+
+5
+6
+
+AC K
+
+XferCompl interrupt
+
+4
+
+init_reg(ch_1)
+write_tx_fifo
+(ch_1)
+
+IN
+
+5
+
+1
+MPS
+
+D ATA0
+
+RxFLvl interrupt
+ACK
+
+read_rx_sts
+read_rx_fifo
+
+1
+MPS
+
+6
+
+RxFLvl interrupt
+read_rx_sts
+
+7
+
+init_reg(ch_2)
+
+XferCompl interrupt
+
+8
+
+ch_1
+ch_2
+
+9
+
+set_ch_en
+(ch_2)
+Even
+OU T
+
+frame
+
+XferCompl interrupt
+D ATA1
+MPS
+
+init_reg(ch_1)
+
+write_tx_fifo
+(ch_1)
+
+(micro)
+
+1
+MPS
+
+ACK
+IN
+
+D ATA1
+
+MSv36020V1
+
+1. The grayed elements are not relevant in the context of this figure.
+
+•
+
+Interrupt service routine for interrupt OUT/IN transactions
+a)
+
+Interrupt OUT
+
+Unmask (NAK/TXERR/STALL/XFRC/FRMOR)

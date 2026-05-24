@@ -1,0 +1,65 @@
+rw
+
+RM0456 Rev 6
+
+rw
+
+EXT
+ARRM
+TRIGIE
+IE
+rw
+
+rw
+
+0
+CC1IE
+rw
+
+RM0456
+
+Low-power timer (LPTIM)
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 Reserved, must be kept at reset value.
+Bit 26 Reserved, must be kept at reset value.
+Bit 25 CC2DE: Capture/compare 2 DMA request enable
+0: CC2 DMA request disabled. Writing '0' to the CC2DE bit resets the associated ic2_dma_req
+signal.
+1: CC2 DMA request enabled
+Note: If LPTIM does not implement at least 2 channels this bit is reserved. Refer to Section 58.3.
+Bit 24 Reserved, must be kept at reset value.
+Bit 23 UEDE: Update event DMA request enable
+0: UE DMA request disabled. Writing '0' to the UEDE bit resets the associated ue_dma_req signal.
+1: UE DMA request enabled
+Note: If LPTIM does not implement at least 1 channel this bit is reserved. Refer to Section 58.3.
+Bits 22:17 Reserved, must be kept at reset value.
+Bit 16 CC1DE: Capture/compare 1 DMA request enable
+0: CC1 DMA request disabled. Writing '0' to the CC1DE bit resets the associated ic1_dma_req
+signal.
+1: CC1 DMA request enabled
+Note: If LPTIM does not implement at least 1 channel this bit is reserved. Refer to Section 58.3.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 Reserved, must be kept at reset value.
+Bit 13 CC2OIE: Capture/compare 2 over-capture interrupt enable
+0: CC2 over-capture interrupt disabled
+1: CC2 over-capture interrupt enabled
+Note: If LPTIM does not implement at least 2 channels this bit is reserved. Refer to Section 58.3.
+Bit 12 CC1OIE: Capture/compare 1 over-capture interrupt enable
+0: CC1 over-capture interrupt disabled
+1: CC1 over-capture interrupt enabled
+Note: If LPTIM does not implement at least 1 channel this bit is reserved. Refer to Section 58.3.
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 CC2IE: Capture/compare 2 interrupt enable
+0: Capture/compare 2 interrupt disabled
+1: Capture/compare 2 interrupt enabled
+Note: If LPTIM does not implement at least 2 channels this bit is reserved. Refer to Section 58.3.
+Bit 8 REPOKIE: Repetition register update OK interrupt Enable
+0: Repetition register update OK interrupt disabled
+1: Repetition register update OK interrupt enabled
+Bit 7 UEIE: Update event interrupt enable
+0: Update event interrupt disabled
+1: Update event interrupt enabled
+
+RM0456 Rev 6

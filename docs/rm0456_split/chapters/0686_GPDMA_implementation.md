@@ -1,0 +1,97 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+•
+
+•
+
+•
+
+RM0456
+
+–
+
+Linear source and destination addressing: either fixed or contiguously
+incremented addressing, programmed at a block level, between successive burst
+transfers
+
+–
+
+2D source and destination addressing: programmable signed address offsets
+between successive burst transfers (non-contiguous addressing within a block,
+combined with programmable signed address offsets between successive blocks,
+at a second 2D/repeated block level, for a reduced set of channels
+(see Section 17.3.1)
+
+–
+
+Support for scatter-gather (multi-buffer transfers), data interleaving and
+deinterleaving via 2D addressing
+
+–
+
+Programmable GPDMA request and trigger selection
+
+–
+
+Programmable GPDMA half transfer and transfer complete events generation
+
+–
+
+Pointer to the next linked-list item and its data structure in memory, with automatic
+update of the GPDMA linked-list control registers
+
+–
+
+Channel abort and restart
+
+Debug:
+–
+
+Channel suspend and resume support
+
+–
+
+Channel status reporting, including FIFO level, and event flags
+
+TrustZone support:
+–
+
+Support for secure and nonsecure GPDMA transfers, independently at a first
+channel level, and independently at a source/destination and link sublevels
+
+–
+
+Secure and nonsecure interrupts reporting, resulting from any of the respectively
+secure and nonsecure channels
+
+–
+
+TrustZone-aware AHB slave port, protecting any GPDMA secure resource
+(register, register field) from a nonsecure access
+
+Privileged/unprivileged support:
+–
+
+Support for privileged and unprivileged GPDMA transfers, independently at a
+channel level
+
+–
+
+Privileged-aware AHB slave port
+
+17.3
+
+GPDMA implementation
+
+17.3.1
+
+GPDMA channels
+A given GPDMA channel x is implemented with the following features and intended usage.
+To make the best use of the GPDMA performances, the table below lists some general
+recommendations, allowing the user to select and allocate a channel, given its implemented
+FIFO size and the requested GPDMA transfer.
+
+<!-- pagebreak -->
+

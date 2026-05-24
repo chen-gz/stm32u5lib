@@ -1,0 +1,48 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 12 UART5PRIV: privileged access mode for UART5
+0: unprivileged
+1: privileged
+Bit 11 UART4PRIV: privileged access mode for UART4
+0: unprivileged
+1: privileged
+Bit 10 USART3PRIV: privileged access mode for USART3
+0: unprivileged
+1: privileged
+Bit 9 USART2PRIV: privileged access mode for USART2
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 8 SPI2PRIV: privileged access mode for SPI2
+0: unprivileged
+1: privileged
+Bit 7 IWDGPRIV: privileged access mode for IWDG
+0: unprivileged
+1: privileged
+Bit 6 WWDGPRIV: privileged access mode for WWDG
+0: unprivileged
+1: privileged
+Bit 5 TIM7PRIV: privileged access mode for TIM7
+0: unprivileged
+1: privileged
+Bit 4 TIM6PRIV: privileged access mode for TIM6
+0: unprivileged
+1: privileged
+Bit 3 TIM5PRIV: privileged access mode for TIM5
+0: unprivileged
+1: privileged
+Bit 2 TIM4PRIV: privileged access mode for TIM4
+0: unprivileged
+1: privileged
+Bit 1 TIM3PRIV: privileged access mode for TIM3
+0: unprivileged
+1: privileged
+Bit 0 TIM2PRIV: privileged access mode for TIM2
+0: unprivileged
+1: privileged

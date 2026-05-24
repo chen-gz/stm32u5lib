@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+Each device (A or B) uses the same CLK and NCS signals, but each has separate IO0 to
+IO3 signals.
+The dual-quad configuration can be used in conjunction with the single-SPI, dual-SPI, and
+quad-SPI modes, as well as with either SDR or DTR mode.
+The device size, as specified in DEVSIZE[4:0] of HSPI_DCR1, must reflect the total external
+device capacity that is the double of the size of one individual component.
+If address X is even, then the byte that the HSPI gives for address X is the byte at the
+address X/2 of device A, and the byte that the HSPI gives for address X + 1 is the byte at
+the address X/2 of device B. In other words, the bytes at even addresses are all stored in
+device A and the bytes at odd addresses are all stored in device B.
+When reading the status registers of the devices in dual-quad configuration, twice as many
+bytes must be read compared to the same read in regular-command protocol: if each device
+gives eight valid bits after the instruction for fetching the status register, then the HSPI must
+be configured with a data length of 2 bytes (16 bits), and the HSPI receives one byte from
+each device.
+If each device gives a status of 16 bits, then the HSPI must be configured to read 4 bytes to
+get all the status bits of both devices in dual-quad configuration. The least-significant byte of
+the result (in the data register) is the least-significant byte of device A status register.
+The next byte is the least-significant byte of device B status register. Then, the third byte of
+the data register is the device A second byte. The forth byte is the device B second byte
+(if devices have 16-bit status registers).
+An even number of bytes must always be accessed in dual-quad configuration. For this
+reason, bit 0 of DL[31:0] in HSPI_DLR is stuck at 1 when DMM = 1.
+In dual-quad configuration, the behavior of device A interface signals is basically the same
+as in normal mode. Device B interface signals have exactly the same waveforms as
+device A ones during the instruction, address, alternate-byte, and dummy-cycle phases. In
+other words, each device always receives the same instruction and the same address.
+Then, during the data phase, the AIOx and the BIOx buses both transfer data in parallel, but
+the data that is sent to (or received from) device A is distinct than the one from device B.
+
+Dual-octal configuration
+When DMM = 1 in HSPI_CR, the HSPI is in dual-memory configuration: when
+DMODE = 100, two external octal-SPI devices (device A and device B) are used in order to
+receive 32 bits in DTR mode every cycle, effectively doubling the throughput as well as the
+capacity.
+Each device (A or B) uses the same CLK and NCS signals, but each has separate IO0 to
+IO7 signals.
+The dual-octal configuration can be used in DTR mode exclusively in conjunction with the
+single-SPI, dual-SPI, quad-SPI and octal-SPI modes.
+The device size, as specified in DEVSIZE[4:0] of HSPI_DCR1, must reflect the total external
+device capacity that is the double of the size of one individual component.
+If address X is even, then the byte that the HSPI gives for address X is the byte at the
+address X/2 of device A, and the byte that the HSPI gives for address X + 1 is the byte at the
+address X/2 of device B. In other words, the bytes at even addresses are all stored in device
+A and the bytes at odd addresses are all stored in device B.
+
+RM0456 Rev 6

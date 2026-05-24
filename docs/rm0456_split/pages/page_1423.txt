@@ -1,0 +1,77 @@
+rw
+
+RM0456 Rev 6
+
+Res.
+
+Res.
+
+OVRIE
+
+EOSIE
+
+rw
+
+rw
+
+EOSMP ADRDY
+EOCIE
+IE
+IE
+rw
+
+rw
+
+rw
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bit 12 LDORDYIE: LDO ready interrupt enable
+This bit is set and cleared by software. It is used to enable/disable the LDORDY interrupt.
+0: LDO ready interrupt disabled
+1: LDO ready interrupt enabled. An interrupt is generated when the LDO output is ready.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensure that no conversion is ongoing).
+Bit 11 EOCALIE: End of calibration interrupt enable
+This bit is set and cleared by software to enable/disable the end of calibration interrupt.
+0: End of calibration interrupt disabled
+1: End of calibration interrupt enabled
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 AWD3IE: Analog watchdog 3 interrupt enable
+This bit is set and cleared by software to enable/disable the analog watchdog interrupt.
+0: Analog watchdog interrupt disabled
+1: Analog watchdog interrupt enabled
+Note: The Software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 8 AWD2IE: Analog watchdog 2 interrupt enable
+This bit is set and cleared by software to enable/disable the analog watchdog interrupt.
+0: Analog watchdog interrupt disabled
+1: Analog watchdog interrupt enabled
+Note: The Software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 7 AWD1IE: Analog watchdog 1 interrupt enable
+This bit is set and cleared by software to enable/disable the analog watchdog interrupt.
+0: Analog watchdog interrupt disabled
+1: Analog watchdog interrupt enabled
+Note: The Software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bits 6:5 Reserved, must be kept at reset value.
+Bit 4 OVRIE: Overrun interrupt enable
+This bit is set and cleared by software to enable/disable the overrun interrupt.
+0: Overrun interrupt disabled
+1: Overrun interrupt enabled. An interrupt is generated when the OVR bit is set.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 3 EOSIE: End of conversion sequence interrupt enable
+This bit is set and cleared by software to enable/disable the end of sequence of conversions interrupt.
+0: EOS interrupt disabled
+1: EOS interrupt enabled. An interrupt is generated when the EOS bit is set.
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+
+RM0456 Rev 6

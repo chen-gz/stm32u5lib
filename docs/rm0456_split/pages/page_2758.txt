@@ -1,0 +1,127 @@
+RM0456 Rev 6
+
+RM0456
+
+67.4.9
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Tolerance of the LPUART receiver to clock deviation
+The asynchronous receiver of the LPUART works correctly only if the total clock system
+deviation is less than the tolerance of the LPUART receiver. The causes that contribute to
+the total deviation are:
+•
+
+DTRA: deviation due to the transmitter error (which also includes the deviation of the
+transmitter’s local oscillator)
+
+•
+
+DQUANT: error due to the baud rate quantization of the receiver
+
+•
+
+DREC: deviation of the receiver local oscillator
+
+•
+
+DTCL: deviation due to the transmission line (generally due to the transceivers, which
+can introduce an asymmetry between the low-to-high transition timing and the high-tolow transition timing)
+DTRA + DQUANT + DREC + DTCL + DWU < LPUART receiver tolerance
+
+where
+DWU is the error due to sampling point deviation when the wake-up from lowpower mode is used.
+when M[1:0] = 01:
+t WULPUART
+DWU = --------------------------11 × Tbit
+
+when M[1:0] = 00:
+t WULPUART
+DWU = --------------------------10 × Tbit
+
+when M[1:0] = 10:
+t WULPUART
+DWU = --------------------------9 × Tbit
+
+tWULPUART is the time between the detection of the start bit falling edge and the
+instant when the clock (requested by the peripheral) is ready and reaching the
+peripheral, and the regulator is ready.
+The LPUART receiver can receive data correctly at up to the maximum tolerated deviation
+specified in Table 691:
+•
+
+Number of stop bits defined through STOP[1:0] bits in the LPUART_CR2 register
+
+•
+
+LPUART_BRR register value.
+Table 691. Tolerance of the LPUART receiver
+1024 < BRR < 2048 2048 < BRR < 4096
+
+4096 ≤ BRR
+
+M bits
+
+768 < BRR < 1024
+
+8 bits (M = 00), 1 stop bit
+
+1.82%
+
+2.56%
+
+3.90%
+
+4.42%
+
+9 bits (M = 01), 1 stop bit
+
+1.69%
+
+2.33%
+
+2.53%
+
+4.14%
+
+7 bits (M = 10), 1 stop bit
+
+2.08%
+
+2.86%
+
+4.35%
+
+4.42%
+
+8 bits (M = 00), 2 stop bits
+
+2.08%
+
+2.86%
+
+4.35%
+
+4.42%
+
+9 bits (M = 01), 2 stop bits
+
+1.82%
+
+2.56%
+
+3.90%
+
+4.42%
+
+7 bits (M = 10), 2 stop bits
+
+2.34%
+
+3.23%
+
+4.92%
+
+4.42%
+
+RM0456 Rev 6

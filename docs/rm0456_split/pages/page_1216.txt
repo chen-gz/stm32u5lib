@@ -1,0 +1,81 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+To perform the suspend/resume operation on the bus, the host performs the following steps:
+1.
+
+Determines the function currently using the SDMMC_D[3:0] line(s).
+
+2.
+
+Requests the lower-priority or slower transaction to suspend.
+
+3.
+
+Waits for the transaction suspension to complete.
+
+4.
+
+Begins the higher-priority transaction.
+
+5.
+
+Waits for the completion of the higher priority transaction.
+
+6.
+
+Restores the suspended transaction.
+
+The card receiving a suspend command responds with its current bus status. Only when the
+bus has been suspended by the card the bus status indicates suspension completed.
+There are different suspend cases conditions:
+•
+
+Suspend request accepted prior to the start of data transfer.
+
+•
+
+Suspend request not accepted, (due to data being transfered at the same time), the
+host keeps checking the request until it is accepted (data transfer has suspended).
+
+•
+
+Suspend request during write busy.
+
+•
+
+Suspend request with write multiple.
+
+•
+
+Suspend request during Read Wait.
+
+For the host to know if the bus has been released it must check the status of the suspend
+request, suspension completed.
+When the bus status of the suspend request response indicates suspension completed, the
+card has released the bus. At this time the state of the suspended operation must be saved
+where after an other operation can start.
+The suspend command must be sent with the CMDSUSPEND bit set. This makes possible
+to start the interrupt period after the suspend command response when the bus is
+suspended (response bit BS = 0).
+The hardware does not save the number of remaining data to be transfered when resuming
+the suspended operation. It is up to firmware to determine the data that has been
+transferred and resume with the correct remaining number of data bytes.
+While receiving data from the card, the SDMMC can suspend the read operation after the
+read data block end (DPSM in Wait_R). After receiving the suspend acknowledgment
+response from the card the following steps must be taken by firmware:
+1.
+
+The normal receive process must be stopped by setting DTHOLD bit.
+a)
+
+2.
+
+The confirmation that all data has been read from the FIFO, and that the suspend is
+completed is indicated by the DHOLD flag.
+a)
+
+Note:

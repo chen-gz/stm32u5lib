@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+Figure 110. Circular input buffer
+x1_base
+Available buffer space
+
+x[n-N]
+
+x[n-6]
+x[n-5]
+x1_buf_size
+
+x[n-4]
+
+These values in use for
+calculating y[n]
+
+x[n-3]
+x[n-2]
+x[n-1]
+x[n]
+x[n+1]
+x[n+2]
+x[n+3]
+
+Next values already
+loaded
+
+x[n+4]
+Write pointer
+Available buffer space
+
+MSv45870V1
+
+The X2 buffer can only be used in vector mode (that is not circular), and needs to be preloaded, except if the contents of the buffer do not change from one operation to the next. For
+filter functions, the X2 buffer is used to store the filter coefficients.
+When operating as a circular buffer, the space allocated to the buffer (x1_buf_size) must
+generally be bigger than the number of elements in use for the current calculation, so that
+there are always new values available in the buffer. Figure 110 illustrates the layout of the
+buffer for a filter operation. While calculating an output sample y[n], the unit uses a set of
+N+1 input samples, x[n-N] to x[n]. When this is finished, the unit starts the calculation of
+y[n+1], using the set of input samples x[n-N+1] to x[n+1]. The least-recent input sample, x[nN], drops out of the input set, and a new sample, x[n+1], is added to it.
+The processor, or DMA controller, must ensure that the new sample x[n+1] is available in
+the buffer space when required. If not, the buffer is flagged as empty, which stalls the
+execution of the unit until a new sample is added. No underflow condition is signaled on the
+X1 buffer.
+
+RM0456 Rev 6

@@ -1,0 +1,118 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+Alternative boot operation
+After card power-up or reset, if the host send CMD0 with the argument 0xFFFFFFFA after
+74 clock cycles before CMD0 is issued, the card recognizes that boot mode is being
+initiated. Within 1 second after the CMD0 with argument 0xFFFFFFFA has been sent, the
+card starts to send the first boot code data on the SDMMC_Dn line(s). The master
+terminates boot operation by sending CMD0 (Reset).
+Figure 214. Alternative boot mode operation
+SDMMC_CK
+
+SDMMC_CMD
+
+CMD0
+boot
+
+SDMMC_Dn
+
+CMD0
+reset
+
+S 010 E
+
+S
+
+Block read
+E
++ CRC
+
+S
+
+RESP
+
+Block read
+E
++ CRC
+
+50 ms max.
+1 s max.
+
+CMD1
+
+56 cycles min.
+Boot completed
+
+74 cycles
+MSv40945V2
+
+To perform the alternative boot procedure the following steps needed:
+1.
+
+Move the SDMMC to power-off state, and reset the card.
+
+2.
+
+Move the SDMMC to power-on state. This guarantees the 74 SCDMMC_CK cycles to
+be clocked before any command.
+
+3.
+
+if a boot acknowledgment is requested enable the BOOTACKEN and set the ACKTIME
+and enable the ACKTIMEOUT flag.
+
+4.
+
+enable the data reception by setting the DPSM in receive mode (DTDIR) and the
+number of data to be received in DATALENGTH. Enable the DTIMEOUT and
+DATAEND flags.
+
+5.
+
+Select the alternative boot operation mode in BOOTMODE, load the CMD0 with the
+0xFFFFFFFA argument in the command registers. Enable CMDSENT flag for end of
+boot command confirmation, and enable boot in BOOTEN. The boot procedure is
+started by enabling the CPSM with CPSMEN. This causes:
+–
+
+the loaded command and argument to be sent out. (BOOTMODE = alternative
+boot).
+
+–
+
+the ACK timeout to start.
+
+–
+
+DPSM to be enabled.
+
+6.
+
+When the command has been sent the CMDSENT flag is generated, at which time the
+BOOTEN bit must be cleared.
+
+7.
+
+the reception of the boot acknowledgment can be detected with ACKFAIL flag when
+enabled.
+–
+
+8.
+
+when the boot acknowledgment is not received in time the ACKTIMEOUT flag
+occurs.
+
+when all boot data has been received the DATAEND flag occurs.
+–
+
+when data CRC fails the DCRCFAIL flag is also generated.
+
+–
+
+when the data timeout occurs the DTIMEOUT flag is also generated.
+
+RM0456 Rev 6

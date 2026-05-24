@@ -1,0 +1,74 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 262. Interleaved mode on one channel in continuous conversion mode: dual
+ADC mode
+
+MASTER ADC
+
+CH1
+
+CH1
+
+SLAVE ADC
+Trigger
+
+CH1
+
+CH1
+
+6 ADCCLK
+cycles
+
+6 ADCCLK
+cycles
+
+End of conversion on master and
+slave ADC
+
+Sampling
+Conversion
+
+MSv65310V1
+
+Figure 263. Interleaved mode on one channel in single conversion mode: dual ADC
+mode
+
+MASTER ADC
+
+CH1
+
+CH1
+
+SLAVE ADC
+Trigger
+
+CH1
+
+CH1
+
+6 ADCCLK
+cycles
+
+End of conversion on
+master and slave ADC
+
+6 ADCCLK
+cycles
+
+End of conversion on
+master and slave ADC
+
+Sampling
+Conversion
+
+MSv65311V1
+
+If DISCEN = 1, each “n” simultaneous conversions (“n” is defined by DISCNUM) of the
+regular sequence require a regular trigger event to occur.
+In this mode, injected conversions are supported. When injection is done (either on master
+or on slave), both the master and the slave regular conversions are aborted and the
+sequence is restarted from the master (see Figure 264 below).

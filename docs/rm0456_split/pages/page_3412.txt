@@ -1,0 +1,190 @@
+RM0456 Rev 6
+
+RM0456
+
+Debug support (DBG)
+1.
+
+Program APSEL[3:0] in DP_SELECTR to choose the AP, and APBANKSEL[3:0]
+in DP_SELECTR to select the register bank to be accessed.
+
+2.
+
+Program the A(3:2) field in the APACC data register, if using JTAG, with the register
+address within the bank. Program the RnW bit to select a read or write. In the case of a
+write, program the DATA field with the write data. If using SWD, the A(3:2) and RnW
+fields are part of the packet request word sent to the SW-DP with the APnDP bit set
+(see Table 792). The write data is sent in the data phase.
+
+The debugger can access the memory mapped debug component registers through the AP
+registers (using the above AP register access procedure) as follows:
+1.
+
+Program the transaction target address in AP_TAR.
+
+2.
+
+Program AP_CSWR, if necessary, with the transfer parameters (AddrInc for example).
+
+3.
+
+Write to or read from AP_DRWR to initiate a bus transaction at the address held in
+AP_TAR. Alternatively, a read or write to AP_BDnR triggers an access to TAR[31:4] + n
+address, allowing up to four consecutive addresses to be accessed without changing
+the address in the AP_TAR register.
+
+For more detailed information on the MEM-AP, refer to the Arm Debug Interface Architecture
+Specification [1].
+
+AP control/status word register (AP_CSWR)
+Address offset: 0x0
+Reset value: 0x0100 00X0
+31
+
+30
+
+29
+
+28
+
+Res.
+
+PROT
+[6]
+
+Res.
+
+Res.
+
+rw
+15
+Res.
+
+14
+Res.
+
+13
+Res.
+
+12
+Res.
+
+27
+
+26
+
+25
+
+24
+
+PROT[3:0]
+rw
+
+rw
+
+rw
+
+r
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+DBGST
+ATUS
+r
+
+ADDRINC[1:0]
+rw
+
+Res.
+
+rw
+
+SIZE[2:0]
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 PROT[6]: secure transfer request
+This field sets the protection attribute HPROT[6] of the bus transfer.
+0: secure transfer
+1: nonsecure transfer
+Bits 29:28 Reserved, must be kept at reset value.
+Bits 27:24 PROT[3:0]: bus transfer protection
+This field sets the protection attributes HPROT[3:0] of the bus transfer.
+0bXXX1: data access (bit 24 is read only)
+0bXX0X: unprivilege mode
+0bXX1X: privilege mode
+0bX0XX: non-bufferable
+0bX1XX: bufferable
+0b0XXX: non-shareable, no look-up, non-modifiable
+0b1XXX: shareable, look-up, modifiable
+Bits 23:7 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

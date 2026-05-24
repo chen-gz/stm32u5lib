@@ -1,0 +1,48 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bit 11 WAKE: Receiver wake-up method
+This bit determines the USART wake-up method from mute mode. It is set or cleared by
+software.
+0: Idle line
+1: Address mark
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 10 PCE: Parity control enable
+This bit selects the hardware parity control (generation and detection). When the parity
+control is enabled, the computed parity is inserted at the MSB position (9th bit if M = 1; 8th bit
+if M=0) and the parity is checked on the received data. This bit is set and cleared by software.
+Once it is set, PCE is active after the current byte (in reception and in transmission).
+0: Parity control disabled
+1: Parity control enabled
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 9 PS: Parity selection
+This bit selects the odd or even parity when the parity generation/detection is enabled (PCE
+bit set). It is set and cleared by software. The parity is selected after the current byte.
+0: Even parity
+1: Odd parity
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 8 PEIE: PE interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated whenever PE = 1 in the USART_ISR register
+Bit 7 TXFNFIE: TXFIFO not full interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated whenever TXFNF = 1 in the USART_ISR register
+Bit 6 TCIE: Transmission complete interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated whenever TC = 1 in the USART_ISR register
+Bit 5 RXFNEIE: RXFIFO not empty interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated whenever ORE = 1 or RXFNE = 1 in the USART_ISR register
+Bit 4 IDLEIE: IDLE interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated whenever IDLE = 1 in the USART_ISR register
+
+RM0456 Rev 6

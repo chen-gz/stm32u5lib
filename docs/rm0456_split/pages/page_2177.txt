@@ -1,0 +1,62 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 594. Example of Hall sensor interface
+tim_ti1
+tim_ti2
+
+Interfacing timer
+
+tim_ti3
+
+Counter (CNT)
+(CCR2)
+
+CCR1)
+
+C7A3
+
+C7A8
+
+C794
+
+C7A5
+
+C7AB
+
+C796
+
+tim_trgo = tim_oc2ref
+
+COM
+
+Advanced-control timers
+
+tim_oc1
+tim_oc1n
+
+tim_oc2
+tim_oc2n
+tim_oc3
+tim_oc3n
+
+Write CCxE, CCxNE
+and OCxM for next step
+
+54.3.30
+
+MSv62360V1
+
+Timer synchronization
+The TIMx timers are linked together internally for timer synchronization or chaining. Refer to
+Section 55.4.23: Timer synchronization for details. They can be synchronized in several
+modes: Reset mode, Gated mode, Trigger mode, Reset + trigger, and gated + reset modes.
+
+Slave mode: Reset mode
+The counter and its prescaler can be reinitialized in response to an event on a trigger input.
+Moreover, if the URS bit from the TIMx_CR1 register is low, an update event UEV is
+generated. Then all the preloaded registers (TIMx_ARR, TIMx_CCRx) are updated.
+
+RM0456 Rev 6

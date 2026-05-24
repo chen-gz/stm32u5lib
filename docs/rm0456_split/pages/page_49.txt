@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+44.15.33 DSI Host clock lane configuration register (DSI_CLCR) . . . . . . . . . . 1820
+44.15.34 DSI Host clock lane timer configuration register (DSI_CLTCR) . . . . . 1821
+44.15.35 DSI Host data lane timer configuration register (DSI_DLTCR) . . . . . 1821
+44.15.36 DSI Host PHY control register (DSI_PCTLR) . . . . . . . . . . . . . . . . . . 1821
+44.15.37 DSI Host PHY configuration register (DSI_PCONFR) . . . . . . . . . . . . 1822
+44.15.38 DSI Host PHY ULPS control register (DSI_PUCR) . . . . . . . . . . . . . . 1823
+44.15.39 DSI Host PHY TX triggers configuration register (DSI_PTTCR) . . . . 1823
+44.15.40 DSI Host PHY status register (DSI_PSR) . . . . . . . . . . . . . . . . . . . . . 1824
+44.15.41 DSI Host interrupt and status register 0 (DSI_ISR0) . . . . . . . . . . . . . 1824
+44.15.42 DSI Host interrupt and status register 1 (DSI_ISR1) . . . . . . . . . . . . . 1826
+44.15.43 DSI Host interrupt enable register 0 (DSI_IER0) . . . . . . . . . . . . . . . . 1827
+44.15.44 DSI Host interrupt enable register 1 (DSI_IER1) . . . . . . . . . . . . . . . . 1829
+44.15.45 DSI Host force interrupt register 0 (DSI_FIR0) . . . . . . . . . . . . . . . . . 1831
+44.15.46 DSI Host force interrupt register 1 (DSI_FIR1) . . . . . . . . . . . . . . . . . 1832
+44.15.47 DSI Host data lane timer read configuration register
+(DSI_DLTRCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1833
+44.15.48 DSI Host video shadow control register (DSI_VSCR) . . . . . . . . . . . . 1834
+44.15.49 DSI Host LTDC current VCID register (DSI_LCVCIDR) . . . . . . . . . . 1834
+44.15.50 DSI Host LTDC current color coding register (DSI_LCCCR) . . . . . . . 1834
+44.15.51 DSI Host low-power mode current configuration register
+(DSI_LPMCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1835
+44.15.52 DSI Host video mode current configuration register
+(DSI_VMCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1836
+44.15.53 DSI Host video packet current configuration register
+(DSI_VPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1837
+44.15.54 DSI Host video chunks current configuration register
+(DSI_VCCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1837
+44.15.55 DSI Host video null packet current configuration register
+(DSI_VNPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1838
+44.15.56 DSI Host video HSA current configuration register
+(DSI_VHSACCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1838
+44.15.57 DSI Host video HBP current configuration register
+(DSI_VHBPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1838
+44.15.58 DSI Host video line current configuration register (DSI_VLCCR) . . . 1839
+44.15.59 DSI Host video VSA current configuration register
+(DSI_VVSACCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1839
+44.15.60 DSI Host video VBP current configuration register
+(DSI_VVBPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1839
+44.15.61 DSI Host video VFP current configuration register
+(DSI_VVFPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1840
+
+RM0456 Rev 6

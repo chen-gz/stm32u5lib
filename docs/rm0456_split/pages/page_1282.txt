@@ -1,0 +1,75 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 226. Enabling/disabling the ADC
+
+ADEN
+tSTAB
+ADRDY
+
+ADDIS
+
+ADC
+state
+
+by S/W
+
+OFF
+
+Startup
+
+RDY
+
+Converting CH
+
+RDY
+
+REQ
+-OF
+
+OFF
+
+by H/W
+MSv62472V1
+
+33.4.10
+
+Constraints when writing the ADC control bits
+The software can program the RCC control bits to configure and enable the ADC clock
+(refer to the Reset and clock control section), the control DIFSEL bits in the ADC_DIFSEL
+register, the ADC12_CCR register and the ADCAL and ADEN control bits in the ADC_CR
+register, only if the ADC is disabled.
+The software can program the ADCAL bit to launch the calibration when ADEN is cleared. It
+can read or update the calibration factor if ADEN is set and no conversion is ongoing
+(ADSTART and JADSTART both cleared).
+The software is then allowed to write the ADSTART, JADSTART, and ADDIS control bits in
+the ADC_CR register only if the ADC is enabled and there is no pending request to disable
+it (ADEN must be equal to 1 and ADDIS to 0).
+The following constraints apply to all the other control bits of the ADC_CFGRx,
+ADC_SMPRy, ADC_LTRy, ADC_HTRy, ADC_SQRy, ADC_OFRy and ADC_IER registers:
+•
+
+Control bits related to configuration of regular conversions: the software is allowed to
+write them only if the ADC is enabled (ADEN = 1) and no regular conversion is ongoing
+(ADSTART must be equal to 0).
+
+•
+
+Control bits related to configuration of injected conversions: the software is allowed to
+write them only if the ADC is enabled (ADEN = 1) and no injected conversion is
+ongoing (JADSTART must be equal to 0).
+
+•
+
+ADC_LTRy, ADC_HTRy registers can be modified when an analog-to-digital
+conversion is ongoing (refer to Section 33.4.30: Analog window watchdog (AWD1EN,
+JAWD1EN, AWD1SGL, AWD1CH, AWD2CH, AWD3CH, AWD_HTRy, AWD_LTRy,
+AWDy)for details).
+
+The software can write ADSTP or JADSTP control bits in the ADC_CR register only if the
+ADC is enabled, a conversion is ongoing and there is no pending request to disable it
+(ADSTART or JADSTART must be equal to 1 and ADDIS to 0).
+Note:

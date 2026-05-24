@@ -1,0 +1,57 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Follow the procedure below to disable the ADC:
+1.
+
+Check that ADSTART = 0 in the ADC_CR register to ensure that no conversion is
+ongoing. If the software trigger mode was used, stop the software trigger mode by
+writing 1 to the ADSTP bit of the ADC_CR register and waiting until this bit is read at 0.
+
+2.
+
+Set ADDIS = 1 in the ADC_CR register.
+
+3.
+
+If required by the application, wait until ADEN = 0 in the ADC_CR register, indicating
+that the ADC is fully disabled (ADDIS is automatically reset once ADEN = 0).
+
+4.
+
+Clear the ADRDY bit in ADC_ISR register by programming this bit to 1 (optional).
+Figure 281. Enabling/disabling the ADC
+
+ADEN
+tSTAB
+ADRDY
+
+ADDIS
+
+ADC
+state
+
+by S/W
+
+OFF
+
+Startup
+
+RDY
+
+Converting CH
+
+RDY
+
+REQ
+-OF
+
+OFF
+
+by H/W
+MSv62472V1
+
+Note:

@@ -1,0 +1,204 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+73.14.20 OTG core LPM configuration register (OTG_GLPMCFG)
+Address offset: 0x054
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+LPMRCNTSTS[2:0]
+
+SND
+LPM
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+L1RSM
+OK
+
+Res.
+
+Res.
+
+Res.
+
+EN
+BESL
+rw
+
+r
+
+r
+
+r
+
+rs
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SLP
+STS
+
+LPMRSP[1:0]
+
+L1DS
+EN
+
+L1SS
+EN
+
+REM
+WAKE
+
+LPM
+ACK
+
+LPM
+EN
+
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+r
+
+r
+
+rw
+
+BESLTHRS[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+LPMRCNT[2:0]
+
+LPMCHIDX[3:0]
+
+BESL[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bit 28 ENBESL: Enable best effort service latency
+This bit enables the BESL feature as defined in the LPM errata:
+0: The core works as described in the following document:
+USB 2.0 Link Power Management Addendum Engineering Change Notice to the USB 2.0
+specification, July 16, 2007
+1: The core works as described in the LPM Errata:
+Errata for USB 2.0 ECN: Link Power Management (LPM) - 7/2007
+Note: Only the updated behavior (described in LPM Errata) is considered in this document
+and so the ENBESL bit must be set to '1' by application SW.
+Bits 27:25 LPMRCNTSTS[2:0]: LPM retry count status
+Number of LPM host retries still remaining to be transmitted for the current LPM sequence.
+Note: Accessible only in host mode.
+Bit 24 SNDLPM: Send LPM transaction
+When the application software sets this bit, an LPM transaction containing two tokens, EXT
+and LPM is sent. The hardware clears this bit once a valid response (STALL, NYET, or
+ACK) is received from the device or the core has finished transmitting the programmed
+number of LPM retries.
+Note: This bit must be set only when the host is connected to a local port.
+Note: Accessible only in host mode.
+Bits 23:21 LPMRCNT[2:0]: LPM retry count
+When the device gives an ERROR response, this is the number of additional LPM retries
+that the host performs until a valid device response (STALL, NYET, or ACK) is received.
+Note: Accessible only in host mode.
+Bits 20:17 LPMCHIDX[3:0]: LPM Channel Index
+The channel number on which the LPM transaction has to be applied while sending an LPM
+transaction to the local device. Based on the LPM channel index, the core automatically
+inserts the device address and endpoint number programmed in the corresponding channel
+into the LPM transaction.
+Note: Accessible only in host mode.
+
+RM0456 Rev 6

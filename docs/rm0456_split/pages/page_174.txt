@@ -1,0 +1,72 @@
+191
+
+System security
+
+•
+
+RM0456
+Power control (PWR)
+By default, after a power-on or a system reset, all PWR registers but
+PWR_PRIVCFGR, can be read or written in both privileged and unprivileged modes.
+When secure privileged bit SPRIV is set in PWR_PRIVCFGR, reading and writing the
+PWR securable registers are possible only in privileged mode. Write access to this bit
+is ignored if TrustZone is disabled (TZEN = 0).
+When nonsecure privileged bit NSPRIV is set in PWR_PRIVCFGR, reading and writing
+the PWR nonsecure registers are possible only in privileged mode.
+See Section 10: Power control (PWR) for details.
+
+•
+
+Secure clock and reset (RCC)
+By default, after a power-on or a system reset, all RCC registers but RCC_PRIVCFGR
+can be read or written in both privileged and unprivileged modes.
+When the secure privileged bit SPRIV is set in RCC_PRIVCFGR, reading and writing
+the RCC securable bits are possible only in privileged mode. Write access to this bit is
+ignored if TrustZone is disabled (TZEN = 0).
+When nonsecure privileged bit NSPRIV is set in RCC_PRIVCFGR, reading and writing
+the RCC nonsecure bits are possible only in privileged mode.
+See Section 11: Reset and clock control (RCC) for details.
+
+•
+
+Real time clock (RTC)
+By default after a backup domain reset, all RTC registers but RTC_PRIVCFGR, can be
+read or written in both privileged and unprivileged modes.
+When PRIV bit is set in privileged-only RTC_PRIVCFGR:
+–
+
+Writing the RTC registers is possible only in privileged mode.
+
+–
+
+Reading the RTC_SECCFGR, RTC_PRIVCFGR, RTC_TR, RTC_DR, RTC_SSR,
+RTC_PRER and RTC_CALR is always possible in privileged and unprivileged
+modes.
+
+All the other RTC registers can be read only in privileged mode.
+When PRIV bit is cleared in privileged-only RTC_PRIVCFGR register, it is still possible
+to restrict access to privileged mode to some RTC registers by setting dedicated
+control bits: INITPRIV, CALPRIV, TSPRIV, WUTPRIV, ALRAPRV or ALRBPRIV.
+See Section 63: Real-time clock (RTC) chapter for details.
+
+•
+
+Tamper and backup registers (TAMP)
+By default after any backup domain reset, all TAMP registers but TAMP_PRIVCFGR
+can be read or written in both privileged and unprivileged modes.
+When PRIV bit is set in privileged-only TAMP_PRIVCFGR:
+–
+
+Writing the TAMP registers is possible only in privileged mode, except for the
+backup registers and the monotonic counters that have their own protection
+setting.
+
+–
+
+Reading the TAMP_SECCFGR or TAMP_PRIVCFGR is always possible in
+privilege and unprivilege modes. All the other TAMP registers can be read only in
+privilege mode, except for the backup registers and the monotonic counters that
+have their own protection setting.
+
+The application can also:
+–

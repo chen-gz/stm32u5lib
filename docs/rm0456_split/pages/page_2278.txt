@@ -1,0 +1,40 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Figure 638. Combined PWM mode on channels 1 and 3
+
+CCR2
+CCR1
+tim_oc1ref
+tim_oc2ref
+tim_oc1refc
+tim_oc1refc = tim_oc1ref AND tim_oc2ref
+
+CCR2
+CCR1
+
+tim_oc1ref
+tim_oc2ref
+tim_oc1refc
+tim1_oc1refc = tim1_oc1ref OR tim1_oc2ref
+
+55.4.14
+
+MSv62330V1
+
+Clearing the tim_ocxref signal on an external event
+The tim_ocxref signal of a given channel can be cleared when a high level is applied on the
+tim_ocref_clr_int input (OCxCE enable bit in the corresponding TIMx_CCMRx register set to
+1). tim_ocxref remains low until the next transition to the active state, on the following PWM
+cycle. This function can only be used in Output compare and PWM modes. It does not work
+in Forced mode.
+The tim_ocref_clr_int source depends on the OCREF clear selection feature
+implementation, refer to Section 55.3: TIM2/TIM3/TIM4/TIM5 implementation.
+If the OCREF clear selection feature is implemented, the tim_ocref_clr_int can be selected
+between the tim_ocref_clr input and the tim_etrf input (tim_etr_in after the filter) by
+configuring the OCCS bit in the TIMx_SMCR register. The tim_ocref_clr input can be
+selected among several tim_ocref_clr[7:0] inputs, using the OCRSEL[2:0] bitfield in the
+TIMx_AF2 register, as shown in Figure 639.

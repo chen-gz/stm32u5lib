@@ -1,0 +1,98 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+A typical message construction for GMAC is given in Figure 478.
+Figure 478. Message construction in GMAC mode
+[Len(A)]64
+
+[0]64
+
+Len(A)
+16-byte
+boundaries
+Authenticated data
+
+0
+
+Last
+block
+
+auth.
+
+ICB
+
+4-byte boundaries
+
+Authentication tag (T)
+Initialization vector (IV)
+
+Counter
+
+Zero padding
+MSv42158V2
+
+AES GMAC processing
+Figure 479 describes the GMAC mode implementation in the AES peripheral. This mode is
+selected by writing 011 to the CHMOD[2:0] bitfield of the AES_CR register.
+Figure 479. GMAC authentication mode
+(1) Init
+[0]128
+
+(4) Final
+AES_IVRx
+IV + 32-bit counter (= 0x0)
+
+AES_KEYRx (KEY)
+Encrypt
+H
+
+AES_KEYRx (KEY)
+Encrypt
+
+(2) Header
+AES_DINR
+(message block 1)
+
+AES_DINR
+(message block n)
+
+Swap
+management
+
+Swap
+management
+
+DATATYPE
+[1:0]
+
+AES_DINR
+len(A)64 || [0]64
+
+H
+H
+
+GF2mul
+
+H
+
+GF2mul
+
+GF2mul
+S
+
+Legend
+AES_DOUTR
+(authentication tag T)
+
+input
+output
+XOR
+
+MSv42150V2
+
+The GMAC algorithm corresponds to the GCM algorithm applied on a message only
+containing a header. As a consequence, all steps and settings are the same as with the
+GCM, except that the payload phase is omitted.

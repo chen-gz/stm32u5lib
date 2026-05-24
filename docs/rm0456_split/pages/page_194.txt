@@ -1,0 +1,32 @@
+194
+
+Boot modes
+
+RM0456
+
+The BOOT0 pin or user option bit (depending on NSWBOOT0 in FLASH_OPTR) is also
+resampled when exiting Standby mode. Consequently, the BOOT0 pin or user option bit
+must be kept in the required boot mode configuration in Standby mode. After the startup
+delay, the selection of the boot area is done before releasing the processor reset.
+PH3/BOOT0 GPIO is configured as follows:
+•
+
+in input mode during the complete reset phase, if NSWBOOT0 is set in FLASH_OPTR,
+and then switches automatically in analog mode after reset is released (BOOT0 pin)
+
+•
+
+in input mode from the reset phase to the completion of the option byte loading,
+if NSWBOOT0 is cleared in FLASH_OPTR (BOOT0 value coming from the option bit),
+and then switches automatically to the analog mode even if the reset phase
+is not complete
+
+Embedded bootloader
+The embedded bootloader is located in the system memory, programmed by ST during
+production. Refer to the application note STM32 microcontroller system memory boot mode
+(AN2606).
+
+Embedded root security services (RSS)
+The embedded RSS are located in the secure information block, programmed by ST during
+production. Refer to the application note STM32 MCUs secure firmware install (SFI)
+overview (AN4992).

@@ -1,0 +1,178 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+
+Bit 2 KEIF: Key error interrupt flag
+This read-only bit is set by hardware when key information failed to load into key registers.
+0: No key error detected
+1: Key information failed to load into key registers
+Setting the corresponding bit of the AES_ICR register clears the KEIF and generates interrupt if the
+KEIE bit of the AES_IER register is set.
+KEIF is triggered upon any of the following errors:
+–AES_KEYRx register write does not respect the correct order. (For KEYSIZE = 0, AES_KEYR0
+then AES_KEYR1 then AES_KEYR2 then AES_KEYR3 register, or reverse. For KEYSIZE = 1,
+AES_KEYR0 then AES_KEYR1 then AES_KEYR2 then AES_KEYR3 then AES_KEYR4 then
+AES_KEYR5 then AES_KEYR6 then AES_KEYR7, or reverse).
+KEIF must be cleared by the application software, otherwise KEYVALID cannot be set.
+Bit 1 RWEIF: Read or write error interrupt flag
+This read-only bit is set by hardware when a RDERR or a WRERR error flag is set in the AES_SR
+register.
+0: No read or write error detected
+1: Read or write error detected (see AES_SR register for details)
+RWEIF bit is cleared when application sets the corresponding bit of AES_ICR register. An interrupt
+is generated if the RWEIE bit has been previously set in the AES_IER register.
+This flags has no meaning when key derivation mode is selected.
+Bit 0 CCF: Computation complete flag
+This flag indicates whether the computation is completed:
+0: Not completed
+1: Completed
+The flag is set by hardware upon the completion of the computation. It is cleared by software, upon
+setting the CCF bit of the AES_ICR register.
+Upon the flag setting, an interrupt is generated if enabled through the CCFIE bit of the AES_IER
+register.
+The flag is significant only when the DMAOUTEN bit is 0. It may stay high when DMA_EN is 1.
+
+49.7.20
+
+AES interrupt clear register (AES_ICR)
+Address offset: 0x308
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+KEIF
+
+RWEIF
+
+CCF
+
+Reset value: 0x0000 0000
+
+w
+
+w
+
+w
+
+RM0456 Rev 6

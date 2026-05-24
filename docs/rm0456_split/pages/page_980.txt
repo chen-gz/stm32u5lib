@@ -1,0 +1,11 @@
+988
+
+Filter math accelerator (FMAC)
+
+26.3.12
+
+RM0456
+
+Filter design tips
+The FMAC architecture imposes some constraints detailed below, on the design of digital
+filters.

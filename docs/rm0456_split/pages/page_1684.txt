@@ -1,0 +1,102 @@
+1696
+
+Digital camera interface (DCMI)
+
+41.3.11
+
+RM0456
+
+DCMI data format description
+Data formats
+The following types of data are supported:
+•
+
+8/10/12/14-bit progressive video: either monochrome or raw Bayer format
+
+•
+
+YCbCr 4:2:2 progressive video
+
+•
+
+RGB565 progressive video. A pixel coded in 16 bits (5 bits for blue, 5 bits for red, 6 bits
+for green) takes two clock cycles to be transferred
+
+•
+
+compressed data: JPEG
+
+For monochrome, RGB and YCbCr, the frame buffer is stored in raster mode. 32-bit words
+are used. Only the little-endian format is supported.
+Figure 399. Pixel raster scan order
+Pixel row 0
+
+Pixel raster
+scan order
+(increasing
+addresses)
+Pixel row n-1
+MSv15848V2
+
+Monochrome format
+Characteristics:
+•
+
+Raster format
+
+•
+
+8 bits per pixel
+
+The table below shows how the data are stored.
+Table 416. Data storage in monochrome progressive video format
+Byte address
+
+31:24
+
+23:16
+
+15:8
+
+7:0
+
+0
+
+n+3
+
+n+2
+
+n+1
+
+n
+
+4
+
+n+7
+
+n+6
+
+n+5
+
+n+4
+
+RGB format
+Characteristics:
+•
+
+Raster format
+
+•
+
+RGB
+
+•
+
+Interleaved: one buffer: R, G and B interleaved (such as BRGBRGBRG)
+
+•
+
+Optimized for display output
+
+The RGB planar format is compatible with standard OS frame buffer display formats.
+Only 16 BPP (bits per pixel): RGB565 (2 pixels per 32-bit word) is supported.

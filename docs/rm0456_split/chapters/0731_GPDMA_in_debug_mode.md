@@ -1,0 +1,79 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+(GPDMA_CxCR.TCIE = 1) or/and enables to continue with the autonomous GPDMA for
+operating another LLIn+1 transfer over the same channel.
+The output channel x transfer complete event, gpdma_chx_tc, can be programmed as
+a selected input trigger for a channel if this event is looped-back and connected at the
+GPDMA level (see Section 17.3.5), allowing autonomous and fine GPDMA inter-channel
+transfer scheduling, without needing a cleared transfer complete flag (TCF).
+A given GPDMA channel x asserts its clock request in one of the following conditions:
+•
+
+if the next transfer to be executed is programmed as conditioned by a trigger
+(GPDMA_CxTR2.TRIGPOL[1:0] and GPDMA_CxTR2.TRIGM[1:0]), only when
+the trigger hit occurs.
+
+•
+
+if the next transfer to be executed is not conditioned by a trigger:
+–
+
+if GPDMA_CxTR2.SWREQ = 0, only when the hardware request is asserted by
+the selected peripheral
+
+–
+
+if GPDMA_CxTR2.SWREQ = 1 (memory-to-memory, GPIO to/from memory), as
+soon as the GPDMA is enabled
+
+The GPDMA channel x releases its clock request as soon as all the following conditions
+are met:
+•
+
+The transfer to be executed is completed.
+
+•
+
+The GPDMA channel x is not immediately ready and requested to execute the next
+transfer.
+
+•
+
+If a channel x interrupt was raised, all the flags of the status register that can cause this
+interrupt, are cleared by a software agent.
+
+When one channel asserts its clock request, the GPDMA asserts its clock request to the
+RCC. When none channel asserts its clock request, the GPDMA releases its clock request
+to the RCC.
+
+17.5
+
+GPDMA in debug mode
+When the microcontroller enters debug mode (core halted), any channel x can be
+individually either continued (default) or suspended, depending on the programmable
+control bit in the DBGMCU module.
+
+Note:
+
+In debug mode, GPDMA_CxSR.SUSPF is not altered by a suspension from the
+programmable control bit in the DBGMCU module. In this case, GPDMA_CxSR.IDLEF can
+be checked to know the completion status of the channel suspension.
+
+17.6
+
+GPDMA in low-power modes
+Table 142. Effect of low-power modes on GPDMA
+
+Mode
+Sleep
+
+Description
+No effect. GPDMA interrupts cause the device to exit Sleep mode.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

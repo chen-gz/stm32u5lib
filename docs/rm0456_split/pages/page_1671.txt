@@ -1,0 +1,169 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+Bits 6:4 ANSLP[2:0]: Ambient noise slope control
+This bitfield is set and cleared by software. It is used to define the positive and negative slope
+of the noise estimator, in charge of updating the ANLVL (see Ambient noise estimation
+(ANLVL) for information about programming this bitfield).
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bits 3:0 SNTHR[3:0]: Signal to noise threshold
+This bitfield is set and cleared by software. It is used to define THRH (and THRL if hysteresis
+is enabled). See Table 396 for details.
+0000: THRH is 3.5 dB higher than ANLVL
+0001: THRH is 6.0 dB higher than ANLVL
+0010: THRH is 9.5 dB higher than ANLVL
+0011: THRH is 12 dB higher than ANLVL
+0100: THRH is 15.6 dB higher than ANLVL
+0101: THRH is 18 dB higher than ANLVL
+0110: THRH is 21.6 dB higher than ANLVL
+0111: THRH is 24.1 dB higher than ANLVL
+1000: THRH is 27.6 dB higher than ANLVL
+1001: THRH is 30.1dB higher than ANLVL
+others: Reserved
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+
+40.8.13
+
+ADF SAD sound level register (ADF_SADSDLVR)
+Address offset: 0x0C0
+Reset value: 0x0000 0000
+This register contains the short-term sound-level computed by the SAD.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Res.
+
+SDLVL[14:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bits 14:0 SDLVL[14:0]: Short term sound level
+This bitfield is set by hardware. It contains the latest sound level computed by the SAD. To
+refresh this value, SDLVLF must be cleared.
+
+RM0456 Rev 6

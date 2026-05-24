@@ -1,0 +1,49 @@
+1861
+
+DSI Host (DSI)
+
+44.14.4
+
+RM0456
+
+Configuring flow control and DBI interface
+The flow control is configured thanks to the DSI Host protocol configuration register
+(DSI_PCR). The configuration parameters are the following
+•
+
+CRC reception enable (CRCRXE bit)
+
+•
+
+ECC reception enable (ECCRXE bit)
+
+•
+
+BTA enable (BTAE bit)
+
+•
+
+EoTp reception enable (ETRXE bit)
+
+•
+
+EoTp transmission enable (ETTXE bit)
+
+Their values depend upon the protocol to be used for the communication with the DSI
+display.
+The virtual channel ID used for the generic DBI interface must be configured by the virtual
+channel ID (VCID) field of the DSI Host generic VCID register (DSI_GVCIDR).
+All the DCS command, depending on their type, can be transmitted or received either in
+high-speed or low-power. For each of them, a dedicated configuration bit must be
+programmed in the DSI Host command mode configuration register (DSI_CMCR).
+Acknowledge request for packet or tearing effect event must also be configured in the DSI
+Host command mode configuration register (DSI_CMCR).
+
+44.14.5
+
+Configuring the DSI Host LTDC interface
+As the DSI Host is interface to the system through the LTDC for video mode or adapted
+command mode, the DSI Wrapper performs a low level interfacing in between.
+The parameter programmed into the DSI Wrapper must be aligned with the parameters
+programmed into the LTDC and the DSI Host.
+The following fields must be configured:

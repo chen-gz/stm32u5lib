@@ -1,0 +1,82 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Starting two timers synchronously in response to an external trigger
+In this example, we set the enable of TIM_mstr when its tim_ti1 input rises, and the enable
+of TIM_slv with the enable of TIM_mstr. Refer to Figure 674 for connections. To ensure the
+counters are aligned, TIM_mstr must be configured in Master/Slave mode (slave with
+respect to tim_ti1, master with respect to TIM_slv):
+1.
+
+Configure TIM_mstr master mode to send its enable as trigger output (MMS = 001 in
+the TIM_mstr_CR2 register).
+
+2.
+
+Configure TIM_mstr slave mode to get the input trigger from tim_ti1 (TS = 00100 in the
+TIM_mstr_SMCR register).
+
+3.
+
+Configure TIM_mstr in trigger mode (SMS = 110 in the TIM_mstr_SMCR register).
+
+4.
+
+Configure the TIM_mstr in Master/Slave mode by writing MSM = 1 (TIM_mstr_SMCR
+register).
+
+5.
+
+Configure TIM_slv to get the input trigger from TIM_mstr (TS = 00000 in the
+TIM_slv_SMCR register).
+
+6.
+
+Configure TIM_slv in trigger mode (SMS = 110 in the TIM_slv_SMCR register).
+
+When a rising edge occurs on tim_ti1 (TIM_mstr), both counters start counting
+synchronously on the internal clock and both TIF flags are set.
+Note:
+
+In this example both timers are initialized before starting (by setting their respective UG
+bits). Both counters starts from 0, but an offset can easily be inserted between them by
+writing any of the counter registers (TIMx_CNT). One can see that the master/slave mode
+inserts a delay between CNT_EN and CK_PSC on TIM_mstr.
+Figure 680. Triggering TIM_mstr and TIM_slv with TIM_mstr tim_ti1 input
+tim_ker_ck
+tim_mstr_ti1
+TIM_mst counter enable (CEN bit))
+tim_mstr_psc_ck
+tim_mstr_CNT
+
+00
+
+01 02 03 04 05 06 07 08 09
+
+00
+
+01 02 03 04 05 06 07 08 09
+
+tim_mstr TIF bit
+TIM_slv counter enable (CEN bit)
+tim_slv_psc_ck
+tim_slv_CNT
+tim_slv TIF bit
+
+MSv62380V1
+
+Note:
+
+The clock of the slave peripherals (such as timer, ADC) receiving the tim_trgo signal must
+be enabled prior to receive events from the master timer, and the clock frequency
+(prescaler) must not be changed on-the-fly while triggers are received from the master
+timer.
+
+55.4.24
+
+ADC triggers
+The timer can generate an ADC triggering event with various internal signals, such as reset,
+enable or compare events.

@@ -1,0 +1,62 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Oversampling regular and injected channels
+Both ROVSE and JOVSE bits can be set simultaneously. In this case, the regular
+oversampling mode is forced to resumed mode (ROVSM bit ignored), as shown in
+Figure 256.
+Figure 256. Regular and injected oversampling modes used simultaneously
+Oversampling
+aborted
+
+Oversampling
+resumed
+
+Regular channels Ch(N)0 Ch(N)1 Ch(N)2 Ch(N)3 Ch(M)0 Ch(M)1
+Abort
+Trigger
+
+Ch(M)0 Ch(M)1
+
+Injected channels Ch(J)0 Ch(J)1 Ch(J)2 Ch(J)3
+
+JEOC
+ROVSE = 1, JOVSE = 1, ROVSM = 1, TROVS = 0
+MS34457V2
+
+Triggered regular oversampling with injected conversions
+Injected conversions can be performed in triggered regular mode. In this case, the injected
+mode oversampling mode must be disabled, and the ROVSM bit is ignored (resumed mode
+forced). The JOVSE bit must be reset. The behavior is shown in Figure 257.
+Figure 257. Triggered regular oversampling with injection
+Oversampling
+resumed
+Trigger
+
+Regular channels Ch(N)0
+
+Trigger
+
+Trigger
+
+Ch(N)1
+Trigger
+
+Trigger
+
+Ch(N)2
+Abort
+
+Injected channels Ch(J)
+
+Trigger
+
+Ch(N)0 Ch(N)1
+Resumed
+Ch(K)
+
+ROVSE = 1, JOVSE = 0, ROVSM = 1, TROVS = 1
+MS34458V4

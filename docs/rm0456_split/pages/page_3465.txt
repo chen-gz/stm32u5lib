@@ -1,0 +1,294 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+ETM trace identification register (ETM_TRACEIDR)
+Address offset: 0x040
+Reset value: 0xXXXX XXXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TRACEID[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bits 6:0 TRACEID[6:0]: Trace identification to output onto the trace bus
+This field must be programmed with a unique value to differentiate it from other trace sources
+in the system.
+Values 0x00 and 0x70-0x7F are reserved.
+
+ETM ViewInst main control register (ETM_VICTLR)
+Address offset: 0x080
+Reset value: 0xXXXX XXXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+Res.
+
+14
+Res.
+
+13
+Res.
+
+12
+Res.
+
+11
+
+10
+
+9
+
+TRCER TRCRE SSSTA
+R
+SET
+TUS
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+rw
+
+4
+
+19
+
+18
+
+17
+
+16
+
+EXLEVEL_S[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+EVENT[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bits 19:16 EXLEVEL_S[3:0]: exception level in secure state
+Controls whether instruction tracing is enabled for the corresponding exception level, in
+secure state.
+0bXXX0: instruction trace not generated in secure state, for exception level 0
+0bXXX1: instruction trace generated in secure state, for exception level 0
+0b0XXX: instruction trace not generated in secure state, for exception level 3
+0b1XXX: instruction trace generated in secure state, for exception level 3
+Bits 15:12 Reserved, must be kept at reset value.
+Bit 11 TRCERR: trace system error exception
+0: The system error exception is traced only if the instruction or exception immediately before
+the system error exception is traced.
+1: The system error exception is always traced.
+Bit 10 TRCRESET: trace reset exception
+0: The reset exception is traced only if the instruction or exception immediately before the
+reset exception is traced.
+1: The reset exception is always traced.

@@ -1,0 +1,72 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+Table 58. Default secure option bytes after TZEN activation
+
+Secure watermark option-byte values after OBL when TZEN is activated
+
+Security attribute
+
+SECWMx_PSTRT = 0 and SECWMx_PEND = 0x7F
+
+All flash memory secure
+
+HDPxEN = 0 and HDPx_PEND = 0
+
+No secure HDP area
+
+Illegal access generation
+A nonsecure access to a secure flash memory area is RAZ/WI, and generates an illegal
+access event. An illegal access interrupt is generated if the FLASHIE illegal access interrupt
+is enabled in TZIC_IER2.
+A nonsecure access to a secure FLASH register generates an illegal access event.
+An illegal access interrupt is generated if the FLASH_REGIE illegal access interrupt is
+enabled in TZIC_IER2.
+
+Deactivate TrustZone security
+Deactivation of TZEN (from 1 to 0) is only possible when the RDP changes from level 1
+to level 0.
+When the TrustZone is deactivated (TZEN is modified from 1 to 0) after the OBL,
+the following security features are deactivated:
+•
+
+watermark-based secure area (refer to Section 7.5.2)
+
+•
+
+block-based secure area (refer to Section 7.5.4)
+
+•
+
+RDP level 0.5 (refer to Section 7.6.2)
+
+•
+
+secure interrupts (refer to Section 7.8)
+
+All secure registers are RAZ/WI.
+
+7.5.2
+
+Watermark-based secure flash memory area protection
+When TrustZone security is active (TZEN = 1), a part of the flash memory can be protected
+against nonsecure read and write accesses. Up to two different non-volatile secure areas
+can be defined by option bytes, and can be read or written by a secure access only:
+one area per bank can be selected with a page granularity.
+The secure areas are defined by a start-page offset and end-page offset using
+SECWMx_PSTRT and SECWMx_PEND (x = 1,2 for area 1 and area 2) option bytes. These
+offsets are defined in FLASH_SECWM1R1 and FLASH_SECWM2R1.
+SECWMx_PSTRT and SECWMx_PEND option bytes can only be modified by secure
+firmware when HDPx_ACCDIS bit is reset. If this bit is set, SECWMx_PSTRT and
+SECWMx_PEND cannot be modified until next system reset.
+Table 59. Secure watermark-based area
+
+Secure watermark option-byte values (x = 1,2)
+SECWMx_PSTRT > SECWMx_PEND
+
+Secure watermark protection area
+No secure area
+
+RM0456 Rev 6

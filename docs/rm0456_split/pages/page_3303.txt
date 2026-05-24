@@ -1,0 +1,42 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Figure 927. Transmit FIFO write task
+Start
+Read OTG_HPTXSTS /OTG_HNPTXSTS
+registers for available FIFO and queue
+spaces
+
+Wait for NPTXFE/PTXFE interrupt in
+OTG_GINTSTS
+
+No
+
+1 MPS
+or LPS FIFO space
+available?
+Yes
+
+Yes
+
+Write 1 packet
+data to transmit
+FIFO
+
+More
+packets to
+send?
+No
+MPS: Maximum packet size
+LPS: Last packet size
+
+•
+
+Done
+ai15673c
+
+Reading the receive FIFO
+The application must ignore all packet statuses other than IN data packet (bx0010).

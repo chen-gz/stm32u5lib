@@ -1,0 +1,144 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+74.4.5
+
+UCPD BMC receiver
+The UCPD BMC receiver performs:
+•
+
+Clock recovery
+
+•
+
+Preamble detection / timing derivation
+
+•
+
+BMC decoding
+
+•
+
+4b5b decoding
+
+•
+
+K-code ordered set recognition
+
+•
+
+CRC checking
+
+•
+
+SOP detection
+
+•
+
+EOP detection
+
+The receiver is activated as soon as the UCPD peripheral is enabled (via UCPDEN), but it
+waits for an idle CC line state before attempting to receive a message.
+The following figure shows the UCPD BMC receiver high-level architecture.
+Figure 955. UCPD BMC receiver architecture
+ucpd_clk
+clock domain
+
+From
+analog PHY
+
+Clock
+recovery /
+
+ucpd_rx_clk
+clock domain
+1
+
+20-bit FIFO
+20
+
+BMC
+decode
+ucpd_clk
+
+ucpd_pclk
+clock domain
+
+5 latest
+
+Registers
+
+4b5b decode
+CRC check
+
+ucpd_rx_clk
+Manage
+status flags
+
+EOP found
+
+USB PD
+receiver
+state machine
+
+Ordered
+set /
+Ordered set
+EOP
+detect/type
+detect
+
+Message
+type
+
+UCPD_RXDR
+
+Rx payload data
+
+UCPD_RX_PAYSZ
+
+Rx payload size
+
+UCPD_SR
+
+Rx status flags
+
+UCPD_ICR
+
+Interrupt clear
+
+UCPD_IMR
+
+Interrupt mask
+
+UCPD_CR
+
+Rx control
+
+UCPD_RX_ORDSET
+UCPD_RX_ORDSET1
+
+For future
+extensions
+
+Ordered
+set type
+
+UCPD_RX_ORDSET2
+MSv45545V2
+
+CRC checker
+The received bits are fed into a CRC checker which evolves a 32-bit state during the
+received the payload bitstream. At the end the 32 bits of the CRC also fed into the logic
+The EOP detection (5 bits) halts the process and a check is performed for the fixed residual
+state which confirms correct reception of the payload (in fact the residual is 0xC704DD78).
+At this point the UCPD raises interrupt RXMSGEND. If the CRC was not correct then RXERR
+is set true and the receive data must be discarded.
+Under normal operation, this interrupt would previously have been acknowledged and thus
+cleared. If this is not the case, a different interrupt RXOVR is generated in place of
+RXMSGEND.
+
+RM0456 Rev 6

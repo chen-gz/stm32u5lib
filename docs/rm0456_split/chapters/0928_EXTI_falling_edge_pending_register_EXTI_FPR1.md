@@ -1,0 +1,232 @@
+935
+
+Extended interrupts and event controller (EXTI)
+
+23.6.5
+
+RM0456
+
+EXTI falling edge pending register (EXTI_FPR1)
+Address offset: 0x010
+Reset value: 0x0000 0000
+This register contains only bits for configurable events.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+FPIF25 FPIF24 FPIF23 FPIF22 FPIF21 FPIF20 FPIF19 FPIF18 FPIF17 FPIF16
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+FPIF15 FPIF14 FPIF13 FPIF12 FPIF11 FPIF10
+
+FPIF9
+
+FPIF8
+
+FPIF7
+
+FPIF6
+
+FPIF5
+
+FPIF4
+
+FPIF3
+
+FPIF2
+
+FPIF1
+
+FPIF0
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:0 FPIFx: configurable event inputs x falling edge pending bit (x = 25 to 0)
+When EXTI_SECCFGR.SECx is disabled, FPIFx can be accessed with nonsecure and
+secure access.
+When EXTI_SECCFGR.SECx is enabled, FPIFx can only be accessed with secure access.
+Nonsecure write to this FPIFx is discarded, nonsecure read returns 0.
+When EXTI_PRIVCFGR.PRIVx is disabled, FPIFx can be accessed with unprivileged and
+privileged access.
+When EXTI_PRIVCFGR.PRIVx is enabled, FPIFx can only be accessed with privileged
+access. Unprivileged write to this FPIFx is discarded, unprivileged read returns 0.
+0: No falling edge trigger request occurred
+1: Falling edge trigger request occurred
+This bit is set when the falling edge event arrives on the configurable event line. This bit is
+cleared by writing 1 to it.
+Note: FPIF25, FPIF24, and FPIF23 bits are only available on some devices in the STM32U5
+Series. Refer to the EXTI line connections table for its availability. If not present,
+consider this bit as reserved and keep at reset value.
+
+23.6.6
+
+EXTI security configuration register (EXTI_SECCFGR1)
+Address offset: 0x014
+Reset value: 0x0000 0000
+This register provides write access security, a nonsecure write access is ignored and
+causes the generation of an illegal access event. A nonsecure read returns the register
+data. This register contains only bits for security capable input events..
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+SEC15 SEC14 SEC13 SEC12 SEC11 SEC10
+rw
+
+<!-- pagebreak -->
+

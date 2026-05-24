@@ -1,0 +1,93 @@
+•
+
+The DSI Wrapper ensures the interfacing between the LTDC and the DSI Host kernel.
+It can adapt the color mode, and manages the tearing effect (TE) for automatic frame
+buffer update in adapted command mode. The DSI Wrapper also controls the DSI bias,
+the DSI PLL and specific functions of the MIPI® D-PHY.
+
+•
+
+The LTDC interface captures the data and control signals from the LTDC and conveys
+them to a FIFO for video control signals and another one for the pixel data. This data is
+then used to build one of the following:
+–
+
+Video packets, when in video mode (see Section 44.5)
+
+–
+
+The memory_write_start and memory_write_continue DCS commands, when in
+adapted command mode (see Section 44.6)
+
+•
+
+The register bank is accessible through a standard APB interface, providing access to
+the DSI Host registers for configuration and control. There is also a fully programmable
+interrupt generator to inform the system about certain events.
+
+•
+
+The PHY interface control is responsible for managing the D-PHY interface. It
+acknowledges the current operation and enables low-power transmission/reception or
+a high-speed transmission. It also performs data splitting between available D-PHY
+lanes for high-speed transmission.
+
+•
+
+The packet handler schedules the activities inside the link. It performs several functions
+based on the currently operational interfaces and the used video transmission mode
+(burst mode or non-burst mode with sync pulses or sync events). It builds long or short
+packets generating correspondent ECC and CRC codes. This block also performs the
+following functions:
+–
+
+packet reception
+
+–
+
+validation of packet header by checking the ECC
+
+–
+
+header correction and notification for single-bit errors
+
+–
+
+termination of reception
+
+–
+
+multiple header error notification
+
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+–
+•
+
+•
+
+depending on the virtual channel of the incoming packet, the handler routes the
+output data to the respective port.
+
+The APB-to-generic block bridges the APB operations into FIFOs holding the generic
+commands. The block interfaces with the following FIFOs:
+–
+
+Command FIFO
+
+–
+
+Write payload FIFO
+
+–
+
+Read payload FIFO
+
+The error management notifies and monitors the error conditions on the DSI link. It
+controls the timers used to determine if a timeout condition occurred, performing an
+internal soft reset and triggering an interruption notification.
+
+RM0456 Rev 6

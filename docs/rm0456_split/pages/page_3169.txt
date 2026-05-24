@@ -1,0 +1,92 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+may fail to detect the XFRC interrupt (OTG_DOEPINTx) under the following
+circumstances:
+
+2.
+
+–
+
+When the receive FIFO cannot accommodate the complete ISO OUT data packet,
+the core drops the received ISO OUT data
+
+–
+
+When the isochronous OUT data packet is received with CRC errors
+
+–
+
+When the isochronous OUT token received by the core is corrupted
+
+–
+
+When the application is very slow in reading the data from the receive FIFO
+
+When the core detects an end of periodic frame before transfer completion to all
+isochronous OUT endpoints, it asserts the incomplete isochronous OUT data interrupt
+(INCOMPISOOUT in OTG_GINTSTS), indicating that an XFRC interrupt (in
+OTG_DOEPINTx) is not asserted on at least one of the isochronous OUT endpoints. At
+this point, the endpoint with the incomplete transfer remains enabled, but no active
+transfers remain in progress on this endpoint on the USB.
+
+Application programming sequence:
+1.
+
+Asserting the INCOMPISOOUT interrupt (OTG_GINTSTS) indicates that in the current
+frame, at least one isochronous OUT endpoint has an incomplete transfer.
+
+2.
+
+If this occurs because isochronous OUT data is not completely emptied from the
+endpoint, the application must ensure that the application empties all isochronous OUT
+data (data and status) from the receive FIFO before proceeding.
+–
+
+3.
+
+When all data are emptied from the receive FIFO, the application can detect the
+XFRC interrupt (OTG_DOEPINTx). In this case, the application must re-enable
+the endpoint to receive isochronous OUT data in the next frame.
+
+When it receives an INCOMPISOOUT interrupt (in OTG_GINTSTS), the application
+must read the control registers of all isochronous OUT endpoints (OTG_DOEPCTLx) to
+determine which endpoints had an incomplete transfer in the current microframe. An
+endpoint transfer is incomplete if both the following conditions are met:
+–
+
+EONUM bit (in OTG_DOEPCTLx) = FNSOF[0] (in OTG_DSTS)
+
+–
+
+EPENA = 1 (in OTG_DOEPCTLx)
+
+4.
+
+The previous step must be performed before the SOF interrupt (in OTG_GINTSTS) is
+detected, to ensure that the current frame number is not changed.
+
+5.
+
+For isochronous OUT endpoints with incomplete transfers, the application must discard
+the data in the memory and disable the endpoint by setting the EPDIS bit in
+OTG_DOEPCTLx.
+
+6.
+
+Wait for the EPDISD interrupt (in OTG_DOEPINTx) and enable the endpoint to receive
+new data in the next frame.
+–
+
+•
+
+Because the core can take some time to disable the endpoint, the application may
+not be able to receive the data in the next frame after receiving bad isochronous
+data.
+
+Stalling a non-isochronous OUT endpoint
+
+This section describes how the application can stall a non-isochronous endpoint.

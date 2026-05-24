@@ -1,0 +1,64 @@
+2060
+
+On-the-fly decryption engine (OTFDEC)
+Note:
+
+RM0456
+
+Those sequences are for production code, as during firmware development, it is not always
+recommended to lock the key or the region configuration.
+Writes to configuration registers are effective when the configuration locks allow it, even if
+the region is enabled.
+
+Initialization scheme 1: one key for all regions
+In this scheme, one entity owns the secret key used to decrypt the four protected regions.
+The recommended OTFDEC configuration sequence is described below:
+
+Caution:
+
+1.
+
+For x = 1 to 4, write the correct MODE[1:0] value in OTFDEC_RxCFGR.
+
+2.
+
+For x = 1 to 4, program OTFDEC_RxKEYR registers using the sequence described in
+KEYCRC (to have a valid CRC). Warning as key registers are write only.
+
+3.
+
+For x = 1 to 4, check the key CRC. If OK, set KEYLOCK bit in OTFDEC_RxCFGR. This
+bit cannot be cleared (key registers in this region x are no more writable).
+
+4.
+
+To do to decrypt a region x (task that does not necessarily have to be performed by the
+entity that owns the decryption keys):
+a)
+
+Verify if the key CRC corresponds to the encrypted binary stored in the region.
+
+b)
+
+Fill the detailed information corresponding to this binary (nonce, start address, end
+address, version number).
+
+c)
+
+Enable decryption of this region using REG_EN.
+
+d)
+
+Set CONFIGLOCK bit in OTFDEC_RxCFGR. This bit cannot be cleared (the
+region configuration is no more writable).
+
+For a given region, when MODE bits are changed, the key registers and associated CRC
+are cleared by hardware. As a consequence, step 1 above must be done before step 2, and
+MODE bits must not be modified after step 2.
+
+Initialization scheme 2: one key per region
+In this scheme, one entity can own the secret used to decrypt one (or more) protected
+region. The recommended OTFDEC configuration sequence is described below:
+1.
+
+Caution:

@@ -1,0 +1,89 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+If the suspended state is exited on the host initiative, the application must set the port
+resume bit to start resume signaling on the host port, time the resume window and finally
+clear the port resume bit.
+
+72.7.3
+
+Host channels
+The OTG_FS core instantiates 12 host channels. Each host channel supports an USB host
+transfer (USB pipe). The host is not able to support more than 12 transfer requests at the
+same time. If more than 12 transfer requests are pending from the application, the host
+controller driver (HCD) must re-allocate channels when they become available from
+previous duty, that is, after receiving the transfer completed and channel halted interrupts.
+Each host channel can be configured to support in/out and any type of periodic/nonperiodic
+transaction. Each host channel makes us of proper control (OTG_HCCHARx), transfer
+configuration (OTG_HCTSIZx) and status/interrupt (OTG_HCINTx) registers with
+associated mask (OTG_HCINTMSKx) registers.
+
+Host channel control
+•
+
+The following host channel controls are available to the application through the host
+channel-x characteristics register (OTG_HCCHARx):
+–
+
+Channel enable/disable
+
+–
+
+Program the FS/LS speed of target USB peripheral
+
+–
+
+Program the address of target USB peripheral
+
+–
+
+Program the endpoint number of target USB peripheral
+
+–
+
+Program the transfer IN/OUT direction
+
+–
+
+Program the USB transfer type (control, bulk, interrupt, isochronous)
+
+–
+
+Program the maximum packet size (MPS)
+
+–
+
+Program the periodic transfer to be executed during odd/even frames
+
+Host channel transfer
+The host channel transfer size registers (OTG_HCTSIZx) allow the application to program
+the transfer size parameters, and read the transfer status. Programming must be done
+before setting the channel enable bit in the host channel characteristics register. Once the
+endpoint is enabled the packet count field is read-only as the OTG_FS core updates it
+according to the current transfer status.
+•
+
+The following transfer parameters can be programmed:
+–
+
+transfer size in bytes
+
+–
+
+number of packets making up the overall transfer size
+
+–
+
+initial data PID
+
+Host channel status/interrupt
+The host channel-x interrupt register (OTG_HCINTx) indicates the status of an endpoint
+with respect to USB- and AHB-related events. The application must read these register
+when the host channels interrupt bit in the core interrupt register (HCINT bit in
+OTG_GINTSTS) is set. Before the application can read these registers, it must first read the
+host all channels interrupt (OTG_HAINT) register to get the exact channel number for the
+host channel-x interrupt register. The application must clear the appropriate bit in this
+register to clear the corresponding bits in the OTG_HAINT and OTG_GINTSTS registers.

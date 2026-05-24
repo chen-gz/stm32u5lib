@@ -1,0 +1,50 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+65.4.14
+
+RM0456
+
+SMBus target mode
+In addition to I2C target transfer management (refer to Section 65.4.8: I2C target mode), this
+section provides extra software flowcharts to support SMBus.
+
+SMBus target transmitter
+When using the I2C peripheral in SMBus mode, set the SBC bit to enable the PEC
+transmission at the end of the programmed number of data bytes. When the PECBYTE bit
+is set, the number of bytes programmed in NBYTES[7:0] includes the PEC transmission. In
+that case, the total number of TXIS interrupts is NBYTES[7:0] - 1, and the content of the
+I2C_PECR register is automatically transmitted if the controller requests an extra byte after
+the transfer of the NBYTES[7:0] - 1 data bytes.
+Caution:
+
+The PECBYTE bit has no effect when the RELOAD bit is set.
+Figure 803. Transfer sequence flow for SMBus target transmitter N bytes + PEC
+
+SMBus target
+transmission
+
+Target initialization
+
+No
+I2C_ISR.ADDR
+= 1?
+Yes
+Read ADDCODE and DIR in I2C_ISR
+I2C_CR2.NBYTES = N + 1
+PECBYTE = 1
+Set I2C_ICR.ADDRCF
+
+I2C_ISR.TXIS
+= 1?
+
+SCL
+stretched
+
+No
+
+Yes
+Write I2C_TXDR.TXDATA
+
+MSv19867V3

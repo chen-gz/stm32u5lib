@@ -1,0 +1,128 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Once this procedure is complete, ADSTP/ADSTART bits (in case of regular conversion), or
+JADSTP/JADSTART bits (in case of injected conversion) are cleared by hardware. The
+software must poll ADSTART (or JADSTART) until the bit is reset before assuming the ADC
+is completely stopped.
+
+Note:
+
+In auto-injection mode (JAUTO = 1), setting the ADSTP bit aborts both regular and injected
+conversions (JADSTP must not be used).
+Figure 229. Stopping ongoing regular conversions
+Trigger
+
+Trigger
+ADC state
+
+RDY
+
+Convert
+Ch(N-1)
+
+Sample
+Ch(N-1)
+
+RDY
+
+Sample
+Ch(N)
+
+C
+
+RDY
+
+JADSTART
+ADSTART
+
+Set
+by SW
+
+Cleared
+by HW
+
+REGULAR CONVERSIONS ongoing
+(The software is not allowed to configure regular
+conversions selection and triggers)
+Set
+by SW
+
+ADSTP
+ADC_DR
+
+Cleared
+by HW
+
+Data N-1
+
+Data N-2
+
+MSv62490V1
+
+Figure 230. Stopping ongoing regular and injected conversions
+Regular trigger
+ADC state
+
+RDY
+
+Set by
+SW
+
+Sample
+Ch(N-1)
+
+Injected trigger
+Convert
+Ch(N-1)
+
+RDY
+
+Sample
+Ch(M)
+
+Regular trigger
+C
+
+RDY Sampl RDY
+
+Cleared
+by HW
+(software is not allowed to configure injected conversions selection and triggers)
+Cleared
+Set by
+by HW
+SW
+JADSTP
+
+JADSTART
+
+ADC_JDR
+
+INJECTED CONVERSIONS ongoing
+
+DATA M-1
+
+Set by
+Cleared
+REGULAR CONVERSIONS ongoing
+SW
+by HW
+(software is not allowed to configure regular conversions selection and triggers)
+Set by Cleared
+SW
+by HW
+ADSTP
+
+ADSTART
+
+ADC_DR
+
+DATA N-2
+
+DATA N-1
+MS30534V1
+
+RM0456 Rev 6

@@ -1,0 +1,73 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Each channel can be sampled with a different sampling time that is programmable using the
+SMP[2:0] bits in the ADC_SMPR1 and ADC_SMPR2 registers. It is therefore possible to
+select among the following sampling time values:
+•
+
+SMP = 000: 5 ADC clock cycles
+
+•
+
+SMP = 001: 6 ADC clock cycles
+
+•
+
+SMP = 010: 12 ADC clock cycles
+
+•
+
+SMP = 011: 20 ADC clock cycles
+
+•
+
+SMP = 100: 36 ADC clock cycles
+
+•
+
+SMP = 101: 68 ADC clock cycles
+
+•
+
+SMP = 110: 391 ADC clock cycles
+
+•
+
+SMP = 111: 814 ADC clock cycles
+
+The total conversion time is calculated as follows:
+T CONV = Sampling time + Conversion time
+
+Example
+When converting a single data, the sampling time is five cycles and the conversion time
+is 17 cycles for 14-bit mode. With an Fadc_ker_ck of 55 MHz:
+TCONV = (5 + 17) ADC clock cycles = 22 ADC clock cycles = 0.40 µs
+The above result assumes that RAIN << 1 KΩ (refer to the datasheet for additional
+sampling time to be added depending on the external resistance).
+The ADC notifies the end of the sampling phase by setting the status bit EOSMP (only for
+regular conversion).
+
+I/O analog switch voltage booster
+The resistance of the I/O analog switches increases when the VDDA voltage is too low. The
+sampling time must consequently be adapted accordingly (refer to the device datasheet for
+the corresponding electrical characteristics). This resistance can be minimized at low VDDA
+voltage by enabling an internal voltage booster (refer to the SYSCFG section for more
+details).
+
+Bulb sampling mode
+When the BULB bit is set in the ADC_CFGR2 register, the sampling period starts
+immediately after the last ADC conversion. A hardware or software trigger starts the
+conversion after the sampling time has been programmed in the ADC_SMPR1 register. The
+very first ADC conversion, after the ADC is enabled, is performed with the sampling time
+programmed in SMP bits. The bulb mode is effective starting from the second conversion.
+The maximum sampling time is limited (refer to the ADC characteristics section of the
+datasheet).
+The bulb mode may not be used in continuous conversion mode or with injected channel
+conversion.
+When the BULB bit is set, it is not allowed to set the SMPTRIG bit in ADC_CFGR2.
+When conversions in bulb mode are stopped by setting ADSTP bit or when the DMA
+transfers are complete, the ADC must be disabled by setting ADDIS bit.

@@ -1,0 +1,76 @@
+22
+
+rw
+
+Res.
+rw
+
+23
+
+RM0456 Rev 6
+
+rw
+
+Res.
+
+CKFLT[1:0]
+
+CKPOL[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+0
+CKSEL
+rw
+
+RM0456
+
+Low-power timer (LPTIM)
+
+Bit 24 ENC: Encoder mode enable
+The ENC bit controls the Encoder mode
+0: Encoder mode disabled
+1: Encoder mode enabled
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 23 COUNTMODE: counter mode enabled
+The COUNTMODE bit selects which clock source is used by the LPTIM to clock the counter:
+0: the counter is incremented following each internal clock pulse
+1: the counter is incremented following each valid clock pulse on the LPTIM external Input1
+Bit 22 PRELOAD: Registers update mode
+The PRELOAD bit controls the LPTIM_ARR, LPTIM_RCR and the LPTIM_CCRx registers update
+modality
+0: Registers are updated after each APB bus write access
+1: Registers are updated at the end of the current LPTIM period
+Bit 21 WAVPOL: Waveform shape polarity
+The WAVPOL bit controls the output polarity
+0: The LPTIM output reflects the compare results between LPTIM_CNT and LPTIM_CCRx
+registers
+1: The LPTIM output reflects the inverse of the compare results between LPTIM_CNT and
+LPTIM_CCRx registers
+Note: If the LPTIM implements at least one capture/compare channel, this bit is reserved. Refer to
+Section 58.3.
+Bit 20 WAVE: Waveform shape
+The WAVE bit controls the output shape
+0: Deactivate Set-once mode
+1: Activate the Set-once mode
+Bit 19 TIMOUT: Timeout enable
+The TIMOUT bit controls the Timeout feature
+0: A trigger event arriving when the timer is already started is ignored
+1: A trigger event arriving when the timer is already started resets and restarts the LPTIM counter
+and the repetition counter
+Bits 18:17 TRIGEN[1:0]: Trigger enable and polarity
+The TRIGEN bits controls whether the LPTIM counter is started by an external trigger or not. If the
+external trigger option is selected, three configurations are possible for the trigger active edge:
+00: software trigger (counting start is initiated by software)
+01: rising edge is the active edge
+10: falling edge is the active edge
+11: both edges are active edges
+Bit 16 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

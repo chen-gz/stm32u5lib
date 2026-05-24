@@ -1,0 +1,188 @@
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bits 31:17 Reserved, must be kept at reset value.
+Bit 16 RLDCTRL: Reload control
+This bit allows dynamic reloading of the HFIR register during run time.
+0: The HFIR cannot be reloaded dynamically
+1: The HFIR can be dynamically reloaded during run time.
+This bit needs to be programmed during initial configuration and its value must not be
+changed during run time.
+Caution: RLDCTRL = 0 is not recommended.
+Bits 15:0 FRIVL[15:0]: Frame interval
+The value that the application programs to this field, specifies the interval between two
+consecutive micro-SOFs (HS) or Keep-Alive tokens (LS). This field contains the number of
+PHY clocks that constitute the required frame interval. The application can write a value to
+this register only after the port enable bit of the host port control and status register (PENA
+bit in OTG_HPRT) has been set. If no value is programmed, the core calculates the value
+based on the PHY clock specified in the FS/LS PHY clock select field of the host
+configuration register (FSLSPCS in OTG_HCFG). Do not change the value of this field after
+the initial configuration, unless the RLDCTRL bit is set. In such case, the FRIVL is reloaded
+with each SOF event.
+– Frame interval = 125 μs × (FRIVL - 1)
+in high speed operation
+– Frame interval = 1 ms × (FRIVL - 1)
+in low/full speed operation
+
+73.14.26 OTG host frame number/frame time remaining register
+(OTG_HFNUM)
+This register indicates the current frame number. It also indicates the time remaining (in
+terms of the number of PHY clocks) in the current frame.
+Address offset: 0x408
+Reset value: 0x0000 3FFF
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+FTREM[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+FRNUM[15:0]
+r
+
+r
+
+Bits 31:16 FTREM[15:0]: Frame time remaining
+Indicates the amount of time remaining in the current frame, in terms of PHY clocks. This
+field decrements on each PHY clock. When it reaches zero, this field is reloaded with the
+value in the Frame interval register and a new SOF is transmitted on the USB.
+Bits 15:0 FRNUM[15:0]: Frame number
+This field increments when a new SOF is transmitted on the USB, and is cleared to 0 when
+it reaches 0x3FFF.
+
+RM0456 Rev 6

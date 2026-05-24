@@ -1,0 +1,100 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+When the SMBus controller wants to send a RESTART condition after the PEC, the
+software mode must be selected (AUTOEND = 0). In this case, once NBYTES[7:0] - 1 are
+transmitted, the I2C_PECR register content is transmitted. The TC flag is set after the PEC
+transmission, stretching the SCL line low. The RESTART condition must be programmed in
+the TC interrupt subroutine.
+Caution:
+
+The PECBYTE bit has no effect when the RELOAD bit is set.
+Figure 807. Bus transfer diagrams for SMBus controller transmitter
+
+Example SMBus controller transmitter 2 bytes + PEC, automatic end mode (STOP)
+TXIS TXIS
+S Address A
+
+legend:
+
+data1
+
+A
+
+data2
+
+A
+
+PEC
+
+A
+
+P
+
+transmission
+reception
+
+EV1
+
+INIT
+
+EV2
+SCL stretch
+
+TXE
+
+NBYTES xx
+
+3
+
+INIT: program target address, program NBYTES = 3, AUTOEND=1, set PECBYTE, set START
+EV1: TXIS ISR: wr data1
+EV2: TXIS ISR: wr data2
+
+Example SMBus controller transmitter 2 bytes + PEC, software end mode (RESTART)
+legend:
+
+TC
+
+TXIS TXIS
+
+transmission
+S Address A
+INIT
+
+xx
+
+data1
+
+A
+
+data2
+
+A
+
+PEC
+
+A
+
+EV1 EV2
+
+Rstart Address
+EV3
+
+reception
+SCL stretch
+
+N
+
+3
+
+NBYTES
+INIT: program target address, program NBYTES = 3, AUTOEND=0, set PECBYTE, set START
+EV1: TXIS ISR: wr data1
+EV2: TXIS ISR: wr data2
+EV3: TC ISR: program target address, program NBYTES = N, set START
+
+MSv19871V3

@@ -1,0 +1,201 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose I/Os (GPIO)
+
+13.4
+
+GPIO registers
+This section gives a detailed description of the GPIO registers.
+The peripheral registers can be written in word, half word or byte mode.
+The number of GPIOx ports varies in the STM32U5 Series devices. Refer to the product
+datasheet for availability of a particular port. If not present, consider the associated bits as
+reserved and keep them at the reset value.
+
+13.4.1
+
+GPIO port mode register (GPIOx_MODER) (x = A to J)
+Address offset:0x00
+Reset value: 0xABFF FFFF (for port A)
+Reset value: 0xFFFF FEBF (for port B)
+Reset value: 0xFFFF FFFF (for ports C..E)
+Reset value: 0xFFFF FFFF (for port F on STM32U575/585/59x/5Ax/5Fx/5Gx)
+Reset value: 0xFFFF FFF0 (for port G on STM32U535/545)
+Reset value: 0xFFFF FFFF (for port G on STM32U575/585/59x/5Ax/5Fx/5Gx)
+Reset value: 0x0000 00CF (for port H on STM32U535/545)
+Reset value: 0xFFFF FFFF (for port H on STM32U575/585/59x/5Ax/5Fx/5Gx)
+Reset value: 0x0000 FFFF (for port I on STM32U575/585)
+Reset value: 0xFFFF FFFF (for port I on STM32U59x/5Ax/5Fx/5Gx)
+Reset value: 0x00FF FFFF (for port J on STM32U59x/5Ax/5Fx/5Gx)
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+MODE15[1:0]
+
+MODE14[1:0]
+
+MODE13[1:0]
+
+MODE12[1:0]
+
+MODE11[1:0]
+
+MODE10[1:0]
+
+MODE9[1:0]
+
+MODE8[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+MODE7[1:0]
+
+MODE6[1:0]
+
+MODE5[1:0]
+
+MODE4[1:0]
+
+MODE3[1:0]
+
+MODE2[1:0]
+
+MODE1[1:0]
+
+MODE0[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 MODEy[1:0]: Port x configuration I/O pin y (y = 15 to 0)
+These bits are written by software to configure the I/O mode.
+00: Input mode
+01: General purpose output mode
+10: Alternate function mode
+11: Analog mode (reset state)
+Note: This field is reserved and must be kept at reset value when the corresponding I/O is not
+available on the selected package.
+
+RM0456 Rev 6

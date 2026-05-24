@@ -1,0 +1,84 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+PWM edge-aligned mode
+•
+
+Up-counting configuration
+
+•
+
+Up-counting is active when the DIR bit in the TIMx_CR1 register is low. Refer to Upcounting mode.
+In the following example, we consider PWM mode 1. The reference PWM signal
+tim_ocxref is high as long as TIMx_CNT <TIMx_CCRx else it becomes low. If the
+compare value in TIMx_CCRx is greater than the autoreload value (in TIMx_ARR) then
+tim_ocxref is held at 1. If the compare value is 0 then tim_ocxref is held at 0. Figure 629
+shows some edge-aligned PWM waveforms in an example where TIMx_ARR = 8.
+Figure 629. Edge-aligned PWM waveforms (ARR = 8)
+
+0
+
+Counter register
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+0
+
+1
+
+tim_ocxref
+CCRx=4
+CCxIF
+
+tim_ocxref
+CCRx=8
+CCxIF
+
+tim_ocxref
+
+‘1’
+
+CCRx>8
+CCxIF
+
+tim_ocxref
+
+‘0’
+
+CCRx=0
+CCxIF
+MSv62327V1
+
+Down-counting configuration
+•
+
+Down-counting is active when DIR bit in TIMx_CR1 register is high. Refer to Downcounting mode.
+In PWM mode 1, the reference signal tim_ocxref is low as long as
+TIMx_CNT>TIMx_CCRx else it becomes high. If the compare value in TIMx_CCRx is
+greater than the autoreload value in TIMx_ARR, then tim_ocxref is held at 100%. PWM
+is not possible in this mode.
+
+PWM center-aligned mode
+Center-aligned mode is active when the CMS bits in TIMx_CR1 register are different from
+00 (all the remaining configurations having the same effect on the tim_ocxref/tim_ocx
+signals). The compare flag is set when the counter counts up, when it counts down or both
+when it counts up and down depending on the CMS bits configuration. The direction bit
+
+RM0456 Rev 6

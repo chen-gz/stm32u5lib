@@ -1,0 +1,62 @@
+667
+
+System configuration controller (SYSCFG)
+
+RM0456
+
+Bit 18 PB8_FMP: Fast-mode Plus driving capability activation on PB8
+This bit can be read and written only with secure access if PB8 is secure in GPIOB. This bit
+enables the Fm+ driving mode for PB8 when PB8 is not used by I2C peripheral. This can be
+used to drive a LED for instance.
+0: PB8 pin operates in standard mode.
+1: Fm+ mode is enabled on PB8 pin and the speed control is bypassed.
+Bit 17 PB7_FMP: Fast-mode Plus driving capability activation on PB7
+This bit can be read and written only with secure access if PB7 is secure in GPIOB. This bit
+enables the Fm+ driving mode for PB7 when PB7 is not used by I2C peripheral. This can be
+used to drive a LED for instance.
+0: PB7 pin operates in standard mode.
+1: Fm+ mode is enabled on PB7 pin and the speed control is bypassed.
+Bit 16 PB6_FMP: Fast-mode Plus driving capability activation on PB6
+This bit can be read and written only with secure access if PB6 is secure in GPIOB. This bit
+enables the Fm+ driving mode for PB6 when PB6 is not used by the I2C peripheral. This can
+be used to drive a LED for instance.
+0: PB6 pin operates in standard mode.
+1: Fm+ mode is enabled on PB6 pin, and the speed control is bypassed.
+Bits 15:10 Reserved, must be kept at reset value.
+Bit 9 ANASWVDD: GPIO analog switch control voltage selection
+This bit can be read and written only with secure access if ADC12 or ADC4 is secure in
+GTZC.
+0: If booster if OFF: I/O analog switches are supplied by VDDA if ASV = 1 in PWR_SVMCR,
+by VDD if ASV = 0.
+If booster is ON: I/O analog switches are supplied by booster.
+1: I/O analog switches are supplied by VDD.
+Note: Refer to Table 132 for bit 9 setting.
+Bit 8 BOOSTEN: I/O analog switch voltage booster enable. This bit has only effect when ASV = 1 in
+PWR_SVMR, and ANASWVDD = 0
+This bit can be read and written only with secure access if ADC12 or ADC4 is secure in
+GTZC.
+0: I/O analog switches are supplied by VDDA voltage.
+1: I/O analog switches are supplied by a dedicated voltage booster (supplied by VDD).
+Note: Refer to Table 132 for bit 8 setting.
+Bits 7:0 Reserved, must be kept at reset value.
+
+The table below describes when bit 8 (BOOSTEN) and bit 9 (ANASWVDD) must be set or
+reset depending on the voltage settings. When VDDA voltage is lower than 2.4 V and VDD is
+higher than 2.4 V, the I/O analog switch must be powered by VDD. When both VDD and VDDA
+voltages are lower than 2.4 V, the I/O analog switch must be powered by the output of the
+VDD booster. When I/O analog switches are supplied by VDDA or VDD booster, ASV must be
+set to 1 in PWR_SVMCR.
+Table 132. BOOSTEN and ANASWVDD set/reset
+VDD
+
+VDDA
+
+-
+
+> 2.4 V
+
+> 2.4 V
+< 2.4 V
+
+<!-- pagebreak -->
+

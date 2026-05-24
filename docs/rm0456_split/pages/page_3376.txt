@@ -1,0 +1,187 @@
+Mode
+
+Description
+
+Sleep
+
+No effect
+
+Stop
+
+Detection of events (Type-C, BMC Rx, FRS detection) remains operational and
+can wake up the MCU.
+
+Standby
+
+UCPD is not operating, and cannot wake up the MCU. Pull-downs remain active
+if configured.
+
+Unpowered
+
+Dead battery pull-downs remain active.
+
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+The UCPD is able to wake up the MCU from Stop mode when it recognizes a relevant
+event, either:
+•
+
+Type-C event relating to a change in the voltage range seen on either of the CC lines,
+visible in TYPEC_VSTATE_CCx
+
+•
+
+Power delivery receive message with an ordered set matching those filtered according
+to RXORDSETEN[8:0], visible by reading RXORDSET
+
+Wake-up from Stop mode is enabled by setting the WUPEN bit in the UCPD_CFG2 register.
+At UCPD level three types of event requiring kernel clock activity may occur during Stop
+mode:
+•
+
+Activity on the analog PHY voltage threshold detectors which can later be confirmed to
+be a stable change between voltage ranges defined in the Type-C specification
+
+•
+
+Activity on Power Delivery BMC receiver (coming from the selected CC line) which can
+potentially generate an Rx message event (that is, RXORDSET) later
+
+•
+
+Activity on Power Delivery FRS detector which can potentially generate an FRS
+signaling detection event (that is, FRSEVT) later
+
+It order to function correctly with the RCC, the clock request signal is activated (conditional
+on WUPEN) when there is asynchronous activity on:
+
+74.7
+
+•
+
+Type-C voltage threshold detectors (coming from either CC line)
+
+•
+
+Power Delivery receiver signal (from the selected CC line)
+
+•
+
+FRS detection signal (from the selected CC line)
+
+UCPD interrupts
+The table below lists the UCPD event flags, with the associated flag clear bits and interrupt
+enable bits.
+Table 785. UCPD interrupt requests
+Interrupt event
+
+Event flag
+
+Event flag/Interrupt
+clearing method
+
+Interrupt enable
+control bit
+
+FRS detection
+
+FRSEVT
+
+Set FRSEVTCF
+
+FRSEVTIE
+
+Type C voltage level change on CC2
+
+TYPECEVT2
+
+Set TYPECEVT2CF
+
+TYPECEVT2IE
+
+Type C voltage level change on CC1
+
+TYPECEVT1
+
+Set TYPECEVT1CF
+
+TYPECEVT1IE
+
+Rx message received
+
+RXMSGEND
+
+Set RXMSGENDCF
+
+RXMSGENDIE
+
+Rx data overflow
+
+RXOVR
+
+Set RXOVRCF
+
+RXOVR
+
+Rx Hard Reset detected
+
+RXHRSTDET
+
+Set RXHRSTDETCF
+
+RXHRSTDETIE
+
+Rx ordered set (4 K-codes) detected
+
+RXORDDET
+
+Set RXORDDETCF
+
+RXORDDETIE
+
+Receive data register not empty
+
+RXNE
+
+Read data in
+UCPD_RXDR
+
+RXNEIE
+
+Tx data underrun
+
+TXUND
+
+Set TXUNDCF
+
+TXUNDIE
+
+Hard Reset sent
+
+HRSTSENT
+
+Set HRSTSENTCF
+
+HRSTSENTIE
+
+Hard Reset discarded
+
+HRSTDISC
+
+Set HRSTDISCCF
+
+HRSTDISCIE
+
+Transmit message aborted
+
+TXMSGABT
+
+Set TXMSGABTCF
+
+TXMSGABTIE
+
+RM0456 Rev 6

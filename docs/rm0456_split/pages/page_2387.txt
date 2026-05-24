@@ -1,0 +1,72 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Figure 744. Continuous counting mode when repetition register LPTIM_RCR
+different from zero (with PRELOAD = 1)
+Repetition counter underflow event
+LPTIM_RCR
+
+4
+
+Repetition counter
+
+1
+
+9
+
+0
+
+LPTIM_ARR
+Compare
+
+9
+
+8
+
+7
+
+Preloaded registers updated
+
+0
+PWM
+MSv47415V1
+
+A repetition counter underflow event is systematically associated with LPTIM preloaded
+registers update (refer to Section 58.4.11: Register update for more information).
+Repetition counter underflow event is signaled to the software through the update event
+(UE) flag mapped into the LPTIM_ISR register. When set, the UE flag can trigger an LPTIM
+interrupt if its respective update event interrupt enable (UEIE) control bit, mapped to the
+LPTIM_DIER register, is set.
+The repetition register LPTIM_RCR is located in the APB bus interface clock domain where
+the repetition counter itself is located in the LPTIM kernel clock domain. Each time a new
+value is written to the LPTIM_RCR register, this new content is propagated from the APB
+bus interface clock domain to the LPTIM kernel clock domain. The new written value is then
+loaded to the repetition counter immediately after a repetition counter underflow event. The
+synchronization delay for the new written content is four APB clock cycles plus three LPTIM
+kernel clock cycles and it is signaled by the REPOK flag located in the LPTIM_ISR register
+when it is elapsed. When the LPTIM kernel clock cycle is relatively slow, for instance when
+the LPTIM kernel is being clocked by the LSI clock source, it can be lengthy to keep polling
+on the REPOK flag by software to detect that the synchronization of the LPTIM_RCR
+register content is finished. For that reason, the REPOK flag, when set, can generate an
+interrupt if its associated REPOKIE control bit in the LPTIM_DIER register is set.
+Note:
+
+After a write to the LPTIM_RCR register, a new write operation to the same register can only
+be performed when the previous write operation is completed. Any successive writes before
+the REPOK flag is set, lead to unpredictable results.
+
+Caution:
+
+When using repetition counter with PRELOAD = 0, LPTIM_RCR register must be changed
+at least five counter cycles before the autoreload match event, otherwise an unpredictable
+behavior may occur.
+
+58.4.17
+
+Capture/compare channels
+Each capture/compare channel is built around a capture/compare register, an input stage
+for capture (with digital filter, multiplexing and prescaler) and an output stage (with
+comparator and output control) for PWM.

@@ -1,0 +1,137 @@
+•
+
+programmed during secure boot only, locked and not changed afterwards
+
+•
+
+dynamically re-programmed when using specific application code or secure kernel
+(microvisor). When not locked, MPC secure blocks or region size can be changed by
+secure software executing from the secure FLASH region or secure SRAM. Same
+remark applies to the GTZC_TZSC_SECCFGRx/PRIVCFGRx registers that define
+secure/privileged state of each peripheral.
+
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+The Armv8-M security architecture with secure, securable and TrustZone-aware peripherals
+is shown in the figure below.
+Figure 18. GTZC in Armv8-M subsystem block diagram
+
+AHB
+masters
+
+Cortex-M33
+AHB
+
+IRQ
+
+AHB2/APB bridge
+MPCBBx
+
+TZIC
+Sec/priv gate
+Periph
+sec/priv
+
+Periph
+sec/priv
+
+TZSC
+
+UART
+
+AHB-PPC
+stub
+
+MPCWMx
+
+GTZCx
+
+Block 1- NS
+Block 2 - S
+Block 3 - S
+Block 4 - NS
+...
+...
+Block N-1 - S
+Block N - NS
+
+Timer
+
+SPI
+
+SPI
+
+Crypto
+Crypto
+(AES)
+(AES)
+
+MPCBBx
+
+APB
+
+Timer
+
+Sub-region A
+
+sp
+
+Securable
+peripherals
+
+Sub-region B
+
+External memories
+
+Internal SRAM
+Securable peripherals
+
+5.3
+
+Securable memories
+
+MSv63637V1
+
+GTZC implementation
+The STM32U5 series devices embed two instances of GTZC.
+Table 28. GTZC features
+GTZC subblocks
+
+GTZC1
+
+GTZC2
+
+TZSC
+
+X
+
+X
+
+TZIC
+
+X
+
+X
+
+MPCBB subblock on STM32U535/545
+
+MPCBB1/2
+
+MPCBB subblock on STM32U575/585
+
+MPCBB1/2/3
+
+MPCBB subblock on STM32U59x/5Ax
+
+MPCBB1/2/3/5
+
+MPCBB subblock on STM32U5Fx/5Gx
+
+MPCBB1/2/3/5/6
+
+RM0456 Rev 6
+
+MPCBB4

@@ -1,0 +1,60 @@
+1674
+
+Audio digital filter (ADF)
+
+Warning:
+
+40.4.5
+
+RM0456
+
+The ADF does not support receiving interleaved data from
+one of the ADCITF input.
+
+Clock generator (CKGEN)
+The RCC (reset and clock controller) provides the following clocks to the ADF:
+•
+
+AHB clock (adf_hclk) used for the register interface
+
+•
+
+kernel clock (adf_ker_ck) mainly used by all other parts of the circuit via the CKGEN
+
+These clocks are not supposed to be phase locked, so all signals crossing those clock
+domains are re-synchronized.
+The clock generator (CKGEN) is responsible of the generation of the processing clock, and
+the clock provided to the ADF_CCK0 and ADF_CCK1 pins. All those clocks are generated
+from the adf_ker_ck.
+The processing clock (adf_proc_ck) is used to run all the signal processing and to re-sample
+the incoming serial or parallel stream.
+To adapt the kernel clock frequency provided by the RCC, the following dividers are
+available:
+•
+
+PROCDIV[6:0] used to adapt the kernel clock frequency to the constraints of the
+parallel and serial interfaces, and to the processing blocks
+
+•
+
+CCKDIV[3:0] used to adapt the frequency of the ADF_CCK0 and ADF_CCK1 clocks
+
+PROCDIV[6:0] and CCKDIV[3:0] must be programmed when no clock is provided to the
+dividers (CKGDEN = 0).
+The adf_proc_ck generation is controlled by CKGDEN.
+In addition, the CKGMOD bit allows the application to define the way to trigger the CCKDIV
+divider:
+•
+
+When CKGMOD = 0, the CCKDIV divider is started as soon as CKGDEN is set to 1.
+
+•
+
+When CKGMOD = 1, the CCKDIV divider is started when CKGDEN is set to 1 and the
+programmed trigger condition occurred.
+
+All the bits and fields controlling the CKGEN are in the ADF clock generator control register
+(ADF_CKGCR).
+
+<!-- pagebreak -->
+

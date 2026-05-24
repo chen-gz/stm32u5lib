@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+RS232 RTS and CTS flow control can be enabled independently by writing the RTSE and
+CTSE bits to 1 in the USART_CR3 register.
+
+RS232 RTS flow control
+If the RTS flow control is enabled (RTSE = 1), then RTS is deasserted (tied low) as long as
+the USART receiver is ready to receive a new data. When the receive register is full, RTS is
+asserted, indicating that the transmission is expected to stop at the end of the current frame.
+Figure 832 shows an example of communication with RTS flow control enabled.
+Figure 832. RS232 RTS flow control
+
+RX
+
+Start
+bit
+
+Stop
+Start
+Idle
+bit
+bit
+
+Data 1
+
+Data 2
+
+Stop
+bit
+
+RTS
+
+RXNE
+
+RXNE
+Data 1 read
+Data 2 can now be transmitted
+
+MSv68794V1
+
+Note:
+
+When FIFO mode is enabled, RTS is asserted only when RXFIFO is full.
+
+RS232 CTS flow control
+If the CTS flow control is enabled (CTSE = 1), then the transmitter checks the CTS input
+before transmitting the next frame. If CTS is deasserted (tied low), then the next data is
+transmitted (assuming that data is to be transmitted, in other words, if TXE/TXFE = 0), else
+the transmission does not occur. When CTS is asserted during a transmission, the current
+transmission completes before the transmitter stops.
+When CTSE = 1, the CTSIF status bit is automatically set by hardware as soon as the CTS
+input toggles. It indicates when the receiver becomes ready or not ready for communication.
+An interrupt is generated if the CTSIE bit in the USART_CR3 register is set. Figure 833
+shows an example of communication with CTS flow control enabled.
+
+RM0456 Rev 6

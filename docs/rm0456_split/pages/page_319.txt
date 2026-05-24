@@ -1,0 +1,101 @@
+RDP byte value
+
+Readout protection level
+
+0xAA
+
+Level 0
+
+0x55
+
+Level 0.5
+
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+Table 66. Flash memory readout protection status (TZEN = 1) (continued)
+
+•
+
+RDP byte value
+
+Readout protection level
+
+Any value except 0xAA or 0x55 or 0xCC
+
+Level 1
+
+0xCC
+
+Level 2
+
+Level 0: no protection
+Read, program and erase operations into the flash main memory area are possible.
+The option bytes, the SRAMs and the backup registers are also accessible by all
+operations.
+–
+
+•
+
+RSS mode: when booting from RSS, the debug access is disabled while
+executing RSS code.
+
+Level 0.5: nonsecure debug only
+All read and write operations (if no write protection is set) from/to the nonsecure flash
+memory are possible. The debug access to secure area is prohibited. Debug access to
+nonsecure area remains possible.
+
+•
+
+–
+
+User mode: code executing in user mode (boot flash) can access the flash main
+memory, option bytes, SRAMs and backup registers with all operations (read,
+erase, program).
+
+–
+
+Nonsecure debug mode: nonsecure debug is possible when the CPU is in
+nonsecure state. The secure flash memory, the secure backup registers and
+SRAMs area are inaccessible; the nonsecure flash memory, the nonsecure
+backup registers and the nonsecure SRAMs area remain accessible for debug
+purpose.
+
+–
+
+RSS mode: when booting from RSS, the debug access is disabled while
+executing RSS code.
+
+–
+
+Boot RAM mode: boot from SRAM is not possible.
+
+Level 1: readout protection
+When the readout protection level 1 is set:
+–
+
+User mode: code executing in user mode (boot flash) can access the flash main
+memory, option bytes, SRAMs and backup registers with all operations (read,
+erase, program).
+
+–
+
+Nonsecure debug mode: nonsecure debug is possible when the CPU is in
+nonsecure state. However, an intrusion is detected in case of debug access: the
+flash main memory, the backup registers, the backup RAM and the SRAM2 are
+totally inaccessible; any read or write access to the flash main memory generates
+a bus error and a hard fault interrupt. The on-the-fly decryption region (OTFDEC
+on OCTOSPI) is read as zero.
+
+–
+
+RSS mode: when booting from RSS, the debug access is disabled while
+executing RSS code.
+
+–
+
+Boot RAM mode: boot from SRAM is not possible.
+
+RM0456 Rev 6

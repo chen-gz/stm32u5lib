@@ -1,0 +1,52 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 5 ENL1GTG: Enable sleep clock gating
+When this bit is set, core internal clock gating is enabled in Sleep state if the core cannot
+assert utmi_l1_suspend_n. When this bit is not set, the PHY clock is not gated in Sleep
+state.
+Bit 4 PHYSUSP: PHY suspended
+Indicates that the PHY has been suspended. This bit is updated once the PHY is suspended
+after the application has set the STPPCLK bit.
+Bits 3:2 Reserved, must be kept at reset value.
+Bit 1 GATEHCLK: Gate HCLK
+The application sets this bit to gate HCLK to modules other than the AHB Slave and Master
+and wake-up logic when the USB is suspended or the session is not valid. The application
+clears this bit when the USB is resumed or a new session starts.
+Bit 0 STPPCLK: Stop PHY clock
+The application sets this bit to stop the PHY clock when the USB is suspended, the session
+is not valid, or the device is disconnected. The application clears this bit when the USB is
+resumed or a new session starts.
+
+72.15.55 OTG_FS register map
+The table below gives the USB OTG register map and reset values.
+
+SRQ
+
+SRQSCS
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SEDET
+
+0
+
+0
+
+0
+
+0

@@ -1,0 +1,43 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 7 GPIOHEN: I/O port H clock enable
+This bit is set and cleared by software.
+0: I/O port H clock disabled
+1: I/O port H clock enabled
+Bit 6 GPIOGEN: I/O port G clock enable
+This bit is set and cleared by software.
+0: I/O port G clock disabled
+1: I/O port G clock enabled
+Bit 5 GPIOFEN: I/O port F clock enable
+This bit is set and cleared by software.
+0: I/O port F clock disabled
+1: I/O port F clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 4 GPIOEEN: I/O port E clock enable
+This bit is set and cleared by software.
+0: I/O port E clock disabled
+1: I/O port E clock enabled
+Bit 3 GPIODEN: I/O port D clock enable
+This bit is set and cleared by software.
+0: I/O port D clock disabled
+1: I/O port D clock enabled
+Bit 2 GPIOCEN: I/O port C clock enable
+This bit is set and cleared by software.
+0: I/O port C clock disabled
+1: I/O port C clock enabled
+Bit 1 GPIOBEN: I/O port B clock enable
+This bit is set and cleared by software.
+0: I/O port B clock disabled
+1: I/O port B clock enabled
+Bit 0 GPIOAEN: I/O port A clock enable
+This bit is set and cleared by software.
+0: I/O port A clock disabled
+1: I/O port A clock enabled
+
+RM0456 Rev 6

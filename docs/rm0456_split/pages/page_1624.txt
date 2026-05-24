@@ -1,0 +1,91 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+If DFLTEN is set to 0 while an acquisition is ongoing, the ongoing conversion is stopped (in
+the example, S3 is lost). This situation can be avoided with the following steps:
+1.
+
+Wait for DFLTRUN = 0.
+
+2.
+
+Read the sample from the RXFIFO.
+
+3.
+
+Set DFLTEN to 0.
+Figure 373. Asynchronous single-shot mode (ACQMOD[2:0] = 001)
+
+DFLTEN
+
+‘1’
+
+Writing to
+DFLTEN
+
+1
+Discard (note)
+
+DFLT0 output
+
+X
+
+...
+
+X
+
+1
+Discard (note)
+
+S1
+
+X
+
+...
+
+X OFF
+S2
+
+0
+Discard (note)
+X
+
+...
+
+X OFF
+S3
+Dropped !
+
+DFLTRUN
+DFLTACTIVE
+
+ADF_CCK
+
+Note: the discard phase is optional.
+
+Note:
+
+MSv63660V1
+
+The acquisition can be stopped by setting DFLTEN back to 0. This resets the filter and
+flushes the RXFIFO, so the samples located into the RXFIFO are lost. The ongoing DMA
+transfer is properly terminated. DFLTACTIVE goes back to 0 when the filter chain is reset
+and the RXFIFO flushed.
+
+Synchronous continuous acquisition mode
+This mode allows the application to start a continuous acquisition by using one of the
+following trigger sources:
+•
+
+adf_trgi signal
+
+•
+
+TRGO bit
+
+The Synchronous continuous acquisition mode is selected when ACQMOD[2:0] = 010.
+The sequence below shows the most important programming steps (assuming that DFLTEN
+is set to 0):

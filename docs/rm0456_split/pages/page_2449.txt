@@ -1,0 +1,169 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Bit 0 AFCOIE: Absolute frame counter overflow interrupt enable
+This bit enables the absolute frame counter overflow interrupt generation.
+0: Absolute frame counter overflow interrupt disabled
+1: Absolute frame counter overflow interrupt enabled
+
+59.5.11
+
+GFXTIM timers status register (GFXTIM_TSR)
+Address offset: 0x03C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RFC2S
+
+Res.
+
+Res.
+
+Res.
+
+RFC1S
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ALCS
+
+Res.
+
+Res.
+
+Res.
+
+AFCS
+
+r
+
+r
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 RFC2S: Relative frame counter 2 status
+This bit returns the status of the relative frame counter 2.
+0: Relative frame counter 2 disabled
+1: Relative frame counter 2 enabled
+Bits 19:17 Reserved, must be kept at reset value.
+Bit 16 RFC1S: Relative frame counter 1 status
+This bit returns the status of the relative frame counter 1.
+0: Relative frame counter 1 disabled
+1: Relative frame counter 1 enabled
+Bits 15:5 Reserved, must be kept at reset value.
+Bit 4 ALCS: Absolute line counter status
+This bit returns the status of the absolute line counter.
+0: Absolute line counter disabled
+1: Absolute line counter enabled
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 AFCS: Absolute frame counter status
+This bit returns the status of the absolute frame counter.
+0: Absolute frame counter disabled
+1: Absolute frame counter enabled

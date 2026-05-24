@@ -1,0 +1,48 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Bits 18:16 FCS[2:0]: Frame clock source
+This bitfield configures the frame clock source.
+000: Line clock counter underflow
+001: Frame clock counter underflow
+010: HSYNC rising edge
+011: HSYNC falling edge
+100: VSYNC rising edge
+101: VSYNC falling edge
+110: TE rising edge
+111: TE falling edge
+Bit 15 Reserved, must be kept at reset value.
+Bits 14:12 LCCHRS[2:0]: Line clock counter hardware reload source
+This bitfield configures the hardware reload source for the line clock counter.
+000: No hardware reload
+001: Frame clock counter underflow
+010: HSYNC rising edge
+011: HSYNC falling edge
+100: VSYNC rising edge
+101: VSYNC falling edge
+110: TE rising edge
+111: TE falling edge
+Bits 11:9 Reserved, must be kept at reset value.
+Bit 8 LCCFR: Line clock counter force reload
+This bit forces line clock counter reload.
+0: No effect
+1: Line clock counter reload forced
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 LCCCS: Line clock counter clock source
+This bit configures the clock source for the line clock counter.
+0: Line clock counter disabled
+1: System clock selected
+Bit 3 Reserved, must be kept at reset value.
+Bits 2:0 LCS[2:0]: Line clock source
+This bitfield configures the line clock source.
+000: Line clock counter underflow
+001: Frame clock counter underflow
+010: HSYNC rising edge
+011: HSYNC falling edge
+100: VSYNC rising edge
+101: VSYNC falling edge
+110: TE rising edge
+111: TE falling edge

@@ -1,0 +1,174 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.12
+
+RM0456
+
+GPDMA channel x block register 1 (GPDMA_CxBR1)
+Address offset: 0x98 + 0x80 * x (x = 0 to 11)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (GPDMA_PRIVCFGR.PRIVx).
+This register controls the transfer of a channel x at a block level.
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1.
+This register must be written when channel x is completed (then the hardware has
+deasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block, or LLI or full linked-list.
+In linked-list mode, during the link transfer:
+•
+
+if GPDMA_CxLLR.UB1 = 1, this register is automatically updated by the GPDMA from
+the next LLI in memory.
+
+•
+
+If GPDMA_CxLLR.UB1 = 0 and if there is at least one linked-list register to be updated
+from the next LLI in memory, this register is automatically and internally restored with
+the programmed value for the field BNDT[15:0].
+
+•
+
+If all the update bits GPDMA_CxLLR.Uxx are null and if GPDMA_CxLLR.LA[15:0] ≠ 0,
+the current LLI is the last one and is continuously executed: this register is
+automatically and internally restored with the programmed value for BNDT[15:0] after
+each execution of this final LLI
+
+•
+
+If GPDMA_CxLLR = 0, this register and BNDT[15:0] are kept as null, channel x is
+completed.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+BNDT[15:0]
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.

@@ -1,0 +1,85 @@
+RM0456 Rev 6
+
+RM0456
+
+Instruction cache (ICACHE)
+The following table summarizes programmable configurations of various memories.
+Table 85. Memory configurations
+Memory
+
+Cacheable
+(MPU programming)
+
+Flash memory
+
+Yes or No
+
+Not required
+
+SRAM
+
+Not recommended
+
+Not required
+
+External memories
+
+8.4.7
+
+Remapped in the ICACHE
+(ICACHE_CRRx programming)
+
+Yes
+
+Required
+
+No
+
+Required if the user wants code in external memories
+fetched on C-AHB bus (else on S-AHB bus)
+
+Address remapping
+The ICACHE allows an alias address to be defined in the code region for up to four external
+memory regions.
+The address remapping is applied on the code alias address, transforming it into
+the destination external physical address.
+The remapping operation is fully software configurable by programming ICACHE_CRRx
+(x = 0 to 3, number of remapped regions). This programming can be done only when
+the ICACHE is disabled.
+Each region x can be individually enabled with REN in ICACHE_CRRx. Once enabled, the
+remap operation occurs even if the ICACHE is disabled, or if the transaction is
+noncacheable.
+Remap regions can have different size: each region size can be programmed in RSIZE
+of its ICACHE_CRRx. The size of each region is a power of two multiple of range granularity
+(2 Mbytes), with a minimum region size of 2 Mbytes, and a maximum region size
+of 128 Mbytes.
+The address remapping mechanism is based on the matching of an incoming AHB address
+(HADDR_in) with a given code subregion base-address, and the modification of this
+address into its (remapped) external physical address, as follows:
+•
+
+•
+
+HADDR_in belongs to region x if HADDR_in[31:RI] = 000:BASEADDR[28:RI], where:
+–
+
+000:BASEADDR is the code subregion base-address programmed in BASEADDR
+of ICACHE_CRRx.
+
+–
+
+RI defines the number of significant bits to consider. RI = log2(region size)
+with a minimum value of 21 (for a 2-Mbyte region) and a maximum value of 27
+(for a 128-Mbyte region).
+
+If the region x is enabled, the master port output AHB address (HADDR_out) is
+composed by concatenating the two below parts:
+–
+
+REMAPADDR[31:RI] field of ICACHE_CRRx as MSBs
+
+–
+
+HADDR_in[RI-1:0] as LSBs.
+
+RM0456 Rev 6

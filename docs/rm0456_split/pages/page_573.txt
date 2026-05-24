@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 24 OTFDEC2SMEN: OTFDEC2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: OTFDEC2 clocks disabled by the clock gating during Sleep and Stop modes
+1: OTFDEC2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 23 OTFDEC1SMEN: OTFDEC1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: OTFDEC1 clocks disabled by the clock gating during Sleep and Stop modes
+1: OTFDEC1 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 22 Reserved, must be kept at reset value.
+Bit 21 OCTOSPIMSMEN: OCTOSPIM clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: OCTOSPIM clocks disabled by the clock gating during Sleep and Stop modes
+1: OCTOSPIM clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 20 SAESSMEN: SAES accelerator clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SAES clocks disabled by the clock gating during Sleep and Stop modes
+1: SAES clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 19 PKASMEN: PKA clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: PKA clocks disabled by the clock gating during Sleep and Stop modes
+1: PKA clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 18 RNGSMEN: RNG clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: RNG clocks disabled by the clock gating during Sleep and Stop modes
+1: RNG clocks enabled by the clock gating during Sleep and Stop modes
+Bit 17 HASHSMEN: HASH clock enable during Sleep and Stop modes
+This bit is set and cleared by software
+0: HASH clocks disabled by the clock gating during Sleep and Stop modes
+1: HASH clocks enabled by the clock gating during Sleep and Stop modes
+
+RM0456 Rev 6

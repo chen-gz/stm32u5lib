@@ -1,0 +1,68 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+34.4.24
+
+RM0456
+
+Low-power features
+Wait conversion mode (WAIT)
+Wait conversion mode can be used to simplify the software as well as optimizing the
+performance of applications clocked at low frequency where there might be a risk of ADC
+overrun occurring.
+When the WAIT bit is set to 1 in the ADC_CFGR1 register, a new conversion can start only
+if the previous data has been treated, once the ADC_DR register has been read or if the
+EOC bit has been cleared.
+This is a way to automatically adapt the speed of the ADC to the speed of the system that
+reads the data.
+
+Note:
+
+Any hardware triggers which occur while a conversion is ongoing or during the wait time
+preceding the read access are ignored.
+Figure 293. Wait conversion mode (continuous mode, software trigger)
+
+ADSTART
+EOC
+EOS
+ADSTP
+ADC_DR Read access
+ADC state
+
+RDY
+
+ADC_DR
+
+by S/W
+
+CH1
+
+CH2
+
+DLY
+
+DLY CH3
+D2
+
+D1
+
+DLY
+D3
+
+CH1
+
+DLY
+
+STOP
+
+RDY
+
+D1
+
+by H/W
+
+MSv30344V2
+
+1. EXTEN = 00, CONT = 1.
+2. CHSEL = 0x3, SCANDIR = 0, WAIT = 1, AUTOFF = 0.

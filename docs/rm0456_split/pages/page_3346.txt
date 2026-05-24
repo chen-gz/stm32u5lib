@@ -1,0 +1,103 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+1.
+
+2.
+
+The application can either choose the polling or the interrupt mode.
+–
+
+In polling mode, the application monitors the status of the endpoint transmit data
+FIFO by reading the OTG_DTXFSTSx register, to determine if there is enough
+space in the data FIFO.
+
+–
+
+In interrupt mode, the application waits for the TXFE interrupt (in OTG_DIEPINTx)
+and then reads the OTG_DTXFSTSx register, to determine if there is enough
+space in the data FIFO.
+
+–
+
+To write a single non-zero length data packet, there must be space to write the
+entire packet in the data FIFO.
+
+–
+
+To write zero length packet, the application must not look at the FIFO space.
+
+Using one of the above mentioned methods, when the application determines that
+there is enough space to write a transmit packet, the application must first write into the
+endpoint control register, before writing the data into the data FIFO. Typically, the
+application, must do a read modify write on the OTG_DIEPCTLx register to avoid
+modifying the contents of the register, except for setting the endpoint enable bit.
+
+The application can write multiple packets for the same endpoint into the transmit FIFO, if
+space is available. For periodic IN endpoints, the application must write packets only for one
+microframe. It can write packets for the next periodic transaction only after getting transfer
+complete for the previous transaction.
+•
+
+Setting IN endpoint NAK
+
+Internal data flow:
+1.
+
+When the application sets the IN NAK for a particular endpoint, the core stops
+transmitting data on the endpoint, irrespective of data availability in the endpoint’s
+transmit FIFO.
+
+2.
+
+Non-isochronous IN tokens receive a NAK handshake reply
+–
+
+Isochronous IN tokens receive a zero-data-length packet reply
+
+3.
+
+The core asserts the INEPNE (IN endpoint NAK effective) interrupt in OTG_DIEPINTx
+in response to the SNAK bit in OTG_DIEPCTLx.
+
+4.
+
+Once this interrupt is seen by the application, the application can assume that the
+endpoint is in IN NAK mode. This interrupt can be cleared by the application by setting
+the CNAK bit in OTG_DIEPCTLx.
+
+Application programming sequence:
+1.
+
+To stop transmitting any data on a particular IN endpoint, the application must set the
+IN NAK bit. To set this bit, the following field must be programmed.
+–
+
+SNAK = 1 in OTG_DIEPCTLx
+
+2.
+
+Wait for assertion of the INEPNE interrupt in OTG_DIEPINTx. This interrupt indicates
+that the core has stopped transmitting data on the endpoint.
+
+3.
+
+The core can transmit valid IN data on the endpoint after the application has set the
+NAK bit, but before the assertion of the NAK Effective interrupt.
+
+4.
+
+The application can mask this interrupt temporarily by writing to the INEPNEM bit in
+OTG_DIEPMSK.
+–
+
+5.
+
+INEPNEM = 0 in OTG_DIEPMSK
+
+To exit endpoint NAK mode, the application must clear the NAK status bit (NAKSTS) in
+OTG_DIEPCTLx. This also clears the INEPNE interrupt (in OTG_DIEPINTx).
+
+RM0456 Rev 6

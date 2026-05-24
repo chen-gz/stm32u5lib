@@ -1,0 +1,248 @@
+RM0456
+9.4.3
+
+DCACHE TAG memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 385
+
+9.4.4
+
+DCACHE enable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 387
+
+9.4.5
+
+Cacheable and noncacheable traffic . . . . . . . . . . . . . . . . . . . . . . . . . . 387
+
+9.4.6
+
+Cacheable accesses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 388
+
+9.4.7
+
+DCACHE security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 390
+
+9.4.8
+
+DCACHE maintenance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 390
+
+9.4.9
+
+DCACHE performance monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . 392
+
+9.4.10
+
+DCACHE boot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 392
+
+9.5
+
+DCACHE low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 393
+
+9.6
+
+DCACHE error management and interrupts . . . . . . . . . . . . . . . . . . . . . . 393
+
+9.7
+
+DCACHE registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 394
+9.7.1
+
+DCACHE control register (DCACHE_CR) . . . . . . . . . . . . . . . . . . . . . . 394
+
+9.7.2
+
+DCACHE status register (DCACHE_SR) . . . . . . . . . . . . . . . . . . . . . . 395
+
+9.7.3
+
+DCACHE interrupt enable register (DCACHE_IER) . . . . . . . . . . . . . . 396
+
+9.7.4
+
+DCACHE flag clear register (DCACHE_FCR) . . . . . . . . . . . . . . . . . . . 397
+
+9.7.5
+
+DCACHE read-hit monitor register (DCACHE_RHMONR) . . . . . . . . . 397
+
+9.7.6
+
+DCACHE read-miss monitor register (DCACHE_RMMONR) . . . . . . . 398
+
+9.7.7
+
+DCACHE write-hit monitor register (DCACHE_WHMONR) . . . . . . . . 398
+
+9.7.8
+
+DCACHE write-miss monitor register (DCACHE_WMMONR) . . . . . . 398
+
+9.7.9
+
+DCACHE command range start address register
+(DCACHE_CMDRSADDRR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+
+9.7.10
+
+DCACHE command range end address register
+(DCACHE_CMDREADDRR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+
+9.7.11
+
+DCACHE register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+
+Power control (PWR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+10.1
+
+PWR introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+
+10.2
+
+PWR main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+
+10.3
+
+PWR pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+
+10.4
+
+PWR power supplies and supply domains . . . . . . . . . . . . . . . . . . . . . . . 404
+10.4.1
+
+External power supplies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 404
+
+10.4.2
+
+Internal regulators . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 406
+
+10.4.3
+
+Power-up and power-down power sequences . . . . . . . . . . . . . . . . . . . 406
+
+10.4.4
+
+Independent analog peripherals supply . . . . . . . . . . . . . . . . . . . . . . . . 406
+
+10.4.5
+
+Independent I/O supply rail . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 407
+
+10.4.6
+
+Independent USB transceivers supply . . . . . . . . . . . . . . . . . . . . . . . . . 407
+
+10.4.7
+
+Battery backup domain (also known as RTC domain) . . . . . . . . . . . . . 408
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+10.5
+
+10.6
+
+10.7
+
+PWR system supply voltage regulation . . . . . . . . . . . . . . . . . . . . . . . . . 409
+10.5.1
+
+SMPS and LDO embedded regulators . . . . . . . . . . . . . . . . . . . . . . . . 409
+
+10.5.2
+
+LDO and SMPS versus reset, voltage scaling, and low-power modes 409
+
+10.5.3
+
+LDO and SMPS step down converter fast startup . . . . . . . . . . . . . . . . 410
+
+10.5.4
+
+Dynamic voltage scaling management . . . . . . . . . . . . . . . . . . . . . . . . 410
+
+PWR power-supply supervision . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 412
+10.6.1
+
+Brownout reset (BOR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 412
+
+10.6.2
+
+Programmable voltage detector (PVD) . . . . . . . . . . . . . . . . . . . . . . . . 412
+
+10.6.3
+
+Peripheral voltage monitoring (PVM) . . . . . . . . . . . . . . . . . . . . . . . . . . 413
+
+10.6.4
+
+Backup domain voltage and temperature monitoring . . . . . . . . . . . . . 415
+
+PWR power management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 415
+10.7.1
+
+Power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 415
+
+10.7.2
+
+Autonomous peripherals and low-power background autonomous mode
+(LPBAM) 422
+
+10.7.3
+
+Run mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 424
+
+10.7.4
+
+Low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 424
+
+10.7.5
+
+Sleep mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 425
+
+10.7.6
+
+Stop 0 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 426
+
+10.7.7
+
+Stop 1 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 429
+
+10.7.8
+
+Stop 2 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 429
+
+10.7.9
+
+Stop 3 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 431
+
+10.7.10 Standby mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 434
+10.7.11 Shutdown mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 436
+10.7.12 USB power management in low-power modes
+(STM32U59x/5Ax/5Fx/5Gx only) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 438
+10.7.13 Power modes output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 439
+
+10.8
+
+10.9
+
+PWR security and privileged protection . . . . . . . . . . . . . . . . . . . . . . . . . 440
+10.8.1
+
+PWR security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 440
+
+10.8.2
+
+WR privileged protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 441
+
+PWR interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 442
+
+10.10 PWR registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 443
+10.10.1 PWR control register 1 (PWR_CR1) . . . . . . . . . . . . . . . . . . . . . . . . . . 443
+10.10.2 PWR control register 2 (PWR_CR2) . . . . . . . . . . . . . . . . . . . . . . . . . . 445
+10.10.3 PWR control register 3 (PWR_CR3) . . . . . . . . . . . . . . . . . . . . . . . . . . 449
+10.10.4 PWR voltage scaling register (PWR_VOSR) . . . . . . . . . . . . . . . . . . . . 449
+10.10.5 PWR supply voltage monitoring control register (PWR_SVMCR) . . . . 451
+10.10.6 PWR wake-up control register 1 (PWR_WUCR1) . . . . . . . . . . . . . . . . 452
+
+RM0456 Rev 6

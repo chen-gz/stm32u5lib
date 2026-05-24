@@ -1,0 +1,61 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+By setting the TSIE bit in the RTC_CR register, an interrupt is generated when a timestamp
+event occurs.
+If a new timestamp event is detected while the timestamp flag (TSF) is already set, the
+timestamp overflow flag (TSOVF) flag is set and the timestamp registers (RTC_TSTR and
+RTC_TSDR) maintain the results of the previous event.
+Note:
+
+TSF is set up to 2 ck_apre cycles after the timestamp event from RTC_TS pin or from rtc_its
+internal signal occurs, due to synchronization process. TSF is set up to 3 ck_apre cycles
+after tamper flags.
+TSOVF is set up to only 1 ck_apre cycle after the event occurs. This means that if two
+timestamp events are close together, TSOVF can be seen as '1' while TSF is still '0'. As a
+consequence, it is recommended to poll TSOVF only after TSF has been set.
+
+Caution:
+
+If a timestamp event occurs immediately after the TSF bit is supposed to be cleared, then
+both TSF and TSOVF bits are set. To avoid masking a timestamp event occurring at the
+same moment, the application must not write 0 into TSF bit unless it has already read it to 1.
+
+63.3.18
+
+Calibration clock output
+When the COE bit is set to 1 in the RTC_CR register, a reference clock is provided on the
+CALIB device output.
+If the COSEL bit in the RTC_CR register is reset and PREDIV_A = 0x7F, the CALIB
+frequency is fRTCCLK/64. This corresponds to a calibration output at 512 Hz for an RTCCLK
+frequency at 32.768 kHz. The CALIB duty cycle is irregular: there is a light jitter on falling
+edges. It is therefore recommended to use rising edges.
+When COSEL is set and “PREDIV_S+1” is a non-zero multiple of 256 (i.e: PREDIV_S[7:0] =
+0xFF), the CALIB frequency is fRTCCLK/(256 * (PREDIV_A+1)). This corresponds to a
+calibration output at 1 Hz for prescaler default values (PREDIV_A = Ox7F, PREDIV_S =
+0xFF), with an RTCCLK frequency at 32.768 kHz.
+
+Note:
+
+When COSEL is cleared, the CALIB output is the output of the 6th stage of the
+asynchronous prescaler. If LPCAL is changed from 0 to 1, the output can be irregular
+(glitch...) during the LPCAL switch. If LPCAL = 1 this output is always available. If LPCAL =
+0, no output is present if PREDIV_A is < 0x20.
+When COSEL is set, the CALIB output is the output of the 8th stage of the synchronous
+prescaler.
+
+63.3.19
+
+Tamper and alarm output
+The OSEL[1:0] control bits in the RTC_CR register are used to activate the alarm output
+TAMPALRM, and to select the function which is output. These functions reflect the contents
+of the corresponding flags in the RTC_SR register.
+When the TAMPOE control bit is set in the RTC_CR, all external and internal tamper flags
+are ORed and routed to the TAMPALRM output. If OSEL = 00 the TAMPALRM output
+reflects only the tampers flags. If OSEL ≠ 00, the signal on TAMPALRM provides both
+tamper flags and alarm A, B, or wake-up flag.
+The polarity of the TAMPALRM output is determined by the POL control bit in RTC_CR so
+that the opposite of the selected flags bit is output when POL is set to 1.

@@ -1,0 +1,51 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 18 FDCAN1F: illegal access flag for FDCAN1
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 17 LPTIM2F: illegal access flag for LPTIM2
+0: no illegal access event
+1: illegal access event
+Bit 16 I2C4F: illegal access flag for I2C4
+0: no illegal access event
+1: illegal access event
+Bit 15 CRSF: illegal access flag for CRS
+0: no illegal access event
+1: illegal access event
+Bit 14 I2C2F: illegal access flag for I2C2
+0: no illegal access event
+1: illegal access event
+Bit 13 I2C1F: illegal access flag for I2C1
+0: no illegal access event
+1: illegal access event
+Bit 12 UART5F: illegal access flag for UART5
+0: no illegal access event
+1: illegal access event
+Bit 11 UART4F: illegal access flag for UART4
+0: no illegal access event
+1: illegal access event
+Bit 10 USART3F: illegal access flag for USART3
+0: no illegal access event
+1: illegal access event
+Bit 9 USART2F: illegal access flag for USART2
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 8 SPI2F: illegal access flag for SPI2
+0: no illegal access event
+1: illegal access event
+Bit 7 IWDGF: illegal access flag for IWDG
+0: no illegal access event
+1: illegal access event
+Bit 6 WWDGF: illegal access flag for WWDG
+0: no illegal access event
+1: illegal access event

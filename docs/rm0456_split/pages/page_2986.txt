@@ -1,0 +1,105 @@
+•
+
+USB physical interface (USB PHY): this block is maintaining the electrical interface to
+an external USB host. It contains the differential analog transceiver itself, controllable
+embedded pull-up resistor (connected to USB_DP line) and support for battery
+charging detection (BCD), multiplexed on same USB_DP and USB_DM lines. The
+output enable control signal of the analog transceiver (active low) is provided externally
+on USB_NOE. It can be used to drive some activity LED or to provide information about
+the actual communication direction to some other circuitry.
+
+•
+
+Serial interface engine (SIE): the functions of this block include: synchronization
+pattern recognition, bit-stuffing, CRC generation and checking, PID
+verification/generation, and handshake evaluation. It must interface with the USB
+transceivers and uses the virtual buffers provided by the packet buffer interface for
+
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+local data storage. This unit also generates signals according to USB peripheral
+events, such as start of frame (SOF), USB_Reset, data errors etc. and to endpoint
+related events like end of transmission or correct reception of a packet; these signals
+are then used to generate interrupts.
+
+Note:
+
+•
+
+Timer: this block generates a start-of-frame locked clock pulse and detects a global
+suspend (from the host) when no traffic has been received for 3 ms.
+
+•
+
+Packet buffer interface: this block manages the local memory implementing a set of
+buffers in a flexible way, both for transmission and reception. It can choose the proper
+buffer according to requests coming from the SIE and locate them in the memory
+addresses pointed by the endpoint/channel registers. It increments the address after
+each exchanged byte until the end of packet, keeping track of the number of
+exchanged bytes and preventing the buffer to overrun the maximum capacity.
+
+•
+
+Endpoint/channel-related registers: each endpoint/channel has an associated register
+containing the endpoint/channel type and its current status. For monodirectional/single-buffer endpoints, a single register can be used to implement two
+distinct endpoints. The number of registers is 8, allowing up to 16 monodirectional/single-buffer or up to 7 double-buffer endpoints in any combination. For
+example the USB peripheral can be programmed to have 4 double buffer endpoints
+and 8 single-buffer/mono-directional endpoints.
+
+•
+
+Control registers: these are the registers containing information about the status of the
+whole USB peripheral and used to force some USB events, such as resume and
+power-down.
+
+•
+
+Interrupt registers: these contain the interrupt masks and a record of the events. They
+can be used to inquire an interrupt reason, the interrupt status or to clear the status of a
+pending interrupt.
+
+* Endpoint/channel 0 is always used for control transfer in single-buffer mode.
+The USB peripheral is connected to the APB2 bus through an APB2 interface, containing
+the following blocks:
+
+71.4.6
+
+•
+
+Packet memory: this is the local memory that physically contains the packet buffers. It
+can be used by the packet buffer interface, which creates the data structure and can be
+accessed directly by the application software. The size of the packet memory is
+2048 bytes, structured as 512 words of 32 bits.
+
+•
+
+Arbiter: this block accepts memory requests coming from the APB2 bus and from the
+USB interface. It resolves the conflicts by giving priority to APB2 accesses, while
+always reserving half of the memory bandwidth to complete all USB transfers. This
+time-duplex scheme implements a virtual dual-port SRAM that allows memory access,
+while an USB transaction is happening. Multiword APB2 transfers of any length are
+also allowed by this scheme.
+
+•
+
+Register mapper: this block collects the various byte-wide and bit-wide registers of the
+USB peripheral in a structured 32-bit wide word set addressed by the APB2.
+
+•
+
+APB2 wrapper: this provides an interface to the APB2 for the memory and register. It
+also maps the whole USB peripheral in the APB2 address space.
+
+•
+
+Interrupt mapper: this block is used to select how the possible USB events can
+generate interrupts and map them to the NVIC.
+
+Description of host frame scheduler (HFS) specific to Host mode
+The host frame scheduler is the hardware machine in charge to submit host channel
+requests on the bus according to the USB priority order and bandwidth access rules.
+
+RM0456 Rev 6

@@ -1,0 +1,408 @@
+SECWM1_PEND
+[6:0]
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+WRP1B_PSTRT[6:0]
+
+SECWM2_PEND
+[6:0]
+SECWM2_PSTRT
+[6:0]
+Section 7.9.21
+
+HDP2_PEND[6:0]
+
+WRP2A_PEND
+[6:0]
+
+WRP2B_PEND
+[6:0]
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Section 7.9.19
+
+Section 7.9.22
+
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+WRP1A_PSTRT[6:0]
+
+WRP2A_PSTRT[6:0]
+Section 7.9.23
+
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+
+Section 7.9.18
+
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+
+UNLOCK UNLOCK HDP2EN Res. UNLOCK UNLOCK HDP1EN Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+
+RDP
+Section 7.9.13
+
+Res.
+Res. Res.
+Res.
+Res. Res.
+Res.
+Res. Res.
+Res.
+Res. Res.
+Res.
+Res. Res.
+Res.
+Res. Res.
+BOOT_LOCK Res. Res.
+Section 7.9.14
+
+RM0456 Rev 6
+
+BOR_LEV[2:0]
+
+31
+30
+29
+28
+27
+26
+25
+24
+23
+22
+21
+20
+19
+18
+17
+16
+15
+14
+13
+12
+11
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+Register map
+
+TZEN
+IO_VDDIO2_HSLV
+IO_VDD_HSLV
+PA15_PUPEN
+NBOOT0
+NSWBOOT0
+SRAM2_RST
+SRAM2_ECC
+SRAM3_ECC
+BKPRAM_ECC
+DUALBANK
+SWAP_BANK
+WWDG_SW
+IWDG_STDBY
+IWDG_STOP
+IWDG_SW
+SRAM_RST
+NRST_SHDW
+NRST_STDBY
+NRST_STOP
+Res.
+
+Embedded flash memory (FLASH)
+RM0456
+
+Table 57. User option-byte organization mapping
+
+NSBOOTADD0[24:0]
+
+NSBOOTADD1[24:0]
+
+SECBOOTADD0[24:0]
+Section 7.9.15
+
+Section 7.9.16
+
+SECWM1_PSTRT
+[6:0]
+Section 7.9.17
+
+HDP1_PEND[6:0]
+
+WRP1A_PEND
+[6:0]
+
+WRP1B_PEND
+[6:0]
+Section 7.9.20
+
+WRP2B_PSTRT[6:0]
+
+Section 7.9.24
+
+OEM1KEY[31:0]
+
+Section 7.9.25
+
+OEM1KEY[63:32]
+
+Section 7.9.26
+
+OEM2KEY[31:0]
+
+Section 7.9.27
+
+OEM2KEY[63:32]
+
+Section 7.9.28
+
+RM0456
+
+7.4.2
+
+Embedded flash memory (FLASH)
+
+Option-byte programming
+After reset, the following option registers (FLASH_OPTR, FLASH_NSBOOTADD0R,
+FLASH_NSBOOTADD1R, FLASH_SECBOOTADD0R, FLASH_SECWM1R1,
+FLASH_SECWM1R2, FLASH_WRP1AR, FLASH_WRP1BR, FLASH_SECWM2R1,
+FLASH_SECWM2R2, FLASH_WRP2AR, FLASH_WRP2BR), as well as the OPT_STRT
+and OBL_LAUNCH bits in FLASH_NSCR are write protected. To run any option-byte
+operation, OPTLOCK must be cleared in FLASH_NSCR.
+The following sequence is used to unlock this register:
+1.
+
+Unlock FLASH_NSCR register with the LOCK clearing sequence (refer to Unlock the
+secure/nonsecure FLASH control registers).
+
+2.
+
+Write OPTKEY1 = 0x08192A3B in FLASH_OPTKEYR.
+
+3.
+
+Write OPTKEY2 = 0x4C5D6E7F in FLASH_OPTKEYR.
+
+The user options can be protected against unwanted erase/program operations by setting
+OPTLOCK bit by software.
+Note:
+
+If LOCK in FLASH_NSCR is set by software, OPTLOCK is automatically set too.
+
+Option-byte modification sequence
+To modify the user option value, follow the procedure below:
+
+Note:
+
+1.
+
+Check that no flash memory operation is on going by checking BSY in FLASH_NSSR.
+
+2.
+
+Clear OPTLOCK with the clearing sequence described above.
+
+3.
+
+Write the desired options value in options registers.
+
+4.
+
+Set OPTSTRT in FLASH_NSCR.
+
+5.
+
+Wait for BSY bit to be cleared.
+
+6.
+
+Set OBL_LAUNCH option bit to start option-byte loading.
+
+If OPTWERR or PGSERR error bit is set, the old option-byte values are kept.
+
+Option-byte loading (OBL)
+After BSY is cleared, all new options are updated in the flash memory but they are not
+applied to the system. They affect the system when they are loaded. The OBL is performed
+in two cases:
+•
+
+when OBL_LAUNCH is set in FLASH_NSCR
+
+•
+
+after a power reset (BOR reset or exit from Standby or Shutdown mode)
+
+On system-reset rising, internal option registers are copied into option registers. These
+registers are also used to modify the option bytes. If these registers are not modified by the
+user, they reflect the option states of the system.
+
+Rules for modifying specific option bytes
+Some of the option-byte bitfields must respect specific rules before being updated with new
+values. These option bytes, as well as the associated constraints, are described below:
+•
+
+TZEN option bit
+–
+
+TZEN can only be set on RDP level 0.
+
+–
+
+TZEN deactivation is only possible when RDP is changing from level 1 to level 0.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

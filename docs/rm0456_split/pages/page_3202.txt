@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+PTXQSAV bits in the OTG_HNPTXSTS register or NPTQXSAV bits in the
+OTG_HNPTXSTS register.
+
+73.8
+
+OTG_HS SOF trigger
+Figure 922. SOF connectivity (SOF trigger output to TIM and ITR1 connection)
+
+SOF pulse output, to
+external audio control
+VBUS
+ITR1
+
+SOF pulse
+
+DD+
+
+TIM
+
+SOFgen
+
+ID
+
+USB micro-AB connector
+
+STM32
+
+VSS
+
+MSv36914V1
+
+The OTG_HS core provides means to monitor, track and configure SOF framing in the host
+and peripheral, as well as an SOF pulse output connectivity feature.
+Such utilities are especially useful for adaptive audio clock generation techniques, where
+the audio peripheral needs to synchronize to the isochronous stream provided by the PC, or
+the host needs to trim its framing rate according to the requirements of the audio peripheral.
+
+73.8.1
+
+Host SOFs
+In host mode the number of PHY clocks occurring between the generation of two
+consecutive SOF (HS/FS) or Keep-alive (LS) tokens is programmable in the host frame
+interval register (HFIR), thus providing application control over the SOF framing period. An
+interrupt is generated at any start of frame (SOF bit in OTG_GINTSTS). The current frame
+number and the time remaining until the next SOF are tracked in the host frame number
+register (HFNUM).
+A SOF pulse signal, is generated at any SOF starting token and with a width of 20 HCLK
+cycles. The SOF pulse is also internally connected to the input trigger of the timer, so that
+the input capture feature, the output compare feature and the timer can be triggered by the
+SOF pulse.
+
+73.8.2
+
+Peripheral SOFs
+In device mode, the start of frame interrupt is generated each time an SOF token is received
+on the USB (SOF bit in OTG_GINTSTS). The corresponding frame number can be read
+from the device status register (FNSOF bit in OTG_DSTS). A SOF pulse signal with a width
+of 20 HCLK cycles is also generated.The SOF pulse signal is also internally connected to
+the TIM input trigger, so that the input capture feature, the output compare feature and the
+timer can be triggered by the SOF pulse.
+
+RM0456 Rev 6

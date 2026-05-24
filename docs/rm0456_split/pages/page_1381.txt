@@ -1,0 +1,167 @@
+Description
+14-bit raw data acquired by ADC1 at
+30 °C (± 5 °C), VDDA = VREF+ = 3.0 V
+(±10 mV)
+
+RM0456 Rev 6
+
+Memory address
+0x0BFA 07A5 - 0x0BFA 07A6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+34.4
+
+ADC functional description
+
+34.4.1
+
+ADC block diagram
+Figure 278 shows the ADC block diagram and Table 328 gives the ADC pin description.
+Figure 278. ADC block diagram
+Analog
+supply VREF+
+(VDDA)
+
+ADEN/ADDIS
+
+AUTOFF/DPD
+Auto-off mode
+
+adc_it
+
+slave
+
+AHB
+
+SCANDIR
+up/down
+CHSELRMOD
+
+ADRDY
+EOSMP
+EOC
+EOS
+OVR
+AWDx
+EOCAL
+LDORDY
+
+CHSEL[23:0]
+SQx[3:0]
+DATA[15:0]
+
+CONT
+single/continuous.
+
+ADC_INx
+
+Input
+selection &
+Analog input scan
+channels control
+
+ADVREGEN
+LFTRIG
+ADCAL
+
+Suppy and
+reference
+
+VINx
+
+VIN
+
+SMPx[2:0]
+sampling time
+
+SAR ADC
+
+DMAEN
+DMACFG
+
+adc_hclk
+
+OVRMOD
+(overrun mode)
+ALIGN
+(left/right)
+RES[1:0]
+(12, 10, 8, 6 bits)
+
+ADSTP
+
+Analog
+watchdog
+1,2,3
+AWD1
+AWD2
+AWD3
+
+VREFPROT
+TOVS
+VREFSECSMP
+adc_trg0
+adc_trg1
+.......
+.......
+
+adc_ker_ck
+
+Oversampler
+
+start
+
+ADSTART
+SW trigger
+
+CALFACT[6:0]
+HW
+trigger
+
+adc_dma
+
+CONVERTED
+DATA
+
+Start & Stop
+control
+
+WAIT
+
+AHB
+interface
+AHB
+interface
+
+OVSS[3:0]
+OVSR[2:0]
+OVSE
+
+DISCEN
+
+EXTEN[1:0]
+trigger enable
+and edge selection
+
+adc_awd1
+adc_awd2
+adc_awd3
+
+AWDxEN
+
+AWDxSGL
+AWDCH[4:0]
+LTx[11:0]
+HTx[11:0]
+
+AWDxCH[23:0]
+
+EXTSEL[2:0]
+trigger selection
+
+MSv62483V2
+
+RM0456 Rev 6

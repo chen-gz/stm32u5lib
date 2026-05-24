@@ -1,0 +1,59 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+than indicated in DL[31:0]), the extra bytes are flushed from the FIFO at the end of the write
+operation (when TCF is set).
+The byte/half-word accesses to OCTOSPI_DR must be done only to the least significant
+byte/halfword of the 32-bit register.
+FTHRES is used to define a FIFO threshold after which point the FIFO threshold flag, FTF,
+gets set. In indirect-read mode, FTF is set when the number of valid bytes to be read from
+the FIFO is above the threshold. FTF is also set if there is any data left in the FIFO after the
+last byte is read from the external device, regardless of FTHRES setting. In indirect-write
+mode, the FTF is set when the number of empty bytes in the FIFO is above the threshold.
+If FTIE = 1, there is an interrupt when the FTF is set. If DMAEN = 1, a DMA transfer is
+initiated when the FTF is set. The FTF is cleared by hardware as soon as the threshold
+condition is no longer true (after enough data has been transferred by the CPU or DMA).
+The last data read in RX FIFO remains valid as long as there is no request for the next line.
+This means that, when the application reads several times in a row at the same location, the
+data is provided from the RX FIFO and not read again from the distant memory.
+
+28.4.10
+
+OCTOSPI automatic status-polling mode
+In automatic status-polling mode, the OCTOSPI periodically starts a command to read a
+defined number of status bytes (up to four). The received bytes can be masked to isolate
+some status bits and an interrupt can be generated when the selected bits have a defined
+value. The automatic status-polling mode must be used only in regular-command protocol.
+For HyperBus protocol, it is not exploitable since the read status register into the
+HyperFlash memory must be performed in two steps (a write operation followed by a read
+operation).
+The access to the device begins in the same manner as in indirect-read mode. BUSY in
+OCTOSPI_SR goes high at this point and stays high even between the periodic accesses.
+The content of MASK[31:0] in OCTOSPI_PSMAR is used to mask the data from the
+external device in automatic status-polling mode:
+•
+
+If the MASK[n] = 0, then bit n of the result is masked and not considered.
+
+•
+
+If MASK[n] = 1, and the content of bit[n] is the same as MATCH[n] in
+OCTOSPI_PSMAR, then there is a match for bit n.
+
+If PMM = 0 in OCTOSPI_CR, the AND-match mode is activated: SMF is set in
+OCTOSPI_SR only when there is a match on all of the unmasked bits.
+If PMM = 1 in OCTOSPI_CR, the OR-match mode is activated: SMF gets set if there is a
+match on any of the unmasked bits.
+An interrupt is called when SMF = 1 if SMIE = 1.
+If APMS is set in OCTOSPI_CR, the operation stops and BUSY goes to 0 as soon as a
+match is detected. Otherwise, BUSY stays at 1 and the periodic accesses continue until
+there is an abort or until the OCTOSPI is disabled (EN = 0).
+OCTOSPI_DR contains the latest received status bytes (FIFO deactivated). The content of
+this register is not affected by the masking used in the matching logic. FTF in OCTOSPI_SR
+is set as soon as a new reading of the status is complete. FTF is cleared as soon as the
+data is read.
+In automatic status-polling mode, variable latency is not supported. The memory must then
+be configured in fixed latency.

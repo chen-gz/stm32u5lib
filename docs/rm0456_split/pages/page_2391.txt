@@ -1,0 +1,69 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Figure 748. Edge-aligned PWM waveforms (ARR=8 and CCxP = 0)
+Counter register
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+0
+
+1
+
+OCxREF
+CCRx=3
+CCxIF
+
+OCxREF
+CCRx=6
+CCxIF
+
+OCxREF ‘0’
+CCRx=0
+CCxIF
+MSv50908V2
+
+PWM mode with immediate update PRELOAD = 0
+The PWM mode with PRELOAD = 0 enables the early change of the output level within the
+current PWM cycle. Based on the immediate update (PRELOAD = 0) of the LPTIM_CCRx
+register and on the continuous comparison of LPTIM_CNT and LPTIM_CCRx registers, it
+permits to have a new duty cycle value applied as soon as possible within the current PWM
+cycle, without having to wait for the completion of the current PWM period.
+When the (PRELOAD = 0), the OCxREF signal level can be changed on-the-fly by software
+(or DMA) by updating the compare value in the LPTIM_CCRx register.
+Depending on the written compare value and on the current counter and compare values,
+the OCxREF level is re-assigned as illustrated below:
+•
+
+If the new compare value does not exceed the current counter value and the current
+compare value exceeds the counter, OCxREF level is re-assigned high as soon as the
+new compare value is written.
+
+•
+
+If the new compare value exceeds the counter value and the current compare value
+does not exceed the counter, OCxREF level is re-assigned low as soon as the new
+compare value is written.
+
+The output reference signal OCxREF level is left unchanged when none of the new
+compare value and the current compare value exceed the counter. Figure 749 illustrates the
+behavior of the OCxREF signal level when PRELOAD = 0 and PRELOAD = 1.

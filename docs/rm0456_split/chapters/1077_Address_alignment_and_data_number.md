@@ -1,0 +1,213 @@
+RM0456 Rev 6
+
+RM0456
+
+28.5
+
+Octo-SPI interface (OCTOSPI)
+
+Address alignment and data number
+The table below summarizes the effect of the address alignment and programmed data
+number depending on the use case.
+Table 257. Address alignment cases
+
+Memory type
+
+Constraint
+on
+address(1)
+
+Impact if constraint
+on address not
+respected
+
+Constraint
+on number
+of bytes(1)
+
+Impact if constraint
+on bytes not
+respected
+
+None
+
+None
+
+None
+
+None
+
+IND read
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+MM read
+
+None
+
+None
+
+None
+
+None
+
+IND write
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+MM write
+
+Even
+
+Slave error
+
+Even
+
+Last byte is lost.
+
+Transaction
+type
+IND(2) read
+
+Single, dual, quad flash
+or SRAM (DMM = 0)
+
+MM(3) read
+IND write
+MM write
+
+Single, dual, quad flash
+or SRAM (DMM = 1)
+
+IND read
+Octal flash in SDR mode
+
+MM read
+
+None
+
+None
+
+None
+
+None
+
+IND read
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+MM read
+
+None
+
+None
+
+None
+
+None
+
+Even
+
+DLR[0] is set to 1.(5)
+
+IND write
+MM write
+
+Octal memory in DTR
+mode without WDM(6)
+
+Octal flash or RAM in
+DTR mode with WDM
+
+(4)
+
+IND write
+
+Even
+
+ADDR[0] is set to 0.
+
+MM write
+
+Even
+
+Slave error
+
+Even
+
+Last byte is lost.
+
+IND read
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+None
+
+None
+
+None
+
+None
+
+Even
+
+ADDR[0] is set to 0.(4)
+
+Even
+
+DLR[0] is set to 1.(5)
+
+None
+
+None
+
+None
+
+None
+
+MM read
+IND write(7)
+MM write
+IND read
+
+HyperBus
+
+MM read
+IND write(7)
+MM write
+
+1. To be respected by the software.
+2. IND = indirect mode.
+3. MM = memory-mapped mode
+4. Extra data at transfer start.
+5. Extra data at transfer end.
+6. WDM = write data mask.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+Chrom-GRC (GFXMMU)
+
+Bits 10:9 CLB[1:0]: Cache lock buffer
+This field select the buffer on which the cache is locked.
+00: Cache locked on buffer 0
+01: Cache locked on buffer 1
+10: Cache locked on buffer 2
+11: Cache locked on buffer 3
+Bit 8 CL: Cache lock
+This bit lock the cache onto the buffer defined in the CLB field.
+0: Cache not locked
+1: Cache locked to a buffer
+Bit 7 CE: Cache enable
+This bit enables the cache unit.
+0: Cache disable
+1: Cache enable
+Bit 6 192BM: 192 Block mode
+This bit defines the number of blocks per line
+0: 256 blocks per line
+1: 192 blocks per line
+Bit 5 Reserved, must be kept at reset value.
+Bit 4 AMEIE: AHB master error interrupt enable
+This bit enables the AHB master error interrupt.
+0: Interrupt disable
+1: Interrupt enabled
+Bit 3 B3OIE: Buffer 3 overflow interrupt enable
+This bit enables the buffer 3 overflow interrupt.
+0: Interrupt disable
+1: Interrupt enabled
+Bit 2 B2OIE: Buffer 2 overflow interrupt enable
+This bit enables the buffer 2 overflow interrupt.
+0: Interrupt disable
+1: Interrupt enabled
+Bit 1 B1OIE: Buffer 1 overflow interrupt enable
+This bit enables the buffer 1 overflow interrupt.
+0: Interrupt disable
+1: Interrupt enabled
+Bit 0 B0OIE: Buffer 0 overflow interrupt enable
+This bit enables the buffer 0 overflow interrupt.
+0: Interrupt disable
+1: Interrupt enabled
+
+RM0456 Rev 6

@@ -1,0 +1,192 @@
+856
+
+Chrom-ART Accelerator controller (DMA2D)
+
+RM0456
+
+19.5
+
+DMA2D registers
+
+19.5.1
+
+DMA2D control register (DMA2D_CR)
+Address offset: 0x000
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+CEIE
+
+CTCIE
+
+CAEIE
+
+TWIE
+
+TCIE
+
+TEIE
+
+Res.
+
+LOM
+
+Res.
+
+Res.
+
+Res.
+
+ABORT
+
+SUSP
+
+START
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rs
+
+rw
+
+rs
+
+rw
+
+18
+
+17
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:16 MODE[2:0]: DMA2D mode
+These bits are set and cleared by software. They cannot be modified while
+a transfer is ongoing.
+000: Memory-to-memory (FG fetch only)
+001: Memory-to-memory with PFC (FG fetch only with FG PFC active)
+010: Memory-to-memory with blending (FG and BG fetch with PFC and blending)
+011: Register-to-memory (no FG nor BG, only output stage active)
+100: Memory-to-memory with Blending and fixed color FG (BG fetch only with FG and
+BG PFC active)
+101: Memory-to-memory with Blending and fixed color BG (BG fetch only with FG and
+BG PFC active)
+others: Reserved
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 CEIE: Configuration error interrupt enable
+This bit is set and cleared by software.
+0: CE interrupt disabled
+1: CE interrupt enabled
+Bit 12 CTCIE: CLUT transfer complete interrupt enable
+This bit is set and cleared by software.
+0: CTC interrupt disabled
+1: CTC interrupt enabled
+Bit 11 CAEIE: CLUT access error interrupt enable
+This bit is set and cleared by software.
+0: CAE interrupt disabled
+1: CAE interrupt enabled
+Bit 10 TWIE: Transfer watermark interrupt enable
+This bit is set and cleared by software.
+0: TW interrupt disabled
+1: TW interrupt enabled
+
+<!-- pagebreak -->
+

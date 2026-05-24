@@ -1,0 +1,53 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+from the autoreload value back to 0). When OPM bit in the TIMx_CR1 register is set to 0, so
+the Repetitive mode is selected.
+Particular case: tim_ocx fast enable:
+In One-pulse mode, the edge detection on tim_tix input set the CEN bit which enables the
+counter. Then the comparison between the counter and the compare value makes the
+output toggle. But several clock cycles are needed for these operations and it limits the
+minimum delay tDELAY min that can be achieved.
+To output a waveform with the minimum delay, the OCxFE bit can be set in the
+TIMx_CCMRx register. Then tim_ocxref (and tim_ocx) are forced in response to the
+stimulus, without taking in account the comparison. Its new level is the same as if a compare
+match had occurred. OCxFE acts only if the channel is configured in PWM1 or PWM2
+mode.
+
+54.3.23
+
+Retriggerable One-pulse mode
+This mode allows the counter to be started in response to a stimulus and to generate a
+pulse with a programmable length, but with the following differences with nonretriggerable
+one-pulse mode described in Section 54.3.22:
+•
+
+The pulse starts as soon as the trigger occurs (no programmable delay).
+
+•
+
+The pulse is extended if a new trigger occurs before the previous one is completed.
+
+The timer must be in Slave mode, with the bits SMS[3:0] = 1000 (Combined Reset + trigger
+mode) in the TIMx_SMCR register, and the OCxM[3:0] bits set to 1000 or 1001 for
+retriggerable OPM mode 1 or 2.
+If the timer is configured in Up-counting mode, the corresponding CCRx must be set to 0
+(the ARR register sets the pulse length). If the timer is configured in Down-counting mode,
+CCRx must be above or equal to ARR.
+Note:
+
+The OCxM[3:0] and SMS[3:0] bitfields are split into two parts for compatibility reasons, the
+most significant bit are not contiguous with the three least significant ones.
+This mode must not be used with center-aligned PWM modes. It is mandatory to have
+CMS[1:0] = 00 in TIMx_CR1.
+Figure 565. Retriggerable one-pulse mode
+
+tim_trgi
+
+Counter
+
+tim_ocx
+MSv62345V2

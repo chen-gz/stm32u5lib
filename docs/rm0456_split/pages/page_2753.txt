@@ -1,0 +1,58 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+When FIFO mode is enabled, sending the break character has priority on sending data even
+if the TXFIFO is full.
+
+Idle characters
+Setting the TE bit drives the LPUART to send an idle frame before the first data frame.
+
+67.4.7
+
+LPUART receiver
+The LPUART can receive data words of either 7 or 8 or 9 bits depending on the M bits in the
+LPUART_CR1 register.
+
+Start bit detection
+In the LPUART, the start bit is detected when a falling edge occurs on the Rx line, followed
+by a sample taken in the middle of the start bit to confirm that it is still 0. If the start sample is
+at 1, then the noise error flag (NE) is set, then the start bit is discarded and the receiver
+waits for a new start bit. Else, the receiver continues to sample all incoming bits normally.
+
+Character reception
+During an LPUART reception, data are shifted with the least significant bit first (default
+configuration) through the RX pin. In this mode, the LPUART_RDR register consists of a
+buffer (RDR) between the internal bus and the received shift register.
+Character reception procedure
+To receive a character, follow the sequence below:
+1.
+
+Program the M bits in LPUART_CR1 to define the word length.
+
+2.
+
+Select the desired baud rate using the baud rate register LPUART_BRR
+
+3.
+
+Program the number of stop bits in LPUART_CR2.
+
+4.
+
+Enable the LPUART by writing the UE bit in LPUART_CR1 register to 1.
+
+5.
+
+Select DMA enable (DMAR) in LPUART_CR3 if multibuffer communication is to take
+place. Configure the DMA register as explained in Section 67.4.13: Continuous
+communication using DMA and LPUART.
+
+6.
+
+Set the RE bit LPUART_CR1. This enables the receiver, which begins searching for a
+start bit.
+
+When a character is received

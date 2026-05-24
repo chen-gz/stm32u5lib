@@ -1,0 +1,142 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Table 554. Output control bits for complementary tim_ocx and tim_ocxn channels
+with break feature
+Output states(1)
+
+Control bits
+MOE bit OSSI bit OSSR bit CCxE bit CCxNE bit
+
+1
+
+0
+
+0
+
+Output disabled (not driven by the timer: Hi-Z)
+tim_ocx = 0, tim_ocxn = 0
+
+0
+
+0
+
+1
+
+Output disabled (not driven
+tim_ocxref + Polarity tim_ocxn
+by the timer: Hi-Z)
+= tim_ocxref xor CCxNP
+tim_ocx = 0
+
+0
+
+1
+
+0
+
+tim_ocxref + Polarity
+tim_ocx = tim_ocxref xor
+CCxP
+
+Output Disabled (not driven by
+the timer: Hi-Z)
+tim_ocxn = 0
+
+X
+
+1
+
+1
+
+OCREF + Polarity + deadtime
+
+Complementary to OCREF (not
+OCREF) + Polarity + dead-time
+
+1
+
+0
+
+1
+
+Off-State (output enabled
+with inactive state)
+tim_ocx = CCxP
+
+tim_ocxref + Polarity
+tim_ocxn = tim_ocxref x or
+CCxNP
+
+1
+
+1
+
+0
+
+tim_ocxref + Polarity
+tim_ocx = tim_ocxref xor
+CCxP
+
+Off-State (output enabled with
+inactive state)
+tim_ocxn = CCxNP
+
+X
+
+X
+
+0
+
+0
+
+0
+
+1
+
+1
+
+0
+
+1
+
+1
+
+X
+
+1
+
+tim_ocxn output state
+
+X
+
+0
+
+0
+
+tim_ocx output state
+
+X
+
+Output disabled (not driven by the timer: Hi-Z).
+Off-State (output enabled with inactive state)
+Asynchronously: tim_ocx = CCxP, tim_ocxn = CCxNP (if
+tim_brk or tim_brk2 is triggered).
+Then (this is valid only if tim_brk is triggered), if the clock is
+present: tim_ocx = OISx and tim_ocxn = OISxN after a deadtime, assuming that OISx and OISxN do not correspond to
+OCX and tim_ocxn both in active state (may cause a short
+circuit when driving switches in half-bridge configuration).
+Note: tim_brk2 can only be used if OSSI = OSSR = 1.
+
+1. When both outputs of a channel are not used (control taken over by GPIO), the OISx, OISxN, CCxP and CCxNP bits must
+be kept cleared.
+
+Note:
+
+The state of the external I/O pins connected to the complementary tim_ocx and tim_ocxn
+channels depends on the tim_ocx and tim_ocxn channel state and the GPIO registers.
+
+RM0456 Rev 6

@@ -1,0 +1,73 @@
+2474
+
+Basic timers (TIM6/TIM7)
+
+RM0456
+
+Figure 731. Counter timing diagram, update event when ARPE = 1 (TIMx_ARR
+preloaded)
+tim_psc_ck
+
+CEN
+tim_cnt_ck
+Counter register
+
+F0
+
+F1
+
+F2
+
+F3
+
+F4
+
+F5
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter overflow
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+Auto-reload preload
+register
+
+F5
+
+36
+
+Auto-reload shadow
+register
+
+F5
+
+Write a new value in TIMx_ARR
+
+36
+
+MSv62304V1
+
+Dithering mode
+The time base effective resolution can be increased by enabling the dithering mode, using
+the DITHEN bit in the TIMx_CR1 register. This affects the way the TIMx_ARR is behaving,
+and is useful for adjusting the average counter period when the timer is used as a trigger
+(typically for a DAC).
+The operating principle is to have the actual ARR value slightly changed (adding or not one
+timer clock period) over 16 consecutive counting periods, with predefined patterns. This
+allows a 16-fold resolution increase, considering the average counting period.

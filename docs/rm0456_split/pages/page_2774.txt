@@ -1,0 +1,209 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Bit 2 RE: Receiver enable
+This bit enables the receiver. It is set and cleared by software.
+0: Receiver is disabled
+1: Receiver is enabled and begins searching for a start bit
+Bit 1 UESM: LPUART enable in low-power mode
+When this bit is cleared, the LPUART cannot request its kernel clock and is not functional in
+low-power mode.
+When this bit is set, the LPUART can wake up the MCU from low-power mode.
+This bit is set and cleared by software.
+0: LPUART not functional in low-power mode.
+1: LPUART functional in low-power mode.
+Note: The UESM bit must be set at the initialization phase.
+If the LPUART does not support the wake-up from low-power mode, this bit is reserved
+and must be kept at reset value. Refer to Section 67.3: LPUART implementation.
+Bit 0 UE: LPUART enable
+When this bit is cleared, the LPUART prescalers and outputs are stopped immediately, and
+current operations are discarded. The configuration of the LPUART is kept, but all the status
+flags, in the LPUART_ISR are reset. This bit is set and cleared by software.
+0: LPUART prescaler and outputs disabled, low-power mode
+1: LPUART enabled
+Note: To enter low-power mode without generating errors on the line, the TE bit must be reset
+before and the software must wait for the TC bit in the LPUART_ISR to be set before
+resetting the UE bit.
+The DMA requests are also reset when UE = 0 so the DMA channel must be disabled
+before resetting the UE bit.
+
+67.7.2
+
+LPUART control register 1 [alternate] (LPUART_CR1)
+Address offset: 0x00
+Reset value: 0x0000 0000
+The same register can be used in FIFO mode enabled (previous section) and FIFO mode
+disabled (this section).
+FIFO mode disabled, FIFOEN = 0
+
+31
+Res.
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+FIFO
+EN
+
+M1
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+DEAT[4:0]
+rw
+
+rw
+
+rw
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+DEDT[4:0]
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+CMIE
+
+MME
+
+M0
+
+WAKE
+
+PCE
+
+PS
+
+PEIE
+
+TXEIE
+
+TCIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+RXNEIE IDLEIE
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+TE
+
+RE
+
+UESM
+
+UE
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bit 29 FIFOEN:FIFO mode enable
+This bit is set and cleared by software.
+0: FIFO mode is disabled.
+1: FIFO mode is enabled.
+
+RM0456 Rev 6

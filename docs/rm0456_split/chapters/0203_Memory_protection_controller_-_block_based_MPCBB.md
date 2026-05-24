@@ -1,0 +1,107 @@
+Sub-region A
+
+Sub-region B
+
+Properties of overlapped
+region A and B
+
+Unprivileged
+
+Unprivileged
+
+Unprivileged
+
+Unprivileged
+
+Privileged
+
+Unprivileged
+
+Privileged
+
+Unprivileged
+
+Unprivileged
+
+Privileged
+
+Privileged
+
+Privileged
+
+RM0456 Rev 6
+
+RM0456
+
+5.4.4
+
+Global TrustZone controller (GTZC)
+
+Memory protection controller - block based (MPCBB)
+The MPCBB is composed of a configurable set of registers allowing to define security and
+privileged policy for internal SRAM memories. The security and privileged policy can be
+individually configured per each 512-byte block of SRAM.
+Figure 21. MPCBB block diagram
+MPCBB
+(from option bytes) TZEN
+MPCBB_CR
+MPCBB_SECCFGR
+AHB
+
+MPCBB_PRIVCFGR
+
+Secure/non-secure
+Privileged/unprivileged
+MPCBB_ILA_event
+(to TZIC)
+
+MPCBB_CFGLOCKR
+
+ILA = illegal access (security only)
+MSv63636V2
+
+In order to setup the MPCBB, the following actions are needed (for example at boot time):
+•
+Secure firmware must define which memory blocks are secure by setting the correct
+bits in GTZC_MPCBBz_SECCFGRx.
+•
+
+Privileged firmware must define which memory blocks are privileged by setting the
+correct bits in GTZC_MPCBBz_PRIVCFGRx.
+A MPCBB super-block is made of 32 consecutive blocks. For each super-block, secure
+application can lock all related security/privileged bits using the correct bits in
+GTZC_MPCBBz_CFGLOCKR1/2. This lock remains active until the next system reset.
+
+Note:
+
+The block size is 512 bytes.The super-block size is 512 * 32 = 16 Kbytes.
+
+5.4.5
+
+TrustZone illegal access controller (TZIC)
+The TZIC concentrates all illegal access source events. It is used only when the system is
+TrustZone enabled (TZEN = 1).
+TZIC allows the trace (flag) of which event trigged the secure illegal access interrupt.
+Register masks (GTZC_TZIC_IERx) are available to filter unwanted event. On unmasked
+illegal event, TZIC generates the GTZC_IRQn interrupt to the NVIC.
+For each illegal event source, a status flag and a clear bit exist (respectively within
+GTZC_TZIC_SRx and GTZC_TZIC_FCRx). The reset value of mask registers
+(GTZC_TZIC_IERx) is such that all events are masked.
+
+5.4.6
+
+Power-on/reset state
+The power-on and reset state of the TZSC clear to 0 all bits of GTZC_TZSC_SECCFGRx
+and GTZC_TZSC_PRIVCFGRx, meaning that all securable peripherals are respectively set
+to nonsecure and unprivileged.
+For internal SRAMx (x = 1 to 6), all GTZC_MPCBBz_SECCFGRx and
+GTZC_MPCBBz_PRIVCFGRx are set:
+•
+
+to 0xFFFF FFFF, making these internal memories block secure and privileged by
+default when TrustZone security is enabled at system level (TZEN = 1).
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

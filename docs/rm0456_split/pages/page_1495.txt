@@ -1,0 +1,42 @@
+RM0456 Rev 6
+
+RM0456
+
+Comparator (COMP)
+Figure 321. Comparator output blanking
+
+PWM
+
+Current limit
+Current
+
+Raw comp output
+
+Blanking window
+
+Final comp output
+
+Comp out
+Comp out (to TIM_BK …)
+Blank
+MS30964V1
+
+37.4.7
+
+COMP power and speed modes
+COMP1 and COMP2 power consumption versus propagation delay can be adjusted to have
+the optimum trade-off for a given application.
+
+37.4.8
+
+Scaler function
+The scaler block provides the different voltage reference levels to the comparator inputs.
+This block is based on an amplifier driving a resistor bridge. The amplifier input is connected
+to the internal voltage reference.The amplifier and the resistor bridge are enabled by setting
+the INMSEL value in the COMP_CFGRx registers, to connect the corresponding inverting
+input to the scaler output.
+When the resistor divided voltage is not used, the resistor bridge and the amplifier are
+disabled to reduce the consumption. When the resistor bridge is disconnected, the 1/4
+VREF_COMP, 1/2 VREF_COMP, and 3/4 VREF_COMP levels are equal to VREF_COMP.
+
+RM0456 Rev 6

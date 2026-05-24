@@ -1,0 +1,177 @@
+RM0456 Rev 6
+
+RM0456
+
+Independent watchdog (IWDG)
+
+Bits 15:0 KEY[15:0]: Key value (write only, read 0x0000)
+These bits can be used for several functions, depending upon the value written by the
+application:
+- 0xAAAA: reloads the RL[11:0] value into the IWDCNT down-counter (watchdog refresh),
+and write-protects registers. This value must be written by software at regular intervals,
+otherwise the watchdog generates a reset when the counter reaches 0.
+- 0x5555: enables write-accesses to the registers.
+- 0xCCCC: enables the watchdog (except if the hardware watchdog option is selected) and
+write-protects registers.
+- values different from 0x5555: write-protects registers.
+Note that only IWDG_PR, IWDG_RLR, IWDG_EWCR and IWDG_WINR registers have a
+write-protection mechanism.
+
+61.7.2
+
+IWDG prescaler register (IWDG_PR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PR[3:0]
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 PR[3:0]: Prescaler divider
+These bits are write access protected, see Section 61.4.6. They are written by software to
+select the prescaler divider feeding the counter clock. PVU bit of the IWDG status register
+(IWDG_SR) must be reset to be able to change the prescaler divider.
+0000: divider / 4
+0001: divider / 8
+0010: divider / 16
+0011: divider / 32
+0100: divider / 64
+0101: divider / 128
+0110: divider / 256
+0111: divider / 512
+Others: divider / 1024
+Note: Reading this register returns the prescaler value from the VDD voltage domain. This
+value may not be up to date/valid if a write operation to this register is ongoing. For this
+reason the value read from this register is valid only when the PVU bit in the IWDG
+status register (IWDG_SR) is reset.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 186. SDMMC “no response” and “no data” operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1179
+Figure 187. SDMMC (multiple) block read operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1179
+Figure 188. SDMMC (multiple) block write operation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1180
+Figure 189. SDMMC (sequential) stream read operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1180
+Figure 190. SDMMC (sequential) stream write operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1180
+Figure 191. SDMMC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1182
+Figure 192. SDMMC Command and data phase relation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1184
+Figure 193. Control unit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1186
+Figure 194. Command/response path . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1187
+Figure 195. Command path state machine (CPSM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1188
+Figure 196. Data path . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1194
+Figure 197. DDR mode data packet clocking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1195
+Figure 198. DDR mode CRC status / boot acknowledgment clocking. . . . . . . . . . . . . . . . . . . . . . . . 1195
+Figure 199. Data path state machine (DPSM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1196
+Figure 200. CLKMUX unit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1207
+Figure 201. Linked list structures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1209
+Figure 202. Asynchronous interrupt generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1212
+Figure 203. Synchronous interrupt period data read . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1213
+Figure 204. Synchronous interrupt period data write . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1213
+Figure 205. Asynchronous interrupt period data read . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1214
+Figure 206. Asynchronous interrupt period data write . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1215
+Figure 207. Clock stop with SDMMC_CK for DS, HS, SDR12, SDR25. . . . . . . . . . . . . . . . . . . . . . . 1218
+Figure 208. Clock stop with SDMMC_CK for DDR50, SDR50, SDR104 . . . . . . . . . . . . . . . . . . . . . . 1218
+Figure 209. Read Wait with SDMMC_CK < 50 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1219
+Figure 210. Read Wait with SDMMC_CK > 50 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1219
+Figure 211. CMD12 stream timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1222
+Figure 212. CMD5 Sleep Awake procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1224
+Figure 213. Normal boot mode operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1226
+Figure 214. Alternative boot mode operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1227
+Figure 215. Command response R1b busy signaling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1228
+Figure 216. SDMMC state control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1229
+Figure 217. Card cycle power / power up diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1230
+Figure 218. CMD11 signal voltage switch sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1231
+Figure 219. Voltage switch transceiver typical application. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1233
+Figure 220. DLYB block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1261
+Figure 221. ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1269
+Figure 222. ADC clock scheme . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1273
+Figure 223. ADC1 connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1274
+Figure 224. ADC2 connectivity (STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1275
+Figure 225. ADC calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1278
+Figure 226. Enabling/disabling the ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1282
+Figure 227. Bulb mode timing diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1285
+Figure 228. Analog-to-digital conversion time in single conversion . . . . . . . . . . . . . . . . . . . . . . . . . . 1288
+Figure 229. Stopping ongoing regular conversions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1289
+Figure 230. Stopping ongoing regular and injected conversions . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1289
+Figure 231. Triggers are shared between ADC master and ADC slave . . . . . . . . . . . . . . . . . . . . . . 1291
+Figure 232. Injected conversion latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1292
+Figure 233. Single conversions of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1295
+Figure 234. Continuous conversion of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . 1296
+Figure 235. Single conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . 1296
+Figure 236. Continuous conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . 1297
+Figure 237. Right alignment (offset disabled, unsigned value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1299
+
+RM0456 Rev 6

@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Bits 21:18 PRESC[3:0]: ADC prescaler
+These bits are set and cleared by software to select the frequency of the ADC clock. The
+clock is common to all ADCs.
+0000: input ADC clock not divided
+0001: input ADC clock divided by 2
+0010: input ADC clock divided by 4
+0011: input ADC clock divided by 6
+0100: input ADC clock divided by 8
+0101: input ADC clock divided by 10
+0110: input ADC clock divided by 12
+0111: input ADC clock divided by 16
+1000: input ADC clock divided by 32
+1001: input ADC clock divided by 64
+1010: input ADC clock divided by 128
+1011: input ADC clock divided by 256
+Others: Reserved, must not be used
+Note: The software is allowed to write this bit only when the ADCs are disabled (ADCAL = 0,
+JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+Bits 17:16 Reserved, must be kept at reset value.
+Bits 15:14 DAMDF[1:0]: Dual ADC mode data format
+This bit-field is set and cleared by software. It specifies the data format in the common data
+register ADC12_CDR.
+00: Dual ADC mode without data packing (ADC12_CDR and ADC12_CDR2 registers not
+used).
+01: Reserved.
+10: Data formatting mode for 32 down to 10-bit resolution
+11: Data formatting mode for 8-bit resolution
+Note: This register is available only the devices that support dual mode (see Section 33.3:
+ADC implementation).
+The software is allowed to write these bits only when the ADCs are disabled
+(ADCAL = 0, JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+Bits 13:12 Reserved, must be kept at reset value.
+Bits 11:8 DELAY[3:0]: Delay between the end of the master ADC sampling phase and the beginning of
+the slave ADC sampling phase.
+These bits are set and cleared by software. These bits are used in dual interleaved modes.
+Refer to Table 321 for the value of ADC resolution versus DELAY bits values.
+Note: This register is available only the devices that support dual mode (see Section 33.3:
+ADC implementation).
+The software is allowed to write these bits only when the ADCs are disabled
+(ADCAL = 0, JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+Bits 7:5 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,206 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+11.8.43
+
+RCC APB2 peripheral clocks enable in Sleep and Stop modes register
+(RCC_APB2SMENR)
+Address offset: 0x0CC
+Reset value: 0xFFFF FFFF
+Access: word, half-word, and byte access
+This register only configures the clock gating, not the clock source itself. When a bit is set
+in Stop mode, the corresponding peripheral clock is enabled only when a peripheral
+(this one or another) requests the AHB or APB clock (refer to Section 11.4.24).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+DSISM LTDCS
+EN
+MEN
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+GFXTI
+MSME
+N
+
+USBS
+MEN
+
+Res.
+
+SAI2S
+MEN
+
+SAI1S
+MEN
+
+Res.
+
+Res.
+
+18
+
+17
+
+16
+
+TIM17S TIM16S TIM15S
+MEN
+MEN
+MEN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SPI1S
+MEN
+
+TIM1S
+MEN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+Res.
+
+USART TIM8S
+1SMEN MEN
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 DSISMEN: DSI clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: DSI clocks disabled by the clock gating during Sleep and Stop modes
+1: DSI clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 26 LTDCSMEN: LTDC clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: LTDC clocks disabled by the clock gating during Sleep and Stop modes
+1: LTDC clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 25 GFXTIMSMEN: GFXTIM clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: GFXTIM clocks disabled by the clock gating during Sleep and Stop modes
+1: GFXTIM clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 24 USBSMEN: USB clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: USB clocks disabled by the clock gating during Sleep and Stop modes
+1: USB clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on STM32U535/545 devices, it is reserved on other devices in
+the STM32U5 Series. If not present, consider this bit as reserved and keep it at reset
+value.
+
+RM0456 Rev 6

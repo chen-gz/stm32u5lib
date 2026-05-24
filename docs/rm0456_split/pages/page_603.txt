@@ -1,0 +1,197 @@
+RM0456 Rev 6
+
+rw
+
+LSISE
+C
+rw
+
+MSISE HSESE HSISE
+C
+C
+C
+rw
+
+rw
+
+rw
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 6 PRESCSEC: AHBx/APBx prescaler configuration bits security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 5 SYSCLKSEC: SYSCLK clock selection, STOPWUCK bit, clock output on MCO configuration
+security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 4 LSESEC: LSE clock configuration and status bit security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 3 LSISEC: LSI clock configuration and status bit security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 2 MSISEC: MSI clock configuration and status bit security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 1 HSESEC: HSE clock configuration bits, status bit and HSE_CSS security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+Bit 0 HSISEC: HSI clock configuration and status bit security
+This bit is set and reset by software.
+0: nonsecure
+1: secure
+
+11.8.52
+
+RCC privilege configuration register (RCC_PRIVCFGR)
+Address offset: 0x114
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+This register can be written only by a privileged access. It can be read by privileged or
+unprivileged access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+NSPRI
+V
+
+SPRIV
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:2 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

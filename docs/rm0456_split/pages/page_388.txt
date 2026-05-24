@@ -1,0 +1,73 @@
+400
+
+Data cache (DCACHE)
+
+RM0456
+Table 92. DCACHE cacheability for AHB transaction
+
+AHB lookup attribute
+
+AHB bufferable attribute
+
+Cacheability
+
+0
+
+x
+
+Read and write: non cacheable
+
+1
+
+0
+
+Read: cacheable
+Write: (cacheable) write-through
+
+1
+
+1
+
+Read: cacheable
+Write: (cacheable) write-back
+
+In case of noncacheable access, the DCACHE is bypassed, meaning that the AHB
+transaction is propagated unchanged to the master output port.
+The bypass does not increase the latency of the access to the targeted memory.
+In case of cacheable access, the DCACHE behaves as explained in Section 9.4.6.
+Cacheable memory regions are defined and programmed by the user in the MPU,
+responsible for the generation of the AHB attribute signals for any transaction addressing a
+given region.
+
+9.4.6
+
+Cacheable accesses
+When the DCACHE receives a cacheable transaction from Cortex®-M33 or from another
+bus master peripheral on its slave port, the DCACHE checks if the address requested is
+present in its TAG memory and if the corresponding cache line is valid.
+For read transaction, there are three alternatives:
+•
+
+The address is present inside the TAG memory, the cache line is valid: cache read hit,
+the data is read from cache and provided to the processor in the same cycle.
+
+•
+
+The address is not present in the TAG memory: cache read miss, the data is read
+from the main memory and provided to the processor, and a cache line refill is
+performed.
+The critical-word-first refill policy insures minimum wait cycles for the processor, since
+read data can be provided while cache is still performing cache line refill (associated
+latency is the latency of fetching one word from main memory).
+The kind of burst generated on the DCACHE master bus depends on HBURST bit
+in DCACHE_CR: either INCRw or WRAPw (w being the cache line width, in words).
+The AHB transaction attributes are also propagated from the slave input (missing)
+request to the master output refill request.
+
+•
+
+The address is not present in the TAG memory but belongs to the refill burst from main
+memory that is currently ongoing: cache read hit as well (hit-under-miss feature).
+Whatever the line refill is due to a read or write (missing) transaction, the DCACHE can
+provide the requested read data as soon as the data is available at its master interface,
+thus avoiding a miss (with data fetch from main memory).

@@ -1,0 +1,206 @@
+RM0456 Rev 6
+
+ICxF[1:0]
+
+Offset
+
+0
+
+2
+
+1
+
+7
+
+2
+
+9
+
+3
+
+13
+
+0
+
+3
+
+1
+
+5
+
+2
+
+6
+
+3
+
+8
+
+0
+
+2
+
+1
+
+3
+
+2
+
+4
+
+3
+
+5
+
+0
+
+2
+
+1
+
+2
+
+2
+
+3
+
+3
+
+3
+
+0
+
+2
+
+1
+
+2
+
+2
+
+2
+
+3
+
+2
+
+0
+
+2
+
+1
+
+2
+
+2
+
+2
+
+3
+
+2
+
+RM0456
+
+Low-power timer (LPTIM)
+Table 613. Input capture Glitch filter latency (in counter step unit) (continued)
+Prescaler PRESC[2:0]
+
+6
+
+7
+
+58.4.19
+
+ICxF[1:0]
+
+Offset
+
+0
+
+2
+
+1
+
+2
+
+2
+
+2
+
+3
+
+2
+
+0
+
+2
+
+1
+
+2
+
+2
+
+2
+
+3
+
+2
+
+PWM mode
+The PWM mode enables to generate a signal with a frequency determined by the value of
+the LPTIM_ARR register and a duty cycle determined by the value of the LPTIM_CCRx
+register. The LPTIM is able to generate PWM in edge-aligned mode.
+OCx polarity is software programmable using the CCxP bit in the LPTIM_CCMRx register. It
+can be programmed as active high or active low. OCx output is enabled by the CCxE bit in
+the LPTIM_CCMRx register. Refer to the LPTIM_CCMRx register description for more
+details.
+Figure 747 gives an example where the LPTIM channel 1 is configured in PWM mode with
+LPTIM_CCR1 = 6 then 1 and LPTIM_ARR=10.
+Figure 747. Edge-aligned PWM mode (PRELOAD = 1)
+LPTIM_ARR
+
+10
+
+6
+
+LPTIM_CCR1
+
+LPTIM_CNT
+
+5
+
+6
+
+1
+
+7
+
+8
+
+9
+
+10
+
+0
+
+1
+
+2
+
+OC1REF = OC1
+Compare match
+
+Auto reload
+match
+
+Compare match
+MSv50907V1
+
+In the following example the reference PWM signal OCxREF is low as long as
+LPTIM_CNT ≤ LPTIM_CCRx else it becomes high.
+Figure 748 shows some edge-aligned PWM waveforms in an example where
+LPTIM_ARR = 8.
+
+RM0456 Rev 6

@@ -1,0 +1,51 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+The counter is incremented at each rising edge of the frame clock and is reset by setting
+FAFCR (force absolute-frame counter reset) in GFXTIM_TCR.
+In case of overflow of the absolute frame counter, AFCOF (overflow flag) is set in
+GFXTIM_ISR (interrupt status register), and an interrupt is generated if AFCOIE (overflow
+interrupt enable) is set in (interrupt enable register).
+A 20-bit compare register can generate an absolute-frame counter compare event when the
+counter value matches the compare value. When a compare event occurs, AFCC1F
+(compare 1 flag) is set in GFXTIM_ISR, and an interrupt is generated if AFCC1IE (compare
+1 interrupt enable) is set in GFXTIM_IER.
+The absolute frame counter can be disabled by writing 1 in AFCDIS (counter disable) of
+GFXTIM_TDR (timers disable register).
+The status (enabled/disabled) can be monitored through AFCS (counter status) in
+GFXTIM_TSR (timers status register).
+
+Absolute line counter
+The absolute line counter is 12-bit free running-up counter with an hardware controlled
+reset.
+It can be enabled by writing 1 in ALCEN of GFXTIM_TCR.
+The counter is incremented at each rising edge of the line clock an is reset at each rising
+edge of the frame clock or setting FALCR in GFXTIM_TCR).
+In case of overflow of the absolute line counter, ALCOF is set in GFXTIM_ISR, and an
+interrupt is generated if ALCOIE is set in GFXTIM_IER.
+Two 12-bit compare registers can generate an absolute line counter compare events when
+the counter value matches the compare value. When a compare event occurs, ALCC1F or
+ALCC2F is set in GFXTIM_ISR, and an interrupt is generated if ALCC1IE or ALCC2IE is set
+in GFXTIM_IER.
+The absolute line counter can be disabled writing 1 in ALCDIS of GFXTIM_TDR.
+The status (enabled/disabled) can be monitored through ALCS in GFXTIM_TSR.
+
+59.3.6
+
+Relative timers
+The relative timers can generate periodic events to synchronize the graphical tasks at frame
+level.
+The relative frame counters are 12-bit down-counting auto-reload timers that are
+decremented at each rising edge of the frame clock. The counter is started by writing 1 in
+RFCxEN (relative frame counter x enable) of GFXTIM_TCR. The starting value is
+automatically loaded from GFXTIM_RFCxRR (relative frame counter x reload register).
+The current relative frame counter value can be read directly in GFXTIM_RFCxR.
+Once the counter reaches zero, it is automatically reloaded with the value of
+GFXTIM_RFCxRR. RFCxRF (reload flag) is set in GFXTIM_ISR is set, and an interrupt is
+generated if RFCxRIE (interrupt enable) is set in GFXTIM_IER.
+Once the reload operation occurs, the timer can be disabled automatically or continue
+counting if RFCxCM (continuous mode) is set in GFXTIM_TCR.
+The status (enabled/disabled) can be monitored through RFCxS in GFXTIM_TSR.

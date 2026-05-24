@@ -1,0 +1,100 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+The table below lists the possible data handling from the source to the destination.
+Table 141. Programmed data handling
+SDW_
+LOG2
+[1:0]
+
+Source
+data
+
+Source
+data
+stream(1)
+
+SB
+X
+
+DDW_
+LOG2
+[1:0]
+
+Destination
+data
+
+PAM[1:0](2)
+
+DB
+X
+
+00
+
+Byte
+
+xx
+
+x
+
+B7,B6,B5,B4,B3,B2,B1,B0
+
+0
+
+0B3,0B2,0B1,0B0
+
+1
+
+B30,B20,B10,B00
+
+00 (RA, 0P)
+
+01
+
+Half-word
+
+01 (RA, SE)
+
+1x (PACK)
+
+0
+
+00
+
+Byte
+
+00 (RA, 0P)
+
+0
+
+B7B6,B5B4,B3B2,B1B0
+
+1
+
+B6B7,B4B5,B2B3,B0B1
+
+1
+0
+
+0
+10
+
+Word
+
+01 (RA, SE)
+
+1
+0
+1
+0
+
+1x (PACK)
+
+1
+0
+1
+
+01

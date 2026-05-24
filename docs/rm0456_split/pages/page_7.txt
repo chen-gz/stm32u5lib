@@ -1,0 +1,263 @@
+GTZC2 MPCBB4 registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 272
+5.11.1
+
+GTZC2 SRAM4 MPCBB control register (GTZC2_MPCBB4_CR) . . . 272
+
+5.11.2
+
+GTZC2 SRAM4 MPCBB configuration lock register 1
+(GTZC2_MPCBB4_CFGLOCKR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . 273
+
+5.11.3
+
+GTZC2 SRAM4 MPCBB security configuration for super-block 0
+register (GTZC2_MPCBB4_SECCFGR0) . . . . . . . . . . . . . . . . . . . . . . 273
+
+5.11.4
+
+GTZC2 SRAM4 MPCBB privileged configuration for super-block 0
+register (GTZC2_MPCBB4_PRIVCFGR0) . . . . . . . . . . . . . . . . . . . . . 274
+
+5.11.5
+
+GTZC2 MPCBB4 register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 274
+
+RAM configuration controller (RAMCFG) . . . . . . . . . . . . . . . . . . . . . . 276
+6.1
+
+RAMCFG introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+
+6.2
+
+RAMCFG main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+
+6.3
+
+RAMCFG functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+6.3.1
+
+Internal SRAMs features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+
+6.3.2
+
+Error code correction (SRAM2, SRAM3, BKPSRAM) . . . . . . . . . . . . . 277
+
+6.3.3
+
+Write protection (SRAM2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 280
+
+6.3.4
+
+Read access latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 280
+
+6.3.5
+
+Software erase . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 280
+
+6.4
+
+RAMCFG low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281
+
+6.5
+
+RAMCFG interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281
+
+6.6
+
+RAMCFG registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 282
+6.6.1
+
+RAMCFG memory x control register (RAMCFG_MxCR) . . . . . . . . . . . 282
+
+6.6.2
+
+RAMCFG memory x interrupt enable register (RAMCFG_MxIER) . . . 283
+
+6.6.3
+
+RAMCFG memory interrupt status register (RAMCFG_MxISR) . . . . . 283
+
+6.6.4
+
+RAMCFG memory x ECC single error address register
+(RAMCFG_MxSEAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 284
+
+6.6.5
+
+RAMCFG memory x ECC double error address register
+(RAMCFG_MxDEAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 285
+
+6.6.6
+
+RAMCFG memory x interrupt clear register x (RAMCFG_MxICR) . . . 285
+
+6.6.7
+
+RAMCFG memory 2 write protection register 1
+(RAMCFG_M2WPR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 286
+
+6.6.8
+
+RAMCFG memory 2 write protection register 2
+(RAMCFG_M2WPR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 286
+
+6.6.9
+
+RAMCFG memory x ECC key register (RAMCFG_MxECCKEYR) . . . 286
+
+6.6.10
+
+RAMCFG memory x erase key register (RAMCFG_MxERKEYR) . . . 287
+
+6.6.11
+
+RAMCFG register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 287
+
+Embedded flash memory (FLASH) . . . . . . . . . . . . . . . . . . . . . . . . . . . 291
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+7.1
+
+FLASH introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 291
+
+7.2
+
+FLASH main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 291
+
+7.3
+
+FLASH functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 292
+
+7.4
+
+7.5
+
+7.6
+
+7.3.1
+
+Flash memory organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 292
+
+7.3.2
+
+Error code correction (ECC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 294
+
+7.3.3
+
+Read access latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 295
+
+7.3.4
+
+Bank power-down mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 297
+
+7.3.5
+
+Flash memory program and erase operations . . . . . . . . . . . . . . . . . . . 298
+
+7.3.6
+
+Flash main memory erase sequences . . . . . . . . . . . . . . . . . . . . . . . . . 299
+
+7.3.7
+
+Flash main memory programming sequences . . . . . . . . . . . . . . . . . . . 300
+
+7.3.8
+
+Flash memory endurance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 302
+
+7.3.9
+
+Flash memory errors flags . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 302
+
+7.3.10
+
+Read-while-write (RWW) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 304
+
+7.3.11
+
+Power-down during FLASH programming or erase operation . . . . . . . 304
+
+7.3.12
+
+Reset during FLASH programming or erase operation . . . . . . . . . . . . 304
+
+FLASH option bytes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 305
+7.4.1
+
+Option bytes description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 305
+
+7.4.2
+
+Option-byte programming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 307
+
+FLASH TrustZone security and privilege protections . . . . . . . . . . . . . . . 308
+7.5.1
+
+TrustZone security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 308
+
+7.5.2
+
+Watermark-based secure flash memory area protection . . . . . . . . . . . 309
+
+7.5.3
+
+Secure hide protection (HDP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 310
+
+7.5.4
+
+Block-based secure flash memory area protection . . . . . . . . . . . . . . . 311
+
+7.5.5
+
+Flash security attribute state . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 312
+
+7.5.6
+
+Block-based privileged flash memory area protection . . . . . . . . . . . . . 312
+
+7.5.7
+
+Flash memory registers privileged and unprivileged modes . . . . . . . . 313
+
+7.5.8
+
+Flash memory bank attributes in case of bank swap . . . . . . . . . . . . . . 313
+
+FLASH memory protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 314
+7.6.1
+
+Write protection (WRP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 315
+
+7.6.2
+
+Readout protection (RDP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 316
+
+7.7
+
+Flash memory and FLASH registers access control . . . . . . . . . . . . . . . 325
+
+7.8
+
+FLASH interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 329
+
+7.9
+
+FLASH registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 329
+7.9.1
+
+FLASH access control register (FLASH_ACR) . . . . . . . . . . . . . . . . . . 329
+
+7.9.2
+
+FLASH nonsecure key register (FLASH_NSKEYR) . . . . . . . . . . . . . . 331
+
+7.9.3
+
+FLASH secure key register (FLASH_SECKEYR) . . . . . . . . . . . . . . . . 331
+
+RM0456 Rev 6

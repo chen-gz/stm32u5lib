@@ -1,0 +1,45 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+3.
+
+RM0456
+
+The software safely resumes the suspended channel by writing 0 to
+GPDMA_CxCR.SUSP.
+Figure 53. GPDMA channel suspend and resume sequence
+
+Channel state = Active
+Suspend the DMA channel
+(write 1 to CxCR.SUSP)
+or
+
+SUSPF=1 ?
+
+N
+
+Channel state = Suspended and Idle Y
+Receiving
+suspended
+interrupt
+
+Resume the DMA channel
+(write 0 to CxCR.SUSP)
+
+Channel state = Active
+MSv62627V1
+
+Note:
+
+A suspend and resume sequence does not impact the GPDMA_CxCR.EN bit. Suspending a
+channel (transfer) does not suspend a started trigger detection.
+
+17.4.4
+
+GPDMA channel abort and restart
+Alternatively, like for aborting a continuous GPDMA transfer with a circular buffering or a
+double buffering, the software can abort, on its own, a still active channel with the following
+sequence:
+
+<!-- pagebreak -->
+

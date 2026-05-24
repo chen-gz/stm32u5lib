@@ -1,0 +1,49 @@
+TSF is set up to 3 ck_apre cycles after TAMPxF flags. TSF is not set if RTCCLK is stopped
+(it is set when RTCCLK restarts).
+
+RM0456 Rev 6
+
+RM0456
+Note:
+
+Tamper and backup registers (TAMP)
+If TAMPxF is cleared before the expected rise of TSF, TSF is not set. Consequently, in case
+TAMPTS = 1, the software should either wait for timestamp flag before clearing the tamper
+flag, or should read the RTC counters values in the TAMP interrupt routine.
+
+Edge detection on tamper inputs (passive mode)
+If the TAMPFLT bits are 00, the TAMP_INx pins generate tamper detection events when
+either a rising edge or a falling edge is observed depending on the corresponding
+TAMPxTRG bit. The internal pull-up resistors on the TAMP_INx inputs are deactivated when
+edge detection is selected.
+Caution:
+
+When TAMPFLT = 00 and TAMPxTRG = 0 (rising edge detection), a tamper event may be
+detected by hardware if the tamper input is already at high level before enabling the tamper
+detection.
+After a tamper event has been detected and cleared, the TAMP_INx should be disabled and
+then re-enabled (TAMPxE set to 1) before re-programming the backup registers
+(TAMP_BKPxR). This prevents the application from writing to the backup registers while the
+TAMP_INx input value still indicates a tamper detection. This is equivalent to a level
+detection on the TAMP_INx input.
+
+Note:
+
+Tamper detection is still active when VDD power is switched off. To avoid unwanted resetting
+of the backup registers, the pin to which the TAMPx is mapped should be externally tied to
+the correct level.
+
+Level detection with filtering on tamper inputs (passive mode)
+Level detection with filtering is performed by setting TAMPFLT to a non-zero value. A tamper
+detection event is generated when either 2, 4, or 8 (depending on TAMPFLT) consecutive
+samples are observed at the level designated by the TAMPxTRG bits.
+The TAMP_INx inputs are precharged through the I/O internal pull-up resistance before its
+state is sampled, unless disabled by setting TAMPPUDIS to 1. The duration of the
+precharge is determined by the TAMPPRCH bits, allowing for larger capacitances on the
+TAMP_INx inputs.
+The trade-off between tamper detection latency and power consumption through the pull-up
+can be optimized by using TAMPFREQ to determine the frequency of the sampling for level
+detection. The TAMP_IN I/O schmitt trigger is enabled only during the precharge duration to
+avoid any extra consumption if the tamper switch is open (floating state).
+
+RM0456 Rev 6

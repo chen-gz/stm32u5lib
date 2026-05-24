@@ -1,0 +1,50 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Analog watchdog threshold control
+LTRx[24:0] and HTRx[24:0] can be changed when an analog-to-digital conversion is
+ongoing (that is between the start of conversion and the end of conversion of the ADC
+internal state). If LTRx[24:0] and HTRx[24:0] are updated during the ADC conversion of the
+ADC guarded channel, the watchdog function is masked for this conversion. This masking is
+removed at the next start of conversion, resulting in an analog watchdog thresholds to be
+applied from the next ADC conversion. The analog watchdog comparison is performed at
+each end of conversion. If the current ADC data is out of the new interval, no interrupt and
+AWDx_OUT signal are issued. The interrupt and the AWD generation only happen at the
+end of the conversion which started after the threshold update. If AWD_xOUT is already
+asserted, programming the new thresholds does not deassert the AWD_OUT signal.
+
+Analog watchdog with gain and offset compensation
+When gain and offset compensation are enabled, the analog watchdog compares the
+threshold after the compensated data.
+
+33.4.31
+
+Oversampler
+The oversampling unit performs data preprocessing to offload the CPU. It is able to handle
+multiple conversions and average them into a single data with increased data width, up to
+24-bit (14-bit values and OSR = 1024).
+It provides a result with the following form, where N and M can be adjusted:
+
+n = N–1
+
+1
+Result = ---- ×
+M
+
+∑ Conversion(tn)
+n=0
+
+It enables the following functions to be performed by hardware: averaging, data rate
+reduction, SNR improvement, basic filtering.
+The oversampling ratio N is defined using the OSR[9:0] bits in the ADC_CFGR2 register,
+and can range from 2x to 1024x. The division coefficient M consists of a right bit shift up to
+10 bits, and is defined using the OVSS[3:0] bits in the ADC_CFGR2 register.
+The summation unit can yield a result up to 24 bits (1024 x 14-bit results), which can be left
+or right shifted. When right shifting is selected, it is rounded to the nearest value using the
+least significant bits left apart by the shifting, before being transferred into the ADC_DR data
+register.
+Figure 253 gives a numerical example of the processing, from a raw 24-bit accumulated
+data to the final 14-bit result.

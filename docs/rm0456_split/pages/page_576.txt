@@ -1,0 +1,185 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.39
+
+RM0456
+
+RCC AHB2 peripheral clock enable in Sleep and
+Stop modes register 2 (RCC_AHB2SMENR2)
+Address offset: 0x0B8
+Reset value: 0xFFFF FFFF
+Access: no wait state; word, half-word and byte access
+This register only configures the clock gating, not the clock source itself.
+When a bit is set in Stop mode, the corresponding peripheral clock is enabled only when a
+peripheral (this one or another) requests AHB or APB clock (refer to Section 11.4.24).
+
+31
+
+30
+
+SRAM5 SRAM6
+SMEN SMEN
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+HSPI1
+SMEN
+
+Res.
+
+Res.
+
+Res.
+
+OCTOS
+PI2SM
+EN
+
+Res.
+
+Res.
+
+Res.
+
+OCTOS
+PI1SM
+EN
+
+Res.
+
+Res.
+
+Res.
+
+FSMCS
+MEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 SRAM5SMEN: SRAM5 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SRAM5 clocks disabled by the clock gating during Sleep and Stop modes
+1: SRAM5 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 30 SRAM6SMEN: SRAM6 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SRAM6 clocks disabled by the clock gating during Sleep and Stop modes
+1: SRAM6 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 29:13 Reserved, must be kept at reset value.
+Bit 12 HSPI1SMEN: HSPI1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: HSPI1 clocks disabled by the clock gating during Sleep and Stop modes
+1: HSPI1 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 11:9 Reserved, must be kept at reset value.

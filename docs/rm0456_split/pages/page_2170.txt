@@ -1,0 +1,120 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Index management in nonquadrature mode
+Figure 587 and Figure 588 detail how the index is managed in directional clock mode and
+clock plus direction mode, when the SMS[3:0] bitfield is equal to 1010, 1011, 1100, 1101.
+For both of these modes, the index sensitivity is set with the IPOS[0] bit as following:
+•
+
+IPOS[0] = 0: Index is detected on clock low level
+
+•
+
+IPOS[0] = 1: Index is detected on clock high level
+
+The IPOS[1] bit is not-significant.
+Figure 587. Index behavior in clock + direction mode, IPOS[0] = 1
+tim_ti1
+
+tim_ti2
+
+Index
+
+Counter x2 mode
+
+7
+
+Counter x1 mode
+
+7
+
+0
+
+1
+
+2
+
+0
+
+3
+
+4
+
+1
+
+3
+
+2
+
+2
+
+7
+
+6
+
+1
+
+5
+
+7
+MSv62355V1
+
+Figure 588. Index behavior in directional clock mode, IPOS[0] = 1
+tim_ti1
+
+tim_ti2
+
+DIR bit
+
+Counter x2 mode
+
+9
+
+Counter x1 mode
+
+9
+
+0
+
+1
+
+0
+
+2
+
+3
+
+1
+
+4
+
+3
+
+2
+
+2
+
+1
+
+1
+
+0
+
+9
+
+0
+
+8
+
+9
+MSv62356V1
+
+Encoder error management
+For encoder configurations where two quadrature signals are available, it is possible to
+detect transition errors. The reading on the two inputs corresponds to a 2-bit gray code
+which can be represented as a state diagram, on Figure 589.. A single bit is expected to
+change at once. An erroneous transition sets the TERRF interrupt flag in the TIMx_SR

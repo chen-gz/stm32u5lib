@@ -1,0 +1,217 @@
+Shared
+with
+DCMI
+
+Interrupt
+event
+
+Event flag
+
+Enable
+control bit
+
+IT_OVR
+
+indicates
+overrun in
+receive mode
+or underrun in
+transmit mode
+
+OVR_RIS
+
+OVR_IE
+
+RM0456 Rev 6
+
+Interrupt
+Exit from lowclear method power mode
+
+OVR_ISC
+
+NA
+
+RM0456
+
+Parallel synchronous slave interface (PSSI)
+
+42.5
+
+PSSI registers
+An 8-bit write or a 16-bit write operation to any PSSI register besides PSSI_DR, results in a
+bus error. 32-bit read and write operations are permitted.
+
+42.5.1
+
+PSSI control register (PSSI_CR)
+Address offset: 0x00
+Reset value: 0x4000 0000
+
+31
+
+30
+
+DMAE
+OUTEN
+N
+rw
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+15
+
+14
+
+Res.
+
+ENABL
+E
+rw
+
+13
+Res.
+
+12
+Res.
+
+11
+
+10
+
+EDM[1:0]
+rw
+
+rw
+
+9
+
+8
+
+7
+
+Res.
+
+RDYP
+OL
+
+Res.
+
+rw
+
+6
+
+5
+
+DEPOL CKPOL
+rw
+
+20
+
+19
+
+18
+
+DERDYCFG[2:0]
+
+17
+
+16
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bit 31 OUTEN: Data direction selection bit
+0: Receive mode: data is input synchronously with PSSI_PDCK
+1: Transmit mode: data is output synchronously with PSSI_PDCK
+Bit 30 DMAEN: DMA enable bit
+0: DMA transfers are disabled. The user application can directly access the PSSI_DR
+register when DMA transfers are disabled.
+1: DMA transfers are enabled (default configuration). A DMA channel in the general-purpose
+DMA controller must be configured to perform transfers from/to PSSI_DR.
+Bits 29:21 Reserved, must be kept at reset value.
+Bits 20:18 DERDYCFG[2:0]: Data enable and ready configuration
+000: PSSI_DE and PSSI_RDY both disabled
+001: Only PSSI_RDY enabled
+010: Only PSSI_DE enabled
+011: Both PSSI_RDY and PSSI_DE alternate functions enabled
+100: Both PSSI_RDY and PSSI_DE features enabled - bidirectional on PSSI_RDY pin (see
+Bidirectional PSSI_DE/PSSI_RDY signal on page 1703)
+101: Only PSSI_RDY function enabled, but mapped to PSSI_DE pin
+110: Only PSSI_DE function enabled, but mapped to PSSI_RDY pin
+111: Both PSSI_RDY and PSSI_DE features enabled - bidirectional on PSSI_DE pin (see
+Bidirectional PSSI_DE/PSSI_RDY signal on page 1703)
+When the PSSI_RDY function is mapped to the PSSI_DE pin (settings 101 or 111), it is still
+the RDYPOL bit which determines its polarity. Similarly, when the PSSI_DE function is
+mapped to the PSSI_RDY pin (settings 110 or 111), it is still the DEPOL bit which determines
+its polarity.
+Bits 17:15 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

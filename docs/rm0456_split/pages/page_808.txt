@@ -1,0 +1,39 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Bit 13 SUSPF: completed suspension flag
+0: no completed suspension event
+1: a completed suspension event occurred
+Bit 12 USEF: user setting error flag
+0: no user setting error event
+1: a user setting error event occurred
+Bit 11 ULEF: update link transfer error flag
+0: no update link transfer error event
+1: a master bus error event occurred while updating a linked-list register from memory
+Bit 10 DTEF: data transfer error flag
+0: no data transfer error event
+1: a master bus error event occurred on a data transfer
+Bit 9 HTF: half transfer flag
+0: no half transfer event
+1: a half transfer event occurred
+A half transfer event is a half block transfer that occurs when half of the bytes of the source
+block size (rounded-up integer of LPDMA_CxBR1.BNDT[15:0] / 2) has been transferred to
+the destination.
+Bit 8 TCF: transfer complete flag
+0: no transfer complete event
+1: a transfer complete event occurred
+A transfer complete event is a block transfer complete or a LLI transfer complete including
+the upload of the next LLI if any, or the full linked-list completion, depending on the transfer
+complete event mode LPDMA_CxTR2.TCEM[1:0].
+Bits 7:1 Reserved, must be kept at reset value.
+Bit 0 IDLEF: idle flag
+0: channel not in idle state
+1: channel in idle state
+This idle flag is de-asserted by hardware when the channel is enabled
+(LPDMA_CxCR.EN = 1) with a valid channel configuration (no USEF to be immediately
+reported).
+This idle flag is asserted after hard reset or by hardware when the channel is back in idle
+state (in suspended or disabled state).

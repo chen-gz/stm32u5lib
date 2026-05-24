@@ -1,0 +1,94 @@
+RM0456 Rev 6
+
+2
+
+MDF1
+STM32U59x/5Ax
+5Fx/5Gx
+
+MDF1
+STM32U575/585
+6
+
+RM0456
+
+Multi-function digital filter (MDF)
+Table 368. ADF/MDF features(1) (continued)
+Mode or feature
+
+ADF1
+MDF1
+all devices STM32U535/545
+
+MDF1
+STM32U59x/5Ax
+5Fx/5Gx
+
+MDF1
+STM32U575/585
+
+MDF_CKIy/ADF_CKI0 connected to pins
+
+-
+
+Sound activity detection (SAD)
+
+X
+
+-
+
+X
+
+RXFIFO depth (number of 24-bit words)
+
+4
+
+4
+
+ADC connected to ADCITF1
+
+-
+
+ADC1
+
+ADC connected to ADCITF2
+
+-
+
+Motor dedicated features (SCD, OLD,
+OEC, INT, snapshot, break)
+
+-
+
+Main path with CIC4, CIC5
+
+X
+
+Main path with CIC1,2, 3 or FastSinc
+
+-
+
+RSFLT, HPF, SAT, SCALE, DLY, Discard
+functions
+
+X
+
+Autonomous in Stop modes
+
+X(2)
+
+-
+
+-
+
+ADC2
+
+X
+
+X(3)
+
+1. ‘X’ = supported, ‘-’ = not supported.
+2. Only Stop 0, Stop 1, and Stop 2 modes.
+3. Only Stop 0 and Stop 1 modes.
+
+RM0456 Rev 6

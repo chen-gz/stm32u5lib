@@ -1,0 +1,251 @@
+Not allowed (noise on bus)
+
+RM0456 Rev 6
+
+Go back in Suspend mode
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+71.6
+
+USB registers
+The USB peripheral registers can be divided into the following groups:
+•
+
+Common registers: interrupt and control registers. These registers affect the general
+behavior of the USB peripheral defining operating mode, interrupt handling, device
+address and giving access to the current frame number updated by the host PC.
+
+•
+
+–
+
+USB_CNTR
+
+–
+
+USB_ISTR
+
+–
+
+USB_FNR
+
+–
+
+USB_DADDR
+
+–
+
+USB_LPMCSR
+
+–
+
+USB_BCDR
+
+Endpoint/channel registers: endpoint/channel configuration and status
+–
+
+USB_CHEPnR
+
+Refer to Section 1.2 for a list of abbreviations used in register descriptions.
+The peripheral registers can be accessed by words (32-bit).
+
+71.6.1
+
+USB control register (USB_CNTR)
+Address offset: 0x40
+Reset value: 0x0000 0003
+
+31
+HOST
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DDISC
+M
+
+THR
+512M
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+CTRM
+
+PMA
+OVRM
+
+ERRM
+
+WKUP
+M
+
+SUSP
+M
+
+RST_D
+CONM
+
+SOFM
+
+ESOF
+M
+
+L1REQ
+M
+
+Res.
+
+L1RE
+S
+
+L2RE
+S
+
+SUS
+PEN
+
+SUSP
+RDY
+
+PDWN
+
+USB
+RST
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+rw
+
+rw
+
+rw
+
+Bit 31 HOST: HOST mode
+HOST bit selects betweens host or device USB mode of operation. It must be set before
+enabling the USB peripheral by the function enable bit.
+0: USB Device function
+1: USB host function
+Bits 30:18 Reserved, must be kept at reset value.
+Bit 17 DDISCM: Device disconnection mask
+– Host mode
+0: Device disconnection interrupt disabled
+1: Device disconnection interrupt enabled
+Bit 16 THR512M: 512 byte threshold interrupt mask
+0: 512 byte threshold interrupt disabled
+1: 512 byte threshold interrupt enabled
+
+RM0456 Rev 6

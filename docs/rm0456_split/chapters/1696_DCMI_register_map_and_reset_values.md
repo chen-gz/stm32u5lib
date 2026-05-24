@@ -1,0 +1,17 @@
+1696
+
+0x20
+
+0x24
+DCMI_ESCR
+
+Reset value
+
+DCMI_CWSIZE
+
+0x28
+
+Reset value
+
+<!-- pagebreak -->
+

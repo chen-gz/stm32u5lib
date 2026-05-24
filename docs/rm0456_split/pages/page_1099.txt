@@ -1,0 +1,168 @@
+RM0456 Rev 6
+
+RM0456
+
+Octo-SPI interface (OCTOSPI)
+
+Bits 5:4 ISIZE[1:0]: Instruction size
+This bitfield defines the instruction size.
+00: 8-bit instruction
+01: 16-bit instruction
+10: 24-bit instruction
+11: 32-bit instruction
+Bit 3 IDTR: Instruction double transfer rate
+This bit sets the DTR mode for the instruction phase.
+0: DTR mode disabled for instruction phase
+1: DTR mode enabled for instruction phase
+Bits 2:0 IMODE[2:0]: Instruction mode
+This bitfield defines the instruction phase mode of operation.
+000: No instruction
+001: Instruction on a single line
+010: Instruction on two lines
+011: Instruction on four lines
+100: Instruction on eight lines
+Others: Reserved
+
+28.7.24
+
+OCTOSPI write timing configuration register (OCTOSPI_WTCR)
+Address offset: 0x0188
+Reset value: 0x0000 0000
+This register can be modified only when BUSY = 0. Its content has a meaning only when
+requesting write operations in memory-mapped mode.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+DCYC[4:0]
+rw
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bits 4:0 DCYC[4:0]: Number of dummy cycles
+This bitfield defines the duration of the dummy phase according to the memory latency.
+In both SDR and DTR modes, it specifies a number of CLK cycles (0-31). It is recommended
+to have at least 5 dummy cycles when using memories with DQS activated.
+
+RM0456 Rev 6

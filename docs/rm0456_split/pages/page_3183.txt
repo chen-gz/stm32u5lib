@@ -1,0 +1,47 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+time can be obtained from the transceiver vendor and varies from one transceiver to
+another.
+3.
+
+The OTG_FS core informs the PHY to speed up VBUS discharge.
+
+4.
+
+The application initiates SRP by writing the session request bit in the OTG control and
+status register. The OTG_FS controller perform data-line pulsing followed by VBUS
+pulsing.
+
+5.
+
+The host detects SRP from either the data-line or VBUS pulsing, and turns on VBUS.
+The PHY indicates VBUS power-on to the device.
+
+6.
+
+The OTG_FS controller performs VBUS pulsing.
+The host starts a new session by turning on VBUS, indicating SRP success. The
+OTG_FS controller interrupts the application by setting the session request success
+status change bit in the OTG interrupt status register. The application reads the session
+request success bit in the OTG control and status register.
+
+7.
+
+When the USB is powered, the OTG_FS controller connects, completing the SRP
+process.
+
+A-device host negotiation protocol
+HNP switches the USB host role from the A-device to the B-device. The application must set
+the HNP-capable bit in the core USB configuration register to enable the OTG_FS controller
+to perform HNP as an A-device.
+Figure 916. A-device HNP
+
+1. DPPULLDOWN = signal from core to PHY to enable/disable the pull-down on the DP line inside the PHY.
+DMPULLDOWN = signal from core to PHY to enable/disable the pull-down on the DM line inside the PHY.
+
+The following points refer and describe the signal numeration shown in the Figure 916:
+1.

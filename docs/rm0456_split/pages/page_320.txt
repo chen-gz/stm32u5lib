@@ -1,0 +1,59 @@
+363
+
+Embedded flash memory (FLASH)
+•
+
+RM0456
+
+Level 2: no debug
+When the readout protection level 2 is set:
+–
+
+The protection level 1 is guaranteed.
+
+–
+
+All debug features are disabled
+. if OEM2 key has not been provided, JTAG and SWD are definitively disabled.
+. if OEM2 key has been provided under a lower RDP protection, JTAG and SWD
+remain enabled under reset only to interface with DBGMCU_SR,
+DBGMCU_DBG_AUTH_HOST and DBGMCU_DBG_AUTH_DEVICE registers to
+obtain device identification and provide OEM2 key to request RDP regression.
+
+Note:
+
+–
+
+The boot from SRAM (boot RAM mode) and the boot from system memory (boot
+loader mode) are no longer available.
+
+–
+
+Boot from RSS is possible.
+
+–
+
+When booting from main flash or RSS, all operations are allowed on the flash
+main memory. Read, erase and program accesses to flash memory and SRAMs
+from user code are allowed.
+
+–
+
+Option bytes cannot be programmed nor erased except the SWAP_BANK option
+bit. Thus, the level 2 cannot be removed: it is an irreversible operation unless
+an OEM2 key has been provisioned (refer to OEM2 RDP lock mechanism).
+
+The debug feature is also disabled under reset.
+STMicroelectronics is not able to perform analysis on defective parts on which the level 2
+protection has been set. Regress parts to RDP level 1 before returning them for analysis
+(refer to OEM2 RDP lock mechanism).
+Table 67. Access status versus protection level and execution modes when TZEN = 1
+Area
+
+Flash main memory
+
+System memory (3)
+
+Option bytes(4)
+
+OTP

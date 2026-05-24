@@ -1,0 +1,174 @@
+1674
+
+Audio digital filter (ADF)
+
+40.8.12
+
+RM0456
+
+ADF SAD configuration register (ADF_SADCFGR)
+Address offset: 0x0BC
+Reset value: 0x0000 0000
+This register is used for the configuration of the sound activity detection.
+
+31
+
+30
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+Res.
+
+28
+
+rw
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+ANMIN[12:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+HGOVR[2:0]
+rw
+
+27
+
+Res.
+rw
+
+LFRNB[2:0]
+rw
+
+rw
+
+Res.
+rw
+
+ANSLP[2:0]
+rw
+
+rw
+
+SNTHR[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bits 28:16 ANMIN[12:0]: Minimum noise level
+This bitfield is set and cleared by software. It is used to define the minimum noise level and
+then the sensitivity. It represents a positive number.
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 15 Reserved, must be kept at reset value.
+Bits 14:12 HGOVR[2:0]: Hangover time window
+This bitfield is set and cleared by software. Once the SAD state is DETECT, this parameter is
+used to define the amount of time the sound is allowed to remain below the threshold, before
+switching the SAD to MONITOR state (see FRSIZE bitfield for the description of a frame).
+000: SAD back to MONITOR state if sound is below threshold for 4 frames
+001: SAD back to MONITOR state if sound is below threshold for 8 frames
+010: SAD back to MONITOR state if sound is below threshold for 16 frames
+011: SAD back to MONITOR state if sound is below threshold for 32 frames
+100: SAD back to MONITOR state if sound is below threshold for 64 frames
+101: SAD back to MONITOR state if sound is below threshold for 128 frames
+110: SAD back to MONITOR state if sound is below threshold for 256 frames
+111: SAD back to MONITOR state if sound is below threshold for 512 frames
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 11 Reserved, must be kept at reset value.
+Bits 10:8 LFRNB[2:0]: Number of learning frames
+This bitfield is set and cleared by software. It is used to define the number of learning frames
+to perform the first estimate of the noise level.
+000: 2 frames used to compute the initial noise level
+001: 4 frames used to compute the initial noise level
+010: 8 frames used to compute the initial noise level
+011: 16 frames used to compute the initial noise level
+1xx: 32 frames used to compute the initial noise level
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 7 Reserved, must be kept at reset value.

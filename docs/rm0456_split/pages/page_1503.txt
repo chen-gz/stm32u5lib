@@ -1,0 +1,70 @@
+RM0456 Rev 6
+
+RM0456
+
+38.3.4
+
+Operational amplifier (OPAMP)
+
+OPAMP modes
+The OPAMP inputs and outputs are all accessible on terminals. The amplifiers can be used
+in the following configuration environments:
+•
+
+standalone mode (external gain setting mode)
+
+•
+
+follower configuration mode
+
+•
+
+PGA modes
+
+The amplifier output pin is directly connected to the output pad to minimize the output
+impedance. It cannot be used as a general purpose I/O, even if the amplifier is configured
+as a PGA and only connected to the ADC channel.
+The impedance of the signal must be maintained below a level that avoids the input leakage
+to create significant artifacts (due to a resistive drop in the source). Refer to the “electrical
+characteristics” section in the datasheet for further details.
+
+Standalone mode (external gain setting mode)
+The procedure to use the OPAMP in standalone mode is detailed below:
+1.
+
+Keep default value of OPAMPx_CSR and the default state of GPIOx_MODER.
+
+2.
+
+As soon as OPAEN is set in OPAMPx_CSR, the two input pins and the output pin are
+connected to the operational amplifier.
+
+This default configuration uses the factory trimming values and operates in normal mode
+(standard performance). The OPAMP behavior can be changed with the following bits in
+OPAMPx_CSR:
+•
+
+If OPALPM is set to 1, the OPAMP switches in low-power mode in order to save power.
+
+•
+
+If OPAHSM is set to 1, the OPAMP switches in high-speed mode in order to have high
+slew rate.
+
+•
+
+If USERTRIM is set to 1, the input offset values can be trimmed.
+Figure 323. Standalone mode: external gain setting mode
+STM32
+GPIO
+DAC_OUT
+
++
+ADC
+
+GPIO
+-
+
+MS35324V1
+
+RM0456 Rev 6

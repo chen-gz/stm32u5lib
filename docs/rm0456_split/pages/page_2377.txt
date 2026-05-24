@@ -1,0 +1,57 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+clock signal must also be provided (first configuration). In this case, the internal clock signal
+frequency must be at least four times higher than the external clock signal frequency.
+
+58.4.5
+
+Glitch filter
+The LPTIM inputs, either external (mapped to GPIOs) or internal (mapped on the chip-level
+to other embedded peripherals), are protected with digital filters that prevent any glitches
+and noise perturbations to propagate inside the LPTIM. This is in order to prevent spurious
+counts or triggers.
+Before activating the digital filters, an internal clock source must first be provided to the
+LPTIM. This is necessary to guarantee the proper operation of the filters.
+The digital filters are divided into three groups:
+
+Note:
+
+•
+
+The first group of digital filters protects the LPTIM internal or external inputs. The digital
+filters sensitivity is controlled by the CKFLT bits
+
+•
+
+The second group of digital filters protects the LPTIM internal or external trigger inputs.
+The digital filters sensitivity is controlled by the TRGFLT bits.
+
+•
+
+The third group of digital filters protects the LPTIM internal or external input captures.
+The digital filters sensitivity is controlled by the ICxF bits.
+
+The digital filters sensitivity is controlled by groups. It is not possible to configure each digital
+filter sensitivity separately inside the same group.
+The filter sensitivity acts on the number of consecutive equal samples that is detected on
+one of the LPTIM inputs to consider a signal level change as a valid transition. Figure 738
+shows an example of glitch filter behavior in case of a two consecutive samples
+programmed.
+Figure 738. Glitch filter timing diagram
+
+CLKMUX
+Input
+Filter out
+
+2 consecutive samples
+
+2 consecutive samples
+
+Filtered
+MS32490V1
+
+Note:

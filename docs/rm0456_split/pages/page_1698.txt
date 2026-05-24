@@ -1,0 +1,67 @@
+1710
+
+Parallel synchronous slave interface (PSSI)
+
+42.3.1
+
+RM0456
+
+PSSI block diagram
+Figure 400. PSSI block diagram
+
+AHB interface
+
+DMA
+interface
+
+Control/Status
+Register
+
+FIFO/
+Data
+formatter
+
+Data
+extraction
+
+PSSI_PDCK
+Synchronizer
+
+PSSI_D[15:0]
+PSSI_DE
+PSSI_RDY
+MSv48844V4
+
+Figure 401. Top-level block diagram
+
+pssi_hclk
+PSSI_D[15:0]
+
+PSSI
+Interrupt
+controller
+
+pssi_it
+
+PSSI_DE
+
+External interface
+
+PSSI_RDY
+PSSI_PDCK
+
+pssi_dma
+
+MSv48845V5
+
+42.3.2
+
+PSSI pins and internal signals
+The PSSI interface is composed of 19 pins, though nine signals are enough to transfer
+parallel data. Table 422 shows the PSSI pins.
+When the PSSI ENABLE bit (bit 14 of PSSI_CR) is set to 1, the alternate functions and the
+interrupt vector are associated with the PSSI. Otherwise, they are associated with the
+DCMI. The DCMI ENABLE bit (bit 15 of DCMI_CR) and the PSSI ENABLE bit (bit 14 of
+PSSI_CR) must not be set to 1 at the same time. As an example, if a GPIO is configured to
+use the alternate function PSSI_PDCK/DCMI_PIXCK, it is the PSSI_PDCK function which
+becomes active if PSSI_CR/ENABLE is set to 1.

@@ -1,0 +1,80 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+GPDMA_CxLLR register that was conditionally updated from the linked-list data structure of
+the previous LLI.
+
+Static linked-list data structure
+For example, when the update bits (UT1, UT2, UB1, USA, UDA and ULL, plus UB2 and
+UT3) in GPDMA_CxLLR are all asserted, the linked-list data structure in the memory is
+maximal with:
+•
+
+channel x (x = 0 to 11) contiguous 32-bit locations, including GPDMA_CxTR1,
+GPDMA_CxTR2, GPDMA_CxBR1, GPDMA_CxSAR, GPDMA_CxDAR and
+GPDMA_CxLLR (see Figure 55) and including the first linked-list register file (LLI0) and
+the next LLIs (such as LLI1, LLI2) in the memory
+
+•
+
+channel x (x = 12 to 15), contiguous 32-bit locations, including GPDMA_CxTR1,
+GPDMA_CxTR2, GPDMA_CxBR1, GPDMA_CxSAR, GPDMA_CxDAR, and
+GPDMA_CxLLR, plus GPDMA_CxTR3 and GPDMA_CxBR2 (see Figure 56), and
+including the first linked-list register file (LLI0) and the next LLIs (such as LLI1, LLI2) in
+the memory
+Figure 55. Static linked-list data structure (all Uxx = 1)
+of a linear addressing channel x
+DMA register file
+
+Memory from link base address
+DMA_CxLBAR
+
+Channel x linked-list register file
+(LLI0)
+DMA_CxTR1
+
+LLI1
+All Uxx=1
+
+DMA_CxTR1
+DMA_CxTR2
+
+DMA_CxTR2
+DMA_CxBR1
+
+DMA_CxBR1
+
+DMA_CxSAR
+
+DMA_CxSAR
+
+DMA_CxDAR
+
+DMA_CxDAR
+
+DMA_CxLLR
+
+DMA_CxLLR
+
+Channel x other registers
+
+LLI2
+
+All Uxx=1
+
+DMA_CxTR1
+Other channels registers
+
+DMA_CxTR2
+
+Global registers
+
+DMA_CxBR1
+DMA_CxSAR
+DMA_CxDAR
+DMA_CxLLR
+
+MSv62629V1

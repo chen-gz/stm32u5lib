@@ -1,0 +1,121 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Figure 878. Tristate on output data line in a protocol like I2S
+
+sck
+
+Slot size = data size
+slot
+SD (output)
+
+Slot 0 ON
+
+Slot 1 OFF
+
+Data 0
+
+Slot 2 ON
+
+Slot 3 ON
+
+Data 1
+
+Data 2
+
+Slot 4 OFF
+
+Slot 5 ON
+Data 3
+
+Slot size > data size
+slot
+
+Slot 0 ON
+
+SD (output)
+
+Data 0
+
+slot
+
+Slot 0 ON
+
+SD (output)
+
+Data 0
+
+Slot 1 OFF
+
+Slot 1 OFF
+
+Slot 2 ON
+
+Slot 3 ON
+
+Data 1
+
+Data 2
+
+Slot 2 ON
+
+Slot 3 ON
+
+Data 1
+
+Slot 4 OFF
+
+Slot 5 ON
+Data 3
+
+Slot 4 OFF
+
+Slot 5 ON
+Data m
+MSv192346V1
+
+If the TRIS bit in the SAI_xCR2 register is cleared, all the high impedance states on the SD
+output line in Figure 877 and Figure 878 are replaced by a drive with a value of 0.
+
+69.4.14
+
+Error flags
+The SAI implements the following error flags:
+•
+
+FIFO overrun/underrun.
+
+•
+
+Anticipated frame synchronization detection.
+
+•
+
+Late frame synchronization detection.
+
+•
+
+Codec not ready (AC’97 exclusively).
+
+•
+
+Wrong clock configuration in master mode.
+
+FIFO overrun/underrun (OVRUDR)
+The FIFO overrun/underrun bit is called OVRUDR in the SAI_xSR register.
+The overrun or underrun errors share the same bit since an audio block can be either
+receiver or transmitter and each audio block in a given SAI has its own SAI_xSR register.
+Overrun
+When the audio block is configured as receiver, an overrun condition may appear if data are
+received in an audio frame when the FIFO is full and not able to store the received data. In
+this case, the received data are lost, the OVRUDR flag in the SAI_xSR register is set, and
+an interrupt is generated if the OVRUDRIE bit is set in the SAI_xIM register. The slot
+number, from which the overrun occurs, is stored internally. No more data are stored into the
+FIFO until it becomes free to store new data. When the FIFO has at least one data free, the
+SAI audio block receiver stores new data (from a new audio frame) from the slot number
+that was stored internally when the overrun condition was detected. This avoids data slot
+dealignment in the destination memory (refer to Figure 879).
+The OVRUDR flag is cleared when the COVRUDR bit is set in the SAI_xCLRFR register.

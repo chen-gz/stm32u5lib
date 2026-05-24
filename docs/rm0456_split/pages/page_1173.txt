@@ -1,0 +1,159 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+30.7.30
+
+HSPI DLL slave output calibration configuration
+(HSPI_CALSOR)
+Address offset: 0x220
+Reset value: 0x0000 0000
+The DLL output slave is used to delay the output data in DDR mode for write operations.
+The delay of the output slave DLL is determined by the value in this register.
+This register is updated automatically by hardware at the end of calibration (at the same
+moment that HSPI_CALFCR is updated).
+If this register is written after the last write to HSPI_DCR2 or HSPI_CCR, then
+auto-calibration is not executed on the next transfer (auto-calibration is not performed for
+HSPI_CALSIR as well).
+This register can always be read by software and can be modified only when BUSY = 0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+20
+
+19
+
+18
+
+17
+
+16
+
+COARSE[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+FINE[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bits 20:16 COARSE[4:0]: Coarse calibration
+The delay unitary value for this bitfield depends on product technology.
+Bits 15:7 Reserved, must be kept at reset value.
+Bits 6:0 FINE[6:0]: Fine calibration
+The delay unitary value for this bitfield depends on product technology.
+
+RM0456 Rev 6

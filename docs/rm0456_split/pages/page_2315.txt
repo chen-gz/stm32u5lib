@@ -1,0 +1,185 @@
+Description
+
+Sleep
+
+No effect, peripheral is active. The interrupts can cause the device to exit from Sleep
+mode.
+
+Stop
+
+The timer operation is stopped and the register content is kept. No interrupt can be
+generated.
+
+Standby
+
+The timer is powered-down and must be reinitialized after exiting the Standby mode.
+
+RM0456 Rev 6
+
+RM0456
+
+55.4.29
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+TIM2/TIM3/TIM4/TIM5 interrupts
+The TIM2/TIM3/TIM4/TIM5 can generate multiple interrupts, as shown in Table 573.
+Table 573. Interrupt requests
+Event
+flag
+
+Enable
+control bit
+
+Interrupt clear
+method
+
+Exit
+from
+Sleep
+mode
+
+Exit from
+Stop and
+Standby
+mode
+
+Update
+
+UIF
+
+UIE
+
+write 0 in UIF
+
+Yes
+
+No
+
+Capture/compare 1
+
+CC1IF
+
+CC1IE
+
+write 0 in CC1IF
+
+Yes
+
+No
+
+Capture/compare 2
+
+CC2IF
+
+CC2IE
+
+write 0 in CC2IF
+
+Yes
+
+No
+
+Capture/compare 3
+
+CC3IF
+
+CC3IE
+
+write 0 in CC3IF
+
+Yes
+
+No
+
+Capture/compare 4
+
+CC4IF
+
+CC4IE
+
+write 0 in CC4IF
+
+Yes
+
+No
+
+TIM_TRG
+
+Trigger
+
+TIF
+
+TIE
+
+write 0 in TIF
+
+Yes
+
+No
+
+TIM_DIR
+_IDX
+
+Index
+
+IDXF
+
+IDXIE
+
+write 0 in IDXF
+
+Yes
+
+No
+
+Direction
+
+DIRF
+
+DIRIE
+
+write 0 in DIRF
+
+Yes
+
+No
+
+TIM_IERR
+
+Index Error
+
+IERRF
+
+IERRIE
+
+write 0 in IERRF
+
+Yes
+
+No
+
+TIM_TER
+
+Transition Error
+
+TERRF
+
+TERRIE
+
+write 0 in
+TERRF
+
+Yes
+
+No
+
+Interrupt
+acronym
+TIM_UP
+
+TIM_CC
+
+Interrupt event
+
+RM0456 Rev 6

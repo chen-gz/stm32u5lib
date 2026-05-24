@@ -1,0 +1,169 @@
+3631
+
+Device electronic signature
+
+76
+
+RM0456
+
+Device electronic signature
+The device electronic signature is stored in the system memory area of the flash memory
+module and can be read using the debug interface or by the CPU. It contains
+factory-programmed identification and calibration data that allow the user firmware or other
+external devices to automatically match to the characteristics of the devices.
+
+76.1
+
+Unique device ID register (96 bits)
+The unique device identifier is ideally suited:
+•
+
+for use as serial numbers (for example USB string serial numbers or other end
+applications)
+
+•
+
+for use as part of the security keys in order to increase the security of code in flash
+memory while using and combining this unique ID with software cryptographic
+primitives and protocols before programming the internal flash memory
+
+•
+
+to activate secure boot processes
+
+The 96-bit unique device identifier provides a reference number which is unique for any
+device and in any context. These bits cannot be altered by the user.
+Base address: 0x0BFA 0700
+Address offset: 0x00
+Read only = 0xXXXX XXXX where X is factory-programmed
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+UID[31:16]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+UID[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:0 UID[31:0]: X and Y coordinates on the wafer

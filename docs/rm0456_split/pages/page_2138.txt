@@ -1,0 +1,48 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 550. Combined PWM mode on channel 1 and 3
+
+CCR2
+CCR1
+tim_oc1ref
+tim_oc2ref
+tim_oc1refc
+tim_oc1refc = tim_oc1ref AND tim_oc2ref
+
+CCR2
+CCR1
+
+tim_oc1ref
+tim_oc2ref
+tim_oc1refc
+tim1_oc1refc = tim1_oc1ref OR tim1_oc2ref
+
+54.3.16
+
+MSv62330V1
+
+Combined 3-phase PWM mode
+Combined 3-phase PWM mode allows one to three center-aligned PWM signals to be
+generated with a single programmable signal ANDed in the middle of the pulses. The
+tim_oc5ref signal is used to define the resulting combined signal. The 3-bits GC5C[3:1] in
+the TIMx_CCR5 allow selection on which reference signal the tim_oc5ref is combined. The
+resulting signals, tim_ocxrefc, are made of an AND logical combination of two reference
+PWMs:
+•
+
+If GC5C1 is set, tim_oc1refc is controlled by TIMx_CCR1 and TIMx_CCR5.
+
+•
+
+If GC5C2 is set, tim_oc2refc is controlled by TIMx_CCR2 and TIMx_CCR5.
+
+•
+
+If GC5C3 is set, tim_oc3refc is controlled by TIMx_CCR3 and TIMx_CCR5.
+
+Combined 3-phase PWM mode can be selected independently on channels 1 to 3 by setting
+at least one of the 3-bits GC5C[3:1].

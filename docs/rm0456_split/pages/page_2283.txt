@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 643. Pulse generator circuitry
+Set
+Reset
+
+R/S
+tim_oc3
+
+OC3M = 1010
+
+CCR3 match
+
+Enable
+
+CCR4 match
+
+Enable
+
+Pulse generator
+
+OC4M = 1010
+
+tim_oc4
+PWPRSC PW[7:0]
+[2:0]
+Reset
+
+R/S
+
+Set
+
+MSv62346V1
+
+Figure 644 shows how the pulse is generated for edge-aligned and encoder operating
+modes.
+Figure 644. Pulse generation on compare event, for edge-aligned and encoder modes
+Counter
+CMP3
+
+Triggers
+tim_ocx
+Extended pulsewidth
+due to re-trigger
+
+Counter
+CMP3
+
+Triggers
+tim_ocx
+MSv62347V1
+
+This output compare mode is selected using the OC3M[3:0] and OC4M[3:0] bitfields in
+TIMx_CCMR2 register.
+
+RM0456 Rev 6

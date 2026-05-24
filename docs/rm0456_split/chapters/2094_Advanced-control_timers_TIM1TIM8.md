@@ -1,0 +1,31 @@
+2093
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+54
+
+Advanced-control timers (TIM1/TIM8)
+
+54.1
+
+TIM1/TIM8 introduction
+The advanced-control timers (TIM1/TIM8) consist of a 16-bit autoreload counter driven by a
+programmable prescaler.
+It may be used for a variety of purposes, including measuring the pulse lengths of input
+signals (input capture) or generating output waveforms (output compare, PWM,
+complementary PWM with dead-time insertion).
+Pulse lengths and waveform periods can be modulated from a few microseconds to several
+milliseconds using the timer prescaler and the RCC clock controller prescalers.
+The advanced-control (TIM1/TIM8) and general-purpose (TIMy) timers are completely
+independent, and do not share any resources. They can be synchronized together as
+described in Section 54.3.30: Timer synchronization.
+
+54.2
+
+TIM1/TIM8 main features
+TIM1/TIM8 timer features include:
+
+<!-- pagebreak -->
+

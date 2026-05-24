@@ -1,0 +1,43 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Bits 8:6 EXTSEL[2:0]: External trigger selection
+These bits select the external event used to trigger the start of conversion (refer to table ADC
+interconnection in Section 34.4.2: ADC pins and internal signals for details):
+000: adc_trg0
+001: adc_trg1
+010: adc_trg2
+011: adc_trg3
+100: adc_trg4
+101: adc_trg5
+110: adc_trg6
+111: adc_trg7
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 5 ALIGN: Data alignment
+This bit is set and cleared by software to select right or left alignment. Refer to Figure 291: Data
+alignment and resolution (oversampling disabled: OVSE = 0)
+0: Right alignment
+1: Left alignment
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 4 SCANDIR: Scan sequence direction
+This bit is set and cleared by software to select the direction in which the channels is scanned in
+the sequence. It is effective only if CHSELRMOD bit is cleared to 0.
+0: Upward scan (from CHSEL0 to CHSEL23)
+1: Backward scan (from CHSEL23 to CHSEL0)
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bits 3:2 RES[1:0]: Data resolution
+These bits are written by software to select the resolution of the conversion.
+00: 12 bits
+01: 10 bits
+10: 8 bits
+11: 6 bits
+Note: The software is allowed to write these bits only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+
+RM0456 Rev 6

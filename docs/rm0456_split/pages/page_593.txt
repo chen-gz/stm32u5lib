@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 27:26 I2C6SEL[1:0]: I2C6 kernel clock source selection
+These bits are used to select the I2C6 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The I2C6 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or MSIK.
+This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bits 25:24 I2C5SEL[1:0]: I2C5 kernel clock source selection
+These bits are used to select the I2C5 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The I2C5 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or MSIK.
+This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bits 23:22 HSPI1SEL[1:0]: HSPI1 kernel clock source selection
+These bits are used to select the HSPI1 kernel clock source.
+00: SYSCLK selected
+01: PLL1 “Q” (pll1_q_ck) selected, can be up to 200 MHz
+10: PLL2 “Q” (pll2_q_ck) selected, can be up to 200 MHz
+11: PLL3 “R” (pll3_r_ck) selected, can be up to 200 MHz
+Note: This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bits 21:20 OCTOSPISEL[1:0]: OCTOSPI1 and OCTOSPI2 kernel clock source selection
+These bits are used to select the OCTOSPI1 and OCTOSPI2 kernel clock source.
+00: SYSCLK selected
+01: MSIK selected
+10: PLL1 “Q” (pll1_q_ck) selected, can be up to 200 MHz
+11: PLL2 “Q” (pll2_q_ck) selected, can be up to 200 MHz
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 LTDCSEL: LTDC kernel clock source selection
+This bit is used to select the LTDC kernel clock source.
+0: PLL3 “R” (pll3_r_ck) selected
+1: PLL2 “R” (pll2_r_ck) selected
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+
+RM0456 Rev 6

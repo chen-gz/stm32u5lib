@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+Bit 24 ACKTIMEOUTIE: Acknowledgment timeout interrupt enable
+Set and cleared by software to enable/disable interrupt caused by acknowledgment timeout.
+0: Acknowledgment timeout interrupt disabled
+1: Acknowledgment timeout interrupt enabled
+Bit 23 ACKFAILIE: Acknowledgment fail interrupt enable
+Set and cleared by software to enable/disable interrupt caused by acknowledgment fail.
+0: Acknowledgment fail interrupt disabled
+1: Acknowledgment fail interrupt enabled
+Bit 22 SDIOITIE: SDIO mode interrupt received interrupt enable
+Set and cleared by software to enable/disable the interrupt generated when receiving the
+SDIO mode interrupt.
+0: SDIO mode interrupt received interrupt disabled
+1: SDIO mode interrupt received interrupt enabled
+Bit 21 BUSYD0ENDIE: BUSYD0END interrupt enable
+Set and cleared by software to enable/disable the interrupt generated when SDMMC_D0
+signal changes from busy to NOT busy following a CMD response.
+0: BUSYD0END interrupt disabled
+1: BUSYD0END interrupt enabled
+Bits 20:19 Reserved, must be kept at reset value.
+Bit 18 TXFIFOEIE: Tx FIFO empty interrupt enable
+Set and cleared by software to enable/disable interrupt caused by Tx FIFO empty.
+0: Tx FIFO empty interrupt disabled
+1: Tx FIFO empty interrupt enabled
+Bit 17 RXFIFOFIE: Rx FIFO full interrupt enable
+Set and cleared by software to enable/disable interrupt caused by Rx FIFO full.
+0: Rx FIFO full interrupt disabled
+1: Rx FIFO full interrupt enabled
+Bit 16 Reserved, must be kept at reset value.
+Bit 15 RXFIFOHFIE: Rx FIFO half full interrupt enable
+Set and cleared by software to enable/disable interrupt caused by Rx FIFO half full.
+0: Rx FIFO half full interrupt disabled
+1: Rx FIFO half full interrupt enabled
+Bit 14 TXFIFOHEIE: Tx FIFO half empty interrupt enable
+Set and cleared by software to enable/disable interrupt caused by Tx FIFO half empty.
+0: Tx FIFO half empty interrupt disabled
+1: Tx FIFO half empty interrupt enabled
+Bits 13:12 Reserved, must be kept at reset value.
+Bit 11 DABORTIE: Data transfer aborted interrupt enable
+Set and cleared by software to enable/disable interrupt caused by a data transfer being
+aborted.
+0: Data transfer abort interrupt disabled
+1: Data transfer abort interrupt enabled
+Bit 10 DBCKENDIE: Data block end interrupt enable
+Set and cleared by software to enable/disable interrupt caused by data block end.
+0: Data block end interrupt disabled
+1: Data block end interrupt enabled
+
+RM0456 Rev 6

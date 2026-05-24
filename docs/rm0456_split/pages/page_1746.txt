@@ -1,0 +1,57 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+Figure 413. DSI Host architecture
+
+Bias
+PLL
+DSI Host
+
+Ctrl
+LTDC
+
+RGB
+
+DATAP1
+DSI
+Wrapper
+
+RGB
+
+LTDC
+I/F
+APB to
+Generic
+
+APB
+
+DATAN1
+Packet
+handler
+
+D-PHY
+I/F
+
+PPI
+
+DATAP0
+D-PHY
+
+DATAN0
+CLKP
+
+Register
+bank
+
+APB
+
+Error
+management
+
+CLKN
+
+MS53588V1
+
+The different parts have the following functions:

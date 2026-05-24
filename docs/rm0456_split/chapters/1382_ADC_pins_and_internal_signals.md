@@ -1,0 +1,114 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+34.4.2
+
+RM0456
+
+ADC pins and internal signals
+Table 328. ADC input/output pins
+Pin name
+
+Signal type
+
+Description
+
+VDDA
+
+Input, analog power
+supply
+
+Analog power supply and positive reference voltage
+for the ADC, VDDA ≥ VDD
+
+VSSA
+
+Input, analog supply
+ground
+
+Ground for analog power supply, equal to VSS.
+
+VREF+
+
+Input, reference positive
+
+ADC_INx
+
+Analog input signals
+
+The higher/positive reference voltage for the ADC.
+up to 19 external analog input channels.
+
+Table 329. ADC internal input/output signals
+Internal signal
+name
+
+Signal type
+
+VIN[x]
+
+Analog inputs
+
+adc_trgx
+
+Inputs
+
+ADC conversion triggers.
+
+adc_awdx
+
+Output
+
+Internal analog watchdog output signal connected to onchip timers (x = Analog watchdog number = 1,2,3).
+
+adc_it
+
+Output
+
+ADC interrupt.
+
+adc_hclk
+
+Input
+
+AHB clock.
+
+adc_ker_ck
+
+Input
+
+ADC kernel clock input from the RCC block.
+
+adc_dma
+
+Output
+
+ADC DMA request
+
+Description
+Analog input channels connected either to internal
+channels or to ADC_INx external channels.
+
+Table 330. ADC interconnection
+Signal name
+ADC4 VIN[13]
+
+VSENSE (internal temperature sensor output voltage)
+
+ADC4 VIN[0]
+
+VREFINT (buffered voltage from internal reference voltage)
+
+ADC4 VIN[14]
+
+VBAT/4 (VBAT pin input voltage divided by 4)
+
+ADC4 VIN[12]
+
+VCORE (internal logic supply voltage).
+
+ADC4 VIN[21]
+
+<!-- pagebreak -->
+

@@ -1,0 +1,134 @@
+Secure AES coprocessor (SAES) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1974
+50.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1974
+
+50.2
+
+SAES main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1975
+
+50.3
+
+SAES implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1975
+
+50.4
+
+SAES functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1976
+50.4.1
+
+SAES block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1976
+
+50.4.2
+
+SAES internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1976
+
+50.4.3
+
+SAES cryptographic core . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1977
+
+50.4.4
+
+SAES procedure to perform a cipher operation . . . . . . . . . . . . . . . . . 1979
+
+50.4.5
+
+SAES decryption round key preparation . . . . . . . . . . . . . . . . . . . . . . 1982
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+50.4.6
+
+SAES ciphertext stealing and data padding . . . . . . . . . . . . . . . . . . . 1982
+
+50.4.7
+
+SAES task suspend and resume . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1983
+
+50.4.8
+
+SAES basic chaining modes (ECB, CBC) . . . . . . . . . . . . . . . . . . . . . 1983
+
+50.4.9
+
+SAES operation with wrapped keys . . . . . . . . . . . . . . . . . . . . . . . . . . 1988
+
+50.4.10 SAES operation with shared keys . . . . . . . . . . . . . . . . . . . . . . . . . . . 1991
+50.4.11 SAES data registers and data swapping . . . . . . . . . . . . . . . . . . . . . . 1993
+50.4.12 SAES key registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1995
+50.4.13 SAES initialization vector registers . . . . . . . . . . . . . . . . . . . . . . . . . . 1996
+50.4.14 SAES DMA interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1997
+50.4.15 SAES error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1998
+
+50.5
+
+SAES interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2000
+
+50.6
+
+SAES processing latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2001
+
+50.7
+
+SAES registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2001
+50.7.1
+
+SAES control register (SAES_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . 2001
+
+50.7.2
+
+SAES status register (SAES_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2004
+
+50.7.3
+
+SAES data input register (SAES_DINR) . . . . . . . . . . . . . . . . . . . . . . 2006
+
+50.7.4
+
+SAES data output register (SAES_DOUTR) . . . . . . . . . . . . . . . . . . . 2006
+
+50.7.5
+
+SAES key register 0 (SAES_KEYR0) . . . . . . . . . . . . . . . . . . . . . . . . 2007
+
+50.7.6
+
+SAES key register 1 (SAES_KEYR1) . . . . . . . . . . . . . . . . . . . . . . . . 2007
+
+50.7.7
+
+SAES key register 2 (SAES_KEYR2) . . . . . . . . . . . . . . . . . . . . . . . . 2008
+
+50.7.8
+
+SAES key register 3 (SAES_KEYR3) . . . . . . . . . . . . . . . . . . . . . . . . 2008
+
+50.7.9
+
+SAES initialization vector register 0 (SAES_IVR0) . . . . . . . . . . . . . . 2008
+
+50.7.10 SAES initialization vector register 1 (SAES_IVR1) . . . . . . . . . . . . . . 2009
+50.7.11 SAES initialization vector register 2 (SAES_IVR2) . . . . . . . . . . . . . . 2009
+50.7.12 SAES initialization vector register 3 (SAES_IVR3) . . . . . . . . . . . . . . 2009
+50.7.13 SAES key register 4 (SAES_KEYR4) . . . . . . . . . . . . . . . . . . . . . . . . 2010
+50.7.14 SAES key register 5 (SAES_KEYR5) . . . . . . . . . . . . . . . . . . . . . . . . 2010
+50.7.15 SAES key register 6 (SAES_KEYR6) . . . . . . . . . . . . . . . . . . . . . . . . 2010
+50.7.16 SAES key register 7 (SAES_KEYR7) . . . . . . . . . . . . . . . . . . . . . . . . 2011
+50.7.17 SAES interrupt enable register (SAES_IER) . . . . . . . . . . . . . . . . . . . 2011
+50.7.18 SAES interrupt status register (SAES_ISR) . . . . . . . . . . . . . . . . . . . 2012
+50.7.19 SAES interrupt clear register (SAES_ICR) . . . . . . . . . . . . . . . . . . . . 2013
+50.7.20 SAES register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2014
+
+51
+
+Hash processor (HASH) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2016
+51.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2016
+
+51.2
+
+HASH main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2016
+RM0456 Rev 6

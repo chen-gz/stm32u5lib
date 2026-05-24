@@ -1,0 +1,8 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Table 748. OTG_FS speeds supported
+-

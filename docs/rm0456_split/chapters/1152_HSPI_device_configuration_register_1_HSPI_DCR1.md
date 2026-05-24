@@ -1,0 +1,181 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Bit 0 EN: Enable
+This bit enables the HSPI.
+0: HSPI disabled
+1: HSPI enabled
+Note: The DMA request can be aborted without having received the ACK in case this EN bit is
+cleared during the operation. In case this bit is set to 0 during a DMA transfer, the REQ
+signal to DMA returns to inactive state without waiting for the ACK signal from DMA to
+be active.
+
+30.7.2
+
+HSPI device configuration register 1 (HSPI_DCR1)
+Address offset: 0x008
+Reset value: 0x0000 0000
+This register can be modified only when BUSY = 0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+Res.
+
+Res.
+
+26
+
+25
+
+24
+
+MTYP[2:0]
+rw
+
+rw
+
+rw
+
+10
+
+9
+
+8
+
+CSHT[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+Res.
+rw
+
+rw
+
+Res.
+
+Res.
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+DEVSIZE[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+FRCK
+
+CKMO
+DE
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:27 Reserved, must be kept at reset value.
+Bits 26:24 MTYP[2:0]: Memory type
+This bitfield indicates the type of memory to be supported.
+000: Micron mode, D0/D1 ordering in DTR 8-data-bit mode. Regular-command protocol
+in single-, dual-, quad-, and octal-SPI modes. In this mode, DQS signal polarity is inverted
+with respect to the memory clock signal. This is the default value and care must be taken to
+change MTYP[2:0] for memories different from Micron.
+001: Macronix mode, D1/D0 ordering in DTR 8-data-bit mode. Regular-command protocol
+in single-, dual-, quad-, and octal-SPI modes.
+010: Standard mode
+011: Macronix RAM mode, D1/D0 ordering in DTR 8-data-bit mode. Regular-command
+protocol in single-, dual-, quad-, and octal-SPI modes with dedicated address mapping
+(address is built with row and column to fit with Macronix requirements).
+100: HyperBus memory mode, the protocol follows the HyperBus specification.
+101: HyperBus register mode, addressing register space. The memory-mapped accesses
+in this mode must be noncacheable, or indirect read/write modes must be used.
+110: APmemory mode. If DMODE = 101, there is a special hardware operation on address
+word from the bit 10 and above to fit the provider requirement (shift operation on the left from
+the address bit 10, keeping this last at 0).
+Others: Reserved
+Bits 23:21 Reserved, must be kept at reset value.
+
+<!-- pagebreak -->
+

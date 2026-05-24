@@ -1,0 +1,47 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+A special bit THR512 in register USB_ISTR allows notification of 512 bytes being received
+in (or transmitted from) the buffer. This bit must be used for long ISO packets (from 512 to
+1023 bytes) as it facilitates early start or read/write of data. In this way, the first 512 bytes
+can be handled by software while avoiding use of double buffer mode. This bit works when
+only one ISO endpoint is configured.
+The unit can be placed in low-power mode (SUSPEND mode), by writing in the control
+register, whenever required. At this time, all static power dissipation is avoided, and the USB
+clock can be slowed down or stopped. The detection of activity at the USB inputs, while in
+low-power mode, wakes the device up asynchronously. A special interrupt source can be
+connected directly to a wake-up line to permit the system to immediately restart the normal
+clock generation and/or support direct clock start/stop.
+
+Host mode and specific functionality
+A single bit, HOST, in register USB_CNTR permits Host mode to be activated. Host mode
+functionality permits the USB to talk to a remote peripheral. Supported functionality is
+aligned to Device mode and uses the same register structures to manage the buffers. The
+same number of endpoints can be supported in Host mode, however in Host mode the
+terminology “channel” is preferred, as each channel is in reality a combination of the
+connected device and the endpoint on that device. The basic mechanisms for packet
+transmission and reception are the same as those supported in Device mode.
+When operating in Host mode, the USB is in charge of the bus and in order to do this must
+issue transaction requests corresponding to active periodic and non-periodic endpoints. A
+host frame scheduler assures efficient use of the frame. Connection to hubs is supported.
+Connection to low speed devices is supported, both with a direct connection and through a
+hub.
+Double-buffered mode, as previously described in Device mode, is also supported in Host
+mode, in both bulk and isochronous channels. The THR512 functionality is also supported
+(but as in Device mode) only for ISO traffic.
+Note:
+
+Unlike in Device mode, where there is a detection of battery charging capability (in order to
+facilitate fast charging), there is no integrated support in Host mode to present battery
+charging capability (CDP or DCP cases in the standard), the host port is always presented
+as a default standard data port (SDP).
+For LPM (link power management) this feature is not supported in Host mode.
+
+71.4.5
+
+Description of USB blocks used in both Device and Host modes
+The USB peripheral implements all the features related to USB interfacing, which include
+the following blocks:

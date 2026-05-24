@@ -1,0 +1,29 @@
+139
+
+Memory and bus architecture
+
+2.2.2
+
+RM0456
+
+Arm TrustZone peripheral classification
+When the TrustZone security is active, a peripheral can be either securable or
+TrustZone-aware type as follows:
+•
+
+Securable: peripheral protected by an AHB/APB firewall gate that is controlled from
+TZSC controller to define security properties
+
+•
+
+TrustZone-aware: peripheral connected directly to AHB or APB bus and implementing
+a specific TrustZone behavior such as a subset of registers being secure.
+
+Refer to GTZC TrustZone system architecture for more details.
+The tables below list the securable and TrustZone-aware peripherals within the system.
+Table 4. Securable peripherals by TZSC
+Bus
+
+AHB3
+
+AHB2

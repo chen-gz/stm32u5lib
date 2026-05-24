@@ -1,0 +1,41 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bits 13:12 ETPS[1:0]: External trigger prescaler
+External trigger signal tim_etrp frequency must be at most 1/4 of TIMxCLK frequency. A
+prescaler can be enabled to reduce tim_etrp frequency. It is useful when inputting fast
+external clocks on tim_etr_in.
+00: Prescaler OFF
+01: tim_etr_in frequency divided by 2
+10: tim_etr_in frequency divided by 4
+11: tim_etr_in frequency divided by 8
+Bits 11:8 ETF[3:0]: External trigger filter
+This bitfield then defines the frequency used to sample tim_etrp signal and the length of the
+digital filter applied to tim_etrp. The digital filter is made of an event counter in which N
+consecutive events are needed to validate a transition on the output:
+0000: No filter, sampling is done at fDTS
+0001: fSAMPLING = ftim_ker_ck, N = 2
+0010: fSAMPLING = ftim_ker_ck, N = 4
+0011: fSAMPLING = ftim_ker_ck, N = 8
+0100: fSAMPLING = fDTS/2, N = 6
+0101: fSAMPLING = fDTS/2, N = 8
+0110: fSAMPLING = fDTS/4, N = 6
+0111: fSAMPLING = fDTS/4, N = 8
+1000: fSAMPLING = fDTS/8, N = 6
+1001: fSAMPLING = fDTS/8, N = 8
+1010: fSAMPLING = fDTS/16, N = 5
+1011: fSAMPLING = fDTS/16, N = 6
+1100: fSAMPLING = fDTS/16, N = 8
+1101: fSAMPLING = fDTS/32, N = 5
+1110: fSAMPLING = fDTS/32, N = 6
+1111: fSAMPLING = fDTS/32, N = 8
+Bit 7 MSM: Master/slave mode
+0: No action
+1: The effect of an event on the trigger input (tim_trgi) is delayed to allow a perfect
+synchronization between the current timer and its slaves (through tim_trgo). It is useful if
+we want to synchronize several timers on a single external event.
+
+RM0456 Rev 6

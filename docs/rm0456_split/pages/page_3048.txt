@@ -1,0 +1,90 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+The end of periodic frame interrupt (OTG_GINTSTS/EOPF) is used to notify the application
+when 80%, 85%, 90% or 95% of the time frame interval elapsed depending on the periodic
+frame interval field in the device configuration register (PFIVL bit in OTG_DCFG). This
+feature can be used to determine if all of the isochronous traffic for that frame is complete.
+
+72.9
+
+OTG_FS low-power modes
+Table 752 below defines the STM32 low power modes and their compatibility with the OTG.
+Table 752. Compatibility of STM32 low power modes with the OTG
+
+Mode
+
+Description
+
+USB compatibility
+
+Run
+
+MCU fully active
+
+Required when USB not in
+suspend state.
+
+Sleep
+
+USB suspend exit causes the device to exit Sleep mode. Peripheral
+registers content is kept.
+
+Available while USB is in
+suspend state.
+
+Stop
+
+USB suspend exit causes the device to exit Stop mode. Peripheral
+registers content is kept(1).
+
+Available while USB is in
+suspend state.
+
+Standby
+
+Powered-down. The peripheral must be reinitialized after exiting
+Standby mode.
+
+Not compatible with USB
+applications.
+
+1. Within Stop mode there are different possible settings. Some restrictions may also exist, refer to Section 10: Power control
+(PWR) to understand which (if any) restrictions apply when using OTG.
+
+The following bits and procedures reduce power consumption.
+The power consumption of the OTG PHY is controlled by two or three bits in the general
+core configuration register, depending on OTG revision supported.
+•
+
+PHY power down (OTG_GCCFG/PWRDWN)
+It switches on/off the full-speed transceiver module of the PHY. It must be preliminarily
+set to allow any USB operation
+
+•
+
+VBUS detection enable (OTG_GCCFG/VBDEN)
+It switches on/off the VBUS sensing comparators associated with OTG operations
+
+Power reduction techniques are available while in the USB suspended state, when the USB
+session is not yet valid or the device is disconnected.
+•
+
+Stop PHY clock (STPPCLK bit in OTG_PCGCCTL)
+When setting the stop PHY clock bit in the clock gating control register, most of the
+48 MHz clock domain internal to the OTG core is switched off by clock gating. The
+dynamic power consumption due to the USB clock switching activity is cut even if the
+48 MHz clock input is kept running by the application
+Most of the transceiver is also disabled, and only the part in charge of detecting the
+asynchronous resume or remote wake-up event is kept alive.
+
+•
+
+Gate HCLK (GATEHCLK bit in OTG_PCGCCTL)
+When setting the Gate HCLK bit in the clock gating control register, most of the system
+clock domain internal to the OTG_FS core is switched off by clock gating. Only the
+register read and write interface is kept alive. The dynamic power consumption due to
+
+RM0456 Rev 6

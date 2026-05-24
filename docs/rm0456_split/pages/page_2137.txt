@@ -1,0 +1,98 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 549. Generation of 2 phase-shifted PWM signals with 50% duty cycle
+
+Counter register
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+1
+
+tim_oc1refc
+CCR1=0
+CCR2=8
+tim_oc3refc
+CCR3=3
+CCR4=5
+MSv62329V1
+
+54.3.15
+
+Combined PWM mode
+Combined PWM mode allows two edge or center-aligned PWM signals to be generated with
+programmable delay and phase shift between respective pulses. While the frequency is
+determined by the value of the TIMx_ARR register, the duty cycle and delay are determined
+by the two TIMx_CCRx registers. The resulting signals, tim_ocxrefc, are made of an OR or
+AND logical combination of two reference PWMs:
+•
+
+tim_oc1refc (or tim_oc2refc) is controlled by TIMx_CCR1 and TIMx_CCR2
+
+•
+
+tim_oc3refc (or tim_oc4refc) is controlled by TIMx_CCR3 and TIMx_CCR4
+
+Combined PWM mode can be selected independently on two channels (one tim_ocx output
+per pair of CCR registers) by writing 1100 (Combined PWM mode 1) or 1101 (Combined
+PWM mode 2) in the OCxM bits in the TIMx_CCMRx register.
+When a given channel is used as combined PWM channel, its complementary channel must
+be configured in the opposite PWM mode (for instance, one in Combined PWM mode 1 and
+the other in Combined PWM mode 2).
+Note:
+
+The OCxM[3:0] bitfield is split into two parts for compatibility reasons, the most significant bit
+is not contiguous with the three least significant ones.
+Figure 550 represents an example of signals that can be generated using combined PWM
+mode, obtained with the following configuration:
+•
+
+Channel 1 is configured in Combined PWM mode 2.
+
+•
+
+Channel 2 is configured in PWM mode 1.
+
+•
+
+Channel 3 is configured in Combined PWM mode 2.
+
+•
+
+Channel 4 is configured in PWM mode 1.
+
+RM0456 Rev 6

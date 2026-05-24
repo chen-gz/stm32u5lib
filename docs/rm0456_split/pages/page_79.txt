@@ -1,0 +1,93 @@
+FDCAN registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3054
+70.4.1
+
+FDCAN core release register (FDCAN_CREL) . . . . . . . . . . . . . . . . . 3054
+
+70.4.2
+
+FDCAN endian register (FDCAN_ENDN) . . . . . . . . . . . . . . . . . . . . . 3054
+
+70.4.3
+
+FDCAN data bit timing and prescaler register (FDCAN_DBTP) . . . . 3054
+
+70.4.4
+
+FDCAN test register (FDCAN_TEST) . . . . . . . . . . . . . . . . . . . . . . . . 3055
+
+70.4.5
+
+FDCAN RAM watchdog register (FDCAN_RWD) . . . . . . . . . . . . . . . 3056
+
+70.4.6
+
+FDCAN CC control register (FDCAN_CCCR) . . . . . . . . . . . . . . . . . . 3057
+
+70.4.7
+
+FDCAN nominal bit timing and prescaler register (FDCAN_NBTP) . 3058
+
+70.4.8
+
+FDCAN timestamp counter configuration register (FDCAN_TSCC) . 3060
+
+70.4.9
+
+FDCAN timestamp counter value register (FDCAN_TSCV) . . . . . . . 3060
+RM0456 Rev 6
+
+RM0456
+
+Contents
+70.4.10 FDCAN timeout counter configuration register (FDCAN_TOCC) . . . 3061
+70.4.11 FDCAN timeout counter value register (FDCAN_TOCV) . . . . . . . . . 3062
+70.4.12 FDCAN error counter register (FDCAN_ECR) . . . . . . . . . . . . . . . . . 3062
+70.4.13 FDCAN protocol status register (FDCAN_PSR) . . . . . . . . . . . . . . . . 3063
+70.4.14 FDCAN transmitter delay compensation register (FDCAN_TDCR) . . 3065
+70.4.15 FDCAN interrupt register (FDCAN_IR) . . . . . . . . . . . . . . . . . . . . . . . 3065
+70.4.16 FDCAN interrupt enable register (FDCAN_IE) . . . . . . . . . . . . . . . . . 3068
+70.4.17 FDCAN interrupt line select register (FDCAN_ILS) . . . . . . . . . . . . . . 3070
+70.4.18 FDCAN interrupt line enable register (FDCAN_ILE) . . . . . . . . . . . . . 3071
+70.4.19 FDCAN global filter configuration register (FDCAN_RXGFC) . . . . . . 3071
+70.4.20 FDCAN extended ID and mask register (FDCAN_XIDAM) . . . . . . . . 3073
+70.4.21 FDCAN high-priority message status register (FDCAN_HPMS) . . . . 3073
+70.4.22 FDCAN Rx FIFO 0 status register (FDCAN_RXF0S) . . . . . . . . . . . . 3074
+70.4.23 CAN Rx FIFO 0 acknowledge register (FDCAN_RXF0A) . . . . . . . . . 3075
+70.4.24 FDCAN Rx FIFO 1 status register (FDCAN_RXF1S) . . . . . . . . . . . . 3075
+70.4.25 FDCAN Rx FIFO 1 acknowledge register (FDCAN_RXF1A) . . . . . . 3076
+70.4.26 FDCAN Tx buffer configuration register (FDCAN_TXBC) . . . . . . . . . 3076
+70.4.27 FDCAN Tx FIFO/queue status register (FDCAN_TXFQS) . . . . . . . . 3077
+70.4.28 FDCAN Tx buffer request pending register (FDCAN_TXBRP) . . . . . 3077
+70.4.29 FDCAN Tx buffer add request register (FDCAN_TXBAR) . . . . . . . . . 3078
+70.4.30 FDCAN Tx buffer cancellation request register (FDCAN_TXBCR) . . 3079
+70.4.31 FDCAN Tx buffer transmission occurred register (FDCAN_TXBTO) 3079
+70.4.32 FDCAN Tx buffer cancellation finished register (FDCAN_TXBCF) . . 3080
+70.4.33 FDCAN Tx buffer transmission interrupt enable register
+(FDCAN_TXBTIE) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3080
+70.4.34 FDCAN Tx buffer cancellation finished interrupt enable register
+(FDCAN_TXBCIE) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3081
+70.4.35 FDCAN Tx event FIFO status register (FDCAN_TXEFS) . . . . . . . . . 3081
+70.4.36 FDCAN Tx event FIFO acknowledge register (FDCAN_TXEFA) . . . 3082
+70.4.37 FDCAN CFG clock divider register (FDCAN_CKDIV) . . . . . . . . . . . . 3082
+70.4.38 FDCAN register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3083
+
+71
+
+Universal serial bus full-speed host/device interface (USB) . . . . . . 3087
+71.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3087
+
+71.2
+
+USB main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3087
+
+71.3
+
+USB implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3087
+
+71.4
+
+USB functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3088
+
+RM0456 Rev 6

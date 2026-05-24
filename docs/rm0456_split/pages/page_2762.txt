@@ -1,0 +1,69 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Parity checking in reception
+If the parity check fails, the PE flag is set in the LPUART_ISR register and an interrupt is
+generated if PEIE is set in the LPUART_CR1 register. The PE flag is cleared by software
+writing 1 to the PECF in the LPUART_ICR register.
+
+Parity generation in transmission
+If the PCE bit is set in LPUART_CR1, then the MSB bit of the data written in the data
+register is transmitted but is changed by the parity bit (even number of “1s” if even parity is
+selected (PS = 0) or an odd number of “1s” if odd parity is selected (PS = 1)).
+
+67.4.12
+
+LPUART single-wire half-duplex communication
+Single-wire half-duplex mode is selected by setting the HDSEL bit in the LPUART_CR3
+register.
+The LPUART can be configured to follow a single-wire half-duplex protocol where the TX
+and RX lines are internally connected. The selection between half- and full-duplex
+communication is made with a control bit HDSEL in LPUART_CR3.
+As soon as HDSEL is written to 1:
+•
+
+The TX and RX lines are internally connected.
+
+•
+
+The RX pin is no longer used
+
+•
+
+The TX pin is always released when no data is transmitted. Thus, it acts as a standard
+I/O in idle or in reception. It means that the I/O must be configured so that TX is
+configured as alternate function open-drain with an external pull-up.
+
+Apart from this, the communication protocol is similar to normal LPUART mode. Any conflict
+on the line must be managed by software (for instance by using a centralized arbiter). In
+particular, the transmission is never blocked by hardware and continues as soon as data is
+written in the data register while the TE bit is set.
+Note:
+
+In LPUART communications, in the case of 1-stop bit configuration, the RXNE flag is set in
+the middle of the stop bit.
+
+67.4.13
+
+Continuous communication using DMA and LPUART
+The LPUART is capable of performing continuous communication using the DMA. The DMA
+requests for Rx buffer and Tx buffer are generated independently.
+
+Note:
+
+Refer to Section 67.3: LPUART implementation to determine if the DMA mode is supported.
+If DMA is not supported, use the LPUSRT as explained in Section 67.4.7. To perform
+continuous communication. When FIFO is disabled, clear the TXE/ RXNE flags in the
+LPUART_ISR register.
+
+Transmission using DMA
+DMA mode can be enabled for transmission by setting the DMAT bit in the LPUART_CR3
+register. Data are loaded from an SRAM area configured using the DMA peripheral (refer to
+Section direct memory access controller) to the LPUART_TDR register whenever the TXE
+flag (TXFNF flag if FIFO mode is enabled) is set. To map a DMA channel for LPUART
+transmission, use the following procedure (x denotes the channel number):
+
+RM0456 Rev 6

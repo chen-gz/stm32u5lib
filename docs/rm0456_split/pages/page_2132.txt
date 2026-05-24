@@ -1,0 +1,57 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+Note:
+
+RM0456
+
+The following sequence must be followed when resetting the DITHEN bit:
+1. CEN and ARPE bits must be reset.
+2. The DITHEN bit must be reset.
+3. The CCIF flags must be cleared.
+4. The CEN bit can be set ( eventually with ARPE = 1).
+Figure 545. Data format and register coding in dithering mode
+b19
+
+Register format in
+dithering mode
+
+b0
+LSB: 4-bits
+fractional part
+
+MSB: 16-bits, integer part
+
+b19
+
+b0
+326
+
+Example
+20
+
+Base compare value is 20 during 16 periods
+
+6
+
+Additional 6 cycles are spread over the
+16 periods
+MSv45753V2
+
+The minimum frequency is given by the following formula:
+F Tim
+F Tim
+Resolution = ------------- ⇒ F pwmMin = -----------------------------------F pwm
+Max Resolution
+F Tim
+Dithering mode disabled: F pwmMin = --------------65536
+F Tim
+Dithering mode enabled: F pwmMin = ----------------------------65535 + 15
+-----16
+
+Note:
+
+The maximum TIMx_ARR and TIMxCCRy values are limited to 0xFFFEF in dithering mode
+(corresponds to 65534 for the integer part and 15 for the dithered part).
+As shown on Figure 546, the dithering mode is used to increase the PWM resolution
+whatever the PWM frequency.

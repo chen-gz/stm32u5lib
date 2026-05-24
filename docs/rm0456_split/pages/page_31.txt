@@ -1,0 +1,139 @@
+Octo-SPI I/O manager (OCTOSPIM) . . . . . . . . . . . . . . . . . . . . . . . . . . 1105
+29.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+
+29.2
+
+OCTOSPIM main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+
+29.3
+
+OCTOSPIM implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+
+29.4
+
+OCTOSPIM functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+29.4.1
+
+OCTOSPIM block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1105
+
+29.4.2
+
+OCTOSPIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1106
+
+29.4.3
+
+OCTOSPIM matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1107
+
+29.4.4
+
+OCTOSPIM multiplexed mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1107
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+29.5
+
+30
+
+OCTOSPIM registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1109
+29.5.1
+
+OCTOSPIM control register (OCTOSPIM_CR) . . . . . . . . . . . . . . . . . 1109
+
+29.5.2
+
+OCTOSPIM Port n configuration register
+(OCTOSPIM_PnCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1109
+
+29.5.3
+
+OCTOSPIM register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+
+Hexadeca-SPI interface (HSPI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1112
+30.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1112
+
+30.2
+
+HSPI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1112
+
+30.3
+
+HSPI implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1113
+
+30.4
+
+HSPI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1114
+30.4.1
+
+HSPI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1114
+
+30.4.2
+
+HSPI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1117
+
+30.4.3
+
+HSPI interface to memory modes . . . . . . . . . . . . . . . . . . . . . . . . . . . 1118
+
+30.4.4
+
+HSPI regular-command protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1118
+
+30.4.5
+
+HSPI regular-command protocol signal interface . . . . . . . . . . . . . . . 1122
+
+30.4.6
+
+HyperBus protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1127
+
+30.4.7
+
+Specific features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1132
+
+30.4.8
+
+HSPI operating modes introduction . . . . . . . . . . . . . . . . . . . . . . . . . . 1133
+
+30.4.9
+
+HSPI indirect mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1133
+
+30.4.10 HSPI automatic status-polling mode . . . . . . . . . . . . . . . . . . . . . . . . . 1135
+30.4.11 HSPI memory-mapped mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1136
+30.4.12 HSPI configuration introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1137
+30.4.13 HSPI system configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1137
+30.4.14 HSPI device configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1137
+30.4.15 HSPI regular-command mode configuration . . . . . . . . . . . . . . . . . . . 1140
+30.4.16 HSPI HyperBus protocol configuration . . . . . . . . . . . . . . . . . . . . . . . 1142
+30.4.17 HSPI error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1143
+30.4.18 HSPI high-speed interface and calibration . . . . . . . . . . . . . . . . . . . . 1143
+30.4.19 HSPI BUSY and ABORT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1144
+30.4.20 HSPI reconfiguration or deactivation . . . . . . . . . . . . . . . . . . . . . . . . . 1145
+30.4.21 NCS behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1145
+
+30.5
+
+Address alignment and data number . . . . . . . . . . . . . . . . . . . . . . . . . . .1147
+
+30.6
+
+HSPI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1148
+
+30.7
+
+HSPI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1149
+30.7.1
+
+HSPI control register (HSPI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1149
+
+30.7.2
+
+HSPI device configuration register 1 (HSPI_DCR1) . . . . . . . . . . . . . 1152
+RM0456 Rev 6

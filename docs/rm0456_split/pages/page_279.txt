@@ -1,0 +1,151 @@
+RM0456 Rev 6
+
+RM0456
+
+RAM configuration controller (RAMCFG)
+The figure below shows the SRAM areas, when SRAM2 and SRAM3 ECC are enabled.
+Figure 22. SRAM1, SRAM2 with ECC and SRAM3 with ECC memory map
+STM32U535/545/575/585
+
+STM32U59x/5Ax/5Fx/5Gx
+
+SRAM3(1)
+
+64 Kbytes
+0x8 0000
+0x7 FFFF
+
+64 Kbytes
+6 x 64
+Kbytes
+
+SRAM3
+
+64 Kbytes
+0x11 0000
+0x10 FFFF
+64 Kbytes
+
+64 Kbytes
+
+SRAM with ECC
+
+64 Kbytes
+
+64 Kbytes
+
+64 Kbytes
+
+64 Kbytes
+
+64 Kbytes
+
+64 Kbytes
+56 Kbytes
+
+0x3 0000
+
+8 Kbytes
+
+0x2 FFFF
+
+SRAM1
+
+64 Kbytes
+
+64 Kbytes
+
+64 Kbytes
+0x0
+
+SRAM2
+
+SRAM without ECC
+
+SRAM2
+
+0x4 0000
+0x3 FFFF
+
+SRAM without ECC
+
+64 Kbytes
+
+64 Kbytes
+0x19 0000
+0x18 FFFF
+
+SRAM with ECC
+
+64 Kbytes
+
+0x19 FFFF
+
+0x0D 0000
+0x0C FFFF
+
+56 Kbytes
+
+0x0C 0000
+
+8 Kbytes
+
+0x0B FFFF
+
+64 Kbytes
+10 x 64
+Kbytes
+
+SRAM1
+
+64 Kbytes
+0x0
+
+1. SRAM3 is not available on STM32U535/545 devices.
+
+SRAM without ECC
+
+0xB 0000
+0xA FFFF
+
+Reserved
+(ECC
+storage)
+
+64 Kbytes
+
+SRAM without ECC
+
+0xB FFFF
+
+Reserved
+(ECC
+storage)
+
+Address offset
+
+Address offset
+
+MSv65674V2
+
+When ECC is enabled by user option bits, the ECCE bit is automatically set after system
+reset in the related RAMCFG_MxCR.
+The ECC can be deactivated by executing the following software sequence:
+1.
+
+Write 0xAE in RAMCFG_MxECCKEYR.
+
+2.
+
+Write 0x75 in RAMCFG_MxECCKEYR.
+
+3.
+
+Write 0 in the ECCE bit of RAMCFG_MxCR.
+
+In case ECC is deactivated (ECCE = 0), the SRAM3 ECC storage area (from offset
+0xB0000 to offset 0xBFFFF) can be read and written as other SRAM3 areas. In order to test
+the ECC mechanism, only the first 256 Kbytes of SRAM3 can be modified, 1 or 2 bits
+by word (for single or double error test respectively).
+
+RM0456 Rev 6

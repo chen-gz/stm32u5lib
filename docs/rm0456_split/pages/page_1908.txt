@@ -1,0 +1,35 @@
+1921
+
+True random number generator (RNG)
+
+RM0456
+
+that is half of the bits are taken from the sampled noise source, half of the bits are taken
+from the inverted sampled noise source.
+
+Conditioning
+The conditioning component in the RNG is a deterministic function that increases the
+entropy rate of the resulting fixed-length bitstrings output (128-bit). The NIST SP800-90B
+target is full entropy on the output (128-bit).
+The times required between two random number generations, and between the RNG
+initialization and availability of first sample are described in Section 48.5.
+
+Output buffer
+A data output buffer can store up to four 32-bit words that have been output from the
+conditioning component. When four words have been read from the output FIFO through
+the RNG_DR register, the content of the 128-bit conditioning output register is pushed into
+the output FIFO, and a new conditioning round is automatically started. Four new words are
+added to the conditioning output register after a number of clock cycles specified in
+Section 48.5.
+Whenever a random number is available through the RNG_DR register, the DRDY flag
+changes from 0 to 1. This flag remains high until the output buffer becomes empty after
+reading four words from the RNG_DR register.
+Note:
+
+When interrupts are enabled an interrupt is generated when this data ready flag transitions
+from 0 to 1. Interrupt is then cleared automatically by the RNG as explained above.
+
+Health checks
+This component ensures that the entire entropy source (with its noise source) starts then
+operates as expected, obtaining assurance that failures are caught quickly and with a high
+probability and reliability.

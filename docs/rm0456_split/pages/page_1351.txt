@@ -1,0 +1,145 @@
+rw
+
+10
+
+25
+
+24
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+OSR[9:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+ROVSM TROVS
+rw
+
+23
+
+rw
+
+OVSS[3:0]
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+JOVSE ROVSE
+rw
+
+rw
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Bits 31:28 LSHIFT[3:0]: Left shift factor
+This bitfield is set and cleared by software to define the left shifting applied to the final result with or
+without oversampling.
+0000: No left shift
+0001: 1-bit left shift
+0010: 2-bit left shift
+0011: 3-bit left shift
+0100: 4-bit left shift
+0101: 5-bit left shift
+0110: 6-bit left shift
+0111: 7-bit left shift
+1000: 8-bit left shift
+1001: 9-bit left shift
+1010: 10-bit left shift
+1011: 11-bit left shift
+1100: 12-bit left shift
+1101: 13-bit left shift
+1110: 14-bit left shift
+1111: 15-bit left shift
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+Bit 27 LFTRIG: Low-frequency trigger
+This bit is set and cleared by software
+0: Low-frequency trigger mode disabled
+1: Low-frequency trigger mode enabled
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+Bit 26 Reserved, must be kept at reset value.
+Bits 25:16 OSR[9:0]: Oversampling ratio
+This bitfield is set and cleared by software to define the oversampling ratio.
+0: 1x (no oversampling)
+1: 2x
+2: 3x
+...
+1023: 1024x
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+Bit 15 SMPTRIG: Sampling time control trigger mode
+This bit is set and cleared by software to enable the sampling time control trigger mode.
+0: Sampling time control trigger mode disabled
+1: Sampling time control trigger mode enabled
+The sampling time starts on the trigger rising edge, and the conversion on the trigger falling edge.
+EXTEN[1:0] bits must be set to 01. BULB bit must not be set when the SMPTRIG bit is set.
+When EXTEN[1:0] bits is set to 00, set SWTRIG to start the sampling and clear SWTRIG bit to start
+the conversion.
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+
+RM0456 Rev 6

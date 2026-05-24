@@ -1,0 +1,304 @@
+•
+
+the regular-command frame format with the command, address, alternate byte, dummy
+cycles, and data phase
+
+•
+
+the HyperBus™ frame format
+
+HSPI main features
+•
+
+Functional modes: indirect, automatic status-polling, and memory-mapped
+
+•
+
+Read and write support in memory-mapped mode
+
+•
+
+Support for single, dual, quad, and octal communication
+
+•
+
+Dual-memory configuration, where 8 bits can be sent/received simultaneously
+by accessing two quad or two octal memories in parallel
+
+•
+
+HSPI mode accessing a single 16-bit memory
+
+•
+
+SDR (single-data rate) and DTR (double-transfer rate) support
+
+•
+
+Data strobe support
+
+•
+
+Fully programmable opcode
+
+•
+
+Fully programmable frame format
+
+•
+
+Support wrapped-type access to memory in read direction
+
+•
+
+HyperBus support
+
+•
+
+Integrated FIFO for reception and transmission
+
+•
+
+8-, 16-, and 32-bit data accesses allowed
+
+•
+
+DMA protocol support
+
+•
+
+DMA channel for indirect mode operations
+
+•
+
+Interrupt generation on FIFO threshold, timeout, operation complete, and access error
+
+•
+
+AHB interface with transaction acceptance limited to one: the interface accepts the next
+transfer on AHB bus only once the previous is completed on memory side.
+
+RM0456 Rev 6
+
+RM0456
+
+30.3
+
+Hexadeca-SPI interface (HSPI)
+
+HSPI implementation
+Table 263. Instances on STM32U5 series devices
+Devices
+
+OCTOSPI1
+
+OCTOSPI2
+
+OCTOSPIM
+
+HSPI1
+
+STM32U535/545
+
+X
+
+-
+
+-
+
+-
+
+STM32U575/585
+
+X
+
+X
+
+X
+
+-
+
+STM32U59x/5Ax
+
+X
+
+X
+
+X
+
+X
+
+STM32U5Fx/5Gx
+
+X
+
+X
+
+X
+
+X
+
+Table 264. HSPI implementation
+Feature
+
+HSPI1
+
+OCTOSPI1/2
+
+HyperBus standard compliant
+
+X
+
+X
+
+Xccela standard compliant
+
+X
+
+X
+
+HSPI (JDES251C) standard compliant
+
+X
+
+X
+
+AMBA® AHB compliant data interface
+
+X
+
+X
+
+Asynchronous AHB clock versus kernel clock
+
+X
+
+X
+
+Dual AHB interface
+
+X
+
+X
+
+Functional modes: indirect, automatic status-polling, and memory-mapped
+
+X
+
+X
+
+Dual chip select support (NCS1 and NCS2)
+
+-
+
+-
+
+Read and write support in memory-mapped mode
+
+X
+
+X
+
+Dual-quad configuration
+
+X
+
+X
+
+Dual-octal configuration
+
+X
+
+-
+
+SDR (single-data rate) and DTR (double-transfer rate)
+
+X
+
+X
+
+Data strobe (DS, DQS)
+
+X
+
+X
+
+Fully programmable opcode
+
+X
+
+X
+
+Fully programmable frame format
+
+X
+
+X
+
+Integrated FIFO for reception and transmission
+
+X
+
+X
+
+8, 16, and 32-bit data accesses
+
+X
+
+X
+
+Interrupt on FIFO threshold, timeout, operation complete, and access error
+
+X
+
+X
+
+Compliant with dual-OCTOSPI arbiter (communication regulation)
+
+-
+
+X
+
+Extended CSHT timeout
+
+X
+
+X
+
+Memory-mapped write
+
+X
+
+X
+
+Refresh counter
+
+X
+
+X
+
+GPDMA interface
+
+X
+
+X
+
+High-speed interface
+
+X
+
+-
+
+Prefetch disable
+
+-
+
+-
+
+Prefetch hardware software
+
+-
+
+-
+
+RM0456 Rev 6

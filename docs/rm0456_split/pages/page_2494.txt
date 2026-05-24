@@ -1,0 +1,88 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+Calendar initialization and configuration
+To program the initial time and date calendar values, including the time format and the
+prescaler configuration, the following sequence is required:
+1.
+
+Set INIT bit to 1 in the RTC_ICSR register to enter initialization mode. In this mode, the
+calendar counter is stopped and its value can be updated.
+
+2.
+
+Poll INITF bit of in the RTC_ICSR register. The initialization phase mode is entered
+when INITF is set to 1.
+–
+
+If LPCAL=0: INITF is set around 2 RTCCLK cycles after INIT bit is set.
+
+–
+
+If LPCAL=1: INITF is set up to 2 ck_apre cycle after INIT bit is set.
+
+3.
+
+To generate a 1 Hz clock for the calendar counter, program both the prescaler factors
+in RTC_PRER register, plus BIN and BCDU in the RTC_ICSR register.
+
+4.
+
+Load the initial time and date values in the shadow registers (RTC_TR and RTC_DR),
+and configure the time format (12 or 24 hours) through the FMT bit in the RTC_CR
+register.
+
+5.
+
+Exit the initialization mode by clearing the INIT bit. The actual calendar counter value is
+then automatically loaded.
+–
+
+If LPCAL=0: the counting restarts after 4 RTCCLK clock cycles.
+
+–
+
+If LPCAL=1: the counting restarts after up to 2 RTCCLK + 1 ck_apre.
+
+When the initialization sequence is complete, the calendar starts counting. The RTC_SSR
+content is initialized with:
+•
+
+PREDIV_S in BCD mode (BIN=00)
+
+•
+
+0xFFFF FFFF in binary or mixed (BCD-binary) modes (BIN=01, 10 or 11).
+
+In BCD mode, RTC_SSR contains the value of the synchronous prescaler counter. This
+enables one to calculate the exact time being maintained by the RTC down to a resolution of
+1 / (PREDIV_S + 1) seconds. As a consequence, the resolution can be improved by
+increasing the synchronous prescaler value (PREDIV_S[14:0]). The maximum resolution
+allowed (30.52 μs with a 32768 Hz clock) is obtained with PREDIV_S set to 0x7FFF.
+However, increasing PREDIV_S means that PREDIV_A must be decreased in order to
+maintain the synchronous prescaler output at 1 Hz. In this way, the frequency of the
+asynchronous prescaler output increases, which may increase the RTC dynamic
+consumption. The RTC dynamic consumption is optimized for PREDIV_A+1 being a power
+of 2.
+Note:
+
+After a system reset, the application can read the INITS flag in the RTC_ICSR register to
+check if the calendar has been initialized or not. If this flag equals 0, the calendar has not
+been initialized since the year field is set at its Backup domain reset default value (0x00).
+
+Note:
+
+To read the calendar after initialization, the software must first check that the RSF flag is set
+in the RTC_ICSR register.
+
+Daylight saving time
+The daylight saving time management is performed through bits SUB1H, ADD1H, and BKP
+of the RTC_CR register.
+Using SUB1H or ADD1H, the software can subtract or add one hour to the calendar in one
+single operation without going through the initialization procedure.
+In addition, the software can use the BKP bit to memorize this operation.
+
+RM0456 Rev 6

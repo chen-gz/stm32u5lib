@@ -1,0 +1,63 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+All SRAMs and register contents are preserved, but the SRAMs can be totally or partially
+switched off to further reduced consumption.
+The BOR is always available in Stop 2 mode.
+
+I/O states in Stop 2 mode
+In Stop 2 mode, all I/O pins keep the same state as in Run mode.
+
+Entering Stop 2 mode
+The MCU enters Stop 2 mode as described in Entering into a low-power mode, when the
+SLEEPDEEP bit in the Cortex-M33 system control register is set (see Table 104 for details
+on how to enter the Stop 2 mode).
+If the flash memory programming is ongoing, the Stop 2 mode entry is delayed until the
+memory access is finished.
+If an access to the APB domain is ongoing, the Stop 2 mode entry is delayed until the APB
+access is finished.
+In Stop 2 mode, the following features can be selected by programming individual control
+bits:
+•
+
+The independent watchdog (IWDG) is started by writing to its key register or by
+hardware option. Once started it cannot be stopped except by a reset
+(see Section 61.4: IWDG functional description).
+
+•
+
+The real-time clock (RTC) and Tamper (TAMP) kernel clock enabled by the RTCEN bit
+in RCC_BDCR.
+
+•
+
+The internal RC oscillator LSI clock or LSI clock divided by 128, is configured by the
+LSION and LSIPREDIV bits in RCC_BDCR.
+
+•
+
+The external 32.768 kHz oscillator (LSE) is configured by LSEON in RCC_BDCR.
+
+Several peripherals can be autonomous in Stop 2 mode and can add consumption if they
+are enabled (see Section 10.7.2 for more details).
+OPAMPs, COMPs, the PVM, and the PVD can be used in Stop 2 mode. If they are not
+needed, they must be disabled by software to save their power consumptions.
+The ADCx (x = 1, 2, 4), the DAC1 (two channels), the temperature sensor and the
+VREFBUF can consume power during Stop 2 mode, unless they are disabled before
+entering this mode.
+Caution:
+
+All the peripherals that cannot be enabled in Stop 2 mode must be either disabled by
+clearing the enable bit in the peripheral itself, or put under reset state by configuring RCC
+registers.
+
+Exiting Stop 2 mode
+The MCU exits Stop 2 mode as defined in Exiting a low-power mode (see Table 104 for
+details on how to exit Stop 2 mode).
+When exiting Stop 2 mode by issuing an interrupt or a wake-up event, HSI16 is selected as
+system clock if the bit STOPWUCK is set in RCC_CFGR1. MSIS is selected as system
+clock if STOPWUCK is cleared. The MSI selection allows a wake-up at higher frequency
+(up to 24 MHz).

@@ -1,0 +1,158 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+71.7.4
+
+Channel/endpoint transmit buffer descriptor n [alternate]
+(USB_CHEP_RXTXBD_n)
+Address offset: 0x4 + 0x8 * n, (n = 0 to 7)
+Reset value: 0xXXXX XXXX
+This register description applies when corresponding CHEPnR register programs use of
+double buffering and activates transmit buffers (otherwise refer to previous register
+description).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+25
+
+24
+
+23
+
+22
+
+21
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+COUNT_TX[9:0]
+
+ADDR_TX[15:0]
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:16 COUNT_TX[9:0]: Transmission byte count
+These bits contain the number of bytes to be transmitted by the endpoint/channel associated
+with the USB_CHEPnR register at the next IN token addressed to it.
+Bits 15:0 ADDR_TX[15:0]: Transmission buffer address
+These bits point to the starting address of the packet buffer containing data to be transmitted
+by the endpoint/channel associated with the USB_CHEPnR register at the next IN token
+addressed to it. Bits 1 and 0 must always be written as “00” since packet memory is word
+wide and all packet buffers must be word aligned.
+
+RM0456 Rev 6

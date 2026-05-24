@@ -1,0 +1,176 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+43.7.21
+
+RM0456
+
+LTDC layer x blending factors configuration register
+(LTDC_LxBFCR)
+Address offset: 0x0A0 + 0x80 * (x - 1), (x = 1 to 2)
+Reset value: 0x0000 0607
+This register defines the blending factors F1 and F2.
+The general blending formula is: BC = BF1 x C + BF2 x Cs
+•
+
+BC = blended color
+
+•
+
+BF1 = blend factor 1
+
+•
+
+C = current layer color
+
+•
+
+BF2 = blend factor 2
+
+•
+
+Cs = subjacent layers blended color
+
+The constant alpha value, is the programmed value in LTDC_LxCACR divided by 255 by
+hardware.
+Example: Only layer1 is enabled, BF1 configured to constant alpha. BF2 configured to
+1 - constant alpha. The constant alpha programmed in LTDC_LxCACR is 240 (0xF0). Thus,
+the constant alpha value is 240 / 255 = 0.94. C: current layer color is 128.
+Cs: background color is 48. Layer1 is blended with the background color.
+BC = constant alpha x C + (1 - Constant Alpha) x Cs = 0.94 x 128 + (1- 0.94) x 48 = 123.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+10
+
+9
+
+8
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+BF1[2:0]
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:11 Reserved, must be kept at reset value.
+Bits 10:8 BF1[2:0]: Blending factor 1
+These bits select the blending factor F1.
+100: constant alpha
+110: pixel alpha x constant alpha
+Others: Reserved
+Bits 7:3 Reserved, must be kept at reset value.
+Bits 2:0 BF2[2:0]: blending factor 2
+These bits select the blending factor F2
+101: 1 - constant alpha
+111: 1 - (pixel alpha x constant alpha)
+Others: Reserved

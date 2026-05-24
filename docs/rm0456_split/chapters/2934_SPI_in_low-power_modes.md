@@ -1,0 +1,113 @@
+•
+
+EFT[1:0] = 00: the message ID of received frames is AND-ed with the extended ID
+AND mask (XIDAM) before the range filter is applied.
+
+•
+
+EFT[1:0] = 11: the extended ID AND mask (XIDAM) is not used for range filtering.
+
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Filter for dedicated IDs
+A filter element can be configured to filter for one or two specific message IDs. To filter for
+one specific message ID, the filter element has to be configured with SF1ID = SF2ID and
+EF1ID = EF2ID.
+
+Classic bit mask filter
+The classic bit mask filtering is intended to filter groups of message IDs by masking single
+bits of a received message ID. With classic bit mask filtering SF1ID/EF1ID is used as
+message ID filter, while SF2ID/EF2ID is used as filter mask.
+0 bit at the filter mask masks out the corresponding bit position of the configured ID filter. For
+example, the value of the received message ID at that bit position is not relevant for
+acceptance filtering. Only the bits of the received message ID where the corresponding
+mask bits are 1 are relevant for acceptance filtering.
+In case all mask bits are 1, a match occurs only when the received message ID and the
+message ID filter are identical. If all mask bits are 0, all message IDs match.
+
+Standard message ID filtering
+Figure 889 shows the flow for standard message ID (11-bit identifier) filtering. The standard
+message ID filter element is described in Section 70.3.11.
+The standard message filtering is controlled by the FDCAN_RXGFC register. The standard
+message ID, the remote transmission request bit (RTR), and the identifier extension bit
+(IDE) of the received frames are compared against the list of configured filter elements.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Figure 889. Standard message ID filter path
+Valid frame received
+
+11-bit
+
+Remote frame
+
+29-bit
+
+Bit identifier
+
+Yes
+
+No
+
+Reject remote frame
+RXGFC[RRFS] = 0
+
+RXGFC[RRFS] = 1
+
+Receive filter list enabled
+
+RXGFC[LSS[7:0]] = 0
+
+RXGFC[LSS[7:0]] > 0
+Match filter
+element #0
+
+Yes
+
+No
+Yes
+No
+Match filter
+element #RXGFC.LSS
+
+Yes
+
+Acceptance
+or Rejection
+Accept
+
+No
+Accept
+non-matching
+frames
+
+Reject
+
+RXGFC[ANFS[1]] = 1
+
+Discard frame
+
+RXGFC[ANFS[1]] = 0
+
+Target FIFO full
+
+Yes
+
+No
+Append to target FIFO
+MS47279V1
+
+<!-- pagebreak -->
+

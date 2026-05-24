@@ -1,0 +1,99 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+18.3.3
+
+RM0456
+
+LPDMA requests
+A LPDMA request from a peripheral can be assigned to a LPDMA channel x, via the
+REQSEL[4:0] field in the LPDMA channel x transfer register 2 (LPDMA_CxTR2), provided
+that SWREQ = 0.
+The LPDMA requests mapping is specified in the table below.
+Table 147. Programmed LPDMA1 request
+
+18.3.4
+
+LPDMA_CxTR2.REQSEL[4:0]
+
+Selected LPDMA request
+
+0
+
+lpuart1_rx_dma
+
+1
+
+lpuart1_tx_dma
+
+2
+
+spi3_rx_dma
+
+3
+
+spi3_tx_dma
+
+4
+
+i2c3_rx_dma
+
+5
+
+i2c3_tx_dma
+
+6
+
+i2c3_evc_dma
+
+7
+
+adc4_dma
+
+8
+
+dac1_ch1_dma
+
+9
+
+dac1_ch2_dma
+
+10
+
+adf1_flt0_dma
+
+11
+
+lptim1_ic1_dma
+
+12
+
+lptim1_ic2_dma
+
+13
+
+lptim1_ue_dma
+
+14
+
+lptim3_ic1_dma
+
+15
+
+lptim3_ic2_dma
+
+16
+
+lptim3_ue_dma
+
+LPDMA block requests
+Some LPDMA requests must be programmed as a block request, and not as a single
+request. Then the BREQ bit in LPDMA channel x transfer register 2 (LPDMA_CxTR2) must
+be set for a correct LPDMA execution of the requested peripheral transfer at the hardware
+level.
+The LPDMA block requests are listed in the table below.
+Table 148. Programmed LPDMA1 request as a block request
+LPDMA block requests
+lptim1_ue_dma
+lptim3_ue_dma

@@ -1,0 +1,129 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Table 780. Validation of ordered sets (continued)
+Status
+
+1st code
+
+2nd code
+
+3rd code
+
+4th code
+
+Valid
+
+K-code
+
+K-code
+
+Corrupt
+
+K-code
+
+Valid
+
+K-code
+
+K-code
+
+K-code
+
+Corrupt
+
+Valid (perfect)
+
+K-code
+
+K-code
+
+K-code
+
+K-code
+
+Not valid (example)
+
+K-code
+
+Corrupt
+
+K-code
+
+Corrupt
+
+Bit ordering at transmission
+Allowed transmission data units / data sizes are in the following table.
+Table 781. Data size
+Data unit
+
+Non-encoded
+
+Encoded
+
+Byte
+
+8-bits
+
+10-bits
+
+Word
+
+16-bits
+
+20-bits
+
+DWord
+
+32-bits
+
+40-bits
+
+The bit transmission order is shown in the following figure.
+Figure 948. Transmit order for various sizes of data
+b31
+
+b31
+
+b0
+
+Transmit last b16
+
+b15
+
+b15
+
+Transmit first
+
+b0
+
+b7
+
+b0
+
+b7 b4
+
+b3 b0
+
+b8
+
+4b5b
+bit4 bit0
+
+Bit 4
+
+Bit 3
+
+Bit 2
+
+Transmit last
+
+Bit 1
+
+Bit 0
+
+Transmit first
+MSv45538V1

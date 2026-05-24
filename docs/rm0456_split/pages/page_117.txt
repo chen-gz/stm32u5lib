@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 493. ECB/CBC encryption (Mode 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1986
+Figure 494. ECB/CBC decryption (Mode 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1987
+Figure 495. Operation with wrapped keys . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1989
+Figure 496. Usage of Shared-key mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1991
+Figure 497. 128-bit block construction with respect to data swap . . . . . . . . . . . . . . . . . . . . . . . . . . . 1994
+Figure 498. Key protection mechanisms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1996
+Figure 499. DMA transfer of a 128-bit data block during input phase . . . . . . . . . . . . . . . . . . . . . . . . 1997
+Figure 500. DMA transfer of a 128-bit data block during output phase . . . . . . . . . . . . . . . . . . . . . . . 1998
+Figure 501. HASH block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2017
+Figure 502. Message data swapping feature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2019
+Figure 503. HASH suspend/resume mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2025
+Figure 504. OTFDEC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2039
+Figure 505. Typical OTFDEC use in a SoC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2040
+Figure 506. AES CTR decryption flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2041
+Figure 507. OTFDEC flow control overview (dual burst read request) . . . . . . . . . . . . . . . . . . . . . . . 2042
+Figure 508. PKA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2062
+Figure 509. Advanced-control timer block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2095
+Figure 510. Counter timing diagram with prescaler division change from 1 to 2 . . . . . . . . . . . . . . . . 2102
+Figure 511. Counter timing diagram with prescaler division change from 1 to 4 . . . . . . . . . . . . . . . . 2103
+Figure 512. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2104
+Figure 513. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2105
+Figure 514. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2105
+Figure 515. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2106
+Figure 516. Counter timing diagram, update event when ARPE = 0
+(TIMx_ARR not preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2106
+Figure 517. Counter timing diagram, update event when ARPE = 1
+(TIMx_ARR preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2107
+Figure 518. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2108
+Figure 519. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2109
+Figure 520. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2109
+Figure 521. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2110
+Figure 522. Counter timing diagram, update event when repetition counter is not used . . . . . . . . . . 2110
+Figure 523. Counter timing diagram, internal clock divided by 1, TIMx_ARR = 0x6 . . . . . . . . . . . . . 2112
+Figure 524. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2112
+Figure 525. Counter timing diagram, internal clock divided by 4, TIMx_ARR = 0x36 . . . . . . . . . . . . 2113
+Figure 526. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2113
+Figure 527. Counter timing diagram, update event with ARPE = 1 (counter underflow) . . . . . . . . . . 2114
+Figure 528. Counter timing diagram, Update event with ARPE = 1 (counter overflow) . . . . . . . . . . . 2115
+Figure 529. Update rate examples depending on mode and TIMx_RCR register settings . . . . . . . . 2116
+Figure 531. Control circuit in normal mode, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . 2118
+Figure 532. tim_ti2 external clock connection example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2118
+Figure 533. Control circuit in external clock mode 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2119
+Figure 534. External trigger input block . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2120
+Figure 535. Control circuit in external clock mode 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2121
+Figure 536. Capture/compare channel (example: channel 1 input stage) . . . . . . . . . . . . . . . . . . . . . 2121
+Figure 537. Capture/compare channel 1 main circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2122
+Figure 538. Output stage of capture/compare channel (channel 1, idem ch. 2, 3 and 4) . . . . . . . . . 2123
+Figure 539. Output stage of capture/compare channel (channel 5, idem ch. 6) . . . . . . . . . . . . . . . . 2123
+Figure 540. PWM input mode timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2126
+Figure 541. Output compare mode, toggle on tim_oc1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2128
+Figure 542. Edge-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2129
+Figure 543. Center-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2130
+
+RM0456 Rev 6

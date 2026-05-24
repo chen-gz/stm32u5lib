@@ -1,0 +1,80 @@
+The sensor has a startup time after waking up from power-down mode before it can output
+VSENSE at the correct level. The ADC also has a startup time after power-on, so to minimize
+the delay, the ADEN and VSENSESEL bits must be set at the same time.
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Calculating the actual VREF+ voltage using the internal reference voltage
+The VDDA power supply voltage applied to the microcontroller may be subject to variation or
+not precisely known. The embedded internal voltage reference (VREFINT) and its
+calibration data acquired by the ADC during the manufacturing process at VREF+ = 3.0 V
+can be used to evaluate the actual VREF+ voltage level, if VREF+ pin is connected to a
+variable VDDA power supply.
+The following formula gives the actual VREF+ voltage supplying the device:
+V REF+ = 3.0 V × VREFINT_CAL ⁄ VREFINT_DATA
+
+Where:
+•
+
+VREFINT_CAL is the VREFINT calibration value
+
+•
+
+VREFINT_DATA is the actual VREFINT output value converted by ADC
+
+Converting a supply-relative ADC measurement to an absolute voltage value
+The ADC is designed to deliver a digital value corresponding to the ratio between the
+voltage reference VREF+ and the voltage applied on the converted channel. For most
+application use cases, it is necessary to convert this ratio into a voltage independent from
+VREF+. For applications where VREF+ is known and ADC converted values are right-aligned,
+the following formula can be used to calculate this absolute value:
+V REF+
+V CHANNELx = ------------------------------------- × ADC_DATA x
+FULL_SCALE
+
+For applications where VREF+ value is not known, the internal voltage reference and VREF+
+can be replaced by the expression provided in Section : Calculating the actual VREF+
+voltage using the internal reference voltage, resulting in the following formula:
+3.0 V × VREFINT_CAL × ADC_DATA
+V CHANNELx = -------------------------------------------------------------------------------------------------------x
+VREFINT_DATA × FULL_SCALE
+
+Where:
+•
+
+VREFINT_CAL is the VREFINT calibration value (refer to Section 34.3: ADC
+implementation for the value of VREFINT_CAL).
+
+•
+
+ADC_DATAx is the value measured by the ADC on channelx (right-aligned).
+
+•
+
+VREFINT_DATA is the actual VREFINT output value converted by the ADC.
+
+•
+
+FULL_SCALE is the maximum digital value of the ADC output. For example with 12-bit
+resolution, it is 212 - 1 = 4095 or with 8-bit resolution, 28 - 1 = 255.
+
+Note:
+
+If ADC measurements are done using an output format other than 12 bit right-aligned, all the
+parameters must first be converted to a compatible format before the calculation is done.
+
+34.4.28
+
+Battery voltage monitoring
+The VBATEN bit in the ADC_CCR register allows the application to measure the battery
+voltage on the VBAT pin. As the VBAT voltage may be higher than VDDA, to ensure the
+correct operation of the ADC, the VBAT pin is internally connected to a bridge divider by 4.
+This bridge is automatically enabled when VBATEN is set, to connect VBAT/4 to the
+corresponding ADC input channel (refer to Table ADC interconnection in Section 34.4.2:
+ADC pins and internal signals). As a consequence, the converted digital value is VBAT/4. To
+
+RM0456 Rev 6

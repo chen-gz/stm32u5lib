@@ -1,0 +1,132 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 531. Control circuit in normal mode, internal clock divided by 1
+tim_ker_ck
+
+CEN
+
+UG
+counter initialization
+(internal)
+
+tim_cnt_ck, tim_psc_ck
+
+Counter register
+
+32
+
+31
+
+33
+
+34
+
+35 36
+
+00 01
+
+02
+
+03 04 05
+
+06
+
+07
+
+MSv62317V2
+
+External clock source mode 1
+This mode is selected when SMS = 111 in the TIMx_SMCR register. The counter can count
+at each rising or falling edge on a selected input.
+Figure 532. tim_ti2 external clock connection example
+TIMx_SMCR
+TIMx_TISEL
+
+TS[4:0]
+
+TI2SEL[3:0]
+or tim_ti2f
+tim_ti1f
+
+tim_itrx
+
+TIM_CH2
+
+tim_ti1f_ed
+
+tim_ti2_in0
+tim_ti2
+tim_ti2_in[15:1]
+
+Filter
+
+Edge
+detector
+
+tim_ti2f_rising
+tim_ti2f_failing
+
+0
+1
+
+00100
+00101
+
+tim_ti2fp2
+
+00110
+
+etrf
+
+00111
+(1)
+
+CC2P
+
+TIMx_CCMR1
+
+TIMx_CCER
+
+or
+
+000xx
+
+tim_ti1fp2
+
+ICF[3:0]
+
+or
+
+tim_trgi
+
+Encoder
+mode
+External clock
+mode 1
+
+tim_etrf
+
+External clock
+mode 2
+
+tim_ker_ck
+
+Internal clock
+mode
+
+(internal clock)
+
+ECE
+
+tim_psc_ck
+
+SMS[2:0]
+
+TIMx_SMCR
+MSv62318V3
+
+1. Codes ranging from 01000 to 11111 are reserved.

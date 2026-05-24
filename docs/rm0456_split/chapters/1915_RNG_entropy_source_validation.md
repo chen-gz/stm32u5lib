@@ -1,0 +1,153 @@
+RM0456 Rev 6
+
+RM0456
+
+True random number generator (RNG)
+Table 464. RNG initialization times
+
+Initialization step
+
+Configuration A or C, reset value
+
+Configuraton B
+
+Wait for noise
+source, then startup
+health tests
+
+Max( (wait_noise(1) + 11 + 1024 x CLKDIV)
+RNG_cycles, 13 x 203 AHB_cycles)
+
+Max(16 + 1035 RNG_cycles,
+13 x 203 AHB_cycles)
+
+Conditioning keys
+initialization
+
+Max((1+2xN) x 128 x CLKDIV) RNG_cycles
+Max (3 x 32 RNG_cycles + 203 AHB_cycles,
++ 203 AHB_cycles, (128 x CLKDIV)
+32 RNG_cycles + 4 x 203 AHB_cycles)
+RNG_cycles + (2xN+2) x 203 AHB_cycles)
+
+1. 192 RNG_cycles (configuration A or C), 16 RNG_cycles (reset value)
+
+As an example, if AHB clock= 160 MHz and RNG clock= 48 MHz then the initialization time
+is around 40 μs in the configuration C (CLKDIV=1, N=2) and 28 μs in the configuration B.
+
+48.6
+
+RNG entropy source validation
+
+48.6.1
+
+Introduction
+In order to assess the amount of entropy available from the RNG, STMicroelectronics has
+tested the peripheral using the German BSI AIS-31 statistical tests (T0 to T8), and NIST
+SP800-90B test suite.
+
+48.6.2
+
+Validation conditions
+STMicroelectronics has tested the RNG true random number generator in the following
+conditions:
+•
+
+RNG clock rng_clk = 48 MHz
+
+•
+
+RNG configurations are described in Table 465. Note that only configuration A can be
+certified NIST SP800-90B. Refer to Table 466 to select the best configuration for the
+application.
+
+•
+
+Configuration C can be used when configuration A is not flagged as certified.
+Table 465. RNG configurations
+RNG_CR bits
+
+Configuration
+
+NISTC
+bit
+
+RNG_
+CONFIG1
+[5:0]
+
+CLKDIV
+[3:0]
+
+RNG_
+CONFIG2
+[2:0](1)
+
+RNG_
+CONFIG3
+[3:0](2)
+
+Loop
+number
+CED
+(N)
+bit
+
+RNG_
+HTCR
+register
+
+RNG_
+NSCR
+register
+
+A
+
+Refer to NIST compliant RNG configuration table in AN4230 available from www.st.com.
+This application note also indicates if this configuration is part of an existing NIST SP800-90B
+Entropy Certificate listed on https://csrc.nist.gov/projects/cryptographic-module-validationprogram.
+
+B
+
+1
+
+0x18
+
+C
+
+0
+
+0x0F
+
+0x0(3)
+
+0x0
+
+0x0
+
+0
+
+1
+
+0x0
+
+0xD
+
+0
+
+2
+
+0x0000
+AAC7(4)
+
+default
+default
+
+1. 0x1 value is recommended instead of 0x0 for RNG_CONFIG2[2:0], when RNG power consumption is critical. See the end
+of Section 48.3.8 for details.
+2. RNG_CONFIG3[1:0] defines the loop number N: 0x0 corresponds to N=1, 0x1 to N=2, 0x2 to N=3, 0x3 to N=4
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

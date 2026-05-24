@@ -1,0 +1,35 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+transfers. The deeper the queue (along with sufficient FIFO size), the more often the
+core is able to pipeline non-periodic transfers. If the queue size is small, the core is
+able to put in new requests only when the queue space is freed up.
+The core’s periodic request queue depth is critical to perform periodic transfers as
+scheduled. Select the periodic queue depth, based on the number of periodic transfers
+scheduled in a microframe. If the periodic request queue depth is smaller than the
+periodic transfers scheduled in a microframe, a frame overrun condition occurs.
+•
+
+Handling babble conditions
+OTG_HS controller handles two cases of babble: packet babble and port babble.
+Packet babble occurs if the device sends more data than the maximum packet size for
+the channel. Port babble occurs if the core continues to receive data from the device at
+EOF2 (the end of frame 2, which is very close to SOF).
+When OTG_HS controller detects a packet babble, it stops writing data into the Rx
+buffer and waits for the end of packet (EOP). When it detects an EOP, it flushes already
+written data in the Rx buffer and generates a Babble interrupt to the application.
+When OTG_HS controller detects a port babble, it flushes the Rx FIFO and disables
+the port. The core then generates a port disabled interrupt (HPRTINT in
+OTG_GINTSTS, PENCHNG in OTG_HPRT). On receiving this interrupt, the
+application must determine that this is not due to an overcurrent condition (another
+cause of the port disabled interrupt) by checking POCA in OTG_HPRT, then perform a
+soft reset. The core does not send any more tokens after it has detected a port babble
+condition.
+
+•
+
+Bulk and control OUT/SETUP transactions in DMA mode
+The sequence of operations is as follows:

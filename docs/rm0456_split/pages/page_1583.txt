@@ -1,0 +1,178 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+Bit 0 DFLTEN: Digital filter enable
+This bit is set and cleared by software. It is used to control the start of acquisition of the
+corresponding digital filter path. This bit behavior depends on ACQMOD[2:0]and external
+events. The serial or parallel interface delivering the samples must be enabled as well.
+0: Acquisition immediately stopped
+1: Acquisition immediately started if ACQMOD[2:0] = 00x or 101, or acquisition started when
+the proper trigger event occurs if ACQMOD[2:0] = 01x or 100.
+
+39.8.6
+
+MDF digital filter configuration register x (MDF_DFLTxCICR)
+Address offset: 0x08C + 0x80 * x, (x = 0 to 5)
+Reset value: 0x0000 0000
+This register is used to control the main CIC filter.The number of registers is equal to the
+amount of filters. Refer to Section 39.3 for details.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+25
+
+24
+
+rw
+
+rw
+
+rw
+
+rw
+
+22
+
+20
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+rw
+
+21
+
+SCALE[5:0]
+
+MCICD[7:0]
+rw
+
+23
+
+rw
+
+rw
+
+CICMOD[2:0]
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+MCICD
+8
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+rw
+0
+
+DATSRC[1:0]
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:20 SCALE[5:0]: Scaling factor selection
+This bitfield is set and cleared by software. It is used to select the gain to be applied at CIC
+output (refer to Table 378 for details). If the application attempts to write a new gain value
+while the previous one is not yet applied, this new gain value is ignored. Reading back this
+bitfield informs the application on the current gain value.
+000000: 0 dB
+000001: + 3.5 dB
+000010: + 6 dB or shift left by 1 bit
+...
+011000: + 72 dB or shift left by 12 bits
+100000: - 48.2 dB or shift right by 8 bits (default value)
+100001: - 44.6 dB
+100010: - 42.1 dB or shift right by 7 bits
+100011: - 38.6 dB
+...
+101110: - 6 dB or shift right by 1 bit
+101111: - 2.5 dB
+Others: Reserved
+Bits 19:17 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,99 @@
+RTC_ALRMAR, RTC_ALRMASSR and RTC_ALRABINR registers, plus ALRAE,
+ALRAFCLR, ALRAIE and SSRUIE in the RTC_CR, CALRAF and CSSRUF in the
+
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+RTC_SCR, ALRAF and SSRUF in RTC_SR, and ALRAMF and SSRUMF in
+RTC_SMISR can be read and written only in secure mode.
+–
+•
+
+•
+
+•
+
+ALRAPRIV in the RTC_PRIVCFGR can be written only in secure mode
+
+When ALRBSEC is set:
+–
+
+RTC_ALRMBR, RTC_ALRMBSSR and RTC_ALRBBINR registers, plus ALRBE
+ALRBFCLR, ALRBIE in the RTC_CR, CALRBF in the RTC_SCR, ALRBF in
+RTC_SR, and ALRBMF in RTC_SMISR can be read and written only in secure
+mode.
+
+–
+
+ALRBPRIV in the RTC_PRIVCFGR can be written only in secure mode.
+
+When WUTSEC is set:
+–
+
+RTC_WUTR register, plus WUTE, WUTIE and WUCKSEL control bits in the
+RTC_CR, CWUTF in the RTC_SCR, WUTF in RTC_SR, and WUTMF in
+RTC_SMISR can be read and written only in secure mode.
+
+–
+
+WUTPRIV in the RTC_PRIVCFGR can be written only in secure mode
+
+When TSSEC is set:
+–
+
+RTC_TSTR, RTC_TSDR and RTC_TSSSR registers, plus TAMPTS, ITSE, TSE,
+TSIE, TSEDGE control bits in the RTC_CR, CITSF, CTSOVF and CTSF bits in the
+RTC_SCR, TSF, TSOVF and ITSF in RTC_SR, and TSMF, TSOVMF and ITSMF
+in RTC_SMISR can be read and written only in secure mode.
+
+–
+
+TSPRIV in the RTC_PRIVCFGR can be written only in secure mode
+
+A nonsecure access to a secure-protected register is denied:
+•
+
+There is no bus error generated.
+
+•
+
+In case the register has a global protection: a notification is generated through a
+flag/interrupt in the TZIC (TrustZone illegal access controller). In case only a few bits of
+the register are protected (for registers with mixed features such as RTC_CR...), no
+notification is generated.
+
+•
+
+When write protected, the bits are not written.
+
+•
+
+When read protected they are read as 0.
+
+As soon as at least one function is configured to be secured, the RTC reset and clock
+control is also secured in the RCC.
+
+63.3.5
+
+RTC privilege protection modes
+By default after a backup domain power-on reset, all RTC registers can be read or written in
+both privileged and unprivileged modes, except for the RTC privilege mode control register
+(RTC_PRIVCFGR) which can be written in privilege mode only. The RTC protection
+configuration is not affected by a system reset.
+When the PRIV bit is set in the RTC_PRIVCFGR register:
+•
+
+Writing the RTC registers is possible only in privileged mode.
+
+•
+
+Reading the RTC_SECCFGR, RTC_PRIVCFGR, RTC_TR, RTC_DR, RTC_SSR,
+RTC_PRER and RTC_CALR is always possible in privilege and unprivilege modes. All
+the other RTC registers can be read only in privilege mode.
+
+When the PRIV bit is cleared, it is still possible to protect some of the registers by setting
+dedicated INITPRIV, CALPRIV, TSPRIV, WUTPRIV, ALRAPRV or ALRBPRIV control bits. If
+
+RM0456 Rev 6

@@ -1,0 +1,51 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Bit 23 ARA: Access to reserved address
+0: No access to reserved address occurred
+1: Access to reserved address occurred
+Bit 22 PED: Protocol error in data phase (data bit time is used)
+0: No protocol error in data phase
+1: Protocol error in data phase detected (DLEC[2:0] different from 0 and 7 in FDCAN_PSR)
+Bit 21 PEA: Protocol error in arbitration phase (nominal bit time is used)
+0: No protocol error in arbitration phase
+1: Protocol error in arbitration phase detected (LEC[2:0] different from 0 and 7 in
+FDCAN_PSR)
+Bit 20 WDI: Watchdog interrupt
+0: No message RAM watchdog event occurred
+1: Message RAM watchdog event due to missing READY
+Bit 19 BO: Bus-off status
+0: Bus-off status unchanged
+1: Bus-off status changed
+Bit 18 EW: Warning status
+0: Error-warning status unchanged
+1: Error-warning status changed
+Bit 17 EP: Error passive
+0: Error-passive status unchanged
+1: Error-passive status changed
+Bit 16 ELO: Error logging overflow
+0: CAN error logging counter did not overflow.
+1: Overflow of CAN error logging counter occurred.
+Bit 15 TOO: Timeout occurred
+0: No timeout
+1: Timeout reached
+Bit 14 MRAF: Message RAM access failure
+The flag is set when the Rx handler:
+- has not completed acceptance filtering or storage of an accepted message until the
+arbitration field of the following message has been received. In this case acceptance
+filtering or message storage is aborted and the Rx handler starts processing of the
+following message.
+- was unable to write a message to the message RAM. In this case message storage is
+aborted.
+In both cases the FIFO put index is not updated. The partly stored message is overwritten
+when the next message is stored to this location.
+The flag is also set when the Tx handler was not able to read a message from the message
+RAM in time. In this case message transmission is aborted. In case of a Tx handler access
+failure, the FDCAN is switched into restricted operation mode (see Restricted operation
+mode). To leave restricted operation mode, the host CPU has to clear the ASM of the
+FDCAN_CCCR register.
+0: No message RAM access failure occurred
+1: Message RAM access failure occurred

@@ -1,0 +1,160 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 15 USBAEP: USB active endpoint
+Indicates whether this endpoint is active in the current configuration and interface. The core
+clears this bit for all endpoints (other than EP 0) after detecting a USB reset. After receiving
+the SetConfiguration and SetInterface commands, the application must program endpoint
+registers accordingly and set this bit.
+Bits 14:11 Reserved, must be kept at reset value.
+Bits 10:0 MPSIZ[10:0]: Maximum packet size
+The application must program this field with the maximum packet size for the current logical
+endpoint. This value is in bytes.
+
+72.15.53 OTG device OUT endpoint x transfer size register
+(OTG_DOEPTSIZx)
+Address offset: 0xB10 + 0x20 * x, (x = 1 to 5)
+Reset value: 0x0000 0000
+The application must modify this register before enabling the endpoint. Once the endpoint is
+enabled using endpoint enable bit of the OTG_DOEPCTLx registers (EPENA bit in
+OTG_DOEPCTLx), the core modifies this register. The application can only read this
+register once the core has cleared the endpoint enable bit.
+31
+Res.
+
+15
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+RXDPID/
+STUPCNT[1:0]
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+PKTCNT[9:0]
+
+17
+
+16
+
+XFRSIZ[18:16]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+XFRSIZ[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.

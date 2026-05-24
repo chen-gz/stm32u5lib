@@ -1,0 +1,102 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+Figure 219. Voltage switch transceiver typical application
+
+SD Host
+
+Voltage transceiver
+GPIO
+
+SDMMC
+SDMMC_CK
+SDMMC_CKIN
+SDMMC_CDIR
+
+SDMMC_CMD
+
+SDMMC_D0DIR
+
+SDMMC_D0
+
+SDMMC_D123DIR
+
+SDMMC_D1
+
+SDMMC_D2
+
+SDMMC_D3
+
+EN
+SEL
+
+CLK.h
+
+CLKB
+
+CLK-f
+CMD.dir
+
+CMD.h
+
+CMDB
+
+DAT0.dir
+
+DAT0.h
+
+DAT123.dir
+
+Level converter
+
+GPIO
+
+SD Card
+
+DAT0B
+
+DAT1.h
+
+DAT1B
+
+DAT2.h
+
+DAT2B
+
+DAT3.h
+
+DAT3B
+
+MSv40951V2
+
+To interface with an external driver (a voltage switch transceiver), next to the standard
+signals the SDMMC uses the following signals:
+•
+
+SDMMC_CKIN feedback input clock
+
+•
+
+SDMMC_CDIR I/O direction control for the CMD signal
+
+•
+
+SDMMC_D0DIR I/O direction control for the SDMMC_D0 signal
+
+•
+
+SDMMC_D123DIR I/O direction control for the SDMMC_D1, SDMMC_D2 and
+SDMMC_D3 signals
+
+The voltage transceiver signals EN and SEL are to be handled through general-purpose
+I/O.
+The polarity of the SDMMC_CDIR, SDMMC_D0DIR and SDMMC_D123DIR signals can be
+selected through SDMMC_POWER.DIRPOL control bit.
+
+31.9
+
+SDMMC interrupts
+
+RM0456 Rev 6

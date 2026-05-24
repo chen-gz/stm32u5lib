@@ -1,0 +1,124 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Figure 943 depicts the reception of a single Bulk OUT data packet from the USB to the AHB
+and describes the events involved in the process.
+Figure 943. Bulk OUT transaction
+Host
+
+USB
+
+Device
+
+Application
+init _out_ep
+1
+
+2
+
+XFRSIZ = 64 bytes
+PKTCNT = 1
+
+Wr_reg(OTG_DOEPTSIZx)
+
+EPENA = 1
+CN AK = 1
+
+O UT
+
+Wr_reg(OTG_DOEPCTLx)
+
+3
+64 bytes
+4
+
+6
+
+xact_1
+AC K
+
+RXFLVL iintr
+
+OTG_DO
+
+5
+
+EPCTLx
+
+PKTCN
+
+, NAK=1
+
+XFRSIZ
+=0
+r
+OU T
+NA K
+
+idle until intr
+
+T0
+
+7
+
+rcv_out _pkt()
+
+XF
+int r RC
+
+8
+
+On new xfer
+or RxFIFO
+not em pty
+
+idle until intr
+
+MS36931V1
+
+After a SetConfiguration/SetInterface command, the application initializes all OUT endpoints
+by setting CNAK = 1 and EPENA = 1 (in OTG_DOEPCTLx), and setting a suitable
+XFRSIZ and PKTCNT in the OTG_DOEPTSIZx register.
+1.
+
+host attempts to send data (OUT token) to an endpoint.
+
+2.
+
+When the core receives the OUT token on the USB, it stores the packet in the Rx FIFO
+because space is available there.
+
+3.
+
+After writing the complete packet in the Rx FIFO, the core then asserts the RXFLVL
+interrupt (in OTG_GINTSTS).
+
+4.
+
+On receiving the PKTCNT number of USB packets, the core internally sets the NAK bit
+for this endpoint to prevent it from receiving any more packets.
+
+5.
+
+The application processes the interrupt and reads the data from the Rx FIFO.
+
+6.
+
+When the application has read all the data (equivalent to XFRSIZ), the core generates
+an XFRC interrupt (in OTG_DOEPINTx).
+
+7.
+
+The application processes the interrupt and uses the setting of the XFRC interrupt bit
+(in OTG_DOEPINTx) to determine that the intended transfer is complete.
+
+IN data transfers
+•
+
+Packet write
+
+This section describes how the application writes data packets to the endpoint FIFO when
+dedicated transmit FIFOs are enabled.

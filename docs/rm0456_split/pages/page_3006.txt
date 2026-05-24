@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+Bit 4 L2RES: L2 remote wake-up / resume driver
+– Device mode
+The microcontroller can set this bit to send remote wake-up signaling to the host. It must be
+activated, according to USB specifications, for no less than 1 ms and no more than 15 ms
+after which the host PC is ready to drive the resume sequence up to its end.
+– Host mode
+Software sets this bit to send resume signaling to the device.
+Software clears this bit to send end of resume to device and restart SOF generation.
+In the context of remote wake up, this bit is to be set following the WAKEUP interrupt.
+0: No effect
+1: Send L2 resume signaling to device
+Bit 3 SUSPEN: Suspend state enable
+– Condition: Device mode
+Software can set this bit when the SUSP interrupt is received, which is issued when no traffic
+is received by the USB peripheral for 3 ms. Software can also set this bit when the L1REQ
+interrupt is received with positive acknowledge sent.
+As soon as the suspend state is propagated internally all device activity is stopped, USB
+clock is gated, USB transceiver is set into low power mode and the SUSPRDY bit is set by
+hardware. In the case that device application wants to pursue more aggressive power saving
+by stopping the USB clock source and by moving the microcontroller to stop mode, as in the
+case of bus powered device application, it must first wait few cycles to see the
+SUSPRDY = 1 acknowledge the suspend request.
+This bit is cleared by hardware simultaneous with the WAKEUP flag set.
+0: No effect
+1: Enter L1/L2 suspend
+– Condition: Host mode
+Software can set this bit when host application has nothing scheduled for the next frames
+and wants to enter long term power saving. When set, it stops immediately SOF generation
+and any other host activity, gates the USB clock and sets the transceiver in low power mode.
+If any USB transaction is on-going at the time SUSPEN is set, suspend is entered at the end
+of the current transaction.
+As soon as suspend state is propagated internally and gets effective the SUSPRDY bit is
+set. In the case that host application wants to pursue more aggressive power saving by
+stopping the USB clock source and by moving the micro-controller to STOP mode, it must
+first wait few cycles to see SUSPRDY=1 acknowledge to the suspend request.
+This bit is cleared by hardware simultaneous with the WAKEUP flag set.
+0: No effect
+1: Enter L1/L2 suspend
+Bit 2 SUSPRDY: Suspend state effective
+This bit is set by hardware as soon as the suspend state entered through the SUSPEN
+control gets internally effective. In this state USB activity is suspended, USB clock is gated,
+transceiver is set in low power mode by disabling the differential receiver. Only
+asynchronous wake-up logic and single ended receiver is kept alive to detect remote wakeup or resume events.
+Software must poll this bit to confirm it to be set before any STOP mode entry.
+This bit is cleared by hardware simultaneously to the WAKEUP flag being set.
+0: Normal operation
+1: Suspend state
+
+RM0456 Rev 6

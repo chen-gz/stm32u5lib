@@ -1,0 +1,48 @@
+RM0456 Rev 6
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 6 TAMP7AM: Tamper 7 active mode
+0: Tamper 7 detection mode is passive.
+1: Tamper 7 detection mode is active.
+Bit 5 TAMP6AM: Tamper 6 active mode
+0: Tamper 6 detection mode is passive.
+1: Tamper 6 detection mode is active.
+Bit 4 TAMP5AM: Tamper 5 active mode
+0: Tamper 5 detection mode is passive.
+1: Tamper 5 detection mode is active.
+Bit 3 TAMP4AM: Tamper 4 active mode
+0: Tamper 4 detection mode is passive.
+1: Tamper 4 detection mode is active.
+Bit 2 TAMP3AM: Tamper 3 active mode
+0: Tamper 3 detection mode is passive.
+1: Tamper 3 detection mode is active.
+Bit 1 TAMP2AM: Tamper 2 active mode
+0: Tamper 2 detection mode is passive.
+1: Tamper 2 detection mode is active.
+Bit 0 TAMP1AM: Tamper 1 active mode
+0: Tamper 1 detection mode is passive.
+1: Tamper 1 detection mode is active.
+
+Note:
+
+Changing the active tampers configuration in this register is not allowed when a TAMPxAM
+bit is set, unless the corresponding TAMPxE bits are all cleared in the TAMP_CR1 register.
+All tampers configured in active mode must be enabled at the same time (by setting all
+related TAMPxE in the same TAMP_CR1 write).
+All tampers configured in active mode must be disabled at the same time (by clearing all
+related TAMPxE in the same TAMP_CR1 write).
+A minimum duration of 1 CK_ATPRE period must be waited for after disabling the active
+tampers and before re-enabling them.
+
+64.7.6
+
+TAMP active tamper seed register (TAMP_ATSEEDR)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+
+RM0456 Rev 6

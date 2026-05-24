@@ -1,0 +1,52 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 17 PLL1QEN: PLL1 DIVQ divider output enable
+This bit is set and reset by software to enable the pll1_q_ck output of the PLL1. To save
+power, PLL1QEN and PLL1Q bits must be set to 0 when pll1_q_ck is not used.
+0: pll1_q_ck output disabled
+1: pll1_q_ck output enabled
+Bit 16 PLL1PEN: PLL1 DIVP divider output enable
+This bit is set and reset by software to enable the pll1_p_ck output of the PLL1. To save
+power, PLL1PEN and PLL1P bits must be set to 0 when pll1_p_ck is not used.
+0: pll1_p_ck output disabled
+1: pll1_p_ck output enabled
+Bits 15:12 PLL1MBOOST[3:0]: Prescaler for EPOD booster input clock
+This bitfield is set and cleared by software to configure the prescaler of the PLL1, used for
+the EPOD booster. The EPOD booster input frequency is
+PLL1 input clock frequency/PLL1MBOOST.
+This bit can be written only when the PLL1 is disabled (PLL1ON = 0 and PLL1RDY = 0) and
+EPODboost mode is disabled (see Section 10: Power control (PWR)).
+0000: division by 1 (bypass)
+0001: division by 2
+0010: division by 4
+0011: division by 6
+0100: division by 8
+0101: division by 10
+0110: division by 12
+0111: division by 14
+1000: division by 16
+others: reserved
+Bits 11:8 PLL1M[3:0]: Prescaler for PLL1
+This bitfield is set and cleared by software to configure the prescaler of the PLL1. The VCO1
+input frequency is PLL1 input clock frequency/PLL1M.
+This bit can be written only when the PLL1 is disabled (PLL1ON = 0 and PLL1RDY = 0).
+0000: division by 1 (bypass)
+0001: division by 2
+0010: division by 3
+...
+1111: division by 16
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 PLL1FRACEN: PLL1 fractional latch enable
+This bit is set and reset by software to latch the content of PLL1FRACN in the Σ∆ modulator.
+In order to latch the PLL1FRACN value into the Σ∆ modulator, PLL1FRACEN must be
+set to 0, then set to 1: the transition 0 to 1 transfers the content of PLL1FRACN into the
+modulator (see PLL initialization phase for details).
+Bits 3:2 PLL1RGE[1:0]: PLL1 input frequency range
+This bit is set and reset by software to select the proper reference frequency range used for
+PLL1. It must be written before enabling the PLL1.
+00-01-10: PLL1 input (ref1_ck) clock range frequency between 4 and 8 MHz
+11: PLL1 input (ref1_ck) clock range frequency between 8 and 16 MHz

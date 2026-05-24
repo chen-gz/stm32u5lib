@@ -1,0 +1,215 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+66.8.2
+
+USART control register 1 [alternate] (USART_CR1)
+Address offset: 0x00
+Reset value: 0x0000 0000
+The same register can be used in FIFO mode enabled (previous section) and FIFO mode
+disabled (this section).
+FIFO mode disabled, FIFOEN = 0
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+FIFO
+EN
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+M1
+
+EOBIE
+
+RTOIE
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+OVER8
+
+CMIE
+
+MME
+
+M0
+
+WAKE
+
+PCE
+
+PS
+
+PEIE
+
+TXEIE
+
+TCIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+TE
+
+RE
+
+UESM
+
+UE
+
+rw
+
+rw
+
+rw
+
+rw
+
+DEAT[4:0]
+
+18
+DEDT[4:0]
+
+RXNEIE IDLEIE
+rw
+
+rw
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bit 29 FIFOEN: FIFO mode enable
+This bit is set and cleared by software.
+0: FIFO mode is disabled.
+1: FIFO mode is enabled.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: FIFO mode can be used on standard UART communication, in SPI master/slave mode
+and in smartcard modes only. It must not be enabled in IrDA and LIN modes.
+Bit 28 M1: Word length
+This bit must be used in conjunction with bit 12 (M0) to determine the word length. It is set or
+cleared by software.
+M[1:0] = 00: 1 start bit, 8 Data bits, n stop bits
+M[1:0] = 01: 1 start bit, 9 Data bits, n stop bits
+M[1:0] = 10: 1 start bit, 7 Data bits, n stop bits
+This bit can only be written when the USART is disabled (UE = 0).
+Note: In 7-bits data length mode, the smartcard mode, LIN master mode and auto baud rate
+(0x7F and 0x55 frames detection) are not supported.
+Bit 27 EOBIE: End of block interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated when the EOBF flag is set in the USART_ISR register
+Note: If the USART does not support smartcard mode, this bit is reserved and must be kept at
+reset value. Refer to Section 66.4: USART implementation.
+Bit 26 RTOIE: Receiver timeout interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated when the RTOF bit is set in the USART_ISR register.
+Note: If the USART does not support the Receiver timeout feature, this bit is reserved and
+must be kept at reset value. Section 66.4: USART implementation.
+
+RM0456 Rev 6

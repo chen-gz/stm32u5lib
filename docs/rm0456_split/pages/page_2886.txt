@@ -1,0 +1,23 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+Follow the sequence below to enable an interrupt:
+1.
+
+Disable SAI interrupt.
+
+2.
+
+Configure SAI.
+
+3.
+
+Configure SAI interrupt source.
+
+4.
+
+Enable SAI.
+
+RM0456 Rev 6

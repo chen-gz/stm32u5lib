@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+
+Bits 17:16 AM[1:0]: Alpha mode
+These bits select the alpha channel value to be used for the foreground image.
+00: No modification of the foreground image alpha channel value
+01: Replace original foreground image alpha channel value by ALPHA[7: 0]
+10: Replace original foreground image alpha channel value by ALPHA[7:0] multiplied with
+original alpha channel value
+Others: Reserved
+Bits 15:8 CS[7:0]: CLUT size
+These bits define the size of the CLUT used for the foreground image.
+The number of CLUT entries is equal to CS[7:0] + 1.
+Bits 7:6 Reserved, must be kept at reset value.
+Bit 5 START: Start
+This bit can be set to start the automatic loading of the CLUT. It is automatically reset:
+–
+at the end of the transfer
+–
+when the transfer is aborted by the user by setting ABORT in DMA2D_CR
+–
+when a transfer error occurs
+–
+when the transfer has not started due to a configuration error or another transfer
+operation already ongoing (data transfer or automatic background CLUT transfer)
+Bit 4 CCM: CLUT color mode
+This bit defines the color format of the CLUT.
+0: ARGB8888
+1: RGB888
+Bits 3:0 CM[3:0]: Color mode
+These bits defines the color format of the foreground image.
+0000: ARGB8888
+0001: RGB888
+0010: RGB565
+0011: ARGB1555
+0100: ARGB4444
+0101: L8
+0110: AL44
+0111: AL88
+1000: L4
+1001: A8
+1010: A4
+1011: YCbCr
+Others: Reserved
+
+RM0456 Rev 6

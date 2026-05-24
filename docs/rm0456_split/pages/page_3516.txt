@@ -1,0 +1,181 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Debug support (DBG)
+
+Bit 12 DBG_IWDG_STOP: IWDG stop in debug
+0: normal operation. IWDG continues to operate while CPU is in debug mode.
+1: stop in debug. IWDG is frozen while CPU is in debug mode.
+Bit 11 DBG_WWDG_STOP: WWDG stop in debug
+0: normal operation. WWDG continues to operate while CPU is in debug mode.
+1: stop in debug. WWDG is frozen while CPU is in debug mode.
+Bits 10:6 Reserved, must be kept at reset value.
+Bits 5:0 DBG_TIMy_STOP: TIMy stop in debug (y = 7 to 2)
+0: normal operation. TIMy continues to operate while CPU is in debug mode.
+1: stop in debug. TIMy is frozen while CPU is in debug mode.
+
+DBGMCU APB1H peripheral freeze register (DBGMCU_APB1HFZR)
+Address offset: 0x0C
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+DBG_I
+2C6_S
+TOP
+
+Res.
+
+Res.
+
+Res.
+
+DBG_I
+2C4_S
+TOP
+
+Res.
+
+rw
+
+DBG_I DBG_L
+2C5_S PTIM2_
+TOP
+STOP
+rw
+
+rw
+
+rw
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 DBG_I2C6_STOP: I2C6 stop in debug
+0: normal operation. I2C6 continues to operate while CPU is in debug mode.
+1: stop in debug. I2C6 is frozen while CPU is in debug mode.
+Note: This bit is reserved on STM32U535/545/575/585 devices.
+Bit 6 DBG_I2C5_STOP: I2C5 stop in debug
+0: normal operation. I2C5 continues to operate while CPU is in debug mode.
+1: stop in debug. I2C5 is frozen while CPU is in debug mode.
+Note: This bit is reserved on STM32U535/545/575/585 devices.
+Bit 5 DBG_LPTIM2_STOP: LPTIM2 stop in debug
+0: normal operation. LPTIM2 continues to operate while CPU is in debug mode.
+1: stop in debug. LPTIM2 is frozen while CPU is in debug mode.
+Bits 4:2 Reserved, must be kept at reset value.
+Bit 1 DBG_I2C4_STOP: I2C4 stop in debug
+0: normal operation. I2C4 continues to operate while CPU is in debug mode.
+1: stop in debug. I2C4 is frozen while CPU is in debug mode.
+Bit 0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,103 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+31.5
+
+RM0456
+
+SDMMC functional description
+The SDMMC consists of four parts:
+
+31.5.1
+
+•
+
+The AHB slave interface accesses the SDMMC adapter registers, and generates
+interrupt signals and IDMA control signals.
+
+•
+
+The SDMMC adapter block provides all functions specific to the e•MMC/SD/SD I/O
+card such as the clock generation unit, command and data transfer.
+
+•
+
+The internal DMA (IDMA) block with its AHB master interface.
+
+•
+
+A delay block (DLYB) taking care of the receive data sample clock alignment. The
+delay block is NOT part of the SDMMC. A delay block is mandatory when supporting
+SDR104 or HS200.
+
+SDMMC block diagram
+Figure 191 shows the SDMMC block diagram.
+Figure 191. SDMMC block diagram
+SDMMC ADAPTER
+
+SDMMC
+
+SDMMC_D0DIR
+
+sdmmc_ker_ck
+AHB INTERFACE
+
+SDMMC_D123DIR
+
+Control
+unit
+
+SDMMC_CDIR
+
+32-bit AHB
+slave bus
+
+SDMMC_CK
+sdmmc_io_in_ck
+
+sdmmc_hclk
+
+Registers
+
+Data transmit
+path
+
+sdmmc_it
+
+CLK
+MUX
+
+DLYB (Delay block)
+sdmmc_fb_ck
+
+Command
+path
+
+SDMMC_CKIN
+
+FIFO
+Data receive
+path
+32-bit AHB
+master bus
+
+8
+
+SDMMC_CMD
+
+Response
+path
+
+IDMA
+
+SDMMC_D[7:0]
+
+MSv39277V3
+
+31.5.2
+
+SDMMC pins and internal signals
+Table 275 lists the SDMMC internal input/output signals, Table 276 the SDMMC pins
+(alternate functions).
+Table 275. SDMMC internal input/output signals

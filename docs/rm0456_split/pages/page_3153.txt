@@ -1,0 +1,16 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+packet size), starting with an odd frame. (transfer size = 1 024 bytes).
+–
+
+The periodic transmit FIFO can hold one packet (1 Kbyte).
+
+–
+
+Periodic request queue depth = 4.
+
+The sequence of operations is as follows:

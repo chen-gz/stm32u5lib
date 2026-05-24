@@ -1,0 +1,165 @@
+RM0456 Rev 6
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 4 Reserved, must be kept at reset value.
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 Reserved, must be kept at reset value.
+Bit 0 ERCFG0: Configurable resource 0 protection(1)
+0: Resource 0 is not included in the device secrets protected by TAMP peripheral
+1: Resource 0 is included in the device secrets protected by TAMP peripheral
+1. Refer to tamp_confirmed_ercfg0 and tamp_potential_ercfg0 signals in Table 642: TAMP input/output pins and Table 644:
+TAMP interconnection.
+
+64.7.18
+
+TAMP backup x register (TAMP_BKPxR)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x100 + 0x04 * x, (x = 0 to 31)
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+w
+
+rw
+
+rw
+
+BKP[31:16]
+
+BKP[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 BKP[31:0]:
+The application can write or read data to and from these registers.
+In the default (ERASE) configuration this register is reset on a tamper detection event. It is
+forced to reset value as long as there is at least one internal or external tamper flag being
+set. This register is also reset when the readout protection (RDP) is disabled.
+
+RM0456 Rev 6

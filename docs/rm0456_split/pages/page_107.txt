@@ -1,0 +1,158 @@
+RM0456
+
+OTG_HS input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3296
+OTG_HS input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3296
+Compatibility of STM32 low power modes with the OTG . . . . . . . . . . . . . . . . . . . . . . . . 3308
+Core global control and status registers (CSRs). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3316
+Host-mode control and status registers (CSRs) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3317
+Device-mode control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3318
+Data FIFO (DFIFO) access register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3320
+Power and clock gating control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . 3321
+TRDT values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3327
+Minimum duration for soft disconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3370
+OTG_HS register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3396
+UCPD implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3462
+UCPD software trim data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3462
+UCPD signals on pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3463
+UCPD internal signals. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3464
+4b5b symbol encoding table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3466
+Ordered sets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3467
+Validation of ordered sets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3467
+Data size . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3468
+Coding for ANAMODE, ANASUBMODE and link with TYPEC_VSTATE_CCx . . . . . . . 3476
+Type-C sequence (source: 3A); cable/sink connected (Rd on CC1; Ra on CC2) . . . . . 3478
+Effect of low power modes on the UCPD . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3480
+UCPD interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3481
+UCPD register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3497
+JTAG/Serial-wire debug port pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3501
+Trace port pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3501
+Single-wire trace port pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3502
+Authentication signal states . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3503
+JTAG-DP data registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3506
+Packet request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3507
+ACK response. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3508
+Data transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3508
+Debug port register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3515
+Access port register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3521
+MCU ROM table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3522
+Processor ROM table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3522
+MCU ROM table register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3527
+CPU ROM table register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3532
+DWT register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3547
+ITM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3557
+BPU register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3564
+ETM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3588
+TPIU register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3601
+CTI inputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3603
+CTI outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3603
+CTI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3614
+Peripheral clock freeze control bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3616
+Peripheral behavior in debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3617
+Debugger access to freeze register bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3618
+DBGMCU register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3628
+Document revision history . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3636
+
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+List of figures
+Figure 1.
+Figure 2.
+Figure 3.
+Figure 4.
+Figure 5.
+Figure 6.
+Figure 7.
+Figure 8.
+Figure 9.
+Figure 10.
+Figure 11.
+Figure 12.
+Figure 13.
+Figure 14.
+Figure 15.
+Figure 16.
+Figure 17.
+Figure 18.
+Figure 19.
+Figure 20.
+Figure 21.
+Figure 22.
+Figure 23.
+Figure 24.
+Figure 25.
+Figure 26.
+Figure 27.
+Figure 28.
+Figure 29.
+Figure 30.
+Figure 31.
+Figure 32.
+Figure 33.
+Figure 34.
+Figure 35.
+Figure 36.
+Figure 37.
+Figure 38.
+Figure 39.
+Figure 40.
+Figure 41.
+Figure 42.
+Figure 43.
+Figure 44.
+Figure 45.
+Figure 46.
+
+System architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 131
+SmartRun domain architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 134
+Memory map based on IDAU mapping for STM32U535/545 . . . . . . . . . . . . . . . . . . . . . . 141
+Memory map based on IDAU mapping for STM32U575/585 . . . . . . . . . . . . . . . . . . . . . . 142
+Memory map based on IDAU mapping for STM32U59x/5Ax . . . . . . . . . . . . . . . . . . . . . . 143
+Memory map based on IDAU mapping for STM32U5Fx/5Gx. . . . . . . . . . . . . . . . . . . . . . 144
+Secure/nonsecure partitioning using TrustZone technology. . . . . . . . . . . . . . . . . . . . . . . 154
+Sharing memory map between CPU in secure and nonsecure state . . . . . . . . . . . . . . . . 156
+Secure world transition and memory partitioning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 156
+Global TrustZone framework and TrustZone awareness . . . . . . . . . . . . . . . . . . . . . . . . . 158
+Flash memory TrustZone protections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 162
+Flash memory secure HDP area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170
+Key management principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 179
+Device life-cycle security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 182
+RDP level transition scheme. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 185
+Collaborative development principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 188
+External flash memory protection using SFI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 190
+GTZC in Armv8-M subsystem block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197
+GTZC block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 200
+Watermark memory protection controller (region x/sub-regions A and B) . . . . . . . . . . . . 202
+MPCBB block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 203
+SRAM1, SRAM2 with ECC and SRAM3 with ECC memory map . . . . . . . . . . . . . . . . . . 279
+Flash memory security attributes and protections
+in case of no bank swap (SWAP_BANK = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 314
+Flash memory security attributes and protections
+in case of bank swap (SWAP_BANK = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 314
+RDP level transition scheme when TrustZone is disabled (TZEN = 0). . . . . . . . . . . . . . . 322
+RDP level transition scheme when TrustZone is enabled (TZEN = 1) . . . . . . . . . . . . . . . 323
+ICACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 366
+ICACHE TAG and data memories functional view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 368
+ICACHE remapping address mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 372
+DCACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 384
+DCACHE TAG and data memories functional view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 387
+Power supply overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 404
+Brownout reset waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 412
+PVD thresholds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 413
+I/O states in Stop 3 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 433
+I/O states in Standby mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 436
+Simplified diagram of the reset circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 484
+Clock tree for STM32U5 series. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 487
+HSE/ LSE clock sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 488
+MSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 490
+PLL block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 493
+PLL initialization flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 496
+CRS block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 611
+CRS counter behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 613
+Structure of three-volt or five-volt tolerant GPIO (TT or FT) . . . . . . . . . . . . . . . . . . . . . . . 623
+Input floating/pull-up/pull-down configurations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+
+RM0456 Rev 6

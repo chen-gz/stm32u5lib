@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Bit 0 RXP: Rx-packet available
+The flag is changed by hardware. It monitors the total number of data currently available at
+RxFIFO if SPI is enabled. RXP value depends on the FIFO threshold (FTHLV[3:0]), data
+frame size (DSIZE[4:0] in SPI mode), and actual communication flow. If the data packet is
+read by performing consecutive read operations from SPI_RXDR, RXP flag must be
+checked again once a complete data packet is read out from RxFIFO.
+0: RxFIFO is empty or an incomplete data packet is received
+1: RxFIFO contains at least one data packet
+
+68.8.7
+
+SPI interrupt/status flags clear register (SPI_IFCR)
+Address offset: 0x018
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SUSPC
+
+Res.
+
+UDRC
+
+TXTFC
+
+EOTC
+
+Res.
+
+Res.
+
+Res.
+
+w
+
+w
+
+w
+
+w
+
+MODFC TIFREC CRCEC OVRC
+w
+
+w
+
+w
+
+w
+
+Bits 31:12 Reserved, must be kept at reset value.
+Bit 11 SUSPC: Suspend flag clear
+Writing a 1 into this bit clears SUSP flag of the SPI_SR register
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 MODFC: mode fault flag clear
+Writing a 1 into this bit clears MODF flag of the SPI_SR register
+Bit 8 TIFREC: TI frame format error flag clear
+Writing a 1 into this bit clears TIFRE flag of the SPI_SR register
+Bit 7 CRCEC: CRC error flag clear
+Writing a 1 into this bit clears CRCE flag of the SPI_SR register
+Bit 6 OVRC: overrun flag clear
+Writing a 1 into this bit clears OVR flag of the SPI_SR register
+Bit 5 UDRC: underrun flag clear
+Writing a 1 into this bit clears UDR flag of the SPI_SR register
+Bit 4 TXTFC: transmission transfer filled flag clear
+Writing a 1 into this bit clears TXTF flag of the SPI_SR register
+Bit 3 EOTC: end of transfer flag clear
+Writing a 1 into this bit clears EOT flag of the SPI_SR register
+Bits 2:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,216 @@
+rw
+
+rw
+
+rw
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+COUNT_RX[9:0]
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+15
+
+Universal serial bus full-speed host/device interface (USB)
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+ADDR_RX[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 BLSIZE: Block size
+This bit selects the size of memory block used to define the allocated buffer area.
+–
+If BLSIZE = 0, the memory block is 2-byte large, which is the minimum block
+allowed in a half-word wide memory. With this block size the allocated buffer size
+ranges from 2 to 62 bytes.
+–
+If BLSIZE = 1, the memory block is 32-byte large, which permits to reach the
+maximum packet length defined by USB specifications. With this block size the
+allocated buffer size theoretically ranges from 32 to 1024 bytes, which is the longest
+packet size allowed by USB standard specifications. However, the applicable size is
+limited by the available buffer memory.
+Bits 30:26 NUM_BLOCK[4:0]: Number of blocks
+These bits define the number of memory blocks allocated to this packet buffer. The actual
+amount of allocated memory depends on the BLSIZE value as illustrated in Table 746.
+Bits 25:16 COUNT_RX[9:0]: Reception byte count
+These bits contain the number of bytes received by the endpoint/channel associated with the
+USB_CHEPnR register during the last OUT/SETUP transaction addressed to it.
+Note: Although the application only needs to read this value, it is writable.
+Bits 15:0 ADDR_RX[15:0]: Reception buffer address
+These bits point to the starting address of the packet buffer, which contains the data received
+by the endpoint/channel associated with the USB_CHEPnR register at the next OUT/SETUP
+token addressed to it. Bits 1 and 0 must always be written as “00” since packet memory is
+word wide and all packet buffers must be word aligned.
+
+Table 746. Definition of allocated buffer memory
+Value of
+NUM_BLOCK[4:0]
+
+Memory allocated
+when BLSIZE=0
+
+Memory allocated
+when BLSIZE=1
+
+0 (00000)
+
+Not allowed
+
+32 bytes
+
+1 (00001)
+
+2 bytes
+
+64 bytes
+
+2 (00010)
+
+4 bytes
+
+96 bytes
+
+3 (00011)
+
+6 bytes
+
+128 bytes
+
+...
+
+...
+
+...
+
+14 (01110)
+
+28 bytes
+
+480 bytes
+
+15 (01111)
+
+30 bytes
+
+16 (10000)
+
+32 bytes
+
+...
+
+...
+
+...
+
+29 (11101)
+
+58 bytes
+
+...
+
+30 (11110)
+
+60 bytes
+
+992 bytes
+
+31 (11111)
+
+62 bytes
+
+1023 bytes
+
+RM0456 Rev 6

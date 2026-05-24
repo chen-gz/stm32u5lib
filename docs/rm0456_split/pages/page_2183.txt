@@ -1,0 +1,117 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+This is done in the following steps:
+1.
+
+Configure the corresponding DMA channel as follows:
+–
+
+DMA channel peripheral address is the DMAR register address.
+
+–
+
+DMA channel memory address is the address of the buffer in the RAM containing
+the data to be transferred by DMA into CCRx registers.
+
+–
+
+Number of data to transfer = 3 (see note below).
+
+–
+
+Circular mode disabled.
+
+2.
+
+Configure the DCR register by configuring the DBA and DBL bitfields as follows:
+DBL = 3 transfers, DBA = 0xE and DBSS = 1.
+
+3.
+
+Enable the TIMx update DMA request (set the UDE bit in the DIER register).
+
+4.
+
+Enable TIMx.
+
+5.
+
+Enable the DMA channel.
+
+This example is for the case where every CCRx register to be updated once. If every CCRx
+register is to be updated twice for example, the number of data to transfer must be 6. Let’s
+take the example of a buffer in the RAM containing data1, data2, data3, data4, data5, and
+data6. The data is transferred to the CCRx registers as follows: on the first update DMA
+request, data1 is transferred to CCR2, data2 is transferred to CCR3, data3 is transferred to
+CCR4 and on the second update DMA request, data4 is transferred to CCR2, data5 is
+transferred to CCR3, and data6 is transferred to CCR4.
+Note:
+
+A null value can be written to the reserved registers.
+
+54.3.33
+
+TIM1/TIM8 DMA requests
+The TIM1/TIM8 can generate a DMA request, as shown in the table below.
+Table 551. DMA request
+DMA request signal
+
+54.3.34
+
+DMA request
+
+Enable control bit
+
+tim_upd_dma
+
+Update
+
+UDE
+
+tim_cc1_dma
+
+Capture/compare 1
+
+CC1DE
+
+tim_cc2_dma
+
+Capture/compare 2
+
+CC2DE
+
+tim_cc3_dma
+
+Capture/compare 3
+
+CC3DE
+
+tim_cc4_dma
+
+Capture/compare 4
+
+CC4DE
+
+tim_com_dma
+
+Commutation (COM)
+
+COMDE
+
+tim_trgi_dma
+
+Trigger
+
+TDE
+
+Debug mode
+When the microcontroller enters debug mode (Cortex®-M33 core halted), the TIMx counter
+can either continue to work normally or stop, depending on DBG_TIMx_STOP configuration
+bit in DBG module.
+The behavior in debug mode can be programmed with a dedicated configuration bit per
+timer in the Debug support (DBG) module.
+
+RM0456 Rev 6

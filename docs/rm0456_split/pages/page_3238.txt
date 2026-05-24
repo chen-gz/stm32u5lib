@@ -1,0 +1,172 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bits 24:21 FRMNUM[3:0]: Frame number
+This is the least significant 4 bits of the frame number in which the packet is received on the
+USB. This field is supported only when isochronous OUT endpoints are supported.
+Bits 20:17 PKTSTS[3:0]: Packet status
+Indicates the status of the received packet
+0001: Global OUT NAK (triggers an interrupt)
+0010: OUT data packet received
+0011: OUT transfer completed (triggers an interrupt)
+0100: SETUP transaction completed (triggers an interrupt)
+0110: SETUP data packet received
+Others: Reserved
+Bits 16:15 DPID[1:0]: Data PID
+Indicates the data PID of the received OUT data packet
+00: DATA0
+10: DATA1
+01: DATA2
+11: MDATA
+Bits 14:4 BCNT[10:0]: Byte count
+Indicates the byte count of the received data packet.
+Bits 3:0 EPNUM[3:0]: Endpoint number
+Indicates the endpoint number to which the current received packet belongs.
+
+73.14.11 OTG receive status debug read register [alternate]
+(OTG_GRXSTSR)
+This description is for register OTG_GRXSTSR in Host mode.
+A read to the receive status debug read register returns the contents of the top of the
+receive FIFO.
+The core ignores the receive status read when the receive FIFO is empty and returns a
+value of 0x0000 0000.
+Address offset: 0x01C
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+DPID
+r
+
+9
+
+8
+
+7
+
+6
+
+5
+
+20
+
+19
+
+r
+
+r
+
+r
+
+r
+
+r
+
+17
+
+PKTSTS[3:0]
+
+16
+DPID
+
+r
+
+r
+
+r
+
+r
+
+r
+
+4
+
+3
+
+2
+
+1
+
+0
+
+BCNT[10:0]
+r
+
+18
+
+CHNUM[3:0]
+r
+
+r
+
+RM0456 Rev 6
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r

@@ -1,0 +1,85 @@
+If the ID line is present, functional and connected to the B-side of the USB cable.
+
+Peripheral only
+–
+
+Note:
+
+OTG B-device default state if B-side of USB cable is plugged in
+
+The force device mode bit (FDMOD) in the Section 73.14.4: OTG USB
+configuration register (OTG_GUSBCFG) is set to 1, forcing the OTG_HS core to
+work as an USB peripheral-only. In this case, the ID line is ignored even if it is
+present on the USB connector.
+
+To build a bus-powered device implementation in case of the B-device or peripheral-only
+configuration, an external regulator has to be added, that generates the necessary powersupply from VBUS.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Figure 920. OTG_HS peripheral-only connection
+VDD
+5 V to VDD
+Voltage
+regulator
+VDD
+GPIO
+GPIO + IRQ
+
+EN
+
+STMPS2141STR
+Current-limited 5 V Pwr
+Overcurrent power distribution
+switch(1)
+
+DM
+OSC_IN
+
+DP
+
+OSC_OUT
+
+VSS
+
+USB micro connector
+
+VBUS
+
+MSv36916V2
+
+1. Use a regulator to build a bus-powered device.
+
+73.6.1
+
+Peripheral states
+Powered state
+The VBUS input detects the B-session valid voltage by which the USB peripheral is allowed
+to enter the powered state (see USB2.0 section 9.1). The OTG_HS then automatically
+connects the DP pull-up resistor to signal full-speed device connection to the host and
+generates the session request interrupt (SRQINT bit in OTG_GINTSTS) to notify the
+powered state.
+The VBUS input also ensures that valid VBUS levels are supplied by the host during USB
+operations. If a drop in VBUS below B-session valid happens to be detected (for instance
+because of a power disturbance or if the host port has been switched off), the OTG_HS
+automatically disconnects and the session end detected (SEDET bit in OTG_GOTGINT)
+interrupt is generated to notify that the OTG_HS has exited the powered state.
+In the powered state, the OTG_HS expects to receive some reset signaling from the host.
+No other USB operation is possible. When a reset signaling is received the reset detected
+interrupt (USBRST in OTG_GINTSTS) is generated. When the reset signaling is complete,
+the enumeration done interrupt (ENUMDNE bit in OTG_GINTSTS) is generated and the
+OTG_HS enters the Default state.
+
+Soft disconnect
+The powered state can be exited by software with the soft disconnect feature. The DP pullup resistor is removed by setting the soft disconnect bit in the device control register (SDIS
+bit in OTG_DCTL), causing a device disconnect detection interrupt on the host side even
+though the USB cable was not really removed from the host port.
+
+Default state
+In the Default state the OTG_HS expects to receive a SET_ADDRESS command from the
+host. No other USB operation is possible. When a valid SET_ADDRESS command is
+
+RM0456 Rev 6

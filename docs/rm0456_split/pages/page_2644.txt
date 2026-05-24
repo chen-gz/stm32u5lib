@@ -1,0 +1,63 @@
+22
+
+RM0456 Rev 6
+
+STOPF NACKF
+r
+
+r
+
+16
+DIR
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+Bits 23:17 ADDCODE[6:0]: Address match code (target mode)
+These bits are updated with the received address when an address match event occurs
+(ADDR = 1). In the case of a 10-bit address, ADDCODE provides the 10-bit header followed
+by the two MSBs of the address.
+Bit 16 DIR: Transfer direction (target mode)
+This flag is updated when an address match event occurs (ADDR = 1).
+0: Write transfer, target enters receiver mode.
+1: Read transfer, target enters transmitter mode.
+Bit 15 BUSY: Bus busy
+This flag indicates that a communication is in progress on the bus. It is set by hardware
+when a START condition is detected, and cleared by hardware when a STOP condition is
+detected, or when PE = 0.
+Bit 14 Reserved, must be kept at reset value.
+Bit 13 ALERT: SMBus alert
+This flag is set by hardware when SMBHEN = 1 (SMBus host configuration), ALERTEN = 1
+and an SMBALERT# event (falling edge) is detected on SMBA pin. It is cleared by software
+by setting the ALERTCF bit.
+Note: This bit is cleared by hardware when PE = 0.
+Bit 12 TIMEOUT: Timeout or tLOW detection flag
+This flag is set by hardware when a timeout or extended clock timeout occurred. It is cleared
+by software by setting the TIMEOUTCF bit.
+Note: This bit is cleared by hardware when PE = 0.
+Bit 11 PECERR: PEC error in reception
+This flag is set by hardware when the received PEC does not match with the PEC register
+content. A NACK is automatically sent after the wrong PEC reception. It is cleared by
+software by setting the PECCF bit.
+Note: This bit is cleared by hardware when PE = 0.
+Bit 10 OVR: Overrun/underrun (target mode)
+This flag is set by hardware in target mode with NOSTRETCH = 1, when an
+overrun/underrun error occurs. It is cleared by software by setting the OVRCF bit.
+Note: This bit is cleared by hardware when PE = 0.
+Bit 9 ARLO: Arbitration lost
+This flag is set by hardware in case of arbitration loss. It is cleared by software by setting the
+ARLOCF bit.
+Note: This bit is cleared by hardware when PE = 0.
+Bit 8 BERR: Bus error
+This flag is set by hardware when a misplaced START or STOP condition is detected
+whereas the peripheral is involved in the transfer. The flag is not set during the address
+phase in target mode. It is cleared by software by setting the BERRCF bit.
+Note: This bit is cleared by hardware when PE = 0.
+Bit 7 TCR: Transfer complete reload
+This flag is set by hardware when RELOAD = 1 and NBYTES data have been transferred. It
+is cleared by software when NBYTES is written to a non-zero value.
+Note: This bit is cleared by hardware when PE = 0.
+This flag is only for controller mode, or for target mode when the SBC bit is set.
+
+RM0456 Rev 6

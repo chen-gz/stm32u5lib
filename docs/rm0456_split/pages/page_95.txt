@@ -1,0 +1,164 @@
+RM0456
+
+Programmed LPDMA source/destination single . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 787
+Programmed data handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 788
+Effect of low-power modes on LPDMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 800
+LPDMA interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 801
+LPDMA register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 820
+DMA2D internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 824
+DMA2D trigger interconnection. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 824
+Supported color mode in input . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 825
+Data order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 826
+Alpha mode configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 827
+Supported CLUT color mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 828
+CLUT data order in system memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 828
+Supported color mode in output . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 829
+Data order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 830
+Standard data order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 830
+Output FIFO byte reordering steps . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 831
+DMA2D interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 837
+DMA2D register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 855
+DMA2D internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 859
+DMA2D trigger interconnections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 859
+Supported color mode in input . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 860
+Data order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 861
+Alpha mode configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 862
+Supported CLUT color mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 863
+CLUT data order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 863
+Supported color mode in output . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 864
+Data order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 865
+Standard data order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 865
+Output FIFO byte reordering steps . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 866
+MCU order in memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 871
+DMA2D interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+DMA2D register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 890
+GFXMMU implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+GFXMMU interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 901
+GFXMMU register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 909
+STM32U5 series vector table . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 912
+EXTI signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 919
+EVG signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 919
+EXTI line connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 920
+Masking functionality . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 922
+Register protection overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 923
+EXTI register map sections. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 925
+EXTI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 934
+CRC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+CRC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 942
+CORDIC functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 944
+Cosine parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 944
+Sine parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 945
+Phase parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 945
+Modulus parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 946
+Arctangent parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 947
+Hyperbolic cosine parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 947
+
+RM0456 Rev 6
+
+RM0456
+Table 204.
+Table 205.
+Table 206.
+Table 207.
+Table 208.
+Table 209.
+Table 210.
+Table 211.
+Table 212.
+Table 213.
+Table 214.
+Table 215.
+Table 216.
+Table 217.
+Table 218.
+Table 219.
+Table 220.
+Table 221.
+Table 222.
+Table 223.
+Table 224.
+Table 225.
+Table 226.
+Table 227.
+Table 228.
+Table 229.
+Table 230.
+Table 231.
+Table 232.
+Table 233.
+Table 234.
+Table 235.
+Table 236.
+Table 237.
+Table 238.
+Table 239.
+Table 240.
+Table 241.
+Table 242.
+Table 243.
+Table 244.
+Table 245.
+Table 246.
+Table 247.
+Table 248.
+Table 249.
+Table 250.
+Table 251.
+Table 252.
+Table 253.
+
+List of tables
+Hyperbolic sine parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 948
+Hyperbolic arctangent parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 948
+Natural logarithm parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 949
+Natural log scaling factors and corresponding ranges . . . . . . . . . . . . . . . . . . . . . . . . . . . 949
+Square root parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 950
+Square root scaling factors and corresponding ranges . . . . . . . . . . . . . . . . . . . . . . . . . . 950
+Precision vs. number of iterations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 953
+CORDIC register map and reset value . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 960
+Valid combinations for read and write methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 974
+FMAC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 987
+NOR/PSRAM bank selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
+NOR/PSRAM External memory address . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
+NAND memory mapping and timing registers. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 994
+NAND bank selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 994
+Programmable NOR/PSRAM access parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 995
+Non-multiplexed I/O NOR flash memory. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 996
+16-bit multiplexed I/O NOR flash memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 997
+Non-multiplexed I/Os PSRAM/SRAM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 997
+16-Bit multiplexed I/O PSRAM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 997
+NOR flash/PSRAM: example of supported memories
+and transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 998
+FMC_BCRx bitfields (mode 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1001
+FMC_BTRx bitfields (mode 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1002
+FMC_BCRx bitfields (mode A) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1004
+FMC_BTRx bitfields (mode A) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1004
+FMC_BWTRx bitfields (mode A). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1005
+FMC_BCRx bitfields (mode 2/B). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1007
+FMC_BTRx bitfields (mode 2/B) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1007
+FMC_BWTRx bitfields (mode 2/B) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1008
+FMC_BCRx bitfields (mode C) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1009
+FMC_BTRx bitfields (mode C) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1010
+FMC_BWTRx bitfields (mode C). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1010
+FMC_BCRx bitfields (mode D) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1012
+FMC_BTRx bitfields (mode D) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1013
+FMC_BWTRx bitfields (mode D). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1013
+FMC_BCRx bitfields (Muxed mode) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1015
+FMC_BTRx bitfields (Muxed mode) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1016
+FMC_BCRx bitfields (Synchronous multiplexed read mode) . . . . . . . . . . . . . . . . . . . . . 1021
+FMC_BTRx bitfields (Synchronous multiplexed read mode) . . . . . . . . . . . . . . . . . . . . . 1022
+FMC_BCRx bitfields (Synchronous multiplexed write mode) . . . . . . . . . . . . . . . . . . . . . 1023
+FMC_BTRx bitfields (Synchronous multiplexed write mode) . . . . . . . . . . . . . . . . . . . . . 1024
+Programmable NAND flash access parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1033
+8-bit NAND flash . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1033
+16-bit NAND flash . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1034
+Supported memories and transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1034
+ECC result relevant bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1043
+FMC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1044
+Instances on STM32U5 Series devices . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1047
+OCTOSPI/HSPI implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1047
+OCTOSPI input/output pins
+(for STM32U5 Series except STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . . 1050
+OCTOSPI input/output pins (for STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . 1051
+
+RM0456 Rev 6

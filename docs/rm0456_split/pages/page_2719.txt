@@ -1,0 +1,55 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 11 ONEBIT: One sample bit method enable
+This bit enables the user to select the sample method. When the one sample bit method is
+selected the noise detection flag (NE) is disabled.
+0: Three sample bit method
+1: One sample bit method
+This bit can only be written when the USART is disabled (UE = 0).
+Bit 10 CTSIE: CTS interrupt enable
+0: Interrupt is inhibited
+1: An interrupt is generated whenever CTSIF = 1 in the USART_ISR register
+Note: If the hardware flow control feature is not supported, this bit is reserved and must be
+kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 9 CTSE: CTS enable
+0: CTS hardware flow control disabled
+1: CTS mode enabled, data is only transmitted when the CTS input is deasserted (tied to 0).
+If the CTS input is asserted while data is being transmitted, then the transmission completes
+before stopping. If data is written into the data register while CTS is asserted, the
+transmission is postponed until CTS is deasserted.
+This bit can only be written when the USART is disabled (UE = 0)
+Note: If the hardware flow control feature is not supported, this bit is reserved and must be
+kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 8 RTSE: RTS enable
+0: RTS hardware flow control disabled
+1: RTS output enabled, data is only requested when there is space in the receive buffer. The
+transmission of data is expected to cease after the current character has been transmitted.
+The RTS output is deasserted (pulled to 0) when data can be received.
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If the hardware flow control feature is not supported, this bit is reserved and must be
+kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 7 DMAT: DMA enable transmitter
+This bit is set/reset by software
+1: DMA mode is enabled for transmission
+0: DMA mode is disabled for transmission
+Bit 6 DMAR: DMA enable receiver
+This bit is set/reset by software
+1: DMA mode is enabled for reception
+0: DMA mode is disabled for reception
+Bit 5 SCEN: Smartcard mode enable
+This bit is used for enabling smartcard mode.
+0: Smartcard mode disabled
+1: Smartcard mode enabled
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: If the USART does not support smartcard mode, this bit is reserved and must be kept
+at reset value. Refer to Section 66.4: USART implementation.
+Bit 4 NACK: Smartcard NACK enable
+0: NACK transmission in case of parity error is disabled
+1: NACK transmission during parity error is enabled
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: If the USART does not support smartcard mode, this bit is reserved and must be kept
+at reset value. Refer to Section 66.4: USART implementation.

@@ -1,0 +1,181 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+74.8.2
+
+RM0456
+
+UCPD configuration register 2 (UCPD_CFGR2)
+Address offset: 0x004
+Reset value: 0x0000 0000
+Configuration of the UCPD Rx signal filtering. Writing to this register is only effective when
+UCPD is disabled (UCPDEN = 0).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+RXAFIL
+TEN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Res.
+
+WUPE FORCE RXFILT RXFILT
+N
+CLK
+2N3
+DIS
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:9 Reserved, must be kept at reset value.
+Bit 8 RXAFILTEN: Rx analog filter enable
+Setting the bit enables the Rx analog filter required for optimum Power Delivery reception.
+0: Disable
+1: Enable
+Bits 7:4 Reserved, must be kept at reset value.
+Bit 3 WUPEN: Wake-up from Stop mode enable
+Setting the bit enables the UCPD_ASYNC_INT signal.
+0: Disable
+1: Enable
+Bit 2 FORCECLK: Force ClkReq clock request
+0: Do not force clock request
+1: Force clock request
+Bit 1 RXFILT2N3: BMC decoder Rx pre-filter sampling method
+Number of consistent consecutive samples before confirming a new value.
+0: 3 samples
+1: 2 samples
+Bit 0 RXFILTDIS: BMC decoder Rx pre-filter enable
+0: Enable
+1: Disable
+The sampling clock is that of the receiver (that is, after pre-scaler).
+
+74.8.3
+
+UCPD configuration register 3 (UCPD_CFGR3)
+Address offset: 0x008
+Reset value: 0x0000 0000
+Configuration of UCPD trimming of the CC pull-up and pull-down devices. The trimming is
+managed by hardware until the first software write into this register.
+The register is reserved (must not be written) for devices that support the fully automatic
+trimming. Refer to Table 774: UCPD implementation.

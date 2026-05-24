@@ -1,0 +1,357 @@
+0
+
+DR[23:0]
+0
+
+0
+
+Res.
+
+Res.
+Res.
+
+Reserved
+
+0
+
+0
+
+0
+
+Res.
+
+Res.
+Res.
+
+Reserved
+
+0
+
+0
+
+0
+
+Res.
+
+Res.
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+0
+
+Reset value
+
+0
+
+0
+
+ANLVL[14:0]
+
+Reset value
+
+ADF_DFLT0DR
+
+0
+
+0
+
+Res.
+
+0x0F0
+
+0
+
+0
+
+Res.
+
+0x0C8 0x0EC
+
+ADF_SADANLVR
+
+0
+
+0
+
+SDLVL[14:0]
+0
+
+Res.
+
+Reset value
+
+0x0C4
+
+0
+
+5
+
+14
+
+Res.
+
+0
+
+SADST[1:0]
+
+15
+
+Res.
+
+0
+
+6
+
+16
+
+Res.
+Res.
+
+0
+
+Res.
+
+0
+
+0
+
+ANSLP[
+2:0]
+
+17
+
+Res.
+
+0
+
+7
+
+18
+
+Res.
+
+0
+
+0
+
+Res.
+
+19
+
+Res.
+
+0
+
+8
+
+20
+
+Res.
+
+0
+
+0
+
+HYSTEN
+
+21
+
+Res.
+
+0
+
+0
+
+Res.
+
+22
+
+Res.
+
+0
+
+9
+
+23
+
+Res.
+
+0
+
+FRSIZE[2:0]
+
+24
+
+Res.
+
+0
+
+0
+
+LFRNB
+[2:0]
+
+25
+
+Res.
+
+0
+
+11
+
+26
+
+Res.
+
+0
+
+10
+
+27
+
+Res.
+
+Res.
+Res.
+
+ADF_SADSDLVR
+
+Res.
+
+0x0C0
+
+Res.
+
+Reset value
+
+ANMIN[12:0]
+
+12
+
+28
+
+Res.
+
+ADF_SADCFGR
+
+0
+
+Res.
+
+29
+
+Res.
+
+0
+
+13
+
+30
+
+Res.
+
+Reset value
+
+SADMOD[1:0]
+
+31
+
+Res.
+
+0x0BC
+
+ADF_SADCR
+
+SADACTIVE
+
+0x0B8
+
+Register name
+
+Res.
+
+Offset
+
+Res.
+
+Table 409. ADF register map and reset values (continued)
+
+RM0456
+
+Digital camera interface (DCMI)
+
+41
+
+Digital camera interface (DCMI)
+
+41.1
+
+Introduction
+The digital camera is a synchronous parallel interface able to receive a high-speed data flow
+from an external 8-, 10-, 12- or 14-bit CMOS camera module. It supports different data
+formats: YCbCr4:2:2/RGB565 progressive video and compressed data (JPEG).
+
+41.2
+
+41.3
+
+DCMI main features
+•
+
+8-, 10-, 12- or 14-bit parallel interface
+
+•
+
+Embedded/external line and frame synchronization
+
+•
+
+Continuous or snapshot mode
+
+•
+
+Crop feature
+
+•
+
+Supports the following data formats:
+–
+
+8/10/12/14-bit progressive video: either monochrome or raw Bayer
+
+–
+
+YCbCr 4:2:2 progressive video
+
+–
+
+RGB 565 progressive video
+
+–
+
+Compressed data: JPEG
+
+DCMI functional description
+The digital camera interface is a synchronous parallel interface that can receive high-speed
+data flows. It consists of up to 14 data lines (DCMI_D[13:0]) and a pixel clock line
+(DCMI_PIXCLK). The pixel clock has a programmable polarity, so that data can be captured
+on either the rising or the falling edge of the pixel clock.
+The data are packed into a 32-bit data register (DCMI_DR) and then transferred through a
+general-purpose DMA channel. The image buffer is managed by the DMA, not by the
+camera interface.
+The data received from the camera can be organized in lines/frames (raw YUB/RGB/Bayer
+modes) or can be a sequence of JPEG images. To enable JPEG image reception, the JPEG
+bit (bit 3 of DCMI_CR register) must be set.
+The data flow is synchronized either by hardware using the optional DCMI_HSYNC
+(horizontal synchronization) and DCMI_VSYNC (vertical synchronization) signals or by
+synchronization codes embedded in the data flow.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

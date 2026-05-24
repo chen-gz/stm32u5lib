@@ -1,0 +1,120 @@
+2687
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+65
+
+Inter-integrated circuit interface (I2C)
+
+65.1
+
+Introduction
+The I2C peripheral handles the interface between the device and the serial I²C (interintegrated circuit) bus. It provides multicontroller capability, and controls all I²C-bus-specific
+sequencing, protocol, arbitration and timing. It supports Standard-mode (Sm), Fast-mode
+(Fm) and Fast-mode Plus (Fm+).
+The I2C peripheral is also SMBus (system management bus) and PMBus® (power
+management bus) compatible.
+It can use DMA to reduce the CPU load.
+
+65.2
+
+I2C main features
+•
+
+I²C-bus specification rev03 compatibility:
+–
+
+Target and controller modes
+
+–
+
+Multicontroller capability
+
+–
+
+Standard-mode (up to 100 kHz)
+
+–
+
+Fast-mode (up to 400 kHz)
+
+–
+
+Fast-mode Plus (up to 1 MHz)
+
+–
+
+7-bit and 10-bit addressing mode
+
+–
+
+Multiple 7-bit target addresses (2 addresses, 1 with configurable mask)
+
+–
+
+All 7-bit-addresses acknowledge mode
+
+–
+
+General call
+
+–
+
+Programmable setup and hold times
+
+–
+
+Easy-to-use event management
+
+–
+
+Clock stretching (optional)
+
+•
+
+1-byte buffer with DMA capability
+
+•
+
+Programmable analog and digital noise filters
+
+•
+
+SMBus specification rev 3.0 compatibility(a):
+–
+
+Hardware PEC (packet error checking) generation and verification with ACK
+control
+
+–
+
+Command and data acknowledge control
+
+–
+
+Address resolution protocol (ARP) support
+
+–
+
+Host and device support
+
+–
+
+SMBus alert
+
+–
+
+Timeouts and idle condition detection
+
+•
+
+PMBus rev 1.3 standard compatibility
+
+•
+
+Independent clock
+
+a. To check the compliance of the GPIOs selected for SMBus with the specified logical levels, refer to the
+product datasheet.

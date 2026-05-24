@@ -1,0 +1,44 @@
+960
+
+CORDIC coprocessor (CORDIC)
+
+RM0456
+
+Bit 20 NARGS: Number of arguments expected by the CORDIC_WDATA register
+0: Only one 32-bit write (or two 16-bit values if ARGSIZE = 1) is needed for the next
+calculation.
+1: Two 32-bit values must be written to the CORDIC_WDATA register to trigger the next
+calculation.
+Reads return the current state of the bit.
+Bit 19 NRES: Number of results in the CORDIC_RDATA register
+0: Only one 32-bit value (or two 16-bit values if RESSIZE = 1) is transferred to the
+CORDIC_RDATA register on completion of the next calculation. One read from
+CORDIC_RDATA resets the RRDY flag.
+1: Two 32-bit values are transferred to the CORDIC_RDATA register on completion of the
+next calculation. Two reads from CORDIC_RDATA are necessary to reset the RRDY flag.
+Reads return the current state of the bit.
+Bit 18 DMAWEN: Enable DMA write channel
+0: Disabled. No DMA write requests are generated.
+1: Enabled. Requests are generated on the DMA write channel whenever no operation is
+pending
+This bit is set and cleared by software. A read returns the current state of the bit.
+Bit 17 DMAREN: Enable DMA read channel
+0: Disabled. No DMA read requests are generated.
+1: Enabled. Requests are generated on the DMA read channel whenever the RRDY flag is
+set.
+This bit is set and cleared by software. A read returns the current state of the bit.
+Bit 16 IEN: Enable interrupt.
+0: Disabled. No interrupt requests are generated.
+1: Enabled. An interrupt request is generated whenever the RRDY flag is set.
+This bit is set and cleared by software. A read returns the current state of the bit.
+Bits 15:11 Reserved, must be kept at reset value.
+Bits 10:8 SCALE[2:0]: Scaling factor
+The value of this field indicates the scaling factor applied to the arguments and/or results. A
+value n implies that the arguments have been multiplied by a factor 2-n, and/or the results
+need to be multiplied by 2n. Refer to Section 25.3.2 for the applicability of the scaling factor
+for each function and the appropriate range.
+Bits 7:4 PRECISION[3:0]: Precision required (number of iterations)
+0: reserved
+1 to 15: (Number of iterations)/4
+To determine the number of iterations needed for a given accuracy refer to Table 210.
+Note that for most functions, the recommended range for this field is 3 to 6.

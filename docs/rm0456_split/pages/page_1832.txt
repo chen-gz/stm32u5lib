@@ -1,0 +1,195 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bit 9 FAE9: Force acknowledge error 9
+Writing one to this bit forces an acknowledge error 9.
+Bit 8 FAE8: Force acknowledge error 8
+Writing one to this bit forces an acknowledge error 8.
+Bit 7 FAE7: Force acknowledge error 7
+Writing one to this bit forces an acknowledge error 7.
+Bit 6 FAE6: Force acknowledge error 6
+Writing one to this bit forces an acknowledge error 6.
+Bit 5 FAE5: Force acknowledge error 5
+Writing one to this bit forces an acknowledge error 5.
+Bit 4 FAE4: Force acknowledge error 4
+Writing one to this bit forces an acknowledge error 4.
+Bit 3 FAE3: Force acknowledge error 3
+Writing one to this bit forces an acknowledge error 3.
+Bit 2 FAE2: Force acknowledge error 2
+Writing one to this bit forces an acknowledge error 2.
+Bit 1 FAE1: Force acknowledge error 1
+Writing one to this bit forces an acknowledge error 1.
+Bit 0 FAE0: Force acknowledge error 0
+Writing one to this bit forces an acknowledge error 0.
+
+44.15.46 DSI Host force interrupt register 1 (DSI_FIR1)
+Address offset: 0x00DC
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FPBUE
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+FGP
+RXE
+
+FGP
+RDE
+
+FGP
+TXE
+
+FGP
+WRE
+
+FGC
+WRE
+
+FLP
+WRE
+
+FE
+OTPE
+
+FPSE
+
+FCRCE
+
+FECC
+ME
+
+FECC
+SE
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bit 19 FPBUE: Force payload buffer underflow error
+Writing one to this bit forces a payload underflow error.
+Bits 18:13 Reserved, must be kept at reset value.
+Bit 12 FGPRXE: Force generic payload receive error
+Writing one to this bit forces a generic payload receive error.
+Bit 11 FGPRDE: Force generic payload read error
+Writing one to this bit forces a generic payload read error.

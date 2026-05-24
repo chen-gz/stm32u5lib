@@ -1,0 +1,170 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Bit 31 ULA: Update SDMMC_IDMALAR from linked list when in linked list mode
+(SDMMC_IDMACTRLR.IDMABMODE select linked list mode)
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+0: SDMMC_IDMALAR is not to be updated, last linked list item.
+1: SDMMC_IDMALAR is to be updated from linked list table.
+Bit 30 ULS: Update SDMMC_IDMABSIZE from the next linked list when in linked list mode
+(SDMMC_IDMACTRLR.IDMABMODE select linked list mode and ULA = 1)
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+0: SDMMC_IDMABSIZER is not to be updated from next linked list table.
+1: SDMMC_IDMABSIZER is to be updated from next linked list table.
+Bit 29 ABR: Acknowledge linked list buffer ready
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+This bit is not taken into account when starting the first linked list buffer from the software
+programmed register information. ABR is only taken into account on subsequent loaded
+linked list items.
+0: Loaded linked list buffer is not ready (this causes a linked list IDMA transfer error to be
+generated).
+1: Loaded linked list buffer ready acknowledge. Linked list buffer data are transfered by
+IDMA.
+Bits 28:16 Reserved, must be kept at reset value.
+Bits 15:2 IDMALA[13:0]: Word aligned linked list item address offset
+Linked list item offset pointer to the base of the next linked list item structure.
+Linked list item base address is IDMABA + IDMALA.
+These bits can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+Bits 1:0 Reserved, must be kept at reset value.
+
+31.10.19 SDMMC IDMA linked list memory base register
+(SDMMC_IDMABAR)
+Address offset: 0x068
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+IDMABA[29:14]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+IDMABA[13:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:2 IDMABA[29:0]: Word aligned Linked list memory base address
+Linked list memory base pointer.
+These bits can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+Bits 1:0 Reserved, must be kept at reset value.

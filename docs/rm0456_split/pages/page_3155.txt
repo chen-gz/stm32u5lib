@@ -1,0 +1,51 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+{
+De-allocate Channel
+}
+else
+if (FRMOR)
+{
+Unmask CHH
+Disable Channel
+}
+else
+if (CHH)
+{
+Mask CHH
+De-allocate Channel
+}
+Code sample: Isochronous IN
+Unmask (TXERR/XFRC/FRMOR/BBERR)
+if (XFRC or FRMOR)
+{
+if (XFRC and (OTG_HCTSIZx.PKTCNT == 0))
+{
+Reset Error Count
+De-allocate Channel
+}
+else
+{
+Unmask CHH
+Disable Channel
+}
+}
+else
+if (TXERR or BBERR)
+{
+Increment Error Count
+Unmask CHH
+Disable Channel
+}
+else
+if (CHH)
+{
+Mask CHH
+if (Transfer Done or (Error_count == 3))
+{
+De-allocate Channel
+}

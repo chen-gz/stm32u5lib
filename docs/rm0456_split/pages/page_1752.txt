@@ -1,0 +1,73 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Immediate update
+When the shadow register feature is active, the auxiliary registers require the LTDC
+configuration before the video engine starts. This means that, after a reset, update register
+(UR) bit is immediately granted.
+When it is required to immediately update the active registers without the reset (as in
+Figure 415), ensure that the enable (EN) and update register (UR) bits of the DSI Host video
+shadow control register (DSI_VSCR) are set to 0.
+Figure 415. Immediate update procedure
+DSI Host
+
+DSI Host
+
+Default DPI Config
+DPI CONFIG 1
+
+DPI Config 1
+Video Shadow Update
+
+EN=0
+
+EN=1
+
+UR=0
+
+UR=1
+MSv35856V2
+
+Updating the configuration during the transmission of a frame using APB
+To update the LTDC interface configuration, follow the steps shown in Figure 416:
+1.
+
+Ensure that the enable (EN) bit of the DSI Host video shadow control register
+(DSI_VSCR) register is set to 1.
+
+2.
+
+Set the update register (UR) bit of DSI Host video shadow control register (DSI_VSCR)
+to 1.
+
+3.
+
+Monitor the update register (UR) bit. This bit is set to 0 when the update is complete.
+Figure 416. Configuration update during the transmission of a frame
+DSI Host
+
+DSI Host
+
+Default DPI Config
+DPI CONFIG 1
+
+DPI Config 1
+Video Shadow Request
+
+EN=1
+
+EN=1
+
+UR=0
+
+UR=1
+MSv35857V2
+
+Requesting a configuration update
+It is possible to request for the LTDC interface configuration update at any part of the frame.
+DSI Host waits until the end of the frame to change the configuration. However, avoid
+sending the update request during the first line of the frame because the data must
+propagate between clock domains.

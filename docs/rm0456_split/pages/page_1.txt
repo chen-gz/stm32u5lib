@@ -1,0 +1,31 @@
+RM0456
+Reference manual
+STM32U5 series Arm®-based 32-bit MCUs
+
+Introduction
+This reference manual targets application developers. It provides complete information on
+how to use memory and peripherals of the STM32U5 series microcontrollers.
+For ordering information, mechanical and electrical device characteristics, refer to the
+corresponding datasheets.
+For information on the Arm® Cortex®-Mx cores, refer to the corresponding Arm® Technical
+Reference Manuals available on http://infocenter.arm.com.
+STM32U5 series microcontrollers include ST state-of-the-art patented technology.
+
+Related documents
+• STM32U535xx datasheet (DS14217)
+• STM32U545xx datasheet (DS14216)
+• STM32U535xx and STM32U545xx device errata sheet (ES0587)
+• STM32U575xx datasheet (DS13737)
+• STM32U585xx datasheet (DS13086)
+• STM32U575xx and STM32U585xx device errata sheet (ES0499)
+• STM32U59xxx datasheet (DS13633)
+• STM32U5Axxx datasheet (DS13543)
+• STM32U59xxx and STM32U5Axxx device errata sheet (ES0553)
+• STM32U5Fxxx datasheet (DS14395)
+• STM32U5Gxxx datasheet (DS14102)
+• STM32U5Fxxx and STM32U5Gxxx device errata sheet (ES0595)
+• STM32 Cortex®-M33 MCUs programming manual (PM0264)
+
+January 2025
+
+RM0456 Rev 6

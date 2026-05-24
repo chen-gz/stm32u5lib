@@ -1,0 +1,52 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Bit 12 LPMSEC: Low-power modes secure protection
+0: PWR_CR1, PWR_CR2 and CSSF in the PWR_SR can be read and written with secure or
+nonsecure access.
+1: PWR_CR1, PWR_CR2, and CSSF in the PWR_SR can be read and written only with
+secure access.
+Bits 11:8 Reserved, must be kept at reset value.
+Bit 7 WUP8SEC: WUP8 secure protection
+0: Bits related to WKUP8 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written with secure or nonsecure access.
+1: Bits related to WKUP8 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.
+Bit 6 WUP7SEC: WUP7 secure protection
+0: Bits related to WKUP7 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written with secure or nonsecure access.
+1: Bits related to WKUP7 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.
+Bit 5 WUP6SEC: WUP6 secure protection
+0: Bits related to WKUP6 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written with secure or nonsecure access.
+1: Bits related to WKUP6 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.
+Bit 4 WUP5SEC: WUP5 secure protection
+0: Bits related to WKUP5 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written with secure or nonsecure access.
+1: Bits related to WKUP5 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.
+Bit 3 WUP4SEC: WUP4 secure protection
+0: Bits related to WKUP4 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written with secure or nonsecure access.
+1: Bits related to WKUP4 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.
+Bit 2 WUP3SEC: WUP3 secure protection
+0: Bits related to WKUP3 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written with secure or nonsecure access.
+1: Bits related to WKUP3 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.
+Bit 1 WUP2SEC: WUP2 secure protection
+0: Bits related to WKUP2 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR be read and written with secure or nonsecure access.
+1: Bits related to WKUP2 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.
+Bit 0 WUP1SEC: WUP1 secure protection
+0: Bits related to WKUP1 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written with secure or nonsecure access.
+1: Bits related to WKUP1 pin in PWR_WUCR1, PWR_WUCR2, PWR_WUCR3, and
+PWR_WUSCR can be read and written only with secure access.

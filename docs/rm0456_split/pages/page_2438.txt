@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+59.5.3
+
+GFXTIM timers configuration register (GFXTIM_TCR)
+Address offset: 0x008
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+FRFC2 RFC2C RFC2E
+R
+M
+N
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+w
+
+rw
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FALCR ALCEN
+w
+
+19
+Res.
+
+18
+
+17
+
+16
+
+FRFC1 RFC1C RFC1E
+R
+M
+N
+w
+
+rw
+
+w
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+w
+
+FAFCR AFCEN
+w
+
+w
+
+Bits 31:23 Reserved, must be kept at reset value.
+Bit 22 FRFC2R: Force relative frame counter 2 reload
+This bit forces the reload of the relative frame counter 2.
+0: No effect
+1: Relative frame counter 2 reload forced
+Bit 21 RFC2CM: Relative frame counter 2 continuous mode
+This bit enables the continuous mode of the relative frame counter 2.
+0: Relative frame counter 2 is one shot.
+1: Relative frame counter 2 is in continuous mode.
+Bit 20 RFC2EN: Relative frame counter 2 enable
+This bit enables the relative frame counter 2.
+0: No effect
+1: Relative frame counter 2 enabled
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 FRFC1R: Force relative frame counter 1 reload
+This bit forces the reload of the relative frame counter 1.
+0: No effect
+1: Relative frame counter 1 reload forced
+Bit 17 RFC1CM: Relative frame counter 1 continuous mode
+This bit enables the continuous mode of the relative frame counter 1.
+0: Relative frame counter 1 is one shot.
+1: Relative frame counter 1 is in continuous mode.
+Bit 16 RFC1EN: Relative frame counter 1 enable
+This bit enables the relative frame counter 1.
+0: No effect
+1: Relative frame counter enabled
+Bits 15:6 Reserved, must be kept at reset value.
+Bit 5 FALCR: Force absolute line counter reset
+This bit forces the reset of the absolute line counter.
+0: No effect
+1: Absolute line counter reset forced
+
+RM0456 Rev 6

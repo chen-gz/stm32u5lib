@@ -1,0 +1,192 @@
+642
+
+General-purpose I/Os (GPIO)
+
+13.4.12
+
+RM0456
+
+GPIO high-speed low-voltage register (GPIOx_HSLVR) (x = A to J)
+Address offset: 0x2C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+HSLV
+15
+
+HSLV
+14
+
+HSLV
+13
+
+HSLV
+12
+
+HSLV
+11
+
+HSLV
+10
+
+HSLV9
+
+HSLV8
+
+HSLV7
+
+HSLV6
+
+HSLV5
+
+HSLV4
+
+HSLV3
+
+HSLV2
+
+HSLV1
+
+HSLV0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 HSLVy: Port x high-speed low-voltage configuration (y = 15 to 0)
+These bits are written by software to optimize the I/O speed when the I/O supply is low.
+Each bit is active only if the corresponding IO_VDD_HSLV/IO_VDDIO2_HSLV user option bit
+is set. It must be used only if the I/O supply voltage is below 2.7 V.
+Setting these bits when the I/O supply (VDD or VDDIO2) is higher than 2.7 V may be
+destructive. Setting this bit when the I/O is configured in Fm+ mode is forbidden.
+0: I/O speed optimization disabled
+1: I/O speed optimization enabled
+Note: Not all I/Os support the HSLV mode. Refer to the I/O structure in the corresponding
+datasheet for the list of I/Os supporting this feature. Other I/Os HSLV configuration must
+be kept at reset value.
+This bit is reserved and must be kept at reset value when the corresponding I/O is not
+available on the selected package.

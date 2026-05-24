@@ -1,0 +1,192 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.19
+
+GPDMA channel x alternate linked-list address register
+(GPDMA_CxLLR)
+Address offset: 0xCC + 0x80 * x (x = 12 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (GPDMA_PRIVCFGR.PRIVx).
+This register configures the data structure of the next LLI in the memory and its address
+pointer. A channel transfer is completed when this register is null.
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed (then the hardware has
+deasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block or LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by the
+GPDMA from the memory if GPDMA_CxLLR.ULL = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+UT1
+
+UT2
+
+UB1
+
+USA
+
+UDA
+
+UT3
+
+UB2
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ULL
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+rw
+
+LA[15:2]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 UT1: Update GPDMA_CxTR1 from memory
+This bit controls the update of GPDMA_CxTR1 from the memory during the link transfer.
+0: no GPDMA_CxTR1 update
+1: GPDMA_CxTR1 update
+Bit 30 UT2: Update GPDMA_CxTR2 from memory
+This bit controls the update of GPDMA_CxTR2 from the memory during the link transfer.
+0: no GPDMA_CxTR2 update
+1: GPDMA_CxTR2 update
+Bit 29 UB1: Update GPDMA_CxBR1 from memory
+This bit controls the update of GPDMA_CxBR1 from the memory during the link transfer.
+If UB1 = 0 and if GPDMA_CxLLR ≠ 0, the linked-list is not completed.
+GPDMA_CxBR1.BNDT[15:0] is then restored to the programmed value after data transfer is
+completed and before the link transfer.
+0: no GPDMA_CxBR1 update from memory (GPDMA_CxBR1.BNDT[15:0] restored if any
+link transfer)
+1: GPDMA_CxBR1 update
+Bit 28 USA: update GPDMA_CxSAR from memory
+This bit controls the update of GPDMA_CxSAR from the memory during the link transfer.
+0: no GPDMA_CxSAR update
+1: GPDMA_CxSAR update
+
+RM0456 Rev 6

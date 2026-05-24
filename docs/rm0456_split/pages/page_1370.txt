@@ -1,0 +1,171 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+33.7.2
+
+RM0456
+
+ADC system control register (ADC12_CCR)
+Address offset: 0x08
+Reset value: 0x0000 0000
+The address offset is relative to the master ADC base address + 0x300.
+ADC12_CCR is common to ADC1 and ADC2. ADC2 is not available on all devices (refer to
+Section 33.3: ADC implementation).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+DAMDF[1:0]
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+24
+
+22
+
+21
+
+20
+
+19
+
+18
+
+PRESC[3:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+DELAY[3:0]
+rw
+
+23
+
+VSENSE
+VREFEN
+VBATEN
+SEL
+
+rw
+
+17
+
+16
+
+Res.
+
+Res.
+
+1
+
+0
+
+rw
+
+rw
+
+DUAL[4:0]
+rw
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bit 24 VBATEN: VBAT enable
+This bit is set and cleared by software to control the VBAT channel.
+0: VBAT channel disabled
+1: VBAT channel enabled
+Note: The software is allowed to write this bit only when the ADCs are disabled (ADCAL = 0,
+JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+Bit 23 VSENSESEL: Temperature sensor voltage selection
+This bit is set and cleared by software to control the temperature sensor channel.
+0: Temperature sensor channel disabled
+1: Temperature sensor channel enabled
+Note: The software is allowed to write this bit only when the ADCs are disabled (ADCAL = 0,
+JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+Bit 22 VREFEN: VREFINT enable
+This bit is set and cleared by software to enable/disable the VREFINT buffer.
+0: VREFINT channel disabled
+1: VREFINT channel enabled
+Note: The software is allowed to write this bit only when the ADCs are disabled (ADCAL = 0,
+JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).

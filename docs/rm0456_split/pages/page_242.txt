@@ -1,0 +1,219 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 3 CRCF: illegal access flag for CRC
+0: no illegal access event
+1: illegal access event
+Bit 2 FMACF: illegal access flag for FMAC
+0: no illegal access event
+1: illegal access event
+Bit 1 CORDICF: illegal access flag for CORDIC
+0: no illegal access event
+1: illegal access event
+Bit 0 MDF1F: illegal access flag for MDF1
+0: no illegal access event
+1: illegal access event
+
+5.7.8
+
+GTZC1 TZIC status register 4 (GTZC1_TZIC_SR4)
+Address offset: 0x01C
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+MPCB
+MPCB
+MPCB
+MPCB
+MPCB
+SRAM5
+SRAM3
+SRAM2
+SRAM1
+SRAM6
+B5_RE
+B3_RE
+B2_RE
+B1_RE
+B6_RE
+F
+F
+F
+F
+F
+GF
+GF
+GF
+GF
+GF
+
+21
+Res.
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+TZIC1F
+
+TZSC1
+F
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+r
+
+20
+
+19
+
+18
+
+17
+
+16
+
+OCTOS
+OCTOS
+HSPI1_
+BKPSR FSMC_
+PI2_M
+PI1_M
+MEMF
+AMF
+MEMF
+EMF
+EMF
+r
+
+r
+
+r
+
+r
+
+r
+
+4
+
+3
+
+2
+
+1
+
+0
+
+OTFDE OTFDE FLASH FLASH GPDM
+C2F
+C1F
+F
+_REGF
+A1F
+r
+
+r
+
+r
+
+r
+
+r
+
+Bit 31 MPCBB5_REGF: illegal access flag for MPCBB5 registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 30 SRAM5F: illegal access flag for SRAM5
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 29 MPCBB3_REGF: illegal access flag for MPCBB3 registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.

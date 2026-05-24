@@ -1,0 +1,86 @@
+RM0456 Rev 6
+
+MSv64430V2
+
+RM0456
+
+Voltage reference buffer (VREFBUF)
+The internal voltage reference buffer is an operational amplifier, with programmable gain.
+The amplifier input is connected to the internal voltage reference VREFINT. The VREFBUF
+supports four voltages(a), which are configured with VRS bits in the VREFBUF_CSR
+register:
+•
+
+VRS = 000: VREFBUF0 voltage selected
+
+•
+
+VRS = 001: VREFBUF1 voltage selected
+
+•
+
+VRS = 010: VREFBUF2 voltage selected
+
+•
+
+VRS = 011: VREFBUF3 voltage selected
+
+The internal voltage reference can be configured in four different modes depending on
+ENVR and HIZ bits configuration. These modes are provided in the table below:
+Table 352. VREF buffer modes
+ENVR
+
+HIZ
+
+0
+
+0
+
+VREFBUF buffer off mode:
+– VREF+ pin pulled-down to VSSA
+
+0
+
+1
+
+External voltage reference mode (default value):
+– VREFBUF buffer off
+– VREF+ pin input mode
+
+1
+
+0
+
+Internal voltage reference mode:
+– VREFBUF buffer on
+– VREF+ pin connected to VREFBUF buffer output
+
+1
+
+Hold mode:
+– VREF is enable without output buffer, VREF+ pin voltage is hold with the
+external capacitor
+– VRR detection disabled and VRR bit keeps last state
+
+1
+
+VREF buffer configuration
+
+After enabling the VREFBUF by setting ENVR bit and clearing HIZ bit in the VREFBUF_CSR register,
+the user must wait until VRR bit is set, meaning that the voltage reference output has reached its
+expected value.
+
+36.4
+
+VREFBUF trimming
+The VREFBUF output voltage is factory-calibrated by ST. At reset, and each time the VRS
+setting is changed, the calibration data is automatically loaded to the TRIM register.
+Optionally user can trim the output voltage by changing the TRIM register bits directly. In this
+case, the VRS setting has no more effect on the TRIM register until the device is reset.
+
+a. The minimum VDDA voltage depends on VRS setting, refer to the product datasheet.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

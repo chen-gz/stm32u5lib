@@ -1,0 +1,78 @@
+191
+
+System security
+•
+
+RM0456
+when the USB Type-C/USB power delivery interface (UCPD) is configured as secure in
+TZSC: PWR_UCPDR register becomes secure.
+
+See Section 10: Power control (PWR) for details.
+
+Secure clock and reset (RCC)
+When the TrustZone security is activated (TZEN = 1) and security is enabled in the RCC,
+the bits controlling the peripheral clocks and resets become TrustZone-aware:
+
+Note:
+
+•
+
+If the peripheral is securable and programmed as secure in the TZSC, the peripheral
+clock and reset bits become secure.
+
+•
+
+If the peripheral is TrustZone-aware, the peripheral clock and reset bits become secure
+as soon as at least one function is configured as secure inside the peripheral.
+
+Refer to Section 3.5.4 for the list of securable and TrustZone-aware peripherals.
+The SHSI configuration and status bits are secured when the SAES is configured as secure.
+Additionally, the following configurations can be made secure-only using RCC_SECCFGR:
+•
+
+external clock (such as HSE or LSE), internal oscillator (such as HSI, MSI, or LSI)
+
+•
+
+main PLL and AHB prescaler
+
+•
+
+system clock source selection
+
+•
+
+reset flag clearing
+
+•
+
+automatic internal oscillator waking up configuration
+
+See Section 11: Reset and clock control (RCC) for details.
+
+Real time clock (RTC)
+Like all TrustZone-aware peripherals, a nonsecure read/write access to a secured RTC
+register is RAZ/WI. It also generates an illegal access event that triggers a secure illegal
+access interrupt if the RTC illegal access event is enabled in the TZIC.
+After a backup domain power-on reset, all RTC registers can be read or written in both
+secure and nonsecure modes. The secure boot code can then change this security setup,
+making registers alarm A, alarm B, wake-up timer, and timestamp secure or not, using
+RTC_SECCFGR.
+When the SEC bit is set in secure-only RTC_SECCFGR:
+•
+
+Writing the RTC registers is possible only in secure mode.
+
+•
+
+Reading RTC_SECCFGR, RTC_PRIVCFGR, RTC_MISR, RTC_TR, RTC_DR,
+RTC_SSR, RTC_PRER, and RTC_CALR is always possible in secure and nonsecure
+modes. All the other RTC registers can be read only in secure mode.
+
+When the SEC is cleared in secure-only RTC_SECCFGR, it is still possible to restrict
+access in secure mode to some RTC registers by setting dedicated control bits: INITSEC,
+CALSEC, TSSEC, WUTSEC, ALRASEC, and ALRBSEC.
+Note:
+
+The RTC security configuration is not affected by a system reset.
+See Section 63: Real-time clock (RTC) for more details.

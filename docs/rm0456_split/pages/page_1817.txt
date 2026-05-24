@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+CMDBF CMDBE
+
+r
+
+r
+
+r
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 16 CMDBE: Command buffer empty
+This bit indicates the empty status of the generic payload internal buffer:
+0: Payload internal buffer not full
+1: Payload internal buffer full
+Bits 15:7 Reserved, must be kept at reset value.
+Bit 6 RCB: Read command busy
+This bit is set when a read command is issued and cleared when the entire response is
+stored in the FIFO:
+0: No read command ongoing
+1: Read command ongoing
+Bit 5 PRDFF: Payload read FIFO full
+This bit indicates the full status of the generic read payload FIFO:
+0: Read payload FIFO not full
+1: Read payload FIFO full
+Bit 4 PRDFE: Payload read FIFO empty
+This bit indicates the empty status of the generic read payload FIFO:
+0: Read payload FIFO not empty
+1: Read payload FIFO empty
+Bit 3 PWRFF: Payload write FIFO full
+This bit indicates the full status of the generic write payload FIFO:
+0: Write payload FIFO not full
+1: Write payload FIFO full
+Bit 2 PWRFE: Payload write FIFO empty
+This bit indicates the empty status of the generic write payload FIFO:
+0: Write payload FIFO not empty
+1: Write payload FIFO empty
+Bit 1 CMDFF: Command FIFO full
+This bit indicates the full status of the generic command FIFO:
+0: Write payload FIFO not full
+1: Write payload FIFO full
+Bit 0 CMDFE: Command FIFO empty
+This bit indicates the empty status of the generic command FIFO:
+0: Write payload FIFO not empty
+1: Write payload FIFO empty
+
+44.15.27 DSI Host timeout counter configuration register 0 (DSI_TCCR0)
+Address offset: 0x0078
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+HSTX_TOCNT[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+LPRX_TOCNT[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6

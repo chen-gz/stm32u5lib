@@ -1,0 +1,81 @@
+•
+
+signal rising edge decoded as 0 and signal falling edge decoded as 1
+
+•
+
+signal rising edge decoded as 1 and signal falling edge decoded as 0
+
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+Figure 330. Manchester timing example (SITFMOD = 11)
+
+Data
+transferred
+
+1
+
+1
+
+0
+
+0
+
+1
+
+0
+
+0
+
+TSYMB
+
+MDF_SDIx
+mdf_proc_ck
+10
+
+STH[4:0] = 5
+
+5
+
+MCNT
+
+bsx_ck
+
+bsx_r
+
+X
+
+CKABF
+Clear of the
+CKABF
+Signal absence if STH counter is higher than 2*STH
+Long transitions if STH counter is between STH and 2*STH
+Short transitions if STH counter lower than STH
+
+MSv62656V1
+
+To decode the incoming Manchester stream, the user must program the STH[4:0] bitfield in
+the MDF serial interface control register x (MDF_SITFxCR). The STH[4:0] bitfield is used by
+the SITFx to estimate the Manchester symbol length and to detect a clock absence. An
+internal counter (MCNT) is restarted every time a transition is detected in the MDF_SDIx
+input. It is used to detect short transitions, long transitions or clock absence. A long
+transition indicates that the data value changed. Figure 330 shows a case where the OVR is
+around height and STH[4:0] = 5.
+The estimated Manchester symbol rate (TSYMB) must respect the following formula:
+(STH + 1)×Tmdf_proc_ck < TSYMB < (2 × STH × Tmdf_proc_ck)
+It is recommended to compute STH as follows:
+( 2 × OVR ) – 1
+STH [ 4:0 ] = round ⎛⎝ ------------------------------------- ⎞⎠
+3
+
+where OVR represents the ratio between the mdf_proc_ck frequency and the expected
+Manchester symbol frequency. OVR must be higher than five, and the mdf_proc_ck clock
+must be adjusted according to the constraints listed in Table 375.
+The clock absence flag CKABF is set to 1 when no transition is detected during more than
+2 x STH[4:0] x Tmdf_proc_ck, or when the SITFx is not yet synchronized to the incoming
+Manchester stream. In addition, an interrupt can be generated if the bit CKABIE is set to 1.
+
+RM0456 Rev 6

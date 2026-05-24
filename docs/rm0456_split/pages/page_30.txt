@@ -1,0 +1,53 @@
+90
+
+Contents
+
+RM0456
+28.7.4
+
+OCTOSPI device configuration register 3 (OCTOSPI_DCR3) . . . . . 1084
+
+28.7.5
+
+OCTOSPI device configuration register 4 (OCTOSPI_DCR4) . . . . . 1084
+
+28.7.6
+
+OCTOSPI status register (OCTOSPI_SR) . . . . . . . . . . . . . . . . . . . . . 1085
+
+28.7.7
+
+OCTOSPI flag clear register (OCTOSPI_FCR) . . . . . . . . . . . . . . . . . 1086
+
+28.7.8
+
+OCTOSPI data length register (OCTOSPI_DLR) . . . . . . . . . . . . . . . 1086
+
+28.7.9
+
+OCTOSPI address register (OCTOSPI_AR) . . . . . . . . . . . . . . . . . . . 1087
+
+28.7.10 OCTOSPI data register (OCTOSPI_DR) . . . . . . . . . . . . . . . . . . . . . . 1087
+28.7.11 OCTOSPI polling status mask register (OCTOSPI_PSMKR) . . . . . . 1088
+28.7.12 OCTOSPI polling status match register (OCTOSPI_PSMAR) . . . . . . 1089
+28.7.13 OCTOSPI polling interval register (OCTOSPI_PIR) . . . . . . . . . . . . . 1089
+28.7.14 OCTOSPI communication configuration register (OCTOSPI_CCR) . 1089
+28.7.15 OCTOSPI timing configuration register (OCTOSPI_TCR) . . . . . . . . . 1092
+28.7.16 OCTOSPI instruction register (OCTOSPI_IR) . . . . . . . . . . . . . . . . . . 1092
+28.7.17 OCTOSPI alternate bytes register (OCTOSPI_ABR) . . . . . . . . . . . . 1093
+28.7.18 OCTOSPI low-power timeout register (OCTOSPI_LPTR) . . . . . . . . . 1093
+28.7.19 OCTOSPI wrap communication configuration register
+(OCTOSPI_WPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1094
+28.7.20 OCTOSPI wrap timing configuration register (OCTOSPI_WPTCR) . 1096
+28.7.21 OCTOSPI wrap instruction register (OCTOSPI_WPIR) . . . . . . . . . . . 1096
+28.7.22 OCTOSPI wrap alternate bytes register (OCTOSPI_WPABR) . . . . . 1097
+28.7.23 OCTOSPI write communication configuration register
+(OCTOSPI_WCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1097
+28.7.24 OCTOSPI write timing configuration register (OCTOSPI_WTCR) . . . 1099
+28.7.25 OCTOSPI write instruction register (OCTOSPI_WIR) . . . . . . . . . . . . 1100
+28.7.26 OCTOSPI write alternate bytes register (OCTOSPI_WABR) . . . . . . 1100
+28.7.27 OCTOSPI HyperBus latency configuration register
+(OCTOSPI_HLCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1101
+28.7.28 OCTOSPI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1101
+
+29

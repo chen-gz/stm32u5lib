@@ -1,0 +1,180 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Bits 7:0 MEMSET[7:0]: Common memory x setup time
+Defines the number of HCLK (+1) clock cycles to set up the address before the command
+assertion (NWE, NOE), for NAND flash read or write access to common memory space on
+socket x:
+0000 0000: 1 HCLK cycle
+1111 1110: 255 HCLK cycles
+1111 1111: reserved
+
+Attribute memory space timing register (FMC_PATT)
+Address offset: 0x8C
+Reset value: 0xFCFC FCFC
+The FMC_PATT read/write register contains the timing information for NAND flash memory
+bank. It is used for 8-bit accesses to the attribute memory space of the NAND flash for the
+last address write access if the timing must differ from that of previous accesses (for
+Ready/Busy management, refer to Section 27.7.5: NAND flash prewait functionality).
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+ATTHIZ[7:0]
+
+20
+
+19
+
+18
+
+17
+
+16
+
+ATTHOLD[7:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+ATTWAIT[7:0]
+rw
+
+rw
+
+ATTSET[7:0]
+rw
+
+rw
+
+Bits 31:24 ATTHIZ[7:0]: Attribute memory data bus Hi-Z time
+Defines the number of HCLK clock cycles during which the data bus is kept in Hi-Z after the
+start of a NAND flash write access to attribute memory space on socket. Only valid for writ
+transaction:
+0000 0000: 1 HCLK cycle
+1111 1110: 255 HCLK cycles
+1111 1111: reserved.
+Bits 23:16 ATTHOLD[7:0]: Attribute memory hold time
+Defines the number of HCLK clock cycles for write access and HCLK (+2) clock cycles for
+read access during which the address is held (and data for write access) after the command
+deassertion (NWE, NOE), for NAND flash read or write access to attribute memory space on
+socket:
+0000 0000: reserved
+0000 0001: 1 HCLK cycle for write access / 3 HCLK cycles for read access
+1111 1110: 254 HCLK cycles for write access / 256 HCLK cycles for read access
+1111 1111: reserved.
+Bits 15:8 ATTWAIT[7:0]: Attribute memory wait time
+Defines the minimum number of HCLK (+1) clock cycles to assert the command (NWE,
+NOE), for NAND flash read or write access to attribute memory space on socket x. The
+duration for command assertion is extended if the wait signal (NWAIT) is active (low) at the
+end of the programmed value of HCLK:
+0000 0000: reserved
+0000 0001: 2 HCLK cycles (+ wait cycle introduced by deassertion of NWAIT)
+1111 1110: 255 HCLK cycles (+ wait cycle introduced by deasserting NWAIT)
+1111 1111: reserved.

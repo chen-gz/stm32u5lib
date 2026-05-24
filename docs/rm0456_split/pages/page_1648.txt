@@ -1,0 +1,110 @@
+1674
+
+Audio digital filter (ADF)
+•
+
+RM0456
+
+Picture on the right: single sensor connected to the ADF
+It is also possible to configure the CCK0 and CCK1 pins to input in order to connect
+sensors providing the clock.
+Figure 386. Sensor connection examples
+
+Digital microphones
+(reduced IOs)
+
+Digital microphones
+(optimal power)
+
+DMIC1
+
+Single sensor
+
+DMIC1
+
+ADF_CCK0
+
+SD
+
+CK
+SD
+
+ADF_CCK0/1
+
+ADF
+
+CK
+
+ADF_SDI0
+
+LR
+GND
+
+CK
+
+ADF_SDI0
+
+ADF
+
+LR
+GND
+
+ADF_CCK1
+SD
+
+ADF
+
+ADF_CCK0/1
+
+CK
+LR
+Vcc
+
+ADF_SDI0
+
+SD
+
+DMIC2
+DMIC2
+
+40.7.4
+
+LR
+Vcc
+
+MSv63669V1
+
+Global frequency response
+Figure 386 shows the global frequency response for a 16 kHz audio signal with a digital
+microphone working at 1.024 MHz. The filter configuration is the following:
+•
+
+CIC order 4 or 5, with a decimation ratio of 16
+
+•
+
+RSFLT enabled, with a decimation ratio of 4
+
+•
+
+HPF enabled with a cut-off frequency of 40 Hz
+
+Figure 387 shows the theoretical frequency response using a CIC4 and a CIC5.
+Figure 387. Global frequency response
+
+Figure 388 shows the in-band ripple for a 16 kHz audio signal with a digital microphone
+working at 1.024 MHz. The filter configuration is the following:
+•
+
+CIC order 4 or 5, with a decimation ratio of 16
+
+•
+
+RSFLT enabled, with a decimation ratio of 4
+
+•
+
+HPF enabled with a cut-off frequency of 20 Hz
+
+The resulting in-band ripple is ± 0.41 dB for CIC5, and ± 0.45 dB for CIC4.
+The - 3 dB cut-off frequency is 7061 Hz.

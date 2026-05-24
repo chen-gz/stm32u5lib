@@ -1,0 +1,164 @@
+Supported memories and transactions . . . . . . . . . . . . . . . . . . . . . . . . 991
+
+External device address mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 992
+27.5.1
+
+NOR/PSRAM address mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
+
+27.5.2
+
+NAND flash memory address mapping . . . . . . . . . . . . . . . . . . . . . . . . 994
+
+NOR flash/PSRAM controller . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 994
+27.6.1
+
+External memory interface signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . 996
+
+27.6.2
+
+Supported memories and transactions . . . . . . . . . . . . . . . . . . . . . . . . 998
+
+27.6.3
+
+General timing rules . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 999
+
+27.6.4
+
+NOR flash/PSRAM controller asynchronous transactions . . . . . . . . . . 999
+
+27.6.5
+
+Synchronous transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1018
+
+27.6.6
+
+NOR/PSRAM controller registers . . . . . . . . . . . . . . . . . . . . . . . . . . . 1025
+
+NAND flash controller . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1033
+27.7.1
+
+External memory interface signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 1033
+
+27.7.2
+
+NAND flash supported memories and transactions . . . . . . . . . . . . . . 1034
+
+27.7.3
+
+Timing diagrams for NAND flash memory . . . . . . . . . . . . . . . . . . . . . 1035
+
+27.7.4
+
+NAND flash operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1036
+
+RM0456 Rev 6
+
+RM0456
+
+28
+
+Contents
+27.7.5
+
+NAND flash prewait functionality . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1036
+
+27.7.6
+
+Computation of the error correction code (ECC)
+in NAND flash memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1037
+
+27.7.7
+
+NAND flash controller registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1038
+
+27.7.8
+
+FMC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1044
+
+Octo-SPI interface (OCTOSPI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1046
+28.1
+
+OCTOSPI introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1046
+
+28.2
+
+OCTOSPI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1046
+
+28.3
+
+OCTOSPI implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1047
+
+28.4
+
+OCTOSPI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1048
+28.4.1
+
+OCTOSPI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1048
+
+28.4.2
+
+OCTOSPI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . 1050
+
+28.4.3
+
+OCTOSPI interface to memory modes . . . . . . . . . . . . . . . . . . . . . . . 1051
+
+28.4.4
+
+OCTOSPI regular-command protocol . . . . . . . . . . . . . . . . . . . . . . . . 1052
+
+28.4.5
+
+OCTOSPI regular-command protocol signal interface . . . . . . . . . . . . 1055
+
+28.4.6
+
+HyperBus protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1058
+
+28.4.7
+
+Specific features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1062
+
+28.4.8
+
+OCTOSPI operating mode introduction . . . . . . . . . . . . . . . . . . . . . . . 1064
+
+28.4.9
+
+OCTOSPI indirect mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1064
+
+28.4.10 OCTOSPI automatic status-polling mode . . . . . . . . . . . . . . . . . . . . . 1066
+28.4.11 OCTOSPI memory-mapped mode . . . . . . . . . . . . . . . . . . . . . . . . . . . 1067
+28.4.12 OCTOSPI configuration introduction . . . . . . . . . . . . . . . . . . . . . . . . . 1068
+28.4.13 OCTOSPI system configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1068
+28.4.14 OCTOSPI device configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1068
+28.4.15 OCTOSPI regular-command mode configuration . . . . . . . . . . . . . . . 1071
+28.4.16 OCTOSPI HyperBus protocol configuration . . . . . . . . . . . . . . . . . . . . 1073
+28.4.17 OCTOSPI error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1074
+28.4.18 OCTOSPI BUSY and ABORT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1075
+28.4.19 OCTOSPI reconfiguration or deactivation . . . . . . . . . . . . . . . . . . . . . 1075
+28.4.20 NCS behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1075
+
+28.5
+
+Address alignment and data number . . . . . . . . . . . . . . . . . . . . . . . . . . 1077
+
+28.6
+
+OCTOSPI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1078
+
+28.7
+
+OCTOSPI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1078
+28.7.1
+
+OCTOSPI control register (OCTOSPI_CR) . . . . . . . . . . . . . . . . . . . . 1078
+
+28.7.2
+
+OCTOSPI device configuration register 1 (OCTOSPI_DCR1) . . . . . 1081
+
+28.7.3
+
+OCTOSPI device configuration register 2 (OCTOSPI_DCR2) . . . . . 1083
+RM0456 Rev 6

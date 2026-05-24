@@ -1,0 +1,127 @@
+1.
+
+Program the new number of wait states to LATENCY bits in FLASH_ACR.
+
+2.
+
+Check that the new number of wait states is taken into account to access the flash
+memory by reading back FLASH_ACR.
+
+3.
+
+Modify the CPU clock source by writing W bits in RCC_CFGR1.
+
+4.
+
+Modify the CPU clock prescaler, if needed, by writing HPRE bits in RCC_CFGR2.
+
+5.
+
+Check that the new CPU clock source or/and the new CPU clock prescaler value is/are
+taken into account by reading the clock source status (SWS bits) or/and the AHB
+prescaler value (HPRE bits), respectively, in RCC_CFGR1 and RCC_CFGR2.
+
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+Decrease the CPU frequency
+1.
+
+Modify the CPU clock source by writing SW bits in RCC_CFGR1.
+
+2.
+
+Modify the CPU clock prescaler, if needed, by writing HPRE bits in RCC_CFGR2.
+
+3.
+
+Check that the new CPU clock source or/and the new CPU clock prescaler value is/are
+taken into account by reading the clock source status (SWS bits) or/and the AHB
+prescaler value (HPRE bits), respectively, in RCC_CFGR1 and RCC_CFGR2.
+
+4.
+
+Program the new number of wait states to LATENCY bits in FLASH_ACR.
+
+5.
+
+Check that the new number of wait states is used to access the flash memory
+by reading back FLASH_ACR.
+
+The software sequences detailed below must be applied in order to modify the read mode.
+
+From normal read mode to low-power read mode
+1.
+
+Set LPM in FLASH_ACR.
+
+2.
+
+Check that the low-power read mode is activated by reading FLASH_ACR.
+
+From low-power read mode to normal read mode
+
+7.3.4
+
+1.
+
+Reset LPM bit in FLASH_ACR.
+
+2.
+
+Check that the normal read mode is activated by reading FLASH_ACR.
+
+Bank power-down mode
+After reset, both banks are in normal mode. In order to reduce power consumption, each
+bank can be independently put in power-down mode by setting PDREQx in FLASH_ACR.
+
+Request entry in power-down mode for bank x
+
+Note:
+
+•
+
+Check that bank x is not in power-down mode, and that no request to put it in powerdown mode is pending (PDx in FLASH_NSSR and PDREQx in FLASH_ACR must
+be reset).
+
+•
+
+Unlock PDKEYxR with correct keys (see FLASH_PDKEY1R or FLASH_PDKEY2R).
+
+•
+
+Set PDREQx in FLASH_ACR.
+
+•
+
+Check that PDx is set in LFASH_NSSR PDREQx in FLASH_ACR is automatically
+reset, and the PDKEYxR is locked.
+
+If bank x is currently being accessed, the power-down request is delayed until the access
+is completed.
+Requesting power-down entry for a bank already in power-down mode has no effect.
+PDREQx in FLASH_ACR is automatically reset, and the PDKEYxR is locked.
+
+Return to normal mode
+Any access to a bank in power-down mode automatically wakes up the bank. A penalty
+of 5 µs minimum is taken to wake up the bank.
+Waking up bank 1 (respectively bank 2) is done in one of the following cases:
+•
+
+upon a valid read access to bank 1 (resp. bank 2)
+
+•
+
+upon a valid write access to bank 1(resp. bank 2)
+
+•
+
+upon a valid bank erase on bank 1 (resp. bank 2)
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

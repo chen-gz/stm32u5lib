@@ -1,0 +1,88 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+The figure below illustrates the trigger hit, memorization and overrun in the configuration
+example with a block-level trigger mode and a rising edge trigger polarity.
+Figure 87. Trigger hit, memorization and overrun waveform
+Channel state
+
+IDLE
+
+ACTIVE
+
+Trigger
+
+Peripheral
+request
+block transfer
+
+DMA transfer
+Trigger monitoring
+state
+
+Idle
+
+Active (monitoring)
+
+Trigger monitoring
+action
+
+Active
+
+Hit and
+fire
+
+block transfer
+
+Active
+
+Active
+
+Hit and
+Fire Hit and
+memorize
+memorize
+
+block transfer
+
+Active
+
+Active
+
+Hit and
+trash
+
+Active
+
+Fire
+
+Trigger overrun
+Hit and trash
+
+Hit and fire (or fire alone)
+
+Hit and memorize
+
+MSv66923V1
+
+Note:
+
+The user can assign the same input trigger event to different channels. This can be used to
+trigger different channels on a broadcast trigger event.
+
+18.4.13
+
+LPDMA circular buffering with linked-list programming
+LPDMA circular buffering for memory-to-peripheral and peripheral-tomemory transfers
+For a circular buffering, with a continuous memory-to-peripheral (or peripheral-to-memory)
+transfer, the software must set up a channel with half transfer and complete transfer
+events/interrupts generation (LPDMA_CxCR.HTIE = 1 and LPDMA_CxCR.TCIE = 1), in
+order to enable a concurrent buffer software processing.
+LLI0 is configured for the first block transfer. A continuously-executed LLI1 is needed to
+restore the memory source (or destination) start address, for the memory-to-peripheral
+transfer (respectively the peripheral-to-memory transfer). LPDMA automatically reloads the
+initially programmed LPDMA_CxBR1.BNDT[15:0] when a block transfer is completed, and
+there is no need to restore LPDMA_CxBR1.

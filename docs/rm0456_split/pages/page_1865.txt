@@ -1,0 +1,95 @@
+Trigger name
+
+Direction
+
+Trigger source/destination
+
+gpu2d_flag[0]
+
+Output
+
+gpdma_trigsel[53]
+
+gpu2d_flag[1]
+
+Output
+
+gpdma_trigsel[54]
+
+gpu2d_flag[2]
+
+Output
+
+gpdma_trigsel[55]
+
+gpu2d_flag[3]
+
+Output
+
+gpdma_trigsel[56]
+
+RM0456 Rev 6
+
+RM0456
+
+46
+
+JPEG codec (JPEG)
+
+JPEG codec (JPEG)
+This section only applies to STM32U5Fx/5Gx.
+
+46.1
+
+Introduction
+The hardware 8-bit JPEG codec encodes an uncompressed image data stream or decodes
+JPEG-compressed image data stream. It also fully manages JPEG headers.
+
+46.2
+
+JPEG codec main features
+•
+
+High-speed fully synchronous operation
+
+•
+
+Configurable as encoder or decoder
+
+•
+
+Single-clock-per-pixel encode/decode
+
+•
+
+RGB, YCbCr, YCMK, and BW (gray scale) image color space support
+
+•
+
+8-bit depth per image component at encode/decode
+
+•
+
+JPEG header generator/parser with enable/disable
+
+•
+
+Four programmable quantization tables
+
+•
+
+Single-clock Huffman coding and decoding
+
+•
+
+Fully programmable Huffman tables (two AC and two DC)
+
+•
+
+Fully programmable minimum coded unit (MCU)
+
+•
+
+Concurrent input and output data stream interfaces
+
+RM0456 Rev 6

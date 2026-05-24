@@ -1,0 +1,182 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Bits 3:0 ADDSET[3:0]: Address setup phase duration.
+These bits are written by software to define the duration of the address setup phase in HCLK cycles
+(refer to Figure 121 to Figure 133), used in asynchronous accesses:
+0000: ADDSET phase duration = 0 × HCLK clock cycle
+...
+1111: ADDSET phase duration = 15 × HCLK clock cycles (default value after reset)
+Note: In synchronous accesses, this value is not used, the address setup phase is always 1 flash
+clock period duration. In muxed mode, the minimum ADDSET value is 1.
+
+PSRAM chip select counter register (FMC_PCSCNTR)
+Address offset: 0x20
+Reset value: 0x0000 0000
+This register contains the PSRAM chip select counter value for Synchronous and
+Asynchronous modes. The chip select counter is common to all banks and can be enabled
+separately on each bank. During PSRAM read or write accesses, this value is loaded into a
+timer which is decremented while the NE signal is held low. When the timer reaches 0, the
+PSRAM controller splits the current access, toggles NE to allow PSRAM device refresh, and
+restarts a new access. The programmed counter value guarantees a maximum NE pulse
+width (tCEM) as specified for PSRAM devices. The counter is reloaded and starts
+decrementing each time a new access is started by a transition of NE from high to low.
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CNTB4EN
+
+CNTB3EN
+
+CNTB2EN
+
+CNTB1EN
+
+h
+
+31
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CSCOUNT[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bit 19 CNTB4EN: Counter Bank 4 enable
+This bit enables the chip select counter for PSRAM/NOR Bank 4.
+0: Counter disabled for Bank 4
+1: Counter enabled for Bank 4
+Bit 18 CNTB3EN: Counter Bank 3 enable
+This bit enables the chip select counter for PSRAM/NOR Bank 3.
+0: Counter disabled for Bank 3.
+1: Counter enabled for Bank 3
+Bit 17 CNTB2EN: Counter Bank 2 enable
+This bit enables the chip select counter for PSRAM/NOR Bank 2.
+0: Counter disabled for Bank 2
+1: Counter enabled for Bank 2
+Bit 16 CNTB1EN: Counter Bank 1 enable
+This bit enables the chip select counter for PSRAM/NOR Bank 1.
+0: Counter disabled for Bank 1
+1: Counter enabled for Bank 1

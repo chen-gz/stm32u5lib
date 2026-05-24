@@ -1,0 +1,64 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+In case of underrun error, it is still possible to write to the TDR register. Clearing the
+underrun error enables sending new data.
+If an underrun error occurred and there is no new data written in TDR, then the TC flag is set
+at the end of the frame.
+Note:
+
+An underrun error may occur if the moment the data is written to the USART_TDR is too
+close to the first CK transmission edge. To avoid this underrun error, the USART_TDR must
+be written 3 usart_ker_ck cycles before the first CK edge.
+
+66.5.16
+
+USART single-wire half-duplex communication
+Single-wire half-duplex mode is selected by setting the HDSEL bit in the USART_CR3
+register. In this mode, the following bits must be kept cleared:
+•
+
+LINEN and CLKEN bits in the USART_CR2 register,
+
+•
+
+SCEN and IREN bits in the USART_CR3 register.
+
+The USART can be configured to follow a single-wire half-duplex protocol where the TX and
+RX lines are internally connected. The selection between half- and full-duplex
+communication is made with a control bit HDSEL in USART_CR3.
+As soon as HDSEL is written to 1:
+•
+
+The TX and RX lines are internally connected.
+
+•
+
+The RX pin is no longer used.
+
+•
+
+The TX pin is always released when no data is transmitted. Thus, it acts as a standard
+I/O in idle or in reception. It means that the I/O must be configured so that TX is
+configured as alternate function open-drain with an external pull-up.
+
+Apart from this, the communication protocol is similar to normal USART mode. Any conflict
+on the line must be managed by software (for instance by using a centralized arbiter). In
+particular, the transmission is never blocked by hardware and continues as soon as data are
+written in the data register while the TE bit is set.
+
+66.5.17
+
+USART receiver timeout
+The receiver timeout feature is enabled by setting the RTOEN bit in the USART_CR2
+control register.
+The timeout duration is programmed using the RTO bitfields in the USART_RTOR register.
+The receiver timeout counter starts counting:
+• from the end of the stop bit if STOP = 00 or STOP = 11
+• from the end of the second stop bit if STOP = 10.
+• from the beginning of the stop bit if STOP = 01.
+When the timeout duration has elapsed, the RTOF flag in the USART_ISR register is set. A
+timeout is generated if RTOIE bit in USART_CR1 register is set.

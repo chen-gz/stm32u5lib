@@ -1,0 +1,652 @@
+150
+
+RM0456
+
+STM32U535/545
+
+STM32U575/585
+
+STM32U59x/5Ax
+
+Peripheral
+
+0x520D 3800 - 0x5600 03FF
+
+0x420D 3800 - 0x4600 03FF
+
+64.3 M
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x520D 3400 - 0x520D 37FF
+
+0x420D 3400 - 0x420D 37FF
+
+1K
+
+HSPI1
+
+HSPI register map
+
+-
+
+-
+
+X
+
+X
+
+0x520D 2800 - 0x520D 33FF
+
+0x420D 2800 - 0x420D 33FF
+
+3K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+OCTOSPI2
+registers
+
+OCTOSPI register map
+
+-
+
+X
+
+X
+
+X
+
+Secure boundary
+address
+
+Nonsecure boundary
+address
+
+Peripheral register
+map
+
+0x520D 2400 - 0x520D 27FF
+
+0x420D 2400 - 0x420D 27FF
+
+1K
+
+0x520D 1800 - 0x520D 23FF
+
+0x420D 1800 - 0x420D 23FF
+
+3K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+1K
+
+OCTOSPI1
+registers
+
+OCTOSPI register map
+
+X
+
+X
+
+X
+
+X
+
+-
+
+-
+
+-
+
+-
+
+-
+
+FMC register map
+
+-
+
+X
+
+X
+
+X
+
+0x520D 1400 - 0x520D 17FF
+
+AHB2
+
+STM32U5Fx/5Gx
+
+Size (bytes)
+
+Bus
+
+Table 6. Memory map and peripheral register boundary addresses (continued)
+
+0x420D 1400 - 0x420D 17FF
+
+0x520D 0800 - 0x520D 13FF
+
+0x420D 0800 - 0x420D 13FF
+
+3K
+
+Reserved
+
+0x520D 0400 - 0x520D 07FF
+
+0x420D 0400 - 0x420D 07FF
+
+1K
+
+FSMC registers
+
+0x520C F800 - 0x520D 03FF
+
+0x420C F800 - 0x420D 03FF
+
+3K
+
+Reserved
+
+0x520C F400 - 0x520C F7FF
+
+0x420C F400 - 0x420C F7FF
+
+1K
+
+DLYBOS2
+
+-
+
+0x520C F000 - 0x520C F3FF
+
+0x420C F000 - 0x420C F3FF
+
+1K
+
+DLYBOS1
+
+0x520C 9000 - 0x520C EFFF
+
+0x420C 9000 - 0x420C EFFF
+
+24 K
+
+Reserved
+
+-
+
+0x520C 8C00 - 0x520C 8FFF
+
+0x420C 8C00 - 0x420C 8FFF
+
+1K
+
+SDMMC2
+
+SDMMC register map
+
+0x520C 8800 - 0x520C 8BFF
+
+0x420C 8800 - 0x420C 8BFF
+
+1K
+
+DLYBSD2
+
+0x520C 8400 - 0x520C 87FF
+
+0x420C 8400 - 0x420C 87FF
+
+1K
+
+DLYBSD1
+
+DLYB register map
+
+DLYB register map
+
+-
+
+-
+
+-
+
+-
+
+-
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+-
+
+-
+
+-
+
+-
+
+-
+
+X
+
+X
+
+X
+
+-
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+X
+
+0x520C 8000 - 0x520C 83FF
+
+0x420C 8000 - 0x420C 83FF
+
+1K
+
+SDMMC1
+
+SDMMC register map
+
+X
+
+X
+
+X
+
+0x520C 5800 - 0x520C 7FFF
+
+0x420C 5800 - 0x420C 7FFF
+
+10 K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x520C 5400 - 0x520C 57FF
+
+0x420C 5400 - 0x420C 57FF
+
+1K
+
+OTFDEC2
+
+-
+
+X
+
+X
+
+X
+
+0x520C 5000 - 0x520C 53FF
+
+0x420C 5000 - 0x420C 53FF
+
+1K
+
+OTFDEC1
+
+X
+
+X
+
+X
+
+X
+
+0x520C 4400 - 0x520C 4FFF
+
+0x420C 4400 - 0x420C 4FFF
+
+3K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x520C 4000 - 0x520C 43FF
+
+0x420C 4000 - 0x420C 43FF
+
+1K
+
+OCTOSPIM
+
+OCTOSPIM register map
+
+-
+
+X
+
+X
+
+X
+X
+
+0x520C 2000 - 0x520C 3FFF
+
+0x420C 2000 - 0x420C 3FFF
+
+8K
+
+PKA
+
+0x520C 1000 - 0x520C 1FFF
+
+0x420C 1000 - 0x420C 1FFF
+
+4K
+
+Reserved
+
+0x520C 0C00 - 0x520C 0FFF
+
+0x420C 0C00 - 0x420C 0FFF
+
+1K
+
+0x520C 0800 - 0x520C 0BFF
+
+0x420C 0800 - 0x420C 0BFF
+
+0x520C 0400 - 0x520C 07FF
+
+0x420C 0400 - 0x420C 07FF
+
+0x520C 0000 - 0x520C 03FF
+0x5204 0000 - 0x5205 FFFF
+
+OTFDEC register map
+
+PKA register map
+
+X
+
+X
+
+X
+
+-
+
+-
+
+-
+
+-
+
+-
+
+SAES
+
+SAES register map
+
+X
+
+X
+
+X
+
+X
+
+1K
+
+RNG
+
+RNG register map
+
+X
+
+X
+
+X
+
+X
+
+1K
+
+HASH
+
+HASH register map
+
+X
+
+X
+
+X
+
+X
+
+0x420C 0000 - 0x420C 03FF
+
+1K
+
+AES
+
+AES register map
+
+X
+
+X
+
+X
+
+X
+
+0x4204 0000 - 0x4205 FFFF
+
+128 K
+
+OTG_HS
+
+OTG_HS register map
+
+-
+
+-
+
+X
+
+X
+-
+
+0x5204 0000 - 0x520B FFFF
+
+0x4204 0000 - 0x420B FFFF
+
+512 K
+
+OTG_FS
+
+OTG_FS register map
+
+-
+
+X
+
+-
+
+0x5202 C800 - 0x5203 FFFF
+
+0x4202 C800 - 0x4203 FFFF
+
+78 K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x5202 C400 - 0x5202 C7FF
+
+0x4202 C400 - 0x4202 C7FF
+
+1K
+
+PSSI
+
+PSSI register map
+
+X
+
+X
+
+X
+
+X
+
+0x5202 C000 - 0x5202 C3FF
+
+0x4202 C000 - 0x4202 C3FF
+
+1K
+
+DCMI
+
+DCMI register map
+
+X
+
+X
+
+X
+
+X
+
+0x5202 8400 - 0x5202 BFFF
+
+0x4202 8400 - 0x4202 BFFF
+
+15 K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x5202 8000 - 0x5202 83FF
+
+0x4202 8000 - 0x4202 83FF
+
+1K
+
+ADC12(2)
+
+ADC register map
+
+X
+
+X
+
+X
+
+X
+
+0x5202 2800 - 0x5202 7FFF
+
+0x4202 2800 - 0x4202 7FFF
+
+22 K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-

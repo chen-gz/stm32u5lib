@@ -1,0 +1,196 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+WUPxSEC = 1 in PWR_SECCFGR and SPRIV = 1 in PWR_PRIVCFGR, or when
+WUPxSEC = 0 and NSPRIV =1 .
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+WUPE
+N8
+
+WUPE
+N7
+
+WUPE
+N6
+
+WUPE
+N5
+
+WUPE
+N4
+
+WUPE
+N3
+
+WUPE
+N2
+
+WUPE
+N1
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 WUPEN8: wake-up pin WKUP8 enable
+0: WKUP8 disabled
+1: WKUP8 enabled
+Bit 6 WUPEN7: wake-up pin WKUP7 enable
+0: WKUP7 disabled
+1: WKUP7 enabled
+Bit 5 WUPEN6: wake-up pin WKUP6 enable
+0: WKUP6 disabled
+1: WKUP6 enabled
+Bit 4 WUPEN5: wake-up pin WKUP5 enable
+0: WKUP5 disabled
+1: WKUP5 enabled
+Bit 3 WUPEN4: wake-up pin WKUP4 enable
+0: WKUP4 disabled
+1: WKUP4 enabled
+Bit 2 WUPEN3: wake-up pin WKUP3 enable
+0: WKUP3 disabled
+1: WKUP3 enabled
+Bit 1 WUPEN2: wake-up pin WKUP2 enable
+0: WKUP2 disabled
+1: WKUP2 enabled
+Bit 0 WUPEN1: wake-up pin WKUP1 enable
+0: WKUP1 disabled
+1: WKUP1 enabled
+
+10.10.7
+
+PWR wake-up control register 2 (PWR_WUCR2)
+Address offset: 0x18
+Reset value: 0x0000 0000
+The register is not affected when exiting Standby mode.
+Each WUPPx (x = 1 to 8) is protected against nonsecure access when WUPxSEC = 1
+in PWR_SECCFGR. Each WUPPx is protected against unprivileged access when
+
+RM0456 Rev 6

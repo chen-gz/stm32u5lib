@@ -1,0 +1,189 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+Bit 0 WUF1: wake-up flag 1
+This bit is set when a wake-up event is detected on WKUP1 pin. This bit is cleared by writing
+one in CWUF1 bit of PWR_WUSCR, or by hardware when WUPEN1 = 0.
+
+10.10.19 PWR wake-up status clear register (PWR_WUSCR)
+Address offset: 0x48
+Reset value: 0x0000 0000
+Each CWUFx (x = 1 to 8) is protected against nonsecure access when WUPxSEC = 1
+in PWR_SECCFGR. Each CWUFx is protected against unprivileged access when
+WUPxSEC = 1 in PWR_SECCFGR and SPRIV = 1 in PWR_PRIVCFGR, or when
+WUPxSEC = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+CWUF
+8
+
+CWUF
+7
+
+CWUF
+6
+
+CWUF
+5
+
+CWUF
+4
+
+CWUF
+3
+
+CWUF
+2
+
+CWUF
+1
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 CWUF8: wake-up flag 8
+Writing one to this bit clears the WUF8 flag in PWR_WUSR.
+Bit 6 CWUF7: wake-up flag 7
+Writing one to this bit clears the WUF7 flag in PWR_WUSR.
+Bit 5 CWUF6: wake-up flag 6
+Writing one to this bit clears the WUF6 flag in PWR_WUSR.
+Bit 4 CWUF5: wake-up flag 5
+Writing one to this bit clears the WUF5 flag in PWR_WUSR.
+Bit 3 CWUF4: wake-up flag 4
+Writing one to this bit clears the WUF4 flag in PWR_WUSR.
+Bit 2 CWUF3: wake-up flag 3
+Writing one to this bit clears the WUF3 flag in PWR_WUSR.
+Bit 1 CWUF2: wake-up flag 2
+Writing one to this bit clears the WUF2 flag in PWR_WUSR.
+Bit 0 CWUF1: wake-up flag 1
+Writing one to this bit clears the WUF1 flag in PWR_WUSR.
+
+RM0456 Rev 6

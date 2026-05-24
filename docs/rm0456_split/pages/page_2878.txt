@@ -1,0 +1,76 @@
+1.
+
+Set the MONO bit to 1 in the SAI_xCR1 register.
+
+2.
+
+Set NBSLOT to 1 and SLOTEN to 3 in SAI_xSLOTR.
+
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+In reception mode, the MONO bit can be set and is meaningful only if the number of slots is
+equal to 2, like in transmitter mode. When it is set, only slot 0 data are stored in the FIFO.
+The data belonging to slot 1 are discarded since, in this case, it is supposed to be the same
+as the previous slot. If the data flow in reception mode is a real stereo audio flow with a
+distinct and different left and right data, the MONO bit is meaningless. The conversion from
+the output stereo file to the equivalent mono file is done by software.
+
+Companding mode
+Telecommunication applications can require processing the data to be transmitted or
+received using a data companding algorithm.
+Depending on the COMP[1:0] bits in the SAI_xCR2 register (used only when free protocol
+mode is selected), the application software can choose to process or not the data before
+sending it on the SD serial output line (compression) or to expand the data after the
+reception on the SD serial input line (expansion), as illustrated in Figure 876. The two
+companding modes supported are the µ-Law and the A-Law logs, which are a part of the
+CCITT G.711 recommendation.
+The companding standard used in the United States and Japan is the µ-Law. It supports 14
+bits of dynamic range (COMP[1:0] = 10 in the SAI_xCR2 register).
+The European companding standard is A-Law and supports 13 bits of dynamic range
+(COMP[1:0] = 11 in the SAI_xCR2 register).
+Both µ-Law and A-Law companding standard can be computed based on 1’s complement or
+2’s complement representation, depending on the CPL bit setting in the SAI_xCR2 register.
+In µ-Law and A-Law standards, data are coded as 8 bits with MSB alignment. Companded
+data are always 8 bits wide. For this reason, the DS[2:0] bits in the SAI_xCR1 register are
+forced to 010 when the SAI audio block is enabled (the SAIEN bit = 1 in the SAI_xCR1
+register) and when one of these two companding modes is selected through the COMP[1:0]
+bits.
+If no companding processing is required, the COMP[1:0] bits must be kept clear.
+Figure 876. Data companding hardware in an audio block in the SAI
+Receiver mode (bit MODE[0] = 1 in SAI_xCR1)
+COMP[1]
+
+FIFO
+
+1
+
+SD
+
+expand
+
+32-bit shift register
+
+0
+
+Transmitter mode (bit MODE[0] = 0 in SAI_xCR1)
+
+FIFO
+
+0
+
+SD
+32-bit shift register
+
+1
+
+compress
+
+COMP[1]
+MSv19244V1
+
+1. Not applicable when AC’97 or SPDIF are selected.
+
+RM0456 Rev 6

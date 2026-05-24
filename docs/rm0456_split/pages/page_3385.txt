@@ -1,0 +1,50 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Bit 14 TYPECEVT1: Type-C voltage level event on CC1 line
+The flag indicates a change of the TYPEC_VSTATE_CC1[1:0] bitfield value, which
+corresponds to a new Type-C event. It is cleared by setting the TYPECEVT2CF bit.
+0: No new event
+1: A new Type-C event
+Bit 13 RXERR: Receive message error
+The flag indicates errors of the last Rx message declared (via RXMSGEND), such as
+incorrect CRC or truncated message (a line becoming static before EOP is met). It is
+asserted whenever the RXMSGEND flag is set.
+0: No error detected
+1: Error(s) detected
+Bit 12 RXMSGEND: Rx message received
+The flag indicates whether a message (except Hard Reset message) has been received,
+regardless the CRC value. The flag is cleared by setting the RXMSGENDCF bit.
+0: No new Rx message received
+1: A new Rx message received
+The RXERR flag set when the RXMSGEND flag goes high indicates errors in the lastreceived message.
+Bit 11 RXOVR: Rx data overflow detection
+The flag indicates Rx data buffer overflow. It is cleared by setting the RXOVRCF bit.
+0: No overflow
+1: Overflow
+The buffer overflow can occur if the received data are not read fast enough.
+Bit 10 RXHRSTDET: Rx Hard Reset receipt detection
+The flag indicates the receipt of valid Hard Reset message. It is cleared by setting the
+RXHRSTDETCF bit.
+0: Hard Reset not received
+1: Hard Reset received
+Bit 9 RXORDDET: Rx ordered set (4 K-codes) detection
+The flag indicates the detection of an ordered set. The relevant information is stored in the
+RXORDSET[2:0] bitfield of the UCPD_RX_ORDSET register. It is cleared by setting the
+RXORDDETCF bit.
+0: No ordered set detected
+1: A new ordered set detected
+Bit 8 RXNE: Receive data register not empty detection
+The flag indicates that the UCPD_RXDR register is not empty. It is automatically cleared
+upon reading UCPD_RXDR.
+0: Rx data register empty
+1: Rx data register not empty
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 TXUND: Tx data underrun detection
+The flag indicates that the Tx data register (UCPD_TXDR) was not written in time for a
+transmit message to execute normally. It is cleared by setting the TXUNDCF bit.
+0: No Tx data underrun detected
+1: Tx data underrun detected

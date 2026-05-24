@@ -1,0 +1,58 @@
+191
+
+System security
+
+3.8.2
+
+RM0456
+
+•
+
+as encryption/decryption key for another key, to be used in the DPA-resistant SAES
+(wrapped key mode)
+
+•
+
+as encryption/decryption key for another key, to be used in a faster AES engine (shared
+key mode)
+
+Unique ID
+The devices store a 96-bit ID that is unique to each device (see Section 76.1: Unique device
+ID register (96 bits)).
+Application services can use this unique identity key to identify the product in the cloud
+network, or make it difficult for counterfeit devices or clones to inject untrusted data into the
+network.
+Alternatively, the 256-bit device unique key (DHUK) can be used (see Section 3.8.1).
+
+3.9
+
+Cryptographic engines
+The devices implement state-of-the-art cryptographic algorithms featuring key sizes and
+computing protection as recommended by national security agencies such as NIST for the
+U.S.A, BSI for Germany or ANSSI for France. Those algorithms are used to support privacy,
+authentication, integrity, entropy and identity attestation.
+The cryptographic engines embedded in STM32 reduce the weaknesses on the
+implementation of critical cryptographic functions, preventing, for example, the use of weak
+cryptographic algorithms and key sizes. They also enable lower processing times and lower
+power consumption when performing cryptographic operations, offloading those
+computations from Cortex-M33. This is especially true for asymmetric cryptography.
+For product certification purpose, ST can provide certified device information on how these
+security functions are implemented and validated.
+For more information on cryptographic engine processing times, refer to their respective
+sections in the reference manual.
+
+3.9.1
+
+Cryptographic engines features
+Table 19 lists the accelerated cryptographic operations available in the devices. Two AES
+accelerators are available (both can be reserved to secure application only).
+
+Note:
+
+Additional operations can be added using the firmware.
+The PKA can accelerate asymmetric cryptographic operations (like key pair generation,
+ECC scalar multiplication, point on curve check). See Section 53: Public key accelerator
+(PKA) for more details.
+
+<!-- pagebreak -->
+

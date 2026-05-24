@@ -1,0 +1,35 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+and waits for its acknowledgment. Since the packet buffer memory has also to be accessed
+by the microcontroller, an arbitration logic takes care of the access conflicts, using half
+APB2 cycle for microcontroller access and the remaining half for the USB peripheral
+access. In this way, both agents can operate as if the packet memory would be a dual-port
+SRAM, without being aware of any conflict even when the microcontroller is performing
+back-to-back accesses. The USB peripheral logic uses a dedicated clock. The frequency of
+this dedicated clock is fixed by the requirements of the USB standard at 48 MHz, and this
+can be different from the clock used for the interface to the APB2 bus. Different clock
+configurations are possible where the APB2 clock frequency can be higher or lower than the
+USB peripheral one.
+Note:
+
+Due to USB data rate and packet memory interface requirements, the APB2 clock must
+have a minimum frequency of 12 MHz to avoid data overrun/underrun problems.
+Each endpoint is associated with two packet buffers (usually one for transmission and the
+other one for reception). Buffers can be placed anywhere inside the packet memory
+because their location and size is specified in a buffer description table, which is also
+located in the packet memory. Each table entry is associated to an endpoint register and it is
+composed of two 32-bit words so that table start address must always be aligned to an 8byte boundary. Buffer descriptor table entries are described in Section 71.7: USBSRAM
+registers. If an endpoint is unidirectional and it is neither an isochronous nor a doublebuffered bulk, only one packet buffer is required (the one related to the supported transfer
+direction). Other table locations related to unsupported transfer directions or unused
+endpoints, are available to the user. Isochronous and double-buffered bulk endpoints have
+special handling of packet buffers (Refer to Section 71.5.5: Isochronous transfers in Device
+mode and Section 71.5.3: Double-buffered endpoints and usage in Device mode
+respectively). The relationship between buffer description table entries and packet buffer
+areas is depicted in Figure 892.
+For Host mode different sections explain the buffer usage model, notably Section 71.5.6:
+Isochronous transfers in Host mode and Section 71.5.4: Double buffered channels: usage in
+Host mode.

@@ -1,0 +1,161 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Figure 854. SS interleaving pulses between data (SSOE = 1, SSOM = 1, SSM = 0)
+I. CPHA=0, CPOL=0, SSIOP=0, LSBFRST=0
+
+MIDI[3:0] - 1
+
+SS
+SCK
+MOSI
+
+X
+
+MSB
+
+MISO
+
+MSB
+
+X
+
+t SCK
+
+MSSI[3:0]
+
+LSB
+
+MSB
+
+X
+
+LSB
+
+X
+
+DSIZE[4:0] + 1
+
+X
+
+MSB
+
+MIDI[3:0]
+
+II. CPHA=1, CPOL=0, SSIOP=0, LSBFRST=0
+
+DSIZE[4:0] + 1
+
+MIDI[3:0] - 1
+
+SS
+SCK
+MOSI
+
+MSB
+
+X
+
+MISO
+
+X
+
+MSB
+
+t SCK/2
+
+MSSI[3:0]
+
+MSB
+
+X
+
+LSB
+
+X
+
+LSB
+
+DSIZE[4:0] + 1
+
+MSB
+
+MIDI[3:0]
+
+III. CPHA=0, CPOL=1, SSIOP=1, LSBFRST=1
+
+DSIZE[4:0] + 1
+
+MIDI[3:0] - 1
+
+SS
+SCK
+MOSI
+
+X
+
+MISO
+
+LSB
+
+MSB
+MSB X
+
+LSB
+
+X
+
+tSCK
+
+MSSI[3:0]
+
+LSB
+
+X
+
+DSIZE[4:0] + 1
+
+X LSB
+
+MIDI[3:0]
+
+IV. CPHA=1, CPOL=1, SSIOP=1, LSBFRST=1
+
+DSIZE[4:0] + 1
+
+MIDI[3:0] - 1
+
+SS
+SCK
+MOSI
+MISO
+
+X
+
+LSB
+X
+
+MSSI[3:0]
+
+MSB
+LSB
+
+tSCK /2
+
+X
+
+X LSB
+
+MSB
+
+DSIZE[4:0] + 1
+
+LSB
+
+MIDI[3:0]
+
+DSIZE[4:0] + 1
+MSv40471V2

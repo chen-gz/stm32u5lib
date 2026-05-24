@@ -1,0 +1,58 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 648. Quadrature encoder counting modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2287
+Figure 649. Direction plus clock encoder mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2288
+Figure 650. Directional clock encoder mode (CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2289
+Figure 651. Directional clock encoder mode (CC1P = CC2P = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2289
+Figure 652. Index gating options . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2291
+Figure 653. Jittered Index signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2291
+Figure 654. Index generation for IPOS[1:0] = 11 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2292
+Figure 655. Counter reading with index gated on channel A (IPOS[1:0] = 11) . . . . . . . . . . . . . . . . . 2292
+Figure 656. Counter reading with index ungated (IPOS[1:0] = 00) . . . . . . . . . . . . . . . . . . . . . . . . . . 2293
+Figure 657. Counter reading with index gated on channel A and B. . . . . . . . . . . . . . . . . . . . . . . . . . 2293
+Figure 658. Encoder mode behavior in case of narrow index pulse (IPOS[1:0] = 11) . . . . . . . . . . . . 2294
+Figure 659. Counter reset Narrow index pulse (closer view, ARR = 0x07) . . . . . . . . . . . . . . . . . . . . 2295
+Figure 660. Index behavior in x1 and x2 mode (IPOS[1:0] = 01). . . . . . . . . . . . . . . . . . . . . . . . . . . . 2296
+Figure 661. Directional index sensitivity. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2296
+Figure 662. Counter reset as function of FIDX bit setting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2297
+Figure 663. Index blanking. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2297
+Figure 664. Index behavior in clock + direction mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2298
+Figure 665. Index behavior in directional clock mode, IPOS[0] = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2298
+Figure 666. State diagram for quadrature encoded signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2299
+Figure 667. Up-counting encoder error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2300
+Figure 668. Down-counting encode error detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2301
+Figure 669. Encoder mode change with preload transferred on update (SMSPS = 0) . . . . . . . . . . . 2302
+Figure 670. Control circuit in reset mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2304
+Figure 671. Control circuit in gated mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2305
+Figure 672. Control circuit in trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2305
+Figure 673. Control circuit in external clock mode 2 + trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . 2307
+Figure 674. Master/Slave timer example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2307
+Figure 675. Master/slave connection example with 1 channel only timers . . . . . . . . . . . . . . . . . . . . 2308
+Figure 676. Gating TIM_slv with tim_oc1ref of TIM_mstr . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2309
+Figure 677. Gating TIM_slv with Enable of TIM_mstr . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2310
+Figure 678. Triggering TIM_slv with update of TIM_mstr. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2311
+Figure 679. Triggering TIM_slv with Enable of TIM_mstr . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2311
+Figure 680. Triggering TIM_mstr and TIM_slv with TIM_mstr tim_ti1 input . . . . . . . . . . . . . . . . . . . . 2312
+Figure 681. TIM15 block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2353
+Figure 682. TIM16/TIM17 block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2354
+Figure 683. Counter timing diagram with prescaler division change from 1 to 2 . . . . . . . . . . . . . . . . 2358
+Figure 684. Counter timing diagram with prescaler division change from 1 to 4 . . . . . . . . . . . . . . . . 2359
+Figure 685. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2360
+Figure 686. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2361
+Figure 687. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2361
+Figure 688. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2362
+Figure 689. Counter timing diagram, update event when ARPE = 0
+(TIMx_ARR not preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2362
+Figure 690. Counter timing diagram, update event when ARPE = 1
+(TIMx_ARR preloaded) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2363
+Figure 691. Update rate examples depending on mode and TIMx_RCR register settings . . . . . . . . 2364
+Figure 692. Control circuit in normal mode, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . 2365
+Figure 693. tim_ti2 external clock connection example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2365
+Figure 694. Control circuit in external clock mode 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2366
+Figure 695. Capture/compare channel (example: channel 1 input stage) . . . . . . . . . . . . . . . . . . . . . 2367
+Figure 696. Capture/compare channel 1 main circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2367
+Figure 697. Output stage of capture/compare channel (channel 1). . . . . . . . . . . . . . . . . . . . . . . . . . 2368

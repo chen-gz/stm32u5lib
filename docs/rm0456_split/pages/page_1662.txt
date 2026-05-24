@@ -1,0 +1,43 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Bit 8 TRGSENS: DFLT0 trigger sensitivity selection
+This bitfield is set and cleared by software. It is used to select the trigger sensitivity of the
+external signals
+0: A rising edge event triggers the acquisition.
+1: A falling edge even triggers the acquisition.
+Note: When the trigger source is TRGO, TRGSENS value is not taken into account. When
+TRGO is selected, the sensitivity is forced to falling edge.
+This bit can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 7 Reserved, must be kept at reset value.
+Bits 6:4 ACQMOD[2:0]: DFLT0 trigger mode
+This bitfield is set and cleared by software. It is used to select the filter trigger mode.
+000: Asynchronous continuous acquisition mode
+001: Asynchronous single-shot acquisition mode
+010: Synchronous continuous acquisition mode
+011: Synchronous single-shot acquisition mode
+100: Window continuous acquisition mode
+Others: Same as 000
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 FTH: RXFIFO threshold selection
+This bit is set and cleared by software. It is used to select the RXFIFO threshold.
+0: RXFIFO threshold event generated when the RXFIFO is not empty
+1: RXFIFO threshold event generated when the RXFIFO is half-full
+Note: This bit can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 1 DMAEN: DMA requests enable
+This bit is set and cleared by software. It is used to control the generation of DMA request to
+transfer the processed samples into the memory.
+0: DMA interface for the corresponding digital filter disabled
+1: DMA interface for the corresponding digital filter enabled
+Note: This bit can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 0 DFLTEN: DFLT0 enable
+This bit is set and cleared by software. It is used to control the start of acquisition of the
+DFLT0 path. This bit behavior depends on ACQMOD[2:0] and external events. The serial or
+parallel interface delivering the samples must be enabled as well.
+0: Acquisition immediately stopped
+1: Acquisition immediately started if ACQMOD[2:0] = 00x or 101, or acquisition started when
+the proper trigger event occurs if ACQMOD[2:0] = 01x.

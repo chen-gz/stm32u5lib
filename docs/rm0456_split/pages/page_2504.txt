@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+63.6
+
+RTC registers
+Refer to Section 1.2 of the reference manual for a list of abbreviations used in register
+descriptions.
+The peripheral registers can be accessed by words (32-bit).
+
+63.6.1
+
+RTC time register (RTC_TR)
+The RTC_TR is the calendar time shadow register. This register must be written in
+initialization mode only. Refer to Calendar initialization and configuration on page 2599 and
+Reading the calendar on page 2600.
+This register is write protected. The write access procedure is described in RTC register
+write protection on page 2598.
+This register can be write-protected against nonsecure access. Refer to Section 63.3.4:
+RTC secure protection modes.
+This register can be write-protected against unprivileged access. Refer to Section 63.3.5:
+RTC privilege protection modes.
+Address offset: 0x00
+Backup domain reset value: 0x0000 0000
+System reset value: 0x0000 0000 (when BYPSHAD = 0, not affected when BYPSHAD = 1)
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PM
+rw
+
+15
+
+14
+
+Res.
+
+13
+
+12
+
+11
+
+MNT[2:0]
+rw
+
+rw
+
+10
+
+9
+
+8
+
+MNU[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+Res.
+rw
+
+21
+
+20
+
+19
+
+17
+
+16
+
+HU[3:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+ST[2:0]
+rw
+
+18
+
+HT[1:0]
+
+rw
+
+SU[3:0]
+rw
+
+rw
+
+rw
+
+Bits 31:23 Reserved, must be kept at reset value.
+Bit 22 PM: AM/PM notation
+0: AM or 24-hour format
+1: PM
+Bits 21:20 HT[1:0]: Hour tens in BCD format
+Bits 19:16 HU[3:0]: Hour units in BCD format
+Bit 15 Reserved, must be kept at reset value.
+Bits 14:12 MNT[2:0]: Minute tens in BCD format
+Bits 11:8 MNU[3:0]: Minute units in BCD format
+Bit 7 Reserved, must be kept at reset value.
+Bits 6:4 ST[2:0]: Second tens in BCD format
+Bits 3:0 SU[3:0]: Second units in BCD format
+
+RM0456 Rev 6

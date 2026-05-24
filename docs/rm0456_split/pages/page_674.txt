@@ -1,0 +1,54 @@
+684
+
+Peripherals interconnect matrix
+
+RM0456
+
+Active power mode
+This interconnect is active in Run, Sleep, Stop 0, Stop 1, and Stop 2 modes.
+
+16.3.5
+
+Triggers on MDF1 or ADF1
+From EXTI, ADF1, timers (TIM1/3/4/6/7/8/16) and LP timer (LPTIM1), to MDF1
+From EXTI and MDF1 to ADF1
+
+Purpose
+General-purpose timers (TIM3/4/16), basic timers (TIM6/7), advanced-control timers
+(TIM1/8), low-power timer (LPTIM1), EXTI (EXTI11/15) and ADF1 can be used to generate
+a triggering event on MDF1 module and start an A/C conversion. In addition, EXTI15 and
+MDF1 can trigger ADF1.
+A description is given in:
+•
+
+Section 39.4.2: MDF pins and internal signals
+
+•
+
+Section 39.4.11: Start-up sequence examples
+
+Triggering signals
+The mdf_trgi[13:0] trigger inputs are the triggering input signals. The MDF and ADF trigger
+inputs connections are detailed in:
+•
+
+Table 371: MDF trigger connections
+
+•
+
+Table 392: ADF trigger connections
+
+Active power mode
+This interconnection remains active down to Stop 0 and Stop 1 modes for MDF1, and
+Stop 0, Stop 1,and Stop 2 modes for ADF1, assuming the trigger source remains active.
+
+16.3.6
+
+Timer break from MDF1
+From MDF1 to advanced-control timer (TIM1/8)
+
+Purpose
+The MDF features an out-off limit detectors (OLD) and a short circuit detector (SCD)
+functions. When a short-circuit or open-circuit errors (such as over current or over voltage)
+is detected an interrupt event or/and a break signal can be generated to TIM1/8.
+This behavior is described in:

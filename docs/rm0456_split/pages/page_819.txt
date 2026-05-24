@@ -1,0 +1,189 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+18.8.15
+
+LPDMA channel x linked-list address register (LPDMA_CxLLR)
+Address offset: 0x0CC + 0x80 * x (x = 0 to 3)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(LPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (LPDMA_PRIVCFGR.PRIVx).
+This register configures the data structure of the next LLI in the memory and its address
+pointer. A channel transfer is completed when this register is null.
+This register must be written when LPDMA_CxCR.EN = 0.
+This register is read-only when LPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed (then the hardware has
+deasserted LPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block or LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by LPDMA
+from the memory if LPDMA_CxLLR.ULL = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+UT1
+
+UT2
+
+UB1
+
+USA
+
+UDA
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ULL
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+LA[15:2]
+rw
+
+Bit 31 UT1: Update LPDMA_CxTR1 from memory
+This bit controls the update of the LPDMA_CxTR1 register from the memory during the link transfer.
+0: no LPDMA_CxTR1 update
+1: LPDMA_CxTR1 update
+Bit 30 UT2: Update LPDMA_CxTR2 from memory
+This bit controls the update of the LPDMA_CxTR2 register from the memory during the link transfer.
+0: no LPDMA_CxTR2 update
+1: LPDMA_CxTR2 update
+Bit 29 UB1: Update LPDMA_CxBR1 from memory
+This bit controls the update of the LPDMA_CxBR1 register from the memory during the link transfer.
+0: no LPDMA_CxBR1 update from memory and internally restored to the previous programmed
+value
+1: LPDMA_CxBR1 update
+Bit 28 USA: update LPDMA_CxSAR from memory
+This bit controls the update of the LPDMA_CxSAR register from the memory during the link transfer.
+0: no LPDMA_CxSAR update
+1: LPDMA_CxSAR update
+Bit 27 UDA: Update LPDMA_CxDAR register from memory
+This bit is used to control the update of the LPDMA_CxDAR register from the memory during the link
+transfer.
+0: no LPDMA_CxDAR update
+1: LPDMA_CxDAR update
+
+RM0456 Rev 6

@@ -1,0 +1,45 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 12 BERR: Babble error interrupt
+The core generates this interrupt when babble is received for the endpoint.
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 Reserved, must be kept at reset value.
+Bit 8 OUTPKTERR: OUT packet error
+This interrupt is asserted when the core detects an overflow or a CRC error for an OUT
+packet. This interrupt is valid only when thresholding is enabled.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 B2BSTUP: Back-to-back SETUP packets received
+Applies to control OUT endpoint only.
+This bit indicates that the core has received more than three back-to-back SETUP packets
+for this particular endpoint.
+Bit 5 STSPHSRX: Status phase received for control write
+This interrupt is valid only for control OUT endpoints. This interrupt is generated only after
+OTG_HS has transferred all the data that the host has sent during the data phase of a
+control write transfer, to the system memory buffer. The interrupt indicates to the application
+that the host has switched from data phase to the status phase of a control write transfer.
+The application can use this interrupt to ACK or STALL the status phase, after it has
+decoded the data phase.
+Bit 4 OTEPDIS: OUT token received when endpoint disabled
+Applies only to control OUT endpoints.
+Indicates that an OUT token was received when the endpoint was not yet enabled. This
+interrupt is asserted on the endpoint for which the OUT token was received.
+Bit 3 STUP: SETUP phase done
+Applies to control OUT endpoint only.Indicates that the SETUP phase for the control
+endpoint is complete and no more back-to-back SETUP packets were received for the
+current control transfer. On this interrupt, the application can decode the received SETUP
+data packet.
+Bit 2 AHBERR: AHB error
+This is generated only in internal DMA mode when there is an AHB error during an AHB
+read/write. The application can read the corresponding endpoint DMA address register to
+get the error address.
+Bit 1 EPDISD: Endpoint disabled interrupt
+This bit indicates that the endpoint is disabled per the application’s request.
+Bit 0 XFRC: Transfer completed interrupt
+This field indicates that the programmed transfer is complete on the AHB as well as on the
+USB, for this endpoint.
+
+RM0456 Rev 6

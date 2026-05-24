@@ -1,0 +1,55 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+If APMS is set in HSPI_CR, the operation stops and BUSY goes to 0 as soon as a match is
+detected. Otherwise, BUSY stays at 1 and the periodic accesses continue until there is an
+abort or until the HSPI is disabled (EN = 0).
+HSPI_DR contains the latest received status bytes (FIFO deactivated). The content of this
+register is not affected by the masking used in the matching logic. FTF in HSPI_SR is set as
+soon as a new reading of the status is complete. FTF is cleared as soon as the data is read.
+In automatic status-polling mode, variable latency is not supported. As a consequence, the
+memory must be configured in fixed latency.
+
+30.4.11
+
+HSPI memory-mapped mode
+When configured in memory-mapped mode, the external SPI device is seen as an internal
+memory.
+
+Note:
+
+No more than 256 Mbytes can be addressed even if the external device capacity is larger.
+If an access is made to an address outside of the range defined by DEVSIZE[4:0] but still
+within the 256-Mbyte range, then an AHB error is given. The effect of this error depends on
+the AHB master that attempted the access:
+•
+
+If it is the Cortex CPU, a hard-fault interrupt is generated.
+
+•
+
+If it is a DMA, a DMA transfer error is generated, and the corresponding DMA channel
+is automatically disabled.
+
+Byte, half-word, and word access types are all supported.
+A support for execute in place (XIP) operation is implemented, where the HSPI continues to
+load the bytes to the addresses following the most recent access. If subsequent accesses
+are continuous to the bytes that follow, then these operations end up quickly since their
+results were prefetched.
+By default, the HSPI never stops its prefetch operation, it either keeps the previous read
+operation active with the NCS maintained low or it relaunches a new transfer, even if no
+access to the external device occurs for a long time.
+Since external devices tend to consume more power when the NCS is held low, the
+application may want to activate the timeout counter (TCEN = 1 in HSPI_CR): the NCS is
+released after a period defined by TIMEOUT[15:0] in HSPI_LPTR, when x cycles have
+elapsed without an access since the clock is inactive.
+BUSY goes high as soon as the first memory-mapped access occurs. Because of the
+prefetch operations, BUSY does not fall until there is an abort, or the peripheral is disabled.
+It is not recommended to program the flash memory using the memory-mapped writes. The
+indirect-write mode fulfills this operation.
+However, if the application requires the use of the MCE for encryption (check MCE product
+availability), the memory-mapped write mode may be used to program encrypted data to
+external flash memory under the following conditions:

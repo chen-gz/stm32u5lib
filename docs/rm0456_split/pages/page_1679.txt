@@ -1,0 +1,80 @@
+RM0456 Rev 6
+
+RM0456
+
+Digital camera interface (DCMI)
+Table 415. Positioning of captured data bytes in 32-bit words (14-bit width)
+
+41.3.6
+
+Byte address
+
+31:30
+
+29:16
+
+15:14
+
+13:0
+
+0
+
+0
+
+Dn+1[13:0]
+
+0
+
+Dn[13:0]
+
+4
+
+0
+
+Dn+3[13:0]
+
+0
+
+Dn+2[13:0]
+
+DCMI synchronization
+The digital camera interface supports embedded or hardware (DCMI_HSYNC and
+DCMI_VSYNC) synchronization. When embedded synchronization is used, it is up to the
+digital camera module to make sure that the 0x00 and 0xFF values are used ONLY for
+synchronization (not in data). Embedded synchronization codes are supported only for the
+8-bit parallel data interface width (that is, in the DCMI_CR register, the EDM[1:0] bits must
+be cleared).
+For compressed data, the DCMI supports only the hardware synchronization mode. In this
+case, DCMI_VSYNC is used as a start/end of the image, and DCMI_HSYNC is used as a
+Data Valid signal. Figure 394 shows the corresponding timing diagram.
+Figure 394. Timing diagram
+Padding data
+at the end of the JPEG stream
+
+Beginning of JPEG stream
+
+Programmable
+JPEG packet size
+
+JPEG data
+End of JPEG stream
+DCMI_HSYNC
+
+DCMI_VSYNC
+
+Packet dispatching depends on the image content.
+This results in a variable blanking duration.
+JPEG packet data
+ai15944b
+
+Hardware synchronization mode
+In hardware synchronization mode, the two synchronization signals
+(DCMI_HSYNC/DCMI_VSYNC) are used.
+Depending on the camera module/mode, data may be transmitted during horizontal/vertical
+synchronization periods. The DCMI_HSYNC/DCMI_VSYNC signals act like blanking
+signals since all the data received during DCMI_HSYNC/DCMI_VSYNC active periods are
+ignored.
+In order to correctly transfer images into the DMA/RAM buffer, data transfer is synchronized
+with the DCMI_VSYNC signal. When the hardware synchronization mode is selected, and
+
+RM0456 Rev 6

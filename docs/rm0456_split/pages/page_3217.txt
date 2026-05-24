@@ -1,0 +1,51 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 18 ASVLD: A-session valid
+Indicates the host mode transceiver status.
+0: A-session is not valid
+1: A-session is valid
+Note: Only accessible in host mode.
+Bit 17 DBCT: Long/short debounce time
+Indicates the debounce time of a detected connection.
+0: Long debounce time, used for physical connections (100 ms + 2.5 µs)
+1: Short debounce time, used for soft connections (2.5 µs)
+Note: Only accessible in host mode.
+Bit 16 CIDSTS: Connector ID status
+Indicates the connector ID status on a connect event.
+0: The OTG_HS controller is in A-device mode
+1: The OTG_HS controller is in B-device mode
+Note: Accessible in both device and host modes.
+Bits 15:13 Reserved, must be kept at reset value.
+Bit 12 EHEN: Embedded host enable
+It is used to select between OTG A device state machine and embedded host state machine.
+0: OTG A device state machine is selected
+1: Embedded host state machine is selected
+Bits 11:8 Reserved, must be kept at reset value.
+Bit 7 BVALOVAL: B-peripheral session valid override value
+This bit is used to set override value for Bvalid signal when BVALOEN bit is set.
+0: Bvalid value is '0' when BVALOEN = 1
+1: Bvalid value is '1' when BVALOEN = 1
+Note: Only accessible in device mode.
+Bit 6 BVALOEN: B-peripheral session valid override enable
+This bit is used to enable/disable the software to override the Bvalid signal using the
+BVALOVAL bit.
+0: Override is disabled and Bvalid signal from the respective PHY selected is used internally
+by the core
+1 Internally Bvalid received from the PHY is overridden with BVALOVAL bit value
+Note: Only accessible in device mode.
+Bit 5 AVALOVAL: A-peripheral session valid override value
+This bit is used to set override value for Avalid signal when AVALOEN bit is set.
+0: Avalid value is '0' when AVALOEN = 1
+1: Avalid value is '1' when AVALOEN = 1
+Note: Only accessible in host mode.
+Bit 4 AVALOEN: A-peripheral session valid override enable
+This bit is used to enable/disable the software to override the Avalid signal using the
+AVALOVAL bit.
+0: Override is disabled and Avalid signal from the respective PHY selected is used internally
+by the core
+1: Internally Avalid received from the PHY is overridden with AVALOVAL bit value
+Note: Only accessible in host mode.

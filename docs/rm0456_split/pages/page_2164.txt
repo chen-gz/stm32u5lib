@@ -1,0 +1,79 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+channel B state combination) the index must be synchronized, using the IPOS[1:0] bitfield
+in the TIMx_ECR register.
+The index detection event acts differently depending on counting direction to ensure
+symmetrical operation during speed reversal:
+•
+
+The counter is reset during up-counting (DIR bit = 0).
+
+•
+
+The counter is set to TIMx_ARR when down counting.
+
+This allows the index to be generated on the very same mechanical angular position
+whatever the counting direction. Figure 577 shows at which position is the index generated,
+for a simplistic example (an encoder providing four edges par mechanical rotation).
+Figure 577. Index generation for IPOS[1:0] = 11
+AB = 00
+State 1
+
+Rotor angle = 270°
+
+AB = 10
+State 4
+
+Up-counting
+Down-counting
+
+AB = 11
+State 3
+
+Rotor angle = 180°
+
+Rotor angle = 0°
+
+AB = 01
+State 2
+
+Rotor angle = 90°
+
+The index event is always generated here
+MSv45767V1
+
+Figure 578 presents waveforms and corresponding values for IPOS[1:0] = 11. It shows that
+the instant at which the counter value is forced is automatically adjusted depending on the
+counting direction:
+•
+
+Counter set to 0 when encoder state is 11 (ChA = 1, ChB = 1), when up-counting (DIR
+bit = 0).
+
+•
+
+Counter set to TIMx_ARR when exiting the 11 state, when down-counting (DIR bit = 1).
+
+An interrupt can be issued upon index detection event.
+The arrows are indicating on which transition is the index event interrupt generated.
+Figure 578. Counter reading with index gated on channel A (IPOS[1:0] = 11)
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter
+
+5 6 7 0 1 2 3 4 5
+
+6
+
+5 4 3 2 1 0 7 6 5 4 3 2 1
+MSv45768V1

@@ -1,0 +1,53 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 30 DCACHE1EN: DCACHE1 clock enable
+This bit is set and reset by software.
+0: DCACHE1 clock disabled
+1: DCACHE1 clock enabled
+Note: DCACHE1 clock must be enabled when external memories are accessed through
+OCTOSPI1, OCTOSPI2, HSPI1 or FSMC, even if the DCACHE1 is bypassed.
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 BKPSRAMEN: BKPSRAM clock enable
+This bit is set and reset by software.
+0: BKPSRAM clock disabled
+1: BKPSRAM clock enabled
+Bits 27:25 Reserved, must be kept at reset value.
+Bit 24 GTZC1EN: GTZC1 clock enable
+This bit is set and reset by software.
+0: GTZC1 clock disabled
+1: GTZC1 clock enabled
+Bits 23:22 Reserved, must be kept at reset value.
+Bit 21 DCACHE2EN: DCACHE2 clock enable
+This bit is set and reset by software.
+0: DCACHE2 clock disabled
+1: DCACHE2 clock enabled
+Note: DCACHE2 clock must be enabled to access memories, even if the DCACHE2 is
+bypassed.
+This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 20 GPU2DEN: GPU2D clock enable
+This bit is set and cleared by software.
+0: GPU2D clock disabled
+1: GPU2D clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 19 GFXMMUEN: GFXMMU clock enable
+This bit is set and cleared by software.
+0: GFXMMU clock disabled
+1: GFXMMU clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 18 DMA2DEN: DMA2D clock enable
+This bit is set and cleared by software.
+0: DMA2D clock disabled
+1: DMA2D clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.

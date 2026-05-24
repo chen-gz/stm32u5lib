@@ -1,0 +1,194 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 16 DPID: Endpoint data PID
+Applies to interrupt/bulk OUT endpoints only.
+Contains the PID of the packet to be received or transmitted on this endpoint. The
+application must program the PID of the first packet to be received or transmitted on this
+endpoint, after the endpoint is activated. The application uses the SD0PID and SD1PID
+register fields to program either DATA0 or DATA1 PID.
+0: DATA0
+1: DATA1
+Bit 15 USBAEP: USB active endpoint
+Indicates whether this endpoint is active in the current configuration and interface. The core
+clears this bit for all endpoints (other than EP 0) after detecting a USB reset. After receiving
+the SetConfiguration and SetInterface commands, the application must program endpoint
+registers accordingly and set this bit.
+Bits 14:11 Reserved, must be kept at reset value.
+Bits 10:0 MPSIZ[10:0]: Maximum packet size
+The application must program this field with the maximum packet size for the current logical
+endpoint. This value is in bytes.
+
+73.14.59 OTG device OUT endpoint x control register [alternate]
+(OTG_DOEPCTLx)
+Valid for ISO endpoints, see previous section for INT/BULK endpoints.
+The application uses this register to control the behavior of each logical endpoint other than
+endpoint 0.
+Address offset: 0xB00 + 0x20 * x, (x = 1 to 8)
+Reset value: 0x0000 0000
+31
+
+30
+
+EPENA EPDIS
+
+29
+
+28
+
+SODD
+FRM
+
+SEVN
+FRM
+
+27
+SNAK
+
+26
+CNAK
+
+rs
+
+rs
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+USBA
+EP
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+25
+
+24
+
+23
+
+22
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+9
+
+8
+
+7
+
+6
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+EPTYP[1:0]
+
+NAK
+STS
+
+EO
+NUM
+
+STALL
+
+SNPM
+
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+r
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+MPSIZ[10:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 EPENA: Endpoint enable
+Applies to IN and OUT endpoints.
+The application sets this bit to start transmitting data on an endpoint.
+The core clears this bit before setting any of the following interrupts on this endpoint:
+– SETUP phase done
+– Endpoint disabled
+– Transfer completed
+
+RM0456 Rev 6

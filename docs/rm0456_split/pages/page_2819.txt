@@ -1,0 +1,93 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+content is not empty. The master then provides the serial clock signal continuously on the
+SCK pin until:
+•
+
+The total number of required data programmed in TSIZE is transferred, or
+
+•
+
+The transfer is suspended.
+
+An automatic temporary suspension of the master transmission occurs when:
+•
+
+The slave does not assert the RDY signal, if it is used, or
+
+•
+
+The TxFIFO becomes empty, or
+
+•
+
+In full-duplex mode, the RxFIFO becomes full while the automatic suspension is
+enabled (MASRX set in the SPI_CR1 register).
+
+When an automatic suspension occurs, the master stops providing the clock, and the
+transfer proceeds depending on the cause of the suspension, when:
+•
+
+The slave asserts RDY.
+
+•
+
+The master software or the DMA writes additional data to TxFIFO.
+
+•
+
+In full-duplex mode, the master software or the DMA releases the RxFIFO to enable it
+to accommodate new data.
+
+The SPI master can receive data only when it operates in simplex receiver or half-duplex
+receiver mode. In these modes, the master starts the data transfer when the SPI is enabled,
+and the transfer is released by setting the CSTART bit. The serial clock signal is then
+provided continuously on the SCK pin by the master until:
+•
+
+The total number of required data programmed in TSIZE is received, or
+
+•
+
+The transfer is suspended by the master.
+
+An automatic temporary suspension of the reception occurs when:
+•
+
+The slave does not assert the RDY signal, if it is used, or
+
+•
+
+The RxFIFO becomes full while the automatic suspension is enabled (MASRX bit set in
+the SPI_CR1 register).
+
+When an automatic suspension occurs, the master stops providing the clock and the
+transfer proceeds depending on the cause of the suspension, when:
+•
+
+The slave asserts RDY.
+
+•
+
+The master software or the DMA releases the RxFIFO to enable it in order to
+accommodate new data.
+
+A preferable way to terminate a transfer is to program the TSIZE bitfield to generate an EOT
+event. Hardware SS signal or CRC handshake can then be controlled. To restart the internal
+state machine properly, it is recommended to disable the SPI and enable it again when the
+transfer is complete, even if the SPI configuration is not changed.
+A transfer can be suspended at any time by setting the CSUSP bit of the SPI_CR1 register,
+which clears the CSTART bit. This software suspension control ensures the completion of
+any ongoing data frame. To restart the internal state machine properly, the SPI must be
+disabled and enabled again before the next transfer starts.
+Oppositely, a temporary automatic suspension controlled by hardware typically results in a
+frozen and incomplete data frame transfer. This depends on baud rate setting, but usually,
+due to internal synchronization delays, the SCK signal stops when a few bits from the next
+data frame are already transferred on the bus. Once the suspension is released, the data
+frame transmission completes by transferring the remaining bits. That is why this automatic
+suspension is not quite reliable when the data frame size is less than eight bits. When
+shorter data frames are used, to prevent any data loss and assure proper RDY and/or

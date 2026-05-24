@@ -1,0 +1,87 @@
+rw
+
+SQ3[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+SQ2[3:0]
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+SQ1[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Bits 31:28 SQ8[3:0]: 8th conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 8th conversion of
+the sequence. 0b1111 indicates the end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+0000: CH0
+0001: CH1
+...
+1010: CH10
+1011: CH11
+1100: CH12
+1101: CH13
+1110: CH14
+1111: No channel selected (End of sequence)
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+Bits 27:24 SQ7[3:0]: 7th conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 7th conversion of
+the sequence. 0b1111 indicates end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+Refer to SQ8[3:0] for a definition of channel selection.
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+Bits 23:20 SQ6[3:0]: 6th conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 6th conversion of
+the sequence. 0b1111 indicates end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+Refer to SQ8[3:0] for a definition of channel selection.
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+Bits 19:16 SQ5[3:0]: 5th conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 5th conversion of
+the sequence. 0b1111 indicates end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+Refer to SQ8[3:0] for a definition of channel selection.
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+Bits 15:12 SQ4[3:0]: 4th conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 4th conversion of
+the sequence. 0b1111 indicates end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+Refer to SQ8[3:0] for a definition of channel selection.
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1(which ensures that no conversion is ongoing).
+
+RM0456 Rev 6

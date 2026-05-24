@@ -1,0 +1,88 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+ADC_AWDy_OUT signal output generation
+Each analog watchdog is associated to an internal hardware signal ADC_AWDy_OUT (y
+being the watchdog number) which is directly connected to the ETR input (external trigger)
+of some on-chip timers. Refer to the on-chip timers section to understand how to select the
+ADC_AWDy_OUT signal as ETR.
+ADC_AWDy_OUT is activated when the associated analog watchdog is enabled:
+
+Note:
+
+•
+
+ADC_AWDy_OUT is set when a guarded conversion is outside the programmed
+thresholds.
+
+•
+
+ADC_AWDy_OUT is reset after the end of the next guarded conversion which is inside
+the programmed thresholds (it remains at 1 if the next guarded conversions are still
+outside the programmed thresholds).
+
+•
+
+ADC_AWDy_OUT is also reset when disabling the ADC (when setting ADDIS = 1).
+Note that stopping regular or injected conversions (setting ADSTP = 1 or JADSTP = 1)
+has no influence on the generation of ADCy_AWDx_OUT.
+
+AWDx flag is set by hardware and reset by software: AWDy flag has no influence on the
+generation of ADC_AWDy_OUT (ex: ADCy_AWDy_OUT can toggle while AWDx flag
+remains at 1 if the software did not clear the flag).
+Figure 249. ADCy_AWDx_OUT signal generation (on all regular channels)
+
+ADC
+STATE
+
+RDY
+
+Conversion1
+
+Conversion2
+
+Conversion3
+
+inside
+
+outside
+
+inside
+
+Conversion4 Conversion5
+outside
+
+Conversion6
+
+Conversion7
+
+outside
+
+outside
+
+inside
+
+cleared
+by S/W
+
+cleared
+by S/W
+
+EOC FLAG
+
+AWDx FLAG
+
+cleared
+by S/W
+
+cleared
+by S/W
+
+ADCy_AWDx_OUT
+
+- Converting regular channels 1,2,3,4,5,6,7
+- Regular channels 1,2,3,4,5,6,7 are all guarded
+MS31025V1

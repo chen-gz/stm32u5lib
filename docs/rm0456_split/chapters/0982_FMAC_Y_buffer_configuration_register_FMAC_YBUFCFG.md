@@ -1,0 +1,173 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:8 X2_BUF_SIZE[7:0]: Size of X2 buffer in 16-bit words
+This bitfield can not be modified when a function is ongoing (START = 1).
+Bits 7:0 X2_BASE[7:0]: Base address of X2 buffer
+The X2 buffer base address can be modified while START=1, for example to change
+coefficient values. The filter must be stalled when doing this, since changing the coefficients
+while a calculation is ongoing affects the result.
+
+26.4.3
+
+FMAC Y buffer configuration register (FMAC_YBUFCFG)
+Address offset: 0x08
+Reset value: 0x0000 0000
+Access: word access
+This register can only be modified if START = 0 in the FMAC_PARAM register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+25
+
+24
+
+EMPTY_WM[1:0]
+rw
+
+rw
+
+9
+
+8
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+Y_BUF_SIZE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Y_BASE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:24 EMPTY_WM[1:0]: Watermark for buffer empty flag
+Defines the threshold for setting the Y buffer empty flag when operating in circular mode.
+The flag is set if the number of unread values in the buffer is less than 2EMPTY_WM.
+0: Threshold = 1
+1: Threshold = 2
+2: Threshold = 4
+3: Threshold = 8
+Setting a threshold greater than 1 allows several data to be transferred from the buffer under
+one interrupt.
+Threshold must be set to 1 if DMA read requests are enabled (DMAREN = 1 in FMAC_CR
+register).
+Bits 23:16 Reserved, must be kept at reset value.
+Bits 15:8 Y_BUF_SIZE[7:0]: Size of Y buffer in 16-bit words
+For FIR filters, the minimum buffer size is 1 (+ the watermark threshold). For IIR filters the
+minimum buffer size is the number of feedback taps (+ the watermark threshold).
+Bits 7:0 Y_BASE[7:0]: Base address of Y buffer
+
+<!-- pagebreak -->
+

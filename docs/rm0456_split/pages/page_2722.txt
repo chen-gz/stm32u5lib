@@ -1,0 +1,172 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bits 7:0 PSC[7:0]: Prescaler value
+Condition: IrDA low-power and normal IrDA mode
+PSC[7:0] = IrDA normal and Low-power baud rate
+This bitfield is used for programming the prescaler for dividing the USART source clock to
+achieve the low-power frequency:
+The source clock is divided by the value given in the register (8 significant bits):
+00000000: Reserved - do not program this value
+00000001: divides the source clock by 1
+00000010: divides the source clock by 2
+...
+Condition: Smartcard mode
+PSC[4:0]: Prescaler value
+This bitfield is used for programming the prescaler for dividing the USART source clock to
+provide the smartcard clock.
+The value given in the register (5 significant bits) is multiplied by 2 to give the division factor
+of the source clock frequency:
+00000: Reserved - do not program this value
+00001: divides the source clock by 2
+00010: divides the source clock by 4
+00011: divides the source clock by 6
+...
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: Bits [7:5] must be kept cleared if smartcard mode is used.
+This bitfield is reserved and forced by hardware to 0 when the smartcard and IrDA
+modes are not supported. Refer to Section 66.4: USART implementation.
+
+66.8.8
+
+USART receiver timeout register (USART_RTOR)
+Address offset: 0x14
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+BLEN[7:0]
+
+20
+
+19
+
+18
+
+17
+
+16
+
+RTO[23:16]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RTO[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6

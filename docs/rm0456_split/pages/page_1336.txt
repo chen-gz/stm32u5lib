@@ -1,0 +1,77 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 275. Temperature sensor channel block diagram
+
+Converted
+data
+ADCx
+
+Temperature
+sensor
+
+VSENSE
+
+Address/data bus
+
+VSENSESEL
+control bit
+
+ADC input
+
+MSv62477V2
+
+Reading the temperature
+To use the sensor:
+1.
+
+Select the input channels to which the temperature sensor is connected (with the
+appropriate sampling time).
+
+2.
+
+Program with the appropriate sampling time (refer to electrical characteristics section of
+the device datasheet).
+
+3.
+
+Set the VSENSESEL bit in the ADC12_CCR register to wake up the temperature
+sensor from power-down mode.
+
+4.
+
+Start the ADC conversion.
+
+5.
+
+Read the resulting data in the ADC data register.
+
+6.
+
+Calculate the actual temperature using the following formula:
+
+TS_CAL2_TEMP – TS_CAL1_TEMP
+Temperature ( in °C ) = ------------------------------------------------------------------------------------------------- × ( TS_DATA – TS_CAL1 ) + TS_CAL1_TEMP
+TS_CAL2 – TS_CAL1
+
+Where:
+–
+
+TS_CAL2 is the temperature sensor calibration value acquired at
+TS_CAL2_TEMP.
+
+–
+
+TS_CAL1 is the temperature sensor calibration value acquired at
+TS_CAL1_TEMP.
+
+–
+
+TS_DATA is the actual temperature sensor output value converted by ADC
+
+Refer to Section 33.3: ADC implementation for more information on TS_CAL1 and
+TS_CAL2 calibration points.
+Note:

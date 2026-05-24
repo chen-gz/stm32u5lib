@@ -1,0 +1,181 @@
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+On-the-fly decryption engine (OTFDEC)
+
+Bits 31:0 REG_END_ADDR[31:0]: Region AHB end address
+This register must be written before the region corresponding REG_EN bit in the
+OTFDEC_RxCFGR register is set, and OTFDEC_RxENDADDR must be strictly greater than
+OTFDEC_RxSTARTADDR to be valid.
+Writing to this register is discarded if performed while the region CONFIGLOCK bit in
+OTFDEC_RxCFGR is set.
+Note: When determining the region the first 12 bits (LSB) and the last 4 bits (MSB) are ignored.
+When this register is accessed in read the 4 MSB bits return zeros and the 12 LSB bits return ones.
+
+52.6.6
+
+OTFDEC region x nonce register 0 (OTFDEC_RxNONCER0)
+Address offset: 0x2C + 0x30 * (x - 1), (x = 1 to 4)
+Reset value: 0x0000 0000
+Nonsecure AHB write access (HNONSEC = 1) is discarded if the TrustZone security is
+enabled in the product.
+Unprivileged reads return zero and unprivileged writes are ignored if PRIV bit is set in
+OTFDEC_PRIVCFGR.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+REG_NONCE[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+REG_NONCE[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 REG_NONCE[31:0]: Region nonce, bits [31:0]
+This register must be written before the region corresponding REG_EN bit in OTFDEC_RxCFGR is
+set.
+Writing is discarded in this register if performed while the region CONFIGLOCK bit in the
+OTFDEC_RxCFGR is set.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,83 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+A given LPDMA channel x asserts its clock request in one of the following conditions:
+•
+
+if the next transfer to be executed is programmed as conditioned by a trigger
+(LPDMA_CxTR2.TRIGPOL[1:0] and LPDMA_CxTR2.TRIGM[1:0]), only when the
+trigger hit occurs.
+
+•
+
+if the next transfer to be executed is not conditioned by a trigger:
+–
+
+if LPDMA_CxTR2.SWREQ = 0, only when the hardware request is asserted by
+the selected peripheral
+
+–
+
+if LPDMA_CxTR2.SWREQ = 1 (memory-to-memory, GPIO to/from memory), as
+soon as the GPDMA is enabled
+
+The LPDMA channel x releases its clock request as soon as all the following conditions are
+met:
+•
+
+The transfer to be executed is completed.
+
+•
+
+The LPDMA channel x is not immediately ready and requested to execute the next
+transfer.
+
+•
+
+If a channel x interrupt was raised, all the flags of the status register that can cause this
+interrupt, are cleared by a software agent.
+
+When one channel asserts its clock request, the LPDMA asserts its clock request to the
+RCC. When none channel asserts its clock request, the LPDMA releases its clock request
+to the RCC.
+
+18.5
+
+LPDMA in debug mode
+When the microcontroller enters debug mode (core halted), any channel x can be
+individually either continued (default) or suspended, depending on the programmable
+control bit in the DBGMCU module.
+
+Note:
+
+In debug mode, LPDMA_CxSR.SUSPF is not altered by a suspension from the
+programmable control bit in the DBGMCU module. In this case, LPDMA_CxSR.IDLEF can
+be checked to know the completion status of the channel suspension.
+
+18.6
+
+LPDMA in low-power modes
+Table 154. Effect of low-power modes on LPDMA
+
+Mode
+
+Description
+
+Sleep
+
+No effect. LPDMA interrupts cause the device to exit Sleep mode.
+
+Stop(1)
+
+The content of the LPDMA registers is kept when entering Stop mode. The content of the LPDMA
+registers can be autonomously updated by a next linked-list item from memory, to perform
+autonomous data transfers. LPDMA interrupts can cause the device to exit Stop mode.
+
+Standby
+
+The LPDMA is powered down and must be reinitialized after exiting Standby mode.
+
+1. Refer to Section 18.3.2 to know which Stop mode is supported.

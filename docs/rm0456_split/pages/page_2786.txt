@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Bit 20 Reserved, must be kept at reset value.
+Bit 19 RWU: Receiver wake-up from mute mode
+This bit indicates if the LPUART is in mute mode. It is cleared/set by hardware when a wakeup/mute sequence is recognized. The mute mode control sequence (address or IDLE) is
+selected by the WAKE bit in the LPUART_CR1 register.
+When wake-up on IDLE mode is selected, this bit can only be set by software, writing 1 to
+the MMRQ bit in the LPUART_RQR register.
+0: Receiver in active mode
+1: Receiver in mute mode
+Note: If the LPUART does not support the wake-up from Stop feature, this bit is reserved and
+kept at reset value.
+Bit 18 SBKF: Send break flag
+This bit indicates that a send break character was requested. It is set by software, by writing
+1 to the SBKRQ bit in the LPUART_CR3 register. It is automatically reset by hardware
+during the stop bit of break transmission.
+0: No break character transmitted
+1: Break character transmitted
+Bit 17 CMF: Character match flag
+This bit is set by hardware, when a the character defined by ADD[7:0] is received. It is
+cleared by software, writing 1 to the CMCF in the LPUART_ICR register.
+An interrupt is generated if CMIE = 1in the LPUART_CR1 register.
+0: No Character match detected
+1: Character match detected
+Bit 16 BUSY: Busy flag
+This bit is set and reset by hardware. It is active when a communication is ongoing on the
+RX line (successful start bit detected). It is reset at the end of the reception (successful or
+not).
+0: LPUART is idle (no reception)
+1: reception ongoing
+Bits 15:11 Reserved, must be kept at reset value.
+Bit 10 CTS: CTS flag
+This bit is set/reset by hardware. It is an inverted copy of the status of the CTS input pin.
+0: CTS line set
+1: CTS line reset
+Note: If the hardware flow control feature is not supported, this bit is reserved and kept at
+reset value.
+Bit 9 CTSIF: CTS interrupt flag
+This bit is set by hardware when the CTS input toggles, if the CTSE bit is set. It is cleared by
+software, by writing 1 to the CTSCF bit in the LPUART_ICR register.
+An interrupt is generated if CTSIE = 1 in the LPUART_CR3 register.
+0: No change occurred on the CTS status line
+1: A change occurred on the CTS status line
+Note: If the hardware flow control feature is not supported, this bit is reserved and kept at
+reset value.
+Bit 8 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,97 @@
+960
+
+CORDIC coprocessor (CORDIC)
+
+RM0456
+
+Square root
+Table 208. Square root parameters
+Parameter
+
+Description
+
+Range
+
+ARG1
+
+x · 2-n
+
+ARG2
+RES1
+
+Not applicable
+···
+–n
+x
+2
+
+[0.04 1]
+
+RES2
+
+Not applicable
+
+-
+
+SCALE
+
+n
+
+[0.027 0.875]
+-
+
+[0 2]
+
+This function calculates the square root of the input argument x.
+The primary argument is the input value x. Only values of x in the range 0.027 to 2.34 are
+supported. The value x must be scaled by a factor 2-n, such that x · 2-n < (1 - 2(-n-2)).
+The scaled value x · 2-n is programmed in ARG1 and the factor n must be programmed in
+the SCALE parameter.
+Table 209 lists the valid scaling factors, n, and the corresponding ranges of x and ARG1.
+Table 209. Square root scaling factors and corresponding ranges
+n
+
+x range
+
+ARG1 range
+
+0
+
+0.027 ≤ x < 0.75
+
+0.027 ≤ ARG1 < 0.75
+
+1
+
+0.75 ≤ x < 1.75
+
+0.375 ≤ ARG1 < 0.875
+
+2
+
+1.75 ≤ x ≤ 2.341
+
+0.4375 ≤ ARG1 ≤ 0.585
+
+The secondary argument is not used.
+The primary result is the square root of x. RES1 must be multiplied by 2n to obtain the
+correct value.
+The secondary result is not used.
+
+25.3.3
+
+Fixed point representation
+The CORDIC operates in fixed point signed integer format. Input and output values can be
+either q1.31 or q1.15.
+In q1.31 format, numbers are represented by one sign bit and 31 fractional bits (binary
+decimal places). The numeric range is therefore -1 (0x80000000) to 1 - 2-31 (0x7FFFFFFF).
+In q1.15 format, the numeric range is 1 (0x8000) to 1 - 2-15 (0x7FFF). This format has the
+advantage that two input arguments can be packed into a single 32-bit write, and two results
+can be fetched in one 32-bit read.
+
+25.3.4
+
+Scaling factor
+Several of the functions listed in Section 25.3.2 specify a scaling factor, SCALE. This allows
+the function input range to be extended to cover the full range of values supported by the
+CORDIC, without saturating the input, output, or internal registers. If the scaling factor is

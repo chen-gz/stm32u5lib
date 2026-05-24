@@ -1,0 +1,159 @@
+CMD
+R1b
+
+Set after the command response when end of busy before the timeout. (DPSM moves
+from Busy to Idle)
+Data transfer in progress. (DPSM not in Idle state)
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+The data path error handling is shown in Table 287:
+Table 287. Data path error handling
+
+Error
+
+DPSM state
+
+Wait_Ack
+
+Wait_R
+
+Cause
+No Ack in
+time
+
+CRC
+
+Receive
+
+CRC status Busy
+
+Host action
+
+unknown
+
+Card cycle power
+
+unknown
+
+Stop data reception
+Send stop transmission
+command
+
+unknown
+
+Stop boot procedure
+
+Busy too
+long (due to
+data
+transfer)
+
+unknown
+
+Stop data reception
+Send stop transmission
+command
+
+Busy too
+long (due to
+R1b)
+
+unknown
+
+Send reset command
+
+No start bit
+in time
+
+Timeout
+
+Busy
+
+Card action
+
+transmission
+Send further data
+error
+Negative
+status
+
+Ignore further data
+
+transmission
+wait for further data
+error
+
+DPSM action
+Stay in Wait_Ack
+(reset the SDMMC with
+the RCC.SDMMCxRST
+register bit)
+
+On CPSM Abort move
+to Idle
+
+Stop data reception
+Send stop transmission
+command
+
+On CPSM Abort move
+to Idle
+
+Stop data transmission
+Send stop transmission
+command
+
+On CPSM Abort move
+to Idle
+
+Ack status Wait_Ack
+
+transmission
+Send boot data
+error
+
+Stop boot procedure
+
+On CPSM Abort move
+to Idle
+
+Overrun
+
+Receive
+
+FIFO full
+
+Send further data
+
+Stop data reception
+Send stop transmission
+command
+
+On CPSM Abort move
+to Idle
+
+Underrun
+
+Send
+
+FIFO empty
+
+Stop data transmission
+Receive further data Send stop transmission
+command
+
+On CPSM Abort move
+to Idle
+
+Data FIFO
+The data FIFO (first-in-first-out) subunit contains the transmit and receive data buffer. A
+single FIFO is used for either transmit or receive as selected by the DTDIR bit. The FIFO
+contain a 32-bit wide, 16-word deep data buffer and control logic. Because the data FIFO
+operates in the AHB clock domain (sdmmc_hclk), all signals from the subunits in the
+SDMMC clock domain (SDMMC_CK/sdmmc_rx_ck) are resynchronized.
+
+RM0456 Rev 6

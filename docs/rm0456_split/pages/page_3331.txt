@@ -1,0 +1,99 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+5.
+
+After successfully transmitting complete split, the OTG_HS host generates the CHH
+interrupt.
+
+6.
+
+In response to the CHH interrupt, de-allocate the channel.
+
+•
+
+Bulk/control IN split transactions in DMA mode
+The sequence of operations (channel x) is as follows:
+
+1.
+
+Initialize and enable channel x as explained in Section : Channel initialization.
+
+2.
+
+The OTG_HS host writes the start split request to the nonperiodic request after getting
+the grant from the arbiter. The OTG_HS host masks the channel x internally for the
+arbitration after writing the request.
+
+3.
+
+As soon as the IN token is transmitted, the OTG_HS host generates the CHH interrupt.
+
+4.
+
+In response to the CHH interrupt, set the COMPLSPLT bit in OTG_HCSPLT2 and reenable the channel to send the complete split token. This unmasks channel x for
+arbitration.
+
+5.
+
+The OTG_HS host writes the complete split request to the nonperiodic request after
+receiving the grant from the arbiter.
+
+6.
+
+The OTG_HS host starts writing the packet to the system memory after receiving the
+packet successfully.
+
+7.
+
+As soon as the received packet is written to the system memory, the OTG_HS host
+generates a CHH interrupt.
+
+8.
+
+In response to the CHH interrupt, de-allocate the channel.
+
+•
+
+Interrupt OUT split transactions in DMA mode
+The sequence of operations in (channel x) is as follows:
+
+1.
+
+Initialize and enable channel 1 for start split as explained in Section : Channel
+initialization. The application must set the ODDFRM bit in OTG_HCCHAR1.
+
+2.
+
+The OTG_HS host starts reading the packet.
+
+3.
+
+The OTG_HS host attempts to send the start split transaction.
+
+4.
+
+After successfully transmitting the start split, the OTG_HS host generates the CHH
+interrupt.
+
+5.
+
+In response to the CHH interrupt, set the COMPLSPLT bit in OTG_HCSPLT1 to send
+the complete split.
+
+6.
+
+After successfully completing the complete split transaction, the OTG_HS host
+generates the CHH interrupt.
+
+7.
+
+In response to CHH interrupt, de-allocate the channel.
+
+•
+
+Interrupt IN split transactions in DMA mode
+The sequence of operations in (channel x) is as follows:

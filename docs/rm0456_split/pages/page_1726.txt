@@ -1,0 +1,41 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+RM0456
+
+Bit 31 HSPOL: Horizontal synchronization polarity
+This bit is set and cleared by software.
+0: Horizontal synchronization polarity is active low.
+1: Horizontal synchronization polarity is active high.
+Bit 30 VSPOL: Vertical synchronization polarity
+This bit is set and cleared by software.
+0: Vertical synchronization is active low.
+1: Vertical synchronization is active high.
+Bit 29 DEPOL: Not data enable polarity
+This bit is set and cleared by software.
+0: Not data enable polarity is active low.
+1: Not data enable polarity is active high.
+Bit 28 PCPOL: Pixel clock polarity
+This bit is set and cleared by software.
+0: Pixel clock polarity is active low.
+1: Pixel clock is active high.
+Bits 27:17 Reserved, must be kept at reset value.
+Bit 16 DEN: Dither enable
+This bit is set and cleared by software.
+0: Dither disabled
+1: Dither enabled
+Bit 15 Reserved, must be kept at reset value.
+Bits 14:12 DRW[2:0]: Dither red width
+These bits return the dither red bits.
+Bit 11 Reserved, must be kept at reset value.
+Bits 10:8 DGW[2:0]: Dither green width
+These bits return the dither green bits.
+Bit 7 Reserved, must be kept at reset value.
+Bits 6:4 DBW[2:0]: Dither blue width
+These bits return the dither blue bits.
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 LTDCEN: LCD-TFT controller enable
+This bit is set and cleared by software.
+0: LTDC disabled
+1: LTDC enabled

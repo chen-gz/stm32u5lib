@@ -1,0 +1,148 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+For boot operation with acknowledgment the DPSM moves to the Wait_Ack state and
+waits for the boot acknowledgment before moving to the Wait_R state.
+The DPSM operates at SDMMC_CK. The DPSM has the following states, as shown in
+Figure 199. When ever the DPSM is active (not in the Idle state), the DPSMACT bit is set.
+Figure 199. Data path state machine (DPSM)
+CPSM Abort
+&
+FIFO empty
+
+R_W
+
+CPSM Abort
+
+reset
+
+RWSTOP=1
+
+Idle
+
+(CPSM
+DataEnable
+or
+write DTEN=1)
+&
+DTDIR=0
+&
+Not busy
+
+Busy
+
+Not busy
+&
+(CRC status
+FAIL
+or
+CPSM Abort)
+
+Busy
+
+End of packet
+or
+End of data
+(DATACOUNT=
+0)
+or
+CPSM Abort
+
+Wait_Ack
+
+Ack status OK
+
+End of data
+DATACOUNT=0
+or
+DTHOLD=1
+or
+CPSM Abort
+&
+FIFO empty
+
+(CRC status OK
+Or
+No CRC)
+&
+Not busy
+
+CPSM DataEnable
+&
+DTDIR=1
+&
+BOOTACKEN=1
+
+(CPSM DataEnable or
+write DTEN=1)
+&
+DTDIR=1
+&
+BOOTACKEN=0
+DATACOUNT=0
+or
+CPSM Abort
+or
+DTHOLD = 1
+&
+FIFO empty
+
+Wait_R
+
+Wait_S
+
+(End of packet)
+or
+End of data
+(DATACOUNT=0)
+&
+RWSTART=0
+
+DATACOUNT not 0
+&
+Start bit detected
+
+TXFIFOE= not
+0
+&
+DTHOLD=0
+
+End of packet
+&
+DATACOUNT =
+not 0
+&
+RWSTART=1
+
+Send
+CPSM Abort
+&
+FIFO empty
+
+•
+
+Receive
+MSv40189V1
+
+Idle state: the data path is inactive, and the SDMMC_D[7:0] outputs are according the
+PWRCTRL setting. The DPSM is activated either by sending a command with
+CMDTRANS bit set or by setting the DTEN bit, or by detecting Busy on SDMMC_D0
+(that is, after a command with R1b response).
+When not busy, the DPSM activates the SDMMC_CK clock (when stopped due to
+power save PWRSAV bit), loads the data counter with a new (DATALENGTH) value
+and:
+–
+
+When the data direction bit (DTDIR) indicates send, moves to the Wait_S.
+
+–
+
+When the data direction bit (DTDIR) indicates receive, moves to the
+- Wait_R when BOOTACKEN register bit is clear.
+- Wait_Ack when BOOTACKEN register bit is set and start the acknowledgment
+timeout.
+
+When busy the DPSM keeps the SDMMC_CK clock active and move to the Busy state.

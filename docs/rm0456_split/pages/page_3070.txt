@@ -1,0 +1,245 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.6
+
+OTG core interrupt register (OTG_GINTSTS)
+Address offset: 0x014
+Reset value: 0x0400 0020
+This register interrupts the application for system-level events in the current mode (device
+mode or host mode).
+Some of the bits in this register are valid only in host mode, while others are valid in device
+mode only. This register also indicates the current mode. To clear the interrupt status bits of
+the rc_w1 type, the application must write 1 into the bit.
+The FIFO status interrupts are read-only; once software reads from or writes to the FIFO
+while servicing these interrupts, FIFO interrupt conditions are cleared automatically.
+The application must clear the OTG_GINTSTS register at initialization before unmasking
+the interrupt bit to avoid any interrupts generated prior to initialization.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+WKUP
+INT
+
+SRQ
+INT
+
+DISC
+INT
+
+CIDS
+CHG
+
+LPM
+INT
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+EOPF
+
+ISOO
+DRP
+
+ENUM
+DNE
+
+USB
+RST
+
+USB
+SUSP
+
+ESUSP
+
+Res.
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+IPXFR/
+IN
+COMP
+ISO
+OUT
+
+IISOI
+XFR
+
+OEP
+INT
+
+IEPINT
+
+Res.
+
+Res.
+
+HPRT
+INT
+
+RST
+DET
+
+r
+
+r
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+r
+
+r
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+GO
+NAK
+EFF
+
+GI
+NAK
+EFF
+
+NPTXF
+E
+
+RXF
+LVL
+
+SOF
+
+OTG
+INT
+
+MMIS
+
+CMOD
+
+r
+
+r
+
+r
+
+r
+
+rc_w1
+
+r
+
+rc_w1
+
+r
+
+PTXFE HCINT
+
+Bit 31 WKUPINT: Resume/remote wake-up detected interrupt
+Wake-up interrupt during suspend(L2) or LPM(L1) state.
+– During suspend(L2):
+In device mode, this interrupt is asserted when a resume is detected on the USB. In host
+mode, this interrupt is asserted when a remote wake-up is detected on the USB.
+– During LPM(L1):
+This interrupt is asserted for either host initiated resume or device initiated remote wakeup on USB.
+Note: Accessible in both device and host modes.
+Bit 30 SRQINT: Session request/new session detected interrupt
+In host mode, this interrupt is asserted when a session request is detected from the device.
+In device mode, this interrupt is asserted when VBUS is in the valid range for a B-peripheral
+device. Accessible in both device and host modes.
+Bit 29 DISCINT: Disconnect detected interrupt
+Asserted when a device disconnect is detected.
+Note: Only accessible in host mode.
+Bit 28 CIDSCHG: Connector ID status change
+The core sets this bit when there is a change in connector ID status.
+Note: Accessible in both device and host modes.
+
+RM0456 Rev 6

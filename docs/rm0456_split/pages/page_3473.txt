@@ -1,0 +1,170 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+Bits 30:28 NUMCNTR[2:0]: number of counters
+0x1: one counter implemented.
+Bits 27:25 NUMSEQSTATE[2:0]: number of sequencer states
+0x0: no sequencer states implemented.
+Bit 24 Reserved, must be kept at reset value.
+Bit 23 LPOVERRIDE: low-power state override support
+1: low-power state override support implemented
+Bit 22 ATBTRIG: ATB trigger support
+1: ATB trigger support implemented
+Bits 21:16 TRACEIDSIZE[5:0]: number of bits of trace identification
+0x7: 7-bit trace identification implemented
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:9 NUMEXTINSEL[2:0]: number of external input selectors
+0x0: no external input selectors implemented.
+Bits 8:0 NUMEXTIN[8:0]: number of external inputs
+0x004: four external inputs implemented.
+
+ETM resource register 2 (ETM_RSCTLR2)
+Address offset: 0x208
+Reset value: 0xXXXX XXXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PAIRIN
+V
+
+INV
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+17
+
+16
+
+GROUP[2:0]
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+SELECT[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 PAIRINV: result of a combined pair of resources inversion
+0: not inverted
+1: inverted
+Bit 20 INV: selected resources inversion
+0: not inverted
+1: inverted
+Bit 19 Reserved, must be kept at reset value.
+Bits 18:16 GROUP[2:0]: group of resources selection
+0x0: external input selectors (select 0-3)
+0x1: inputs from processor DWT comparators element (select 0-3)
+0x2: counter at zero (select 0)
+0x3: single-shot comparator (select 0)
+others: reserved
+Bits 15:8 Reserved, must be kept at reset value.

@@ -1,0 +1,53 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+The output stage generates an intermediate waveform which is then used for reference:
+tim_ocxref (active high). The polarity acts at the end of the chain.
+Figure 537. Capture/compare channel 1 main circuit
+APB Bus
+
+MCU-peripheral interface
+Input mode
+
+Output mode
+
+16/32-bit
+
+CC1S[1]
+CC1S[0]
+IC1PS
+
+Capture/compare preload register
+
+CC1S[1]
+CC1S[0]
+
+Compare
+transfer
+
+Capture
+
+CC1E
+
+OC1PE
+
+compare shadow register
+CC1G
+Comparator
+
+TIMx_EGR
+
+OC1PE
+UEV
+(from time TIMx_CCMR1
+base unit)
+
+CNT>CCR1
+Counter
+
+CNT=CCR1
+
+MSv63030V1

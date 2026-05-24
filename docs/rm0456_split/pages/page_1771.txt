@@ -1,0 +1,154 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+To calculate the value of VACT largest packet size (VLPSIZE), consider the video mode
+being used. Figure 431 shows the timing intervals for video mode in non-burst with sync
+pulses, Figure 432 those for video mode in non-burst with sync events, and Figure 433
+refers to the burst video mode.
+Figure 431. VLPSIZE for non-burst with sync pulses
+tL
+tLPDT
+
+invact_lpcmd_time
+
+tLPS -> HS
+
+2 tESCCLK
+
+HACT with
+HSÆLP
+Blanking Non-Burst
+
+tLPDT
+
+EscExit
+
+tHS -> LP
+
+LPDT
+command
+
+HBP
+
+tHACT
+
+EscEntry
+
+HSA
+
+tHBP
+
+HSE
+
+HSS
+
+tHSA
+
+LPÆHS
+
+MSv35872V1
+
+Figure 432. VLPSIZE for non-burst with sync events
+
+HACT with
+HSÆLP
+Blanking Non-Burst
+
+tLPDT
+
+tLPDT
+
+invact_lpcmd_time
+
+tLPS -> HS
+
+2 tESCCLK
+
+HBP
+
+tHS -> LP
+
+EscExit
+
+HSA
+
+tHACT
+
+LPDT
+command
+
+tHBP
+
+EscEntry
+
+HSS
+
+tL
+tHSA
+
+LPÆHS
+
+MSv35890V1
+
+Figure 433. VLPSIZE for burst mode
+
+HSA
+
+HBP
+
+HACT Burst
+
+HSÆLP
+
+tLPDT
+
+tLPDT
+
+invact_lpcmd_time
+
+tLPS -> HS
+
+2 tESCCLK
+
+tHS -> LP
+
+EscExit
+
+tHACT
+
+LPDT
+command
+
+tHBP
+
+EscEntry
+
+HSS
+
+tL
+tHSA
+
+LPÆHS
+
+MSv35873V1
+
+This time is calculated as follows:
+VLPSIZE = (tL - (tHSA + tHBP + tHACT + tHS->LP + tLP->HS + tLPDT + 2 tESCCLK)) /
+(2 × 8 × tESCCLK)
+where
+•
+tL = line time
+•
+tHSA = time of the HSA pulse (DSI_VHSACR.HSA)
+•
+tHBP = time of horizontal back-porch (DSI_VHBPCR.HBP)
+•
+tHACT = time of video active. For burst mode, the video active is time compressed and
+is calculated as tHACT = VPSIZE * Bytes_per_Pixel /Number_Lanes * tLane_byte_clk
+•
+tESCCLK = escape clock period as programmed in TXECKDIV field of the DSI_CCR
+register.
+
+RM0456 Rev 6

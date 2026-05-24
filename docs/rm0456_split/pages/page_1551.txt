@@ -1,0 +1,127 @@
+1.
+
+Wait for DFLTRUN = 0.
+
+2.
+
+Read the sample from the RXFIFO.
+
+3.
+
+Clear DFLTEN to 0.
+RM0456 Rev 6
+
+RM0456
+Note:
+
+Multi-function digital filter (MDF)
+The ongoing DMA transfer is properly terminated.
+
+Window continuous acquisition mode
+This mode allows the application to start or stop a continuous acquisition on one or several
+filters controlled by consecutive edges of one of the following trigger sources:
+•
+
+one of the mdf_trg[13:0] signals
+
+•
+
+TRGO bit
+
+The window continuous acquisition mode is selected when ACQMOD[2:0] = 100.
+The sequence below shows the most important programming steps (assuming that DFLTEN
+bits of the filters are set to 0):
+
+Note:
+
+1.
+
+Configure and enable the clock generator (CKGEN), so that the frequency of
+mdf_proc_ck clock is compatible with the targeted application (see examples in
+Table 381).
+
+2.
+
+Enable the CKGEN and, if needed, enable the MDF_CCK0 and MDF_CCK1 clocks.
+
+3.
+
+Program the wanted filter settings and set the ACQMOD[2:0] to 100.
+
+4.
+
+Set to 1 the SITFEN bit of the requested data interfaces.
+
+5.
+
+Select the proper trigger source and sensitivity for each filter.
+
+6.
+
+Before setting DFLTEN to 1, wait for DFLTACTIVE = 0: it insures that the previous filter
+deactivation sequence has been properly terminated.
+
+7.
+
+Set DFLTEN to 1 for the filters to enable.
+
+8.
+
+If TRGSENS = 0, the acquisition starts on trigger rising edge and stops on trigger falling
+edge. If TRGSENS = 1, the acquisition starts on trigger falling edge and stops on
+trigger rising edge.
+
+The acquisition may restart if the trigger condition becomes again active.
+Figure 345 shows a simplified example of window continuous acquisition mode, with
+TRGSENS = 1. Once DFLTEN is set to 1, the MDF waits for a falling edge on the selected
+trigger input. When the trigger condition is met, DFLTRUN goes to 1 and the acquisition
+starts. The acquisition stops if the MDF detects a rising edge on the selected trigger input. If
+DFLTEN is still set to 1, the MDF waits again for a falling edge on the selected trigger input.
+Figure 345. Window continuous mode (ACQMOD[2:0] = 100)
+MDF_DFLTxCR.DFLTEN
+mdf_trgi[y]
+Discard (note)
+DFLTx output
+
+X
+
+...
+
+Discard (note)
+
+S1 S2
+
+X
+
+...
+
+SN
+
+X
+
+...
+
+Dropped !
+
+X
+
+S1 S2
+
+...
+
+Sk OFF
+Dropped !
+
+MDF_DFLTxCR.DFLTRUN
+MDF_DFLTxCR.DFLTACTIVE
+MDF_CCK/CKI
+Note: the discard phase is optional.
+
+Note:
+
+MSv62680V1
+
+The acquisition can be stopped by setting DFLTEN back to 0. This resets the filter and
+flushes the RXFIFO, so the samples located into the RXFIFO are lost. The ongoing DMA
+
+RM0456 Rev 6

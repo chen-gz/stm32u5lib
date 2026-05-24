@@ -1,0 +1,189 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Table 620. Graphic timer interrupt requests (continued)
+Interrupt
+acronym
+GFXTIMW
+
+Event flag
+
+Enable control
+bit
+
+Interrupt clear
+method
+
+Watchdog alarm
+
+WDGAF
+
+WDGAIE
+
+write 1 in CWDGAF
+
+Watchdog pre-alarm
+
+WDGPF
+
+WDGPIE
+
+write 1 in CWDGPF
+
+Interrupt event
+
+59.5
+
+GFXTIM registers
+
+59.5.1
+
+GFXTIM configuration register (GFXTIM_CR)
+Address offset: 0x000
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SYNCS[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+TEPOL
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+17
+
+LCCOE FCCOE
+
+rw
+
+Bits 31:18 Reserved, must be kept at reset value.
+Bit 17 LCCOE: Line-clock calibration output enable
+This bit enables the line-clock output.
+0: Line-clock output disabled
+1: Line-clock output enabled
+Bit 16 FCCOE: Frame-clock calibration output enable
+This bit enables the frame-clock output.
+0: Frame-clock output disabled
+1: Frame-clock output enabled
+Bits 15:10 Reserved, must be kept at reset value.
+Bits 9:8 SYNCS[1:0]: Synchronization source
+This bitfield selects the synchronization signals (HSYNC and VSYNC) sources.
+00: gfxtim_hsync[0] and gfxtim_vsync[0] selected
+01: gfxtim_hsync[1] and gfxtim_vsync[1] selected
+10: gfxtim_hsync[2] and gfxtim_vsync[2] selected
+11: gfxtim_hsync[3] and gfxtim_vsync[3] selected
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 TEPOL: Tearing--effect polarity
+This bit selects the tearing-effect polarity.
+0: Tearing effect active on rising edge
+1: Tearing effect active on falling edge
+Bits 3:2 Reserved, must be kept at reset value.

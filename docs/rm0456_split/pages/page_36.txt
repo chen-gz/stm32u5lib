@@ -1,0 +1,52 @@
+90
+
+Contents
+
+RM0456
+33.6.5
+
+ADC configuration register 2 (ADC_CFGR2) . . . . . . . . . . . . . . . . . . 1350
+
+33.6.6
+
+ADC sample time register 1 (ADC_SMPR1) . . . . . . . . . . . . . . . . . . . 1353
+
+33.6.7
+
+ADC sample time register 2 (ADC_SMPR2) . . . . . . . . . . . . . . . . . . . 1354
+
+33.6.8
+
+ADC channel preselection register (ADC_PCSEL) . . . . . . . . . . . . . . 1354
+
+33.6.9
+
+ADC regular sequence register 1 (ADC_SQR1) . . . . . . . . . . . . . . . . 1355
+
+33.6.10 ADC regular sequence register 2 (ADC_SQR2) . . . . . . . . . . . . . . . . 1356
+33.6.11 ADC regular sequence register 3 (ADC_SQR3) . . . . . . . . . . . . . . . . 1357
+33.6.12 ADC regular sequence register 4 (ADC_SQR4) . . . . . . . . . . . . . . . . 1358
+33.6.13 ADC regular data register (ADC_DR) . . . . . . . . . . . . . . . . . . . . . . . . 1358
+33.6.14 ADC injected sequence register (ADC_JSQR) . . . . . . . . . . . . . . . . . 1359
+33.6.15 ADC offset y register (ADC_OFRy) . . . . . . . . . . . . . . . . . . . . . . . . . . 1360
+33.6.16 ADC gain compensation register (ADC_GCOMP) . . . . . . . . . . . . . . 1361
+33.6.17 ADC injected data register (ADC_JDRy) . . . . . . . . . . . . . . . . . . . . . . 1362
+33.6.18 ADC analog watchdog 2 configuration register
+(ADC_AWD2CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1362
+33.6.19 ADC analog watchdog 3 configuration register
+(ADC_AWD3CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1363
+33.6.20 ADC watchdog threshold register 1 (ADC_LTR1) . . . . . . . . . . . . . . . 1363
+33.6.21 ADC watchdog threshold register 1 (ADC_HTR1) . . . . . . . . . . . . . . . 1364
+33.6.22 ADC watchdog lower threshold register 2 (ADC_LTR2) . . . . . . . . . . 1364
+33.6.23 ADC watchdog higher threshold register 2 (ADC_HTR2) . . . . . . . . . 1365
+33.6.24 ADC watchdog lower threshold register 3 (ADC_LTR3) . . . . . . . . . . 1365
+33.6.25 ADC watchdog higher threshold register 3 (ADC_HTR3) . . . . . . . . . 1366
+33.6.26 ADC differential mode selection register (ADC_DIFSEL) . . . . . . . . . 1366
+33.6.27 ADC user control register (ADC_CALFACT) . . . . . . . . . . . . . . . . . . . 1367
+33.6.28 ADC calibration factor register (ADC_CALFACT2) . . . . . . . . . . . . . . 1367
+
+33.7
+
+33.8
+
+34

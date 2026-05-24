@@ -1,0 +1,85 @@
+•
+
+CC1S = 01 (TIMx_CCMR1 register, tim_ti1fp1 mapped on tim_ti1).
+
+•
+
+CC2S = 01 (TIMx_CCMR1 register, tim_ti2fp2 mapped on tim_ti2).
+
+•
+
+CC1P = 0 and CC1NP = 0 (TIMx_CCER register, tim_ti1fp1 noninverted, tim_ti1fp1 =
+tim_ti1).
+
+•
+
+CC2P = 0 and CC2NP = 0 (TIMx_CCER register, tim_ti1fp2 noninverted, tim_ti1fp2=
+tim_ti2).
+
+•
+
+SMS = 0011 (TIMx_SMCR register, both inputs are active on both rising and falling
+edges).
+
+•
+
+CEN = 1 (TIMx_CR1 register, Counter enabled).
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 569. Example of counter operation in encoder interface mode.
+forward
+
+jitter
+
+backward
+
+jitter
+
+forward
+
+tim_ti1
+tim_ti2
+
+Counter
+
+up
+
+down
+
+up
+
+MSv62349V1
+
+Figure 570 gives an example of counter behavior when tim_ti1fp1 polarity is inverted (same
+configuration as above except CC1P = 1).
+Figure 570. Example of encoder interface mode with tim_ti1fp1 polarity inverted.
+forward
+
+jitter
+
+backward
+
+jitter
+
+forward
+
+tim_ti1
+tim_ti2
+
+Counter
+
+down
+
+up
+
+down
+MSv62350V1
+
+Figure 571 shows the timer counter value during a speed reversal, for various counting
+modes.
+
+RM0456 Rev 6

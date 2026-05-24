@@ -1,0 +1,142 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+Reading the SAES_IVRx registers returns the latest counter value (useful for managing
+suspend mode).
+The SAES_IVRx registers are not affected by the data swapping feature controlled by the
+DATATYPE[1:0] bitfield of the SAES_CR register.
+
+50.4.14
+
+SAES DMA interface
+The SAES peripheral provides an interface to connect to the DMA (direct memory access)
+controller. The DMA operation is controlled through the SAES_CR register.
+
+Data input using DMA
+Setting the DMAINEN bit of the SAES_CR register enables DMA writing into SAES. The
+SAES peripheral then initiates a DMA request during the input phase each time it requires to
+write a 128-bit block (quadruple word) to the SAES_DINR register, as shown in Figure 499.
+Note:
+
+According to the algorithm and the mode selected, special padding / ciphertext stealing
+might be required. For details, refer to Section 50.4.6: SAES ciphertext stealing and data
+padding.
+Figure 499. DMA transfer of a 128-bit data block during input phase
+
+D127
+MSB
+
+Word3
+DIN[127:96]
+
+DMA
+single write
+
+DMA req N
+
+D96
+
+D95
+
+DMA req N+1
+
+1
+
+Memory accessed through DMA
+Word2
+Word1
+DIN[95:64]
+DIN[63:32]
+D64 D63
+
+D32
+
+DMA
+single write
+
+DMA req N+3
+
+DMA req N+2
+
+2
+
+DMA
+single write
+
+D31
+
+3
+
+Word0
+DIN[31:0]
+
+D0
+LSB
+
+System
+
+Chronological order
+Increasing address
+
+DMA
+single write
+
+4
+
+(No swapping)
+
+1
+
+2
+
+3
+
+4
+
+AES core input buffer
+I127
+
+I96
+
+I95
+
+I64
+
+I63
+
+I32
+
+I31
+
+I0
+
+AES
+peripheral
+
+AES_DINR
+
+LSB
+
+MSB
+
+1
+
+4
+
+Order of write to AES_DINR
+
+MSv42160V1
+
+Data output using DMA
+Setting the DMAOUTEN bit of the SAES_CR register enables DMA reading from SAES.
+The SAES peripheral then initiates a DMA request during the Output phase each time it
+requires to read a 128-bit block (quadruple word) to the SAES_DINR register, as shown in
+Figure 500.
+Note:
+
+According to the message size, extra bytes might need to be discarded by application in the
+last block.
+
+RM0456 Rev 6

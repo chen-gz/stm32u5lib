@@ -1,0 +1,184 @@
+RM0456 Rev 6
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+
+Bits 15:8 GREEN[7:0]: Green value
+These bits defines the Green value for the A4 or A8 mode of the foreground image. They can
+only be written when data transfers are disabled. Once the transfer has started, They are
+read-only.
+These bits can also be used for fixed color FG in memory-to-memory with blending and fixed
+color FG (BG fetch only with FG and BG PFC active) mode.
+Bits 7:0 BLUE[7:0]: Blue value
+These bits defines the Blue value for the A4 or A8 mode of the foreground image. They can
+only be written when data transfers are disabled. Once the transfer has started, They are
+read-only.
+These bits can also be used for fixed color FG in memory-to-memory with blending and fixed
+color FG (BG fetch only with FG and BG PFC active) mode.
+
+19.5.10
+
+DMA2D background PFC control register (DMA2D_BGPFCCR)
+Address offset: 0x024
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+ALPHA[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CS[7:0]
+rw
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+Res.
+
+Res.
+
+RBS
+
+AI
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+Res.
+
+Res.
+
+START
+
+CCM
+
+rs
+
+rw
+
+rw
+
+rw
+
+17
+
+16
+
+AM[1:0]
+rw
+
+rw
+
+1
+
+0
+
+rw
+
+rw
+
+CM[3:0]
+
+Bits 31:24 ALPHA[7:0]: Alpha value
+These bits define a fixed alpha channel value which can replace the original alpha value or
+be multiplied with the original alpha value according to the alpha mode selected with AM[1:0].
+These bits can only be written when data transfers are disabled. Once the transfer has
+started, they are read-only.
+Bits 23:22 Reserved, must be kept at reset value.
+Bit 21 RBS: Red Blue swap
+This bit is used to swap the R and B to support BGR or ABGR color formats. Once the
+transfer has started, this bit is read-only.
+0: Regular mode (RGB or ARGB)
+1: Swap mode (BGR or ABGR)
+Bit 20 AI: Alpha inverted
+This bit inverts the alpha value. Once the transfer has started, this bit is read-only.
+0: Regular alpha
+1: Inverted alpha
+Bits 19:18 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

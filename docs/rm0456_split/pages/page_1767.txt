@@ -1,0 +1,71 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+44.9
+
+Functional description: transmission of commands
+
+44.9.1
+
+Transmission of commands in video mode
+The DSI Host supports the transmission of commands, both in high-speed and low-power,
+while in video mode. The DSI Host uses blanking or low-power (BLLP) periods to transmit
+commands inserted through the APB generic interface. Those periods correspond to the
+gray areas of Figure 427.
+Figure 427. Command transmission periods within the image area
+VSS
+or
+HSS
+
+HSS+HBP
+
+VSA and
+VBP lines
+
+BLLP
+
+RGB
+
+HSS
+
+BLLP in
+burst
+mode
+
+BLLP
+
+HFP
+
+VACT lines
+
+VFP lines
+MSv35869V1
+
+Commands are transmitted in the blanking periods after the following packets/states:
+•
+
+Vertical Sync Start (VSS) packets, if the video sync pulses are not enabled
+
+•
+
+Horizontal sync end (HSE) packets, in the VSA, VBP, and VFP regions
+
+•
+
+Horizontal sync Start (HSS) packets, if the video sync pulses are not enabled in the
+VSA, VBP, and VFP regions
+
+•
+
+Horizontal active (HACT) state
+
+Besides the areas corresponding to BLLP, large commands can also be sent during the last
+line of a frame. In that case, the line time for the video mode is violated and the edpihalt
+signal is set to request the DPI video timing signals to remain inactive. Only if a command
+does not fit into any BLLP area, it is postponed to the last line, causing the violation of the
+line time for the video mode, as illustrated in Figure 428.
+
+RM0456 Rev 6

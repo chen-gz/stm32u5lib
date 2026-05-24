@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+65.9.8
+
+I2C interrupt clear register (I2C_ICR)
+Address offset: 0x1C
+Reset value: 0x0000 0000
+Access: no wait states
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ALERT TIMOU
+ARLOC BERRC
+PECCF OVRCF
+CF
+TCF
+F
+F
+w
+
+w
+
+w
+
+w
+
+w
+
+Res.
+
+w
+
+Res.
+
+STOPC NACKC ADDR
+F
+F
+CF
+w
+
+w
+
+w
+
+Bits 31:14 Reserved, must be kept at reset value.
+Bit 13 ALERTCF: Alert flag clear
+Writing 1 to this bit clears the ALERT flag in the I2C_ISR register.
+Bit 12 TIMOUTCF: Timeout detection flag clear
+Writing 1 to this bit clears the TIMEOUT flag in the I2C_ISR register.
+Bit 11 PECCF: PEC error flag clear
+Writing 1 to this bit clears the PECERR flag in the I2C_ISR register.
+Bit 10 OVRCF: Overrun/underrun flag clear
+Writing 1 to this bit clears the OVR flag in the I2C_ISR register.
+Bit 9 ARLOCF: Arbitration lost flag clear
+Writing 1 to this bit clears the ARLO flag in the I2C_ISR register.
+Bit 8 BERRCF: Bus error flag clear
+Writing 1 to this bit clears the BERRF flag in the I2C_ISR register.
+Bits 7:6 Reserved, must be kept at reset value.
+Bit 5 STOPCF: STOP detection flag clear
+Writing 1 to this bit clears the STOPF flag in the I2C_ISR register.
+Bit 4 NACKCF: Not acknowledge flag clear
+Writing 1 to this bit clears the NACKF flag in I2C_ISR register.
+Bit 3 ADDRCF: Address matched flag clear
+Writing 1 to this bit clears the ADDR flag in the I2C_ISR register. Writing 1 to this bit also
+clears the START bit in the I2C_CR2 register.
+Bits 2:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

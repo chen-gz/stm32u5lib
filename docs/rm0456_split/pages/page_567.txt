@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 22 SAI2EN: SAI2 clock enable
+This bit is set and cleared by software.
+0: SAI2 clock disabled
+1: SAI2 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral.
+Bit 21 SAI1EN: SAI1 clock enable
+This bit is set and cleared by software.
+0: SAI1 clock disabled
+1: SAI1 clock enabled
+Bits 20:19 Reserved, must be kept at reset value.
+Bit 18 TIM17EN: TIM17 clock enable
+This bit is set and cleared by software.
+0: TIM17 clock disabled
+1: TIM17 clock enabled
+Bit 17 TIM16EN: TIM16 clock enable
+This bit is set and cleared by software.
+0: TIM16 clock disabled
+1: TIM16 clock enabled
+Bit 16 TIM15EN: TIM15 clock enable
+This bit is set and cleared by software.
+0: TIM15 clock disabled
+1: TIM15 clock enabled
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 USART1EN: USART1clock enable
+This bit is set and cleared by software.
+0: USART1 clock disabled
+1: USART1 clock enabled
+Bit 13 TIM8EN: TIM8 clock enable
+This bit is set and cleared by software.
+0: TIM8 clock disabled
+1: TIM8 clock enabled
+Bit 12 SPI1EN: SPI1 clock enable
+This bit is set and cleared by software.
+0: SPI1 clock disabled
+1: SPI1 clock enabled
+Bit 11 TIM1EN: TIM1 clock enable
+This bit is set and cleared by software.
+0: TIM1 clock disabled
+1: TIM1 clock enabled
+Bits 10:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

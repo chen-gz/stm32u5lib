@@ -1,0 +1,45 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+Figure 423. Timing of PRESP_TO after a bus-turn-around
+
+Host
+
+Device
+BTA
+
+ck
+er | A
+
+pt
+
+ror R
+
+& Er
+
+rigg
+Ack T
+
+PRESP_TO
+
+Timer < PRESP_TO
+
+BTA
+
+LP-11
+
+Device Ready
+
+Arbitra
+
+ry even
+
+t after B
+
+TA
+
+MSv35866V1
+
+RM0456 Rev 6

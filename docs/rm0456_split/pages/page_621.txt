@@ -1,0 +1,88 @@
+10
+
+28
+
+Res.
+
+1
+
+SYNC
+DIV
+[2:0]
+
+Res.
+
+0x0C
+
+SYNC
+SRC
+[1:0]
+
+Res.
+
+0
+
+0x08
+
+12
+
+29
+
+Res.
+
+Reset value
+
+Res.
+
+CRS_CFGR
+
+Res.
+
+0x04
+
+TRIM[6:0]
+
+0x0000 4000
+SYNCPOL
+
+Reset value
+
+13
+
+30
+
+Res.
+
+0x00
+
+14
+
+31
+
+CRS_CR
+
+Res.
+
+Offset
+
+Res.
+
+Table 126. CRS register map and reset values
+Register
+name
+Reset value
+
+0
+
+0
+
+0
+
+0
+
+RM0456
+
+Clock recovery system (CRS)
+Refer to Section 2.3 for the register boundary addresses.
+
+RM0456 Rev 6

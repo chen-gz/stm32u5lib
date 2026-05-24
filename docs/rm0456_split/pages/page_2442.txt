@@ -1,0 +1,185 @@
+RM0456 Rev 6
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+Bits 10:8 LES2[2:0]: Line-event selection 2
+This bitfield defines the line-event selection for complex event 2 generation.
+000: No line event
+001: Absolute line counter overflow
+010: Tearing effect
+100: Absolute line counter 1 compare
+101: Absolute line counter 2 compare
+Others: Reserved
+Bit 7 Reserved, must be kept at reset value.
+Bits 6:4 FES1[2:0]: Frame-event selection 1
+This bitfield defines the frame-event selection for complex event 1 generation.
+000: No frame event
+001: Absolute frame counter overflow
+010: Absolute frame counter compare
+100: Relative frame counter 1 reload
+101: Relative frame counter 2 reload
+Others: Reserved
+Bit 3 Reserved, must be kept at reset value.
+Bits 2:0 LES1[2:0]: Line-event selection 1
+This bitfield defines the line-event selection for complex event 1 generation.
+000: No line event
+001: Absolute line counter overflow
+010: Tearing effect
+100: Absolute line counter 1 compare
+101: Absolute line counter 2 compare
+Others: Reserved
+
+59.5.7
+
+GFXTIM watchdog timer configuration register
+(GFXTIM_WDGTCR)
+Address offset: 0x020
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+FWDG
+R
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+WDGS
+
+w
+
+WDGCS[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+WDGHRC[1:0]
+rw
+
+rw
+
+r
+
+0
+
+WDGDI WDGE
+S
+N
+w
+
+w
+
+Bits 31:17 Reserved, must be kept at reset value.
+Bit 16 FWDGR: Force watchdog reload
+This bit forces the reload of the graphic watchdog.
+0: nNo effect
+1: Graphic watchdog reload forced
+Bits 15:12 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

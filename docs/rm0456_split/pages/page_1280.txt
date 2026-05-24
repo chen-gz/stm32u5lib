@@ -1,0 +1,172 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Table 310. Calibration factor index
+Calibration factor
+CALINDEX[3:0]
+values
+
+Byte location
+Reset value
+Byte 3
+
+0b0000
+
+Byte 2
+
+Byte 1
+
+Differential offset
+
+Byte 0
+
+Single-end offset
+
+0x036D 0648
+
+0b0001
+
+Linearity factor 1
+
+0x0004 0000
+
+0b0010
+
+Linearity factor 2
+
+0x0000 0200
+
+0b0011
+
+Linearity factor 3
+
+0x0080 0001
+
+0b0100
+
+Linearity factor 4
+
+0x2000 4000
+
+0b0101
+
+Linearity factor 5
+
+0x09EB 13D6
+
+0b0110
+
+Linearity factor 6
+
+0x027A 04F5
+
+0b0111 (read)
+
+Reserved
+
+Reserved
+
+0b0111 (write)
+
+Reserved
+
+Internal offset
+
+0b1000 (read)
+
+Internal offset
+
+Reserved
+
+Reserved
+
+Reserved
+
+0x8C02 7A00
+
+0b1001
+
+Reserved
+
+Calibration mode
+
+Reserved
+
+Reserved
+
+0x3000 1100
+
+0b1000 (write)
+
+Reserved
+
+Reserved
+
+Reserved
+
+Reserved
+
+-
+
+Other values
+
+Linearity factor 7
+
+0x8000 016A
+
+Reserved
+
+-
+
+When the calibration factor is latched, all the index bytes must be uploaded, otherwise the
+non-uploaded index bytes are reset to their default value.
+
+Extended calibration mode
+To enhance the ADC performance, the extended calibration mode is implemented on some
+product versions (see Section 33.3: ADC implementation).
+Below the procedure to enable the extended calibration mode:
+
+Note:
+
+1.
+
+Make sure that DEEPPWD = 0 and ADVREGEN = 1, and check that the ADC voltage
+regulator startup time has elapsed (LDORDY = 1).
+
+2.
+
+Set ADCCALLIN in the ADC_CR register.
+
+3.
+
+Make sure CAPTURE_COEF and LATCH_COEF of ADC_CALFACT are cleared.
+
+4.
+
+Set ADEN and wait until ADRDY is set.
+
+5.
+
+Set CALINDEX[3:0] = 0b1001, then write CALFACT[31:0] = 0x0302 1100 in the
+ADC_CALFACT2 register.
+
+6.
+
+Set the LATCH_COEF bit in the ADC_CALFACT register.
+
+7.
+
+Set the ADDIS and wait until the ADEN bit is cleared.
+
+8.
+
+Set the ADCAL in the ADC_CR register and wait until ADCAL bit is cleared.
+
+Once the calibration is complete, the value of CALFACT[31:0] at CALINDEX[3:0] = 0b1001
+is reset.
+The values written to the ADC_CR (CALINDEX[3:0] and ADCALLIN), ADC_CALFACT, and
+ADC_CALFACT2 registers are internally applied asynchronously from Fadc_ker_ck. As a
+result, consecutive fast accesses to these registers might generate errors. To prevent errors

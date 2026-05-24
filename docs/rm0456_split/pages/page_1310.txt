@@ -1,0 +1,110 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+33.4.30
+
+RM0456
+
+Analog window watchdog (AWD1EN, JAWD1EN, AWD1SGL,
+AWD1CH, AWD2CH, AWD3CH, AWD_HTRy, AWD_LTRy, AWDy)
+The three AWD analog watchdogs monitor whether some channels remain within a
+configured voltage range (window).
+Figure 248. Analog watchdog guarded area
+Analog voltage
+Higher threshold
+
+HTR
+Guarded area
+
+Lower threshold
+
+LTR
+ai16048
+
+AWDx flag and interrupt
+An interrupt can be enabled for each of the three analog watchdogs by setting AWDyIE in
+the ADC_IER register (y = 1, 2, 3).
+AWDy (y = 1, 2, 3) flag is cleared by software by writing 1 to it.
+The ADC conversion result is compared to the lower and higher thresholds before
+alignment.
+Description of analog watchdog 1
+The AWD analog watchdog 1 is enabled by setting the AWD1EN bit in the ADC_CFGR1
+register. This watchdog monitors whether either one selected channel or all enabled
+channels remain within a configured voltage range (window).
+Table 317 shows how the ADC_CFGR1 registers must be configured to enable the analog
+watchdog on one or more channels.
+Table 317. Analog watchdog channel selection
+Channels guarded by the analog
+watchdog
+
+AWD1SGL bit
+
+AWD1EN bit
+
+JAWD1EN bit
+
+None
+
+x
+
+0
+
+0
+
+All injected channels
+
+0
+
+0
+
+1
+
+All regular channels
+
+0
+
+1
+
+0
+
+All regular and injected channels
+
+0
+
+1
+
+1
+
+Single(1) injected channel
+
+1
+
+0
+
+1
+
+Single(1) regular channel
+
+1
+
+1
+
+0
+
+Single(1) regular or injected channel
+
+1
+
+1
+
+1
+
+1. Selected by the AWDyCH[4:0] bits. The channels must also be programmed to be converted in the
+appropriate regular or injected sequence.
+
+The AWD1 analog watchdog status bit is set if the analog voltage converted by the ADC is
+below a lower threshold or above a higher threshold.
+These thresholds are programmed in the HTR1[24:0] bits of the ADC_HTR1 register and
+LTR1[24:0] of the ADC_LTR1 register for the analog watchdog 1.
+The threshold can be up to 25-bits (14-bit resolution with oversampling, OSR=256).

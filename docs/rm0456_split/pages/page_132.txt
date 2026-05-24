@@ -1,0 +1,69 @@
+139
+
+Memory and bus architecture
+
+2.1.3
+
+RM0456
+
+S-bus
+This bus connects the system bus of the Cortex-M33 core to the bus matrix. This bus is
+used by the core to access data located in a peripheral or SRAM area. This bus targets the
+internal SRAMs (SRAM1, SRAM2, SRAM3, SRAM4, SRAM5, SRAM6, and BKPSRAM), the
+AHB1 peripherals including the APB1 and APB2 peripherals, the AHB2 peripherals and the
+SRD peripherals.
+SRAM1, SRAM2, SRAM3, SRAM5, and SRAM6 are accessible on this bus with a
+continuous mapping.
+
+Note:
+
+The bus matrix has a zero latency when accessing SRAM1, SRAM2, SRAM3, SRAM5,
+and SRAM6.
+
+2.1.4
+
+DCACHE S-bus
+This bus connects the system bus of the Cortex-M33 core to the bus matrix via the data
+cache. This bus is used for instruction fetch and data access to the external memories
+mapped in the data region. This bus targets the external memories (FSMC, HSPI1,
+GFXMMU, and OCTOSPIs).
+
+Note:
+
+Fetching instructions through this bus is less efficient than fetching instructions through the
+slow C-bus.
+
+2.1.5
+
+GPDMA-bus
+These buses connect the two AHB master interfaces of the GPDMA to the bus matrix.
+These buses target the internal flash memory, the internal SRAMs (SRAM1, SRAM2,
+SRAM3, SRAM4, SRAM5, SRAM6, and BKPSRAM), the AHB1 peripherals including the
+APB1 and APB2 peripherals, the AHB2 peripherals, the SRD peripherals and the external
+memories through FSMC, HSPI1, or OCTOSPIs.
+
+2.1.6
+
+OTG_HS-bus
+This bus connects the OTG_HS master interface to the bus matrix. This bus is used only by
+the OTG_HS to load/store data from/to the memory. This bus targets the data memories:
+internal flash memory, internal SRAMs (SRAM1, SRAM2, SRAM3, SRAM5, and SRAM6)
+and external memories through FSMC, HSPI1, or OCTOSPIs.
+
+2.1.7
+
+LTDC-bus
+This bus connects the LTDC master interface to the bus matrix. This bus is used only to load
+data from the memory. This bus targets the GFXMMU in addition to the data memories:
+internal flash memory, internal SRAMs (SRAM1, SRAM2, SRAM3, SRAM5, and SRAM6)
+and external memories through FSMC, HSPI1 or OCTOSPIs.
+
+2.1.8
+
+GPU2D-bus
+These buses connect the GPU2D master interfaces to the bus matrix. These buses are
+used only by the GPU2D to load/store data from/to the memory. These buses target the
+GFXMMU in addition to the data memories: internal flash memory, internal SRAMs
+(SRAM1, SRAM2, SRAM3, SRAM5, and SRAM6) and external memories through FSMC,
+HSPI1, or OCTOSPIs. A 16-Kbyte data cache (DCACHE2) is present on the GPU2D
+M0 bus in order to improve performances.

@@ -1,0 +1,66 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Table 222. 16-Bit multiplexed I/O PSRAM (continued)
+FMC signal name
+
+I/O
+
+Function
+
+NE[x]
+
+O
+
+Chip select, x = 1..4 (called NCE by PSRAM (CellularRAM™ i.e. CRAM))
+
+NOE
+
+O
+
+Output enable
+
+NWE
+
+O
+
+Write enable
+
+NL(= NADV)
+
+O
+
+Address valid PSRAM input (memory signal name: NADV)
+
+NWAIT
+
+I
+
+PSRAM wait input signal to the FMC
+
+NBL[1:0]
+
+O
+
+Byte lane output. Byte 0 and Byte 1 control (upper and lower byte enable)
+
+The maximum capacity is 512 Mbits (26 address lines).
+
+27.6.2
+
+Supported memories and transactions
+Table 223 below shows an example of the supported devices, access modes and
+transactions when the memory data bus is 16-bit wide for NOR flash memory, PSRAM and
+SRAM. The transactions not allowed (or not supported) by the FMC are shown in gray in
+this example.
+Table 223. NOR flash/PSRAM: example of supported memories
+and transactions
+Device
+
+NOR flash
+(muxed I/Os
+and nonmuxed
+I/Os)

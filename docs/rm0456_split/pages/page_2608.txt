@@ -1,0 +1,91 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+To launch the communication, set the START bit of the I2C_CR2 register. The controller
+then automatically sends a START condition followed by the target address, either
+immediately if the BUSY flag is low, or tBUF time after the BUSY flag transits from high to low
+state. The BUSY flag is set upon sending the START condition.
+In case of an arbitration loss, the controller automatically switches back to target mode and
+can acknowledge its own address if it is addressed as a target.
+
+Note:
+
+The START bit is reset by hardware when the target address is sent on the bus, whatever
+the received acknowledge value. The START bit is also reset by hardware upon arbitration
+loss.
+In 10-bit addressing mode, the controller automatically keeps resending the target address
+in a loop until the first address byte (first seven address bits) is acknowledged by the target.
+Setting the ADDRCF bit makes I2C quit that loop.
+If the I2C peripheral is addressed as a target (ADDR = 1) while the START bit is set, the I2C
+peripheral switches to target mode and the START bit is cleared.
+
+Note:
+
+The same procedure is applied for a repeated START condition. In this case, BUSY = 1.
+Figure 793. Controller initialization flow
+Controller
+initialization
+
+Initial settings
+
+Enable interrupts and/or DMA in I2C_CR1
+
+End
+
+MSv19859V3
+
+Initialization of a controller receiver addressing a 10-bit address target
+If the target address is in 10-bit format, the user can choose to send the complete read
+sequence, by clearing the HEAD10R bit of the I2C_CR2 register. In this case, the controller
+automatically sends the following complete sequence after the START bit is set:
+(RE)START + Target address 10-bit header Write + Target address second byte +
+(RE)START + Target address 10-bit header Read.
+Figure 794. 10-bit address read access with HEAD10R = 0
+11110XX
+S
+
+Target address
+1st 7 bits
+
+0
+R/W
+
+A1
+
+Target address
+2nd byte
+
+A2
+
+Sr
+
+11110XX
+
+1
+
+Target address
+1st 7 bits
+
+R/W
+
+A3
+
+DATA
+
+A
+
+DATA
+
+A
+
+P
+
+Read
+
+Write
+
+MSv41066V2
+
+RM0456 Rev 6

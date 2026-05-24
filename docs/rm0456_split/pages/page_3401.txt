@@ -1,0 +1,94 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+3.
+
+When the TAPSM goes through the Update-IR state, the value scanned into the IR
+scan chain is transferred to the instruction register.
+
+4.
+
+When the TAPSM goes through the Capture-DR state, a value is transferred from one
+of the data registers to one of the DR scan chains, connected between JTDI and JTDO.
+
+5.
+
+The value held in the instruction register determines which data register, and
+associated DR scan chain, are selected.
+
+6.
+
+This data is then shifted while the TAPSM is in the Shift-DR state, in the same manner
+as the IR shifts in the Shift-IR state.
+
+7.
+
+When the TAPSM goes through the Update-DR state, the value scanned into the DR
+scan chain is transferred to the selected data register.
+
+8.
+
+When the TAPSM is in the Run-Test/Idle state, no special actions occurs. The IDCODE
+instruction is loaded in IR.
+
+When active, the nJTRST signal resets the state machine asynchronously
+to the test-logic-reset state.
+The data registers corresponding to the 4-bit IR instructions are listed in the table below.
+Table 791. JTAG-DP data registers
+IR
+instruction
+
+DR
+register
+
+Scan chain
+length
+
+0000 to 0111
+
+(BYPASS)
+
+1
+
+Not implemented: BYPASS selected
+
+1000
+
+ABORT
+
+35
+
+ABORT register
+– bits 31:1 = reserved
+– bit 0 = APABORT: write 1 to generate an AP abort.
+
+1001
+
+(BYPASS)
+
+1
+
+Reserved: BYPASS selected
+
+35
+
+Debug port access register
+Initiates the debug port and gives access to a debug port register.
+– When transferring data IN:
+bits 34:3 = DATA[31:0] = 32-bit data to transfer for a write request
+bits 2:1 = A[3:2] = 2-bit address of a debug port register
+bit 0 = RnW = read request (1) or write request (0)
+– When transferring data OUT:
+bits 34:3 = DATA[31:0] = 32-bit data read following a read request
+bits 2:0 = ACK[2:0] = 3-bit acknowledge:
+–
+010 = OK/FAULT
+–
+001 = WAIT
+–
+others = reserved
+
+1010

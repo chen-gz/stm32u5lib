@@ -1,0 +1,210 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 2 IRLP: IrDA low-power
+This bit is used for selecting between normal and low-power IrDA modes
+0: Normal mode
+1: Low-power mode
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If IrDA mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bit 1 IREN: IrDA mode enable
+This bit is set and cleared by software.
+0: IrDA disabled
+1: IrDA enabled
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If IrDA mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bit 0 EIE: Error interrupt enable
+Error Interrupt Enable Bit is required to enable interrupt generation in case of a framing
+error, overrun error noise flag or SPI slave underrun error (FE = 1 or ORE = 1 or NE = 1 or
+UDR = 1 in the USART_ISR register).
+0: Interrupt inhibited
+1: interrupt generated when FE = 1 or ORE = 1 or NE = 1 or UDR = 1 (in SPI slave mode) in
+the USART_ISR register.
+
+66.8.5
+
+USART control register 3 [alternate] (USART_CR3)
+Address offset: 0x08
+Reset value: 0x0000 0000
+FIFO mode disabled, FIFOEN = 0
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TCBG
+TIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ONE
+BIT
+
+CTSIE
+
+CTSE
+
+RTSE
+
+DMAT
+
+DMAR
+
+SCEN
+
+NACK
+
+HD
+SEL
+
+IRLP
+
+IREN
+
+EIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DEP
+
+DEM
+
+DDRE
+
+OVR
+DIS
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+19
+
+18
+
+17
+
+SCARCNT[2:0]
+
+16
+Res.
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bit 24 TCBGTIE: Transmission Complete before guard time, interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated whenever TCBGT = 1 in the USART_ISR register
+Note: If the USART does not support the smartcard mode, this bit is reserved and must be
+kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 23 Reserved, must be kept at reset value.
+Bits 22:20 Reserved, must be kept at reset value.

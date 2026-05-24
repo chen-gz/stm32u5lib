@@ -1,0 +1,112 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+1.
+
+Put the core in the Global OUT NAK mode.
+
+2.
+
+Disable the required endpoint
+–
+
+When disabling the endpoint, instead of setting the SNAK bit in OTG_DOEPCTL,
+set STALL = 1 (in OTG_DOEPCTL).
+The STALL bit always takes precedence over the NAK bit.
+
+3.
+
+When the application is ready to end the STALL handshake for the endpoint, the
+STALL bit (in OTG_DOEPCTLx) must be cleared.
+
+4.
+
+If the application is setting or clearing a STALL for an endpoint due to a
+SetFeature.Endpoint Halt or ClearFeature.Endpoint Halt command, the STALL bit must
+be set or cleared before the application sets up the status stage transfer on the control
+endpoint.
+
+Examples
+This section describes and depicts some fundamental transfer types and scenarios.
+•
+
+Bulk OUT transaction
+
+Figure 912 depicts the reception of a single Bulk OUT data packet from the USB to the AHB
+and describes the events involved in the process.
+Figure 912. Bulk OUT transaction
+Host
+
+USB
+
+Device
+
+Application
+init _out_ep
+1
+
+2
+
+XFRSIZ = 64 bytes
+PKTCNT = 1
+
+Wr_reg(OTG_DOEPTSIZx)
+
+EPENA = 1
+CN AK = 1
+
+O UT
+
+Wr_reg(OTG_DOEPCTLx)
+
+3
+64 bytes
+4
+
+6
+
+xact_1
+AC K
+
+5
+
+RXFLVL iintr
+EPCTLx
+, NAK=1
+PKTCN
+T0
+
+OTG_DO
+
+XFRSIZ
+=0
+r
+OU T
+NA K
+
+7
+
+idle until intr
+
+rcv_out _pkt()
+
+XF
+int r RC
+
+8
+
+On new xfer
+or RxFIFO
+not em pty
+
+idle until intr
+
+MS36931V1
+
+After a SetConfiguration/SetInterface command, the application initializes all OUT endpoints
+by setting CNAK = 1 and EPENA = 1 (in OTG_DOEPCTLx), and setting a suitable
+XFRSIZ and PKTCNT in the OTG_DOEPTSIZx register.
+
+RM0456 Rev 6

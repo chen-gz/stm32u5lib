@@ -1,0 +1,78 @@
+891
+
+Chrom-ART Accelerator controller (DMA2D)
+
+RM0456
+
+Automatic CLUT transfers can also be aborted or suspended by using their own START bits
+in DMA2D_FGPFCCR and DMA2D_BGPFCCR.
+
+20.3.16
+
+Watermark
+A watermark can be programmed to generate an interrupt when the last pixel of a given line
+has been written to the destination memory area.
+The line number is defined in LW[15:0] in DMA2D_LWR.
+When the last pixel of this line has been transferred, TWIF flag is raised in DMA2D_ISR,
+and an interrupt is generated if TWIE is set in DMA2D_CR.
+
+20.3.17
+
+Error management
+Two kind of errors can be triggered:
+•
+
+AHB master port errors signaled by TEIF flag in DMA2D_ISR
+
+•
+
+Conflicts caused by CLUT access (CPU trying to access the CLUT while a CLUT
+loading or a DMA2D transfer is ongoing) signaled by CAEIF flag in DMA2D_ISR
+
+Both flags are associated to their own interrupt enable flag in DMA2D_CR to generate an
+interrupt if need be (TEIE and CAEIE).
+
+20.3.18
+
+AHB dead time
+To limit the AHB bandwidth use, a dead time between two consecutive AHB accesses can
+be programmed. This feature can be enabled by setting EN in DMA2D_AMTCR.
+The dead-time value is stored in DT[7:0] in DMA2D_AMTCR. This value represents the
+guaranteed minimum number of cycles between two consecutive transactions on AHB bus.
+The update of the dead-time value while the DMA2D is running is taken into account for the
+next AHB transfer.
+
+20.4
+
+DMA2D interrupts
+An interrupt can be generated on the following events:
+•
+
+Configuration error
+
+•
+
+CLUT transfer complete
+
+•
+
+CLUT access error
+
+•
+
+Transfer watermark reached
+
+•
+
+Transfer complete
+
+•
+
+Transfer error
+
+Separate interrupt enable bits are available for flexibility.
+Table 182. DMA2D interrupt requests
+Interrupt event
+
+<!-- pagebreak -->
+

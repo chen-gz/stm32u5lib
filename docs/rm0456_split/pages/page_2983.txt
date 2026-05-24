@@ -1,0 +1,99 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+Table 732. STMU535/545 USB implementation (continued)
+USB features(1)
+
+USB
+
+Battery Charging Detection (BCD) support for device
+
+X
+
+Embedded pull-up resistor on USB_DP line
+
+X
+
+1. X= supported
+
+71.4
+
+USB functional description
+
+71.4.1
+
+USB block diagram
+Figure 891 shows the block diagram of the USB peripheral.
+Figure 891. USB peripheral block diagram
+USB_SOF
+
+USB_DP
+
+USB_DM
+
+USB_NOE
+
+USB PHY
+
+USB_ker_ck (48 MHz)
+Embedded
+pull-up
+
+Analog
+transceiver
+
+PCLK
+
+BCD
+
+Serial interface engine (SIE)
+
+Suspend timer
+
+RX-TX
+Control
+
+Control
+registers and logic
+
+Clock recovery
+Endpoint/
+channel
+selection
+
+Interrupt
+registers and logic
+
+Host frame
+scheduler
+
+Packet buffer
+interface
+
+Endpoint/channel
+registers
+
+Arbiter
+
+Packet buffer
+memory
+
+Endpoint/channel
+registers
+
+Register
+Register
+mapper
+mapper
+
+Interrupt
+mapper
+
+APB wrapper
+
+APB interface
+
+USB_ker_ck

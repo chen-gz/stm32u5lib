@@ -1,0 +1,54 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Bit 6 OVR: overrun
+This bit is cleared when SPI is re-enabled or by writing 1 to the OVRC bit of the SPI_IFCR
+optionally.
+0: no overrun
+1: overrun detected
+Bit 5 UDR: underrun
+This bit is cleared when SPI is re-enabled or by writing 1 to the UDRC bit of the SPI_IFCR
+optionally.
+0: no underrun
+1: underrun detected
+Note: In SPI mode, the UDR flag applies to slave mode only.
+Bit 4 TXTF: transmission transfer filled
+TXTF is set by hardware as soon as all of the data packets in a transfer have been submitted
+for transmission by application software or DMA, that is when TSIZE number of data have
+been pushed into the TxFIFO.
+This bit is cleared by software write 1 to the TXTFC bit of the SPI_IFCR exclusively.
+The TXTF flag triggers an interrupt if the TXTFIE bit is set.
+TXTF setting clears the TXPIE and DXPIE masks so to off-load application software from
+calculating when to disable TXP and DXP interrupts.
+0: upload of TxFIFO is ongoing or not started
+1: TxFIFO upload is finished
+Bit 3 EOT: end of transfer
+EOT is set by hardware as soon as a full transfer is complete, that is when SPI is re-enabled
+or when TSIZE number of data have been transmitted and/or received on the SPI. EOT is
+cleared when SPI is re-enabled or by writing 1 to the EOTC bit of the SPI_IFCR register
+optionally.
+EOT flag triggers an interrupt if the EOTIE bit is set.
+If DXP flag is used until TXTF flag is set and DXPIE is cleared, EOT can be used to
+download the last packets contained into RxFIFO in one-shot.
+In master, EOT event terminates the data transfer and handles SS output optionally. When
+CRC is applied, the EOT event is extended over the CRC frame transfer.
+To restart the internal state machine properly, SPI is strongly suggested to be disabled and
+re-enabled before next transfer starts despite its setting is not changed.
+0: transfer is ongoing or not started
+1: transfer complete
+Bit 2 DXP: duplex packet
+DXP flag is set whenever both TXP and RXP flags are set regardless SPI mode.
+0: TxFIFO is Full and/or RxFIFO is Empty
+1: both TxFIFO has space for write and RxFIFO contains for read a single packet at least
+Bit 1 TXP: Tx-packet space available
+TXP flag can be changed only by hardware. Its value depends on the physical size of the
+FIFO and its threshold (FTHLV[3:0]), data frame size (DSIZE[4:0] in SPI mode), and actual
+communication flow. If the data packet is stored by performing consecutive write operations
+to SPI_TXDR, TXP flag must be checked again once a complete data packet is stored at
+TxFIFO. TXP is set despite SPI TxFIFO becomes inaccessible when SPI is reset or
+disabled.
+0: not enough free space at TxFIFO to host next data packet
+1: enough free space at TxFIFO to host at least one data packet

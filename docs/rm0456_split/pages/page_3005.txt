@@ -1,0 +1,50 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+Bit 15 CTRM: Correct transfer interrupt mask
+0: Correct transfer (CTR) interrupt disabled.
+1: CTR interrupt enabled, an interrupt request is generated when the corresponding bit in the
+USB_ISTR register is set.
+Bit 14 PMAOVRM: Packet memory area over / underrun interrupt mask
+0: PMAOVR interrupt disabled.
+1: PMAOVR interrupt enabled, an interrupt request is generated when the corresponding bit
+in the USB_ISTR register is set.
+Bit 13 ERRM: Error interrupt mask
+0: ERR interrupt disabled.
+1: ERR interrupt enabled, an interrupt request is generated when the corresponding bit in the
+USB_ISTR register is set.
+Bit 12 WKUPM: Wake-up interrupt mask
+0: WKUP interrupt disabled.
+1: WKUP interrupt enabled, an interrupt request is generated when the corresponding bit in
+the USB_ISTR register is set.
+Bit 11 SUSPM: Suspend mode interrupt mask
+0: Suspend mode request (SUSP) interrupt disabled.
+1: SUSP interrupt enabled, an interrupt request is generated when the corresponding bit in
+the USB_ISTR register is set.
+Bit 10 RST_DCONM: USB reset request (Device mode) or device connect/disconnect (Host mode)
+interrupt mask
+0: RESET interrupt disabled.
+1: RESET interrupt enabled, an interrupt request is generated when the corresponding bit in
+the USB_ISTR register is set.
+Bit 9 SOFM: Start of frame interrupt mask
+0: SOF interrupt disabled.
+1: SOF interrupt enabled, an interrupt request is generated when the corresponding bit in the
+USB_ISTR register is set.
+Bit 8 ESOFM: Expected start of frame interrupt mask
+0: Expected start of frame (ESOF) interrupt disabled.
+1: ESOF interrupt enabled, an interrupt request is generated when the corresponding bit in
+the USB_ISTR register is set.
+Bit 7 L1REQM: LPM L1 state request interrupt mask
+0: LPM L1 state request (L1REQ) interrupt disabled.
+1: L1REQ interrupt enabled, an interrupt request is generated when the corresponding bit in
+the USB_ISTR register is set.
+Bit 6 Reserved, must be kept at reset value.
+Bit 5 L1RES: L1 remote wake-up / resume driver
+– Device mode
+Software sets this bit to send a LPM L1 50 μs remote wake-up signaling to the host. After the
+signaling ends, this bit is cleared by hardware.
+0: No effect
+1: Send 50 μs remote-wake-up signaling to host

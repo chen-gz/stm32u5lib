@@ -1,0 +1,89 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+RM0456
+
+accumulated value VSYNC width + VBP + active height - 1 in the LTDC_AWCR
+register.
+
+Note:
+
+•
+
+Total width: the total width is configured by programming the accumulated value
+HSYNC width + HBP + active width + HFP - 1 in the LTDC_TWCR register. The HFP is
+the horizontal front porch period.
+
+•
+
+Total height: the total height is configured by programming the accumulated value
+VSYNC height + VBP + active height + VFP - 1 in the LTDC_TWCR register. The VFP
+is the vertical front porch period.
+
+When the LTDC is enabled, the timings generated start with X/Y = 0/0 position as the first
+horizontal synchronization pixel in the vertical synchronization area and following the back
+porch, active data display area and the front porch.
+When the LTDC is disabled, the timing generator block is reset to X = total width - 1,
+Y = total height - 1 and held the last pixel before the vertical synchronization phase and the
+FIFO are flushed. Therefore only blanking data is output continuously.
+
+Example of synchronous timings configuration
+LTDC timings (must be extracted from panel datasheet):
+•
+
+horizontal and vertical synchronization width: 0xA pixels and 0x2 lines
+
+•
+
+horizontal and vertical back porch: 0x14 pixels and 0x2 lines
+
+•
+
+active width and active height: 0x140 pixels, 0xF0 lines (320x240)
+
+•
+
+horizontal front porch: 0xA pixels
+
+•
+
+vertical front porch: 0x4 lines
+
+The programmed values in the LTDC timings registers are:
+•
+
+LTDC_SSCR register to be programmed to 0x00090001
+(HSW[11:0] is 0x9 and VSH[10:0] is 0x1)
+
+•
+
+LTDC_BPCR register to be programmed to 0x001D0003
+(AHBP[11:0] is 0x1D (0xA+ 0x13) and AVBP[10:0]A is 0x3 (0x2 + 0x1))
+
+•
+
+LTDC_AWCR register to be programmed to 0x015D00F3
+(AAW[11:0] is 0x15D (0xA +0x14 +0x13F) and AAH[10:0] is 0xF3 (0x2 + 0x2 + 0xEF))
+
+•
+
+LTDC_TWCR register to be programmed to 0x00000167
+(TOTALW[11:0] is 0x167 (0xA +0x14 +0x140 + 0x9))
+
+•
+
+LTDC_THCR register to be programmed to 0x000000F7
+(TOTALH[10:0]is 0xF7 (0x2 +0x2 + 0xF0 + 3))
+
+Programmable polarity
+The horizontal and vertical synchronization, data enable and pixel clock output signals
+polarity can be programmed to active high or active low through the LTDC_GCR register.
+
+Background color
+A constant background color (RGB888) can programmed through the LTDC_BCCR register.
+It is used for blending with the bottom layer.
+
+Dithering
+The dithering pseudo-random technique using an LFSR is used to add a small random
+value (threshold) to each pixel color channel (R, G or B) value, thus rounding up the MSB in

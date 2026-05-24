@@ -1,0 +1,136 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Table 753. Core global control and status registers (CSRs) (continued)
+Acronym
+
+Address
+offset
+
+Register name
+Section 72.15.8: OTG receive status debug read register (OTG_GRXSTSR)
+
+OTG_GRXSTSR
+
+0x01C
+
+Section 72.15.9: OTG receive status debug read [alternate]
+(OTG_GRXSTSR)
+Section 72.15.10: OTG status read and pop registers (OTG_GRXSTSP)
+
+OTG_GRXSTSP
+
+0x020
+
+Section 72.15.11: OTG status read and pop registers [alternate]
+(OTG_GRXSTSP)
+
+OTG_GRXFSIZ
+
+0x024
+
+Section 72.15.12: OTG receive FIFO size register (OTG_GRXFSIZ)
+
+OTG_HNPTXFSIZ/
+OTG_DIEPTXF0(1)
+
+0x028
+
+Section 72.15.13: OTG host non-periodic transmit FIFO size register
+(OTG_HNPTXFSIZ)/Endpoint 0 Transmit FIFO size (OTG_DIEPTXF0)
+
+OTG_HNPTXSTS
+
+0x02C
+
+Section 72.15.14: OTG non-periodic transmit FIFO/queue status register
+(OTG_HNPTXSTS)
+
+OTG_GCCFG
+
+0x038
+
+Section 72.15.15: OTG general core configuration register (OTG_GCCFG)
+
+OTG_CID
+
+0x03C
+
+Section 72.15.16: OTG core ID register (OTG_CID)
+
+OTG_GLPMCFG
+
+0x54
+
+Section 72.15.17: OTG core LPM configuration register (OTG_GLPMCFG)
+
+OTG_HPTXFSIZ
+
+0x100
+
+Section 72.15.18: OTG host periodic transmit FIFO size register
+(OTG_HPTXFSIZ)
+
+OTG_DIEPTXFx
+
+0x104
+0x108
+...
+0x114
+
+Section 72.15.19: OTG device IN endpoint transmit FIFO x size register
+(OTG_DIEPTXFx)
+
+1. The general rule is to use OTG_HNPTXFSIZ for host mode and OTG_DIEPTXF0 for device mode.
+
+Host-mode CSR map
+These registers must be programmed every time the core changes to host mode.
+Table 754. Host-mode control and status registers (CSRs)
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_HCFG
+
+0x400
+
+Section 72.15.21: OTG host configuration register (OTG_HCFG)
+
+OTG_HFIR
+
+0x404
+
+Section 72.15.22: OTG host frame interval register (OTG_HFIR)
+
+OTG_HFNUM
+
+0x408
+
+Section 72.15.23: OTG host frame number/frame time remaining register
+(OTG_HFNUM)
+
+OTG_HPTXSTS
+
+0x410
+
+Section 72.15.24: OTG_Host periodic transmit FIFO/queue status register
+(OTG_HPTXSTS)
+
+OTG_HAINT
+
+0x414
+
+Section 72.15.25: OTG host all channels interrupt register (OTG_HAINT)
+
+OTG_HAINTMSK
+
+0x418
+
+Section 72.15.26: OTG host all channels interrupt mask register
+(OTG_HAINTMSK)

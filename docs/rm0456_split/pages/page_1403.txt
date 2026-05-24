@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+converted data from the ADC_DR register to the destination location selected by the
+software.
+
+Note:
+
+The DMAEN bit in the ADC_CFGR1 register must be set after the ADC calibration phase.
+Despite this, if an overrun occurs (OVR = 1) because the DMA did not serve the DMA
+transfer request in time, the ADC stops generating DMA requests and the data
+corresponding to the new conversion is not transferred by the DMA. Which means that all
+the data transferred to the RAM can be considered as valid.
+Depending on the configuration of OVRMOD bit, the data is either preserved or overwritten
+(refer to ADC overrun (OVR, OVRMOD)).
+The DMA transfer requests are blocked until the software clears the OVR bit.
+Two different DMA modes are proposed depending on the application use and are
+configured with bit DMACFG in the ADC_CFGR1 register:
+•
+
+DMA one-shot mode (DMACFG = 0).
+This mode must be selected when the DMA is programmed to transfer a fixed number
+of data words.
+
+•
+
+DMA circular mode (DMACFG = 1)
+This mode must be selected when programming the DMA in circular mode or double
+buffer mode.
+
+DMA one-shot mode (DMACFG = 0)
+In this mode, the ADC generates a DMA transfer request each time a new conversion data
+word is available and stops generating DMA requests once the DMA has reached the last
+DMA transfer (when a transfer complete interrupt occurs - refer to DMA section), even if a
+conversion has been started again.
+When the DMA transfer is complete (all the transfers configured in the DMA controller have
+been done):
+•
+
+The content of the ADC data register is frozen.
+
+•
+
+Any ongoing conversion is aborted and its partial result discarded
+
+•
+
+No new DMA request is issued to the DMA controller. This avoids generating an
+overrun error if there are still conversions which are started.
+
+•
+
+The scan sequence is stopped and reset
+
+•
+
+The DMA is stopped
+
+DMA circular mode (DMACFG = 1)
+In this mode, the ADC generates a DMA transfer request each time a new conversion data
+word is available in the data register, even if the DMA has reached the last DMA transfer.
+This allows the DMA configuration in circular mode in order to handle a continuous analog
+input data stream.
+
+RM0456 Rev 6

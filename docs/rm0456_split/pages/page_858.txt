@@ -1,0 +1,80 @@
+891
+
+Chrom-ART Accelerator controller (DMA2D)
+
+RM0456
+
+and memory-to memory with pixel format conversion, blending and fixed color
+background.
+•
+
+Area filling with a fixed color
+
+•
+
+Copy from an area to another
+
+•
+
+Copy with pixel format conversion between source and destination images
+
+•
+
+Copy from two sources with independent color format and blending
+
+•
+
+Output buffer byte swapping to support refresh of displays through parallel interface
+
+•
+
+Abort and suspend of DMA2D operations
+
+•
+
+Watermark interrupt on a user programmable destination line
+
+•
+
+Interrupt generation on bus error or access conflict
+
+•
+
+Interrupt generation on process completion
+
+20.3
+
+DMA2D functional description
+
+20.3.1
+
+General description
+The DMA2D controller performs direct memory transfer. As an AHB master, it can take the
+control of the AHB bus matrix to initiate AHB transactions.
+The DMA2D can operate in the following modes:
+•
+
+Register-to-memory
+
+•
+
+Memory-to-memory
+
+•
+
+Memory-to-memory with pixel format conversion
+
+•
+
+Memory-to-memory with pixel format conversion and blending
+
+•
+
+Memory-to-memory with pixel format conversion, blending and fixed color foreground
+
+•
+
+Memory-to-memory with pixel format conversion, blending and fixed color background
+
+The AHB slave port is used to program the DMA2D controller.
+The block diagram of the DMA2D is shown in Figure 93.

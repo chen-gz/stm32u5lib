@@ -1,0 +1,246 @@
+3631
+
+Debug support (DBG)
+
+75.5
+
+RM0456
+
+ROM tables
+The ROM table is a CoreSight component that contains the base addresses of all the
+CoreSight debug components accessible via the AHB-AP. These tables allow a debugger
+to discover the topology of the CoreSight system automatically.
+There are two ROM tables in the CPU sub-system. The MCU ROM table is pointed to by the
+base register in the AHB-AP. It contains the base-address pointer for the processor ROM
+table and for the TPIU registers, as well as for the MCU debug unit.
+The MCU ROM table (see the table below) occupies a 4-Kbyte, 32-bit wide chunk of
+address space, from 0xE00F E000 to 0xE00F EFFC.
+Table 797. MCU ROM table
+
+Address
+in ROM table
+
+Component
+name
+
+Component
+base address
+
+Component
+Size
+address offset (Kbytes)
+
+0xE00F E000
+
+Processor ROM table
+
+0xE00F F000
+
+0x0000 1000
+
+4
+
+0x0000 1003
+
+0xE00F E004
+
+TPIU
+
+0xE004 0000
+
+0xFFF4 2000
+
+4
+
+0xFFF4 2003
+
+0xE00F E008
+
+DBGMCU
+
+0xE004 4000
+
+0xFFF4 6000
+
+4
+
+0xFFF4 6003
+
+0xE00F E00C
+
+Reserved
+
+-
+
+-
+
+-
+
+0x1FF0 2002
+
+0xE00F E010
+
+Top of table
+
+-
+
+-
+
+-
+
+0x0000 0000
+
+0xE00F E014 to
+0xE00F EFC8
+
+Reserved
+
+-
+
+-
+
+-
+
+0x0000 0000
+
+0xE00F EFCC to
+0xE00F EFFC
+
+ROM table registers
+
+-
+
+-
+
+-
+
+See Table 799
+
+Entry
+
+The processor ROM table contains the base-address pointer for the system control space
+(SCS) registers, that allow the debugger to identify the CPU core, as well as for the BPU,
+DWT, ITM, ETM and CTI.
+The processor ROM table (see the table below) occupies a 4-Kbyte, 32-bit wide chunk of
+address space, from 0xE00F F000 to 0xE00F FFFC.
+Table 798. Processor ROM table
+Address
+in ROM table
+
+Component
+name
+
+Component
+base address
+
+Component
+Size
+address offset (Kbytes)
+
+0xE00F F000
+
+SCS
+
+0xE000 E000
+
+0xFFF0 F000
+
+4
+
+0xFFF0 F003
+
+0xE00F F004
+
+DWT
+
+0xE000 1000
+
+0xFFF0 2000
+
+4
+
+0xFFF0 2003
+
+0xE00F F008
+
+BPU
+
+0xE000 2000
+
+0xFFF0 3000
+
+4
+
+0xFFF0 3003
+
+0xE00F F00C
+
+ITM
+
+0xE000 0000
+
+0xFFF0 1000
+
+4
+
+0xFFF0 1003
+
+0xE00F F010
+
+Reserved
+
+-
+
+-
+
+-
+
+0xFFF4 1002
+
+0xE00F F014
+
+ETM
+
+0xE004 1000
+
+0xFFF4 2000
+
+4
+
+0xFFF4 2003
+
+0xE00F F018
+
+CTI
+
+0xE004 2000
+
+0xFFF4 3000
+
+4
+
+0xFFF4 3003
+
+0xE00F F01C
+
+Reserved
+
+-
+
+-
+
+-
+
+0xFFF4 4002
+
+0xE00F F020
+
+Top of table
+
+-
+
+-
+
+-
+
+0x0000 0000

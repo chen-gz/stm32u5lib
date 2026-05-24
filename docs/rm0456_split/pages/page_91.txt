@@ -1,0 +1,106 @@
+RM0456 Rev 6
+
+RM0456
+
+List of tables
+
+List of tables
+Table 1.
+Table 2.
+Table 3.
+Table 4.
+Table 5.
+Table 6.
+Table 7.
+Table 8.
+Table 9.
+Table 10.
+Table 11.
+Table 12.
+Table 13.
+Table 14.
+Table 15.
+Table 16.
+Table 17.
+Table 18.
+Table 19.
+Table 20.
+Table 21.
+Table 22.
+Table 23.
+Table 24.
+Table 25.
+Table 26.
+Table 27.
+Table 28.
+Table 29.
+Table 30.
+Table 31.
+Table 32.
+Table 33.
+Table 34.
+Table 35.
+Table 36.
+Table 37.
+Table 38.
+Table 39.
+Table 40.
+Table 41.
+Table 42.
+Table 43.
+Table 44.
+Table 45.
+Table 46.
+Table 47.
+Table 48.
+
+Implementation of masters on STM32U5 Series . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 129
+Implementation of slaves on STM32U5 Series. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 130
+Example of memory map security attribution versus SAU configuration regions . . . . . . . 134
+Securable peripherals by TZSC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 136
+TrustZone aware peripherals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 138
+Memory map and peripheral register boundary addresses . . . . . . . . . . . . . . . . . . . . . . . 145
+SRAM sizes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 149
+Configuring security attributes with IDAU and SAU . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157
+MPCWMx resources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 159
+MPCBBx resources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 159
+DMA channel use (security). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 163
+Secure alternate function between peripherals and allocated I/Os . . . . . . . . . . . . . . . . . 166
+Nonsecure peripheral functions that are not connected to secure I/Os . . . . . . . . . . . . . . 166
+Nonsecure peripheral functions that can be connected to secure I/Os . . . . . . . . . . . . . . 167
+TrustZone-aware DBGMCU access management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 168
+DMA channel use (privilege). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173
+Internal tampers in TAMP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 177
+Effect of low-power modes on TAMP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178
+Accelerated-cryptographic operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 181
+Main product life-cycle transitions. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 183
+Typical product life-cycle phases . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 184
+OEM1/2 RDP unlocking methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 186
+Debug protection with RDP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 187
+Software intellectual property protection with RDP. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189
+Boot modes when TrustZone is disabled (TZEN = 0). . . . . . . . . . . . . . . . . . . . . . . . . . . . 192
+Boot modes when TrustZone is enabled (TZEN = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193
+Boot space versus RDP protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193
+GTZC features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197
+GTZC1 subblocks address offset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 198
+GTZC2 subblocks address offset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 198
+MPCWM resource assignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 198
+MPCBB resource assignment for STM32U535/545 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 199
+MPCBB resource assignment for STM32U575/585 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 199
+MPCBB resource assignment for STM32U59x/5Ax . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 199
+MPCBB resource assignment for STM32U5Fx/5Gx. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 199
+Secure properties of sub-regions A and B . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 202
+Privileged properties of sub-regions A and B . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 202
+GTZC interrupt request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 204
+GTZC1 TZSC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 222
+GTZC1 TZIC register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 254
+GTZC1 MPCBBz register map and reset values (z = 1, 2, 3, 5, 6). . . . . . . . . . . . . . . . . . 259
+GTZC2 TZSC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 263
+GTZC2 TZIC register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 271
+GTZC2 MPCBB4 register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 274
+SRAM structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+Internal SRAMs features. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 277
+Number of wait states versus HCLK frequency and voltage range scaling . . . . . . . . . . . 280
+Effect of low-power modes on RAMCFG . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281
+
+RM0456 Rev 6

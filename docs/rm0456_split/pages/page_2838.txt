@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Bits 3:0 MSSI[3:0]: Master SS Idleness
+Specifies an extra delay, expressed in number of SPI clock cycle periods, inserted
+additionally between active edge of SS opening a session and the beginning of the first data
+frame of the session in master mode when SSOE is enabled.
+0000: no extra delay
+0001: 1 clock cycle period delay added
+...
+1111: 15 clock cycle periods delay added
+Note: This feature is not supported in TI mode.
+To include the delay, the SPI must be disabled and re-enabled between sessions.
+
+68.8.5
+
+SPI interrupt enable register (SPI_IER)
+Address offset: 0x010
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+MODFIE TIFREIE CRCEIE OVRIE
+rw
+
+rw
+
+rw
+
+rw
+
+UDRIE TXTFIE EOTIE
+rw
+
+rw
+
+rw
+
+DXPIE
+rw
+
+TXPIE RXPIE
+rw
+
+rw
+
+Bits 31:10 Reserved, must be kept at reset value.
+Bit 9 MODFIE: mode Fault interrupt enable
+0: MODF interrupt disabled
+1: MODF interrupt enabled
+Bit 8 TIFREIE: TIFRE interrupt enable
+0: TIFRE interrupt disabled
+1: TIFRE interrupt enabled
+Bit 7 CRCEIE: CRC error interrupt enable
+0: CRC interrupt disabled
+1: CRC interrupt enabled
+Bit 6 OVRIE: OVR interrupt enable
+0: OVR interrupt disabled
+1: OVR interrupt enabled
+Bit 5 UDRIE: UDR interrupt enable
+0: UDR interrupt disabled
+1: UDR interrupt enabled
+Bit 4 TXTFIE: TXTF interrupt enable
+0: TXTF interrupt disabled
+1: TXTF interrupt enabled
+Bit 3 EOTIE: EOT, SUSP and TXC interrupt enable
+0: EOT/SUSP/TXC interrupt disabled
+1: EOT/SUSP/TXC interrupt enabled
+
+RM0456 Rev 6

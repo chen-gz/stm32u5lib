@@ -1,0 +1,70 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+The next LLI contains an updated value for LPDMA_CxTR2, LPDMA_CxDAR, and
+LPDMA_CxLLR, as shown in the figure below.
+Figure 77. LPDMA dynamic linked-list data structure of an addressing channel x
+LLIn
+All Uxx = 1
+
+DMA_CxTR1
+DMA_CxTR2
+DMA_CxBR1
+
+UT1 = UB1 = USA = 0
+UT2 = UDA = ULL = 1
+
+DMA_CxSAR
+DMA_CxDAR
+
+LLIn+1
+DMA_CxTR2
+DMA_CxDAR
+DMA_CxLLR
+
+DMA_CxLLR
+MSv62630V1
+
+The user must program LPDMA_CxLLR for each LLIn to be 32-bit aligned and not to exceed
+the 64-Kbyte addressable space pointed by LPDMA_CxLBAR.
+
+18.4.6
+
+Linked-list item transfer execution
+A LLIn transfer is the sequence of:
+
+Note:
+
+1.
+
+a data transfer: LPDMA executes the data transfer as described by the LPDMA internal
+register file (this data transfer can be void/null for LLI0)
+
+2.
+
+a conditional link transfer: LPDMA automatically and conditionally updates its internal
+register file by the data structure of the next LLIn+1, as defined by the LPDMA_CxLLR
+value of the LLIn.
+
+The initial data transfer as defined by the internal register file (LLI0) can be null
+(LPDMA_CxBR1.BNDT[15:0] = 0) provided that the conditional update bit UB1 in
+LPDMA_CxLLR is set (meaning there is a non-null data transfer described by the next LLI1
+in the memory to be executed).
+Depending on the intended LPDMA usage, a LPDMA channel x can be executed as
+described by the full linked-list (run-to-completion mode, LPDMA_CxCR.LSM = 0) or a
+LPDMA channel x can be programmed for a single execution of a LLI (link step mode,
+LPDMA_CxCR.LSM = 1), as described in the next paragraphs.
+
+18.4.7
+
+LPDMA channel state and linked-list programming
+in run-to-completion mode
+When LPDMA_CxCR.LSM = 0, a LPDMA channel x is initially programmed, started by
+writing 1 to LPDMA_CxCR.EN, and after (possibly) completed at channel level. The channel
+transfer is:
+•
+
+•

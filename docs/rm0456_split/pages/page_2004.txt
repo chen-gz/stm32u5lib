@@ -1,0 +1,167 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+Bits 4:3 MODE[1:0]: SAES operating mode
+This bitfield selects the SAES operating mode:
+00: Mode 1: encryption
+01: Mode 2: key derivation (or key preparation for ECB/CBC decryption)
+10: Mode 3: decryption
+11: Reserved
+Attempts to write the bitfield are ignored when the BUSY flag of SAES_SR register is set, as well as
+when the EN bit of the SAES_CR register is set before the write access and it is not cleared by that
+write access.
+Bits 2:1 DATATYPE[1:0]: Data type selection
+This bitfield defines the format of data written in the SAES_DINR register or read from the
+SAES_DOUTR register, through selecting the mode of data swapping:
+00: None
+01: Half-word (16-bit)
+10: Byte (8-bit)
+11: Bit
+For more details, refer to Section 50.4.11: SAES data registers and data swapping.
+Attempts to write the bitfield are ignored when the BUSY flag of SAES_SR register is set, as well as
+when the EN bit of the SAES_CR register is set before the write access and it is not cleared by that
+write access.
+Bit 0 EN: SAES enable
+This bit enables/disables the SAES peripheral:
+0: Disable
+1: Enable
+At any moment, clearing then setting the bit re-initializes the SAES peripheral.
+This bit is automatically cleared by hardware upon the completion of the key preparation (Mode 2) .
+The bit cannot be set as long as KEYVALID = 0.
+Note: With KMOD[1:0] other than 00, use the IPRST bit rather than the bit EN.
+
+50.7.2
+
+SAES status register (SAES_SR)
+Address offset: 0x04
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+KEYVALID
+
+Reset value: 0x0000 0000
+
+Res.
+
+Res.
+
+Res.
+
+BUSY
+
+r
+
+Bits 31:8 Reserved, must be kept at reset value.

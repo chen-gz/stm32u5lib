@@ -1,0 +1,109 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+(DIR) in the TIMx_CR1 register is updated by hardware and must not be changed by
+software. Refer to Center-aligned mode (up/down-counting).
+Figure 630 shows some center-aligned PWM waveforms in an example where:
+•
+
+TIMx_ARR = 8.
+
+•
+
+PWM mode is the PWM mode 1.
+
+•
+
+The flag is set when the counter counts down corresponding to the center-aligned
+mode 1 selected for CMS = 01 in TIMx_CR1 register.
+Figure 630. Center-aligned PWM waveforms (ARR = 8)
+Counter register
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+1
+
+tim_ocxref
+CCRx = 4
+CMS=01
+CMS=10
+CMS=11
+
+CCxIF
+
+tim_ocxref
+CCRx=7
+
+CMS=10 or 11
+
+CCxIF
+tim_ocxref
+CCRx=8
+
+‘1’
+
+CMS=01
+CMS=10
+CMS=11
+
+CCxIF
+
+tim_ocxref
+CCRx>8
+
+‘1’
+
+CMS=01
+CMS=10
+CMS=11
+
+CCxIF
+
+tim_ocxref
+CCRx=0
+CCxIF
+
+‘0’
+
+CMS=01
+CMS=10
+CMS=11
+MSv62328V1
+
+Hints on using center-aligned mode:
+•

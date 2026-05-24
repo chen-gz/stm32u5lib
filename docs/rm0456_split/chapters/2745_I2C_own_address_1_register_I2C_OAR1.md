@@ -1,0 +1,95 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+67.4.2
+
+RM0456
+
+LPUART pins and internal signals
+Description LPUART input/output pins
+•
+
+LPUART bidirectional communications
+LPUART bidirectional communications require a minimum of two pins: Receive Data In
+(RX) and Transmit Data Out (TX):
+–
+
+RX (Receive Data Input):
+RX is the serial data input.
+
+–
+
+TX (Transmit Data Output)
+When the transmitter is disabled, the output pin returns to its I/O port
+configuration. When the transmitter is enabled and nothing is to be transmitted,
+the TX pin is at high level. In single-wire mode, this I/O is used to transmit and
+receive the data.
+
+•
+
+RS232 hardware flow control mode
+The RS232 hardware flow control mode requires the following pins:
+–
+
+CTS (Clear To Send)
+When driven high, this signal blocks the data transmission at the end of the
+current transfer.
+
+–
+
+RTS (Request to send)
+When it is low, this signal indicates that the LPUART is ready to receive data.
+
+•
+
+RS485 hardware flow control mode
+The DE (Driver Enable) pin is required in RS485 hardware control mode. This signal
+activates the transmission mode of the external transceiver.
+
+Refer to Table 687 and Table 688 for the list of LPUART input/output pins and internal
+signals.
+Table 687. LPUART input/output pins
+Pin name
+
+Signal type
+
+Description
+
+LPUART_RX
+
+Input
+
+Serial data receive input.
+
+LPUART_TX
+
+Output
+
+Transmit data output.
+
+LPUART_CTS
+
+Input
+
+Clear to send
+
+LPUART_RTS
+
+Output
+
+Request to send
+
+LPUART_DE(1)
+
+Output
+
+Driver enable
+
+1. LPUART_DE and LPUART_RTS share the same pin.
+
+Description LPUART input/output signals
+Table 688. LPUART internal input/output signals
+
+<!-- pagebreak -->
+

@@ -1,0 +1,183 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Bits 2:0 TRP[2:0]: Transmission request pending
+Each Tx buffer has its own transmission request pending bit. The bits are set via the
+FDCAN_TXBAR register. The bits are cleared after a requested transmission has completed
+or has been canceled via the FDCAN_TXBCR register.
+After the FDCAN_TXBRP bit has been set, a Tx scan is started to check for the pending Tx
+request with the highest priority (Tx buffer with lowest message ID).
+A cancellation request resets the corresponding transmission request pending bit of the
+FDCAN_TXBRP register. In case a transmission has already been started when a
+cancellation is requested, this is done at the end of the transmission, regardless whether the
+transmission was successful or not. The cancellation request bits are directly cleared after the
+corresponding FDCAN_TXBRP bit has been cleared.
+After a cancellation has been requested, a finished cancellation is signaled via the
+FDCAN_TXBCF in the following cases:
+–
+after successful transmission together with the corresponding TXBTO bit
+–
+when the transmission has not yet been started at the point of cancellation
+–
+when the transmission has been aborted due to lost arbitration
+–
+when an error occurred during frame transmission
+In DAR mode, all transmissions are automatically canceled if they are not successful. The
+corresponding FDCAN_TXBCF bit is set for all unsuccessful transmissions.
+0: No transmission request pending
+1: Transmission request pending
+
+Note:
+
+FDCAN_TXBRP bits set while a Tx scan is in progress are not considered during this
+particular Tx scan. In case a cancellation is requested for such a Tx buffer, this add request
+is canceled immediately. The corresponding FDCAN_TXBRP bit is cleared.
+
+70.4.29
+
+FDCAN Tx buffer add request register (FDCAN_TXBAR)
+Address offset: 0x00CC
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+AR[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:3 Reserved, must be kept at reset value.
+Bits 2:0 AR[2:0]: Add request
+Each Tx buffer has its own add request bit. Writing a 1 sets the corresponding add request
+bit; writing a 0 has no impact. This enables the host to set transmission requests for multiple
+Tx buffers with one write to FDCAN_TXBAR. When no Tx scan is running, the bits are
+cleared immediately, else the bits remain set until the Tx scan process has completed.
+0: No transmission request added
+1: Transmission requested added.
+
+Note:

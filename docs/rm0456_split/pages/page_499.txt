@@ -1,0 +1,67 @@
+Once the CSS is enabled and if the HSE clock fails, the CSSI occurs and an NMI is
+automatically generated. The NMI is executed indefinitely unless CSSI bit is cleared. As a
+consequence, in the NMI ISR, the user must clear the CSSI by setting CSSC in RCC_CICR.
+
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+If the HSE oscillator is used directly or indirectly as the system clock (indirectly means: it is
+used as PLL input clock and the PLL clock is used as system clock), a detected failure
+causes a switch of the system clock to the MSIS or the HSI16 oscillator depending on
+STOPWUCK configuration in RCC_CR, and the disabling of the HSE oscillator. If the HSE
+clock (divided or not) is the clock entry of the PLL used as system clock when the failure
+occurs, the PLL is disabled too.
+
+11.4.12
+
+Clock security system on LSE
+A clock security system on LSE can be activated by software writing LSECSSON
+in RCC_BDCR. This bit can be disabled only by a hardware reset or RTC software reset, or
+after a failure detection on LSE. LSECSSON must be written after LSE is enabled (LSEON
+enabled) and ready (LSERDY set by hardware), and after the RTC clock has been selected
+by RTCSEL.
+The CSS on LSE works in all modes, including VBAT mode. It works also under system reset
+(excluding power-on reset).
+The CSS on LSE detects when the LSE disappears or in case of over frequency. In addition,
+the glitches on LSE can be filtered by setting LSEGFON. LSEGFON must be written when
+the LSE is disabled (LSEON = 0 and LSERDY = 0).
+If a failure is detected on the external 32 kHz oscillator, the LSE clock is no longer supplied
+to the RTC, but no hardware action is made to the registers. If the MSI was in PLL-mode,
+this mode is disabled.
+The CSS on LSE detection event is connected to the internal tamper 3 of the TAMP:
+•
+
+On STM32U575/585 rev. X devices, the internal tamper 3 must be enabled
+(ITAMP3E = 1 in TAMP_CR1) and the associated interrupt enabled (ITAMP3IE in
+TAMP_IER) in order to wake up from the low-power modes. This erases also the TAMP
+backup registers and backup SRAM unless ITAMP3NOER = 1 in TAMP_CR3
+(see Section 64: Tamper and backup registers (TAMP) for more details).
+
+•
+
+On all other STM32U575/585 revisions, and the other STM32U5 devices, the CSS on
+LSE detection event is also connected to an EXTI line, allowing to generate an event or
+interrupt supporting wake-up from Stop 0, Stop 1, or Stop 2 mode, without requiring to
+enable tamper detection (see Table 118: Interrupt sources and control and Table 190:
+EXTI line connections).
+
+In case of CSS on LSE detection event (LSECSSD = 1 in RCC_BDCR), the software must
+then disable the LSECSSON bit, stop the defective 32 kHz oscillator (disabling LSEON),
+and change the RTC clock source (no clock or LSI or HSE, with RTCSEL), or take any
+required action to secure the application.
+Refer to datasheet for CSS on LSE electrical characteristics.
+
+11.4.13
+
+ADC and DAC clocks
+The ADC and DAC kernel clock source is selected thanks to ADCDACSEL[2:0]
+in RCC_CCIPR3. The ADC clock ratio must be around 50 %. For this reason, the AHB
+clock, when selected as ADC clock, must not be divided with HPRE prescaler. If pll2_r_ck is
+selected as ADC clock, the PLL2R division factor must be even (division by 2 or 4
+for example).
+If the application requires that the ADC or DAC is precisely triggered by a TIMx timer without
+any uncertainty, the HCLK must be selected as ADC and DAC kernel clock source.
+
+RM0456 Rev 6

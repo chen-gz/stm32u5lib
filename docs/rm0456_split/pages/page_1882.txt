@@ -1,0 +1,166 @@
+1886
+
+JPEG codec (JPEG)
+
+RM0456
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bits 24:16 DATA{2*x+1}[8:0]: Data {2*x+1}
+Base Huffman value.
+Bits 15:9 Reserved, must be kept at reset value.
+Bits 8:0 DATA{2*x}[8:0]: Data {2*x}
+Base Huffman value.
+
+46.5.15
+
+JPEG Huffman symbol (JPEG_HUFFSYMBx)
+Address offset: 0x210 + 0x4 * x, (x = 0 to 83)
+Reset value: 0xXXXX XXXX
+This memory stores the Huffman symbols used internally by the JPEG decoder. The
+memory content is written by hardware during the header parsing:
+
+31
+
+30
+
+•
+
+DATA0 to DATA161: AC0 symbols
+
+•
+
+DATA162 to DATA173: DC0 and DC1 symbols
+
+•
+
+DATA174 to DATA335: AC1 symbols
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+DATA{4*x+3}[7:0]
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DATA{4*x+2}[7:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+DATA{4*x+1}[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DATA{4*x}[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 DATA{4*x+3}[7:0]: Data {4*x+3}
+Huffman symbol.
+Bits 23:16 DATA{4*x+2}[7:0]: Data {4*x+2}
+Huffman symbol.
+Bits 15:8 DATA{4*x+1}[7:0]: Data {4*x+1}
+Huffman symbol.
+Bits 7:0 DATA{4*x}[7:0]: Data {4*x}
+Huffman symbol.

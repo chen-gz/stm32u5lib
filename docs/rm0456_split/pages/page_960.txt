@@ -1,0 +1,261 @@
+960
+
+CORDIC coprocessor (CORDIC)
+
+25.4.3
+
+RM0456
+
+CORDIC result register (CORDIC_RDATA)
+Address offset: 0x08
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+RES[31:16]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RES[15:0]
+r
+
+Bits 31:0 RES[31:0]: Function result
+If 32-bit format is selected (CORDIC_CSR.RESSIZE = 0) and two output values are
+expected (CORDIC_CSR.NRES = 1), this register must be read twice when the RRDY flag
+is set. The first read fetches the primary result (RES1). The second read fetches the
+secondary result (RES2) and resets RRDY.
+If 32-bit format is selected and only one output value is expected (NRES = 0), only one read
+of this register is required to fetch the primary result (RES1) and reset the RRDY flag.
+If 16-bit format is selected (CORDIC_CSR.RESSIZE = 1), this register contains the primary
+result (RES1) in the lower half, RES[15:0], and the secondary result (RES2) in the upper
+half, RES[31:16]. In this case, NRES must be set to 0, and only one read performed.
+A read from this register resets the RRDY flag in the CORDIC_CSR register.
+
+25.4.4
+
+CORDIC register map
+
+0x00
+
+0x04
+0x08
+
+CORDIC_CSR
+
+RRDY
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+Res.
+ARGSIZE
+RESSIZE
+NARGS
+NRES
+DMAWEN
+DMAREN
+IEN
+Res.
+Res.
+Res.
+Res.
+
+Offset Register name
+
+31
+30
+29
+28
+27
+26
+25
+24
+23
+22
+21
+20
+19
+18
+17
+16
+15
+14
+13
+12
+11
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+
+Table 211. CORDIC register map and reset value
+
+Reset value
+
+0
+
+0 0 0 0 0 0 0
+
+CORDIC_WDATA
+Reset value
+
+SCALE
+[2:0]
+
+PRECISION
+[3:0]
+
+FUNC
+[3:0]
+
+0 0 0 0 0 1 0 1 0 0 0 0
+
+ARG[31:0]
+x x x x x x x x x x x x x x x x x x x x x x x x x
+
+x
+
+x
+
+x x x x x
+
+CORDIC_RDATA
+
+RES[31:0]
+
+Reset value
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+Refer to Section 2.3 for the register boundary addresses.

@@ -1,0 +1,79 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Caution:
+
+The AMEN bit of the peripheral must be set to allow the generation of an interrupt capable
+to wake up the device from Stop mode. This is not necessary when the peripheral wake-up
+interrupt is generated through the EXTI.
+
+Note:
+
+MSIK or HSI16 can be forced to remain on in Stop 0, Stop 1, or Stop 2 mode, by configuring
+MSIKERON or HSIKERON in RCC_CR. In this case, the oscillator is propagated only to
+the kernel clock of the enabled autonomous peripherals with this oscillator selected as
+kernel clock. This allows the peripheral baudrate or conversion rate increase, as there is no
+need to wait for the oscillator wake-up time when the peripheral requests its kernel clock.
+The LSE or LSI selected as peripheral kernel clock remains always on in Stop modes.
+AHB3 and APB3 clocks can be forced to remain on by setting SRDRUN in PWR_CR2.
+This allows the LPDMA1 latency to be improved as there is no need to wait for the oscillator
+wake-up time when the peripheral requests its bus clock.
+
+11.5
+
+RCC security and privilege functional description
+
+11.5.1
+
+RCC TrustZone security protection modes
+When the TrustZone security is activated by TZEN option bit in FLASH_OPTR, the RCC is
+able to secure RCC configuration and status bits from being modified by nonsecure
+accesses.
+This is configured through RCC_SECCFGR to prevent nonsecure access to read or modify
+the following features:
+•
+
+HSE, HSE-CSS, HSI, MSI, LSI, LSE, LSE-CSS, LSCO, HSI48 configuration and
+status bits
+
+•
+
+PLL1, PLL2, PLL3, AHB, and APB prescaler configuration and status bits
+
+•
+
+system clock (SYSCLK) and ICLK source clock selection and status bits
+
+•
+
+MCO clock output configuration, and STOPWUCK and STOPKERWUCK bit
+
+•
+
+Remove reset flag RMVF configuration
+
+If SPRIV = 1 in RCC_PRIVCFGR, the RCC_SECCFGR register can be written only
+by secure and privileged access. If SPRIV = 0 in RCC_PRIVCFGR, RCC_SECCFGR can
+be written only by secure access, privileged or unprivileged.
+RCC_SECCFGR can be read by secure, nonsecure, privileged and unprivileged access.
+When a peripheral is configured as secure, its related clock, reset, clock source selection
+and clock enable during low-power modes control bits, are also secure in RCC_AHBxENR,
+RCC_APBxENR, RCC_AHBxSMEN, RCC_APBxSMEN, RCC_SRDAMEN, RCC_CCIPR1,
+RCC_CCIPR2, RCC_CCIPR3, and RCC_BDCR registers.
+The SHSI configuration and status bits are secured wen the SAES is configured as secure.
+BDRST in RCC_BDCR is secure when at least one function is secure in RTC or TAMP.
+A peripheral is secure when:
+•
+
+For securable peripherals by TZSC (TrustZone security controller), the SEC security bit
+corresponding to this peripheral is set in GTZC TZSC secure configuration registers.
+
+•
+
+For TrustZone-aware peripherals, a security feature of this peripheral is enabled
+through its dedicated bits.
+
+RM0456 Rev 6

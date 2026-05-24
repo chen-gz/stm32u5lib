@@ -1,0 +1,173 @@
+275
+
+Global TrustZone controller (GTZC)
+
+5.6.10
+
+RM0456
+
+GTZC1 TZSC memory x sub-region B watermark register
+(GTZC1_TZSC_MPCWMxBR)
+Address offset: 0x4C + 0x10 * (x - 1) (x = 1, 2, 5, 6)
+Reset value: 0x0000 0000
+Secure privilege access only.
+When SUBB_START + SUBB_LENGTH is higher than the maximum size allowed for the
+memory, a saturation of SUBB_LENGTH is applied automatically.
+When an overlap of sub-region A and B exists, secure/privileged attributes of both subregions apply on the common section (see Section 5.4.3).
+
+Note:
+
+Some registers are only available on some devices in the STM32U5 series. Refer to the
+device datasheet for availability of its associated memory region.
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+SUBB_LENGTH[11:0]
+
+SUBB_START[10:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bits 27:16 SUBB_LENGTH[11:0]: Length of sub-region B in region x
+This field defines the length of the sub-region B, to be multiplied by the granularity defined
+in Table 31.
+When SUBB_START + SUBB_LENGTH is higher than the maximum size allowed for the
+memory, a saturation of SUBB_LENGTH is applied automatically.
+If SUBB_LENGTH = 0, the sub-region B is disabled.(SREN bit in
+GTZC1_TZSC_MPCMWxBCFGR is cleared).
+Bits 15:11 Reserved, must be kept at reset value.
+Bits 10:0 SUBB_START[10:0]: Start of sub-region B in region x
+This field defines the address offset of the sub-region B, to be multiplied by the granularity
+defined in Table 31, versus the start of the region x.
+External memories that are watermark controlled, start fully nonsecure at reset when
+TZEN = 0. When TZEN = 1, external memories start fully secure (inverted reset-value).
+
+5.6.11
+
+GTZC1 TZSC register map
+
+Reset value

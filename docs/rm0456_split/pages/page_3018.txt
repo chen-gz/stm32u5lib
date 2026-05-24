@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+Bits 13:12 STATRX[1:0]: Status bits, for reception transfers
+– Device mode
+These bits contain information about the endpoint status, which are listed in Table 741:
+Reception status encoding on page 3126. These bits can be toggled by software to initialize
+their value. When the application software writes 0, the value remains unchanged, while
+writing 1 makes the bit value to toggle. Hardware sets the STATRX bits to NAK when a
+correct transfer has occurred (VTRX = 1) corresponding to a OUT or SETUP (control only)
+transaction addressed to this endpoint, so the software has the time to elaborate the
+received data before it acknowledges a new transaction.
+Double-buffered bulk endpoints implement a special transaction flow control, which control
+the status based upon buffer availability condition (Refer to Section 71.5.3: Double-buffered
+endpoints and usage in Device mode).
+If the endpoint is defined as isochronous, its status can be only “VALID” or “DISABLED”, so
+that the hardware cannot change the status of the endpoint after a successful transaction. If
+the software sets the STATRX bits to ‘STALL’ or ‘NAK’ for an isochronous endpoint, the USB
+peripheral behavior is not defined. These bits are read/write but they can be only toggled by
+writing 1.
+– Host mode
+These bits are the host application controls to start, retry, or abort host transactions driven
+by the channel.
+These bits also contain information about the device answer to the last IN channel
+transaction and report the current status of the channel according to the following STATRX
+table of states:
+- DISABLE
+DISABLE value is reported in case of ACK acknowledge is received on a single-buffer
+channel. When in DISABLE state the channel is unused or not active waiting for application
+to restart it by writing VALID. Application can reset a VALID channel to DISABLE to abort a
+transaction. In this case the transaction is immediately removed from the host execution
+list. If the aborted transaction was already under execution it is regularly terminated on the
+USB but the relative VTRX interrupt is not generated.
+- VALID
+A host channel is actively trying to submit USB transaction to device only when in VALID
+state.VALID state can be set by software or automatically by hardware on a NAKED
+channel at the start of a new frame. When set to VALID, an host channel enters the host
+execution queue and waits permission from the host frame scheduler to submit its
+configured transaction.
+VALID value is also reported in case of ACK acknowledge is received on a double-buffered
+channel. In this case the channel remains active on the alternate buffer while application
+needs to read the current buffer and toggle DTOGTX. In case software is late in reading
+and the alternate buffer is not ready, the host channel is automatically suspended
+transparently to the application. The suspended double buffered channel is re-activated as
+soon as delay is recovered and DTOGTX is toggled.
+- NAK
+NAK value is reported in case of NAK acknowledge received. When in NAK state the
+channel is suspended and does not try to transmit. NAK state is moved to VALID by
+hardware at the start of the next frame, or software can change it to immediately retry
+transmission by writing it to VALID, or can disable it and abort the transaction by writing
+DISABLE
+- STALL
+STALL value is reported in case of STALL acknowledge received. When in STALL state the
+channel behaves as disabled. Application must not retry transmission but reset the USB
+and re-enumerate.
+
+RM0456 Rev 6

@@ -1,0 +1,64 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+26.3
+
+FMAC functional description
+
+26.3.1
+
+General description
+The FMAC is shown in Figure 108.
+Figure 108. Block diagram
+Control and sequencing
+Read
+pointer
+
+x1, x2
+offset
+pointers
+
+Write
+pointers
+
+Buffer base
+address
+pointers
+
+y offset
+pointers
+
+Local
+Memory
+Multiply and
+Accumulate
+(MAC)
+
+Buffer size
+registers
+AHB
+AHB interface
+
+MSv45868V1
+
+The unit is built around a fixed point multiplier and accumulator (MAC). The MAC can take
+two 16-bit input signed values from memory, multiply them together and add them to the
+contents of the accumulator. The address of the input values in memory is determined using
+a set of pointers. These pointers can be loaded, incremented, decremented or reset by the
+internal hardware. The pointer and MAC operations are controlled by a built-in sequencer in
+order to execute the requested operation.
+To calculate a dot product, the two input vectors are loaded into the local memory by the
+processor or DMA controller, and the requested operation is selected and started. Each pair
+of input vector elements is fetched from memory, multiplied together and accumulated.
+When all the vector elements have been processed, the contents of the accumulator are
+stored in the local memory, from where they can be read out by the processor or DMA.
+The finite impulse response (FIR) filter operation (also known as convolution) consists in
+repeatedly calculating the dot product of the coefficient vector and a vector of input samples,
+the latter being shifted by one sample delay, with the least recent sample being discarded
+and a new sample added, at each repetition.
+The infinite impulse response (IIR) filter operation is the convolution of the feedback
+coefficients with the previous output samples, added to the result of the FIR convolution.
+A more detailed description of the filter operations is given in Section 26.3.6: Filter functions.

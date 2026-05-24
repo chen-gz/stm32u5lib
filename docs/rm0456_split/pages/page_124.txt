@@ -1,0 +1,58 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 843. Hardware flow control between two LPUARTs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2870
+Figure 844. RS232 RTS flow control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2870
+Figure 845. RS232 CTS flow control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2871
+Figure 846. SPI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2905
+Figure 847. Full-duplex single master/ single slave application . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2909
+Figure 848. Half-duplex single master/ single slave application . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2910
+Figure 849. Simplex single master / single slave application
+(master in transmit-only / slave in receive-only mode) . . . . . . . . . . . . . . . . . . . . . . . . . . 2911
+Figure 850. Master and three independent slaves connected in star topology . . . . . . . . . . . . . . . . . 2912
+Figure 851. Multimaster application . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2913
+Figure 852. Scheme of SS control logic. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2915
+Figure 853. Data flow timing control (SSOE = 1, SSOM = 0, SSM = 0) . . . . . . . . . . . . . . . . . . . . . . 2915
+Figure 854. SS interleaving pulses between data (SSOE = 1, SSOM = 1, SSM = 0) . . . . . . . . . . . . 2916
+Figure 855. Data clock timing diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2918
+Figure 856. Data alignment when data size is not equal to 8, 16 or 32 bits . . . . . . . . . . . . . . . . . . . 2919
+Figure 857. TI mode transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2929
+Figure 858. Optional configurations of the slave behavior when an underrun condition is detected . 2931
+Figure 859. SAI functional block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2955
+Figure 860. Audio frame . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2959
+Figure 861. FS role is start of frame + channel side identification (FSDEF = TRIS = 1) . . . . . . . . . . 2961
+Figure 862. FS role is start of frame (FSDEF = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2962
+Figure 863. Slot size configuration with FBOFF = 0 in SAI_xSLOTR . . . . . . . . . . . . . . . . . . . . . . . . 2963
+Figure 864. First bit offset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2963
+Figure 865. Audio block clock generator overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2965
+Figure 866. PDM typical connection and timing. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2969
+Figure 867. Detailed PDM interface block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2970
+Figure 868. Start-up sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2971
+Figure 869. SAI_ADR format in TDM mode, 32-bit slot width . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2972
+Figure 870. SAI_ADR format in TDM mode, 16-bit slot width . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2973
+Figure 871. SAI_ADR format in TDM mode, 8-bit slot width . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2974
+Figure 872. AC’97 audio frame . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2977
+Figure 873. Example of typical AC’97 configuration on devices featuring at least
+two embedded SAIs (three external AC’97 decoders) . . . . . . . . . . . . . . . . . . . . . . . . . . 2978
+Figure 874. SPDIF format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2979
+Figure 875. SAI_xDR register ordering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2980
+Figure 876. Data companding hardware in an audio block in the SAI . . . . . . . . . . . . . . . . . . . . . . . . 2983
+Figure 877. Tristate strategy on SD output line on an inactive slot . . . . . . . . . . . . . . . . . . . . . . . . . . 2985
+Figure 878. Tristate on output data line in a protocol like I2S . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2986
+Figure 879. Overrun detection error. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2987
+Figure 880. FIFO underrun event . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2987
+Figure 881. CAN subsystem. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3022
+Figure 882. FDCAN block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3024
+Figure 883. Bit timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3026
+Figure 884. Transceiver delay measurement . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3031
+Figure 885. Pin control in bus monitoring mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3032
+Figure 886. Pin control in loop-back mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3035
+Figure 887. CAN error state diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3036
+Figure 888. Message RAM configuration. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3037
+Figure 889. Standard message ID filter path . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3040
+Figure 890. Extended message ID filter path. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3041
+Figure 891. USB peripheral block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3088
+Figure 892. Packet buffer areas with examples of buffer description table locations . . . . . . . . . . . . 3095

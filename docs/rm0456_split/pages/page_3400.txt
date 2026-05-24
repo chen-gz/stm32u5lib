@@ -1,0 +1,135 @@
+All SWJ port I/Os can be reconfigured to other functions by software, but debugging is no
+longer possible.
+
+RM0456 Rev 6
+
+RM0456
+
+75.3.1
+
+Debug support (DBG)
+
+JTAG debug port
+The JTAG-DP implements a TAP state machine (TAPSM), shown in the figure below, based
+on IEEE Std 1149.1-1990. The state machine controls two scan chains, one associated with
+an instruction register (IR) and the other one with a number of data registers (DR).
+Figure 957. JTAG TAP state machine
+
+JTMS=1
+Test-LogicReset
+
+JTMS=0
+
+JTMS=0
+
+Run-Test/
+Idle
+
+JTMS=1
+
+JTMS=1
+
+SelectDR-Scan
+
+SelectIR-Scan
+
+JTMS=1
+JTMS=0
+
+JTMS=0
+JTMS=1
+
+JTMS=1
+
+CaptureDR
+
+CaptureIR
+
+JTMS=0
+
+JTMS=0
+
+Shift-DR
+
+JTMS=1
+Exit1-DR
+
+Shift-IR
+
+JTMS=0
+
+JTMS=1
+
+JTMS=1
+
+JTMS=0
+
+PauseDR
+
+JTMS=0
+
+Pause-IR
+
+JTMS=1
+
+JTMS=0
+
+JTMS=0
+
+Exit2-DR
+
+JTMS=0
+
+Exit2-IR
+
+JTMS=1
+
+JTMS=1
+UpdateDR
+
+JTMS=1
+
+JTMS=1
+
+Exit1-IR
+
+JTMS=0
+
+JTMS=1
+
+JTMS=0
+
+UpdateIR
+
+JTMS=0
+
+JTMS=1
+
+JTMS=0
+
+MS44486V1
+
+The operation of the JTAG-DP is as follows:
+1.
+
+When the TAPSM goes through the Capture-IR state, 0b0001 is transferred to the
+instruction register (IR) scan chain. The IR scan chain is connected between JTDI and
+JTDO.
+
+2.
+
+While the TAPSM is in the Shift-IR state, the IR scan chain shifts one bit for each rising
+edge of JTCK. This means that on the first tick:
+–
+
+The LSB of the IR scan chain is output on JTDO.
+
+–
+
+Bit[n] of the IR scan chain is transferred to bit[n-1].
+
+–
+
+The value on JTDI is transferred to the MSB of the IR scan chain.
+
+RM0456 Rev 6

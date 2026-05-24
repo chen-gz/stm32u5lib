@@ -1,0 +1,104 @@
+The mdf_proc_ck must be enabled (by CKGDEN = 1) before enabling other blocks (such as
+SITFx or DFLTx).
+
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+CKGEN activation sequence example
+1.
+
+Set CKGDEN to 0.
+
+2.
+
+Wait for CKGACTIVE = 0. If CKGDEN was previously enabled, this phase can take two
+periods of mdf_hclk and two periods of mdf_proc_ck.
+
+3.
+
+Program PROCDIV[6:0], CKGMOD, CCKDIV[3:0], TRGSRC[3:0] and TRGSENS.
+
+4.
+
+Set CKGDEN to 1.
+
+5.
+
+Set CCKxDIR to 1 (optional).
+
+6.
+
+Set CCKxEN to 1 (optional).
+
+When needed, at any moment, the CCK0EN or CCK1EN value can be changed without
+disabling the clock generator.
+
+Clock frequency constraints
+The table below shows the frequency constraints to receive and process properly the
+samples.
+Table 375. Clock constraints with respect to the incoming stream(1)
+MDF clock constraints
+SITFx mode
+With RSFLT disabled
+
+With RSFLT enabled
+
+FMDF_CCKy max frequency limited to 5 MHz
+LF_MASTER SPI
+
+Fmdf_proc_ck > 24 * FMDF_CCKy / (MCICD+1)
+and
+Fmdf_proc_ck > 2 * FMDF_CCKy
+and
+Fmdf_hclk ≥ Fmdf_proc_ck
+
+Fmdf_proc_ck > 2 * FMDF_CCKy
+and
+Fmdf_hclk ≥ Fmdf_proc_ck
+
+FMDF_CKx max frequency limited to 25 MHz
+MASTER SPI
+SLAVE SPI
+
+Fmdf_proc_ck > 24 * FMDF_CKKy / (MCICD+1)
+and
+Fmdf_proc_ck higher than 4 x FMDF_CKKy
+and
+Fmdf_hclk higher or equal to Fmdf_proc_ck
+
+Fmdf_proc_ck > 4 * FMDF_CKKy
+and
+Fmdf_hclk higher or equal to Fmdf_proc_ck
+
+FSYMB max frequency limited to 20 MHz
+Manchester
+
+Fmdf_proc_ck higher than 6 * FSYMB
+and
+Fmdf_hclk ≥ Fmdf_proc_ck
+
+Fmdf_proc_ck higher than 24 * FMDF_CKKy / (MCICD+1)
+and
+Fmdf_proc_ck > 6 * FSYMB
+and
+Fmdf_hclk ≥ Fmdf_proc_ck
+
+1. FMDF_CKKy represents the frequency of the clock received via MDF_CKIx and MDF_CCKy, or generated via
+MDF_CCKy.FSYMB represents the frequency of the received symbol rate for Manchester mode.
+
+39.4.6
+
+Bitstream matrix (BSMX)
+The BSMX receives the bitstreams from all serial interfaces (SITFx) and provides the
+selected input to the digital filters (DFLTx) and to the short-circuit detectors (SCDx). For
+each filter path, any of the bitstream input can be selected.
+As shown in the Figure 328, each SITFx block provides two bitstreams (bsx_r and bsx_f) to
+the BSMX.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

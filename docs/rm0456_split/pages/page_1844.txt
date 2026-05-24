@@ -1,0 +1,307 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bit 0 DSIM: DSI mode
+This bit selects the mode for the video transmission. It can be changed when DSI Host is
+stopped (DSI_CR.EN = 0).
+0: Video mode
+1: Adapted command mode
+
+44.16.2
+
+DSI Wrapper control register (DSI_WCR)
+Address offset: 0x0404
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+DSIEN LTDCEN SHTDN
+rw
+
+rs
+
+0
+COLM
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 DSIEN: DSI enable
+This bit enables the DSI Wrapper.
+0: DSI disabled
+1: DSI enabled
+Bit 2 LTDCEN: LTDC enable
+This bit enables the LTDC for a frame transfer in adapted command mode.
+0: LTDC disabled
+1: LTDC enabled
+Bit 1 SHTDN: Shutdown
+This bit controls the display shutdown in video mode.
+0: Display ON
+1: Display OFF
+Bit 0 COLM: Color mode
+This bit controls the display color mode in video mode.
+0: Full color mode
+1: Eight color mode
+
+44.16.3
+
+DSI Wrapper interrupt enable register (DSI_WIER)
+Address offset: 0x0408
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PLLUIE
+
+PLLLIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ERIE
+
+TEIE
+
+rw
+
+rw
+
+rw
+
+rw

@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+Bits 27:24 DATLAT[3:0]: (see note below bit descriptions): Data latency for synchronous memory
+For synchronous access with read/write Burst mode enabled (BURSTEN / CBURSTRW bits
+set), defines the number of memory clock cycles (+2) to issue to the memory before
+reading/writing the first data:
+This timing parameter is not expressed in HCLK periods, but in FMC_CLK periods.
+For asynchronous access, this value is don't care.
+0000: Data latency of 2 CLK clock cycles for first burst access
+1111: Data latency of 17 CLK clock cycles for first burst access (default value after reset)
+Bits 23:20 CLKDIV[3:0]: Clock divide ratio (for FMC_CLK signal)
+Defines the period of FMC_CLK clock output signal, expressed in number of HCLK cycles:
+0000: FMC_CLK period= 1x HCLK period
+0001: FMC_CLK period = 2 × HCLK periods
+0010: FMC_CLK period = 3 × HCLK periods
+1111: FMC_CLK period = 16 × HCLK periods (default value after reset)
+In asynchronous NOR flash, SRAM or PSRAM accesses, this value is don’t care.
+Note: Refer to Section 27.6.5: Synchronous transactions for FMC_CLK divider ratio formula)
+Bits 19:16 BUSTURN[3:0]: Bus turnaround phase duration
+These bits are written by software to add a delay at the end of current read or write
+transaction to next transaction on the same bank.
+This delay is used to match the minimum time between consecutive transactions (tEHEL from
+NEx high to NEx low) and the maximum time needed by the memory to free the data bus
+after a read access (tEHQZ, chip enable high to output Hi-Z). This delay is recommended for
+mode D and muxed mode. For non-muxed memory, the bus turnaround delay can be set to
+minimum value.
+(BUSTURN + 1)HCLK period ≥ max(tEHEL min, tEHQZ max)
+For FRAM memories, the bus turnaround delay must be configured to match the minimum
+tPC (precharge time) timings. The bus turnaround delay is inserted between any consecutive
+transactions on the same bank (read/read, write/write, read/write and write/read) to match the
+tPC memory timing. The chip select is toggling between any consecutive accesses.
+(BUSTURN + 1)HCLK period ≥ tPC min
+0000: BUSTURN phase duration = 1 HCLK clock cycle added
+...
+1111: BUSTURN phase duration = 16 x HCLK clock cycles added (default value after reset)
+Bits 15:8 DATAST[7:0]: Data-phase duration
+These bits are written by software to define the duration of the data phase (refer to
+Figure 121 to Figure 133), used in asynchronous accesses:
+0000 0000: Reserved
+0000 0001: DATAST phase duration = 1 × HCLK clock cycles
+0000 0010: DATAST phase duration = 2 × HCLK clock cycles
+...
+1111 1111: DATAST phase duration = 255 × HCLK clock cycles (default value after reset)
+For each memory type and access mode data-phase duration, refer to the respective figure
+(Figure 121 to Figure 133).
+Example: Mode 1, write access, DATAST=1: Data-phase duration= DATAST+1 = 2 HCLK
+clock cycles.
+Note: In synchronous accesses, this value is don’t care.
+
+RM0456 Rev 6

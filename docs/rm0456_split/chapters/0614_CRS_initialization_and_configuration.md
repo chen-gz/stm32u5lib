@@ -1,0 +1,87 @@
+621
+
+Clock recovery system (CRS)
+
+RM0456
+
+The result of this comparison is used to generate the status indication and also to control the
+automatic trimming, which is enabled by setting the AUTOTRIMEN bit in the CRS_CR
+register:
+•
+
+•
+
+•
+
+•
+
+Note:
+
+When the frequency error is below the tolerance limit, it means that the actual trimming
+value in the TRIM field is the optimal one, hence no trimming action is needed.
+–
+
+SYNCOK status indicated
+
+–
+
+TRIM value not changed in AUTOTRIM mode
+
+When the frequency error is below the warning limit but above or equal to the tolerance
+limit, it means that some trimming action is necessary but that adjustment by one
+trimming step is enough to reach the optimal TRIM value.
+–
+
+SYNCOK status indicated
+
+–
+
+TRIM value adjusted by one trimming step in AUTOTRIM mode
+
+When the frequency error is above or equal to the warning limit but below the error
+limit, a stronger trimming action is necessary, and there is a risk that the optimal TRIM
+value is not reached for the next period.
+–
+
+SYNCWARN status indicated
+
+–
+
+TRIM value adjusted by two trimming steps in AUTOTRIM mode
+
+When the frequency error is above or equal to the error limit, the frequency is out of the
+trimming range. This can also happen when the SYNC input is not clean, or when
+some SYNC pulse is missing (for example when one USB SOF is corrupted).
+–
+
+SYNCERR or SYNCMISS status indicated
+
+–
+
+TRIM value not changed in AUTOTRIM mode
+
+If the actual value of the TRIM field is close to its limits and the automatic trimming can force
+it to overflow or underflow, the TRIM value is set to the limit, and the TRIMOVF status is
+indicated.
+In AUTOTRIM mode (AUTOTRIMEN bit set in the CRS_CR register), the TRIM field of
+CRS_CR is adjusted by hardware and is read-only.
+
+12.4.6
+
+CRS initialization and configuration
+RELOAD value
+The RELOAD value must be selected according to the ratio between the target frequency
+and the frequency of the synchronization source after prescaling. This value is decreased
+by 1, to reach the expected synchronization on the zero value. The formula is the following:
+RELOAD = (fTARGET / fSYNC) - 1
+The reset value of the RELOAD field corresponds to a target frequency of 48 MHz and a
+synchronization signal frequency of 1 kHz (SOF signal from USB).
+
+FELIM value
+The selection of the FELIM value is closely coupled with the HSI48 oscillator characteristics
+and its typical trimming step size. The optimal value corresponds to half of the trimming step
+size, expressed as a number of oscillator clock ticks. The following formula can be used:
+FELIM = (fTARGET / fSYNC) * STEP[%] / 100% / 2
+
+<!-- pagebreak -->
+

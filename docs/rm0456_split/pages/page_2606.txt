@@ -1,0 +1,79 @@
+•
+
+SCL rising slope
+
+•
+
+input delay induced by the analog filter (when enabled)
+
+•
+
+input delay induced by the digital filter (when enabled): DNF[3:0] x tI2CCLK
+
+•
+
+delay due to SCL synchronization with the i2c_ker_ck clock (two to three i2c_ker_ck
+periods)
+
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+Figure 792. Controller clock generation
+SCL controller clock generation
+
+SCL high level detected
+SCLH counter starts
+
+tSYNC2
+
+SCLH
+tSYNC1
+
+SCLL
+
+SCL
+
+SCL low level detected
+SCLL counter starts
+
+SCL released
+
+SCL driven low
+
+SCL controller clock synchronization
+SCL high level detected
+SCLH counter starts
+
+SCL high level detected
+SCLH counter starts
+
+SCLH
+
+SCL high level detected
+SCLH counter starts
+
+SCLH
+
+SCLL
+
+SCLH
+
+SCLL
+SCL driven low by
+another device
+
+SCL driven low by
+another device
+
+SCL low level detected
+SCLL counter starts
+SCL low level detected
+SCLL counter starts
+
+SCL released
+
+MSv19858V2
+
+RM0456 Rev 6

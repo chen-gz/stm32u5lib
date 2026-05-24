@@ -1,0 +1,206 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+34.7.4
+
+ADC configuration register 1 (ADC_CFGR1)
+Address offset: 0x0C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+Res.
+
+28
+
+27
+
+26
+
+AWD1CH[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+WAIT CONT OVRMOD
+rw
+
+rw
+
+rw
+
+EXTEN[1:0]
+rw
+
+rw
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+AWD1
+EN
+
+AWD1
+SGL
+
+CHSEL
+RMOD
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+DISCEN
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ALIGN
+
+SCAN
+DIR
+
+DMAC
+FG
+
+DMAEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+EXTSEL[2:0]
+rw
+
+rw
+
+rw
+
+rw
+
+RES[1:0]
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:26 AWD1CH[4:0]: Analog watchdog channel selection
+These bits are set and cleared by software. They select the input channel to be guarded by the
+analog watchdog.
+00000: ADC analog input Channel 0 monitored by AWD
+00001: ADC analog input Channel 1 monitored by AWD
+.....
+10001: ADC analog input Channel 17 monitored by AWD
+10110: ADC analog input Channel 22 monitored by AWD
+10111: ADC analog input Channel 23 monitored by AWD
+Others: Reserved
+Note: The channel selected by the AWDCH[4:0] bits must be also set into the CHSELR register.
+The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bits 25:24
+
+Reserved, must be kept at reset value.
+
+Bit 23 AWD1EN: Analog watchdog enable
+This bit is set and cleared by software.
+0: Analog watchdog 1 disabled
+1: Analog watchdog 1 enabled
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 22 AWD1SGL: Enable the watchdog on a single channel or on all channels
+This bit is set and cleared by software to enable the analog watchdog on the channel identified
+by the AWDCH[4:0] bits or on all the channels
+0: Analog watchdog 1 enabled on all channels
+1: Analog watchdog 1 enabled on a single channel
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bit 21 CHSELRMOD: Mode selection of the ADC_CHSELR register
+This bit is set and cleared by software to control the ADC_CHSELR feature:
+0: Each bit of the ADC_CHSELR register enables an input
+1: ADC_CHSELR register is able to sequence up to 8 channels
+Note: The software is allowed to write this bit only when ADSTART bit is cleared to 0 by writing
+ADSTP to 1 (this ensures that no conversion is ongoing).
+Bits 20:17 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

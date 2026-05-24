@@ -1,0 +1,70 @@
+90
+
+Contents
+
+RM0456
+66.5.16 USART single-wire half-duplex communication . . . . . . . . . . . . . . . . . 2790
+66.5.17 USART receiver timeout . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2790
+66.5.18 USART smartcard mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2791
+66.5.19 USART IrDA SIR ENDEC block . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2795
+66.5.20 Continuous communication using USART and DMA . . . . . . . . . . . . . 2798
+66.5.21 RS232 hardware flow control and RS485 driver enable . . . . . . . . . . 2800
+66.5.22 USART autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2802
+
+66.6
+
+USART in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2804
+
+66.7
+
+USART interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2804
+
+66.8
+
+USART registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2807
+66.8.1
+
+USART control register 1 (USART_CR1) . . . . . . . . . . . . . . . . . . . . . 2807
+
+66.8.2
+
+USART control register 1 [alternate] (USART_CR1) . . . . . . . . . . . . . 2811
+
+66.8.3
+
+USART control register 2 (USART_CR2) . . . . . . . . . . . . . . . . . . . . . 2814
+
+66.8.4
+
+USART control register 3 (USART_CR3) . . . . . . . . . . . . . . . . . . . . . 2818
+
+66.8.5
+
+USART control register 3 [alternate] (USART_CR3) . . . . . . . . . . . . . 2822
+
+66.8.6
+
+USART baud rate register (USART_BRR) . . . . . . . . . . . . . . . . . . . . 2825
+
+66.8.7
+
+USART guard time and prescaler register (USART_GTPR) . . . . . . . 2826
+
+66.8.8
+
+USART receiver timeout register (USART_RTOR) . . . . . . . . . . . . . . 2827
+
+66.8.9
+
+USART request register (USART_RQR) . . . . . . . . . . . . . . . . . . . . . . 2828
+
+66.8.10 USART interrupt and status register (USART_ISR) . . . . . . . . . . . . . 2829
+66.8.11 USART interrupt and status register [alternate] (USART_ISR) . . . . . 2835
+66.8.12 USART interrupt flag clear register (USART_ICR) . . . . . . . . . . . . . . 2840
+66.8.13 USART receive data register (USART_RDR) . . . . . . . . . . . . . . . . . . 2841
+66.8.14 USART transmit data register (USART_TDR) . . . . . . . . . . . . . . . . . . 2842
+66.8.15 USART prescaler register (USART_PRESC) . . . . . . . . . . . . . . . . . . 2842
+66.8.16 USART autonomous mode control register (USART_AUTOCR) . . . . 2843
+66.8.17 USART register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2844
+
+67

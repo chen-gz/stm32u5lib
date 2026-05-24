@@ -1,0 +1,41 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+72.2.2
+
+RM0456
+
+Host-mode features
+The OTG_FS interface main features and requirements in host-mode are the following:
+•
+
+External charge pump for VBUS voltage generation.
+
+•
+
+Up to 12 host channels (pipes): each channel is dynamically reconfigurable to allocate
+any type of USB transfer.
+
+•
+
+Built-in hardware scheduler holding:
+
+•
+
+72.2.3
+
+–
+
+Up to 12 interrupt plus isochronous transfer requests in the periodic hardware
+queue
+
+–
+
+Up to 12 control plus bulk transfer requests in the non-periodic hardware queue
+
+Management of a shared Rx FIFO, a periodic Tx FIFO and a nonperiodic Tx FIFO for
+efficient usage of the USB data RAM.
+
+Peripheral-mode features
+The OTG_FS interface main features in peripheral-mode are the following:

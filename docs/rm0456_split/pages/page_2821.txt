@@ -1,0 +1,80 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+TXC/EOT is set when the CRC frame is complete in this case. When a transmission is
+suspended the software has to wait until the CSTART bit is cleared.
+2.
+
+Read all RxFIFO data (until RXWNE = 0 and RXPLVL = 00).
+
+3.
+
+Disable the SPI (SPE = 0).
+
+The correct disable procedure for master receive-only modes is:
+1.
+
+Wait on EOT or break the receive flow by suspending SPI (CSUSP = 1).
+
+2.
+
+Wait until SUSP = 1 (the last data frame is processed) if the receive flow is suspended.
+
+3.
+
+Read all RxFIFO data (until RXWNE = 0 and RXPLVL = 00).
+
+4.
+
+Disable the SPI (SPE = 0).
+
+In slave mode, any ongoing data are lost when disabling the SPI.
+
+Controlling the I/Os
+As soon as the SPI is disabled, the associated and enabled AF outputs can still be driven by
+the device depending on the AFCNTR bit of the SPI_CFG2 register. When active output
+control is applied (AFCNTR = 1) and SPI has just been disabled (SPE = 0), the enabled
+outputs associated with SPI control signals (like SS and SCK at master and RDY at slave)
+can immediately toggle to inactive level (according to SSIOP and CPOL settings at master
+and RDIOP at slave respectively). Instead, the data line output (MOSI at master and MISO
+at slave) can immediately change its level depending on the actual TxFIFO content, with the
+effect of potentially making invalid and no more guaranteed the value of the latest
+transferred bit on the bus. If necessary, the user has to take care about proper data hold
+time at the data line and avoid any eventual fast SPI disable just after the last data transfer
+is complete.
+Note:
+
+Despite stability of the latest bit is guaranteed by design during the sampling edge of the
+clock, some devices can require even extension of this data bit stability interval during the
+sampling. It can be done, for example by inserting a small software delay between EOT
+event occurrence and SPI disable action.
+
+68.4.14
+
+Communication using DMA (direct memory addressing)
+To operate at its maximum speed and to facilitate the data register read/write process
+required to avoid overrun, the SPI features a DMA capability, which implements a simple
+request/acknowledge protocol.
+A DMA access is requested when the TXDMAEN or RXDMAEN enable bits of the
+SPI_CFG1 register are set. Separate requests must be issued to the Tx and Rx buffers to
+fulfill the service of the defined packet.
+•
+
+In transmission, a series of DMA requests is triggered each time TXP is set. The DMA
+then performs a series of writes to the SPI_TXDR register.
+
+•
+
+In reception, a series of DMA requests is triggered each time RXP is set. The DMA
+then performs a series of reads from the SPI_RXDR register. When EOT is set at the
+end of the transfer and the last data packet is incomplete, then DMA request is
+activated automatically according to RXWNE and RXPLVL[1:0] setting to read the rest
+of data.
+
+If the SPI is programmed in receive-only mode, UDR is never set.
+If the SPI is programmed in a transmit mode, TXP and UDR can be eventually set at slave
+side, because transmit data may not be available. In this case, some data are sent on the
+TX line according with the UDR management selection.

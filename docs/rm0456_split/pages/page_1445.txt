@@ -1,0 +1,43 @@
+RM0456 Rev 6
+
+RM0456
+
+35.3
+
+Digital-to-analog converter (DAC)
+
+DAC implementation
+Table 340. DAC features
+DAC features
+
+DAC1
+
+Dual channel
+
+X
+
+Output buffer
+
+X
+
+I/O connection
+
+DAC1_OUT1 on PA4, DAC1_OUT2 on PA5
+
+Maximum sampling time
+
+1 Msps
+
+(1)
+
+Autonomous mode
+
+X
+
+VREF+ pin
+
+X
+
+1. The autonomous mode is supported in Stop 0, Stop 1 and Stop 2 modes.
+
+RM0456 Rev 6

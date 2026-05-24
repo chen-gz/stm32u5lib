@@ -1,0 +1,112 @@
+RM0456 Rev 6
+
+RM0456
+
+Comparator (COMP)
+
+37.4
+
+COMP functional description
+
+37.4.1
+
+COMP block diagram
+The block diagram of the comparators is shown in the figure below.
+Figure 318. Comparator block diagrams
+COMPx INPSEL
+COMPx WINMODE
+COMPx_INP
+COMPx_INP I/Os
+
+COMPx
+POLARITY
+
++
+
+COMPy_INP
+COMPx_INM
+COMPx INMSEL
+
+COMPx
+GPIO alternate
+function
+
+COMPx_INM I/Os
+
+COMPx_OUT
+
+DAC_CH1
+DAC_CH2
+
+COMPx_VALUE
+
+VREFINT
+3/4 VREFINT
+
+COMPx OUT
+
+compx_out (internal)
+
+Blank source
+
+1/2 VREFINT
+1/4 VREFINT
+COMPx WINOUT
+COMPy_VALUE
+MS70761V1
+
+37.4.2
+
+COMP pins and internal signals
+The I/Os used as comparators inputs must be configured in analog mode in the GPIOs
+registers.
+The comparator output can be connected to the I/Os using the alternate function channel
+given in “Alternate function mapping” table in the datasheet.
+The output can also be internally redirected to a variety of timer input for the following
+purposes:
+•
+
+Emergency shut-down of PWM signals, using BKIN and BKIN2 inputs
+
+•
+
+Cycle-by-cycle current control, using OCREF_CLR inputs
+
+•
+
+Input capture for timing measures
+
+The comparator output can be simultaneously redirected internally and externally.
+Table 355. COMP1 non-inverting input assignment
+COMP1_INP
+
+COMP1_INPSEL[2:0]
+
+COMP1_INP1
+
+000
+
+COMP1_INP2
+
+001
+
+COMP1_INP3
+
+010
+
+COMP1_INP4
+
+011
+
+COMP1_INP5
+
+100
+
+COMP1_INP6
+
+101
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

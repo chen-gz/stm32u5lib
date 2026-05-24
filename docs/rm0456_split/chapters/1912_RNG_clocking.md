@@ -1,0 +1,57 @@
+1921
+
+True random number generator (RNG)
+
+RM0456
+
+Software post-processing
+No specific software post-processing/conditioning is expected to meet the AIS-31 or NIST
+SP800-90B approvals.
+Built-in health check functions are described in Section 48.3.3: Random number generation.
+
+48.3.6
+
+RNG clocking
+The RNG runs on two different clocks: the AHB bus clock and a dedicated RNG clock.
+The AHB clock is used to clock the AHB banked registers and conditioning component. The
+RNG clock, coupled with a programmable divider (see CLKDIV bitfield in the RNG_CR
+register) is used for noise source sampling. Recommended clock configurations are detailed
+in Section 48.6: RNG entropy source validation.
+
+Note:
+
+When the CED bit in the RNG_CR register is set to 0, the RNG clock frequency before the
+internal divider must be higher than the AHB clock frequency divided by 32, otherwise the
+clock checker always flags a clock error (CECS = 1 in the RNG_SR register).
+See Section 48.3.1: RNG block diagram for details (AHB and RNG clock domains).
+
+48.3.7
+
+Error management
+In parallel to random number generation a health check block verifies the correct noise
+source behavior and the frequency of the RNG source clock as detailed in this section.
+Associated error state is also described.
+
+Clock error detection
+When the clock error detection is enabled (CED = 0) and if the RNG clock frequency is too
+low, the RNG sets to 1 both the CEIS and CECS bits to indicate that a clock error occurred.
+In this case, the application must check that the RNG clock is configured correctly (see
+Section 48.3.6: RNG clocking) and then it must clear the CEIS bit interrupt flag. The CECS
+bit is automatically cleared when the clocking condition is normal.
+Note:
+
+The clock error has no impact on generated random numbers that is the application can still
+read the RNG_DR register.
+CEIS is set only when CECS is set to 1 by RNG.
+
+Noise source error detection
+When a noise source (or seed) error occurs, the RNG stops generating random numbers
+and sets to 1 both SEIS and SECS bits to indicate that a seed error occurred. If a value is
+available in the RNG_DR register, it must not be used as it may not have enough entropy.
+When ARDIS is cleared (auto-reset enabled) clear the SEIS interrupt status bit in the
+RNG_SR register before drawing random numbers again.
+When ARDIS is set (auto-reset disabled) the following sequence must be used to fully
+recover from a seed error:
+
+<!-- pagebreak -->
+

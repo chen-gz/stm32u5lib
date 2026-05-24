@@ -1,0 +1,82 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+The LPUART DEAT and DEDT are expressed in LPUART clock source (flpuart_ker_ck_pres)
+cycles:
+•
+
+•
+
+The driver enable assertion time equals
+–
+
+(1 + (DEAT x P)) x lpuart_ker_ck_pres, if P # 0
+
+–
+
+(1 + DEAT) x lpuart_ker_ck_pres, if P = 0
+
+The driver enable deassertion time equals
+–
+
+(1 + (DEDT x P)) x lpuart_ker_ck_pres, if P # 0
+
+–
+
+(1 + DEDT) x lpuart_ker_ck_pres, if P = 0
+
+where P = BRR[20:11]
+
+67.4.15
+
+LPUART autonomous mode
+The LPUART peripheral can be functional in Stop mode thanks to the autonomous mode.
+This mode can also be used in Run and Sleep mode. The UESM bit must be set prior to
+entering low-power mode.
+The APB clock is requested by the peripheral each time the LPUART status needs to be
+updated. Once the LPUART receives the kernel and APB clocks, it generates either an
+interrupt or a DMA request, depending on the peripheral configuration.
+If an interrupt is generated, the device wakes up from Stop mode. If no interrupt is
+generated, the device remains in Stop mode but the APB clock is still available for the
+LPUART and all the autonomous peripherals enabled in the reset and clock controller
+(RCC). If DMA requests are enabled, the data are directly transferred to/from the SRAM
+thanks to the DMA while the product remains in Stop mode.
+
+LPUART transmission mode
+In transmission, the APB clock is requested only when the TE bit is set and in the following
+cases:
+•
+If the FIFO mode is enabled, the APB clock is requested when
+
+•
+
+–
+
+The TxFIFO is empty (TXFE = 1) and the corresponding interrupt is enabled
+(TXFEIE = 1)
+
+–
+
+The TxFIFO threshold is reached (TXFT = 1) and the corresponding interrupt is
+enabled (TXFTIE = 1)
+
+–
+
+The TxFIFO is not full (TXFNF = 1) and the corresponding interrupt or DMA is
+enabled (TXFNFIE = 1 or DMAT = 1)
+
+If the FIFO mode is disabled, the APB clock is requested as soon as data are
+transferred to the shift register. The DMA or associated interrupt must be enabled.
+
+The TE bit is set by hardware if an asynchronous trigger is detected.
+A transmission is automatically launched when an asynchronous trigger is detected in Run,
+Sleep, or Stop mode. The trigger is selected through the TRIGSEL bit in the
+LPUART_AUTOCR register. It sets the TE bit in the LPUART_CR1 register and generates
+an APB clock request to enable the transfer. The APB clock is requested until the
+transmission completes and the TE bit is cleared by hardware when the programmed
+number of data to be transmitted (TDN bitfield in the LPUART_AUTOCR register) is
+reached. In this case, the TC flag is set when the number of data to be transmitted is
+reached and the last byte is transmitted.

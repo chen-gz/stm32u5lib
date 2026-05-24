@@ -1,0 +1,67 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Example of video configuration
+The following is an example of video packet transmission configuration:
+Video resolution:
+•
+
+PCLK period = 50 ns
+
+•
+
+HSA = 8 PCLK
+
+•
+
+HBP = 8 PCLK
+
+•
+
+HACT = 480 PCLK
+
+•
+
+HFP = 24 PCLK
+
+•
+
+VSA = 2 lines
+
+•
+
+VBP = 2 lines
+
+•
+
+VACT = 640 lines
+
+•
+
+VFP = 4 lines
+
+Configuration steps:
+•
+
+Video transmission mode configuration:
+a)
+
+Configure the low-power transitions:
+DSI_VMCR[13:8] = 6'b111111, to enable LP in all video period.
+
+b)
+•
+
+DSI_VMCR.FBTAAE = 1, for the DSI Host to request an acknowledge response
+message from the peripheral at the end of each frame.
+
+To use the burst mode, follow these steps:
+DSI_VMCR.VMT = 2'b1x
+DSI_VPCR.VPSIZE = 480
+
+•
+
+•

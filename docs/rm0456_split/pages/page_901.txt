@@ -1,0 +1,69 @@
+RM0456 Rev 6
+
+RM0456
+
+21.5
+
+Chrom-GRC (GFXMMU)
+
+GFXMMU interrupts
+An interrupt can be produced on the following events:
+•
+
+Buffer 0 overflow
+
+•
+
+Buffer 1 overflow
+
+•
+
+Buffer 2 overflow
+
+•
+
+Buffer 3 overflow
+
+•
+
+AHB master error
+
+Separate interrupt enable bits are available for flexibility.
+Table 185. GFXMMU interrupt requests
+Interrupt event
+
+Event flag
+
+Enable control bit
+
+Buffer 0 overflow
+
+B0OF
+
+B0OIE
+
+Buffer 1 overflow
+
+B1OF
+
+B1OIE
+
+Buffer 2 overflow
+
+B2OF
+
+B2OIE
+
+Buffer 3 overflow
+
+B3OF
+
+B3OIE
+
+AHB master error
+
+AMEF
+
+AMEIE
+
+RM0456 Rev 6

@@ -1,0 +1,49 @@
+The application is attempting to send one packet every frame (up to 1 maximum
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+packet size), starting with an odd frame. (transfer size = 1 024 bytes).
+–
+
+The periodic transmit FIFO can hold one packet (1 Kbyte).
+
+–
+
+Periodic request queue depth = 4.
+
+The sequence of operations is as follows:
+1.
+
+Initialize and enable channel 1. The application must set the ODDFRM bit in
+OTG_HCCHAR1.
+
+2.
+
+Write the first packet for channel 1.
+
+3.
+
+Along with the last word write of each packet, the OTG_HS host writes an entry to the
+periodic request queue.
+
+4.
+
+The OTG_HS host attempts to send the OUT token in the next frame (odd).
+
+5.
+
+The OTG_HS host generates the XFRC interrupt as soon as the last packet is
+transmitted successfully.
+
+6.
+
+In response to the XFRC interrupt, reinitialize the channel for the next transfer.
+
+7.
+
+Handling non-ACK responses
+
+RM0456 Rev 6

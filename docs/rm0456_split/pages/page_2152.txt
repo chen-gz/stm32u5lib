@@ -1,0 +1,71 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 563. 6-step generation, COM example (OSSR = 1)
+Counter (CNT)
+
+tim_ocxref
+Write COM to 1
+
+COM event
+CCxE = 1
+Write OCxM to 0100
+CCxNE = 0
+OCxM = 0010 (forced inactive)
+
+CCxE = 1
+CCxNE = 0
+OCxM = 0100
+
+Write CCxNE to 1
+and OCxM to 0101
+CCxE = 1
+CCxNE = 0
+OCxM = 0100 (forced inactive)
+
+CCxE = 0
+CCxNE = 1
+OCxM = 0101
+
+tim_ocx
+
+Example 1
+
+tim_ocxn
+
+tim_ocx
+Example 2
+tim_ocxn
+Write CCxNE to 0
+CCxE = 1
+and OCxM to 0100
+CCxNE = 0
+OCxM = 0010 (forced inactive)
+
+CCxE = 1
+CCxNE = 1
+OCxM = 0100
+
+tim_ocx
+
+Example 3
+
+tim_ocxn
+MSv62343V1
+
+54.3.22
+
+One-pulse mode
+One-pulse mode (OPM) is a particular case of the previous modes. It allows the counter to
+be started in response to a stimulus and to generate a pulse with a programmable length
+after a programmable delay.
+Starting the counter can be controlled through the slave mode controller. Generating the
+waveform can be done in output compare mode or PWM mode. One-pulse mode is selected
+by setting the OPM bit in the TIMx_CR1 register. This makes the counter stop automatically
+at the next update event UEV.
+A pulse can be correctly generated only if the compare value is different from the counter
+initial value. Before starting (when the timer is waiting for the trigger), the configuration must
+be:

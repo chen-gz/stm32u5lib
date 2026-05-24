@@ -1,0 +1,100 @@
+Functionality in Stop mode thanks to its own independent clock (named kernel clock)
+request capability: the peripheral kernel clock is automatically switched on when
+
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+requested by a peripheral, and automatically switched off when no peripheral
+requests it.
+•
+
+DMA transfers supported in Stop mode thanks to the system clock request capability:
+the system clock (MSIS or HSI16) automatically switched on when requested by a
+peripheral, and automatically switched off when no peripheral requests it. When the
+system clock is requested by an autonomous peripheral, the system clock is woken up
+and distributed to all peripherals enabled in the RCC. This allows the DMA to access
+the enabled SRAM, and any enabled peripheral register (for instance GPIO or LPGPIO
+registers).
+
+•
+
+Automatic start of the peripheral thanks to the hardware synchronous or asynchronous
+triggers (such as I/Os edge detection and low-power timer event)
+
+•
+
+wake-up from Stop mode with peripheral interrupt
+
+The GPDMA1 and LPDMA1 are fully functional and the linked-list is updated in Stop mode,
+allowing the different DMA transfers to be linked without any CPU wake-up. This can be
+used to chain different peripherals transfers, or to write peripherals registers in order to
+change their configuration while remaining in Stop mode. LPBAM application drivers and
+tools are available in STM32CubeMX, to help building those peripherals scenarios in
+Stop 2 mode, thanks to LPDMA1 linked-list transfers.
+The DMA transfers from memory to memory can be started by hardware synchronous or
+asynchronous triggers, and the DMA transfers between peripherals and memories can also
+be gated by those triggers.
+Here below some use-cases that can be done while remaining in Stop mode:
+•
+
+•
+
+ADC or DAC conversion triggered by a low-power timer (or any other trigger)
+–
+
+Wake-up from Stop mode on analog watchdog if the ADC conversion result is out
+of the programmed thresholds
+
+–
+
+Wake-up from Stop mode on DMA buffer event
+
+Audio digital filter data transfer into SRAM
+–
+
+•
+
+I2C slave reception or transmission, SPI reception, UART/LPUART reception
+–
+
+•
+
+•
+
+•
+
+Wake-up at the end of peripheral transfer or on DMA buffer event
+
+I2C master transfer, SPI transmission, UART/LPUART transmission, triggered by a
+low-power timer (or any other trigger)
+–
+
+Example: sensor periodic read
+
+–
+
+Wake-up at the end of peripheral transfer or on DMA buffer event
+
+Bridges between peripherals
+–
+
+•
+
+Wake-up from Stop on sound activity detection
+
+Example: ADC converted data transferred by communication peripherals
+
+Data transfer from/to GPIO/LPGPIO to/from SRAM for:
+–
+
+Controlling external components
+
+–
+
+Implementing data transmission and reception protocols
+
+Data transfer from a SRAM to another one
+
+RM0456 Rev 6

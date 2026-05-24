@@ -1,0 +1,184 @@
+RM0456 Rev 6
+
+RM0456
+
+System configuration controller (SYSCFG)
+
+15.3.9
+
+SYSCFG compensation cell value register (SYSCFG_CCVR)
+Address offset: 0x20
+Reset value: 0x0000 0000
+When the system is secure (TZEN = 1), this register can be protected against nonsecure
+access by setting the SYSCFGSEC bit in the SYSCFG_SECCFGR register. When the
+SYSCFGSEC bit is set, only secure access is allowed: nonsecure read/write access is
+RAZ/WI and generates an illegal access event.
+When the system is not secure (TZEN = 0), there is no access restriction. This register can
+be read and written by privileged and unprivileged access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+PCV2[3:0]
+r
+
+r
+
+r
+
+23
+
+r
+
+21
+
+20
+
+19
+
+PCV3[3:0]
+
+NCV2[3:0]
+r
+
+22
+
+r
+
+17
+
+16
+
+NCV3[3:0]
+
+PCV1[3:0]
+r
+
+18
+
+NCV1[3:0]
+r
+
+r
+
+r
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:20 PCV3[3:0]: PMOS compensation value of the HSPI I/Os supplied by VDD
+This value is provided by the cell and can be used by the CPU to compute an I/O
+compensation cell code for PMOS transistors. This code is applied to the I/O compensation
+cell when CS3 = 0 in SYSCFG_CCCSR.
+Note: The compensation cell acts on the GPIOs with HSPI alternate functions but
+independently of this mode or AF configuration. Compensation cell 1 does not have
+effect on these GPIOs.
+This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bits 19:16 NCV3[3:0]: NMOS compensation value of the HSPI I/Os supplied by VDD
+This value is provided by the cell and can be used by the CPU to compute an I/O
+compensation cell code for NMOS transistors. This code is applied to the I/O compensation
+cell when CS3 = 0 in SYSCFG_CCCSR.
+Note: The compensation cell acts on the GPIOs with HSPI alternate functions but
+independently of this mode or AF configuration. Compensation cell 1 does not have
+effect on these GPIOs.
+This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bits 15:12 PCV2[3:0]: PMOS compensation value of the I/Os supplied by VDDIO2
+This value is provided by the cell and can be used by the CPU to compute an I/O
+compensation cell code for PMOS transistors. This code is applied to the I/O compensation
+cell when CS2 = 0 in SYSCFG_CCCSR.
+Bits 11:8 NCV2[3:0]: NMOS compensation value of the I/Os supplied by VDDIO2
+This value is provided by the cell and can be used by the CPU to compute an I/O
+compensation cell code for NMOS transistors. This code is applied to the I/O compensation
+cell when CS2 = 0 in SYSCFG_CCCSR.
+
+RM0456 Rev 6

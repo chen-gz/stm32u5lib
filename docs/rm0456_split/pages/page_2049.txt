@@ -1,0 +1,83 @@
+r
+
+r
+
+r
+
+Res.
+r
+
+r
+
+Res.
+
+r
+
+RM0456 Rev 6
+
+MODE[1:0]
+rw
+
+rw
+
+Res.
+
+CONFI
+KEYLOCK
+GLOCK
+rs
+
+rs
+
+0
+REG_
+EN
+rw
+
+RM0456
+
+On-the-fly decryption engine (OTFDEC)
+
+Bits 31:16 REG_VERSION[15:0]: region firmware version
+This 16-bit bitfield must be correctly initialized before the region corresponding REG_EN bit is
+set in OTFDEC_RxCFGR.
+Bits 15:8 KEYCRC[7:0]: region key 8-bit CRC
+When KEYLOCK = 0, KEYCRC bitfield is automatically computed by hardware while loading
+the key of this region in this exact sequence: KEYR0 then KEYR1 then KEYR2 then finally
+KEYR3 (all written once). A new computation starts as soon as a new valid sequence is
+initiated, and KEYCRC is read as zero until a valid sequence is completed.
+When KEYLOCK = 1, KEYCRC remains unchanged until the next reset.
+CRC computation is an 8-bit checksum using the standard CRC-8-CCITT algorithm
+X8 + X2 + X + 1 (according the convention). Source code is available in Section 52.5.4.
+This field is read only.
+Note: CRC information is updated only after the last bit of the key has been written.
+Bits 7:6 Reserved, must be kept at reset value.
+Bits 5:4 MODE[1:0]: operating mode
+This bitfield selects the OTFDEC operating mode for this region:
+10: All read accesses are decrypted (instruction or data).
+11: Enhanced encryption mode is activated, and only instruction accesses are decrypted
+Others: Reserved
+When MODE ≠ 11, the standard AES encryption mode is activated.
+When either of the MODE bits are changed, the region key and associated CRC are zeroed.
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 KEYLOCK: region key lock
+0: Writes to this region KEYRx registers are allowed.
+1: Writes to this region KEYRx registers are ignored until next OTFDEC reset. KEYCRC
+bitfield is locked.
+Note: This bit is set once: if this bit is set, it can only be reset to 0 if the OTFDEC is reset.
+Bit 1 CONFIGLOCK: region config lock
+0: Writes to this region OTFDEC_RxCFGR, OTFDEC_RxSTARTADDR,
+OTFDEC_RxENDADDR and OTFDEC_RxNONCERy registers are allowed.
+1: Writes to this region OTFDEC_RxCFGR, OTFDEC_RxSTARTADDR,
+OTFDEC_RxENDADDR and OTFDEC_RxNONCERy registers are ignored until next
+OTFDEC reset.
+Note: This bit is set once. If this bit is set, it can only be reset to 0 if OTFDEC is reset. Setting
+this bit forces KEYLOCK bit to 1.
+Bit 0 REG_EN: region on-the-fly decryption enable
+0: On-the-fly decryption is disabled for this region.
+1: On-the-fly decryption is enabled for this region. Data are XORed with the corresponding
+keystream.
+Note: Garbage is decrypted if region context (version, key, nonce) is not valid when this
+bit is set.
+
+RM0456 Rev 6

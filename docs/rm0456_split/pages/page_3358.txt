@@ -1,0 +1,163 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+The UCPD transmitter BMC (bi-phase mark) encodes and transmits data: preamble, SOP,
+payload data from protocol layer (after 4b5b-encoding), CRC, and EOP on the Type-C
+connector CC lines. It automatically inserts inter-frame gap and executes “Hard Reset”.
+The UCPD receiver detects SOP, BMC-decodes the incoming stream, recovers the
+preamble, 4b5b-decodes payload data, detects EOP, and checks CRC. It automatically
+detects five K-code SOP and two Reset ordered sets, plus two software-defined patterns
+(allows for only three out of four K-codes being correctly received, as defined by the
+standard).
+In Stop mode, the peripheral maintains the ability to detect incoming USB Power Delivery
+messages and FRS signaling, which allows low-power operation.
+
+74.4.1
+
+UCPD block diagram
+Figure 945. UCPD block diagram
+Registers
+
+To/from RCC:
+ucpd_ker_ck
+clk_rq
+ucpd_pclk
+
+UCPD
+
+Power Delivery Tx
+(CC1 or CC2)
+
+Control
+register
+
+Ch.1
+FRS
+(pulse)
+
+UCPDx_FRSTX1
+
+Ch.2
+
+UCPDx_FRSTX2
+
+Tx ordered
+set register
+Tx byte
+register
+
+4b5b
+encode
+
+CRC add
+
+Ordered
+set insert
+
+Analog
+PHY
+
+BMC
+encode
+
+UCPDx_DBCC1
+32-bit APB bus
+
+Ch. 1
+4b5b
+decode
+
+Rx byte
+register
+Rx ordered
+set register
+CRC
+check
+
+To NVIC:
+ucpd_it
+To EXTI:
+ucpd_wkup
+
+Ordered
+set detect /
+filter
+
+Power Delivery Rx
+(CC1 or CC2)
+
+BMC
+frequency
+estimate
+
+UCPDx_DBCC2
+Ch. 2
+UCPDx_CC2
+
+FRS
+(detect)
+
+Status
+register
+(interrupts/
+events)
+
+To/from DMA:
+
+UCPDx_CC1
+BMC
+decode
+
+Type-C control
+CC1 + CC2
+
+Alternate or
+additional
+I/O function
+
+Type-C controller (CC1 and CC2)
+
+ucpd_tx_dma
+
+Type-C debounce
+CC1 + CC2
+
+ucpd_rx_dma
+
+MSv66135V1
+
+The following table lists external signals (alternate or additional I/O functions).
+Table 776. UCPD signals on pins
+Pin name
+
+Signal type
+
+Description
+
+UCPDx_FRSTX1
+
+Output
+
+USB Type-C fast role swap (FRS) signaling, applicable to DRPs
+only. The signal (active high) drives an external NMOS
+transistor that pulls down the CC1 line.
+
+UCPDx_FRSTX2
+
+Output
+
+USB Type-C fast role swap (FRS) signaling, applicable to DRPs
+only. The signal (active high) drives an external NMOS
+transistor that pulls down the CC2 line.
+
+UCPDx_CC1
+
+Input/output
+
+USB Type-C configuration control line 1, to be routed to the
+USB Type-C connector CC1 terminal.
+
+RM0456 Rev 6

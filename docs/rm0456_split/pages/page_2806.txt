@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+Figure 849. Simplex single master / single slave application
+(master in transmit-only / slave in receive-only mode)
+
+Rx shift register
+Tx shift register
+SPI clock
+generator
+
+Master
+
+MISO
+
+MISO
+
+MOSI
+
+MOSI
+
+SCK
+
+SCK
+
+SS(1)
+
+SS(1)
+
+RDY
+
+(3)
+
+Tx shift register
+Rx shift register
+
+(3)
+
+RDY
+
+Slave
+
+MSv50506V2
+
+1. The SS pin interconnection is optional. The slave can be configured to be permanently selected to operate
+in a single master-slave pair (see Section 68.4.7).
+2. In this configuration, both the MISO pins can be used as GPIOs.
+3. The RDY signal provided by the slave can be read by the master optionally.
+
+68.4.5
+
+Standard multislave communication
+In a configuration with two or more independent slaves, the master uses a star topology with
+dedicated GPIO pins to manage the chip select lines for each slave separately (see Figure
+850.).
+The master must select one of the slaves individually by pulling low the GPIO connected to
+the slave SS input (only one slave can control data on a common MISO line at a given time).
+When this is done, a communication between the master and the selected slave is
+established. In addition to the simplicity, the advantage of this topology is that a specific SPI
+configuration can be applied for each slave as all the communication sessions are
+performed separately just within a single master-slave pair. Optionally, when there is no
+need to read any information from slaves, the master can transmit the same information to
+the multiple slaves.
+
+RM0456 Rev 6

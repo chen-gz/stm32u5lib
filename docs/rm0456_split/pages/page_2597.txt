@@ -1,0 +1,63 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+support clock stretching, I2C must be configured with NOSTRETCH = 1 in the I2C_CR1
+register.
+After receiving an ADDR interrupt, if several addresses are enabled, the user must read the
+ADDCODE[6:0] bitfield of the I2C_ISR register to check which address matched. The DIR
+flag must also be checked to know the transfer direction.
+
+Target with clock stretching
+As long as the NOSTRETCH bit of the I2C_CR1 register is zero (default), the I2C peripheral
+operating as an I²C-bus target stretches the SCL signal in the following situations:
+•
+
+The ADDR flag is set and the received address matches with one of the enabled target
+addresses.
+The stretch is released when the software clears the ADDR flag by setting the
+ADDRCF bit.
+
+•
+
+In transmission, the previous data transmission is completed and no new data is written
+in I2C_TXDR register, or the first data byte is not written when the ADDR flag is cleared
+(TXE = 1).
+The stretch is released when the data is written to the I2C_TXDR register.
+
+•
+
+In reception, the I2C_RXDR register is not read yet and a new data reception is
+completed.
+The stretch is released when I2C_RXDR is read.
+
+•
+
+In target byte control mode (SBC bit set) with reload (RELOAD bit set), the last data
+byte transfer is finished (TCR bit set).
+The stretch is released when then TCR is cleared by writing a non-zero value in the
+NBYTES[7:0] bitfield.
+
+•
+
+After SCL falling edge detection.
+The stretch is released after [(SDADEL + SCLDEL + 1) x (PRESC+ 1) + 1] x tI2CCLK
+period.
+
+Target without clock stretching
+As long as the NOSTRETCH bit of the I2C_CR1 register is set, the I2C peripheral operating
+as an I²C-bus target does not stretch the SCL signal.
+The SCL clock is not stretched while the ADDR flag is set.
+In transmission, the data must be written in the I2C_TXDR register before the first SCL
+pulse corresponding to its transfer occurs. If not, an underrun occurs, the OVR flag is set in
+the I2C_ISR register and an interrupt is generated if the ERRIE bit of the I2C_CR1 register
+is set. The OVR flag is also set when the first data transmission starts and the STOPF bit is
+still set (has not been cleared). Therefore, if the user clears the STOPF flag of the previous
+transfer only after writing the first data to be transmitted in the next transfer, it ensures that
+the OVR status is provided, even for the first data to be transmitted.
+In reception, the data must be read from the I2C_RXDR register before the ninth SCL pulse
+(ACK pulse) of the next data byte occurs. If not, an overrun occurs, the OVR flag is set in the
+I2C_ISR register, and an interrupt is generated if the ERRIE bit of the I2C_CR1 register is
+set.

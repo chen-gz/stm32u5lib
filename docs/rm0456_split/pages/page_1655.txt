@@ -1,0 +1,71 @@
+CIC4 with a decimation by 48
+
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+–
+
+RSFLT bypassed
+
+–
+
+HPF enabled
+
+A SCALE value of 3.5 dB is recommended for this configuration. The samples provided
+by DFTL0 are only used for a sound detection, without providing the samples to the
+application, a bigger gain value can be provided: it increases the SAD accuracy and a
+saturation does not affect the SAD behavior (for example, a SCALE value of 24 dB).
+•
+
+Input signal amplitude
+The input signal is - 63 dBFS, corresponding to an amplitude:
+Asin = 10(-63/20) = 0.000708 LSB.
+
+•
+
+Signal level at SAD input
+The total filter gain for the SAD is:
+
+4
+
+G SAD = 48 × 10
+
+24
+-----20
+
+3
+
+× 0.003906 = 328.6 × 10 or 110.3 dB
+
+The signal amplitude received by the SAD is:
+Ain SAD = 0.000708 × G SAD ∼232 LSB
+
+The gain can be increased if the expected amplitude is too small.
+If the input signal is expected to be a sine, the sound level for a signal amplitude of
+232 LSB is:
+Ain SAD × 2
+SDLVL = ---------------------------------- × 0.9 ∼148 LSB
+2
+
+where 0.9 is the correction factor to apply with respect to the RMS value.
+Note:
+
+ANLVL converges to average of SDLVL values, with a long constant time.
+So SDLVL ~ ANLVL = 148 LSB for a constant input signal at 57 dBSPL.
+•
+
+Programming trigger value
+For SADMOD = 1', the SAD compares the estimated ambient noise multiplied by the
+gain selected by SNTHR[3:0] to ANMIN[12:0] * 4.
+For simplification, SNTHR[3:0] is set to 1 (6 dB), meaning that ANLVL is multiplied by
+two.
+The SAD triggers if 2 * ANLVL > THRH.
+In this mode,
+THRH = 4 × A NMIN
+
+So the SAD triggers if:
+ANLVL > 2 × ANMIN
+
+RM0456 Rev 6

@@ -1,0 +1,99 @@
+RM0456 Rev 6
+
+RM0456
+
+Transmission of commands in low-power mode
+DSI Host can be configured to send the low-power commands during the high-speed video
+mode transmission.
+To enable this feature, set the Low Power command enable (LPCE) bit of the DSI Host
+video mode configuration register (DSI_VMCR) to 1. In this case, it is necessary to calculate
+the time available, in bytes, to transmit a command in low-power mode to horizontal frontporch (HFP), vertical sync active (VSA), vertical back-porch (VBP), and vertical front-porch
+(VFP) regions.
+Bits 8 to 13 of the video mode configuration register (DSI_VMCR) indicate if DSI Host can
+go to LP when idle. If the low-power command enable (LPCE) bit is set and non-video
+packets are in queue, DSI Host ignores the low-power configuration and transmits
+low-power commands, even if it is not allowed to enter low-power mode in a specific region.
+After the low-power commands transmission, DSI Host remains in low-power until a sync
+event occurs.
+For example, consider that the VFP is selected as high-speed region (LPVFPE = 1'b0) with
+LPCE set as a command to transmit in low-power in the VPF region. This command is
+transmitted in low-power, and the line stays in low-power mode until a new HSS arrives.
+
+Calculating the time to transmit commands in LP mode in the VSA, VBP, and
+VFP regions
+The largest packet size (LPSIZE) field of the DSI Host low-power mode configuration
+register (DSI_LPMCR) indicates the time available (in bytes) to transmit a command in lowpower mode (based on the escape clock) on a line during the VSA, VBP, and the VFP
+regions.
+Calculation of largest packet size (LPSIZE) depends on the used video mode.
+Figure 429 illustrates the timing intervals for the video mode in non-burst with sync pulses,
+while Figure 430 refers to video mode in burst and non-burst with sync events.
+Figure 429. LPSIZE for non-burst with sync pulses
+tL
+tLPS -> HS
+
+2 tESCCLK
+
+tLPDT
+
+EscExit
+
+LPDT
+command
+
+HSÆLP
+
+tLPDT
+
+EscEntry
+
+HSA
+
+tHS -> LP
+
+HSE
+
+tH1
+
+outvact_lpcmd_time
+
+LPÆHS
+
+MSv35870V1
+
+Figure 430. LPSIZE for burst or non-burst with sync events
+tL
+
+outvact_lpcmd_time
+
+tLPS -> HS
+
+2 tESCCLK
+
+tLPDT
+
+EscExit
+
+LPDT
+command
+
+HSÆLP
+
+tLPDT
+
+EscEntry
+
+tH1 tHS -> LP
+
+HSS
+
+HSS
+
+44.9.2
+
+DSI Host (DSI)
+
+LPÆHS
+
+MSv35871V1
+
+RM0456 Rev 6

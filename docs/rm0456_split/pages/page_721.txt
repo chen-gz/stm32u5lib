@@ -1,0 +1,88 @@
+•
+
+a software request if the control bit SWREQ = 1: This is used typically by the CPU for a
+data transfer from a memory-mapped address to another memory mapped address
+(memory-to-memory, GPIO to/from memory)
+
+•
+
+an input hardware request coming from a peripheral if SWREQ = 0: The selection of
+the GPDMA hardware peripheral request is driven by the REQSEL[6:0] field
+(see Section 17.3.3). The selected hardware request can be one of the following:
+–
+
+an hardware request from a peripheral configured in GPDMA mode (for a transfer
+from/to the peripheral data register respectively to/from the memory)
+
+–
+
+an hardware request from a peripheral for its control registers update from the
+memory
+
+–
+
+an hardware request from a peripheral for a read of its status registers transferred
+to the memory
+
+RM0456 Rev 6
+
+RM0456
+Caution:
+
+General purpose direct memory access controller (GPDMA)
+The user must not assign a same input hardware peripheral GPDMA request via
+GPDMA_CxTR.REQSEL[6:0] to two different channels, if at a given time this request is
+asserted by the peripheral and each channel is ready to execute this requested data
+transfer. There is no user setting error reporting.
+
+GPDMA transfer request for arbitration
+A ready FIFO-based GPDMA source single/burst transfer (from the source address to the
+FIFO) to be scheduled over the allocated master port (GPDMA_CxTR1.SAP) is arbitrated
+based on the channel priority (GPDMA_CxCR.PRIO[1:0]) versus the other simultaneous
+requested GPDMA transfers to the same master port.
+A ready FIFO-based GPDMA destination single/burst transfer (from the FIFO to the
+destination address) to be scheduled over the allocated master port (GPDMA_CxTR1.DAP)
+is arbitrated based on the channel priority (GPDMA_CxCR.PRIO[1:0]) versus the other
+simultaneous requested GPDMA transfers to the same master port.
+An arbitrated GPDMA requested link transfer consists of one 32-bit read from the linked-list
+data structure in memory to one of the linked-list registers (GPDMA_CxTR1,
+GPDMA_CxTR2, GPDMA_CxBR1, GPDMA_CxSAR, GPDMA_CxDAR or GPDMA_CxLLR,
+plus GPDMA_CxTR3, GPDMA_CxBR2). Each 32-bit read from memory is arbitrated with
+the same channel priority as for data transfers, in order to be scheduled over the allocated
+master port (GPDMA_CxCR.LAP).
+Whatever the requested data transfer is programmed with a software request for a memoryto- memory transfer (GPDMA_CxTR2.SWREQ = 1), or with a hardware request
+(GPDMA_CxTR2.SWREQ = 0) for a memory-to-peripheral transfer or a peripheral-tomemory transfer and whatever is the hardware request type, re-arbitration occurs after each
+granted single/burst transfer.
+When an hardware request is programmed from a destination peripheral
+(GPDMA_CxTR2.SWREQ = 0 and GPDMA_CxTR2.DREQ = 1), the first memory read of a
+(possibly 2D/repeated) block (the first ready FIFO-based source burst request), is gated by
+the occurrence of the corresponding and selected hardware request. This first read request
+to memory is not taken into account earlier by the arbiter (not as soon as the block transfer
+is enabled and executable).
+
+GPDMA arbitration
+The GPDMA arbitration is directed from the 4-grade assigned channel priority
+(GPDMA_CxCR.PRIO[1:0]). The arbitration policy, as illustrated in Figure 68, is defined by:
+•
+
+one high-priority traffic class (queue 3), dedicated to the assigned channels with
+priority 3, for time-sensitive channels
+This traffic class is granted via a fixed-priority arbitration against any other low-priority
+traffic class. Within this class, requested single/burst transfers are round-robin
+arbitrated.
+
+•
+
+three low-priority traffic classes (queues 0, 1, or 2) for non time-sensitive channels with
+priority 0, 1, or 2
+Each requested single/burst transfer within this class is round-robin arbitrated, with a
+weight that is monotonically driven from the programmed priority:
+–
+
+Requests with priority 0 are allocated to the queue 0.
+
+–
+
+Requests with priority 1 are allocated and replicated to the queue 0 and queue 1.
+
+RM0456 Rev 6

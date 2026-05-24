@@ -1,0 +1,61 @@
+90
+
+Contents
+
+RM0456
+30.7.3
+
+HSPI device configuration register 2 (HSPI_DCR2) . . . . . . . . . . . . . 1153
+
+30.7.4
+
+HSPI device configuration register 3 (HSPI_DCR3) . . . . . . . . . . . . . 1154
+
+30.7.5
+
+HSPI device configuration register 4 (HSPI_DCR4) . . . . . . . . . . . . . 1155
+
+30.7.6
+
+HSPI status register (HSPI_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1155
+
+30.7.7
+
+HSPI flag clear register (HSPI_FCR) . . . . . . . . . . . . . . . . . . . . . . . . . 1156
+
+30.7.8
+
+HSPI data length register (HSPI_DLR) . . . . . . . . . . . . . . . . . . . . . . . 1157
+
+30.7.9
+
+HSPI address register (HSPI_AR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1157
+
+30.7.10 HSPI data register (HSPI_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1158
+30.7.11 HSPI polling status mask register (HSPI_PSMKR) . . . . . . . . . . . . . . 1159
+30.7.12 HSPI polling status match register (HSPI_PSMAR) . . . . . . . . . . . . . 1159
+30.7.13 HSPI polling interval register (HSPI_PIR) . . . . . . . . . . . . . . . . . . . . . 1160
+30.7.14 HSPI communication configuration register (HSPI_CCR) . . . . . . . . . 1160
+30.7.15 HSPI timing configuration register (HSPI_TCR) . . . . . . . . . . . . . . . . 1162
+30.7.16 HSPI instruction register (HSPI_IR) . . . . . . . . . . . . . . . . . . . . . . . . . . 1163
+30.7.17 HSPI alternate bytes register (HSPI_ABR) . . . . . . . . . . . . . . . . . . . . 1163
+30.7.18 HSPI low-power timeout register (HSPI_LPTR) . . . . . . . . . . . . . . . . 1163
+30.7.19 HSPI wrap communication configuration register
+(HSPI_WPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1164
+30.7.20 HSPI wrap timing configuration register (HSPI_WPTCR) . . . . . . . . . 1166
+30.7.21 HSPI wrap instruction register (HSPI_WPIR) . . . . . . . . . . . . . . . . . . 1167
+30.7.22 HSPI wrap alternate byte register (HSPI_WPABR) . . . . . . . . . . . . . . 1167
+30.7.23 HSPI write communication configuration register
+(HSPI_WCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1167
+30.7.24 HSPI write timing configuration register (HSPI_WTCR) . . . . . . . . . . 1169
+30.7.25 HSPI write instruction register (HSPI_WIR) . . . . . . . . . . . . . . . . . . . . 1170
+30.7.26 HSPI write alternate byte register (HSPI_WABR) . . . . . . . . . . . . . . . 1170
+30.7.27 HSPI HyperBus latency configuration register (HSPI_HLCR) . . . . . . 1171
+30.7.28 HSPI full-cycle calibration configuration (HSPI_CALFCR) . . . . . . . . 1171
+30.7.29 HSPI DLL master calibration configuration (HSPI_CALMR) . . . . . . . 1172
+30.7.30 HSPI DLL slave output calibration configuration
+(HSPI_CALSOR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1173
+30.7.31 HSPI DLL slave input calibration configuration (HSPI_CALSIR) . . . . 1174
+30.7.32 HSPI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1174
+
+31

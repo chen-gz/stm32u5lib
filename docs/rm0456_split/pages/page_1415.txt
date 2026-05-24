@@ -1,0 +1,89 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+Figure 305. Triggered oversampling mode (TOVS bit = 1)
+Trigger
+CONT = 0
+(DISCEN = 1)*
+TOVS = 0
+
+Trigger
+
+Ch(N) Ch(N) Ch(N) Ch(N)
+0
+1
+2
+3
+
+Ch(N) Ch(N) Ch(N) Ch(N)
+0
+1
+2
+3
+
+EOC flag set
+Trigger Trigger Trigger
+CONT = 0
+(DISCEN = 1)*
+TOVS = 1
+
+Ch(N)
+0
+
+Ch(N)
+1
+
+Ch(N)
+2
+
+Trigger Trigger Trigger Trigger
+Ch(N)
+3
+
+Ch(N)
+0
+
+Ch(N)
+1
+
+Ch(N)
+2
+
+EOC flag set
+(DISCEN = 1)*: DISCEN bit is forced to 1 by software when TOVS bit is set
+MS33700V1
+
+34.4.27
+
+Temperature sensor and internal reference voltage
+The temperature sensor can be used to measure the junction temperature (TJ) of the
+device. The temperature sensor is internally connected an ADC internal input channel which
+is used to convert the sensor’s output voltage to a digital value. The sampling time for the
+temperature sensor analog pin must be greater than the minimum TS_temp value specified in
+the datasheet. When not in use, the sensor can be put in Power-down mode.
+The internal voltage reference (VREFINT) provides a stable (bandgap) voltage output for the
+ADC and the comparators.
+Refer to Table ADC interconnection in Section 34.4.2: ADC pins and internal signals for
+details on the ADC internal input channel to which the above voltages are connected.
+Figure 306 shows the block diagram of connections between the temperature sensor, the
+internal voltage reference and the ADC.
+The VSENSESEL bit must be set to enable the conversion of VSENSE while VREFEN bit
+must be set to enable the conversion of VREFINT.
+When the ADC operates in autonomous mode, these signals are controlled automatically to
+reduce power consumption (VSENSESEL and VREFEN must be set to measure the voltage
+in autonomous mode).
+The temperature sensor output voltage linearly changes with the temperature. The offset of
+this line varies from chip to chip due to process variation (up to 45 °C from one chip to
+another).
+The uncalibrated internal temperature sensor is more suited for applications that detect
+temperature variations instead of absolute temperatures. To improve the accuracy of the
+temperature sensor measurement, calibration values are stored in system memory for each
+device by STMicroelectronics during production.
+During the manufacturing process, the calibration data of the temperature sensor and the
+internal voltage reference are stored in the system memory area. The user application can
+then read them and use them to improve the accuracy of the temperature sensor or the
+internal reference. Refer to the datasheet for additional information.
+
+RM0456 Rev 6

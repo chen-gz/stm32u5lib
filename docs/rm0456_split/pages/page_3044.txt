@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+generate a port interrupt on the active level. The overcurrent ISR must promptly disable the
+VBUS generation and clear the port power bit.
+
+Host detection of a peripheral connection
+If SRP or HNP are enabled, even if USB peripherals or B-devices can be attached at any
+time, the OTG_FS does not detect any bus connection until VBUS is no longer sensed at a
+valid level (5 V). When VBUS is at a valid level and a remote B-device is attached, the
+OTG_FS core issues a host port interrupt triggered by the device connected bit in the host
+port control and status register (PCDET bit in OTG_HPRT).
+When HNP and SRP are both disabled, USB peripherals or B-device are detected as soon
+as they are connected. The OTG_FS core issues a host port interrupt triggered by the
+device connected bit in the host port control and status (PCDET bit in OTG_HPRT).
+
+Host detection of peripheral a disconnection
+The peripheral disconnection event triggers the disconnect detected interrupt (DISCINT bit
+in OTG_GINTSTS).
+
+Host enumeration
+After detecting a peripheral connection the host must start the enumeration process by
+sending USB reset and configuration commands to the new peripheral.
+Before starting to drive a USB reset, the application waits for the OTG interrupt triggered by
+the debounce done bit (DBCDNE bit in OTG_GOTGINT), which indicates that the bus is
+stable again after the electrical debounce caused by the attachment of a pull-up resistor on
+DP (FS) or DM (LS).
+The application drives a USB reset signaling (single-ended zero) over the USB by keeping
+the port reset bit set in the host port control and status register (PRST bit in OTG_HPRT) for
+a minimum of 10 ms and a maximum of 20 ms. The application takes care of the timing
+count and then of clearing the port reset bit.
+Once the USB reset sequence has completed, the host port interrupt is triggered by the port
+enable/disable change bit (PENCHNG bit in OTG_HPRT). This informs the application that
+the speed of the enumerated peripheral can be read from the port speed field in the host
+port control and status register (PSPD bit in OTG_HPRT) and that the host is starting to
+drive SOFs (FS) or Keep alives (LS). The host is now ready to complete the peripheral
+enumeration by sending peripheral configuration commands.
+
+Host suspend
+The application decides to suspend the USB activity by setting the port suspend bit in the
+host port control and status register (PSUSP bit in OTG_HPRT). The OTG_FS core stops
+sending SOFs and enters the suspended state.
+The suspended state can be optionally exited on the remote device’s initiative (remote
+wake-up). In this case the remote wake-up interrupt (WKUPINT bit in OTG_GINTSTS) is
+generated upon detection of a remote wake-up signaling, the port resume bit in the host port
+control and status register (PRES bit in OTG_HPRT) self-sets, and resume signaling is
+automatically driven over the USB. The application must time the resume window and then
+clear the port resume bit to exit the suspended state and restart the SOF.
+
+RM0456 Rev 6

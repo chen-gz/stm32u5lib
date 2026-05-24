@@ -1,0 +1,110 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+20.5.20 DMA2D output offset register (DMA2D_OOR) . . . . . . . . . . . . . . . . . . 887
+20.5.21 DMA2D number of line register (DMA2D_NLR) . . . . . . . . . . . . . . . . . 887
+20.5.22 DMA2D line watermark register (DMA2D_LWR) . . . . . . . . . . . . . . . . . 888
+20.5.23 DMA2D AHB master timer configuration register (DMA2D_AMTCR) . 888
+20.5.24 DMA2D foreground CLUT (DMA2D_FGCLUTx) . . . . . . . . . . . . . . . . . 889
+20.5.25 DMA2D background CLUT (DMA2D_BGCLUTx) . . . . . . . . . . . . . . . . 889
+20.5.26 DMA2D register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 890
+
+21
+
+Chrom-GRC (GFXMMU) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+21.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+
+21.2
+
+GFXMMU main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+
+21.3
+
+GFXMMU implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+
+21.4
+
+GFXMMU functional and architectural description . . . . . . . . . . . . . . . . . 893
+21.4.1
+
+Virtual memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 893
+
+21.4.2
+
+MMU architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 895
+
+21.4.3
+
+Cache and prefetch mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 898
+
+21.4.4
+
+Address cache . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 900
+
+21.5
+
+GFXMMU interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 901
+
+21.6
+
+GFXMMU registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 902
+21.6.1
+
+GFXMMU configuration register (GFXMMU_CR) . . . . . . . . . . . . . . . . 902
+
+21.6.2
+
+GFXMMU status register (GFXMMU_SR) . . . . . . . . . . . . . . . . . . . . . . 904
+
+21.6.3
+
+GFXMMU flag clear register (GFXMMU_FCR) . . . . . . . . . . . . . . . . . . 904
+
+21.6.4
+
+GFXMMU cache control register (GFXMMU_CCR) . . . . . . . . . . . . . . 905
+
+21.6.5
+
+GFXMMU default value register (GFXMMU_DVR) . . . . . . . . . . . . . . . 905
+
+21.6.6
+
+GFXMMU buffer 0 configuration register (GFXMMU_B0CR) . . . . . . . 906
+
+21.6.7
+
+GFXMMU buffer 1 configuration register (GFXMMU_B1CR) . . . . . . . 906
+
+21.6.8
+
+GFXMMU buffer 2 configuration register (GFXMMU_B2CR) . . . . . . . 907
+
+21.6.9
+
+GFXMMU buffer 3 configuration register (GFXMMU_B3CR) . . . . . . . 907
+
+21.6.10 GFXMMU LUT entry x low (GFXMMU_LUTxL) . . . . . . . . . . . . . . . . . . 908
+21.6.11 GFXMMU LUT entry x high (GFXMMU_LUTxH) . . . . . . . . . . . . . . . . . 908
+21.6.12 GFXMMU register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 909
+
+22
+
+Nested vectored interrupt controller (NVIC) . . . . . . . . . . . . . . . . . . . . 911
+22.1
+
+NVIC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .911
+
+22.2
+
+SysTick calibration value register . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .911
+
+22.3
+
+Interrupt and exception vectors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 912
+
+RM0456 Rev 6

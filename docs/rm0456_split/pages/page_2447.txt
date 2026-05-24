@@ -1,0 +1,198 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+Bit 4 CAFCC1F: Clear absolute frame counter compare 1 flag
+This bit clears AFCC1F in GXTIM_ISR.
+0: No effect
+1: AFCC1F cleared
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 CTEF: Clear tearing-effect flag
+This bit clears TEF in GXTIM_ISR.
+0: No effect
+1: TEF cleared
+Bit 1 CALCOF: Clear absolute line counter overflow flag
+This bit clears ALCOF in GXTIM_ISR.
+0: No effect
+1: ALCOF cleared
+Bit 0 CAFCOF: Clear absolute frame counter overflow flag
+This bit clears AFCOF in GXTIM_ISR.
+0: No effect
+1: AFCOF cleared
+
+59.5.10
+
+GFXTIM interrupt enable register (GFXTIM_IER)
+Address offset: 0x038
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+Res.
+
+RFC2R RFC1R
+IE
+IE
+rw
+
+rw
+
+Res.
+
+Res.
+
+25
+
+24
+
+WDGPI WDGAI
+E
+E
+rw
+
+rw
+
+9
+
+8
+
+ALCC2I ALCC1I
+E
+E
+rw
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+EV4IE
+
+EV3IE
+
+EV2IE
+
+EV1IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+AFCC1
+IE
+
+TEIE
+
+ALCOI
+E
+
+AFCOI
+E
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 WDGPIE: Watchdog pre-alarm interrupt enable
+This bit enables the watchdog pre-alarm interrupt generation.
+0: Watchdog pre-alarm interrupt disabled
+1: Watchdog pre-alarm interrupt enabled
+Bit 24 WDGAIE: Watchdog alarm interrupt enable
+This bit enables the watchdog alarm interrupt generation.
+0: Watchdog alarm interrupt disabled
+1: Watchdog alarm interrupt enabled
+Bits 23:20 Reserved, must be kept at reset value.
+Bit 19 EV4IE: Event 4 interrupt enable
+This bit enables the complex event 4 interrupt generation.
+0: Event 4 interrupt disabled
+1: Event 4 interrupt enabled

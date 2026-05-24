@@ -1,0 +1,186 @@
+Busy state: the DPSM waits for the CRC status token when expected, and wait for a
+not busy signal:
+–
+
+If a CRC status token is expected and indicate “non-erroneous transmission” or
+when there is no CRC expected:
+- it moves to the Wait_S state when SDMMC_D0 is not low (the card is not busy).
+- When the card is busy SDMMC_D0 is low it remains in the Busy state.
+
+–
+
+If a CRC status token is expected and indicates “erroneous transmission”.
+- When not all data has been send (DATACOUNT > 0). The DPSM waits for not
+busy after which the CRC fail status flag (DCRCFAIL) is set. The FIFO is
+disabled/flushed and the DPSM stays in the Busy state.
+- When all data has been send (DATACOUNT = 0). The DPSM waits for not busy
+after which the CRC fail status flag (DCRCFAIL) is set and the DPSM moves to
+the Idle state.
+
+–
+
+If a CRC status (Ncrc) timeout occurs while the DPSM is in the Busy state, it sets
+the data timeout flag (DTIMEOUT) and stays in the Busy state.
+
+–
+
+If a busy timeout occurs while the DPSM is in the Busy state, it sets the data
+timeout flag (DTIMEOUT) and stays in the Busy state.
+
+–
+
+When receiving the CPSM Abort signal in the Busy state:
+- If the CPSM Abort signal is received before the 2 last bits of the CRC response
+with DATACOUNT > 0, the data transfer is aborted. The DPSM waits for not busy
+and the FIFO to be disabled/flushed before moving to the Idle state and the
+DABORT flag is set.
+- If the CPSM Abort signal is received during or after the 2 last bits of the CRC
+response when DATACOUNT = 0 or when no CRC is expected and DATACOUNT
+= 0 and there has been no DTIMEOUT error, the DPSM stays in the Busy state no
+DABORT flag is generated, since the transfer may completed normally.
+- If the CPSM Abort signal is received when a DTIMEOUT error has occurred the
+DPSM waits for not busy and the FIFO to be disabled/flushed before moving to the
+Idle state and the DABORT flag is set.
+
+–
+
+When entering the Busy state due to an abort in the Send state, the DPSM waits
+for not busy before moving to the Idle state and the DABORT flag is set.
+
+–
+
+When DPSM has been started with DTEN, after an error (DCRCFAIL when
+DATACOUNT > 0, or DTIMEOUT) the DPSM moves to the Idle state when the
+FIFO is reset.
+
+–
+
+When the DPSM has been started due to Busy on SDMMC_D0, waits for not busy
+after which the Busy end status flag (BUSYD0END) is set and the DPSM moves to
+the Idle state.
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+The data timer (DATATIME) is enabled when the DPSM is in the Wait_R or Busy state 2
+cycles after the data block end bit, or data read command end bit, or R1b response, and
+generates the data timeout error (DTIMEOUT):
+•
+
+•
+
+When transmitting data, the timeout occurs
+–
+
+when a CRC status is expected and no start bit is received withing 8 SDMMC_CK
+cycles, the DTIMEOUT flag is set.
+
+–
+
+when the Busy state takes longer than the programmed timeout period., the
+DTIMEOUT flag is set.
+
+When receiving data, the timeout occurs
+–
+
+•
+
+when there is still data to be received DATACOUNT > 0 and no start bit is received
+before the programmed timeout period, the DTIMEOUT flag is set.
+
+After a R1b response, the timeout occurs
+–
+
+when the Busy state takes longer than the programmed timeout period., the
+DTIMEOUT flag is set.
+
+When DATATIME = 0:
+•
+
+In receive the start bit must be present 2 cycles after the data block end bit or data read
+command end bit.
+
+•
+
+In transmit busy is timed out 2 cycles after the CRC token end bit or stream data end
+bit.
+
+•
+
+After a R1b response busy is timed out 2 cycles after the response end bit.
+
+Data can be transferred from the card to the host (transmit, send) or vice versa (receive).
+Data are transferred via the SDMMC_Dn data lines, they are stored in a FIFO.
+Table 285. Data token format
+Start bit
+
+Data(1)
+
+CRC16
+
+End bit
+
+DTMODE
+
+Block data
+
+0
+
+(DBLOCKSIZE, DATALENGTH)
+
+Yes
+
+1
+
+00
+
+SDIO multibyte
+
+0
+
+(DATALENGTH)
+
+Yes
+
+1
+
+01
+
+e•MMC stream
+
+0
+
+(DATALENGTH)
+
+No
+
+1
+
+10
+
+Description
+
+1. The total amount of data to transfer is given by DATALENGTH. Where for Block data the amount of data in
+each block is given by DBLOCKSIZE.
+
+The data token format is selected with register bits DTMODE according.
+The data path implements the status flags and associated clear bits shown in Table 286:
+Table 286. Data path status flags and clear bits
+Flag
+
+Description
+TX
+
+DATAEND
+
+RX
+Boot
+
+Set at the end of the complete data transfer when the CRC is OK and busy has finished
+and both DTHOLD = 0 and DATACOUNT = 0. (DPSM moves from Wait_S to Idle)
+Set at the end of the complete data transfer when the CRC is OK and all data has been
+read, (DATACOUNT = 0 and FIFO is empty). (DPSM moves from Wait_R to Idle)
+
+RM0456 Rev 6

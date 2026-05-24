@@ -1,0 +1,175 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bit 9 CTSCF: CTS clear flag
+Writing 1 to this bit clears the CTSIF flag in the USART_ISR register.
+Note: If the hardware flow control feature is not supported, this bit is reserved and must be
+kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 8 LBDCF: LIN break detection clear flag
+Writing 1 to this bit clears the LBDF flag in the USART_ISR register.
+Note: If LIN mode is not supported, this bit is reserved and must be kept at reset value. Refer
+to Section 66.4: USART implementation.
+Bit 7 TCBGTCF: Transmission complete before Guard time clear flag
+Writing 1 to this bit clears the TCBGT flag in the USART_ISR register.
+Bit 6 TCCF: Transmission complete clear flag
+Writing 1 to this bit clears the TC flag in the USART_ISR register.
+Bit 5 TXFECF: TXFIFO empty clear flag
+Writing 1 to this bit clears the TXFE flag in the USART_ISR register.
+Bit 4 IDLECF: Idle line detected clear flag
+Writing 1 to this bit clears the IDLE flag in the USART_ISR register.
+Bit 3 ORECF: Overrun error clear flag
+Writing 1 to this bit clears the ORE flag in the USART_ISR register.
+Bit 2 NECF: Noise detected clear flag
+Writing 1 to this bit clears the NE flag in the USART_ISR register.
+Bit 1 FECF: Framing error clear flag
+Writing 1 to this bit clears the FE flag in the USART_ISR register.
+Bit 0 PECF: Parity error clear flag
+Writing 1 to this bit clears the PE flag in the USART_ISR register.
+
+66.8.13
+
+USART receive data register (USART_RDR)
+Address offset: 0x24
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RDR[8:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:9 Reserved, must be kept at reset value.
+Bits 8:0 RDR[8:0]: Receive data value
+Contains the received data character.
+The RDR register provides the parallel interface between the input shift register and the
+internal bus (see Section 66.5.1: USART block diagram).
+When receiving with the parity enabled, the value read in the MSB bit is the received parity
+bit.
+
+RM0456 Rev 6

@@ -1,0 +1,53 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+In addition, the data size of a signal having an amplitude (Amp) expressed in LSB is given
+by:
+ln ( Amp ) + 1⎞ bits
+DS = ⎛ ---------------------⎝ ln ( 2 )
+⎠
+
+One bit need to be added for negative values.
+So a signal having an amplitude of 2 * 106 LSB, has a data size of 21.9 bits.
+
+CIC gain
+The CIC gain (GCIC and GdBCIC) can be deduced from the following formula giving data
+size in bits (DSCIC).
+DS CIC = ( N × log 2 ( D1 ) ) + DS IN
+
+And the bit growth is:
+BG CIC = ( N × log 2 ( D1 ) )
+
+where N represents the CIC order (selected by CICMOD[2:0]), and D1 is the decimation
+ratio (given by MCICD).
+DSIN represents the data size (in bits) of the input signal.
+
+Warning:
+
+G CIC = 2
+
+DSCIC is very important for CIC filters. In order to work fine,
+DSCIC must not exceed 26 bits.
+
+( BG CIC )
+
+= ( D1 )
+
+N
+
+which gives, in decibels:
+N
+
+GdB CIC = 20 × log 10 ( ( D1 ) )
+
+Note:
+
+The same formulas are valid for the ACIC.
+
+Data size at SCALE output
+The data size at SCALE output (including the CIC gain) is a key information as the RSFLT
+starts to have some saturations if the peak-to-peak signal amplitude at SCALE output is
+higher than 22 bits.

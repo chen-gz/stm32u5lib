@@ -1,0 +1,121 @@
+•
+
+SAD detection behavior (SADMOD)
+
+•
+
+number of samples used to compute the sound level (FRSIZE)
+
+•
+
+number of frames used to compute the ambient noise level during the learning phase
+(LFRNB)
+
+•
+
+slope of the ambient noise estimator (ANSLP)
+
+•
+
+minimum expected ambient noise level (ANMIN)
+
+•
+
+threshold level (SNTHR)
+
+•
+
+threshold hysteresis (HYSTEN)
+
+•
+
+hangover window in order to filter spurious transitions between DETECT and
+MONITOR states (HGOVR)
+
+•
+
+data capture mode (DATCAP)
+
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+SAD detection behavior
+The SAD can use the following ways to detect a sound, selected by SADMOD[1:0]:
+•
+
+When SADMOD[1:0] = 0, the SAD works like a voice-activity detection. In this mode,
+the SAD estimates the ambient noise level according to the computed sound level
+values. The threshold of the trigger is elaborated from the estimated ambient noise.
+Finally the current sound level is compared to this threshold. In a first approximation,
+the SAD triggers if the peak-to-average value of the input signal reaches a level
+defined by SNTHR[3:0].
+
+•
+
+When SADMOD[1:0] = 01, the SAD compares the current sound level (SDLVL) to a
+fixed trigger value defined by the application via SNTHR[3:0] and ANMIN[12:0]. This
+mode allows a fast SAD reaction as the amount of samples used to compute the sound
+level can be configured via FRSIZE[2:0].
+
+•
+
+When SADMOD[1:0] = 1x, the SAD compares the estimated ambient noise level
+(ANLVL) to a fixed trigger value defined by the application via SNTHR[3:0] and
+ANMIN[12:0]. This mode avoids unwanted triggers, due to peak levels, but the SAD
+reacts more slowly to an input signal variation. It is nevertheless possible to adjust the
+reaction time via FRSIZE[2:0] and ANSLP[2:0].
+
+SAD states
+As shown in Figure 379, the SAD works as follows:
+1.
+
+When enabled (SADEN = 1), the SAD is first in LEARN state to perform a first
+estimation of the ambient noise level.
+
+2.
+
+The SAD continuously computes the short-term sound level (SDLVL) using the
+samples provided by the DFLT0. The amount of samples used to compute the sound
+level is given by FRSIZE[2:0]. The samples processed by the DFLT0 can be
+transferred into the memory or not depending on DATCAP[1:0] value.
+
+3.
+
+The initial ambient noise level (ANLVL) is computed using the consecutive sound level
+values. The application can define how much sound level values are used to perform
+the computation of this initial ambient noise estimation (LFRNB).
+
+4.
+
+When the initial ambient noise level (ANLVL) is computed, the SAD switches to the
+MONITOR state.
+
+5.
+
+Every time a new short-term sound level value is available, the SAD updates the
+ambient noise level and the thresholds according to the selected detection mode.
+
+6.
+
+7.
+
+If the SAD triggers, then the following happens:
+–
+
+The SAD switches to DETECT state.
+
+–
+
+The sddet_evt event is asserted.
+
+–
+
+The adf_sad_det signal is set to high.
+
+The hangover function insures that the DETECT state is maintained even if the sound
+level goes below the threshold level for a time given by HGOVR.
+
+RM0456 Rev 6

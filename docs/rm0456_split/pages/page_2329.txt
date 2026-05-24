@@ -1,0 +1,180 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+55.5.8
+
+TIMx capture/compare mode register 1 [alternate]
+(TIMx_CCMR1)(x = 2 to 5)
+Address offset: 0x018
+Reset value: 0x0000 0000
+The same register can be used for output compare mode (this section) or for input capture
+mode (previous section). The direction of a channel is defined by configuring the
+corresponding CCxS bits. All the other bits of this register have a different function for input
+capture and for output compare modes. It is possible to combine both modes independently
+(for example channel 1 in input capture mode and channel 2 in output compare mode).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+OC2M
+[3]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+OC1M
+[3]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+rw
+
+OC2CE
+rw
+
+OC2M[2:0]
+rw
+
+rw
+
+OC2PE OC2FE
+rw
+
+rw
+
+rw
+
+CC2S[1:0]
+rw
+
+rw
+
+8
+
+OC1CE
+
+rw
+
+rw
+
+OC1M[2:0]
+rw
+
+rw
+
+OC1PE OC1FE
+rw
+
+rw
+
+rw
+
+0
+
+CC1S[1:0]
+rw
+
+rw
+
+Output compare mode
+Bits 31:25 Reserved, must be kept at reset value.
+Bits 23:17 Reserved, must be kept at reset value.
+Bit 15 OC2CE: Output compare 2 clear enable
+Bits 24, 14:12 OC2M[3:0]: Output compare 2 mode
+refer to OC1M description on bits 6:4
+Bit 11 OC2PE: Output compare 2 preload enable
+Bit 10 OC2FE: Output compare 2 fast enable
+Bits 9:8 CC2S[1:0]: Capture/Compare 2 selection
+This bitfield defines the direction of the channel (input/output) as well as the used input.
+00: CC2 channel is configured as output
+01: CC2 channel is configured as input, tim_ic2 is mapped on tim_ti2
+10: CC2 channel is configured as input, tim_ic2 is mapped on tim_ti1
+11: CC2 channel is configured as input, tim_ic2 is mapped on tim_trc. This mode is working
+only if an internal trigger input is selected through the TS bit (TIMx_SMCR register)
+Note: CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIMx_CCER).
+Bit 7 OC1CE: Output compare 1 clear enable
+0: tim_oc1ref is not affected by the tim_ocref_clr_int input
+1: tim_oc1ref is cleared as soon as a High level is detected on tim_ocref_clr_int input
+
+RM0456 Rev 6

@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+System security
+For each illegal event source, a status flag and a clear bit exist. Each illegal event can be
+masked, not generating an interrupt toward the NVIC.
+
+Note:
+
+By default, all events are masked.
+
+3.5.5
+
+Managing security in TrustZone-aware peripherals
+This section gives more details on how the security is implemented in the TrustZone-aware
+peripherals listed in the previous section.
+
+Embedded flash memory
+When the TrustZone security is enabled through option bytes (TZEN = 1), the whole flash
+memory is secure after reset and the following protections, shown in the figure below, are
+available to the application:
+•
+
+•
+
+nonvolatile user secure areas, defined with nonvolatile secure user option bytes
+–
+
+watermark-based secure only area (x2)
+
+–
+
+secure hide protection (HDP) area, stickily hidden after boot (x2)
+
+volatile user secure pages, defined with volatile secure registers (lost after reset)
+–
+
+Note:
+
+Any page set as nonsecure (example: outside the watermark-based secure only
+area), can be set as secure on-the-fly using the block-based configuration
+registers.
+
+All areas are aligned on the flash memory page granularity.
+The flash memory area can be configured as secure while it is tagged as nonsecure in
+Cortex-M33 IDAU/SAU. In this case, nonsecure accesses by the CPU to the flash memory
+are denied.
+Erase or program operations can be available to secure (resp. nonsecure) code only for
+secure (resp. nonsecure) pages or memory. A flash memory is considered secure if at least
+one page is secure.
+
+RM0456 Rev 6

@@ -1,0 +1,201 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 ITAMP3MF: Internal tamper 3 nonsecure interrupt masked flag
+This flag is set by hardware when the internal tamper 3 nonsecure interrupt is raised.
+Bit 17 ITAMP2MF: Internal tamper 2 nonsecure interrupt masked flag
+This flag is set by hardware when the internal tamper 2 nonsecure interrupt is raised.
+Bit 16 ITAMP1MF:Internal tamper 1 nonsecure interrupt masked flag
+This flag is set by hardware when the internal tamper 1 nonsecure interrupt is raised.
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 TAMP8MF: TAMP8 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 8 nonsecure interrupt is raised.
+Bit 6 TAMP7MF: TAMP7 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 7 nonsecure interrupt is raised.
+Bit 5 TAMP6MF: TAMP6 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 6 nonsecure interrupt is raised.
+Bit 4 TAMP5MF: TAMP5 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 5 nonsecure interrupt is raised.
+Bit 3 TAMP4MF: TAMP4 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 4 nonsecure interrupt is raised.
+Bit 2 TAMP3MF: TAMP3 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 3 nonsecure interrupt is raised.
+Bit 1 TAMP2MF: TAMP2 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 2 nonsecure interrupt is raised.
+Bit 0 TAMP1MF: TAMP1 nonsecure interrupt masked flag
+This flag is set by hardware when the tamper 1 nonsecure interrupt is raised.
+
+64.7.14
+
+TAMP secure masked interrupt status register (TAMP_SMISR)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x38
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+ITAMP1 ITAMP1 ITAMP1
+3MF
+2MF
+1MF
+
+25
+
+23
+
+22
+
+21
+
+20
+
+19
+
+17
+
+16
+
+Res.
+
+Res.
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TAMP
+8MF
+
+TAMP
+7MF
+
+TAMP
+6MF
+
+TAMP
+5MF
+
+TAMP
+4MF
+
+TAMP
+3MF
+
+TAMP
+2MF
+
+TAMP
+1MF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RM0456 Rev 6
+
+Res.
+
+18
+
+ITAMP3 ITAMP2 ITAMP1
+MF
+MF
+MF
+
+Res.

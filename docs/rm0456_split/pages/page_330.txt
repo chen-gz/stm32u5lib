@@ -1,0 +1,41 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+Bit 14 SLEEP_PD: Flash memory power-down mode during Sleep mode
+This bit determines whether the flash memory is in power-down mode or Idle mode when the
+device is in Sleep mode.
+0: Flash memory in Idle mode during Sleep mode
+1: Flash memory in power-down mode during Sleep mode
+Caution: The flash memory must not be put in power-down while a program or an erase
+operation is ongoing.
+Bit 13 PDREQ2: Bank 2 power-down mode request
+This bit is write-protected with FLASH_PDKEY2R. This bit requests bank 2 to enter powerdown mode. When bank 2 enters power-down mode, this bit is cleared by hardware and the
+PDKEY2R is locked.
+0: No request for bank 2 to enter power-down mode
+1: Bank 2 requested to enter power-down mode
+Bit 12 PDREQ1: Bank 1 power-down mode request
+This bit is write-protected with FLASH_PDKEY1R. This bit requests bank 1 to enter powerdown mode. When bank 1 enters power-down mode, this bit is cleared by hardware and the
+PDKEY1R is locked.
+0: No request for bank 1 to enter power-down mode
+1: Bank 1 requested to enter power-down mode
+Bit 11 LPM: Low-power read mode
+This bit puts the flash memory in low-power read mode.
+0: Flash memory not in low-power read mode
+1: Flash memory in low-power read mode
+Bits 10:9 Reserved, must be kept at reset value.
+Bit 8 PRFTEN: Prefetch enable
+This bit enables the prefetch buffer in the embedded flash memory.
+0: Prefetch disabled
+1: Prefetch enabled
+Bits 7:4 Reserved, must be kept at reset value.
+Bits 3:0 LATENCY[3:0]: Latency
+These bits represent the ratio between the HCLK (AHB clock) period and the flash memory
+access time.
+0000: Zero wait state
+0001: One wait state
+0010: Two wait states
+...
+1111: Fifteen wait states

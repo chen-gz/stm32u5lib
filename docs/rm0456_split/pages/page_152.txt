@@ -1,0 +1,71 @@
+191
+
+System security
+
+RM0456
+–
+
+•
+
+Protected firmware distribution scheme, using TrustZone, on-the-fly decryption, and
+RDP level 0.5
+
+•
+
+Active tamper and protection against temperature, voltage, and frequency attacks
+–
+
+3.2
+
+Optional password-based RDP level regressions, including for RDP level 2
+
+Eight active inputs, eight active outputs tamper pins, available in all power modes
+
+Secure install
+The secure firmware install (SFI) is an STMicroelectronics secure service authenticated and
+decrypted by the immutable RSS code stored in the device. The SFI allows secure and
+counted installation of OEM firmware in the untrusted production environment (such as the
+OEM contract manufacturer).
+The confidentiality of the installed images written either in the internal flash memory or
+encrypted in an external flash memory, is also protected, using the AES.
+The SFI native service leverages the following hardware security features:
+•
+
+secure boot (see Section 3.3)
+
+•
+
+resource isolation using TrustZone (see Section 3.5)
+
+•
+
+temporal isolation using hide protection (see Section 3.6.1)
+
+•
+
+secure execution (see Section 3.7)
+
+•
+
+secure storage, with associated cryptographic engines (see Section 3.8 and
+Section 3.9)
+
+Further information can be found in the application note: “STM32 MCUs secure firmware
+install (SFI) overview” (AN4992).
+
+3.3
+
+Secure boot
+Secure boot is an immutable code that is always executed after a system reset. As a root of
+trust, this code checks the device static protections and activates available device runtime
+protections, reducing the risk that invalid or malicious code runs on the platform. As root of
+trust, the secure boot also checks the integrity and authenticity of the next level firmware
+before executing it.
+The actual functions of the secure boot depend on the availability of TrustZone features,
+and on the firmware stored in the device. However, the secure boot typically initializes the
+secure storage, and installs on-the-fly decryption keys in the OTFDEC, to be able to use
+encrypted firmware stored in an external flash memory.
+The device trusted firmware-M (TFM) application, supported by the STM32 ecosystem,
+provides a root of trust solution including secure boot functions. For more information, refer
+to the user manual Getting started with STM32CubeU5 TFM application (UM2851).
+In the devices, the secure boot takes benefit of hardware security features such as:

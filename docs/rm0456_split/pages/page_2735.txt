@@ -1,0 +1,192 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 1 FE: Framing error
+This bit is set by hardware when a de-synchronization, excessive noise or a break character
+is detected. It is cleared by software, writing 1 to the FECF bit in the USART_ICR register.
+When transmitting data in smartcard mode, this bit is set when the maximum number of
+transmit attempts is reached without success (the card NACKs the data frame).
+An interrupt is generated if EIE = 1 in the USART_CR3 register.
+0: No Framing error is detected
+1: Framing error or break character is detected
+Note: This error is associated with the character in the USART_RDR.
+Bit 0 PE: Parity error
+This bit is set by hardware when a parity error occurs in reception mode. It is cleared by
+software, writing 1 to the PECF in the USART_ICR register.
+An interrupt is generated if PEIE = 1 in the USART_CR1 register.
+0: No parity error
+1: Parity error
+Note: This error is associated with the character in the USART_RDR.
+
+66.8.12
+
+USART interrupt flag clear register (USART_ICR)
+Address offset: 0x20
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CMCF
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+TCBGT
+CF
+
+TCCF
+
+NECF
+
+FECF
+
+PECF
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+UDRCF EOBCF RTOCF
+w
+
+w
+
+w
+
+Res.
+
+CTSCF LBDCF
+w
+
+w
+
+TXFEC
+IDLECF ORECF
+F
+w
+
+w
+
+w
+
+Bits 31:18 Reserved, must be kept at reset value.
+Bit 17 CMCF: Character match clear flag
+Writing 1 to this bit clears the CMF flag in the USART_ISR register.
+Bits 16:14 Reserved, must be kept at reset value.
+Bit 13 UDRCF:SPI slave underrun clear flag
+Writing 1 to this bit clears the UDRF flag in the USART_ISR register.
+Note: If the USART does not support SPI slave mode, this bit is reserved and must be kept at
+reset value. Refer to Section 66.4: USART implementation
+Bit 12 EOBCF: End of block clear flag
+Writing 1 to this bit clears the EOBF flag in the USART_ISR register.
+Note: If the USART does not support smartcard mode, this bit is reserved and must be kept
+at reset value. Refer to Section 66.4: USART implementation.
+Bit 11 RTOCF: Receiver timeout clear flag
+Writing 1 to this bit clears the RTOF flag in the USART_ISR register.
+Note: If the USART does not support the Receiver timeout feature, this bit is reserved and
+must be kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 10 Reserved, must be kept at reset value.

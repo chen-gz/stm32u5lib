@@ -1,0 +1,74 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+At this point, all initialization required to receive SETUP packets is done.
+
+Endpoint initialization on enumeration completion
+1.
+
+On the Enumeration Done interrupt (ENUMDNE in OTG_GINTSTS), read the
+OTG_DSTS register to determine the enumeration speed.
+
+2.
+
+Program the MPSIZ field in OTG_DIEPCTL0 to set the maximum packet size. This
+step configures control endpoint 0. The maximum packet size for a control endpoint
+depends on the enumeration speed.
+
+At this point, the device is ready to receive SOF packets and is configured to perform control
+transfers on control endpoint 0.
+
+Endpoint initialization on SetAddress command
+This section describes what the application must do when it receives a SetAddress
+command in a SETUP packet.
+1.
+
+Program the OTG_DCFG register with the device address received in the SetAddress
+command
+
+2.
+
+Program the core to send out a status IN packet
+
+Endpoint initialization on SetConfiguration/SetInterface command
+This section describes what the application must do when it receives a SetConfiguration or
+SetInterface command in a SETUP packet.
+1.
+
+When a SetConfiguration command is received, the application must program the
+endpoint registers to configure them with the characteristics of the valid endpoints in
+the new configuration.
+
+2.
+
+When a SetInterface command is received, the application must program the endpoint
+registers of the endpoints affected by this command.
+
+3.
+
+Some endpoints that were active in the prior configuration or alternate setting are not
+valid in the new configuration or alternate setting. These invalid endpoints must be
+deactivated.
+
+4.
+
+Unmask the interrupt for each active endpoint and mask the interrupts for all inactive
+endpoints in the OTG_DAINTMSK register.
+
+5.
+
+Set up the data FIFO RAM for each FIFO.
+
+6.
+
+After all required endpoints are configured; the application must program the core to
+send a status IN packet.
+
+At this point, the device core is configured to receive and transmit any type of data packet.
+
+Endpoint activation
+This section describes the steps required to activate a device endpoint or to configure an
+existing device endpoint to a new type.

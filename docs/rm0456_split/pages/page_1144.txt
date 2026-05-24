@@ -1,0 +1,66 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+The purpose of resynchronization is primary to shift data or data strobe by one quarter of
+controller bus clock period, with a correct timing accuracy. DLL must be calibrated versus
+this clock period.
+The calibration process is automatically enabled when one of the three conditions below is
+met:
+•
+
+The HSPI exits reset state.
+
+•
+
+A value is written in PRESCALER[7:0] of HSPI_DCR2.
+
+•
+
+A value is written in HSPI_CCR.
+
+The calibration process starts when the two following conditions are both met:
+•
+
+The calibration has been enabled by one of the three conditions above.
+
+•
+
+An action that sets BUSY = 1 is performed. For example the first transfer to memory
+after calibration is enabled. When the calibration is completed, BUSY returns to 0.
+
+In case a periodic recalibration is needed (for example to take in account possible variations
+in temperature or power supply on a long duration), this recalibration must be triggered by
+writing periodically in PRESCALER[7:0] of HSPI_DCR2, while BUSY = 0.
+Once the calibration is completed, the value of the SPI bus clock period, expressed in
+number of unitary delay, is available to user in COARSE[5:0] and FINE[6:0] of
+HSPI_CALFCR.
+After auto-calibration, HSPI_CALSOR and HSPI_CALSIR are automatically loaded with the
+same value that corresponds to the delay for a quarter cycle.
+The automatic calibration is not executed if at least one of both registers
+HSPI_CALSOR/HSPI_CALSIR is written between the last write operation on HSPI_DCR2
+or HSPI_CCR and the next transfer start. In such case, the calibration values must be set by
+the software code into HSPI_CALSOR and HSPI_CALSIR registers. It may improve the
+flash programming time without relaunching the automatic calibration processing between
+two programming pages.
+When the memory is not supporting DQS (DQSE = 0), the automatic calibration is not used
+in reception. The DLL Master is used instead for delaying the feedback clock
+(HSPI_CALMR). This delay needs to be adjusted by the application itself, using a software
+sequence that determines which delay is optimal to guarantee the correct read operations.
+When the clock is divided in DTR transmission mode, the quarter cycle delays on DQS/data
+are not inserted by the DLLs themselves, but by internal flops design scheme. In SDR
+transmission mode, the DLLs are not used and this, whatever the clock prescaler value.
+In case of DTR mode and prescaler bypassed (PRESCALER[7:0] = 0), the kernel clock
+provided to interface must have a 50 % duty-cycle.
+When using the high-speed-interface, the system clock (AHB clock) must be at least as fast
+as the SPI clock.
+
+30.4.19
+
+HSPI BUSY and ABORT
+Once the HSPI starts an operation with the external device, BUSY is automatically set in
+HSPI_SR.
+In indirect mode, BUSY is reset once the HSPI has completed the requested command
+sequence and the FIFO is empty.

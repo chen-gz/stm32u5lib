@@ -1,0 +1,160 @@
+1.
+
+Initialize and enable channel 1 as explained in Section : Channel initialization.
+
+2.
+
+The OTG_HS host starts fetching the first packet as soon as the channel is enabled.
+For internal DMA mode, the OTG_HS host uses the programmed DMA address to
+fetch the packet.
+
+3.
+
+After fetching the last 32-bit word of the second (last) packet, the OTG_HS host masks
+channel 1 internally for further arbitration.
+
+4.
+
+The OTG_HS host generates a CHH interrupt as soon as the last packet is sent.
+
+5.
+
+In response to the CHH interrupt, de-allocate the channel for other transfers.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Figure 935. Normal bulk/control OUT/SETUP transactions - DMA
+Application
+
+1
+
+Host
+
+AHB
+
+USB
+
+Device
+
+init_reg(ch_1)
+
+2
+
+init_reg(ch_2)
+
+Non-Periodic
+Request Queue
+Assume that this queue
+can hold 4 entries.
+
+1
+1
+MPS
+
+ch_1
+
+1
+MPS
+
+2
+
+ch_2
+OUT
+
+ch_1
+
+D ATA0
+MPS
+
+ch_2
+
+3
+
+AC K
+IN
+
+D ATA0
+
+3
+AC K
+
+1
+MPS
+
+ch_1
+OUT
+
+ch_2
+
+D ATA1
+MPS
+
+ch_2
+
+5
+ch_2
+
+5
+
+AC K
+
+C hHltd interrupt
+
+4
+IN
+
+De-allocate
+(ch_1)
+
+D ATA1
+
+4
+1
+MPS
+
+AC K
+
+ch_2
+
+6
+7
+ChHltd interrupt
+De-allocate
+(ch_2)
+
+8
+MSv36927V1
+
+•
+
+NAK and NYET handling with internal DMA:
+
+1.
+
+The OTG_HS host sends a bulk OUT transaction.
+
+2.
+
+The device responds with NAK or NYET.
+
+3.
+
+If the application has unmasked NAK or NYET, the core generates the corresponding
+interrupt(s) to the application. The application is not required to service these interrupts,
+since the core takes care of rewinding the buffer pointers and re-initializing the Channel
+without application intervention.
+
+4.
+
+The core automatically issues a ping token.
+
+5.
+
+When the device returns an ACK, the core continues with the transfer. Optionally, the
+application can utilize these interrupts, in which case the NAK or NYET interrupt is
+masked by the application.
+
+RM0456 Rev 6

@@ -1,0 +1,213 @@
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bits 19:0 CCR4[19:0]: Capture/compare value
+If channel CC4 is configured as output: CCR4 is the value to be loaded in the actual
+capture/compare 4 register (preload value).
+It is loaded permanently if the preload feature is not selected in the TIMx_CCMR2 register
+(bit OC4PE). Else the preload value is copied in the active capture/compare 4 register when
+an update event occurs.
+The active capture/compare register contains the value to be compared to the counter
+TIMx_CNT and signalled on tim_oc4 output.
+Non-dithering mode (DITHEN = 0)
+The register holds the compare value in CCR4[15:0]. The CCR4[19:16] bits are reset.
+Dithering mode (DITHEN = 1)
+The register holds the integer part in CCR4[19:4]. The CCR4[3:0] bitfield contains the
+dithered part.
+If channel CC4 is configured as input: CCR4 is the counter value transferred by the last
+input capture 4 event (tim_ic4). The TIMx_CCR4 register is read-only and cannot be
+programmed.
+Non-dithering mode (DITHEN = 0)
+The register holds the capture value in CCR4[15:0]. The CCR4[19:16] bits are reset.
+Dithering mode (DITHEN = 1)
+The register holds the capture in CCR4[19:4]. The CCR4[3:0] bits are reset.
+
+54.6.20
+
+TIMx break and dead-time register (TIMx_BDTR)(x = 1, 8)
+Address offset: 0x044
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+26
+
+25
+
+24
+
+BK
+DSRM
+
+BK2P
+
+BK2E
+
+23
+
+22
+
+21
+
+20
+
+19
+
+17
+
+16
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+MOE
+
+AOE
+
+BKP
+
+BKE
+
+OSSR
+
+OSSI
+
+LOCK[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+BK2F[3:0]
+
+18
+
+Res.
+
+Note:
+
+BK2BID BKBID
+
+27
+BK2
+DSRM
+
+BKF[3:0]
+
+DTG[7:0]
+rw
+
+As the bits BKBID/BK2BID/BK2P, BK2E, BK2F[3:0], BKF[3:0], AOE, BKP, BKE, OSSI,
+OSSR, and DTG[7:0] can be write-locked depending on the LOCK configuration, it can be
+necessary to configure all of them during the first write access to the TIMx_BDTR register.
+
+RM0456 Rev 6

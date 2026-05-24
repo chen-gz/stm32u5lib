@@ -1,0 +1,102 @@
+•
+
+The memory-mapped mode is disabled and an AHB read or write request occurs.
+
+•
+
+A read or write address exceeds the size of the external memory.
+
+•
+
+An abort is received while a read or write burst is ongoing.
+
+•
+
+The OCTOSPI is disabled while a read or write burst is requested.
+
+•
+
+A write wrap burst is received.
+
+•
+
+A write request is received while DQSE = 0 in OCTOSPI_WCCR in octal DTR mode, in
+dual-memory configuration, in HyperBus mode.
+
+•
+
+A read or write request is received while DMODE[2:0] = 000 (no data phase), except
+when MTYP[2:0] is HyperBus.
+
+•
+
+Illegal access size when wrap read burst. This means that the AHB bus transfer size
+(HSIZE) is different from 4 bytes (only for memory-mapped mode).
+
+•
+
+Bit DMM is set in OCTOSPI_CR (dual-memory configuration) and octal mode is set.
+
+RM0456 Rev 6
+
+RM0456
+
+28.4.18
+
+Octo-SPI interface (OCTOSPI)
+
+OCTOSPI BUSY and ABORT
+Once the OCTOSPI starts an operation with the external device, BUSY is automatically set
+in OCTOSPI_SR.
+In indirect mode, BUSY is reset once the OCTOSPI has completed the requested command
+sequence and the FIFO is empty.
+In automatic status-polling mode, BUSY goes low only after the last periodic access is
+complete, due to a match when APMS = 1 or due to an abort.
+After the first access in memory-mapped mode, BUSY goes low only on an abort.
+Any operation can be aborted by setting ABORT in OCTOSPI_CR. Once the abort is
+completed, BUSY and ABORT are automatically reset, and the FIFO is flushed.
+Before setting ABORT, the software must ensure that all the current transactions are
+finished using the synchronization barriers. When DMA is enabled to handle the data read
+or write operations in OCTOSPI_DR, it is recommended to disable the DMA channel before
+aborting the OCTOSPI.
+
+Note:
+
+Some devices may misbehave if a write operation to a status register is aborted.
+
+28.4.19
+
+OCTOSPI reconfiguration or deactivation
+Before any OCTOSPI reconfiguration, the software must ensure that all the transactions are
+completed:
+
+28.4.20
+
+•
+
+After a memory-mapped write, the software must perform a dummy read followed
+by a synchronization barrier, then an abort.
+
+•
+
+After a memory-mapped read, the software must perform a synchronization barrier
+than an abort.
+
+NCS behavior
+By default, NCS is high, deselecting the external device. NCS falls before an operation
+begins and rises as soon as it finishes.
+When CKMODE = 0 (clock mode 0: CLK stays low when no operation is in progress), NCS
+falls one CLK cycle before an operation first rising CLK edge, and NCS rises one CLK cycle
+after the operation final rising CLK edge (see the figure below).
+Figure 159. NCS when CKMODE = 0 (T = CLK period)
+T
+
+T
+
+NCS
+
+SCLK
+
+MSv44100V1
+
+RM0456 Rev 6

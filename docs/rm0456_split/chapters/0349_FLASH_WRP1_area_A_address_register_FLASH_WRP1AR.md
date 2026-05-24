@@ -1,0 +1,170 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+7.9.19
+
+FLASH WRP1 area A address register (FLASH_WRP1AR)
+Address offset: 0x58
+Reset value: 0xXXXX XXXX
+(bits loaded with values from the flash memory at OBL. Reserved bits are read as 1)
+ST production value: 0xFFE0 FFFF (for STM32U535/545)
+0xFF80 FFFF (for STM32U575/585)
+0xFF00 FFFF (for STM32U59x/5Ax/5Fx/5Gx)
+Access: no wait state when no option bytes modification is ongoing; word, half-word, and
+byte access
+This register can not be written if OPTLOCK bit is set. This register is nonsecure. It can be
+read and written by both secure and nonsecure access. This register can be protected
+against unprivileged access when NSPRIV = 1 in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+UNLOC
+K
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+WRP1A_PEND[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+WRP1A_PSTRT[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 UNLOCK: Bank 1 WPR first area A unlock
+0: WRP1A start and end pages locked
+1: WRP1A start and end pages unlocked
+Bits 30:24 Reserved, must be kept at reset value.
+Bits 23:16 WRP1A_PEND[7:0]: Bank 1 WPR first area A end page
+This field contains the last page of the first WPR area in bank 1. This field is limited to 7 bits
+for STM32U575/585 and 5 bits for STM32U535/545.
+Bits 15:8 Reserved, must be kept at reset value.
+Bits 7:0 WRP1A_PSTRT[7:0]: bank 1 WPR first area A start page
+This field contains the first page of the first WPR area for bank 1. This field is limited to 7 bits
+for STM32U575/585 and 5 bits for STM32U535/545.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

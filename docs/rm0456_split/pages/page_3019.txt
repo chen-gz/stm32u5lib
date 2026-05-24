@@ -1,0 +1,57 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+Bit 11 SETUP: Setup transaction completed
+– Device mode
+This bit is read-only and it is set by the hardware when the last completed transaction is a
+SETUP. This bit changes its value only for control endpoints. It must be examined, in the
+case of a successful receive transaction (VTRX event), to determine the type of transaction
+occurred. To protect the interrupt service routine from the changes in SETUP bits due to
+next incoming tokens, this bit is kept frozen while VTRX bit is at 1; its state changes when
+VTRX is at 0. This bit is read-only.
+– Host mode
+This bit is set by the software to send a SETUP transaction on a control endpoint. This bit
+changes its value only for control endpoints. It is cleared by hardware when the SETUP
+transaction is acknowledged and VTTX interrupt generated.
+Bits 10:9 UTYPE[1:0]: USB type of transaction
+These bits configure the behavior of this endpoint/channel as described in Table 742:
+Endpoint/channel type encoding. Channel0/Endpoint0 must always be a control
+endpoint/channel and each USB function must have at least one control endpoint/channel
+which has address 0, but there can be other control channels/endpoints if required. Only
+control channels/endpoints handle SETUP transactions, which are ignored by endpoints of
+other kinds. SETUP transactions cannot be answered with NAK or STALL. If a control
+endpoint/channel is defined as NAK, the USB peripheral does not answer, simulating a
+receive error, in the receive direction when a SETUP transaction is received. If the control
+endpoint/channel is defined as STALL in the receive direction, then the SETUP packet is
+accepted anyway, transferring data and issuing the CTR interrupt. The reception of OUT
+transactions is handled in the normal way, even if the endpoint/channel is a control one.
+Bulk and interrupt endpoints have very similar behavior and they differ only in the special
+feature available using the EPKIND configuration bit.
+The usage of isochronous channels/endpoints is explained in Section 71.5.5: Isochronous
+transfers in Device mode
+Bit 8 EPKIND: endpoint/channel kind
+The meaning of this bit depends on the endpoint/channel type configured by the UTYPE
+bits. Table 743 summarizes the different meanings.
+DBL_BUF: This bit is set by the software to enable the double-buffering feature for this bulk
+endpoint. The usage of double-buffered bulk endpoints is explained in Section 71.5.3:
+Double-buffered endpoints and usage in Device mode.
+STATUS_OUT: This bit is set by the software to indicate that a status out transaction is
+expected: in this case all OUT transactions containing more than zero data bytes are
+answered ‘STALL’ instead of ‘ACK’. This bit can be used to improve the robustness of the
+application to protocol errors during control transfers and its usage is intended for control
+endpoints only. When STATUS_OUT is reset, OUT transactions can have any number of
+bytes, as required.
+Bit 7 VTTX: Valid USB transaction transmitted
+– Device mode
+This bit is set by the hardware when an IN transaction is successfully completed on this
+endpoint; the software can only clear this bit. If the CTRM bit in the USB_CNTR register is
+set accordingly, a generic interrupt condition is generated together with the endpoint related
+interrupt condition, which is always activated.
+A transaction ended with a NAK or STALL handshake does not set this bit, since no data is
+actually transferred, as in the case of protocol errors or data toggle mismatches.
+This bit is read/write but only 0 can be written.
+– Host mode
+Same as VTRX behavior but for USB OUT and SETUP transactions.

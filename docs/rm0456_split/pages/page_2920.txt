@@ -1,0 +1,80 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Tx handler
+The Tx handler controls the message transfer from the message RAM to the CAN core. A
+maximum of three Tx buffers is available for transmission. The Tx buffer can be used as Tx
+FIFO or as a Tx queue. Tx event FIFO stores Tx timestamps together with the
+corresponding message ID. Transmit cancellation is also supported.
+
+Rx handler
+The Rx handler controls the transfer of received messages from the CAN core to the
+external message RAM. The Rx handler supports two receive FIFOs, for storage of all
+messages that have passed acceptance filtering. An Rx timestamp is stored together with
+each message. Up to 28 filters can be defined for 11-bit IDs; up to eight filters for 29-bit IDs.
+
+APB interface
+The APB interface connects the FDCAN to the APB bus for configuration registers,
+controller configuration, and RAM access.
+
+Message RAM interface
+The message RAM interface connects the FDCAN access to an external 1-Kbyte message
+RAM through a RAM controller/arbiter.
+
+70.3.2
+
+FDCAN pins and internal signals
+The CAN subsystem I/O signals and pins are detailed, respectively, in Table 717, Table 718,
+and Figure 881.
+Table 717. CAN subsystem I/O signals
+Name
+fdcan_ker_ck
+fdcan_pclk
+fdcan_intr0_it
+fdcan_intr1_it
+
+Type
+Digital input
+
+Digital output
+
+fdcan_ts[0:15]
+
+-
+
+APB interface
+
+Digital input/output
+
+Description
+CAN subsystem kernel clock input
+CAN subsystem APB interface clock input
+FDCAN interrupt0
+FDCAN interrupt1
+External timestamp vector
+Single APP with multiple psel for configuration, control
+and RAM access
+
+Table 718. CAN subsystem I/O pins
+Name
+
+Type
+
+Description
+
+FDCAN_RX
+
+Digital input
+
+FDCAN receive pin
+
+FDCAN_TX
+
+Digital output
+
+FDCAN transmit pin
+
+RM0456 Rev 6

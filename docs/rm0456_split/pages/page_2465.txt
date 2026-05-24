@@ -1,0 +1,56 @@
+2577
+
+Independent watchdog (IWDG)
+
+RM0456
+
+Updating the window comparator
+It is possible to update the window comparator when the IWDG is already running. The
+IWDCNT is reloaded as well. The following sequence can be performed to update the
+window comparator:
+1.
+
+Enable register access by writing 0x0000 5555 in the IWDG key register (IWDG_KR).
+
+2.
+
+Write to the IWDG window register (IWDG_WINR). This automatically reloads the
+IWDCNT down-counter with RL[11:0] value.
+
+3.
+
+Wait for WVU = 0
+
+4.
+
+Lock registers by writing IWDG_KR to 0x0000 0000
+
+Step 3 can be skipped if the application does not intend to disable the APB clock after the
+completion of this sequence.
+
+61.4.5
+
+Debug
+When the processor enters into Debug mode (core halted), the IWDCNT down-counter
+either continues to work normally or stops, depending on debug capability of the product.
+Refer to Section 61.3 for details on the capabilities of this product.
+
+61.4.6
+
+Register access protection
+Write accesses to IWDG prescaler register (IWDG_PR), IWDG reload register
+(IWDG_RLR), IWDG early wake-up interrupt register (IWDG_EWCR) and IWDG window
+register (IWDG_WINR) are protected. To modify them, first write 0x0000 5555 in the IWDG
+key register (IWDG_KR). A write access to this register with a different value breaks the
+sequence and register access is protected again. This is the case of the reload operation
+(writing 0x0000 AAAA).
+A status register is available to indicate that an update of the prescaler or the down-counter
+reload value or the window value is ongoing.
+
+61.5
+
+IWDG low power modes
+Depending on option bytes configuration, the IWDG can continue counting or not during the
+low power modes. Refer to Section 61.3 for details.
+Table 625. Effect of low power modes on IWDG
+Mode

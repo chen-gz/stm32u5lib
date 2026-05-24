@@ -1,0 +1,166 @@
+RM0456
+
+RAMCFG interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281
+RAMCFG register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 287
+Flash module 512-Kbyte dual-bank organization for STM32U535/545 . . . . . . . . . . . . . . 293
+Flash module 2-Mbyte dual-bank organization for STM32U575/585 . . . . . . . . . . . . . . . . 293
+Flash module 4-Mbyte dual-bank organization for STM32U59x/5Ax/5Fx/5Gx . . . . . . . . . 294
+Number of wait states according to CPU clock (HCLK) frequency (LPM = 0) . . . . . . . . . 295
+Number of wait states according to CPU clock (HCLK) frequency (LPM = 1) . . . . . . . . . 296
+Flash operation interrupted by a system reset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 305
+User option-byte organization mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 306
+Default secure option bytes after TZEN activation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 309
+Secure watermark-based area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 309
+Secure hide protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 311
+Secure and HDP protections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 311
+Flash security state . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 312
+WRP protection. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 316
+Flash memory readout protection status (TZEN = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 317
+Access status versus protection level and execution modes when TZEN = 0 . . . . . . . . . 318
+Flash memory readout protection status (TZEN = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 318
+Access status versus protection level and execution modes when TZEN = 1 . . . . . . . . . 320
+Flash memory access versus RDP level when TrustZone is active (TZEN = 1) . . . . . . . 325
+Flash memory access versus RDP level when TrustZone is disabled (TZEN = 0) . . . . . 326
+Flash memory mass erase versus RDP level when TrustZone is active (TZEN = 1) . . . . 326
+Flash system memory, OTP and RSS accesses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 327
+Flash registers access . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 327
+Flash page access versus privilege mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 327
+Flash mass erase versus privilege mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 328
+SECyBBRx registers access when TrustZone is active (TZEN = 1). . . . . . . . . . . . . . . . . 328
+PRIVyBBRx registers access when TrustZone is active (TZEN = 1) . . . . . . . . . . . . . . . . 328
+PRIVyBBRx registers access when TrustZone is disabled (TZEN = 0) . . . . . . . . . . . . . . 328
+Flash interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 329
+FLASH register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 360
+ICACHE features for STM32U535/545/575/585 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 365
+ICACHE features for STM32U59x/5Ax/5Fx/5Gx . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 365
+TAG memory dimensioning parameters
+for n-way set associative operating mode (default) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 367
+TAG memory dimensioning parameters for direct-mapped cache mode . . . . . . . . . . . . . 369
+ICACHE cacheability for AHB transaction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 370
+Memory configurations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 371
+ICACHE remap region size, base address and remap address . . . . . . . . . . . . . . . . . . . . 372
+ICACHE interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 376
+ICACHE register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 381
+DCACHE features for STM32U535/545/575/585 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 383
+DCACHE features for STM32U59x/5Ax/5Fx/5Gx. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 383
+TAG memory dimensioning parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 386
+DCACHE cacheability for AHB transaction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 388
+DCACHE interrupts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 393
+DCACHE register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+PWR input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+PWR wake-up source selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 402
+PWR internal input/output signals. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 402
+PVM features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 413
+Low-power mode summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 417
+
+RM0456 Rev 6
+
+RM0456
+Table 100.
+Table 101.
+Table 102.
+Table 103.
+Table 104.
+Table 105.
+Table 106.
+Table 107.
+Table 108.
+Table 109.
+Table 110.
+Table 111.
+Table 112.
+Table 113.
+Table 114.
+Table 115.
+Table 116.
+Table 117.
+Table 118.
+Table 119.
+Table 120.
+Table 121.
+Table 122.
+Table 123.
+Table 124.
+Table 125.
+Table 126.
+Table 127.
+Table 128.
+Table 129.
+Table 130.
+Table 131.
+Table 132.
+Table 133.
+Table 134.
+Table 135.
+Table 136.
+Table 137.
+Table 138.
+Table 139.
+Table 140.
+Table 141.
+Table 142.
+Table 143.
+Table 144.
+Table 145.
+Table 146.
+Table 147.
+Table 148.
+Table 149.
+Table 150.
+Table 151.
+
+List of tables
+Functionalities depending on the working mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 418
+Sleep mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 426
+Stop 0 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 428
+Stop 1 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 429
+Stop 2 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 431
+Stop 3 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 434
+Standby mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 436
+Shutdown mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 438
+Power modes output states versus MCU power modes . . . . . . . . . . . . . . . . . . . . . . . . . . 439
+PWR Security configuration summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 440
+PWR interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 442
+PWR register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 479
+RCC input/output signals connected to package pins or balls . . . . . . . . . . . . . . . . . . . . . 483
+MSIS and MSIK ranges per internal MSIRCs (PLL_mode disabled) . . . . . . . . . . . . . . . . 490
+Bus maximum frequency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 498
+Clock source maximum frequency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 498
+Autonomous peripherals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 504
+RCC security configuration summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 506
+Interrupt sources and control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 510
+RCC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 604
+CRS features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+CRS internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 611
+CRS interconnection for STM32U535/545/575/585 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 612
+CRS interconnection for STM32U59x/5Ax/5Fx/5Gx . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 612
+Effect of low-power modes on CRS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
+Interrupt control bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
+CRS register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 620
+Port bit configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 623
+GPIO secured bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 631
+GPIO register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 641
+LPGPIO register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 647
+TrustZone security and privilege register accesses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 650
+BOOSTEN and ANASWVDD set/reset. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 654
+SYSCFG register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 666
+Peripherals interconnect matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 669
+GPDMA1 channel implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 687
+GPDMA1 autonomous mode and wake-up in low-power modes . . . . . . . . . . . . . . . . . . . 687
+Programmed GPDMA1 request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 687
+Programmed GPDMA1 request as a block request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 691
+Programmed GPDMA1 trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 691
+Programmed GPDMA source/destination burst . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 713
+Programmed data handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 718
+Effect of low-power modes on GPDMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 731
+GPDMA interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 732
+GPDMA register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 762
+LPDMA1 channels implementation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 765
+LPDMA1 autonomous mode and wake-up in low-power modes . . . . . . . . . . . . . . . . . . . 765
+Programmed LPDMA1 request. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 766
+Programmed LPDMA1 request as a block request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 766
+LPDMA1 channel with peripheral early termination . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 767
+Programmed LPDMA1 request with peripheral early termination. . . . . . . . . . . . . . . . . . . 767
+Programmed LPDMA1 trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 767
+
+RM0456 Rev 6

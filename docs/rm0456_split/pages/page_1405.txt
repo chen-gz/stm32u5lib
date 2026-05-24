@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+ADC power-saving modes
+The ADC embeds two power-saving modes, the auto-off and the autonomous modes.
+Auto-off mode (AUTOFF)
+The auto-off mode is enabled by setting the AUTOFF bit to 1 in the ADC_PWRR register.
+Below the auto-off mode operating sequence:
+1.
+
+When AUTOFF is set to 1, the ADC is always powered off when no conversion is
+ongoing.
+
+2.
+
+It then automatically wakes up when a conversion is triggered by software or by
+hardware, and a startup time is inserted between the trigger event and the ADC
+sampling time.
+
+3.
+
+The ADC is then automatically disabled once the conversion or sequence of
+conversions is complete.
+
+4.
+
+When consecutive hardware or software triggers occur, the ADC is automatically
+enabled and the conversion is processed.
+
+Refer to Figure 294 for a description of auto-off mode state diagram.
+The auto-off mode dramatically reduces power consumption in applications requiring a
+limited number of conversions or conversion requests far between enough (for example with
+a low-frequency hardware trigger) to justify the extra power and time used for switching the
+ADC on and off.
+Auto-off mode can be combined with wait mode (WAIT = 1) for applications clocked at low
+frequency. This combination can achieve significant power saving if the ADC is
+automatically powered off during the wait phase and restarted as soon as the ADC_DR
+register is read by the application (see Figure 295: ADC behavior with WAIT = 0 and
+AUTOFF = 1 and Figure 296: ADC behavior with WAIT = 1 and AUTOFF = 1).
+The auto-off mode is compatible with the low-power background autonomous mode
+(LPBAM).
+Note:
+
+Refer to the Section Reset and clock control (RCC) for the description of how to manage
+the dedicated internal oscillators. The ADC interface can automatically switch on/off these
+internal oscillators to save power.
+
+RM0456 Rev 6

@@ -1,0 +1,75 @@
+RM0456 Rev 6
+
+RM0456
+
+8.4.12
+
+Instruction cache (ICACHE)
+
+ICACHE performance monitoring
+The ICACHE provides the following monitors for performance analysis:
+•
+
+The 32-bit hit monitor counts the cacheable AHB-transactions on the slave cache port
+that hits the ICACHE content.
+It also takes into account all accesses whose address is present in the TAG memory
+or in the refill buffer (due to a previous miss, and whose data is coming, or is soon to
+come, from the cache master port) (see Section 8.4.8).
+
+•
+
+The 16-bit miss monitor counts the cacheable AHB-transactions on the slave cache
+port that misses the ICACHE content.
+It also takes into account all accesses whose address is not present neither in
+the TAG memory nor in the refill buffer.
+
+Upon reaching their maximum values, these monitors do not wrap over.
+Hit and miss monitors can be enabled and reset by software allowing the analysis of specific
+pieces of code.
+The software can perform the following tasks:
+•
+
+Enable/stop the hit monitor through HITMEN in ICACHE_CR.
+
+•
+
+Reset the hit monitor by setting HITMRST in ICACHE_CR.
+
+•
+
+Enable/stop the miss monitor through MISSMEN in ICACHE_CR.
+
+•
+
+Reset the miss monitor by setting MISSMRST in ICACHE_CR.
+
+To reduce power consumption, these monitors are disabled (stopped) by default.
+
+8.4.13
+
+ICACHE boot
+The ICACHE is disabled (EN = 0 in ICACHE_CR) at boot.
+The code remapping at boot is not needed for a Cortex®-M33 since it implements the VTOR
+(vector tables) that allows a boot start address definition different than 0x0.
+Once the boot is finished, the ICACHE can be enabled (software setting EN = 1
+in CACHE_CR).
+
+8.5
+
+ICACHE low-power modes
+At device level, using the ICACHE reduces the power consumption by fetching instructions
+from the internal ICACHE most of the time, rather than from the bigger and then more power
+consuming main memories. This reduction is even higher if the cached main memories are
+external.
+Applications with lower performance profile (in terms of hit ratio) and stringent power
+consumption constraints may benefit from the lower power consumption of an ICACHE
+configured as direct mapped. This single-way cache configuration is obtained by
+programming WAYSEL = 0 in ICACHE_CR (see Figure 28). The power consumption is
+reduced by accessing, for each request, only the necessary cut of TAG and data memories.
+The cache effect still improves fetch performance, even if for most code execution, it is less
+efficient than with an n-way set associative cache mode.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

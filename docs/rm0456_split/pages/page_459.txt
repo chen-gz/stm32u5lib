@@ -1,0 +1,205 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Power control (PWR)
+
+Bit 1 UCPD_STBY: UCPD Stop 3 and Standby modes
+When set, this bit is used to memorize the UCPD configuration in Stop 3 and Standby modes.
+This bit must be written to one just before entering Stop 3 or Standby mode when
+using UCPD. It must be written to zero after exiting Stop 3 or Standby mode, and before
+writing any UCPD registers.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 0 UCPD_DBDIS: UCPD dead battery disable
+After exiting reset, the USB Type-C “dead battery” behavior is enabled, which may have a
+pull-down effect on CC1 and CC2 pins. It is recommended to disable it in all cases, either
+to stop this pull-down, or to handover control to the UCPD (that must be initialized before
+doing the disable).
+0: UCPD dead battery pull-down behavior enabled on UCPDx_CC1 and UCPDx_CC2 pins
+1: UCPD dead battery pull-down behavior disabled on UCPDx_CC1 and UCPDx_CC2 pins
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+
+10.10.13 PWR security configuration register (PWR_SECCFGR)
+Address offset: 0x30
+Reset value: 0x0000 0000
+This register can be written only when the access is secure. It can be read by secure or
+nonsecure access. This register is write-protected against unprivileged write access when
+SPRIV = 1 in PWR_PRIVCFGR.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+WUP8
+SEC
+
+WUP7
+SEC
+
+WUP6
+SEC
+
+WUP5
+SEC
+
+WUP4
+SEC
+
+WUP3
+SEC
+
+WUP2
+SEC
+
+WUP1
+SEC
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+APCSE
+VDMS LPMSE
+VBSEC
+C
+EC
+C
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 APCSEC: Pull-up/pull-down secure protection
+0: PWR_APCR can be read and written with secure or nonsecure access.
+1: PWR_APCR can be read and written only with secure access.
+Bit 14 VBSEC: Backup domain secure protection
+0: PWR_BDCR1, PWR_BDCR2, and PWR_DBPR can be read and written with secure or
+nonsecure access.
+1: PWR_BDCR1, PWR_BDCR2, and PWR_DBPR can be read and written only with
+secure access.
+Bit 13 VDMSEC: Voltage detection and monitoring secure protection
+0: PWR_SVMCR and PWR_CR3 can be read and written with secure or nonsecure access.
+1: PWR_SVMCR and PWR_CR3 can be read and written only with secure access.
+
+RM0456 Rev 6

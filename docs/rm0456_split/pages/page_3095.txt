@@ -1,0 +1,183 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+72.15.27 OTG host port control and status register (OTG_HPRT)
+Address offset: 0x440
+Reset value: 0x0000 0000
+This register is available only in host mode. Currently, the OTG host supports only one port.
+A single register holds USB port-related information such as USB reset, enable, suspend,
+resume, connect status, and test mode for each port. It is shown in Figure 901. The rc_w1
+bits in this register can trigger an interrupt to the application through the host port interrupt
+bit of the core interrupt register (HPRTINT bit in OTG_GINTSTS). On a port interrupt, the
+application must read this register and clear the bit that caused the interrupt. For the rc_w1
+bits, the application must write a 1 to the bit to clear the interrupt.
+31
+Res.
+
+15
+
+30
+
+29
+
+Res.
+
+Res.
+
+14
+
+13
+
+PTCTL[2:0]
+rw
+
+rw
+
+28
+Res.
+
+12
+PPWR
+
+rw
+
+rw
+
+27
+Res.
+
+11
+
+26
+Res.
+
+10
+
+PLSTS[1:0]
+r
+
+r
+
+25
+Res.
+
+9
+Res.
+
+24
+Res.
+
+23
+Res.
+
+8
+
+7
+
+22
+Res.
+
+21
+Res.
+
+20
+Res.
+
+19
+Res.
+
+18
+
+17
+
+PSPD[1:0]
+
+16
+PTCTL
+[3]
+
+r
+
+r
+
+rw
+
+1
+
+0
+
+6
+
+5
+
+4
+
+3
+
+2
+
+POCA
+
+PEN
+CHNG
+
+PENA
+
+PCDET PCSTS
+
+r
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+PRST
+
+PSUSP
+
+PRES
+
+POC
+CHNG
+
+rw
+
+rs
+
+rw
+
+rc_w1
+
+r
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:17 PSPD[1:0]: Port speed
+Indicates the speed of the device attached to this port.
+01: Full speed
+10: Low speed
+11: Reserved
+Bits 16:13 PTCTL[3:0]: Port test control
+The application writes a nonzero value to this field to put the port into a Test mode, and the
+corresponding pattern is signaled on the port.
+0000: Test mode disabled
+0001: Test_J mode
+0010: Test_K mode
+0011: Test_SE0_NAK mode
+0100: Test_Packet mode
+0101: Test_Force_Enable
+Others: Reserved
+Bit 12 PPWR: Port power
+The application uses this field to control power to this port, and the core clears this bit on an
+overcurrent condition.
+0: Power off
+1: Power on
+Bits 11:10 PLSTS[1:0]: Port line status
+Indicates the current logic level USB data lines
+Bit 10: Logic level of OTG_DP
+Bit 11: Logic level of OTG_DM
+Bit 9 Reserved, must be kept at reset value.

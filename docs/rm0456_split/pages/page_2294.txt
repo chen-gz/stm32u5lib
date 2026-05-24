@@ -1,0 +1,42 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Figure 658. Encoder mode behavior in case of narrow index pulse (IPOS[1:0] = 11)
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter
+
+5 6 7 0 1 2 3 4 5
+
+6
+
+5 4 3 2 1 0 7 6 5 4 3 2 1
+
+Index leading state transition
+
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter
+
+5 6 7 0 1 2 3 4 5
+
+6
+
+5 4 3 2 1 0 7 6 5 4 3 2 1
+
+Index delayed versus state transition

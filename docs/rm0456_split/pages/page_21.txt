@@ -1,0 +1,123 @@
+Low-power direct memory access controller (LPDMA) . . . . . . . . . . . 764
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+18.1
+
+LPDMA introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 764
+
+18.2
+
+LPDMA main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 764
+
+18.3
+
+LPDMA implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 765
+
+18.4
+
+18.3.1
+
+LPDMA channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 765
+
+18.3.2
+
+LPDMA autonomous mode in low-power modes . . . . . . . . . . . . . . . . . 765
+
+18.3.3
+
+LPDMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 766
+
+18.3.4
+
+LPDMA block requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 766
+
+18.3.5
+
+LPDMA triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 767
+
+LPDMA functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+18.4.1
+
+LPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+
+18.4.2
+
+LPDMA channel state and direct programming without
+any linked-list . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+
+18.4.3
+
+LPDMA channel suspend and resume . . . . . . . . . . . . . . . . . . . . . . . . 770
+
+18.4.4
+
+LPDMA channel abort and restart . . . . . . . . . . . . . . . . . . . . . . . . . . . . 771
+
+18.4.5
+
+LPDMA linked-list data structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 772
+
+18.4.6
+
+Linked-list item transfer execution . . . . . . . . . . . . . . . . . . . . . . . . . . . . 774
+
+18.4.7
+
+LPDMA channel state and linked-list programming
+in run-to-completion mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 774
+
+18.4.8
+
+LPDMA channel state and linked-list programming in link step mode . 779
+
+18.4.9
+
+LPDMA channel state and linked-list programming . . . . . . . . . . . . . . . 785
+
+18.4.10 LPDMA direct transfers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 787
+18.4.11 LPDMA transfer request and arbitration . . . . . . . . . . . . . . . . . . . . . . . 789
+18.4.12 LPDMA triggered transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 793
+18.4.13 LPDMA circular buffering with linked-list programming . . . . . . . . . . . . 794
+18.4.14 LPDMA secure/nonsecure channel . . . . . . . . . . . . . . . . . . . . . . . . . . . 796
+18.4.15 LPDMA privileged/unprivileged channel . . . . . . . . . . . . . . . . . . . . . . . 797
+18.4.16 LPDMA error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 798
+18.4.17 LPDMA autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 799
+
+18.5
+
+LPDMA in debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 800
+
+18.6
+
+LPDMA in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 800
+
+18.7
+
+LPDMA interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 801
+
+18.8
+
+LPDMA registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 802
+18.8.1
+
+LPDMA secure configuration register (LPDMA_SECCFGR) . . . . . . . . 802
+
+18.8.2
+
+LPDMA privileged configuration register (LPDMA_PRIVCFGR) . . . . . 803
+
+18.8.3
+
+LPDMA configuration lock register (LPDMA_RCFGLOCKR) . . . . . . . 804
+
+18.8.4
+
+LPDMA nonsecure masked interrupt status register
+(LPDMA_MISR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 804
+
+RM0456 Rev 6

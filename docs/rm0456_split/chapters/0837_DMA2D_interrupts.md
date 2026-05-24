@@ -1,0 +1,94 @@
+RM0456 Rev 6
+
+RM0456
+
+19.3.17
+
+Chrom-ART Accelerator controller (DMA2D)
+
+AHB dead time
+To limit the AHB bandwidth use, a dead time between two consecutive AHB accesses can
+be programmed.
+This feature can be enabled by setting EN in DMA2D_AMTCR.
+The dead time value is stored into DT[7:0] in DMA2D_AMTCR. This value represents the
+guaranteed minimum number of cycles between two consecutive transactions on
+the AHB bus.
+The update of the dead time value while the DMA2D runs is taken into account for the next
+AHB transfer.
+
+19.4
+
+DMA2D interrupts
+An interrupt can be generated on the following events:
+•
+
+Configuration error
+
+•
+
+CLUT transfer complete
+
+•
+
+CLUT access error
+
+•
+
+Transfer watermark reached
+
+•
+
+Transfer complete
+
+•
+
+Transfer error
+
+Separate interrupt enable bits are available for flexibility.
+Table 168. DMA2D interrupt requests
+Interrupt event
+
+Event flag
+
+Enable control bit
+
+Configuration error
+
+CEIF
+
+CEIE
+
+CLUT transfer complete
+
+CTCIF
+
+CTCIE
+
+CLUT access error
+
+CAEIF
+
+CAEIE
+
+Transfer watermark
+
+TWF
+
+TWIE
+
+Transfer complete
+
+TCIF
+
+TCIE
+
+Transfer error
+
+TEIF
+
+TEIE
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

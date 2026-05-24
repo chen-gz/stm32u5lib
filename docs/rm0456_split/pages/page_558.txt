@@ -1,0 +1,53 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 16 AESEN: AES clock enable
+This bit is set and cleared by software.
+0: AES clock disabled
+1: AES clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 15 OTGHSPHYEN: OTG_HS PHY clock enable
+This bit is set and cleared by software.
+0: OTG_HS PHY clock disabled
+1: OTG_HS PHY clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 14 OTGEN: OTG_FS or OTG_HS clock enable
+This bit is set and cleared by software.
+0: OTG_FS or OTG_HS clock disabled
+1: OTG_FS or OTG_HS clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 13 Reserved, must be kept at reset value.
+Bit 12 DCMI_PSSIEN: DCMI and PSSI clock enable
+This bit is set and cleared by software.
+0: DCMI and PSSI clock disabled
+1: DCMI and PSSI clock enabled
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 ADC12EN: ADC1 and ADC2 clock enable
+This bit is set and cleared by software.
+0: ADC1 and ADC2 clock disabled
+1: ADC1 and ADC2 clock enabled
+Note: This bit impacts ADC1 in STM32U535/545/575/585, and ADC1/ADC2
+in STM32U59x/5Ax/5Fx/5Gx.
+Bit 9 GPIOJEN: I/O port J clock enable
+This bit is set and cleared by software.
+0: I/O port J clock disabled
+1: I/O port J clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 8 GPIOIEN: I/O port I clock enable
+This bit is set and cleared by software.
+0: I/O port I clock disabled
+1: I/O port I clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.

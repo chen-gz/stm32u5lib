@@ -1,0 +1,83 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+Programming the alarm
+A similar procedure must be followed to program or update the programmable alarms. The
+procedure below is given for alarm A but can be translated in the same way for alarm B.
+
+Note:
+
+1.
+
+Clear ALRAE in RTC_CR to disable alarm A.
+
+2.
+
+Program the alarm A registers (RTC_ALRMASSR/RTC_ALRMAR or
+RTC_ALRABINR).
+
+3.
+
+Set ALRAE in the RTC_CR register to enable alarm A again.
+
+Each change of the RTC_CR register is taken into account after around 2 RTCCLK clock
+cycles due to clock synchronization.
+
+Programming the wake-up timer
+The following sequence is required to configure or change the wake-up timer auto-reload
+value (WUT[15:0] in RTC_WUTR):
+1.
+
+Clear WUTE in RTC_CR to disable the wake-up timer.
+
+2.
+
+Poll WUTWF until it is set in RTC_ICSR to make sure the access to wake-up autoreload counter and to WUCKSEL[2:0] bits is allowed. This step must be skipped in
+calendar initialization mode.
+
+3.
+
+63.3.12
+
+–
+
+If WUCKSEL[2] = 0: WUTWF is set around 1 ck_wut + 1 RTCCLK cycles after
+WUTE bit is cleared.
+
+–
+
+If WUCKSEL[2] = 1: WUTWF is set up to 1 ck_apre + 1 RTCCLK cycles after
+WUTE bit is cleared.
+
+Program the wake-up auto-reload value WUT[15:0], WUTOCLR[15:0] and the wake-up
+clock selection (WUCKSEL[2:0] bits in RTC_CR). Set WUTE in RTC_CR to enable the
+timer again. The wake-up timer restarts down-counting.
+–
+
+If WUCKSEL[2] = 0: WUTWF is cleared around 1 ck_wut + 1 RTCCLK cycles after
+WUTE bit is set.
+
+–
+
+If WUCKSEL[2] = 1: WUTWF is cleared up to 1 ck_apre + 1 RTCCLK cycles after
+WUTE bit is set.
+
+Reading the calendar
+When BYPSHAD control bit is cleared in the RTC_CR register
+To read the RTC calendar registers (RTC_SSR, RTC_TR and RTC_DR) properly, the APB
+clock frequency (fPCLK) must be equal to or greater than seven times the RTC clock
+frequency (fRTCCLK). This ensures a secure behavior of the synchronization mechanism.
+If the APB clock frequency is less than seven times the RTC clock frequency, the software
+must read the calendar time and date registers twice. If the second read of the RTC_TR
+gives the same result as the first read, this ensures that the data is correct. Otherwise a third
+read access must be done. In any case the APB clock frequency must never be lower than
+the RTC clock frequency.
+The RSF bit is set in RTC_ICSR register each time the calendar registers are copied into
+the RTC_SSR, RTC_TR and RTC_DR shadow registers. The copy is performed every
+RTCCLK cycle. To ensure consistency between the 3 values, reading either RTC_SSR or
+RTC_TR locks the values in the higher-order calendar shadow registers until RTC_DR is
+read. In case the software makes read accesses to the calendar in a time interval smaller
+than 1 RTCCLK periods: RSF must be cleared by software after the first calendar read, and

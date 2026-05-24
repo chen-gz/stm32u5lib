@@ -1,0 +1,159 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Device mode
+Bits 31:16 TX0FD: Endpoint 0 Tx FIFO depth
+This value is in terms of 32-bit words.
+Minimum value is 16
+Programmed values must respect the available FIFO memory allocation and must not
+exceed the power-on value.
+Bits 15:0 TX0FSA: Endpoint 0 transmit RAM start address
+This field configures the memory start address for the endpoint 0 transmit FIFO RAM.
+
+72.15.14 OTG non-periodic transmit FIFO/queue status register
+(OTG_HNPTXSTS)
+Address offset: 0x02C
+Reset value: 0x0008 0200
+Note:
+
+In device mode, this register is not valid.
+This read-only register contains the free space information for the non-periodic Tx FIFO and
+the non-periodic transmit request queue.
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+15
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+NPTXQTOP[6:0]
+
+20
+
+19
+
+18
+
+17
+
+16
+
+NPTQXSAV[7:0]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+NPTXFSAV[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RM0456 Rev 6

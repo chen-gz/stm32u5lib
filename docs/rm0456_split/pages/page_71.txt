@@ -1,0 +1,119 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+63.6.24 RTC alarm A binary mode register (RTC_ALRABINR) . . . . . . . . . . . 2636
+63.6.25 RTC alarm B binary mode register (RTC_ALRBBINR) . . . . . . . . . . . 2637
+63.6.26 RTC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2638
+
+64
+
+Tamper and backup registers (TAMP) . . . . . . . . . . . . . . . . . . . . . . . . 2640
+64.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2640
+
+64.2
+
+TAMP main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2641
+
+64.3
+
+TAMP implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2641
+
+64.4
+
+TAMP functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2642
+64.4.1
+
+TAMP block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2642
+
+64.4.2
+
+TAMP pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2643
+
+64.4.3
+
+GPIOs controlled by the RTC and TAMP . . . . . . . . . . . . . . . . . . . . . . 2646
+
+64.4.4
+
+TAMP register write protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2646
+
+64.4.5
+
+TAMP secure protection modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2646
+
+64.4.6
+
+Backup registers protection zones . . . . . . . . . . . . . . . . . . . . . . . . . . . 2647
+
+64.4.7
+
+TAMP privilege protection modes . . . . . . . . . . . . . . . . . . . . . . . . . . . 2647
+
+64.4.8
+
+Boot hardware key (BHK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2648
+
+64.4.9
+
+Tamper detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2648
+
+64.4.10 TAMP backup registers and other device secrets erase . . . . . . . . . . 2648
+64.4.11 Tamper detection configuration and initialization . . . . . . . . . . . . . . . . 2650
+
+64.5
+
+TAMP low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+
+64.6
+
+TAMP interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+
+64.7
+
+TAMP registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2658
+64.7.1
+
+TAMP control register 1 (TAMP_CR1) . . . . . . . . . . . . . . . . . . . . . . . . 2658
+
+64.7.2
+
+TAMP control register 2 (TAMP_CR2) . . . . . . . . . . . . . . . . . . . . . . . . 2660
+
+64.7.3
+
+TAMP control register 3 (TAMP_CR3) . . . . . . . . . . . . . . . . . . . . . . . . 2662
+
+64.7.4
+
+TAMP filter control register (TAMP_FLTCR) . . . . . . . . . . . . . . . . . . . 2663
+
+64.7.5
+
+TAMP active tamper control register 1 (TAMP_ATCR1) . . . . . . . . . . 2665
+
+64.7.6
+
+TAMP active tamper seed register (TAMP_ATSEEDR) . . . . . . . . . . . 2667
+
+64.7.7
+
+TAMP active tamper output register (TAMP_ATOR) . . . . . . . . . . . . . 2668
+
+64.7.8
+
+TAMP active tamper control register 2 (TAMP_ATCR2) . . . . . . . . . . 2669
+
+64.7.9
+
+TAMP secure configuration register (TAMP_SECCFGR) . . . . . . . . . 2672
+
+64.7.10 TAMP privilege configuration register (TAMP_PRIVCFGR) . . . . . . . 2674
+64.7.11 TAMP interrupt enable register (TAMP_IER) . . . . . . . . . . . . . . . . . . . 2675
+64.7.12 TAMP status register (TAMP_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2677
+64.7.13 TAMP nonsecure masked interrupt status register (TAMP_MISR) . . 2679
+
+RM0456 Rev 6

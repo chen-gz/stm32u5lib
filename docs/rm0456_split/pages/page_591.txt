@@ -1,0 +1,48 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 13:12 I2C2SEL[1:0]: I2C2 kernel clock source selection
+These bits are used to select the I2C2 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The I2C2 is functional in Stop 0 and Stop 1 mode sonly when the kernel clock is
+HSI16 or MSIK.
+Bits 11:10 I2C1SEL[1:0]: I2C1 kernel clock source selection
+These bits are used to select the I2C1 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The I2C1 is functional in Stop 0 and Stop 1 mode sonly when the kernel clock is
+HSI16 or MSIK.
+Bits 9:8 UART5SEL[1:0]: UART5 kernel clock source selection
+These bits are used to select the UART5 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: LSE selected
+Note: The UART5 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or LSE.
+Bits 7:6 UART4SEL[1:0]: UART4 kernel clock source selection
+These bits are used to select the UART4 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: LSE selected
+Note: The UART4 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or LSE.
+Bits 5:4 USART3SEL[1:0]: USART3 kernel clock source selection
+These bits are used to select the USART3 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: LSE selected
+Note: The USART3 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or LSE.
+
+RM0456 Rev 6

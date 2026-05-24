@@ -1,0 +1,30 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+The real capture value corresponding to the input capture trigger can be calculated using
+the below formula:
+Real capture value = captured(LPTIM_CCRx) - offset
+The relevant offset must be used depending on the glitch filter and on the kernel clock
+prescaler value (PRESC field in CFGR register)
+Example: determining the real capture value when PRESC[2:0] = 0x2 and ICxF = 0x3.
+For this configuration (PRESC[2:0] = 0x2 and ICxF = 0x3) and according to the
+Table 613, the offset is 5.
+Assuming that the captured value in CCRx is 9 (LPTIM_CNT = 9), this means that the
+capture trigger occurred when the LPTIM_CNT was equal to 9 - 5 = 4.
+Table 613. Input capture Glitch filter latency (in counter step unit)
+Prescaler PRESC[2:0]
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5

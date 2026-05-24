@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+Bit 0 IRS: Interrupt rising edge status
+The flag is set by hardware and reset by software.
+0: No interrupt rising edge occurred
+1: Interrupt rising edge occurred
+Note: If this bit is written by software to 1 it is set.
+
+Common memory space timing register (FMC_PMEM)
+Address offset: 0x88
+Reset value: 0xFCFC FCFC
+The FMC_PMEM read/write register contains the timing information for NAND flash memory
+bank. This information is used to access either the common memory space of the NAND
+flash for command, address write access and data read/write access.
+31
+
+30
+
+29
+
+28
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+MEMHIZ[7:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+MEMHOLD[7:0]
+
+MEMWAIT[7:0]
+rw
+
+20
+
+MEMSET[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 MEMHIZ[7:0]: Common memory x data bus Hi-Z time
+Defines the number of HCLK clock cycles during which the data bus is kept Hi-Z after the
+start of a NAND flash write access to common memory space on socket. This is only valid for
+write transactions:
+0000 0000: 1 HCLK cycle
+1111 1110: 255 HCLK cycles
+1111 1111: reserved.
+Bits 23:16 MEMHOLD[7:0]: Common memory hold time
+Defines the number of HCLK clock cycles for write access and HCLK (+2) clock cycles for
+read access during which the address is held (and data for write accesses) after the
+command is deasserted (NWE, NOE), for NAND flash read or write access to common
+memory space on socket x:
+0000 0000: reserved.
+0000 0001: 1 HCLK cycle for write access / 3 HCLK cycles for read access
+1111 1110: 254 HCLK cycles for write access / 256 HCLK cycles for read access
+1111 1111: reserved.
+Bits 15:8 MEMWAIT[7:0]: Common memory wait time
+Defines the minimum number of HCLK (+1) clock cycles to assert the command (NWE,
+NOE), for NAND flash read or write access to common memory space on socket. The
+duration of command assertion is extended if the wait signal (NWAIT) is active (low) at the
+end of the programmed value of HCLK:
+0000 0000: reserved
+0000 0001: 2HCLK cycles (+ wait cycle introduced by deasserting NWAIT)
+1111 1110: 255 HCLK cycles (+ wait cycle introduced by deasserting NWAIT)
+1111 1111: reserved.
+
+RM0456 Rev 6

@@ -1,0 +1,88 @@
+RM0456 Rev 6
+
+B7B6,B5B4,B3B2,B1B0
+
+xx
+
+B7B6B5B4,B3B2B1B0
+
+RM0456
+
+18.4.11
+
+Low-power direct memory access controller (LPDMA)
+
+LPDMA transfer request and arbitration
+LPDMA transfer request
+As defined by LPDMA_CxTR2, a programmed LPDMA data transfer is requested with one
+of the following:
+
+Caution:
+
+•
+
+a software request if the control bit SWREQ = 1: This is used typically by the CPU for a
+data transfer from a memory-mapped address to another memory mapped address
+(memory-to-memory, GPIO to/from memory)
+
+•
+
+an input hardware request coming from a peripheral if SWREQ = 0: The selection of
+the LPDMA hardware peripheral request is driven by the REQSEL[4:0] field
+(see Section 18.3.4). The selected hardware request can be one of the following:
+–
+
+a hardware request from a peripheral configured in LPDMA mode (for a transfer
+from/to the peripheral data register respectively to/from the memory)
+
+–
+
+a hardware request from a peripheral for its control registers update from the
+memory
+
+–
+
+a hardware request from a peripheral for a read of its status registers transferred
+to the memory
+
+The user must not assign a same input hardware peripheral LPDMA request via
+LPDMA_CxTR.REQSEL[4:0] to two different channel if at a given time this request is
+asserted by the peripheral and each channel is ready to execute this requested data
+transfer. There is no user setting error reporting.
+
+LPDMA transfer request for arbitration
+For a given channel, a LPDMA requested data transfer from the source address to the
+destination address is arbitrated versus simultaneous requested LPDMA transfers from
+other channels, in order to be scheduled over the AHB master port. A LPDMA data transfer
+is atomic to the LPDMA arbitration: it consists of an AHB read single, immediately followed
+by an AHB write single. It is granted by the arbiter once for both AHB transfers, based on the
+channel priority defined by LPDMA_CxCR.PRIO[1:0].
+An arbitrated LPDMA requested link transfer consists of one 32-bit read from the linked-list
+data structure in the memory to one of the linked-list registers (LPDMA_CxTR1,
+LPDMA_CxTR2, LPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR or LPDMA_CxLLR).
+Each 32-bit read from the memory is arbitrated with the same channel priority as for data
+transfers, in order to be scheduled over the master port.
+The re arbitration occurs after each granted single transfer:
+•
+
+•
+
+whatever how the requested data transfer is programmed:
+–
+
+with a software request for a memory-to-memory transfer
+(LPDMA_CxTR2.SWREQ = 1)
+
+–
+
+with a hardware request (LPDMA_CxTR2.SWREQ = 0) for a memory-toperipheral transfer or a peripheral-to-memory transfer
+
+whatever the hardware request type
+
+When the requested data transfer is programmed with a hardware request from a peripheral
+(LPDMA_CxTR2.SWREQ = 0), the first memory read of a block is gated by the occurrence
+of the corresponding and selected hardware request, whatever the peripheral is source or
+destination of the transfer. This first read request to the memory is not taken into account
+earlier by the arbiter (not as soon as the block transfer is enabled and executable).
+
+RM0456 Rev 6

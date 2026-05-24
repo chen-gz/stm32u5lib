@@ -1,0 +1,334 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+10.10.40 PWR port J pull-down control register (PWR_PDCRJ)
+Address offset: 0x9C
+Reset value: 0x0000 0000
+The register is not affected when exiting Standby mode.
+Each PDy is protected against nonsecure access when SECy = 1 in GPIOJ_SECCFGR.
+Each PDy is protected against unprivileged access when SECy = 1 in GPIOJ_SECCFGR
+and SPRIV = 1 in PWR_PRIVCFGR, or when SECy = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access
+Note:
+
+Some bits are only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and kept at reset value.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PD11
+
+PD10
+
+PD9
+
+PD8
+
+PD7
+
+PD6
+
+PD5
+
+PD4
+
+PD3
+
+PD2
+
+PD1
+
+PD0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:12 Reserved, must be kept at reset value.
+Bits 11:0 PDy: Port J pull-down bit y (y = 11 to 0)
+When set, each bit activates the pull-down on PJy when APC is set in PWR_APCR
+
+10.10.41 PWR control register 4 (PWR_CR4)
+Address offset: 0xA8
+Reset value: 0x0000 0000
+This register is protected against nonsecure access when LPMSEC = 1
+in PWR_SECCFGR. This register is protected against unprivileged access when
+LPMSEC = 1 and SPRIV = 1 in PWR_PRIVCFGR, or when LPMSEC = 0 and NSPRIV = 1.
+Note:
+
+31
+Res.
+
+15
+Res.
+
+Some bits are only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and kept at reset value.
+30
+Res.
+
+14
+
+29
+Res.
+
+13
+
+28
+
+27
+
+26
+
+rw
+
+rw
+
+rw
+
+rw
+
+12
+
+11
+
+10
+
+9
+
+SRAM3 SRAM3 SRAM3 SRAM3 SRAM3
+PDS13 PDS12 PDS11 PDS10 PDS9
+rw
+
+rw
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5 SRAM5
+PDS13 PDS12 PDS11 PDS10 PDS9
+PDS8
+PDS7
+PDS6
+PDS5
+PDS4
+PDS3
+PDS2
+PDS1
+
+rw
+
+rw
+
+rw
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SRAM1 SRAM1 SRAM1 SRAM1 SRAM1 SRAM1 SRAM1 SRAM1 SRAM1
+PDS12 PDS11 PDS10 PDS9
+PDS8
+PDS7
+PDS6
+PDS5
+PDS4
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

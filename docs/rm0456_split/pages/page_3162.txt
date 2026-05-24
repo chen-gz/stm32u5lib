@@ -1,0 +1,106 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+This section describes how the core handles SETUP packets and the application’s
+sequence for handling SETUP transactions.
+•
+
+Application requirements
+
+1.
+
+To receive a SETUP packet, the STUPCNT field (OTG_DOEPTSIZx) in a control OUT
+endpoint must be programmed to a non-zero value. When the application programs the
+STUPCNT field to a non-zero value, the core receives SETUP packets and writes them
+to the receive FIFO, irrespective of the NAK status and EPENA bit setting in
+OTG_DOEPCTLx. The STUPCNT field is decremented every time the control endpoint
+receives a SETUP packet. If the STUPCNT field is not programmed to a proper value
+before receiving a SETUP packet, the core still receives the SETUP packet and
+decrements the STUPCNT field, but the application may not be able to determine the
+correct number of SETUP packets received in the setup stage of a control transfer.
+–
+
+2.
+
+STUPCNT = 3 in OTG_DOEPTSIZx
+
+The application must always allocate some extra space in the receive data FIFO, to be
+able to receive up to three SETUP packets on a control endpoint.
+–
+
+The space to be reserved is 10 words. Three words are required for the first
+SETUP packet, 1 word is required for the setup stage done word and 6 words are
+required to store two extra SETUP packets among all control endpoints.
+
+–
+
+3 words per SETUP packet are required to store 8 bytes of SETUP data and 4
+bytes of SETUP status (setup packet pattern). The core reserves this space in the
+receive data FIFO to write SETUP data only, and never uses this space for data
+packets.
+
+3.
+
+The application must read the 2 words of the SETUP packet from the receive FIFO.
+
+4.
+
+The application must read and discard the setup stage done word from the receive
+FIFO.
+
+•
+
+Internal data flow
+
+1.
+
+When a SETUP packet is received, the core writes the received data to the receive
+FIFO, without checking for available space in the receive FIFO and irrespective of the
+endpoint’s NAK and STALL bit settings.
+–
+
+2.
+
+The core internally sets the IN NAK and OUT NAK bits for the control IN/OUT
+endpoints on which the SETUP packet was received.
+
+For every SETUP packet received on the USB, 3 words of data are written to the
+receive FIFO, and the STUPCNT field is decremented by 1.
+–
+
+The first word contains control information used internally by the core
+
+–
+
+The second word contains the first 4 bytes of the SETUP command
+
+–
+
+The third word contains the last 4 bytes of the SETUP command
+
+3.
+
+When the setup stage changes to a data IN/OUT stage, the core writes an entry (setup
+stage done word) to the receive FIFO, indicating the completion of the setup stage.
+
+4.
+
+On the AHB side, SETUP packets are emptied by the application.
+
+5.
+
+When the application pops the setup stage done word from the receive FIFO, the core
+interrupts the application with an STUP interrupt (OTG_DOEPINTx), indicating it can
+process the received SETUP packet.
+
+6.
+
+The core clears the endpoint enable bit for control OUT endpoints.
+
+•
+
+Application programming sequence
+
+RM0456 Rev 6

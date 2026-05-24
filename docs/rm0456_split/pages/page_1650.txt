@@ -1,0 +1,62 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Warning:
+
+DSCIC is very important for CIC filter. In order to work fine,
+DSCIC must not exceed 26 bits.
+
+The CIC gain GCIC is given by:
+G CIC = ( D1 )
+
+N
+
+which gives in decibels:
+N
+
+GdB CIC = 20 × log 10 ( ( D1 ) )
+
+Data size at SCALE output
+The data size at SCALE output (including the CIC gain), is a key information as the RSFLT
+starts to have some saturations, if the peak-to-peak signal amplitude at SCALE output is
+higher than 22 bits.
+If the RSFLT is bypassed, then a peak-to-peak signal amplitude of 24 bits is accepted.
+The signal amplitude at SCALE output is:
+N
+
+Asout SCALE = D1 × 10
+
+GdB SCALE
+--------------------------20
+
+× Asin DFLT
+
+GdBSCALE represents the gain selected by SCALE[5:0], in dB.
+AsoutSCALE is the signal amplitude at SCALE output (in LSB), and AsinDFLT is the signal
+amplitude at CIC input (LSB).
+ln ( Asout SCALE )
++1
+DS SCALE = ------------------------------------------ln ( 2 )
+
+The data size at SCALE output (DSSCALE) is expressed in bits.
+
+RSFLT gain
+The RSFLT gain in the useful bandwidth is typically 9.5 dB, but due to ripple a margin of
+about ± 0.41 dB must be considered.
+G RSFLT = 10
+
+Note:
+
+9.5 dB
+----------------20
+
+= 2.98 typical
+
+The HPF filter has a gain of 0 dB.
+
+SAD gain
+The SAD is using only the 16 MSB on the signal, as a consequence, from the SAD point of
+view, the truncation from 24 to 16 bits can be seen as an attenuation.

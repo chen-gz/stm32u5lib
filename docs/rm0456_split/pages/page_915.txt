@@ -1,0 +1,342 @@
+Acronym
+
+Description
+
+RM0456 Rev 6
+
+Address
+
+RM0456
+
+Nested vectored interrupt controller (NVIC)
+
+Position
+
+Priority
+
+Table 187. STM32U5 series vector table(1) (continued)
+Type of
+priority
+
+72
+
+80
+
+Settable COMP
+
+73
+
+81
+
+Settable
+
+74
+
+82
+
+75
+
+Acronym
+
+Description
+
+Address
+
+COMP1/COMP2
+
+0x0000 0160
+
+USB/OTG_FS/OTG_HS global interrupt
+
+0x0000 0164
+
+Settable CRS
+
+Clock recovery system global interrupt
+
+0x0000 0168
+
+83
+
+Settable FMC
+
+FSMC global interrupt
+
+0x0000 016C
+
+76
+
+84
+
+Settable OCTOSPI1
+
+OCTOSPI1 global interrupt
+
+0x0000 0170
+
+77
+
+85
+
+Settable PWR_S3WU
+
+PWR wake-up from Stop 3 interrupt
+
+0x0000 0174
+
+78
+
+86
+
+Settable SDMMC1
+
+SDMMC1 global interrupt
+
+0x0000 0178
+
+79
+
+87
+
+Settable SDMMC2
+
+SDMMC2 global interrupt
+
+0x0000 017C
+
+80
+
+88
+
+Settable GPDMA1_CH8
+
+GPDMA1 channel 8 interrupt
+
+0x0000 0180
+
+81
+
+89
+
+Settable GPDMA1_CH9
+
+GPDMA1 channel 9 interrupt
+
+0x0000 0184
+
+82
+
+90
+
+Settable GPDMA1_CH10
+
+GPDMA1 channel 10 interrupt
+
+0x0000 0188
+
+83
+
+91
+
+Settable GPDMA1_CH11
+
+GPDMA1 channel 11 interrupt
+
+0x0000 018C
+
+84
+
+92
+
+Settable GPDMA1_CH12
+
+GPDMA1 channel 12 interrupt
+
+0x0000 0190
+
+85
+
+93
+
+Settable GPDMA1_CH13
+
+GPDMA1 channel 13 interrupt
+
+0x0000 0194
+
+86
+
+94
+
+Settable GPDMA1_CH14
+
+GPDMA1 channel 14 interrupt
+
+0x0000 0198
+
+87
+
+95
+
+Settable GPDMA1_CH15
+
+GPDMA1 channel 15 interrupt
+
+0x0000 019C
+
+88
+
+96
+
+Settable I2C3_EV
+
+I2C3 event interrupt
+
+0x0000 01A0
+
+89
+
+97
+
+Settable I2C3_ER
+
+I2C3 error interrupt
+
+0x0000 01A4
+
+90
+
+98
+
+Settable SAI1
+
+SAI1 global interrupt
+
+0x0000 01A8
+
+91
+
+99
+
+Settable SAI2
+
+SAI2 global interrupt
+
+0x0000 01AC
+
+92
+
+100
+
+Settable TSC
+
+TSC global interrupt
+
+0x0000 01B0
+
+93
+
+101
+
+Settable AES
+
+AES global interrupt
+
+0x0000 01B4
+
+94
+
+102
+
+Settable RNG
+
+RNG global interrupt
+
+0x0000 01B8
+
+95
+
+103
+
+Settable FPU
+
+Floating point interrupt
+
+0x0000 01BC
+
+96
+
+104
+
+Settable HASH
+
+HASH interrupt
+
+0x0000 01C0
+
+97
+
+105
+
+Settable PKA
+
+PKA global interrupt
+
+0x0000 01C4
+
+98
+
+106
+
+Settable LPTIM3
+
+LPTIM3 global interrupt
+
+0x0000 01C8
+
+99
+
+107
+
+Settable SPI3
+
+SPI3 global interrupt
+
+0x0000 01CC
+
+100 108
+
+Settable I2C4_ER
+
+I2C4 error interrupt
+
+0x0000 01D0
+
+101 109
+
+Settable I2C4_EV
+
+I2C4 event interrupt
+
+0x0000 01D4
+
+102 110
+
+Settable MDF1_FLT0
+
+MDF1 filter 0 global interrupt
+
+0x0000 01D8
+
+103 111
+
+Settable MDF1_FLT1
+
+MDF1 filter 1 global interrupt
+
+0x0000 01DC
+
+USB/OTG_FS/
+OTG_HS
+
+RM0456 Rev 6

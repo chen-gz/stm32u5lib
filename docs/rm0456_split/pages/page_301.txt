@@ -1,0 +1,133 @@
+1.
+
+Check that no flash main memory operation is ongoing by checking BSY in
+FLASH_NSSR or FLASH_SECSR.
+
+2.
+
+Check that the write buffer is empty by checking WDW in FLASH_NSSR or
+FLASH_SECSR.
+
+3.
+
+Check and clear all error programming flags due to a previous programming. If not,
+PGSERR is set.
+
+4.
+
+Set PG bit in FLASH_NSCR or FLASH_SECCR.
+
+5.
+
+Perform the data write operation at the desired flash memory address, or in the OTP
+area. Only a quad-word can be programmed and OTP can be only programmed in
+non-secure access:
+–
+
+Write a first word in an address aligned on a quad-word address. WDW bits in
+FLASH_NSSR and FLASH_SECSR are set to indicate that more data can be
+written in the write buffer.
+
+–
+
+Write the second, third and fourth word in the same quad-word.
+
+RM0456 Rev 6
+
+RM0456
+
+Note:
+
+Embedded flash memory (FLASH)
+6.
+
+The BSY bit gets set. WDW is reset automatically.
+
+7.
+
+Wait until BSY is cleared in FLASH_NSSR or FLASH_SECSR. The software must
+make sure that BSY is set or WDW is cleared before waiting for BSY to get cleared.
+
+8.
+
+If the EOP flag is set in FLASH_NSSR or FLASH_SECSR (meaning that the
+programming operation has succeeded and the EOPIE bit is set), it must be cleared
+by software.
+
+9.
+
+Clear PG in FLASH_NSCR or FLASH_SECCR) if there is no more programming
+request.
+
+When the flash memory interface received a good sequence (a quad-word), programming is
+automatically launched and BSY bits are set. The internal oscillator HSI16 (16 MHz) is
+enabled automatically when PG bit is set, and disabled automatically when PG bit is
+cleared, except if the HSI16 is previously enabled with HSION in RCC_CR.
+No option bytes modification nor erase request is allowed when WDW bit is set.
+Programming is possible only if the privileged and security attributes are respected
+(refer to Section 7.7).
+If the user needs to program only one word, the quad-word must be completed with the
+erase value 0xFFFF FFFF to launch automatically the programming.
+ECC is calculated from the quad-word to program.
+
+Flash burst programming (8 quad-words)
+The flash memory burst programming sequence is as follows:
+
+Note:
+
+1.
+
+Check that no flash main memory operation is ongoing by checking BSY bit
+in FLASH_NSSR or FLASH_SECSR.
+
+2.
+
+Check that the write buffer is empty by checking WDW in FLASH_NSSR or
+FLASH_SECSR.
+
+3.
+
+Check and clear all error programming flags due to a previous programming. If not,
+PGSERR is set.
+
+4.
+
+Set BWR and PG bits in FLASH_NSCR or FLASH_SECCR.
+
+5.
+
+Perform the data write operation at the desired flash memory address, or in the OTP
+area. Only 8 quad-words can be programmed:
+–
+
+Write a first 32-bit word in an address aligned on a 8 * quad-word address
+(multiple of 0x80). WDW bits in FLASH_NSSR and FLASH_SECSR are set to
+indicate that more data can be written in the write buffer.
+
+–
+
+Write the 31 other 32-bit words consecutively.
+
+6.
+
+The BSY bit gets set. WDW is reset automatically.
+
+7.
+
+Wait until BSY is cleared in FLASH_NSSR or FLASH_SECSR). The software must
+make sure that BSY is set or WDW is cleared before waiting for BSY to get cleared.
+
+8.
+
+If EOP flag is set in FLASH_NSSR or FLASH_SECSR (meaning that the programming
+operation has succeeded and EOPIE is set), it has to be cleared by software.
+
+9.
+
+Clear BWR and PG bits in FLASH_NSCR or FLASH_SECCR if there is no more
+programming request.
+
+When the flash memory interface received a good sequence, programming is automatically
+launched and the BSY bits are set. The internal oscillator HSI16 (16 MHz) is enabled
+
+RM0456 Rev 6

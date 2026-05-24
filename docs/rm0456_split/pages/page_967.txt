@@ -1,0 +1,57 @@
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+Figure 112. Circular output buffer
+y_base
+Available buffer space
+
+Read pointer
+
+y[n-M-4]
+y[n-M-3]
+y[n-M-2]
+
+These samples not yet read
+
+y[n-M-1]
+y[n-M]
+
+y_buf_size
+
+y[n-6]
+y[n-5]
+
+These samples in use
+for calculating y[n]
+
+y[n-4]
+y[n-3]
+y[n-2]
+y[n-1]
+Next sample
+
+y[n]
+
+Available buffer space
+
+MSv45873V1
+
+The Y buffer can also operate as a circular buffer. If the address for the next output value is
+the same as that indicated by the read pointer (an unread sample), then the buffer is flagged
+as full and execution stalled until the sample is read.
+In the case of IIR filters, the Y buffer is used to store the set of M previous output samples,
+y[n-M] to y[n-1], used for calculating the next output sample y[n]. Each time a new sample is
+added to the set, the least recent sample y[n-M] drops out.
+If the number of unread data in the buffer is less than the watermark threshold programmed
+in the EMPTY_WM bitfield of the FMAC_YBUFCFG register, the buffer is flagged as empty.
+As long as the empty flag is not set, interrupts or DMA requests are generated, if enabled, to
+request reads from the buffer. The watermark allows several data to be transferred under
+one interrupt, without danger of underflow. Nevertheless, if an underflow does occur, the
+UNFL error flag is set. In this case, the read pointer is not incremented and the read
+operation returns the content of the memory at the read pointer address.
+The operation of the Y buffer in circular mode is illustrated in Figure 113. This example
+shows a 7-tap IIR filter with a watermark set to four.
+
+RM0456 Rev 6

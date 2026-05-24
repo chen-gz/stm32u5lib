@@ -1,0 +1,177 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+Bits 1:0 SDW_LOG2[1:0]: binary logarithm of the source data width of a single in bytes
+00: byte
+01: half-word (2 bytes)
+10: word (4 bytes)
+11: user setting error reported and no transfer issued
+Note: Setting a 8-byte data width causes a user setting error to be reported and none transfer
+is issued.
+a source block size must be a multiple of the source data width
+(LPDMA_CxBR1.BNDT[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is
+reported and no transfer is issued.
+A source single transfer must have an aligned address with its data width (start address
+LPDMA_CxSAR[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is
+reported and none transfer is issued.
+
+18.8.11
+
+LPDMA channel x transfer register 2 (LPDMA_CxTR2)
+Address offset: 0x094 + 0x80 * x (x = 0 to 3)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(LPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (LPDMA_PRIVCFGR.PRIVx).
+This register controls the transfer of a channel x.
+This register must be written when LPDMA_CxCR.EN = 0.
+This register is read-only when LPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed (the hardware de-asserted
+LPDMA_CxCR.EN). A channel transfer can be completed and programmed at different
+levels: block or LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by LPDMA
+from the memory, if LPDMA_CxLLR.UT2 = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+TCEM[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TRIGPOL[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+SWRE
+Q
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+TRIGM[1:0]
+rw
+
+rw
+
+Res.
+
+Res.
+
+BREQ
+rw
+
+rw
+
+20
+
+18
+
+17
+
+16
+
+TRIGSEL[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+REQSEL[4:0]
+rw
+
+RM0456 Rev 6
+
+19
+
+rw
+
+rw

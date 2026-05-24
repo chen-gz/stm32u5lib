@@ -1,0 +1,80 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+56.4.11 Output compare mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2371
+56.4.12 PWM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2373
+56.4.13 Combined PWM mode (TIM15 only) . . . . . . . . . . . . . . . . . . . . . . . . . 2378
+56.4.14 Complementary outputs and dead-time insertion . . . . . . . . . . . . . . . 2379
+56.4.15 Using the break function . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2382
+56.4.16 Bidirectional break input . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2386
+56.4.17 Clearing the tim_ocxref signal on an external event . . . . . . . . . . . . . 2387
+56.4.18 6-step PWM generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2388
+56.4.19 One-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2390
+56.4.20 Retriggerable one pulse mode (TIM15 only) . . . . . . . . . . . . . . . . . . . 2391
+56.4.21 UIF bit remapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2392
+56.4.22 Timer input XOR function (TIM15 only) . . . . . . . . . . . . . . . . . . . . . . . 2392
+56.4.23 External trigger synchronization (TIM15 only) . . . . . . . . . . . . . . . . . . 2392
+56.4.24 Slave mode – combined reset + trigger mode (TIM15 only) . . . . . . . 2395
+56.4.25 Slave mode – combined reset + gated mode (TIM15 only) . . . . . . . . 2395
+56.4.26 Timer synchronization (TIM15 only) . . . . . . . . . . . . . . . . . . . . . . . . . . 2396
+56.4.27 Using timer output as trigger for other timers (TIM16/TIM17 only) . . 2396
+56.4.28 ADC triggers (TIM15 only) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2396
+56.4.29 DMA burst mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2396
+56.4.30 TIM15/TIM16/TIM17 DMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . 2397
+56.4.31 Debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2397
+
+56.5
+
+TIM15/TIM16/TIM17 low-power modes . . . . . . . . . . . . . . . . . . . . . . . . 2398
+
+56.6
+
+TIM15/TIM16/TIM17 interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2398
+
+56.7
+
+TIM15 registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2399
+56.7.1
+
+TIM15 control register 1 (TIM15_CR1) . . . . . . . . . . . . . . . . . . . . . . . 2399
+
+56.7.2
+
+TIM15 control register 2 (TIM15_CR2) . . . . . . . . . . . . . . . . . . . . . . . 2400
+
+56.7.3
+
+TIM15 slave mode control register (TIM15_SMCR) . . . . . . . . . . . . . 2402
+
+56.7.4
+
+TIM15 DMA/interrupt enable register (TIM15_DIER) . . . . . . . . . . . . 2404
+
+56.7.5
+
+TIM15 status register (TIM15_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . 2405
+
+56.7.6
+
+TIM15 event generation register (TIM15_EGR) . . . . . . . . . . . . . . . . 2407
+
+56.7.7
+
+TIM15 capture/compare mode register 1 (TIM15_CCMR1) . . . . . . . 2408
+
+56.7.8
+
+TIM15 capture/compare mode register 1 [alternate]
+(TIM15_CCMR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2409
+
+56.7.9
+
+TIM15 capture/compare enable register (TIM15_CCER) . . . . . . . . . 2412
+
+56.7.10 TIM15 counter (TIM15_CNT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2415
+56.7.11 TIM15 prescaler (TIM15_PSC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2415
+56.7.12 TIM15 autoreload register (TIM15_ARR) . . . . . . . . . . . . . . . . . . . . . 2416
+
+RM0456 Rev 6

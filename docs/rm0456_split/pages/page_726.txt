@@ -1,0 +1,64 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+events/interrupts generation (GPDMA_CxCR.HTIE = 1 and GPDMA_CxCR.TCIE = 1), in
+order to enable a concurrent buffer software processing.
+LLI0 is configured for the first block transfer with the linear addressing channel. A
+continuously-executed LLI1 is needed to restore the memory source (or destination) start
+address, for the memory-to-peripheral transfer (respectively the peripheral-to-memory
+transfer). GPDMA automatically reloads the initially programmed
+GPDMA_CxBR1.BNDT[15:0] when a block transfer is completed, and there is no need to
+restore GPDMA_CxBR1.
+Figure 70 illustrates this programming with a linear addressing GPDMA channel and a
+source circular buffer.
+Figure 70. GPDMA circular buffer programming: update of the memory start address
+with a linear addressing channel
+Req=PERIPH_TX
+
+Req=PERIPH_TX
+
+Reset
+Restore
+SAR/LLI1
+
+Init/LLI0
+Channel x
+Ht+ tcf
+
+Ht+ tcf
+
+Linked-list register file
+LLI0
+DMA_CxTR1
+DMA_CxTR2
+DMA_CxBR1
+
+CxLBA (LA = 0)
+USA = 1
+others Uxx = 0
+
+DMA_CxSAR
+
+Memory
+LLI1
+DMA_CxSAR
+
+DMA_CxDAR
+DMA_CxLLR
+MSv62640V1
+
+Note:
+
+With a 2D addressing channel, the user may use a single LLI with
+GPDMA_CxBR1.BRC[10:0] = 1, and program a negative memory block address offset with
+GDMA_CxBR2 and GDMA_CxBR1, in order to jump back to the memory source or the
+destination start address.
+If circular buffering must be executed after some other transfers over the shared GPDMA
+channel x, the before-last LLIN-1 in memory is needed to configure the first block transfer.
+And the last LLIN restores the memory source (or destination) start address in
+memory-to-peripheral transfer (respectively in peripheral-to-memory transfer).
+Figure 71 illustrates this programming with a linear addressing shared GPDMA channel,
+and a source circular buffer.

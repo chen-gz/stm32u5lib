@@ -1,0 +1,207 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.1
+
+RM0456
+
+OTG control and status register (OTG_GOTGCTL)
+Address offset: 0x000
+Reset value: 0x0001 0000
+The OTG_GOTGCTL register controls the behavior and reflects the status of the OTG
+function of the core.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+OTG
+VER
+
+19
+
+18
+
+17
+
+16
+
+DBCT
+
+CID
+STS
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CUR
+MOD
+r
+
+rw
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+EHEN
+
+HNP
+RQ
+
+HNG
+SCS
+
+SRQ
+
+SRQ
+SCS
+
+rw
+
+r
+
+rw
+
+r
+
+rw
+
+DHNP HSHNP
+EN
+EN
+rw
+
+rw
+
+BSVLD ASVLD
+
+BVALO BVALO AVALO AVALO VBVAL VBVAL
+VAL
+EN
+VAL
+EN
+OVAL
+OEN
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 CURMOD: Current mode of operation
+Indicates the current mode (host or device).
+0: Device mode
+1: Host mode
+Bit 20 OTGVER: OTG version
+Selects the OTG revision.
+0:OTG Version 1.3. OTG1.3 is obsolete for new product development.
+1:OTG Version 2.0. In this version the core supports only data line pulsing for SRP.
+Bit 19 BSVLD: B-session valid
+Indicates the device mode transceiver status.
+0: B-session is not valid.
+1: B-session is valid.
+In OTG mode, the user can use this bit to determine if the device is connected or
+disconnected.
+Note: Only accessible in device mode.
+Bit 18 ASVLD: A-session valid
+Indicates the host mode transceiver status.
+0: A-session is not valid
+1: A-session is valid
+Note: Only accessible in host mode.
+Bit 17 DBCT: Long/short debounce time
+Indicates the debounce time of a detected connection.
+0: Long debounce time, used for physical connections (100 ms + 2.5 µs)
+1: Short debounce time, used for soft connections (2.5 µs)
+Note: Only accessible in host mode.
+Bit 16 CIDSTS: Connector ID status
+Indicates the connector ID status on a connect event.
+0: The OTG_FS controller is in A-device mode
+1: The OTG_FS controller is in B-device mode
+Note: Accessible in both device and host modes.

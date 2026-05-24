@@ -1,0 +1,63 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+description table entry, leaving unaffected BLSIZE and NUM_BLOCK fields, which normally
+do not require to be re-written, and the USB_CHEPnR register is updated in the following
+way: DTOGRX bit is toggled, the endpoint is made invalid by setting STATRX = 10 (NAK)
+and bit VTRX is set. If the transaction has failed due to errors or buffer overrun condition,
+none of the previously listed actions take place. The application software must first identify
+the endpoint, which is requesting microcontroller attention by examining the IDN and DIR
+bits in the USB_ISTR register. The VTRX event is serviced by first determining the
+transaction type (SETUP bit in the USB_CHEPnR register); the application software must
+clear the interrupt flag bit and get the number of received bytes reading the COUNTn_RX
+location inside the buffer description table entry related to the endpoint being processed.
+After the received data is processed, the application software must set the STATRX bits to
+11 (VALID) in the USB_CHEPnR, enabling further transactions. While the STATRX bits are
+equal to 10 (NAK), any OUT request addressed to that endpoint is NAKed, indicating a flow
+control condition: the USB host retries the transaction until it succeeds. It is mandatory to
+execute the sequence of operations in the above mentioned order to avoid losing the
+notification of a second OUT transaction addressed to the same endpoint following
+immediately the one which triggered the CTR interrupt.
+
+Data reception in Host mode (IN packets)
+Data reception in Host mode follows the same general principles as Device mode. The main
+differences are again due to the protocol. In the device, data can be received or not,
+depending on readiness after previous operations, whereas the host only requests receive
+data when it is ready and able to store them.
+ADDRn_TX must be set to the location in the packet memory reserved for the packet for
+transmission. The contents received in the data phase response to the IN token packet are
+then written to that address in the packet memory and COUNTn_TX gets updated by
+hardware during this process to indicate the number of bytes in the packet.
+DEVADDR must be written for the correct endpoint and then STATRX must be set to VALID
+in order to trigger the reception. The reception is then scheduled by the HFS.
+After a successful reception the interrupt CTR (correct transfer) is triggered. By examining
+IDN and DIR bits, the corresponding channel and direction is understood. On the indicated
+channel, the STATRX field now has transitioned to DISABLE. In the case of a NAK being
+received (when the peripheral is not ready) STATRX now is in NAK. In the case of a STALL
+response, STATRX is in STALL. In this last case, the bus must be reset. During an IN packet
+an error condition is signaled via the bits VTRX and ERR_RX if one of the following
+conditions occurs:
+•
+
+False EOP
+
+•
+
+Bit stuffing error
+
+•
+
+Wrong CRC
+
+Control transfers in Device mode
+Control transfers are made of a SETUP transaction, followed by zero or more data stages,
+all of the same direction, followed by a status stage (a zero-byte transfer in the opposite
+direction). SETUP transactions are handled by control endpoints only and are very similar to
+OUT ones (data reception) except that the values of DTOGTX and DTOGRX bits of the
+addressed endpoint registers are set to 1 and 0 respectively, to initialize the control transfer,
+and both STATTX and STATRX are set to 10 (NAK) to let software decide if subsequent
+transactions must be IN or OUT depending on the SETUP contents. A control endpoint must
+check SETUP bit in the USB_CHEPnR register at each VTRX event to distinguish normal

@@ -1,0 +1,68 @@
+For block data transfer (DTMODE = 0), DATALENGTH must be an integer multiple
+of DBLOCKSIZE.
+
+The DPSM stays in the Wait_S state until FIFO is full (TXFIFOF = 1), or the
+number indicated by DATALENGTH.
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+- The SDMMC keeps sending data as long as FIFO is not empty, hardware flow
+control during data transfer is used to prevent FIFO underrun.
+5.
+
+6.
+
+Write data to the FIFO.
+–
+
+When the FIFO is handled by software, wait until the FIFO is half empty
+(TXFIFOHE flag), write data to the FIFO until FIFO is full (TXFIFOF = 1), or last
+data has been written.
+
+–
+
+When the FIFO is handled by the IDMA, the IDMA transfers the FIFO date.
+
+When last data has been written wait for end of data (DATAEND flag)
+–
+
+SDMMC has completely sent all data and the DPSM is disabled (DPSMACT = 0).
+
+In case of a data transfer error or transfer hold when IDMAEN = 0, firmware must stop
+writing to the FIFO and flush and reset the FIFO with the FIFORST register bit.
+The transmit FIFO status flags are listed in Table 289.
+Table 289. Transmit FIFO status flags
+Flag
+
+Description
+
+TXFIFOF
+
+Set to high when all transmit FIFO words contain valid data.
+
+TXFIFOE
+
+Set to high when the transmit FIFO does not contain valid data.
+
+TXFIFOHE
+
+Set to high when half or more transmit FIFO words are empty.
+
+TXUNDERR
+
+Set to high when an underrun error occurs. This flag is cleared by writing to the
+SDMMC Clear register.
+
+Receive FIFO:
+Data can be read from the receive FIFO when the DPSM is activated (DPSMACT = 1).
+When IDMAEN = 1 the FIFO is fully handled by the IDMA.
+When IDMAEN = 0 the FIFO is controlled by firmware via the AHB slave interface.When the
+data path subunit receives a word of data, it drives the data on the write databus. The write
+pointer is incremented after the write operation completes. On the read side, the contents of
+the FIFO word pointed to by the current value of the read pointer is driven onto the read
+databus. The receive FIFO is accessible via sequential addresses.
+
+RM0456 Rev 6

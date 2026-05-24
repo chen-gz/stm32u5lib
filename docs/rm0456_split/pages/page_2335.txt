@@ -1,0 +1,134 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+Bit 3 OC3PE: Output compare 3 preload enable
+Bit 2 OC3FE: Output compare 3 fast enable
+Bits 1:0 CC3S[1:0]: Capture/Compare 3 selection
+This bitfield defines the direction of the channel (input/output) as well as the used input.
+00: CC3 channel is configured as output
+01: CC3 channel is configured as input, tim_ic3 is mapped on tim_ti3
+10: CC3 channel is configured as input, tim_ic3 is mapped on tim_ti4
+11: CC3 channel is configured as input, tim_ic3 is mapped on tim_trc. This mode is working
+only if an internal trigger input is selected through TS bit (TIMx_SMCR register)
+Note: CC3S bits are writable only when the channel is OFF (CC3E = 0 in TIMx_CCER).
+
+55.5.11
+
+TIMx capture/compare enable register (TIMx_CCER)(x = 2 to 5)
+Address offset: 0x020
+Reset value: 0x0000
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+CC4NP
+
+Res.
+
+CC4P
+
+CC4E
+
+CC3NP
+
+Res.
+
+CC3P
+
+CC3E
+
+CC2NP
+
+Res.
+
+CC2P
+
+CC2E
+
+CC1NP
+
+Res.
+
+CC1P
+
+CC1E
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 15 CC4NP: Capture/Compare 4 output Polarity.
+Refer to CC1NP description
+Bit 14 Reserved, must be kept at reset value.
+Bit 13 CC4P: Capture/Compare 4 output Polarity.
+Refer to CC1P description
+Bit 12 CC4E: Capture/Compare 4 output enable.
+refer to CC1E description
+Bit 11 CC3NP: Capture/Compare 3 output Polarity.
+Refer to CC1NP description
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 CC3P: Capture/Compare 3 output Polarity.
+Refer to CC1P description
+Bit 8 CC3E: Capture/Compare 3 output enable.
+Refer to CC1E description
+Bit 7 CC2NP: Capture/Compare 2 output Polarity.
+Refer to CC1NP description
+Bit 6 Reserved, must be kept at reset value.
+Bit 5 CC2P: Capture/Compare 2 output Polarity.
+refer to CC1P description
+Bit 4 CC2E: Capture/Compare 2 output enable.
+Refer to CC1E description
+
+RM0456 Rev 6

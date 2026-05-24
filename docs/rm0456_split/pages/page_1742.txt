@@ -1,0 +1,53 @@
+1741
+
+DSI Host (DSI)
+
+44
+
+RM0456
+
+DSI Host (DSI)
+This section applies to STM32U599/5A9/5F9/5G9 devices only.
+
+44.1
+
+Introduction
+Portions Copyright (c) Synopsys, Inc. All rights reserved. Used with permission.
+The display serial interface (DSI) is part of a group of communication protocols defined by
+the MIPI® Alliance.
+The MIPI® DSI Host controller is a digital core that implements all protocol functions defined
+in the MIPI® DSI specification. It provides an interface between the system and the MIPI®
+D-PHY, allowing the user to communicate with a DSI-compliant display.
+
+44.2
+
+Standard and references
+•
+
+MIPI® Alliance Specification for Display Serial interface (DSI)
+v1.1 - 22 November 2011
+
+•
+
+MIPI® Alliance Specification for Display Bus interface (DBI-2)
+v2.00 - 16 November 2005
+
+•
+
+MIPI® Alliance Specification for Display Command set (DCS)
+v1.1 - 22 November 2011
+
+•
+
+MIPI® Alliance Specification for Display Pixel interface (DPI-2)
+v2.00 - 15 September 2005
+
+•
+
+MIPI® Alliance Specification for Stereoscopic Display Formats (SDF)
+v1.0 - 22 November 2011
+
+•
+
+MIPI® Alliance Specification for D-PHY
+v1.1 - 7 November 2011

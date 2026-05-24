@@ -1,0 +1,112 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose I/Os (GPIO)
+common to the alternate function input and alternate function output, a single channel is
+selected for the alternate function input/output of a given I/O.
+To know which functions are multiplexed on each GPIO pin, refer to the device datasheet.
+
+13.3.8
+
+External interrupt/wake-up lines
+All ports have external interrupt capability. To use external interrupt lines, the port can be
+configured in input, output, or alternate function mode (the port must not be configured in
+analog mode). Refer to Section 23: Extended interrupts and event controller (EXTI).
+
+13.3.9
+
+Input configuration
+When the I/O port is programmed as input:
+•
+
+The output buffer is disabled.
+
+•
+
+The Schmitt trigger input is activated.
+
+•
+
+The pull-up and pull-down resistors are activated depending on the value
+in GPIOx_PUPDR.
+
+•
+
+The data present on the I/O pin are sampled into the input data register every
+AHB clock cycle.
+
+•
+
+A read access to the input data register provides the I/O state.
+
+The figure below shows the input configuration of the I/O port bit.
+Figure 46. Input floating/pull-up/pull-down configurations
+
+Read/write
+
+on
+
+Input data register
+Output data register
+
+Write
+
+Bit set/reset registers
+
+Read
+
+VDDIOx
+TTL Schmitt trigger
+on/off
+
+Pull
+up
+
+on/off
+
+ESD
+Pull
+down protection
+
+Input driver
+Output driver
+
+I/O pin
+
+VSS
+
+VSS
+
+Protection diode
+VSS
+
+MSv63602V1
+
+13.3.10
+
+Output configuration
+When the I/O port is programmed as output:
+•
+
+The output buffer is enabled:
+–
+
+Open-drain mode: a 0 in the output register activates the N-MOS whereas a 1 in
+the output register leaves the port in Hi-Z (the P-MOS is never activated).
+
+–
+
+Push-pull mode: a 0 in the output register activates the N-MOS whereas a 1 in the
+output register activates the P-MOS.
+
+•
+
+The Schmitt trigger input is activated.
+
+•
+
+The pull-up and pull-down resistors are activated depending on the value in the
+GPIOx_PUPDR register.
+
+RM0456 Rev 6

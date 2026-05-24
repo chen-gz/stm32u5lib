@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+Res.
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+Bit 18 EV3IE: Event 3 interrupt enable
+This bit enables the complex event 3 interrupt generation.
+0: Event 3 interrupt disabled
+1: Event 3 interrupt enabled
+Bit 17 EV2IE: Event 2 interrupt enable
+This bit enables the complex event 2 interrupt generation.
+0: Event 2 interrupt disabled
+1: Event 2 interrupt enabled
+Bit 16 EV1IE: Event 1 interrupt enable
+This bit enables the complex event 1 interrupt generation.
+0: Event 1 interrupt disabled
+1: Event 1 interrupt enabled
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 RFC2RIE: Relative frame counter 2 reload interrupt enable
+This bit enables the relative frame counter 2 reload interrupt generation.
+0: Relative frame counter 2 reload interrupt disabled
+1: Relative frame counter 2 reload interrupt enabled
+Bit 12 RFC1RIE: Relative frame counter 1 reload interrupt enable
+This bit enables the relative frame counter 1 reload interrupt generation.
+0: Relative frame counter 1 reload interrupt disabled
+1: Relative frame counter 1 reload interrupt enabled
+Bits 11:10 Reserved, must be kept at reset value.
+Bit 9 ALCC2IE: Absolute line counter compare 2 interrupt enable
+This bit enables the absolute line counter compare 2 interrupt generation.
+0: Absolute line counter compare 2 interrupt disabled
+1: Absolute line counter compare 2 interrupt enabled
+Bit 8 ALCC1IE: Absolute line counter compare 1 interrupt enable
+This bit enables the absolute line counter compare 1 interrupt generation.
+0: Absolute line counter compare 1 interrupt disabled
+1: Absolute line counter compare 1 interrupt enabled
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 AFCC1IE: Absolute frame counter compare 1 interrupt enable
+This bit enables the absolute frame counter compare interrupt generation.
+0: Absolute frame counter compare 1 interrupt disabled
+1: Absolute frame counter compare 1 interrupt enabled
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 TEIE: Tearing-effect interrupt enable
+This bit enables the Tearing Effect interrupt generation.
+0: Tearing-effect interrupt disabled
+1: Tearing-effect interrupt enabled
+Bit 1 ALCOIE: Absolute line counter overflow interrupt enable
+This bit enables the absolute line counter overflow interrupt generation.
+0: Absolute line counter overflow interrupt disabled
+1: Absolute line counter overflow interrupt enabled
+
+RM0456 Rev 6

@@ -1,0 +1,87 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+50.4.5
+
+RM0456
+
+SAES decryption round key preparation
+Internal key schedule is used to generate AES round keys. In AES encryption, the round 0
+key is the one stored in the key registers. AES decryption must start using the last round
+key. As the encryption key is stored in memory, a special key scheduling must be performed
+to obtain the decryption key.
+Recommended method is to select the Mode 2 by setting to 01 the MODE[1:0] bitfield of the
+SAES_CR (key process only), then proceed with the decryption by setting MODE[1:0] to 10
+(Mode 3, decryption only). Mode 2 usage is described below:
+
+Note:
+
+1.
+
+Verify that BUSY = 0 in SAES_SR (no RNG random number fetch in progress).
+
+2.
+
+Disable the SAES peripheral by clearing the EN bit of the SAES_CR register.
+
+3.
+
+Select Mode 2 by setting to 01 the MODE[1:0] bitfield of the SAES_CR. The
+CHMOD[2:0] bitfield is not significant in this case because this key derivation mode is
+independent of the chaining algorithm selected. Select normal key mode by setting
+KMOD[1:0] to 00. For decryption with other KMOD[1:0] values, refer to Section 50.4.10
+and Section 50.4.9.
+
+4.
+
+Set key length to 128 or 256 bits, via KEYSIZE bit of SAES_CR register. If the key must
+not be shared with a different security context (different secure attribute), the
+KEYPROT bit of the SAES_CR register must also be set.
+
+5.
+
+Write the SAES_KEYRx registers (128 or 256 bits) with encryption key, or,
+alternatively, select a key source different from the key registers, through KEYSEL[2:0].
+Refer to Section 50.4.12: SAES key registers for details. Writes to the SAES_IVRx
+registers have no effect.
+
+6.
+
+Enable the SAES peripheral, by setting the EN bit of the SAES_CR register.
+
+7.
+
+Wait until the CCF flag is set in the SAES_SR register.
+
+8.
+
+Clear the CCF flag. Derived key is available in AES core, ready to use for decryption.
+
+The SAES is disabled by hardware when the derivation key is available.
+To restart a derivation key computation, repeat steps 5, 6, 7, and 8.
+
+Note:
+
+The operation of the key preparation lasts 200 or 324 clock cycles, depending on the key
+size (128- or 256-bit).
+
+50.4.6
+
+SAES ciphertext stealing and data padding
+When using SAES in ECB or CBC modes to manage messages the size of which is not a
+multiple of the block size (128 bits), ciphertext stealing techniques are used, such as those
+described in NIST Special Publication 800-38A, Recommendation for Block Cipher Modes
+of Operation: Three Variants of Ciphertext Stealing for CBC Mode. Since the SAES
+peripheral does not support such techniques, the application must complete the last block of
+input data using data from the second last block.
+
+Note:
+
+Ciphertext stealing techniques are not documented in this reference manual.
+
+Note:
+
+Padding data are swapped in a similar way as normal data, according to the
+DATATYPE[1:0] field of the SAES_CR register (see Section 50.4.11: SAES data registers
+and data swapping for details).

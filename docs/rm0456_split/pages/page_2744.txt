@@ -1,0 +1,83 @@
+X
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+67.4
+
+LPUART functional description
+
+67.4.1
+
+LPUART block diagram
+Figure 834. LPUART block diagram
+
+LPUART
+lpuart_ker_ck clock domain
+lpuart_wkup
+lpuart_it
+lpuart_tx_dma
+lpuart_rx_dma
+
+IRQ Interface
+
+lpuart_pclk
+clock domain
+
+lpuart_trg[15:0]
+
+DMA Interface
+
+Hardware
+flow control
+
+TxFIFO
+
+LPUART_CR3
+LPUART_RQR
+LPUART_ICR
+LPUART_TDR
+
+RxFIFO
+
+32-bit APB bus
+
+COM Controller
+LPUART_CR1
+LPUART_ISR
+LPUART_CR2
+
+LPUART_RDR
+LPUART_
+RTOR
+
+CTS
+RTS/DE
+
+TX Shift Reg
+...
+
+TX
+
+RX Shift Reg
+...
+
+RX
+
+Baudrate
+generator
+lpuart_pclk
+lpuart_ker_ck
+
+LPUART_BRR
+LPUART_
+PRESC
+
+lpuart_ker_ck_pres
+
+MSv40858V6
+
+RM0456 Rev 6

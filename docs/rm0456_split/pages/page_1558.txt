@@ -1,0 +1,70 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+The sample transfer from the RXFIFO to MDF_DFLTxDR takes two periods of the AHB
+clock (mdf_hclk) and two periods of the mdf_ker_ck clock. The MDF inserts automatically
+wait-states if the application performs a read operation of MDF_DFLTxDR while the transfer
+of the new sample from the RXFIFO to MDF_DFLTxDR is not yet completed.
+Figure 352. Data re-synchronization
+
+MDF_DLFTxDR
+
+sync
+
+MDF
+
+AHB clock domain
+
+Digital filter processing (DFLTx)
+
+RXFIFO
+
+mdf_ker_ck clock domain
+MSv62690V1
+
+The MDF can also combine two transfer types: the independent-transfer and the
+interleaved-transfer modes.
+
+Independent-transfer mode
+In this mode, each RXFIFO has its own DMA channel and its own FTHF flag event.
+Both single and burst DMA transfers are supported in this mode, but the application must
+care about the following points:
+•
+
+The RXFIFO must contain at least the same amount of samples than the burst size.
+
+•
+
+The burst mode efficiency may be reduced due to the data re-synchronization
+explained in the previous section.
+
+In addition, the application can select the RXFIFO threshold (FTH bit) to trigger the data
+transfer: a data transfer can be triggered as soon as the RXFIFO is not empty, or when the
+RXFIFO is half-full (containing depth / 2 samples).
+For the DMA transfer, as soon as one of the RXFIFO reaches the threshold level, the
+corresponding DMA request is asserted in order to ask for data transfer. Successive DMA
+requests are performed as long as the corresponding RXFIFO is not empty.
+The DMA mode of the RXFIFOx is enabled via the corresponding DMAEN bit in the MDF
+digital filter control register x (MDF_DFLTxCR).
+For the interrupt signaling, the following cases must be considered:
+•
+
+If FTH = 0, as soon as a data is available in MDF_DFLTxDR, the corresponding FTHF
+is set, allowing the generation of an interrupt. FTHF is released as soon as
+MDF_DFLTxDR is read.
+
+•
+
+If FTH = 1, as soon as one of the RXFIFO reaches the threshold level and a data is
+available into MDF_DFLTxDR, the corresponding FTHF is set, allowing the generation
+of an interrupt. The FTHF flag is released as soon as one data is read. FTHF is set
+again if the threshold condition is met again. In this mode, every time an interrupt
+occurs, the application is supposed to read FIFO_SIZE / 2 data.
+
+The independent-transfer mode must be used when the sample rates provided by each filter
+paths are not perfectly synchronous, or when the streams are independent. This situation
+may occur for example:
+•

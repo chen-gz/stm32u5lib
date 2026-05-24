@@ -1,0 +1,45 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+NSPRIV in PWR_PRIVCFGR can be written with privileged access only, secure or
+nonsecure. This bit configures the privileged access of all PWR securable functions that are
+configured as nonsecure (defined by PWR_SECCFGR, GTZC, RCC or GPIO as shown in
+Table 109)).
+When NSPRIV is set in PWR_PRIVCFGR:
+
+10.9
+
+•
+
+The PWR securable bits that are configured as nonsecure, can be written only with
+privileged access.
+
+•
+
+The PWR securable bits that are configured as nonsecure, can be read only with
+privileged access except PWR_PRIVCFGR that can be read by privileged or
+unprivileged accesses.
+
+•
+
+The VOSRDY and BOOSTRDY bits in PWR_VOSR, PWR_SR, PWR_SVMSR,
+PWR_BDSR and PWR_WUSR, can be read with privileged or unprivileged accesses.
+
+•
+
+An unprivileged access to a privileged PWR bit or register is discarded: the bits are
+read as zero and the write to these bits is ignored (RAZ/WI).
+
+PWR interrupts
+The table below gives a summary of the interrupt sources and the way to control them.
+Table 110. PWR interrupt requests
+
+Interrupt
+vector
+
+PWR_S3WU(1)
+
+PVD_PVM

@@ -1,0 +1,90 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Figure 618. Counter timing diagram, Update event with ARPE = 1 (counter overflow)
+
+tim_psc_ck
+
+CEN
+tim_cnt_ck
+Counter register
+
+F7
+
+F8
+
+F9
+
+FA
+
+FB FC
+
+36
+
+35
+
+34
+
+33
+
+32
+
+31
+
+30
+
+2F
+
+Counter overflow
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+Auto-reload preload
+register
+
+FD
+
+36
+
+Write a new value in TIMx_ARR
+Auto-reload active
+FD
+register
+
+36
+MSv62315V1
+
+55.4.5
+
+Clock selection
+The counter clock can be provided by the following clock sources:
+•
+
+Internal clock (tim_ker_ck).
+
+•
+
+External clock mode1: external input pin (tim_ti1 or tim_ti2).
+
+•
+
+External clock mode2: external trigger input (tim_etr_in).
+
+•
+
+Internal trigger inputs (tim_itr): using one timer as prescaler for another timer, for
+example, timer 1 can be configured to act as a prescaler for timer 2. Refer to Using one
+timer as prescaler for another timer for more details.
+
+Internal clock source (tim_ker_ck)
+If the slave mode controller is disabled (SMS = 000 in the TIMx_SMCR register), then the
+CEN, DIR (in the TIMx_CR1 register), and UG bits (in the TIMx_EGR register) are actual
+control bits and can be changed only by software (except UG which remains cleared
+automatically). As soon as the CEN bit is written to 1, the prescaler is clocked by the internal
+clock tim_ker_ck.
+Figure 619 shows the behavior of the control circuit and the upcounter in normal mode,
+without prescaler.

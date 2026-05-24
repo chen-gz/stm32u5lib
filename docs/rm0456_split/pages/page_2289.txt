@@ -1,0 +1,116 @@
+•
+
+1100: x2 mode, the counter is updated on both rising and falling edges of any of the two
+clock lines. The CC1P and CC2P bits are coding for the clock idle state. CCxP = 0
+corresponds to high-level idle state (refer to Figure 650) and CCxP = 1 corresponds to
+low-level idle state (refer to Figure 651).
+
+•
+
+1101: x1 mode, the counter is updated on a single clock edge, as per CC1P and CC2P
+bit value. CCxP = 0 corresponds to falling edge sensitivity and high-level idle state
+(refer to Figure 650), CCxP = 1 corresponds to rising edge sensitivity and low-level idle
+state (refer to Figure 651).
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 650. Directional clock encoder mode (CC1P = CC2P = 0)
+tim_ti1
+
+tim_ti2
+
+DIR bit
+
+Counter x2 mode
+
+6
+
+7
+
+8
+
+6
+
+Counter x1 mode
+
+9
+
+10
+
+7
+
+11
+
+10
+
+8
+
+9
+
+8
+
+7
+
+7
+
+6
+
+6
+
+5
+
+5
+MSv62353V1
+
+Figure 651. Directional clock encoder mode (CC1P = CC2P = 1)
+tim_ti1
+
+tim_ti2
+
+DIR bit
+
+Counter x2 mode
+
+Counter x1 mode
+
+6
+
+7
+
+7
+
+8
+
+9
+
+10
+
+8
+
+11
+
+9
+
+10
+
+9
+
+8
+
+8
+
+7
+
+7
+
+6
+
+5
+
+6
+MSv62354V1
+
+RM0456 Rev 6

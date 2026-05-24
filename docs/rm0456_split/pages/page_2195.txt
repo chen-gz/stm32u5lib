@@ -1,0 +1,201 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bit 8 UDE: Update DMA request enable
+0: Update DMA request disabled
+1: Update DMA request enabled
+Bit 7 BIE: Break interrupt enable
+0: Break interrupt disabled
+1: Break interrupt enabled
+Bit 6 TIE: Trigger interrupt enable
+0: Trigger interrupt disabled
+1: Trigger interrupt enabled
+Bit 5 COMIE: COM interrupt enable
+0: COM interrupt disabled
+1: COM interrupt enabled
+Bit 4 CC4IE: Capture/compare 4 interrupt enable
+0: CC4 interrupt disabled
+1: CC4 interrupt enabled
+Bit 3 CC3IE: Capture/compare 3 interrupt enable
+0: CC3 interrupt disabled
+1: CC3 interrupt enabled
+Bit 2 CC2IE: Capture/compare 2 interrupt enable
+0: CC2 interrupt disabled
+1: CC2 interrupt enabled
+Bit 1 CC1IE: Capture/compare 1 interrupt enable
+0: CC1 interrupt disabled
+1: CC1 interrupt enabled
+Bit 0 UIE: Update interrupt enable
+0: Update interrupt disabled
+1: Update interrupt enabled
+
+54.6.5
+
+TIMx status register (TIMx_SR)(x = 1, 8)
+Address offset: 0x010
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+12
+
+11
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+CC6IF
+
+CC5IF
+
+rc_w0
+
+rc_w0
+
+TERRF IERRF
+
+DIRF
+
+IDXF
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+14
+
+13
+
+Res.
+
+Res.
+
+SBIF
+
+CC4OF CC3OF CC2OF CC1OF
+
+B2IF
+
+BIF
+
+TIF
+
+COMIF
+
+CC4IF
+
+CC3IF
+
+CC2IF
+
+CC1IF
+
+UIF
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+9
+
+22
+
+15
+
+rc_w0
+
+10
+
+23
+
+rc_w0
+
+RM0456 Rev 6

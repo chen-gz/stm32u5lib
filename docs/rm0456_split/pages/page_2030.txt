@@ -1,0 +1,54 @@
+2037
+
+Hash processor (HASH)
+
+RM0456
+
+Bits 11:8 NBW[3:0]: Number of words already pushed
+Refer to NBWP[3:0] bitfield of HASH_SR for the description.
+This bitfield is read-only.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 MODE: Mode selection
+This bit selects the HASH or HMAC mode for the selected algorithm:
+0: Hash mode selected
+1: HMAC mode selected. LKEY must be set if the key being used is longer than 64 bytes.
+This selection is only taken into account when the INIT bit is set. Changing this bit during a
+computation has no effect.
+Bits 5:4 DATATYPE[1:0]: Data type selection
+Defines the format of the data entered into the HASH_DIN register:
+00: 32-bit data. The data written into HASH_DIN are directly used by the HASH processing,
+without reordering.
+01: 16-bit data, or half-word. The data written into HASH_DIN are considered as two halfwords, and are swapped before being used by the HASH processing.
+10: 8-bit data, or bytes. The data written into HASH_DIN are considered as four bytes, and
+are swapped before being used by the HASH processing.
+11: bit data, or bit-string. The data written into HASH_DIN are considered as 32 bits (1st bit of
+the string at position 0), and are swapped before being used by the HASH processing (1st bit
+of the string at position 31).
+Bit 3 DMAE: DMA enable
+0: DMA transfers disabled
+1: DMA transfers enabled. A DMA request is sent as soon as the HASH core is ready to
+receive data.
+After this bit is set it is cleared by hardware while the last data of the message is written into
+the hash processor.
+Setting this bit to 0 while a DMA transfer is ongoing is not aborting this current transfer.
+Instead, the DMA interface of the IP remains internally enabled until the transfer is completed
+or INIT is written to 1.
+Setting INIT bit to 1 does not clear DMAE bit.
+Bit 2 INIT: Initialize message digest calculation
+Writing this bit to 1 resets the hash processor core, so that the HASH is ready to compute the
+message digest of a new message.
+Writing this bit to 0 has no effect. Reading this bit always return 0.
+Bits 1:0 Reserved, must be kept at reset value.
+
+51.6.2
+
+HASH data input register (HASH_DIN)
+Address offset: 0x04
+Reset value: 0x0000 0000
+HASH_DIN is the data input register. It is 32-bit wide. This register is used to enter the
+message by blocks. When the HASH_DIN register is programmed, the value presented on
+the AHB databus is ‘pushed’ into the hash core and the register takes the new value
+presented on the AHB databus. To get a correct message format, the DATATYPE bits must
+have been previously configured in the HASH_CR register.
+When a complete block has been written to the HASH_DIN register, an intermediate digest
+calculation is launched:

@@ -1,0 +1,376 @@
+Debug/bootloader(1)
+
+RDP
+level
+
+User execution (boot from flash)
+Read
+
+Write
+
+Erase
+
+Read
+
+Write
+
+Erase
+
+0.5
+
+Yes
+
+Yes
+
+Yes
+
+Yes(2)
+
+Yes(2)
+
+Yes(2)
+
+1
+
+Yes
+
+Yes
+
+Yes
+
+No
+
+No
+
+No(6)
+
+2
+
+Yes
+
+Yes
+
+Yes
+
+N/A
+
+N/A
+
+N/A
+
+0.5
+
+Yes
+
+No
+
+No
+
+Yes
+
+No
+
+No
+
+1
+
+Yes
+
+No
+
+No
+
+Yes
+
+No
+
+No
+
+2
+
+Yes
+
+No
+
+No
+
+N/A
+
+N/A
+
+N/A
+
+0.5
+
+Yes
+
+Yes (6)
+
+N/A
+
+Yes
+
+Yes(5)(6)
+
+N/A
+
+1
+
+Yes
+
+Yes(6)
+
+N/A
+
+Yes
+
+Yes(5)(6)
+
+N/A
+
+2
+
+Yes
+
+No(7)
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+0.5
+
+Yes
+
+Yes(8)
+
+N/A
+
+Yes
+
+Yes(8)
+
+N/A
+
+1
+
+Yes
+
+Yes(8)
+
+N/A
+
+Yes
+
+Yes(8)
+
+N/A
+
+2
+
+Yes
+
+Yes(8)
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+Table 67. Access status versus protection level and execution modes when TZEN = 1 (continued)
+Area
+
+Backup registers
+
+SRAM2/backup RAM
+
+OTFDEC regions
+(OCTOSPI)
+
+Debug/bootloader(1)
+
+RDP
+level
+
+User execution (boot from flash)
+Read
+
+Write
+
+Erase
+
+Read
+
+Write
+
+Erase
+
+0.5
+
+Yes
+
+Yes
+
+N/A
+
+Yes(2)
+
+Yes(2)
+
+N/A(9)
+
+1
+
+Yes
+
+Yes
+
+N/A
+
+No
+
+No
+
+N/A(9)
+
+2
+
+Yes
+
+Yes
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+0.5
+
+Yes
+
+Yes
+
+N/A
+
+Yes(2)
+
+Yes(2)
+
+N/A(10)
+
+1
+
+Yes
+
+Yes
+
+N/A
+
+No
+
+No
+
+N/A(10)
+
+2
+
+Yes
+
+Yes
+
+N/A
+
+N/A
+
+N/A
+
+N/A
+
+0.5
+
+Yes
+
+Yes
+
+Yes
+
+No
+
+Yes
+
+Yes(11)
+
+1
+
+Yes
+
+Yes
+
+Yes
+
+No
+
+Yes
+
+Yes(11)
+
+2
+
+Yes
+
+Yes
+
+Yes
+
+N/A
+
+N/A
+
+N/A
+
+1. When the protection level 2 is active, the debug port and the bootloader mode are disabled.
+2. Depends on TrustZone security access rights.
+3. The system memory is only read-accessible, whatever the protection level (0, 1 or 2) and execution mode.
+4. Option bytes are only accessible through the flash registers interface and OPTSTRT bit.
+5. The bootloader can only modify nonsecure option bytes.
+6. The flash main memory is erased when the RDP option byte regresses from level 1 to level 0.
+7. SWAP_BANK option bit can be modified.
+8. OTP can only be written once.
+9. The backup registers are erased when RDP changes from level 1 to level 0 and when RDP changes from level 1 to
+level 0.5.
+10. All SRAMs are erased when RDP changes from level 1 to level 0 and when RDP changes from level 1 to level 0.5.
+11. The OTFDEC keys are erased when the RDP option byte changes from level 1 to level 0 and when RDP changes from
+level 1 to level 0.5.
+
+Device life cycle managed by readout protection (RDP) transitions
+It is easy to move from level 0 or level 0.5 to level 1 by changing the value of the RDP byte
+to any value (except 0xCC). By programming the 0xCC value in the RDP byte, it is possible
+to go to level 2 either directly from level 0 or from level 0.5 or from level 1. Once in level 2, it
+is no longer possible to modify the readout protection level unless an OEM2 key is
+provisioned (refer to OEM2 RDP lock mechanism).
+When the RDP is reprogrammed to the value 0xAA to move from level 1 to level 0, a mass
+erase of the flash main memory and all SRAMs is performed. The backup registers, the
+OTFDEC keys, ICACHE, DCACHE, and PKA SRAM are also erased. The OTP area is not
+erased.
+At RDP level 0.5, it is not possible to request RDP level 0. Instead, a RDP increase to
+level 1 followed by a RDP regression to level 0 is required.
+When the RDP is programmed to the value 0x55 to move from level 1 to level 0.5, a partial
+mass erase of the flash main memory is performed. Only nonsecure watermark-based
+
+RM0456 Rev 6

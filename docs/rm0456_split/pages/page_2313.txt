@@ -1,0 +1,81 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+Note:
+
+The clock of the slave peripherals (such as timer, ADC) receiving the tim_trgo signal must
+be enabled prior to receive events from the master timer, and the clock frequency
+(prescaler) must not be changed on-the-fly while triggers are received from the master
+timer.
+
+55.4.25
+
+DMA burst mode
+The TIMx timers have the capability to generate multiple DMA requests upon a single event.
+The main purpose is to be able to reprogram part of the timer multiple times without
+software overhead, but it can also be used to read several registers in a row, at regular
+intervals.
+The DMA controller destination is unique and must point to the virtual register TIMx_DMAR.
+On a given timer event, the timer launches a sequence of DMA requests (burst). Each write
+into the TIMx_DMAR register is actually redirected to one of the timer registers.
+The DBL[4:0] bits in the TIMx_DCR register set the DMA burst length. The timer recognizes
+a burst transfer when a read or a write access is done to the TIMx_DMAR address), i.e. the
+number of transfers (either in half-words or in bytes).
+The DBA[4:0] bits in the TIMx_DCR registers define the DMA base address for DMA
+transfers (when read/write accesses are done through the TIMx_DMAR address). DBA is
+defined as an offset starting from the address of the TIMx_CR1 register:
+Example:
+00000: TIMx_CR1
+00001: TIMx_CR2
+00010: TIMx_SMCR
+The DBSS[3:0] bits in the TIMx_DCR register defines the interrupt source that triggers the
+DMA burst transfers (see Section 55.5.23: TIMx DMA control register (TIMx_DCR)(x = 2 to
+5) for details).
+As an example, the timer DMA burst feature is used to update the contents of the CCRx
+registers (x = 2, 3, 4) upon an update event, with the DMA transferring half words into the
+CCRx registers.
+This is done in the following steps:
+1.
+
+Configure the corresponding DMA channel as follows:
+–
+
+DMA channel peripheral address is the DMAR register address.
+
+–
+
+DMA channel memory address is the address of the buffer in the RAM containing
+the data to be transferred by DMA into CCRx registers.
+
+–
+
+Number of data to transfer = 3 (See note below).
+
+–
+
+Circular mode disabled.
+
+2.
+
+Configure the DCR register by configuring the DBA and DBL bitfields as follows:
+DBL = 3 transfers, DBA = 0xE and DBSS = 1.
+
+3.
+
+Enable the TIMx update DMA request (set the UDE bit in the DIER register).
+
+4.
+
+Enable TIMx.
+
+5.
+
+Enable the DMA channel.
+
+This example is for the case where every CCRx register has to be updated once. If every
+CCRx register is to be updated twice for example, the number of data to transfer must be 6.
+Let's take the example of a buffer in the RAM containing data1, data2, data3, data4, data5,
+RM0456 Rev 6

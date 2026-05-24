@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 656. Counter reading with index ungated (IPOS[1:0] = 00)
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter
+
+3 4 5 6 7 0 1 2 3
+
+4
+
+3 2 1 0 7 6 5 4 3 2 1 0 7
+MSv45769V1
+
+Figure 657 shows how the gated on A & B mode is handled, for various pulse alignment
+scenarios. The arrows are indicating on which transition is the index event generated.
+Figure 657. Counter reading with index gated on channel A and B
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter
+
+5 6 7 0 1 2 3 4 5
+
+6
+
+5 4 3 2 1 0 7 6 5 4 3 2 1
+MSv45770V1
+
+Figure 658 and Figure 659 detail the case where the subsequent index pulse may be
+narrower than one quarter of the encoder clock period.
+
+RM0456 Rev 6

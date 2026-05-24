@@ -1,0 +1,177 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.15
+
+RM0456
+
+GPDMA channel x destination address register (GPDMA_CxDAR)
+Address offset: 0xA0 + 0x80 * x (x = 0 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (GPDMA_PRIVCFGR.PRIVx).
+This register configures the destination start address of a transfer.
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1, and continuously updated by
+hardware, in order to reflect the address of the next burst transfer to the destination.
+This register must be written when the channel is completed (then the hardware has
+deasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block, 2D/repeated block, LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by GPDMA
+from the memory if GPDMA_CxLLR.UDA = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DA[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DA[15:0]
+rw
+
+Bits 31:0 DA[31:0]: destination address
+This field is the pointer to the address from which the next data is written.
+During the channel activity, depending on the destination addressing mode
+(GPDMA_CxTR1.DINC), this field is kept fixed or incremented by the data width
+(GPDMA_CxTR1.DDW_LOG2[1:0]) after each burst destination data, reflecting the next
+address from which data is written.
+During the channel activity, this address is updated after each completed destination burst,
+consequently to:
+– the programmed destination burst; either in fixed addressing mode or in contiguous-data
+incremented mode. If contiguously incremented (GPDMA_CxTR1.DINC = 1), then the
+additional address offset value is the programmed burst size, as defined by
+GPDMA_CxTR1.DBL_1[5:0] and GPDMA_CxTR1.DDW_LOG2[1:0]
+– the additional destination incremented/decremented offset value as programmed by
+GPDMA_CxBR1.DDEC and GPDMA_CxTR3.DAO[12:0].
+– once/if completed destination block transfer, for a channel x with 2D addressing capability
+(x = 12 to 15), the additional block repeat destination incremented/decremented offset value
+as programmed by GPDMA_CxBR1.BRDDEC and GPDMA_CxBR2.BRDAO[15:0]
+In linked-list mode, after a LLI data transfer is completed, this register is automatically
+updated by the GPDMA from the memory, provided the LLI is set
+with GPDMA_CxLLR.UDA = 1.
+Note: A destination address must be aligned with the programmed data width of a destination
+burst (DA[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0]). Else, a user setting error is
+reported and no transfer is issued.

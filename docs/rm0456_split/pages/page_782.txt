@@ -1,0 +1,51 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Figure 82. Replace with a new LLIn’ in register file in link step mode
+
+LSM = 1 with 1-stage linked-list programming:
+Overwriting the (pre)loaded LLIn linked-list register file with
+a new LLIn’ directly in linked-list register file.
+DMA executes LLIn-1 and load LLIn, then CPU builds and overwrites LLIn'
+
+LLIn-1
+transfer
+
+DMA channel
+
+CPU
+
+Executing LLIn-1 data transfer
+Loading LLIn
+Transfer complete interrupt
+
+Build LLIn' and overwrite
+linked-list register file
+
+LLIn'
+transfer
+
+Enable DMA channel
+
+Executing LLIn' data transfer
+Loading LLIn+1’
+Transfer complete interrupt
+
+Build LLIn+1’' and overwrite
+linked-list register file
+
+Enable DMA channel
+
+LLIn+1"
+transfer
+Transfer complete interrupt
+MSv62635V1
+
+Run-time replacing a LLIn with a new LLIn’ in link step mode (in the memory)
+The software can build and insert a new LLIn’ and LLIn+1’ in the memory, after LPDMA
+executed the transfer from the LLIn-1 and loaded a formerly elaborated LLIn from the
+memory, by overwriting partly the linked-list register file (LPDMA_CxBR1.BNDT[15:0] to be
+null and LPDMA_CxLLR to point to new LLIn’) as shown in Figure 83.

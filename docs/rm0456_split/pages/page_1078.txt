@@ -1,0 +1,218 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+7. If the FTHRES bitfield is set to the maximum value with DLR value greater than the data burst length, and if the DMA is
+enabled or the interrupt based on FIFO THRESHOLD Flag is enabled (FTF), the address must be modulo 2 aligned in DTR
+mode when the initiator (DMA, CPU, ...) is writing the data with a burst length equal to the FIFO size.
+
+28.6
+
+OCTOSPI interrupts
+An interrupt can be produced on the following events:
+•
+
+Timeout
+
+•
+
+Status match
+
+•
+
+FIFO threshold
+
+•
+
+Transfer complete
+
+•
+
+Transfer error
+
+Separate interrupt enable bits are available to provide more flexibility.
+Table 258. OCTOSPI interrupt requests
+Interrupt event
+
+Event flag
+
+Enable control bit
+
+Timeout
+
+TOF
+
+TOIE
+
+Status match
+
+SMF
+
+SMIE
+
+FIFO threshold
+
+FTF
+
+FTIE
+
+Transfer complete
+
+TCF
+
+TCIE
+
+Transfer error
+
+TEF
+
+TEIE
+
+28.7
+
+OCTOSPI registers
+
+28.7.1
+
+OCTOSPI control register (OCTOSPI_CR)
+Address offset: 0x0000
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+FMODE[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PMM
+
+APMS
+
+Res.
+
+TOIE
+
+SMIE
+
+FTIE
+
+TCIE
+
+TEIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+FTHRES[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+MSEL
+
+DMM
+
+rw
+
+rw
+
+rw
+
+Bits 31:30 Reserved, must be kept at reset value.

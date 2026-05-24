@@ -1,0 +1,198 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Bit 2 EXTTRIG: External trigger edge event
+EXTTRIG is set by hardware to inform application that a valid edge on the selected external trigger
+input has occurred. If the trigger is ignored because the timer has already started, then this flag is
+not set. EXTTRIG flag can be cleared by writing 1 to the EXTTRIGCF bit in the LPTIM_ICR register.
+Bit 1 ARRM: Autoreload match
+ARRM is set by hardware to inform application that LPTIM_CNT register’s value reached the
+LPTIM_ARR register’s value. ARRM flag can be cleared by writing 1 to the ARRMCF bit in the
+LPTIM_ICR register.
+Bit 0 CC1IF: capture 1 interrupt flag
+If channel CC1 is configured as input:
+CC1IF is set by hardware to inform application that the current value of the counter is captured in
+LPTIM_CCR1 register. The corresponding interrupt or DMA request is generated if enabled. The
+CC1OF flag is set if the CC1IF flag was already high.
+0:No input capture occurred
+1:The counter value has been captured in the LPTIM_CCR1 register. (An edge has been detected
+on IC1 which matches the selected polarity). The CC1IF flag is automatically cleared by hardware
+once the captured value is read (CPU or DMA).CC1IF flag can be cleared by writing 1 to the
+CC1CF bit in the LPTIM_ICR register.
+
+58.7.4
+
+LPTIM4 interrupt clear register (LPTIM4_ICR)
+Address offset: 0x004
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+DIER
+OKCF
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+REPOK
+CF
+
+UECF
+
+DOWN
+CF
+
+UPCF
+
+ARRO
+KCF
+
+CMP1
+OKCF
+
+EXTTR
+IGCF
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ARRM
+CC1CF
+CF
+w
+
+w
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bit 24 DIEROKCF: Interrupt enable register update OK clear flag
+Writing 1 to this bit clears the DIEROK flag in the LPTIM_ISR register.
+Bits 23:9 Reserved, must be kept at reset value.
+Bit 8 REPOKCF: Repetition register update OK clear flag
+Writing 1 to this bit clears the REPOK flag in the LPTIM_ISR register.
+Bit 7 UECF: Update event clear flag
+Writing 1 to this bit clear the UE flag in the LPTIM_ISR register.
+Bit 6 DOWNCF: Direction change to down clear flag
+Writing 1 to this bit clear the DOWN flag in the LPTIM_ISR register.
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 5 UPCF: Direction change to UP clear flag
+Writing 1 to this bit clear the UP flag in the LPTIM_ISR register.
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.

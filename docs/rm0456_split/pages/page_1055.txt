@@ -1,0 +1,97 @@
+RM0456 Rev 6
+
+RM0456
+
+Octo-SPI interface (OCTOSPI)
+The data can be sent or received in DTR mode (on each rising and falling edge of the clock)
+setting DDTR in OCTOSPI_CCR.
+When DMODE[2:0] = 000, the data phase is skipped, and the command sequence finishes
+immediately by raising the NCS. This configuration must be used only in indirect-write
+mode.
+In memory-mapped mode, the data format for the write operation is specified in
+OCTOSPI_WCCR. The data format for the read operation is specified in OCTOSPI_CCR.
+
+DQS use
+The DQS signal can be used for data strobing during the read transactions when the device
+toggles the DQS aligned with the data.
+The DQS management can be enabled by setting DQSE in OCTOSPI_CCR.
+Figure 148. DTR read in octal-SPI mode with DQS (Macronix mode) example
+§
+
+NCS
+
+DQS
+IO[7:0]
+
+EEh
+
+11h
+
+A[31:24] A[23:16]
+
+A[15:8]
+
+A[7:0]
+
+§
+
+§
+
+§
+
+CLK
+
+Address
+
+D1
+
+Dummy
+
+D0
+
+Word
+unit
+
+D3
+
+D2
+
+Word
+unit
+MSv43489V1
+
+28.4.5
+
+OCTOSPI regular-command protocol signal interface
+Single-SPI mode
+The legacy SPI mode allows just a single bit to be sent/received serially. In this mode, the
+data is sent to the external device over the SO signal (Single-SPI Output) (whose I/Os are
+shared with IO0). The data received from the external device arrives via SI (Single-SPI
+Input) (whose I/Os are shared with IO1).
+Compared to the SPI legacy mode, I0/SO and I1/SI are respectively equivalent to MOSI and
+MISO, having the OCTOSPI generating the clock.
+The different phases can each be configured separately to use this single-SPI mode by
+setting to 001 the IMODE, ADMODE, ABMODE, and DMODE fields in OCTOSPI_CCR and
+OCTOSPI_WCCR.
+In each phase configured in single-SPI mode:
+•
+
+IO0 (SO) is in output mode.
+
+•
+
+IO1 (SI) is in input mode (high impedance).
+
+•
+
+IO2 is in output mode and forced to 0 (to deactivate the “write protect” function).
+
+•
+
+IO3 is in output mode and forced to 1 (to deactivate the “hold” function).
+
+•
+
+IO4 to IO7 are in output mode and forced to 0.
+
+RM0456 Rev 6

@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+CC1NP CC1NE
+rw
+
+rw
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bit 10 CC3NE: Capture/compare 3 complementary output enable
+Refer to CC1NE description
+Bit 9 CC3P: Capture/compare 3 output polarity
+Refer to CC1P description
+Bit 8 CC3E: Capture/compare 3 output enable
+Refer to CC1E description
+Bit 7 CC2NP: Capture/compare 2 complementary output polarity
+Refer to CC1NP description
+Bit 6 CC2NE: Capture/compare 2 complementary output enable
+Refer to CC1NE description
+Bit 5 CC2P: Capture/compare 2 output polarity
+Refer to CC1P description
+Bit 4 CC2E: Capture/compare 2 output enable
+Refer to CC1E description
+Bit 3 CC1NP: Capture/compare 1 complementary output polarity
+CC1 channel configured as output:
+0: tim_oc1n active high.
+1: tim_oc1n active low.
+CC1 channel configured as input:
+This bit is used in conjunction with CC1P to define the polarity of tim_ti1fp1 and tim_ti2fp1.
+Refer to CC1P description.
+Note: This bit is not writable as soon as LOCK level 2 or 3 has been programmed (LOCK bits
+in TIMx_BDTR register) and CC1S = 00 (channel configured as output).
+Note: On channels having a complementary output, this bit is preloaded. If the CCPC bit is
+set in the TIMx_CR2 register then the CC1NP active bit takes the new value from the
+preloaded bit only when a Commutation event is generated.
+Bit 2 CC1NE: Capture/compare 1 complementary output enable
+0: Off - tim_oc1n is not active. tim_oc1n level is then function of MOE, OSSI, OSSR, OIS1,
+OIS1N and CC1E bits.
+1: On - tim_oc1n signal is output on the corresponding output pin depending on MOE, OSSI,
+OSSR, OIS1, OIS1N and CC1E bits.
+Note: On channels having a complementary output, this bit is preloaded. If the CCPC bit is
+set in the TIMx_CR2 register then the CC1NE active bit takes the new value from the
+preloaded bit only when a Commutation event is generated.
+
+RM0456 Rev 6

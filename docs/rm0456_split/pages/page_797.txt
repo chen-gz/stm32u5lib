@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+LPDMA also generates a security illegal access pulse signal on an illegal nonsecure access
+to a secure LPDMA register. This signal is routed to the TrustZone interrupt controller.
+When the secure software must switch a channel from a secure state to a nonsecure state,
+the secure software must abort the channel or wait until the secure channel is completed
+before switching. This is needed to dynamically re-allocate a channel to a next nonsecure
+transfer as a nonsecure software is not allowed to do so and must have
+LPDMA_CxCR.EN = 0 before the nonsecure software can reprogram the LPDMA_CxCR for
+a next transfer. The secure software may reset not only the channel x
+(LPDMA_CxCR.RESET = 1) but also the full channel x register file to its reset value.
+
+18.4.15
+
+LPDMA privileged/unprivileged channel
+Any channel x is a privileged or unprivileged hardware resource, as configured by a
+privileged agent via LPDMA_PRIVCFGR.PRIVx.
+When a channel x is configured in a privileged state by a privileged agent, the following
+access control rules are applied:
+•
+
+An unprivileged read access to a register field of this channel is forced to return 0,
+except for LPDMA_PRIVCFGR, LPDMA_SECCFGR, that are readable by an
+unprivileged agent.
+
+•
+
+An unprivileged write access to a register field of this channel has no impact.
+
+When a channel is configured in a privileged (or unprivileged) state, the source and
+destination data transfers are privileged (respectively unprivileged) transfers over the AHB
+master port.
+When a channel is configured in a privileged (or unprivileged) state and in linked-list mode,
+the loading of the next linked-list data structure from the LPDMA memory into its register file,
+is automatically performed with privileged (respectively unprivileged) transfers, via the
+master port.
+LPDMA generates a DMA channel state versus privilege, reflecting LPDMA_PRIVCFGR,
+to keep the other peripherals informed of the privileged/unprivileged state of each DMA
+channel x.
+Additionally, the LPDMA generates the privileged illegal access pulse signal on an illegal
+unprivileged access to a privileged LPDMA register. This signal may be used or not,
+depending on the product (see the system security section for more details).
+When the privileged software must switch a channel from a privileged state to
+an unprivileged state, the privileged software must abort the channel or wait until that the
+privileged channel is completed before switching. This is needed to dynamically re-allocate
+a channel to a next unprivileged transfer as an unprivileged software is not allowed to do so,
+and must have LPDMA_CxCR.EN = 0 before the unprivileged software can reprogram the
+LPDMA_CxCR for a next transfer. The privileged software may reset not only the channel x
+(LPDMA_CxCR.RESET = 1) but also the full channel x register file to its reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,123 @@
+Signal type
+
+Description
+
+OTG_FS_DP
+
+Digital input/output USB OTG D+ line
+
+OTG_FS_DM
+
+Digital input/output USB OTG D- line
+
+OTG_FS_ID
+
+Digital input
+
+USB OTG ID
+
+OTG_FS_VBUS
+
+Analog input
+
+USB OTG VBUS
+
+OTG_FS_SOF
+
+Digital output
+
+USB OTG Start Of Frame (visibility)
+
+OTG_FS_NOE
+
+Digital output
+
+USB OTG output enable for D+/D- (visibility)
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+Table 751. OTG_FS input/output signals
+Signal name
+
+72.4.3
+
+Signal type
+
+Description
+
+usb_sof
+
+Digital output
+
+USB OTG start-of-frame event for on chip peripherals
+
+usb_wkup
+
+Digital output
+
+USB OTG wake-up event output
+
+usb_gbl_it
+
+Digital output
+
+USB OTG global interrupt
+
+OTG_FS core
+The USB OTG_FS receives the 48 MHz clock from the reset and clock controller (RCC).
+This clock is used for driving the 48 MHz domain at full-speed (12 Mbit/s) and must be
+enabled prior to configuring the OTG core.
+The CPU reads and writes from/to the OTG core registers through the AHB peripheral bus.
+It is informed of USB events through the single USB OTG interrupt line described in
+Section 72.13: OTG_FS interrupts.
+The CPU submits data over the USB by writing 32-bit words to dedicated OTG locations
+(push registers). The data are then automatically stored into Tx-data FIFOs configured
+within the USB data RAM. There is one Tx FIFO push register for each in-endpoint
+(peripheral mode) or out-channel (host mode).
+The CPU receives the data from the USB by reading 32-bit words from dedicated OTG
+addresses (pop registers). The data are then automatically retrieved from a shared Rx FIFO
+configured within the 1.25-Kbyte USB data RAM. There is one Rx FIFO pop register for
+each out-endpoint or in-channel.
+The USB protocol layer is driven by the serial interface engine (SIE) and serialized over the
+USB by the transceiver module within the on-chip physical layer (PHY).
+
+Caution:
+
+To guarantee a correct operation for the USB OTG FS peripheral, the AHB frequency must
+be higher than 14.2 MHz.
+
+72.4.4
+
+Embedded full-speed OTG PHY connected to OTG_FS
+The embedded full-speed OTG PHY is controlled by the OTG FS core and conveys USB
+control & data signals through the full-speed subset of the UTMI+ Bus (UTMIFS). It provides
+the physical support to USB connectivity.
+The full-speed OTG PHY includes the following components:
+•
+
+FS/LS transceiver module used by both host and device. It directly drives transmission
+and reception on the single-ended USB lines.
+
+•
+
+DP/DM integrated pull-up and pull-down resistors controlled by the OTG_FS core
+depending on the current role of the device. As a peripheral, it enables the DP pull-up
+resistor to signal full-speed peripheral connections as soon as VBUS is sensed to be at
+a valid level (B-session valid). In host mode, pull-down resistors are enabled on both
+DP/DM. Pull-up and pull-down resistors are dynamically switched when the role of the
+device is changed via the host negotiation protocol (HNP).
+
+•
+
+Pull-up/pull-down resistor ECN circuit. The DP pull-up consists of two resistors
+controlled separately from the OTG_FS as per the resistor Engineering Change Notice
+applied to USB Rev2.0. The dynamic trimming of the DP pull-up strength allows for
+better noise rejection and Tx/Rx signal quality.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

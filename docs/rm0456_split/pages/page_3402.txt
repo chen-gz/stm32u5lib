@@ -1,0 +1,131 @@
+DPACC
+
+Description
+
+RM0456 Rev 6
+
+RM0456
+
+Debug support (DBG)
+Table 791. JTAG-DP data registers (continued)
+
+IR
+instruction
+
+DR
+register
+
+Scan chain
+length
+
+Description
+
+1011
+
+APACC
+
+35
+
+Access port access register
+Initiates an access port and gives access to an access port register.
+– When transferring data IN:
+bits 34:3 = DATA[31:0] = 32-bit data to shift in for a write request
+bits 2:1 = A[3:2] = 2-bit sub-address of an access port register
+bit 0 = RnW= Read request (1) or write request (0)
+– When transferring data OUT:
+bits 34:3 = DATA[31:0] = 32-bit data read following a read request
+bits 2:0 = ACK[2:0] = 3-bit Acknowledge:
+–
+010 = OK/FAULT
+–
+001 = WAIT
+–
+others= reserved
+
+1100
+
+(BYPASS)
+
+1
+
+Reserved: BYPASS selected
+
+1101
+
+(BYPASS)
+
+1
+
+Reserved: BYPASS selected
+
+1110
+
+IDCODE
+
+32
+
+Identification code
+0x0BA0 4477: Cortex-M33 JTAG debug port ID code
+
+1111
+
+BYPASS
+
+1
+
+Bypass: A single JTCK cycle delay is inserted between JTDI and JTDO.
+
+The DR registers are detailed in the Arm Debug Interface Architecture Specification
+(see Section 75.13).
+
+75.3.2
+
+Serial-wire debug port
+The serial-wire debug protocol uses the following pins:
+•
+
+SWCLK: clock from host to target
+
+•
+
+SWDIO: bi-directional serial data
+
+Serial data is transferred LSB first, synchronously with the clock.
+A transfer comprises three phases:
+1.
+
+packet request (8 bits) transmitted by the host (see Table 792)
+
+2.
+
+acknowledge response (3 bits) transmitted by the target (see Table 793)
+
+3.
+
+data transfer (33 bits) transmitted by the host (in case of a write) or target
+(in case of a read) (see Table 794)
+
+The data transfer only occurs if the acknowledge response is OK.
+Between each phase, if the direction of the data is reversed, a single clock cycle
+turn-around time is inserted.
+Table 792. Packet request
+Bit field
+
+Name
+
+Description
+
+0
+
+Start
+
+Must be 1.
+
+1
+
+APnDP
+
+– 0: DP register access - see Section 75.3.3: Debug port registers
+– 1: AP register access - see Section 75.4: Access ports
+
+RM0456 Rev 6

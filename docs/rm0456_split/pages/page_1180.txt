@@ -1,0 +1,96 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Figure 188. SDMMC (multiple) block write operation
+Data stop operation
+SDMMC_CMD
+
+CMD
+
+Response
+
+SDMMC_D
+
+CMD
+
+CRC
+status
+
+Data block CRC
+
+Busy
+
+Data block CRC
+
+CRC
+status
+
+Response
+
+Busy
+
+Block write operation
+Multiple block write operation
+From host to card
+From card to host
+
+Note:
+
+MSv40156V1
+
+The Stop Transmission command is not required at the end of an e•MMC multiple block
+write with predefined block count.
+The SDMMC does not send any data as long as the Busy signal is asserted (SDMMC_D0
+pulled low).
+Figure 189. SDMMC (sequential) stream read operation
+Data stop operation
+
+SDMMC_CMD
+
+CMD
+
+Response
+
+SDMMC_D
+
+CMD
+
+Response
+
+Data stream
+
+Stream read operation
+From host to card
+From card to host
+
+MSv40157V2
+
+Figure 190. SDMMC (sequential) stream write operation
+Data stop operation
+SDMMC_CMD
+
+SDMMC_D
+
+CMD
+
+Response
+
+CMD
+
+Data stream
+
+Response
+
+Busy
+
+Stream write operation
+From host to card
+From card to host
+
+MSv40158V2
+
+Stream data transfer operates only in a 1-bit wide bit bus configuration on SDMMC_D0 in
+single data rate modes (DS, HS, and SDR).

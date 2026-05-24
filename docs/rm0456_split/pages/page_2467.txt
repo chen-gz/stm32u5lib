@@ -1,0 +1,204 @@
+2577
+
+Independent watchdog (IWDG)
+
+RM0456
+
+2.
+
+Enable or disable the early wake-up interrupt, and/or program the early wake-up
+comparator, by writing the proper values into the IWDG early wake-up interrupt register
+(IWDG_EWCR).
+
+3.
+
+Wait for EWU = 0, EWU is located into the IWDG status register (IWDG_SR).
+
+4.
+
+Write-protect registers by writing 0x0000 0000 to IWDG key register (IWDG_KR).
+
+Step 3 can be skipped if the application does not intend to disable the APB clock after the
+completion of this sequence.
+Table 626 summarizes the IWDG interrupt request.
+Table 626. IWDG interrupt request
+Interrupt event
+
+Interrupt
+clear method
+
+Interrupt enable
+control bit
+
+Writing EWIC to 1
+
+EWIE
+
+Event flag
+
+IWDCNT reaches
+EWIT value
+
+EWIF
+
+Activated interrupt
+iwdg_it
+
+iwdg_wkup_it
+
+Y(1)
+
+Y(2)
+
+1. Generated when a clock is present on iwdg_pclk input.
+2. Generated when a clock is present on iwdg_ker_ck input.
+
+61.7
+
+IWDG registers
+Refer to Section 1.2 on page 127 for a list of abbreviations used in register descriptions.
+The peripheral registers can be accessed by half-words (16-bit) or words (32-bit).
+Most of the registers located into the register interface are shadowed into the VDD voltage
+domain. When the iwdg_in_rst is asserted, the watchdog logic and the shadow registers
+located into the VDD voltage domain are reset.
+When the application reads back a watchdog register, the hardware transfers the value of
+the corresponding shadow register to the register interface.
+When the application writes a watchdog register, the hardware updates the corresponding
+shadow register.
+
+61.7.1
+
+IWDG key register (IWDG_KR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+KEY[15:0]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:16 Reserved, must be kept at reset value.

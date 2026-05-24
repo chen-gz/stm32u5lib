@@ -1,0 +1,88 @@
+1973
+
+AES hardware accelerator (AES)
+Note:
+
+RM0456
+
+The CCF flag has no use with this method, because the reading of the AES_DOUTR
+register is managed by DMA automatically, without any software action, at the end of the
+computation phase.
+NPBLB bits are not used in header phase of GCM, GMAC, and CCM chaining modes.
+
+49.4.5
+
+AES decryption round key preparation
+Internal key schedule is used to generate AES round keys. In AES encryption, the round 0
+key is the one stored in the key registers. AES decryption must start using the last round
+key. As the encryption key is stored in memory, a special key scheduling must be performed
+to obtain the decryption key. This key scheduling is only required for AES decryption in ECB
+and CBC modes.
+Recommended method is to select the Mode 2 by setting to 01 the MODE[1:0] bitfield of the
+AES_CR (key process only), then proceed with the decryption by setting MODE[1:0] to 10
+(Mode 3, decryption only). Mode 2 usage is described below:
+
+Note:
+
+1.
+
+Disable the AES peripheral by clearing the EN bit of the AES_CR register.
+
+2.
+
+Select Mode 2 by setting to 01 the MODE[1:0] bitfield of the AES_CR. The
+CHMOD[2:0] bitfield is not significant in this case because this key derivation mode is
+independent of the chaining algorithm selected. Select normal key mode by setting
+KMOD[1:0] to 00. For decryption with other KMOD[1:0] values, refer to
+Section 49.4.13.
+
+3.
+
+Set key length to 128 or 256 bits, via KEYSIZE bit of AES_CR register.
+
+4.
+
+Write the AES_KEYRx registers (128 or 256 bits) with encryption key. Writes to the
+AES_IVRx registers have no effect.
+
+5.
+
+Enable the AES peripheral, by setting the EN bit of the AES_CR register.
+
+6.
+
+Wait until the CCF flag is set in the AES_SR register.
+
+7.
+
+Clear the CCF flag. Derived key is available in AES core, ready to use for decryption.
+
+The AES is disabled by hardware when the derivation key is available.
+To restart a derivation key computation, repeat steps 4, 5, 6, and 7.
+
+Note:
+
+The operation of the key preparation lasts 59 or 82 clock cycles, depending on the key size
+(128- or 256-bit).
+
+49.4.6
+
+AES ciphertext stealing and data padding
+When using AES in ECB or CBC modes to manage messages the size of which is not a
+multiple of the block size (128 bits), ciphertext stealing techniques are used, such as those
+described in NIST Special Publication 800-38A, Recommendation for Block Cipher Modes
+of Operation: Three Variants of Ciphertext Stealing for CBC Mode. Since the AES peripheral
+does not support such techniques, the application must complete the last block of input data
+using data from the second last block.
+
+Note:
+
+Ciphertext stealing techniques are not documented in this reference manual.
+Similarly, when AES is used in other modes than ECB or CBC, an incomplete input data
+block (that is, block with input data shorter than 128 bits) must be padded with zeros prior to
+encryption (that is, extra bits must be appended to the trailing end of the data string). After
+decryption, the extra bits must be discarded. As AES does not implement automatic data
+padding operation to the last block, the application must follow the recommendation given
+
+<!-- pagebreak -->
+

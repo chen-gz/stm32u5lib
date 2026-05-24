@@ -1,0 +1,57 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+Figure 742. Waveform generation
+
+LPTIM_ARR
+Compare
+0
+PWM
+One shot
+
+Pol = 0
+
+Set once
+
+PWM
+Pol = 1
+
+One shot
+Set once
+
+MS32467V2
+
+58.4.11
+
+Register update
+The LPTIM_ARR register, the LPTIM_RCR register and the LPTIM_CCRx register are
+updated immediately after the APB bus write operation or in synchronization with the next
+LPTIM update event if the timer is already started.
+The PRELOAD bit controls how the LPTIM_ARR, the LPTIM_RCR and the LPTIM_CCRx
+registers are updated:
+•
+
+When the PRELOAD bit is reset to 0, the LPTIM_ARR, the LPTIM_RCR and the
+LPTIM_CCRx registers are immediately updated after any write access.
+
+•
+
+When the PRELOAD bit is set to 1, the LPTIM_ARR, the LPTIM_RCR and the
+LPTIM_CCRx registers are updated at next LPTIM update event, if the timer has been
+already started.
+
+The LPTIM APB interface and the LPTIM kernel logic use different clocks, so there is some
+latency between the APB write and the moment when these values are available to the
+counter comparator. Within this latency period, any additional write into these registers must
+be avoided.
+The ARROK flag, the REPOK flag and the CMPxOK flag in the LPTIM_ISR register indicate
+when the write operation is completed to respectively the LPTIM_ARR register, the
+LPTIM_RCR register and the LPTIM_CCRx register.
+After a write to the LPTIM_ARR, the LPTIM_RCR or the LPTIM_CCRx register, a new write
+operation to the same register can only be performed when the previous write operation is
+completed. Any successive write before respectively the ARROK flag, the REPOK flag or
+the CMPxOK flag be set, leads to unpredictable results.
+
+RM0456 Rev 6

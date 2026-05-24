@@ -1,0 +1,36 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Table 370 shows the frequency response of the reshape filter.
+
+Magnitude (DB)
+
+Figure 370. Reshape filter frequency response normalized (FRS / 2 = 1)
+
+Magnitude (DB)
+
+1RUPDOL]HGIUHTXHQF\ [ʌUDGVDPSOH
+
+1RUPDOL]HGIUHTXHQF\ [ʌUDGVDPSOH
+
+MSv62664V1
+
+The RSFLT gain is close to 9.3 dB, so the output data size is a little bit lower than 24 bits for
+a 22-bit wide input signal.
+The RSFLT takes 24 clock cycles of adf_proc_ck clock to process one sample at FRS. When
+the RSFLT is enabled, the application must insure that the adf_proc_ck is at least 24 times
+faster FRS.
+The RSFLT generates an event (rfovr_evt) and sets the RFOVRF flag, if the RSFLT
+receives a new samples while the previous one is still under processing.
+When RFOVRF is set, the samples provided by the RSFLT are invalid. The application must
+then stop the data acquisition and provides a faster adf_proc_ck clock to the RSFLT.
+
+High-pass filter (HPF)
+The high-pass filter suppresses the low-frequency content from the final output data stream
+in case of continuous conversion mode. The high-pass filter can be enabled or disabled via
+HPFBYP in the ADF reshape filter configuration register 0 (ADF_DFLT0RSFR).
+The HPF is useful when there is parasitic low-frequency noise (or DC signal) in the input
+data source that must be removed from the final data.

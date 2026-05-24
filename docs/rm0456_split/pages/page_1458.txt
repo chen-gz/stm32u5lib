@@ -1,0 +1,84 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+Figure 316. DAC sample and hold mode phase diagram
+
+V1
+Vd
+V2
+
+t
+dac_hold
+_ck
+
+Sampling phase
+
+Hold phase
+
+Refresh
+phase
+
+Sampling phase
+
+t
+
+DAC
+
+ON
+
+ON
+
+ON
+MSv45340V3
+
+Like in normal mode, the sample and hold mode has different configurations.
+To enable the output buffer, MODEx[2:0] bits in DAC_MCR register must be set to:
+•
+
+100: DAC is connected to the external pin
+
+•
+
+101: DAC is connected to external pin and to on chip peripherals
+
+To disabled the output buffer, MODEx[2:0] bits in DAC_MCR register must be set to:
+•
+
+110: DAC is connected to external pin and to on chip peripherals
+
+•
+
+111: DAC is connected to on chip peripherals
+When MODEx[2:0] bits are equal to 111, an internal capacitor, CLint, holds the voltage
+output of the DAC core and then drive it to on-chip peripherals.
+
+All sample and hold phases are interruptible, and any change in DAC_DHRx immediately
+triggers a new sample phase.
+Table 347. Channel output modes summary
+MODEx[2:0]
+0
+
+0
+
+0
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+0
+
+1
+
+1

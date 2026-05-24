@@ -1,0 +1,72 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+Initialization of AES
+To initialize AES, first disable it by clearing the EN bit of the AES_CR register. Then perform
+the following steps in any order:
+•
+
+Note:
+
+Configure the AES mode, by programming the MODE[1:0] bitfield of the AES_CR
+register.
+–
+
+For encryption, select Mode 1 (MODE[1:0] = 00).
+
+–
+
+For decryption, select Mode 3 (MODE[1:0] = 10), unless ECB or CBC chaining
+modes are used. In this latter case, perform an initial key derivation of the
+encryption key, as described in Section 49.4.5: AES decryption round key
+preparation.
+
+•
+
+Select the chaining mode, by programming the CHMOD[2:0] bitfield of the AES_CR
+register.
+
+•
+
+Configure the data type (1-, 8-, 16- or 32-bit), with the DATATYPE[1:0] bitfield in the
+AES_CR register.
+
+•
+
+When it is required (for example in CBC or CTR chaining modes), write the initialization
+vector into the AES_IVRx registers.
+
+•
+
+Configure the key size (128-bit or 256-bit), with the KEYSIZE bitfield of the AES_CR
+register. This step must be done before writing into key registers.
+
+•
+
+Write a symmetric key into the AES_KEYRx registers (4 or 8 registers depending on
+the key size).
+
+AES sets KEYVALID in AES_SR when key information defined by KEYSIZE is loaded in
+AES_KEYRx.
+
+Data append
+This section describes different ways of appending data for processing, where the size of
+data to process is not a multiple of 128 bits when KMOD[1:0] = 00. For other KMOD[1:0]
+values refer to Section 49.4.13.
+For ECB or CBC mode, refer to Section 49.4.6: AES ciphertext stealing and data padding.
+The last block management in these cases is more complex than in the sequence described
+in this section.
+Data append through polling
+This method uses flag polling to control the data append through the following sequence:
+1.
+
+Enable the AES peripheral by setting the EN bit of the AES_CR register.
+
+2.
+
+Repeat the following sub-sequence until the payload is entirely processed:
+
+3.

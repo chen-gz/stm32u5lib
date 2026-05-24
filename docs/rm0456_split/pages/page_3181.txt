@@ -1,0 +1,59 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+72.16.7
+
+RM0456
+
+OTG programming model
+The OTG_FS controller is an OTG device supporting HNP and SRP. When the core is
+connected to an “A” plug, it is referred to as an A-device. When the core is connected to a
+“B” plug it is referred to as a B-device. In host mode, the OTG_FS controller turns off VBUS
+to conserve power. SRP is a method by which the B-device signals the A-device to turn on
+VBUS power. A device must perform both data-line pulsing and VBUS pulsing, but a host can
+detect either data-line pulsing or VBUS pulsing for SRP. HNP is a method by which the Bdevice negotiates and switches to host role. In Negotiated mode after HNP, the B-device
+suspends the bus and reverts to the device role.
+
+A-device session request protocol
+The application must set the SRP-capable bit in the core USB configuration register. This
+enables the OTG_FS controller to detect SRP as an A-device.
+Figure 914. A-device SRP
+Suspend
+
+6
+1
+
+DRV_VBUS
+
+5
+
+2
+VBUS_VALID
+
+VBUS pulsing
+
+A_VALID
+
+3
+
+D+
+
+D-
+
+4
+Data line pulsing
+
+7
+Connect
+
+Low
+ai15681c
+
+1. DRV_VBUS = VBUS drive signal to the PHY
+VBUS_VALID = VBUS valid signal from PHY
+A_VALID = A-peripheral VBUS level signal to PHY
+D+ = Data plus line
+D- = Data minus line
+
+The following points refer and describe the signal numeration shown in the Figure 914:

@@ -1,0 +1,186 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bits 3:0 PRESCALER[3:0]: Clock prescaler
+The USART input clock can be divided by a prescaler factor:
+0000: input clock not divided
+0001: input clock divided by 2
+0010: input clock divided by 4
+0011: input clock divided by 6
+0100: input clock divided by 8
+0101: input clock divided by 10
+0110: input clock divided by 12
+0111: input clock divided by 16
+1000: input clock divided by 32
+1001: input clock divided by 64
+1010: input clock divided by 128
+1011: input clock divided by 256
+Others: Reserved, must not be used
+Note: When PRESCALER is programmed with a value different of the allowed ones,
+programmed prescaler value is equal to 1011 that is, input clock divided by 256.
+If the prescaler is not supported, this bitfield is reserved and must be kept at reset
+value. Refer to Section 66.4: USART implementation.
+
+66.8.16
+
+USART autonomous mode control register (USART_AUTOCR)
+Address offset: 0x30
+Reset value: 0x8000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+22
+
+21
+
+20
+
+19
+
+TRIGSEL[3:0]
+
+18
+
+17
+
+16
+
+IDLEDIS TRIGEN TRIGPOL
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+TDN[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:23 Reserved, must be kept at reset value.
+Bits 22:19 TRIGSEL[3:0]: Trigger selection bits
+Refer to Description of USART interconnections.
+This bitfield can be written only when the UE bit is cleared in USART_CR1 register.
+0000: usart_trg0 selected
+0001: usart_trg1 selected
+...
+1111: usart_trg15 selected
+Note: This bitfield can be written only when the UE bit of USART_CR1 register is cleared.
+Bit 18 IDLEDIS: Idle frame transmission disable bit after enabling the transmitter
+0: Idle frame sent after enabling the transmitter (TE = 1 in USART_CR1)
+1: Idle frame not sent after enabling the transmitter
+Note: This bitfield can be written only when the UE bit of USART_CR1 register is cleared.
+
+RM0456 Rev 6

@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+Bit 24 FMP: Fast-mode Plus 20 mA drive enable
+0: 20 mA I/O drive disabled
+1: 20 mA I/O drive enabled
+Bit 23 PECEN: PEC enable
+0: PEC calculation disabled
+1: PEC calculation enabled
+Bit 22 ALERTEN: SMBus alert enable
+0: The SMBALERT# signal on SMBA pin is not supported in host mode (SMBHEN = 1). In
+device mode (SMBHEN = 0), the SMBA pin is released and the alert response address
+header is disabled (0001100x followed by NACK).
+1: The SMBALERT# signal on SMBA pin is supported in host mode (SMBHEN = 1). In
+device mode (SMBHEN = 0), the SMBA pin is driven low and the alert response address
+header is enabled (0001100x followed by ACK).
+Note: When ALERTEN = 0, the SMBA pin can be used as a standard GPIO.
+Bit 21 SMBDEN: SMBus device default address enable
+0: Device default address disabled. Address 0b1100001x is NACKed.
+1: Device default address enabled. Address 0b1100001x is ACKed.
+Bit 20 SMBHEN: SMBus host address enable
+0: Host address disabled. Address 0b0001000x is NACKed.
+1: Host address enabled. Address 0b0001000x is ACKed.
+Bit 19 GCEN: General call enable
+0: General call disabled. Address 0b00000000 is NACKed.
+1: General call enabled. Address 0b00000000 is ACKed.
+Bit 18 WUPEN: Wake-up from Stop mode enable
+0: Wake-up from Stop mode disabled.
+1: Wake-up from Stop mode enabled.
+Note: WUPEN can be set only when DNF[3:0] = 0000.
+Bit 17 NOSTRETCH: Clock stretching disable
+This bit is used to disable clock stretching in target mode. It must be kept cleared in
+controller mode.
+0: Clock stretching enabled
+1: Clock stretching disabled
+Note: This bit can be programmed only when the I2C peripheral is disabled (PE = 0).
+Bit 16 SBC: Target byte control
+This bit is used to enable hardware byte control in target mode.
+0: Target byte control disabled
+1: Target byte control enabled
+Bit 15 RXDMAEN: DMA reception requests enable
+0: DMA mode disabled for reception
+1: DMA mode enabled for reception
+Bit 14 TXDMAEN: DMA transmission requests enable
+0: DMA mode disabled for transmission
+1: DMA mode enabled for transmission
+Bit 13 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

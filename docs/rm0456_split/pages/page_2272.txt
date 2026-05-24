@@ -1,0 +1,84 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Note:
+
+RM0456
+
+The following sequence must be followed when resetting the DITHEN bit:
+1.
+
+CEN and ARPE bits must be reset.
+
+2.
+
+The DITHEN bit must be reset.
+
+3.
+
+The CCIF flags must be cleared.
+
+4.
+
+The CEN bit can be set (eventually with ARPE = 1).
+Figure 632. Data format and register coding in dithering mode
+
+b31
+
+b0
+
+Register format in
+dithering mode
+(32-bit)
+
+b31
+Register format in
+dithering mode
+(16-bit)
+
+LSB: 4-bits
+fractional part
+
+MSB: 28-bits, integer part
+
+b19
+Reserved
+
+b0
+LSB: 4-bits
+fractional part
+
+MSB: 16-bits, integer part
+
+b19
+
+b0
+326
+
+Example
+20
+
+6
+
+Base compare value is
+20 during 16 periods
+
+Additional 6 cycles are spread
+over the 16 periods
+MSv50911V1
+
+The minimum frequency is given by the following formula:
+F Tim
+F Tim
+Resolution = ------------- ⇒ F pwmMin = -----------------------------------F pwm
+Max Resolution
+F Tim
+Dithering mode disabled: F pwmMin = --------------65536
+F Tim
+Dithering mode (16-bit timer): F pwmMin = ----------------------------65535 + 15
+-----16
+F Tim
+Dithering mode (32-bit timer): F pwmMin = -----------------------------------------268435454 + 15
+-----16
+
+Note:

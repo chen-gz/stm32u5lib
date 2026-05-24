@@ -1,0 +1,59 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 557. Various output behavior in response to a break event on tim_brk (OSSI = 1)
+BREAK (MOE
+
+)
+
+tim_ocxref
+
+tim_ocx
+(tim_ocxn not implemented, CCxP=0, OISx=1)
+
+tim_ocx
+(tim_ocxn not implemented, CCxP=0, OISx=0)
+
+tim_ocx
+(tim_ocxn not implemented, CCxP=1, OISx=1)
+
+tim_ocx
+(tim_ocxn not implemented, CCxP=1, OISx=0)
+
+tim_ocx
+delay
+delay
+tim_ocxn
+(CCxE=1, CCxP=0, OISx=0, CCxNE=1, CCxNP=0, OISxN=1)
+
+delay
+
+tim_ocx
+delay
+delay
+tim_ocxn
+(CCxE=1, CCxP=0, OISx=1, CCxNE=1, CCxNP=1, OISxN=1)
+
+delay
+
+tim_ocx
+tim_ocxn
+(CCxE=1, CCxP=0, OISx=0, CCxNE=0, CCxNP=0, OISxN=1)
+
+delay
+
+tim_ocx
+tim_ocxn
+(CCxE=1, CCxP=0, OISx=1, CCxNE=0, CCxNP=0, OISxN=0)
+
+delay
+
+tim_ocx
+tim_ocxn
+(CCxE=1, CCxP=0, CCxNE=0, CCxNP=0, OISx=OISxN=0 or OISx=OISxN=1)
+MSv62337V1
+
+The two break inputs have different behaviors on timer outputs:

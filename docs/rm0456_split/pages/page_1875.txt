@@ -1,0 +1,171 @@
+RM0456 Rev 6
+
+RM0456
+
+JPEG codec (JPEG)
+
+46.5.5
+
+JPEG codec configuration register x (JPEG_CONFRx)
+Address offset: 0x000 + 0x4 * x, (x = 4 to 7)
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+HA
+
+HD
+
+rw
+
+rw
+
+HSF[3:0]
+rw
+
+rw
+
+rw
+
+VSF[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+NB[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+QT[1:0]
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:12 HSF[3:0]: Horizontal sampling factor
+Horizontal sampling factor for component {x-4}.
+Bits 11:8 VSF[3:0]: Vertical sampling factor
+Vertical sampling factor for component {x-4}.
+Bits 7:4 NB[3:0]: Number of blocks
+Number of data units minus 1 that belong to a particular color in the MCU.
+Bits 3:2 QT[1:0]: Quantization table
+Selects quantization table used for component {x-4}.
+00: Quantization table 0
+01: Quantization table 1
+10: Quantization table 2
+11: Quantization table 3
+Bit 1 HA: Huffman AC
+Selects the Huffman table for encoding AC coefficients.
+0: Huffman AC table 0
+1: Huffman AC table 1
+Bit 0 HD: Huffman DC
+Selects the Huffman table for encoding DC coefficients.
+0: Huffman DC table 0
+1: Huffman DC table 1
+
+RM0456 Rev 6

@@ -1,0 +1,161 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+7.9.15
+
+FLASH nonsecure boot address 1 register
+(FLASH_NSBOOTADD1R)
+Address offset: 0x48
+Reset value: 0xXXXX XXXX
+(option bytes loaded with values from the flash memory at reset release)
+ST production value: 0x0BF9 007F
+Access: no wait state when no option bytes modification is ongoing; word, half-word, and
+byte access.
+This register can not be written if OPTLOCK bit is set.This register is nonsecure. It can be
+read and written by both secure and nonsecure access. This register can be protected
+against unprivileged access when NSPRIV = 1 in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+NSBOOTADD1[24:9]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+NSBOOTADD1[8:0]
+rw
+
+rw
+
+Bits 31:7 NSBOOTADD1[24:0]: Nonsecure boot address 1
+The nonsecure boot memory address can be programmed to any address in the valid
+address range with a granularity of 128 bytes. These bits correspond to address [31:7].
+NSBOOTADD1 option bytes are selected following the BOOT0 pin or NSWBOOT0 state.
+Examples:
+NSBOOTADD1[24:0] = 0x0100000: Boot from nonsecure flash memory (0x0800 0000)
+NSBOOTADD1[24:0] = 0x017F200: Boot from system memory bootloader (0x0BF9 0000)
+NSBOOTADD1[24:0] = 0x0400000: Boot from nonsecure SRAM1 on S-Bus (0x2000 0000)
+Bits 6:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

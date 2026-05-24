@@ -1,0 +1,171 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+72.15.35 OTG device status register (OTG_DSTS)
+Address offset: 0x808
+Reset value: 0x0000 0010
+This register indicates the status of the core with respect to USB-related events. It must be
+read on interrupts from the device all interrupts (OTG_DAINT) register.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+r
+
+r
+
+r
+
+r
+
+r
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+r
+
+FNSOF[13:8]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+r
+
+22
+
+DEVLNSTS[1:0]
+
+8
+
+FNSOF[7:0]
+r
+
+23
+
+Res.
+
+r
+
+Res.
+
+Res.
+
+EERR
+r
+
+ENUMSPD[1:0]
+r
+
+0
+SUSP
+STS
+
+r
+
+r
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:22 DEVLNSTS[1:0]: Device line status
+Indicates the current logic level USB data lines.
+Bit [23]: Logic level of D+
+Bit [22]: Logic level of DBits 21:8 FNSOF[13:0]: Frame number of the received SOF
+Bits 7:4 Reserved, must be kept at reset value.
+Bit 3 EERR: Erratic error
+The core sets this bit to report any erratic errors.
+Due to erratic errors, the OTG_FS controller goes into suspended state and an interrupt is
+generated to the application with Early suspend bit of the OTG_GINTSTS register (ESUSP
+bit in OTG_GINTSTS). If the early suspend is asserted due to an erratic error, the application
+can only perform a soft disconnect recover.
+Bits 2:1 ENUMSPD[1:0]: Enumerated speed
+Indicates the speed at which the OTG_FS controller has come up after speed detection
+through a chirp sequence.
+11: Full speed using embedded FS PHY
+Others: reserved
+Bit 0 SUSPSTS: Suspend status
+In device mode, this bit is set as long as a suspend condition is detected on the USB. The
+core enters the suspended state when there is no activity on the USB data lines for a period
+of 3 ms. The core comes out of the suspend:
+– When there is an activity on the USB data lines
+– When the application writes to the remote wake-up signaling bit in the OTG_DCTL register
+(RWUSIG bit in OTG_DCTL).

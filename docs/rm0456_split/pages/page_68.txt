@@ -1,0 +1,32 @@
+90
+
+Contents
+
+RM0456
+59.5.14 GFXTIM absolute time register (GFXTIM_ATR) . . . . . . . . . . . . . . . . 2555
+59.5.15 GFXTIM absolute frame counter register (GFXTIM_AFCR) . . . . . . . 2556
+59.5.16 GFXTIM absolute line counter register (GFXTIM_ALCR) . . . . . . . . . 2556
+59.5.17 GFXTIM absolute frame counter compare 1 register
+(GFXTIM_AFCC1R) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2557
+59.5.18 GFXTIM absolute line counter compare 1 register
+(GFXTIM_ALCC1R) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2557
+59.5.19 GFXTIM absolute line counter compare 2 register
+(GFXTIM_ALCC2R) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2557
+59.5.20 GFXTIM relative frame counter 1 register (GFXTIM_RFC1R) . . . . . 2558
+59.5.21 GFXTIM relative frame counter 1 reload register
+(GFXTIM_RFC1RR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2558
+59.5.22 GFXTIM relative frame counter 2 register (GFXTIM_RFC2R) . . . . . 2559
+59.5.23 GFXTIM relative frame counter 2 reload register
+(GFXTIM_RFC2RR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2559
+59.5.24 GFXTIM watchdog counter register (GFXTIM_WDGCR) . . . . . . . . . 2559
+59.5.25 GFXTIM watchdog reload register (GFXTIM_WDGRR) . . . . . . . . . . 2560
+59.5.26 GFXTIM watchdog pre-alarm register (GFXTIM_WDGPAR) . . . . . . . 2560
+59.5.27 GFXTIM register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2560
+
+60
+
+Infrared interface (IRTIM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2563
+
+61
+
+Independent watchdog (IWDG) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2564

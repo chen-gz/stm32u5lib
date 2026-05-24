@@ -1,0 +1,85 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Bits 31:0 DMAB[31:0]: DMA register for burst accesses
+A read or write operation to the DMAR register accesses the register located at the address
+(TIMx_CR1 address) + (DBA + DMA index) x 4
+where TIMx_CR1 address is the address of the control register 1, DBA is the DMA base
+address configured in TIMx_DCR register, DMA index is automatically controlled by the
+DMA transfer, and ranges from 0 to DBL (DBL configured in TIMx_DCR).
+
+55.5.25
+
+TIMx register map
+TIMx registers are mapped as described in the table below.
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ARPE
+
+DIR
+
+OPM
+
+URS
+
+UDIS
+
+CEN
+0
+
+MMS[2:0]
+
+CCDS
+
+Res.
+
+Res.
+
+Res.
+
+0
+
+0
+
+0
+
+0
+Res.
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+Res.
+
+Res.

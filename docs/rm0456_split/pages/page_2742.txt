@@ -1,0 +1,265 @@
+•
+
+Dual clock domain with dedicated kernel clock for peripherals independent from PCLK.
+
+•
+
+Programmable data word length (7 or 8 or 9 bits)
+
+•
+
+Programmable data order with MSB-first or LSB-first shifting
+
+•
+
+Configurable stop bits (1 or 2 stop bits)
+
+•
+
+Single-wire half-duplex communications
+
+•
+
+Continuous communications using DMA
+
+•
+
+Received/transmitted bytes are buffered in reserved SRAM using centralized DMA.
+
+•
+
+Separate enable bits for transmitter and receiver
+
+•
+
+Separate signal polarity control for transmission and reception
+
+•
+
+Swappable Tx/Rx pin configuration
+
+•
+
+Hardware flow control for modem and RS485 transceiver
+
+•
+
+Transfer detection flags:
+–
+
+Receive buffer full
+
+–
+
+Transmit buffer empty
+
+–
+
+Busy and end of transmission flags
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+•
+
+•
+
+67.3
+
+Parity control:
+–
+
+Transmits parity bit
+
+–
+
+Checks parity of received data byte
+
+Four error detection flags:
+–
+
+Overrun error
+
+–
+
+Noise detection
+
+–
+
+Frame error
+
+–
+
+Parity error
+
+•
+
+Interrupt sources with flags
+
+•
+
+Multiprocessor communications: wake-up from mute mode by idle line detection or
+address mark detection
+
+•
+
+Wake-up from Stop mode
+
+•
+
+Autonomous functionality in Stop mode
+
+LPUART implementation
+The tables below describe the LPUART implementation. USARTs and UARTs are included
+for comparison.
+Table 685. Instance implementation on STM32U5 series
+Instance
+
+STM32U535/545
+
+STM32U575/585
+
+STM32U59x/5Ax/5Fx/5Gx
+
+USART1
+
+Full
+
+Full
+
+Full
+
+USART2
+
+-
+
+Full
+
+Full
+
+USART3
+
+Full
+
+Full
+
+Full
+
+USART6
+
+-
+
+-
+
+Full
+
+UART4
+
+Basic
+
+Basic
+
+Basic
+
+UART5
+
+Basic
+
+Basic
+
+Basic
+
+LPUART1
+
+Low-power
+
+Low-power
+
+Low-power
+
+Table 686. USART/LPUART features
+Modes/features
+
+(1)
+
+Full feature
+
+Basic feature
+
+Low-power feature
+
+Hardware flow control for modem
+
+X
+
+X
+
+X
+
+Continuous communication using DMA
+
+X
+
+X
+
+X
+
+Multiprocessor communication
+
+X
+
+X
+
+X
+
+Synchronous mode (master/slave)
+
+X
+
+-
+
+-
+
+Smartcard mode
+
+X
+
+-
+
+-
+
+Single-wire half-duplex communication
+
+X
+
+X
+
+X
+
+IrDA SIR ENDEC block
+
+X
+
+X
+
+-
+
+LIN mode
+
+X
+
+X
+
+-
+
+Dual-clock domain
+
+X
+
+X
+
+X
+
+RM0456 Rev 6

@@ -1,0 +1,59 @@
+1045
+
+Flexible static memory controller (FSMC)
+–
+
+RM0456
+
+Accesses to devices that do not have the byte select feature (NOR and NAND
+flash memories)
+This situation occurs when a byte access is requested to a 16-bit wide flash
+memory. Since the device cannot be accessed in Byte mode (only 16-bit words
+can be read/written from/to the flash memory), Write transactions and Read
+transactions are allowed (the controller reads the entire 16-bit memory word and
+uses only the required byte).
+
+Wrap support for NOR flash/PSRAM
+Wrap burst mode for synchronous memories is not supported. The memories must be
+configured in Linear burst mode of undefined length.
+
+Configuration registers
+The FMC can be configured through a set of registers. Refer to Section 27.6.6, for a
+detailed description of the NOR flash/PSRAM controller registers. Refer to Section 27.7.7,
+for a detailed description of the NAND flash registers.
+
+27.5
+
+External device address mapping
+From the FMC point of view, the external memory is divided into fixed-size banks of
+256 Mbytes each (see Figure 120):
+•
+
+•
+
+Bank 1 used to address up to 4 NOR flash memory or PSRAM devices. This bank is
+split into 4 NOR/PSRAM subbanks with 4 dedicated chip selects, as follows:
+–
+
+Bank 1 - NOR/PSRAM 1
+
+–
+
+Bank 1 - NOR/PSRAM 2
+
+–
+
+Bank 1 - NOR/PSRAM 3
+
+–
+
+Bank 1 - NOR/PSRAM 4
+
+Bank 3 used to address NAND flash memory devices.The MPU memory attribute for
+this space must be reconfigured by software to Device.
+
+For each bank the type of memory to be used can be configured by the user application
+through the Configuration register.
+
+<!-- pagebreak -->
+

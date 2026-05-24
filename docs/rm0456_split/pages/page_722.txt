@@ -1,0 +1,108 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+–
+
+Requests with priority 2 are allocated and replicated to the queue 0, queue 1, and
+queue 2.
+
+–
+
+Any queue 0, 1, or 2 equally grants any of its active input requests in a round-robin
+manner, provided there are simultaneous requests.
+
+–
+
+Additionally, there is a second stage for the low-traffic with a round-robin arbiter
+that fairly alternates between simultaneous selected requests from queue 0,
+queue 1, and queue 2.
+Figure 68. GPDMA arbitration policy
+
+Request from any channel x
+being assigned with GPDMA_CxCR.PRIO = 0
+
+Queue 0
+RRA
+
+Request from any channel x
+being assigned with GPDMA_CxCR.PRIO = 1
+
+Queue 1
+RRA
+
+Request from any channel x
+being assigned with GPDMA_CxCR.PRIO = 2
+
+Queue 2
+RRA
+
+Request from any channel x
+being assigned with GPDMA_CxCR.PRIO = 3
+
+Queue 3
+RRA
+
+RRA = round-robin arbitration, FPA = fixed-priority arbitration
+
+Low
+RRA
+
+FPA
+
+Granted
+request
+
+High
+
+GPDMA arbitration
+MSv63647V1
+
+GPDMA arbitration and bandwidth
+With this arbitration policy, the following is guaranteed:
+•
+
+Equal maximum bandwidth between requests with same priority
+
+•
+
+Reserved bandwidth (noted as BQ3) to the time-sensitive requests (with priority 3)
+
+•
+
+Residual weighted bandwidth between different low-priority requests (priority 0 versus
+priority 1 versus priority 2).
+
+The two following examples highlight that the weighted round-robin arbitration is driven by
+the programmed priorities:
+•
+
+Example 1: basic application with two non time-sensitive GPDMA requests: req0 and
+req1. There are the following programming possibilities:
+–
+
+If they are assigned with same priority, the allocated bandwidth by the arbiter to
+req0 (Breq0) is equal to the allocated bandwidth to req1(Breq1).
+Breq0 = Breq1 = 1/2 * (1 - BQ3)
+
+–
+
+If req0 is assigned to priority 0 and req1 to priority 1, the allocated bandwidth to
+req0 (BP0) is 3 times less than the allocated bandwidth to req1 (BP1).
+Breq0 = BP0 = 1/2 * 1/2 * (1 - BQ3) = 1/4 * (1 - BQ3)
+Breq1 = BP1 = (1/2 + 1) * 1/2 * (1 - BQ3) = 3/4 * (1 - BQ3)
+
+–
+
+If req0 is assigned to priority 0 and req1 to priority 2, the allocated bandwidth to
+req0 (BP0) is 5 times less than the allocated bandwidth to req1 (BP2).
+Breq0 = BP0 = 1/2 * 1/3 * (1 - BQ3) = 1/6 * (1 - BQ3)
+Breq1 = BP2 = (1/2 + 1 +1) * 1/3 * (1 - BQ3) = 5/6 * (1 - BQ3)
+
+The above computed bandwidth calculation is based on a theoretical input request,
+always active for any GPDMA clock cycle. This computed bandwidth from the arbiter
+must be weighted by the frequency of the request given by the application, that cannot
+be always active and may be quite much variable from one GPDMA client (example
+I2C at 400 kHz) to another one (PWM at 1 kHz) than the above x3 and x5 ratios.

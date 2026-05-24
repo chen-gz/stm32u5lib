@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 26 PINRSTF: NRST pin reset flag
+This bit is set by hardware when a reset from the NRST pin occurs. It is cleared by writing
+to the RMVF bit.
+0: No reset from NRST pin occurred
+1: Reset from NRST pin occurred
+Bit 25 OBLRSTF: Option-byte loader reset flag
+This bit is set by hardware when a reset from the option-byte loading occurs. It is cleared
+by writing to the RMVF bit.
+0: No reset from option-byte loading occurred
+1: Reset from option-byte loading occurred
+Bit 24 Reserved, must be kept at reset value.
+Bit 23 RMVF: Remove reset flag
+This bit is set by software to clear the reset flags.
+0: No effect
+1: Clear the reset flags.
+Bits 22:16 Reserved, must be kept at reset value.
+Bits 15:12 MSISSRANGE[3:0]:MSIS range after Standby mode
+This bitfield is set by software to chose the MSIS frequency at startup. It is used after exiting
+Standby mode until MSIRGSEL is set. After a NRST pin or a power-on reset or when exiting
+Shutdown mode, the range is always 4 MHz. MSISSRANGE can be written only when
+MSIRGSEL = 1.
+0100: range 4 around 4M Hz (reset value)
+0101: range 5 around 2 MHz
+0110: range 6 around 1.33 MHz
+0111: range 7 around 1 MHz
+1000: range 8 around 3.072 MHz
+others: reserved
+Note: Changing this bitfield does not change the current MSIS frequency.
+Bits 11:8 MSIKSRANGE[3:0]:MSIK range after Standby mode
+This bit is set by software to chose the MSIK frequency at startup. It is used after exiting
+Standby mode until MSIRGSEL is set. After a NRST pin or a power-on reset or when exiting
+Shutdown mode, the range is always 4 MHz. MSIKSRANGE can be written only when
+MSIRGSEL = 1.
+0100: range 4 around 4M Hz (reset value)
+0101: range 5 around 2 MHz
+0110: range 6 around 1.33 MHz
+0111: range 7 around 1 MHz
+1000: range 8 around 3.072 MHz
+others: reserved
+Note: Changing this bitfield does not change the current MSIK frequency.
+Bits 7:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

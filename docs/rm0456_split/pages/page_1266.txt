@@ -1,0 +1,119 @@
+1377
+
+Analog-to-digital converter (ADC12)
+–
+•
+
+•
+
+•
+
+RM0456
+
+Four dedicated data registers for injected channels
+
+Oversampler
+–
+
+32-bit data register
+
+–
+
+Oversampling ratio adjustable from 2 to 1024
+
+–
+
+Programmable data right and left shift
+
+Data preconditioning
+–
+
+Gain compensation
+
+–
+
+Offset compensation
+
+Low-power features
+–
+
+Speed adaptive low-power mode to reduce ADC consumption when operating at
+low frequency
+
+–
+
+Support of slow bus frequency applications while keeping optimum ADC
+performance
+
+–
+
+Automatic control to avoid ADC overrun in AHB bus clock low-frequency
+application (auto-delayed mode)
+
+•
+
+Up to 17 external analog input channels connected to dedicated GPIO pads
+
+•
+
+3 internal dedicated channels
+–
+
+•
+
+•
+
+One channel for internal reference voltage (VREFINT)
+
+–
+
+One channel for internal temperature sensor (VSENSE)
+
+–
+
+One channel for VBAT monitoring channel (VBAT/4)
+
+Start-of-conversion can be initiated:
+–
+
+by software for both regular and injected conversions or
+
+–
+
+by hardware triggers with configurable polarity (internal timers events or GPIO
+input events) for both regular and injected conversions
+
+Conversion modes
+–
+
+Single mode: the ADC converts a single channel. The conversion is triggered by a
+special event.
+
+–
+
+Scan mode: the ADC scans and converts a sequence of channels.
+
+–
+
+Continuous mode: the ADC converts continuously selected inputs.
+
+–
+
+Discontinuous mode: the ADC converts a subset of the conversion sequence.
+
+•
+
+Interrupt generation when the ADC is ready, at end of sampling, end of conversion
+(regular or injected), end of sequence conversion (regular or injected), analog
+watchdog 1, 2 or 3 or when an overrun event occurs
+
+•
+
+Three analog watchdogs
+The watchdogs can perform filtering to ignore out-of-range data.
+
+•
+
+ADC input range: VREF– ≤ VIN ≤ VREF+
+
+Figure 221 shows the block diagram of one ADC.

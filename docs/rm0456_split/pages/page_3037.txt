@@ -1,0 +1,73 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+72.4.5
+
+RM0456
+
+OTG detections
+Additionally the OTG_FS uses the following functions:
+
+72.5
+
+•
+
+integrated ID pull-up resistor used to sample the ID line for A/B device identification.
+
+•
+
+VBUS sensing comparators with hysteresis used to detect VBUS valid, A-B session valid
+and session-end voltage thresholds. They are used to drive the session request
+protocol (SRP), detect valid startup and end-of-session conditions, and constantly
+monitor the VBUS supply during USB operations.
+
+OTG_FS dual role device (DRD)
+Figure 894. OTG_FS A-B device connection
+VDD
+5 V to VDD
+Voltage
+regulator(1)
+VDD
+GPIO
+
+GPIO + IRQ
+
+EN
+
+STMPS2141STR
+Current-limited 5 V Pwr
+Overcurrent power distribution
+switch(2)
+
+VBUS
+DM
+OSC_IN
+
+DP
+ID
+
+OSC_OUT
+
+VBUS
+DM
+DP
+ID
+VSS
+
+USBmicro-AB connector
+
+STM32
+
+MSv36917V2
+
+1. External voltage regulator only needed when building a VBUS powered device.
+2. STMPS2141STR needed only if the application has to support a VBUS powered device. A basic power
+switch can be used if 5 V are available on the application board.
+
+72.5.1
+
+ID line detection
+The host or peripheral (the default) role is assumed depending on the ID input pin. The ID
+line status is determined on plugging in the USB cable, depending on whether a MicroA or
+MicroB plug is connected to the micro-AB receptacle.

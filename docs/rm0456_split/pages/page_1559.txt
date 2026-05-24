@@ -1,0 +1,132 @@
+when SITF is in SLAVE mode and each external sensor provides its own sampling
+clock
+
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+•
+
+when the decimation ratios of the DFLTx are not the same
+
+•
+
+when all the streams are not starting at the same time
+
+Interleaved-transfer mode
+This mode optimizes the DMA request resources by sharing a single DMA request with
+several RXFIFOs.
+Only single DMA transfers are supported in this mode.
+In interleaved-transfer mode, FTH cannot be used and only the FTHF of RXFIFO0 is
+available for the interrupt signaling.
+For the DMA transfer, when all the RXFIFOs working in interleaved-transfer mode are not
+empty, some DMA requests are generated in order to read sequentially one sample of each
+RXFIFOs, via MDF_DFLT0DR.
+For the RXFIFOs working in interleaved-transfer mode, the DMA channel is enabled by
+setting to 1 DMAEN in MDF_DFLT0DR and by defining the amount of RXFIFOs working in
+interleaved mode via ILVNB[3:0]. DMAEN for the other RXFIFOs working in interleavedtransfer mode (RXFIFO 1 to ILVNB[3:0]) are not taken into account.
+Figure 353 shows four RXFIFOs working in interleaved-transfer mode. Each RXFIFO has a
+delay due to the programming of the DLY block.
+When all the RXFIFOs have at least one sample available (in this example the last FIFO
+receiving a sample is RXFIFO1), the MDF requests the data transfer to the memory
+(see 1 in Figure 353). In this figure, the DMA is assumed to be used for the data transfer to
+memory.
+The acquisition can be simply stopped by setting DFTLEN to 0 for one of the filter
+configured in interleaved-transfer mode. In the example, when a DFLTEN is set to 0
+(see 2 in Figure 353), the transfer to memory is immediately stopped. Samples M2S(N),
+M3S(N) and M4S(N) may be lost.
+Figure 353. Data transfer in interleaved-transfer mode
+1
+
+2
+
+RXNEF of RXFIFO[3:0]
+Data written into RXFIFO0
+Data written into RXFIFO1
+
+M1S(1)
+
+M1S(2)
+
+M2S(0)
+
+Data written into RXFIFO2
+
+M3S(0)
+
+Data written into RXFIFO3
+
+M4
+
+M1S(3)
+
+M2S(1)
+
+M2S(2)
+
+M3S(1)
+
+M4S(1)
+
+M1S(N)
+M2S(3)
+
+M3S(2)
+
+M4S(2)
+
+M1S(N+1)
+
+M3S(3)
+
+M4S(3)
+
+M2S(N)
+
+M3S(N)
+
+M4S(N)
+
+M2S(N+1)
+
+M3S(N+1)
+
+M4S(N+1)
+
+Transfer to memory
+M2S(N)
+
+M1S(N)
+
+M4S(3)
+
+M3S(3)
+
+M2S(3)
+
+M1S(3)
+
+M4S(2)
+
+M3S(2)
+
+M2S(2)
+
+M1S(2)
+
+M4S(1)
+
+M3S(1)
+
+M2S(1)
+
+M1S(1)
+
+(MDF_DFLT0DR to memory)
+
+‘AND’ between DFLTxEN
+(with x = 0 to 3)
+MSv62691V1
+
+RM0456 Rev 6

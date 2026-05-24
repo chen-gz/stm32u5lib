@@ -1,0 +1,181 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+FIFO status and interrupt register (FMC_SR)
+Address offset: 0x84
+Reset value: 0x0000 0040
+This register contains information about the FIFO status and interrupt. The FMC features a
+FIFO that is used when writing to memories to transfer up to 16 words of data from the AHB.
+This is used to quickly write to the FIFO and free the AHB for transactions to peripherals
+other than the FMC, while the FMC is draining its FIFO into the memory. One of these
+register bits indicates the status of the FIFO, for ECC purposes.
+The ECC is calculated while the data are written to the memory. To read the correct ECC,
+the software must consequently wait until the FIFO is empty.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FEMPT
+
+IFEN
+
+ILEN
+
+IREN
+
+IFS
+
+ILS
+
+IRS
+
+r
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bit 6 FEMPT: FIFO empty
+Read-only bit that provides the status of the FIFO
+0: FIFO not empty
+1: FIFO empty
+Bit 5 IFEN: Interrupt falling edge detection enable bit
+0: Interrupt falling edge detection request disabled
+1: Interrupt falling edge detection request enabled
+Bit 4 ILEN: Interrupt high-level detection enable bit
+0: Interrupt high-level detection request disabled
+1: Interrupt high-level detection request enabled
+Bit 3 IREN: Interrupt rising edge detection enable bit
+0: Interrupt rising edge detection request disabled
+1: Interrupt rising edge detection request enabled
+Bit 2 IFS: Interrupt falling edge status
+The flag is set by hardware and reset by software.
+0: No interrupt falling edge occurred
+1: Interrupt falling edge occurred
+Note: If this bit is written by software to 1 it is set.
+Bit 1 ILS: Interrupt high-level status
+The flag is set by hardware and reset by software.
+0: No Interrupt high-level occurred
+1: Interrupt high-level occurred

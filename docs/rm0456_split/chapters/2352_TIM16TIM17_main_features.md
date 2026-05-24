@@ -1,0 +1,131 @@
+•
+
+16-bit autoreload upcounter.
+
+•
+
+16-bit programmable prescaler used to divide (also “on the fly”) the counter clock
+frequency by any factor between 1 and 65535.
+
+•
+
+Synchronization circuit to trigger the DAC.
+
+•
+
+Interrupt/DMA generation on the update event: counter overflow.
+
+RM0456 Rev 6
+
+RM0456
+
+Basic timers (TIM6/TIM7)
+
+57.3
+
+TIM6/TIM7 functional description
+
+57.3.1
+
+TIM6/TIM7 block diagram
+Figure 722. Basic timer block diagram
+
+tim_ker_ck
+
+tim_pck
+
+Trigger controller
+
+32-bit
+APB bus
+
+tim_trgo
+Control
+
+tim_upd_it
+
+IRQ interface
+
+tim_upd_dma
+
+DMA interface
+
+Enable
+Count
+
+Auto-reload register
+Auto-reload register
+
+UEV
+
+Update
+
+Stop, clear or up
+tim_psc_ck
+
+PSC
+prescaler
+
+tim_cnt_ck
+
++
+
+CNT counter
+
+Notes:
+Reg
+
+Preload registers transferred to active registers on U event according to control bit
+Event
+Interrupt & DMA
+
+57.3.2
+
+MSv62381V1
+
+TIM6/TIM7 internal signals
+The table in this section summarizes the TIM inputs and outputs.
+Table 593. TIM internal input/output signals
+Internal signal name
+
+Signal type
+
+Description
+
+tim_pclk
+
+Input
+
+Timer APB clock
+
+tim_ker_ck
+
+Input
+
+Timer kernel clock. This clock must be synchronous with
+tim_pclk (derived from the same source). The clock ratio
+tim_ker_ck/tim_pclk must be an integer: 1, 2, 3,..., 16
+(maximum value)
+
+tim_trgo
+
+Output
+
+Internal trigger output. This trigger can trigger other onchip peripherals (DAC).
+
+tim_upd_it
+
+Output
+
+Timer update event interrupt
+
+tim_upd_dma
+
+Output
+
+Timer update dma request
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

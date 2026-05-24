@@ -1,0 +1,190 @@
+Refer to Section 63.3.5: RTC privilege protection modes for details on the read protection.
+
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+63.6.9
+
+RTC secure configuration register (RTC_SECCFGR)
+This register can be written only when the APB access is secure.
+This register can be globally write-protected, or each bit of this register can be individually
+write-protected against unprivileged access depending on the RTC_PRIVCFGR
+configuration (refer to Section 63.3.5: RTC privilege protection modes).
+Address offset: 0x20
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TS
+SEC
+
+WUT
+SEC
+
+ALRB
+SEC
+
+ALRA
+SEC
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+SEC
+
+INIT
+SEC
+
+CAL
+SEC
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 SEC: RTC global protection
+0: All RTC registers can be written when the APB access is secure or nonsecure, except the
+registers protected by other secure protection bits.
+1: All RTC registers can be written only when the APB access is secure.
+Bit 14 INITSEC: Initialization protection
+0: RTC Initialization mode, calendar and prescalers registers can be written when the APB
+access is secure or nonsecure.
+1: RTC Initialization mode, calendar and prescalers registers can be written only when the
+APB access is secure.
+Bit 13 CALSEC: Shift register, daylight saving, calibration and reference clock protection
+0: Shift register, daylight saving, calibration and reference clock can be written when the APB
+access is secure or nonsecure.
+1: Shift register, daylight saving, calibration and reference clock can be written only when the
+APB access is secure.
+Bits 12:4 Reserved, must be kept at reset value.
+Bit 3 TSSEC: Timestamp protection
+0: RTC timestamp configuration and interrupt clear can be written when the APB access is
+secure or nonsecure.
+1: RTC timestamp configuration and interrupt clear can be written only when the APB access
+is secure.
+
+RM0456 Rev 6

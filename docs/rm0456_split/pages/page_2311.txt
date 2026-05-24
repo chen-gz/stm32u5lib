@@ -1,0 +1,97 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+1.
+
+Configure TIM_mstr master mode to send its update event (UEV) as trigger output
+(MMS = 010 in the TIM_mstr_CR2 register).
+
+2.
+
+Configure the TIM_mstr period (TIM_mstr_ARR registers).
+
+3.
+
+Configure TIM_slv to get the input trigger from TIM_mstr (TS = 00010 in the
+TIM_slv_SMCR register).
+
+4.
+
+Configure TIM_slv in trigger mode (SMS = 110 in TIM_slv_SMCR register).
+
+5.
+
+Start TIM_mstr by writing 1 in the CEN bit (TIM_mstr_CR1 register).
+Figure 678. Triggering TIM_slv with update of TIM_mstr
+tim_ker_ck
+tim_mstr UEV
+event
+tim_mst_CNT
+
+FD
+
+FE
+
+tim_slv_CNT
+
+FF
+
+00
+
+45
+
+01
+46
+
+02
+47
+
+48
+
+TIM_slv counter enable (CEN bit)
+tim_slv TIF bit
+
+Write TIF = 0
+
+MSv62378V1
+
+As in the previous example, both counters can be initialized before starting counting.
+Figure 679 shows the behavior with the same configuration as in Figure 678 but in trigger
+mode (SMS = 110 in the TIM_slv_SMCR register) instead of gated mode.
+Figure 679. Triggering TIM_slv with Enable of TIM_mstr
+tim_ker_ck
+TIM_mst counter enable (CEN bit)
+tim_mstr_CNT reset
+tim_mstr_CNT
+tim_slv_CNT
+
+75
+
+00
+CD
+
+00
+
+E7
+
+01
+
+02
+
+E8
+
+E9
+
+EA
+
+tim_slv_CNT reset
+Tim_slv_CNT write
+tim_slv TIF bit
+
+Write TIF = 0
+
+RM0456 Rev 6
+
+MSv62379V1

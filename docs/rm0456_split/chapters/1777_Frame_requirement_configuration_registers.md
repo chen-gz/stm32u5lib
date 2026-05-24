@@ -1,0 +1,104 @@
+•
+
+DSI_LVCIDR.VCID field configures the virtual channel ID that is indexed to the video
+mode packets using the LTDC interface.
+
+•
+
+DSI_GHCR register configures the packet header (which includes the virtual channel
+ID to be used) for transmissions using APB register interface.
+
+•
+
+DSI_GVCIDR register configures the virtual channel ID of the read responses to store
+and return to the generic interface.
+RM0456 Rev 6
+
+RM0456
+
+44.11
+
+DSI Host (DSI)
+
+Functional description: video mode pattern generator
+The video mode pattern generator allows the transmission of horizontal/vertical color bar
+and D-PHY BER testing pattern without any stimuli.
+The frame requirements must be defined in video registers that are listed in Table 442.
+Table 442. Frame requirement configuration registers
+
+44.11.1
+
+Register name
+
+Description
+
+DSI Host video mode configuration
+
+Video mode configuration
+
+DSI Host video packet configuration
+
+Video packet size
+
+DSI Host video chunks configuration
+
+Number of chunks
+
+DSI Host video null packet configuration
+
+Null packet size
+
+DSI Host video HSA configuration
+
+Horizontal sync active time
+
+DSI Host video HBP configuration
+
+Horizontal back-porch time
+
+DSI Host video line configuration
+
+Line time
+
+DSI Host video VSA configuration
+
+Vertical sync active period
+
+DSI Host video VBP configuration
+
+Vertical back-porch period
+
+DSI Host video VFP configuration
+
+Vertical front-porch period
+
+DSI Host video VA configuration
+
+Vertical resolution
+
+Color bar pattern
+The color bar pattern comprises eight bars for white, yellow, cyan, green, magenta, red,
+blue, and black colors.
+Each color width is calculated by dividing the line pixel size (vertical pattern) or the number
+of lines (horizontal pattern) by eight. In the vertical color bar mode (Figure 439), each single
+color bar has a width of the number of pixels in a line divided by eight. In case the number of
+pixels in a line is not divisible by eight, the last color (black) contains the remaining.
+In the horizontal color bar mode (Figure 440), each color line has a color width of the
+number of lines in a frame divided by eight. In case the number of lines in a frame is not
+divisible by eight, the last color (black) contains the remaining lines.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+1861
+
+DSI Host (DSI)
+
+RM0456
+Figure 439. Vertical color bar mode
+
+Figure 440. Horizontal color bar mode
+
+<!-- pagebreak -->
+

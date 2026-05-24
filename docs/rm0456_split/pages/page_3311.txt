@@ -1,0 +1,26 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+OTG_HCCHAR1 to control. During the setup stage, the application is expected to set
+the PID field in OTG_HCTSIZ1 to SETUP.
+•
+
+Interrupt OUT transactions
+A typical interrupt OUT operation is shown in Figure 931. The assumptions are:
+–
+
+The application is attempting to send one packet in every frame (up to 1 maximum
+packet size), starting with the odd frame (transfer size = 1 024 bytes)
+
+–
+
+The periodic transmit FIFO can hold one packet (1 Kbyte)
+
+–
+
+Periodic request queue depth = 4
+
+The sequence of operations is as follows:

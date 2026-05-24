@@ -1,0 +1,117 @@
+ADC common registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1368
+33.7.1
+
+ADC common status register (ADC12_CSR) . . . . . . . . . . . . . . . . . . 1368
+
+33.7.2
+
+ADC system control register (ADC12_CCR) . . . . . . . . . . . . . . . . . . . 1370
+
+33.7.3
+
+ADC common regular data register for dual mode (ADC12_CDR) . . 1373
+
+33.7.4
+
+ADC common regular data register for 32-bit dual mode
+(ADC12_CDR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1373
+
+ADC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1374
+
+Analog-to-digital converter (ADC4) . . . . . . . . . . . . . . . . . . . . . . . . . . 1378
+34.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1378
+
+34.2
+
+ADC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1378
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+34.3
+
+ADC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1379
+
+34.4
+
+ADC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1381
+34.4.1
+
+ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1381
+
+34.4.2
+
+ADC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1382
+
+34.4.3
+
+ADC voltage regulator (ADVREGEN) . . . . . . . . . . . . . . . . . . . . . . . . 1383
+
+34.4.4
+
+Calibration (ADCAL) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1383
+
+34.4.5
+
+ADC on-off control (ADEN, ADDIS, ADRDY) . . . . . . . . . . . . . . . . . . . 1385
+
+34.4.6
+
+ADC clock (PRESC[3:0]) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1387
+
+34.4.7
+
+ADC connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1389
+
+34.4.8
+
+Configuring the ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1390
+
+34.4.9
+
+Channel selection (CHSEL, SCANDIR, CHSELRMOD) . . . . . . . . . . 1390
+
+34.4.10 Programmable sampling time (SMPx[2:0]) . . . . . . . . . . . . . . . . . . . . 1391
+34.4.11 Single conversion mode (CONT = 0) . . . . . . . . . . . . . . . . . . . . . . . . . 1392
+34.4.12 Continuous conversion mode (CONT = 1) . . . . . . . . . . . . . . . . . . . . . 1392
+34.4.13 Starting conversions (ADSTART) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1393
+34.4.14 Timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1394
+34.4.15 Stopping an ongoing conversion (ADSTP) . . . . . . . . . . . . . . . . . . . . 1395
+34.4.16 Conversion on external trigger and trigger polarity
+(EXTSEL, EXTEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1395
+34.4.17 Discontinuous mode (DISCEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1396
+34.4.18 Programmable resolution (RES) - fast conversion mode . . . . . . . . . 1396
+34.4.19 End of conversion, end of sampling phase (EOC, EOSMP flags) . . . 1397
+34.4.20 End of conversion sequence (EOS flag) . . . . . . . . . . . . . . . . . . . . . . 1398
+34.4.21 Example timing diagrams (single/continuous modes . . . . . . . . . . . . . . . . .
+hardware/software triggers) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1398
+34.4.22 Low-frequency trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1400
+34.4.23 Data management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1400
+34.4.24 Low-power features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1404
+34.4.25 Analog window watchdog . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1408
+34.4.26 Oversampler . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1412
+34.4.27 Temperature sensor and internal reference voltage . . . . . . . . . . . . . 1415
+34.4.28 Battery voltage monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1417
+34.4.29 Concurrent operation with another ADC . . . . . . . . . . . . . . . . . . . . . . 1418
+
+34.5
+
+ADC low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1418
+
+34.6
+
+ADC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1419
+
+34.7
+
+ADC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1421
+34.7.1
+
+ADC interrupt and status register (ADC_ISR) . . . . . . . . . . . . . . . . . . 1421
+
+RM0456 Rev 6

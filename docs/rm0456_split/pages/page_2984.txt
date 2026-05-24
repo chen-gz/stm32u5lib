@@ -1,0 +1,101 @@
+PCLK
+
+APB bus
+
+RM0456 Rev 6
+
+IRQs to NVIC
+
+MSv73152V2
+
+RM0456
+
+71.4.2
+
+Universal serial bus full-speed host/device interface (USB)
+
+USB pins and internal signals
+Table 733. USB input/output pins
+Pin name
+
+71.4.3
+
+Pin type
+
+Description
+
+USB_DP
+
+Digital input/output
+
+D+ line
+
+USB_DM
+
+Digital input/output
+
+D- line
+
+USB_NOE
+
+Digital output
+
+NOE (output enable of data
+lines)
+
+USB_SOF
+
+Digital output
+
+SOF (start of frame indicator)
+
+USB reset and clocks
+A single reset is present on USB. The RCC allows a reset to be forced by software.
+There are two clocks:
+
+71.4.4
+
+•
+
+PCLK for the APB bus interface and registers.
+
+•
+
+USB_ker_ck (48 MHz) for the main protocol logic including notably the serial interface
+engine (SIE), see USB_ker_ck clock domain in block diagram.
+
+General description and Device mode functionality
+The USB peripheral provides a USB-compliant connection between the function
+implemented by the microcontroller and an external USB function which can be a host PC
+but also a USB Device. Data transfer between the external USB host or device and the
+system memory occurs through a dedicated packet buffer memory accessed directly by the
+USB peripheral. This dedicated memory size is 2048 bytes, and up to 16 mono-directional
+or 8 bidirectional endpoints can be used. The USB peripheral interfaces with the external
+USB Host or Device, detecting token packets, handling data transmission/reception, and
+processing handshake packets as required by the USB standard. Transaction formatting is
+performed by the hardware, including CRC generation and checking.
+Each endpoint/channel is associated with a buffer description block indicating where the
+endpoint/channel-related memory area is located, how large it is or how many bytes must
+be transmitted. When a token for a valid function/endpoint pair is recognized by the USB
+peripheral, the related data transfer (if required and if the endpoint/channel is configured)
+takes place. The data buffered by the USB peripheral are loaded in an internal 16-bit
+register and memory access to the dedicated buffer is performed. When all the data have
+been transferred, if needed, the proper handshake packet over the USB is generated or
+expected according to the direction of the transfer.
+At the end of the transaction, an endpoint/channel-specific interrupt is generated, reading
+status registers and/or using different interrupt response routines. The microcontroller can
+determine:
+•
+
+which endpoint/channel has to be served,
+
+•
+
+which type of transaction took place, if errors occurred (bit stuffing, format, CRC,
+protocol, missing ACK, over/underrun, etc.).
+
+Special support is offered to isochronous transfers and high throughput bulk transfers,
+implementing a double buffer usage, which permits to always have an available buffer for
+the USB peripheral while the microcontroller uses the other one.
+
+RM0456 Rev 6

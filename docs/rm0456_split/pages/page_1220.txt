@@ -1,0 +1,50 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Table 294. CMD12 use cases
+Data operation
+
+Stop Transmission command CMD12 Description
+
+SDMMC stream write
+
+The data transfer is stopped/aborted by sending the Stop Transmission
+command.
+
+SDMMC open ended
+multiple block write
+
+The data transfer is stopped/aborted by sending the Stop Transmission
+command.
+If the card detects an error, the host must abort the operation by sending
+the Stop Transmission command.
+
+The Stop Transmission command is not required at the end of this type of
+multiple block write. (sending the Stop Transmission command after the
+SDMMC block write with
+card has received the last block is regarded as an illegal command.)
+predefined block count
+If the card detects an error, the host must abort the operation by sending
+the Stop Transmission command.
+SDMMC stream read
+
+The data transfer is stopped/aborted by sending the Stop Transmission
+command.
+
+SDMMC open ended
+multiple block read
+
+The data transfer is stopped/aborted by sending the Stop Transmission
+command.
+If the card detects an error, the host must abort the operation by sending
+the Stop Transmission command.
+
+The Stop Transmission command is not required at the end of this type of
+multiple block read. (sending the Stop Transmission command after the
+SDMMC block read with card has transmitted the last block is regarded as an illegal command.)
+predefined block count Transaction can be aborted by sending the Stop Transmission command.
+If the card detects an error, the host must abort the operation by sending
+the Stop Transmission command.

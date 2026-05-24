@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+54.6.25
+
+TIMx timer encoder control register (TIMx_ECR)(x = 1, 8)
+Address offset: 0x058
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PWPRSC[2:0]
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+PW[7:0]
+
+IPOS[1:0]
+
+FIDX
+
+IBLK[1:0]
+
+IDIR[1:0]
+
+IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:27 Reserved, must be kept at reset value.
+Bits 26:24 PWPRSC[2:0]: Pulse width prescaler
+
+This bitfield sets the clock prescaler for the pulse generator, as following:
+tPWG = (2(PWPRSC[2:0])) x ttim_ker_ck
+Bits 23:16 PW[7:0]: Pulse width
+This bitfield defines the pulse duration, as following:
+
+tPW = PW[7:0] x tPWG
+Bits 15:8 Reserved, must be kept at reset value.
+Bits 7:6 IPOS[1:0]: Index positioning
+In quadrature encoder mode (SMS[3:0] = 0001, 0010, 0011, 1110, 1111), this bit indicates in
+which AB input configuration the Index event resets the counter.
+00: Index resets the counter when AB = 00
+01: Index resets the counter when AB = 01
+10: Index resets the counter when AB = 10
+11: Index resets the counter when AB = 11
+In directional clock mode or clock plus direction mode (SMS[3:0] = 1010, 1011, 1100, 1101),
+these bits indicates on which level the Index event resets the counter. In bidirectional clock
+mode, this applies for both clock inputs.
+x0: Index resets the counter when clock is 0
+x1: Index resets the counter when clock is 1
+Note: IPOS[1] bit is not significant
+Bit 5 FIDX: First index
+This bit indicates if the first index only is taken into account
+0: Index is always active
+1: the first Index only resets the counter
+
+RM0456 Rev 6

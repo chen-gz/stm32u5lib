@@ -1,0 +1,111 @@
+RM0456 Rev 6
+
+RM0456
+
+72.11.1
+
+USB on-the-go full-speed (OTG_FS)
+
+Peripheral FIFO architecture
+Figure 899. Device-mode FIFO address mapping and AHB FIFO access mapping
+Single data
+FIFO
+IN endpoint Tx FIFO #x
+DFIFO push access
+from AHB
+
+Dedicated Tx
+FIFO #x control
+(optional)
+MAC pop
+
+IN endpoint Tx FIFO #1
+DFIFO push access
+from AHB
+
+Tx FIFO #x
+packet
+
+.
+.
+.
+
+.
+.
+.
+
+Dedicated Tx
+FIFO #1 control
+(optional)
+
+Tx FIFO #1
+packet
+
+OTG_DIEPTXFx[31:16]
+OTG_DIEPTXFx[15:0]
+.
+.
+.
+OTG_DIEPTXF1[31:16]
+OTG_DIEPTXF1[15:0]
+
+MAC pop
+IN endpoint Tx FIFO #0
+DFIFO push access
+from AHB
+
+Dedicated Tx
+FIFO #0 control
+(optional)
+
+Tx FIFO #0
+packet
+
+OTG_DIEPTXF0[31:16]
+OTG_DIEPTXF0[15:0]
+
+MAC pop
+
+Any OUT endpoint
+DFIFO pop access
+from AHB
+
+Dedicated Tx
+FIFO #1 control
+(optional)
+
+MAC push
+
+Rx packets
+
+OTG_GRXFSIZ[15:0]
+
+A1=0 (Rx start address fixed
+to 0)
+MSv36929V1
+
+Peripheral Rx FIFO
+The OTG peripheral uses a single receive FIFO that receives the data directed to all OUT
+endpoints. Received packets are stacked back-to-back until free space is available in the Rx
+FIFO. The status of the received packet (which contains the OUT endpoint destination
+number, the byte count, the data PID and the validity of the received data) is also stored by
+the core on top of the data payload. When no more space is available, host transactions are
+NACKed and an interrupt is received on the addressed endpoint. The size of the receive
+FIFO is configured in the receive FIFO size register (OTG_GRXFSIZ).
+The single receive FIFO architecture makes it more efficient for the USB peripheral to fill in
+the receive RAM buffer:
+•
+
+All OUT endpoints share the same RAM buffer (shared FIFO)
+
+•
+
+The OTG_FS core can fill in the receive FIFO up to the limit for any host sequence of
+OUT tokens
+
+The application keeps receiving the Rx FIFO non-empty interrupt (RXFLVL bit in
+OTG_GINTSTS) as long as there is at least one packet available for download. It reads the
+packet information from the receive status read and pop register (OTG_GRXSTSP) and
+finally pops data off the receive FIFO by reading from the endpoint-related pop address.
+
+RM0456 Rev 6

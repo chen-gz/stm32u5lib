@@ -1,0 +1,150 @@
+In this example, the processor can fill the input buffer more quickly than the FMAC can
+process them, so the X1_full flag regularly goes active. However, it struggles to read the Y
+buffer fast enough, so the FMAC stalls regularly waiting for space to be freed up in the Y
+buffer. This means the filter is not executing at maximum throughput. The reason is that the
+
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+filter length is small and the processor relatively slow, in this example. So increasing the Y
+buffer size would not help.
+Figure 118. Filtering example 2
+FMAC_WDATA
+register write:
+WDATA = x[4]
+
+Software register
+access
+
+FMAC_PARAM
+register write:
+FUNC = 8 (FIR Filter)
+P=6
+START = 1
+
+FMAC_RDATA
+register read:
+RDATA = y[0]
+
+FMAC_WDATA
+register write:
+WDATA = x[5]
+
+FMAC_RDATA
+register read:
+RDATA = y[1]
+
+FMAC_WDATA
+register write:
+WDATA = x[6]
+
+FMAC_WDATA
+register write:
+WDATA = x[7]
+
+FMAC_WDATA
+register write:
+WDATA = x[8]
+
+START
+
+x[0]
+
+X1_BASE
+
+Spare
+Spare
+
+x[7]
+Spare
+
+x[2]
+
+X1 buffer X1_BASE + 0x2
+X1_BUF_SIZE = 6 X1_BASE + 0x3
+X1_BASE + 0x4
+
+x[6]
+
+x[1]
+
+X1_BASE + 0x1
+
+x[8]
+
+x[3]
+XX
+
+x[4]
+XX
+
+X1_BASE + 0x5
+
+x[5]
+
+No more space in X1 buffer
+X1_FULL
+Interrupt
+Not enough samples in input buffer
+MAC activity
+Y buffer
+Y_BUF_SIZE = 2
+
+Y_BASE
+Y_BASE + 0x1
+
+Stalled
+
+Calculate y[0] using x[0:5]
+
+Stalled
+
+XX
+
+Calculate y[1] using x[1:6]
+
+y[0]
+XX
+
+Stalled
+
+Calculate y[2] using x[2:7]
+
+Spare
+y[1]
+
+Stalled
+
+Calculate
+
+y[2]
+Spare
+
+Y_EMPTY
+MSv47130V1
+
+The example in Figure 118 illustrates the beginning of the same filter operation, but this time
+the filter has six taps (P=6). The X1 buffer size is six and the Y buffer size is two. The
+FULL_WM and EMPTY_WM bitfields are both set to 0. Prior to starting the filter, the X1
+buffer has been pre-loaded with four samples, x[0:3] as in Figure 116. Because there are
+not enough samples in the input buffer, the X1FULL flag is not set, so the interrupt is
+asserted straight away, to request new data. The FMAC is stalled.
+The processor writes two new samples, x[4] and x[5], to the FMAC_WDATA register, which
+are transferred to the empty locations in the X1 buffer. As soon as there are six unused
+samples in the X1 buffer, the X1_FULL flag goes active (since the buffer size is six), causing
+the interrupt to go inactive. The FMAC starts calculating the first output sample, y[0]. Since
+this requires all six input samples, there are no free spaces in the X1 buffer and so the
+X1_FULL flag remains active. Only when the FMAC finishes calculating y[0] and writes it
+into the Y buffer, can x[0] be discarded, freeing up a space in the X1 buffer, and deasserting
+X1_FULL. At the same time, the Y_EMPTY flag goes inactive. Both these flag states cause
+the interrupt to be asserted, requesting the processor to write a new input sample, first of all,
+and then read the output sample just calculated. The FMAC remains stalled until a new
+input sample is written.
+In this example, the processor has to wait for the FMAC to finish calculating the current
+output sample, before it can write a new input sample, and therefore the X1 buffer regularly
+goes empty, stalling the FMAC. This can be avoided by allowing some extra space in the
+input buffer.
+
+RM0456 Rev 6

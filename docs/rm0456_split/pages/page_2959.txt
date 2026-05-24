@@ -1,0 +1,58 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Bit 6 EW: Warning status
+0: Both error counters are below the error-warning limit of 96.
+1: At least one of error counter has reached the error-warning limit of 96.
+Bit 5 EP: Error passive
+0: The FDCAN is in the error-active state. It normally takes part in bus communication and
+sends an active error flag when an error has been detected.
+1: The FDCAN is in the error-passive state.
+Bits 4:3 ACT[1:0]: Activity
+Monitors the module’s CAN communication state.
+00: Synchronizing: node is synchronizing on CAN communication.
+01: Idle: node is neither receiver nor transmitter.
+10: Receiver: node is operating as receiver.
+11: Transmitter: node is operating as transmitter.
+Bits 2:0 LEC[2:0]: Last error code
+LEC[2:0] indicates the type of the last error to occur on the CAN bus. This bitfield is cleared
+when a message has been transferred (reception or transmission) without error.
+000: No error occurred since LEC[2:0] has been cleared by successful reception or
+transmission.
+001: Stuff error. More than five equal bits in a sequence have occurred in a part of a received
+message where this is not allowed.
+010: Form error. A fixed format part of a received frame has the wrong format.
+011: Ack error. The message transmitted by the FDCAN was not acknowledged by another
+node.
+100: Bit1 error. During the transmission of a message (with the exception of the arbitration
+field), the device wanted to send a recessive level (bit of logical value 1), but the monitored
+bus value was dominant.
+101: Bit0 error. During the transmission of a message (or acknowledge bit, or active error
+flag, or overload flag), the device wanted to send a dominant level (data or identifier bit logical
+value 0), but the monitored bus value was recessive. During bus-off recovery this status is set
+each time a sequence of 11 recessive bits has been monitored. This enables the CPU to
+monitor the proceeding of the bus-off recovery sequence (indicating the bus is not stuck at
+dominant or continuously disturbed).
+110: CRC error. The CRC check sum of a received message was incorrect. The CRC of an
+incoming message does not match with the CRC calculated from the received data.
+111: No change. Any read access to the protocol status register reinitializes LEC[2:0] to 7.
+When the LEC[2:0] shows the value 7, no CAN bus event was detected since the last CPU
+read access to the protocol status register.
+Access type is rs: set on read.
+
+Note:
+
+When a frame in FDCAN format has reached the data phase with the BRS flag set, the next
+CAN event (error or valid frame) is shown in DLEC[2:0] instead of LEC[2:0]. An error in a
+fixed stuff bit of an FDCAN CRC sequence is shown as a form error, not as a stuff error.
+The bus-off recovery sequence (see CAN Specification Rev. 2.0 or ISO11898-1) cannot be
+shortened by setting or clearing the INIT bit of the FDCAN_CCCR register. If the device
+enters bus-off, it sets the INIT bit of its own, stopping all bus activities. Once INIT has been
+cleared by the CPU, the device waits for 129 occurrences of bus-idle (129 × 11 consecutive
+recessive bits) before resuming normal operation. At the end of the bus-off recovery
+sequence, the error management counters are reset. During the waiting time after clearing
+INIT, each time a sequence of 11 recessive bits has been monitored, a bit0 error code is
+written to LEC[2:0] of FDCAN_PSR, enabling the CPU to check up whether the CAN bus is

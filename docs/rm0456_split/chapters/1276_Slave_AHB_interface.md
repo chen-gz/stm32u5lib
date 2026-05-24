@@ -1,0 +1,75 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+33.4.5
+
+RM0456
+
+Slave AHB interface
+The ADC implements an AHB slave port for control/status register and data access. The
+features of the AHB interface are listed below:
+•
+
+Word (32-bit) accesses
+
+•
+
+Single cycle response
+
+•
+
+Response to all read/write accesses to the registers with zero wait states.
+
+The AHB slave interface does not support split/retry requests and never generates AHB
+errors.
+
+33.4.6
+
+ADC Deep-power-down mode (DEEPPWD) and ADC voltage regulator
+(ADVREGEN)
+By default, the ADC is in Deep-power-down mode where its supply voltage is internally
+switched off to reduce the leakage currents (the reset state of bit DEEPPWD is 1 in the
+ADC_CR register).
+To start ADC operations, follow the sequence below:
+1.
+
+First exit Deep-power-down mode by clearing the DEEPPWD bit.
+
+2.
+
+Then, enable the ADC internal voltage regulator by setting the ADVREGEN bit in the
+ADC_CR register. The software must wait for the startup time of the ADC voltage
+regulator (TADCVREG_STUP) before launching a calibration or enabling the ADC. This
+can be done by software by polling the LDORDY bit of the ADC_ISR register.
+
+After ADC operations are complete, the ADC can be disabled (ADEN = 0). It is possible to
+save power by also disabling the ADC voltage regulator. This is done by clearing the
+ADVREGEN bit. Power consumption can be further reduced by reducing the leakage
+currents. In addition, it is possible to enter again in ADC Deep-power-down mode by setting
+DEEPPWD bit in ADC_CR register. This is particularly interesting before entering Stop
+mode.
+Note:
+
+Setting DEEPPWD automatically disables the ADC voltage regulator and the ADVREGEN
+bit is automatically cleared.
+When the internal voltage regulator is disabled (ADVREGEN = 0), the internal analog
+calibration factor is kept.
+In ADC Deep-power-down mode (DEEPPWD = 1), the internal analog calibration is lost and
+it is necessary either to relaunch a calibration or apply again the calibration factor, which
+was previously saved (refer to Section 33.4.8: Calibration (ADCAL, ADCALLIN,
+ADC_CALFACT)).
+
+33.4.7
+
+Single-ended and differential input channels
+ADC channels can be configured either as single-ended input or as differential input. This is
+done by writing DIFSEL[19:0] bits in the ADC_DIFSEL register. This configuration must be
+performed while the ADC is disabled (ADEN = 0).
+In single-ended input mode, the analog voltage to be converted for channel “i” is the
+difference between the external voltage VINP[i] (positive input) and VREF- (negative input).
+In differential input mode, the analog voltage to be converted for channel “i” is the difference
+between the external voltage VINP[i] (positive input) and VINN[i] (negative input).
+
+<!-- pagebreak -->
+

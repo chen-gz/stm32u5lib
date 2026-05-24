@@ -1,0 +1,66 @@
+1.
+
+Enable and configure CKGEN.
+
+2.
+
+Set OLDEN to 0.
+
+RM0456 Rev 6
+
+RM0456
+
+39.4.10
+
+Multi-function digital filter (MDF)
+3.
+
+Wait for OLDACTIVE = 0. If OLDEN was previously enabled, this phase can take two
+periods of mdf_hclk and two periods of mdf_proc_ck.
+
+4.
+
+Program BKOLD[3:0], ACICN[1:0], ACICD[4:0], THINB,OLDTHL[25:0] and
+OLDTHH[25:0].
+
+5.
+
+Set OLDEN to 1.
+
+Digital filter acquisition modes
+The MDF offers the following modes to perform a data capture:
+•
+
+asynchronous continuous acquisition mode
+
+•
+
+asynchronous single-shot acquisition mode
+
+•
+
+synchronous continuous acquisition mode
+
+•
+
+synchronous single-shot acquisition mode
+
+•
+
+window continuous acquisition mode
+
+•
+
+synchronous snapshot acquisition mode
+
+For each filter, one of these modes can be selected independently.
+Note:
+
+To perform a data capture, the filters, the interfaces providing the data (SITFx or ADCITF)
+and the CKGEN must be enabled. If needed, MDF_CCK0 or MDF_CCK1 must be enabled
+as well.
+The filter can be stopped immediately when DFLTEN is set to 0. This resets the filters and
+flushes the RXFIFO of the corresponding filter path. The DFLTACTIVE flag also goes back
+to 0 when the RXFIFO and the filters are reset.
+
+RM0456 Rev 6

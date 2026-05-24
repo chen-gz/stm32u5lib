@@ -1,0 +1,62 @@
+RM0456 Rev 6
+
+17
+
+16
+Res.
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bits 31:29 TXFTCFG[2:0]: TXFIFO threshold configuration
+000:TXFIFO reaches 1/8 of its depth
+001:TXFIFO reaches 1/4 of its depth
+010:TXFIFO reaches 1/2 of its depth
+011:TXFIFO reaches 3/4 of its depth
+100:TXFIFO reaches 7/8 of its depth
+101:TXFIFO becomes empty
+Others: Reserved, must not be used
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 28 RXFTIE: RXFIFO threshold interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated when Receive FIFO reaches the threshold programmed in
+RXFTCFG[2:0].
+Bits 27:25 RXFTCFG[2:0]: Receive FIFO threshold configuration
+000:Receive FIFO reaches 1/8 of its depth
+001:Receive FIFO reaches 1/4 of its depth
+010:Receive FIFO reaches 1/2 of its depth
+011:Receive FIFO reaches 3/4 of its depth
+100:Receive FIFO reaches 7/8 of its depth
+101:Receive FIFO becomes full
+Others: Reserved, must not be used
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 24 TCBGTIE: Transmission Complete before guard time, interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated whenever TCBGT = 1 in the USART_ISR register
+Note: If the USART does not support the smartcard mode, this bit is reserved and must be
+kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 23 TXFTIE: TXFIFO threshold interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated when TXFIFO reaches the threshold programmed in
+TXFTCFG[2:0].
+Bits 22:20 Reserved, must be kept at reset value.
+Bits 19:17 SCARCNT[2:0]: Smartcard auto-retry count
+This bitfield specifies the number of retries for transmission and reception in smartcard
+mode.
+In transmission mode, it specifies the number of automatic retransmission retries, before
+generating a transmission error (FE bit set).
+In reception mode, it specifies the number or erroneous reception trials, before generating a
+reception error (RXNE/RXFNE and PE bits set).
+This bitfield must be programmed only when the USART is disabled (UE = 0).
+When the USART is enabled (UE = 1), this bitfield may only be written to 0x0, in order to
+stop retransmission.
+0x0: retransmission disabled - No automatic retransmission in transmission mode.
+0x1 to 0x7: number of automatic retransmission attempts (before signaling error)
+Note: If smartcard mode is not supported, this bit is reserved and must be kept at reset
+value. Refer to Section 66.4: USART implementation.
+
+RM0456 Rev 6

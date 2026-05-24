@@ -1,0 +1,67 @@
+22
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 21 ITAMP6E: Internal tamper 6 enable
+0: Internal tamper 6 disabled.
+1: Internal tamper 6 enabled.
+Bit 20 ITAMP5E: Internal tamper 5 enable
+0: Internal tamper 5 disabled.
+1: Internal tamper 5 enabled.
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 ITAMP3E: Internal tamper 3 enable
+0: Internal tamper 3 disabled.
+1: Internal tamper 3 enabled.
+Bit 17 ITAMP2E: Internal tamper 2 enable
+0: Internal tamper 2 disabled.
+1: Internal tamper 2 enabled.
+Bit 16 ITAMP1E: Internal tamper 1 enable
+0: Internal tamper 1 disabled.
+1: Internal tamper 1 enabled.
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 TAMP8E: Tamper detection on TAMP_IN8 enable(1)
+0: Tamper detection on TAMP_IN8 is disabled.
+1: Tamper detection on TAMP_IN8 is enabled.
+Bit 6 TAMP7E: Tamper detection on TAMP_IN7 enable(1)
+0: Tamper detection on TAMP_IN7 is disabled.
+1: Tamper detection on TAMP_IN7 is enabled.
+Bit 5 TAMP6E: Tamper detection on TAMP_IN6 enable(1)
+0: Tamper detection on TAMP_IN6 is disabled.
+1: Tamper detection on TAMP_IN6 is enabled.
+Bit 4 TAMP5E: Tamper detection on TAMP_IN5 enable(1)
+0: Tamper detection on TAMP_IN5 is disabled.
+1: Tamper detection on TAMP_IN5 is enabled.
+Bit 3 TAMP4E: Tamper detection on TAMP_IN4 enable(1)
+0: Tamper detection on TAMP_IN4 is disabled.
+1: Tamper detection on TAMP_IN4 is enabled.
+Bit 2 TAMP3E: Tamper detection on TAMP_IN3 enable(1)
+0: Tamper detection on TAMP_IN3 is disabled.
+1: Tamper detection on TAMP_IN3 is enabled.
+Bit 1 TAMP2E: Tamper detection on TAMP_IN2 enable(1)
+0: Tamper detection on TAMP_IN2 is disabled.
+1: Tamper detection on TAMP_IN2 is enabled.
+Bit 0 TAMP1E: Tamper detection on TAMP_IN1 enable(1)
+0: Tamper detection on TAMP_IN1 is disabled.
+1: Tamper detection on TAMP_IN1 is enabled.
+1. Tamper detection mode (selected with TAMP_FLTCR, TAMP_ATCR1, TAMP_ATCR2 registers and TAMPxTRG bits in
+TAMP_CR2), must be configured before enabling the tamper detection.
+
+RM0456 Rev 6

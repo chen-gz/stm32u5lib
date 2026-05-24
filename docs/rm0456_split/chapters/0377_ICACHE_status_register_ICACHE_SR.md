@@ -1,0 +1,180 @@
+RM0456 Rev 6
+
+RM0456
+
+Instruction cache (ICACHE)
+
+Bit 17 MISSMEN: miss monitor enable
+0: cache miss monitor switched off. Stopping the monitor does not reset it.
+1: cache miss monitor enabled
+Bit 16 HITMEN: hit monitor enable
+0: cache hit monitor switched off. Stopping the monitor does not reset it.
+1: cache hit monitor enabled
+Bits 15:3 Reserved, must be kept at reset value.
+Bit 2 WAYSEL: cache associativity mode selection
+This bit allows user to choose ICACHE set-associativity. It can be written by software only
+when cache is disabled (EN = 0).
+0: direct mapped cache (1-way cache)
+1: n-way set associative cache (reset value)
+Bit 1 CACHEINV: cache invalidation
+Set by software and cleared by hardware when the BUSYF flag is set (during cache
+maintenance operation). Writing 0 has no effect.
+0: no effect
+1: invalidate entire cache (all cache lines valid bit = 0)
+Bit 0 EN: enable
+0: cache disabled
+1: cache enabled
+
+8.7.2
+
+ICACHE status register (ICACHE_SR)
+Address offset: 0x004
+Reset value: 0x0000 0001
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ERRF
+r
+
+BSYEN
+BUSYF
+DF
+r
+
+r
+
+Bits 31:3 Reserved, must be kept at reset value.
+Bit 2 ERRF: cache error flag
+0: no error
+1: an error occurred during the operation (cacheable write)
+Bit 1 BSYENDF: busy end flag
+0: cache busy
+1: full invalidate CACHEINV operation finished
+Bit 0 BUSYF: busy flag
+0: cache not busy on a CACHEINV operation
+1: cache executing a full invalidate CACHEINV operation
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

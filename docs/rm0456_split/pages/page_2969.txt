@@ -1,0 +1,180 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Bits 12:8 FIDX[4:0]: Filter index
+Index of matching filter element.
+Range: 0 to LSS[4:0] - 1 or LSE[3:0] - 1 in FDCAN_RXGFC.
+Bits 7:6 MSI[1:0]: Message storage indicator
+00: No FIFO selected
+01: FIFO overrun
+10: Message stored in FIFO 0
+11: Message stored in FIFO 1
+Bits 5:3 Reserved, must be kept at reset value.
+Bits 2:0 BIDX[2:0]: Buffer index
+Index of Rx FIFO element to which the message was stored. Only valid when MSI[1] = 1.
+
+70.4.22
+
+FDCAN Rx FIFO 0 status register (FDCAN_RXF0S)
+Address offset: 0x0090
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RF0L
+
+F0F
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+F0PI[1:0]
+
+r
+
+r
+8
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+F0GI[1:0]
+r
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+3
+
+2
+
+16
+
+r
+
+r
+
+1
+
+0
+
+F0FL[3:0]
+r
+
+r
+
+r
+
+r
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 RF0L: Rx FIFO 0 message lost
+This bit is a copy of the RF0L interrupt flag of the FDCAN_IR register. When RF0L is cleared,
+this bit is also cleared.
+0: No Rx FIFO 0 message lost
+1: Rx FIFO 0 message lost, also set after write attempt to Rx FIFO 0 of size 0
+Bit 24 F0F: Rx FIFO 0 full
+0: Rx FIFO 0 not full
+1: Rx FIFO 0 full
+Bits 23:18 Reserved, must be kept at reset value.
+Bits 17:16 F0PI[1:0]: Rx FIFO 0 put index
+Rx FIFO 0 write index pointer.
+Range: 0 to 2.
+Bits 15:10 Reserved, must be kept at reset value.
+Bits 9:8 F0GI[1:0]: Rx FIFO 0 get index
+Rx FIFO 0 read index pointer.
+Range: 0 to 2.
+Bits 7:4 Reserved, must be kept at reset value.
+Bits 3:0 F0FL[3:0]: Rx FIFO 0 fill level
+Number of elements stored in Rx FIFO 0.
+Range: 0 to 3.

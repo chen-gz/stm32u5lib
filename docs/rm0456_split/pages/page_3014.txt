@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+Bit 3 SDEN: Secondary detection (SD) mode enable
+– Device mode
+This bit is set by the software to put the BCD into SD mode. Only one detection mode (DCD,
+PD, SD or OFF) must be selected to work correctly.
+Bit 2 PDEN: Primary detection (PD) mode enable
+– Device mode
+This bit is set by the software to put the BCD into PD mode. Only one detection mode (DCD,
+PD, SD or OFF) must be selected to work correctly.
+Bit 1 DCDEN: Data contact detection (DCD) mode enable
+– Device mode
+This bit is set by the software to put the BCD into DCD mode. Only one detection mode
+(DCD, PD, SD or OFF) must be selected to work correctly.
+Bit 0 BCDEN: Battery charging detector (BCD) enable
+– Device mode
+This bit is set by the software to enable the BCD support within the USB Device. When
+enabled, the USB PHY is fully controlled by BCD and cannot be used for normal
+communication. Once the BCD discovery is finished, the BCD must be placed in OFF mode
+by clearing this bit to 0 in order to allow the normal USB operation.
+
+71.6.7
+
+USB endpoint/channel n register (USB_CHEPnR)
+Address offset: 0x00 + 0x4 * n, (n = 0 to 7)
+Reset value: 0x0000 0000
+The USB peripheral supports up to 8 bidirectional endpoints or host channels. Each USB
+Device must support a control endpoint/channel whose address (EA bits) must be set to 0.
+The USB peripheral behaves in an undefined way if multiple endpoints are enabled having
+the same endpoint/channel number value. For each endpoint, an USB_CHEPnR register is
+available to store the endpoint/channel specific information.
+They are also reset when an USB reset is received from the USB bus or forced through bit
+USBRST in the CTLR register, except the VTRX and VTTX bits, which are kept unchanged
+to avoid missing a correct packet notification immediately followed by an USB reset event.
+Each endpoint/channel has its USB_CHEPnR register where n is the endpoint/channel
+identifier.
+Read-modify-write cycles on these registers must be avoided because between the read
+and the write operations some bits can be set by the hardware and the next write would
+modify them before the CPU has the time to detect the change. For this purpose, all bits
+affected by this problem have an ‘invariant’ value that must be used whenever their
+modification is not required. It is recommended to modify these registers with a load
+instruction where all the bits, which can be modified only by the hardware, are written with
+their ‘invariant’ value.
+
+RM0456 Rev 6

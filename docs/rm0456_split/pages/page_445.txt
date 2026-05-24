@@ -1,0 +1,206 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+Bit 5 RRSB1: SRAM2 page 1 retention in Stop 3 and Standby modes
+This bit is used to keep the SRAM2 page 1 content in Stop 3 and Standby modes. The
+SRAM2 page 1 corresponds to the first 8 Kbytes of the SRAM2
+(from SRAM2 base address to SRAM2 base address + 0x1FFF).
+0: SRAM2 page1 content not retained in Stop 3 and Standby modes
+1: SRAM2 page1 content retained in Stop 3 and Standby modes
+Note: This bit has no effect in Shutdown mode.
+The backup SRAM is also retained when this bit is set.
+Bits 4:3 Reserved, must be kept at reset value.
+Bits 2:0 LPMS[2:0]: Low-power mode selection
+These bits select the low-power mode entered when the CPU enters Deepsleep mode.
+000: Stop 0 mode
+001: Stop 1 mode
+010: Stop 2 mode
+011: Stop 3 mode
+10x: Standby mode (Standby mode also entered if LPMS = 11X in PWR_CR1 with BREN = 1
+in PWR_BDCR1)
+11x: Shutdown mode if BREN = 0 in PWR_BDCR1
+
+10.10.2
+
+PWR control register 2 (PWR_CR2)
+Address offset: 0x04
+Reset value: 0x0000 0000
+This register is protected against nonsecure access when LPMSEC = 1
+in PWR_SECCFGR. This register is protected against unprivileged access when
+LPMSEC = 1 and SPRIV = 1 in PWR_PRIVCFGR, or when LPMSEC = 0 and NSPRIV = 1.
+
+31
+SRDR
+UN
+
+30
+Res.
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+rw
+15
+Res.
+
+14
+
+13
+
+12
+
+11
+
+26
+
+25
+
+JPEGR
+DSIRA
+AMPD
+MPDS
+S
+
+24
+
+23
+
+22
+
+21
+
+20
+
+rw
+
+rw
+
+rw
+
+18
+
+17
+
+16
+
+GPRA SRAM3 SRAM3 SRAM3 SRAM3 SRAM3 SRAM3 SRAM3 SRAM3
+MPDS PDS8
+PDS7
+PDS6
+PDS5
+PDS4
+PDS3
+PDS2
+PDS1
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+DMA2D
+FLASH SRAM4 PKARA PRAM
+DC1RA ICRAM DC2RA SRAM4 SRAM2 SRAM2
+RAMP
+FWU
+FWU
+MPDS
+PDS
+MPDS
+PDS
+MPDS
+PDS
+PDS2
+PDS1
+DS
+rw
+
+19
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+SRAM1 SRAM1 SRAM1
+PDS3
+PDS2
+PDS1
+rw
+
+rw
+
+rw
+
+Bit 31 SRDRUN: SmartRun domain in Run mode
+0: SmartRun domain AHB3 and APB3 clocks disabled by default in Stop 0/1/2 modes
+1: SmartRun domain AHB3 and APB3 clocks kept enabled in Stop 0/1/2 modes
+Bits 30:27 Reserved, must be kept at reset value.
+Bit 26 JPEGRAMPDS: JPEG SRAM power-down in Stop 0/1 modes
+JPEG SRAM content is always lost in Stop 2 and Stop 3 modes.
+0: JPEG SRAM content retained in Stop 0 and Stop 1 modes
+1: JPEG SRAM content lost in Stop 0 and Stop 1 modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+
+RM0456 Rev 6

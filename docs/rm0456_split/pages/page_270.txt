@@ -1,0 +1,183 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 2 CI2C3F: clear the illegal access flag for I2C3
+0: no action
+1: status flag cleared
+Bit 1 CLPUART1F: clear the illegal access flag for LPUART1
+0: no action
+1: status flag cleared
+Bit 0 CSPI3F: clear the illegal access flag for SPI3
+0: no action
+1: status flag cleared
+
+5.10.6
+
+GTZC2 TZIC flag clear register 2 (GTZC2_TZIC_FCR2)
+Address offset: 0x024
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+CMPC
+BB4_R
+EGF
+
+CSRA
+M4F
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+w
+
+w
+
+9
+
+8
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+CTZIC2 CTZSC
+F
+2F
+w
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+Res.
+
+CSYSC
+CPWR CTAMP
+CEXTI CLPDM
+CRTCF
+CRCCF
+FGF
+F
+F
+F
+A1F
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 CMPCBB4_REGF: clear the illegal access flag for MPCBB4 registers
+0: no action
+1: status flag cleared
+Bit 24 CSRAM4F: clear the illegal access flag for SRAM4
+0: no action
+1: status flag cleared
+Bits 23:16 Reserved, must be kept at reset value.
+Bit 15 CTZIC2F: clear the illegal access flag for GTZC2 TZIC registers
+0: no action
+1: status flag cleared
+Bit 14 CTZSC2F: clear the illegal access flag for GTZC2 TZSC registers
+0: no action
+1: status flag cleared
+Bits 13:7 Reserved, must be kept at reset value.
+Bit 6 CEXTIF: clear the illegal access flag for EXTI
+0: no action
+1: status flag cleared

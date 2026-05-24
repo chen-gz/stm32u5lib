@@ -1,0 +1,64 @@
+856
+
+Chrom-ART Accelerator controller (DMA2D)
+
+RM0456
+
+alpha channel, a default alpha value of 0xFF is automatically added to obtain a fully opaque
+pixel. The alpha value is modified according to AM[1:0] in DMA2D_FGPFCCR:
+•
+
+It can be unchanged.
+
+•
+
+It can be replaced by the value defined by ALPHA[7:0] in DMA2D_FGPFCCR.
+
+•
+
+It can be replaced by the original value multiplied by ALPHA[7:0] divided by 255.
+
+The resulting 32-bit data are encoded by the OUT PFC into the format specified by CM[2:0]
+in DMA2D_OPFCCR. The output pixel format cannot be the indirect mode since no CLUT
+generation process is supported.
+The processed data are written into the destination memory location pointed
+by DMA2D_OMAR.
+
+Memory-to-memory with PFC and blending
+In this mode, two sources are fetched in the foreground and background FIFOs from the
+memory locations defined by DMA2D_FGMAR and DMA2D_BGMAR.
+The two pixel format converters have to be configured as described
+in the memory-to-memory mode. Their configurations can be different as each pixel format
+converter is independent and has its own CLUT memory.
+Once each pixel has been converted into 32 bits by its respective PFC, all pixels are
+blended according to the equation below:
+with αMult =
+
+αFG . αBG
+255
+
+αOUT = αFG + αBG - αMult
+
+COUT =
+
+CFG.αFG + CBG.αBG - CBG.αMult
+αOUT
+
+with C = R or G or B
+
+Division are rounded to the nearest lower integer
+
+The resulting 32-bit pixel value is encoded by the output PFC according to the specified
+output format, and the data are written into the destination memory location pointed by
+DMA2D_OMAR.
+
+Memory-to-memory with PFC, blending and fixed color FG
+In this mode, only one source is fetched in the background FIFO from the memory location
+defined by DMA2D_BGMAR.
+The value of the foreground color is given by DMA2D_FGCOLR and the alpha value is set
+to 0xFF (opaque).
+The alpha value can be replaced or modified according to AM[1:0] and ALPHA[7:0]
+in DMA2D_FGPFCR.
+The two pixel format converters have to be configured as described in
+the memory-to-memory mode. Their configurations can be different as each pixel format
+converter is independent and has its own CLUT memory

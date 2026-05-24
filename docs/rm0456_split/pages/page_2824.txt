@@ -1,0 +1,71 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+must be written while the SPI is disabled otherwise the peripheral behavior is not
+guaranteed.
+
+68.5
+
+SPI specific modes and control
+
+68.5.1
+
+TI mode
+With a specific SP[2:0] bitfield setting of the SPI_CFG2 register, the SPI can be configured
+compliant with the TI protocol. The SCK and SS signals polarity, phase and flow, as well as
+the bit order are fixed, so the setting of CPOL, CPHA, LSBFRST, SSOM, SSOE, SSIOP,
+SSM, RDIOP, RDIOM, MSSI, and MIDI is not required when the SPI is in TI mode
+configuration. The SS signal synchronizes the protocol by pulses over the LSB data bit as it
+is shown in Figure 857.
+Figure 857. TI mode transfer
+SS
+
+SCK
+
+MOSI
+MISO
+
+X
+
+X
+
+MSB
+
+LSB
+
+MSB
+
+LSB
+
+MSB
+
+LSB
+
+MSB
+
+LSB
+
+DSIZE[4:0] + 1
+
+DSIZE[4:0] + 1
+TRELEASE
+
+MSv40475V1
+
+In slave mode, the clock generator is used to define the time when the slave output at MISO
+pin becomes high-Z when the current transfer finishes. The master baud rate setting
+(MBR[2:0] of SPI_CFG1) is applied and any baud rate can be used to determine this
+moment with optimal flexibility. The delay for the MISO signal to become high-Z (TRELEASE)
+depends on internal resynchronization, too, which takes the next additional 2-4 periods of
+the clock signal feeding the generator. It is given by the following formula:
+
+Tbaud
+Tbaud
+----------------- + 2 x Tspi_ker_ck ≤ Trelease ≤ ----------------- + 4 x Tspi_ker_ck
+2
+2
+If the slave detects a misplaced SS pulse during a data transfer the TIFRE flag is set.
+
+RM0456 Rev 6

@@ -1,0 +1,54 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO half full
+(FTH[2:0] set to 0b010), an interrupt is generated (FREQ bit set by hardware to 1 in the
+SAI_xSR register) if less than half of the FIFO contains data (FLVL[2:0] bits in SAI_xSR
+are less than 0b011). This interrupt (FREQ bit in the SAI_xSR register) is cleared by
+hardware when at least half of the FIFO contains data (FLVL[2:0] bits in SAI_xSR are
+higher than or equal to 0b011).
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO three
+quarter (FTH[2:0] set to 0b011), an interrupt is generated (FREQ bit is set by hardware to
+1 in the SAI_xSR register) if less than three quarters of the FIFO contains data (FLVL[2:0]
+bits in SAI_xSR are less than 0b100). This interrupt (FREQ bit in the SAI_xSR register) is
+cleared by hardware when at least three quarters of the FIFO contains data (FLVL[2:0]
+bits in SAI_xSR are higher than or equal to 0b100).
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO full
+(FTH[2:0] set to 0b100), an interrupt is generated (FREQ bit is set by hardware to 1 in the
+SAI_xSR register) if the FIFO is not full (FLVL[2:0] bits in SAI_xSR are less than 0b101).
+This interrupt (FREQ bit in the SAI_xSR register) is cleared by hardware when the FIFO
+is full (FLVL[2:0] bits in SAI_xSR are equal to 0b101).
+
+Interrupt generation in reception mode
+The interrupt generation depends on the FIFO configuration in reception mode:
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO empty
+(FTH[2:0] set to 0b000), an interrupt is generated (FREQ bit is set by hardware to 1 in the
+SAI_xSR register) if at least one data is available in the SAI_xDR register (FLVL[2:0] bits
+in SAI_xSR are higher than or equal to 0b001). This interrupt (FREQ bit in the SAI_xSR
+register) is cleared by hardware when the FIFO becomes empty (FLVL[2:0] bits in the
+SAI_xSR are equal to 0b000), that is, no data are stored in FIFO.
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO quarter
+full (FTH[2:0] set to 0b001), an interrupt is generated (FREQ bit is set by hardware to 1 in
+the SAI_xSR register) if at least one quarter of the FIFO data locations are available
+(FLVL[2:0] bits in SAI_xSR are higher than or equal to 0b010). This interrupt (FREQ bit in
+the SAI_xSR register) is cleared by hardware when less than a quarter of the FIFO data
+locations become available (FLVL[2:0] bits in SAI_xSR are less than 0b010).
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO half full
+(FTH[2:0] set to 0b010), an interrupt is generated (FREQ bit is set by hardware to 1 in the
+SAI_xSR register) if at least half of the FIFO data locations are available (FLVL[2:0] bits
+in SAI_xSR are higher than or equal to 0b011). This interrupt (FREQ bit in the SAI_xSR
+register) is cleared by hardware when less than half of the FIFO data locations become
+available (FLVL[2:0] bits in SAI_xSR are less than 0b011).
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO three
+quarter full (FTH[2:0] set to 0b011), an interrupt is generated (FREQ bit is set by hardware
+to 1 in the SAI_xSR register) if at least three quarters of the FIFO data locations are
+available (FLVL[2:0] bits in SAI_xSR are higher than or equal to 0b100). This interrupt
+(FREQ bit in the SAI_xSR register) is cleared by hardware when the FIFO has less than
+three quarters of the FIFO data locations available (FLVL[2:0] bits in SAI_xSR is less than
+0b100).
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO full
+(FTH[2:0] set to 0b100), an interrupt is generated (FREQ bit is set by hardware to 1 in the
+SAI_xSR register) if the FIFO is full (FLVL[2:0] bits in SAI_xSR are equal to 0b101). This

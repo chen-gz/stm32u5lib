@@ -1,0 +1,99 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Table 776. UCPD signals on pins (continued)
+Pin name
+
+Signal type
+
+Description
+
+UCPDx_CC2
+
+Input/output
+
+UCPDx_DBCC1
+
+Input
+
+USB Type-C configuration control line 1 dead battery signal, to
+be routed to the USB Type-C connector CC1 terminal if dead
+battery support is required.
+
+UCPDx_DBCC2
+
+Input
+
+USB Type-C configuration control line 2 dead battery signal, to
+be routed to the USB Type-C connector CC2 terminal if dead
+battery support is required.
+
+USB Type-C configuration control line 2, to be routed to the
+USB Type-C connector CC2 terminal.
+
+The following table lists key internal signals.
+Table 777. UCPD internal signals
+
+74.4.2
+
+Internal signal name
+
+Signal type
+
+Description
+
+ucpd_pclk
+
+Input
+
+APB clock for registers
+
+ucpd_ker_ck
+
+Input
+
+Kernel clock
+
+ucpd_tx_dma
+
+Input/Output
+
+Rx DMA acknowledge / request
+
+ucpd_rx_dma
+
+Input/Output
+
+Tx DMA acknowledge / request
+
+ucpd_it
+
+Output
+
+Interrupt request (all interrupts OR-ed) connected to NVIC
+
+ucpd_wkup
+
+Output
+
+Wake-up request connected to EXTI
+
+clk_rq
+
+Output
+
+Clock request connected to RCC
+
+UCPD reset and clocks
+The peripheral has a single reset signal (APB bus reset).
+The register section is clocked with the APB clock (ucpd_pclk).
+The main functional part of the transmitter is clocked with ucpd_clk clock, pre-scaled from
+the ucpd_ker_ck clock according to the PSC_UCPDCLK[2:0] bitfield of the UCPD_CFGR1
+register. The main functional part of the receiver is clocked with the ucpd_rx_clk recovered
+from the incoming bitstream.
+The receiver is designed to work in the clock frequency range from 6 to 18 MHz. However,
+the optimum performance is ensured in the range from 6 to 12 MHz.
+The following diagram shows the clocking and timing elements of the UCPD peripheral.

@@ -1,0 +1,74 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Internal data flow:
+1.
+
+The application must set the transfer size and packet count fields in the endpointspecific registers, clear the NAK bit, and enable the endpoint to receive the data.
+
+2.
+
+Once the NAK bit is cleared, the core starts receiving data and writes it to the receive
+FIFO, as long as there is space in the receive FIFO. For every data packet received on
+the USB, the data packet and its status are written to the receive FIFO. Every packet
+(maximum packet size or short packet) written to the receive FIFO decrements the
+packet count field for that endpoint by 1.
+–
+
+OUT data packets received with bad data CRC are flushed from the receive FIFO
+automatically.
+
+–
+
+After sending an ACK for the packet on the USB, the core discards nonisochronous OUT data packets that the host, which cannot detect the ACK, resends. The application does not detect multiple back-to-back data OUT packets
+on the same endpoint with the same data PID. In this case the packet count is not
+decremented.
+
+–
+
+If there is no space in the receive FIFO, isochronous or non-isochronous data
+packets are ignored and not written to the receive FIFO. Additionally, nonisochronous OUT tokens receive a NAK handshake reply.
+
+–
+
+In all the above three cases, the packet count is not decremented because no data
+are written to the receive FIFO.
+
+3.
+
+When the packet count becomes 0 or when a short packet is received on the endpoint,
+the NAK bit for that endpoint is set. Once the NAK bit is set, the isochronous or nonisochronous data packets are ignored and not written to the receive FIFO, and nonisochronous OUT tokens receive a NAK handshake reply.
+
+4.
+
+After the data are written to the receive FIFO, the application reads the data from the
+receive FIFO and writes it to external memory, one packet at a time per endpoint.
+
+5.
+
+At the end of every packet write on the AHB to external memory, the transfer size for
+the endpoint is decremented by the size of the written packet.
+
+6.
+
+The OUT data transfer completed pattern for an OUT endpoint is written to the receive
+FIFO on one of the following conditions:
+
+7.
+
+–
+
+The transfer size is 0 and the packet count is 0
+
+–
+
+The last OUT data packet written to the receive FIFO is a short packet
+(0 ≤ packet size < maximum packet size)
+
+When either the application pops this entry (OUT data transfer completed), a transfer
+completed interrupt is generated for the endpoint and the endpoint enable is cleared.
+
+Application programming sequence:

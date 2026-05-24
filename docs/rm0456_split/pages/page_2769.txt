@@ -1,0 +1,33 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+67.5
+
+RM0456
+
+LPUART in low-power modes
+Table 693. Effect of low-power modes on the LPUART
+Mode
+
+Description
+
+Sleep
+
+No effect. LPUART interrupts cause the device to exit Sleep mode.
+
+Stop(1)
+
+The content of the LPUART registers is kept.
+If the LPUART is clocked by an oscillator available in Stop mode, transfers
+in asynchronous and SPI master modes are functional. DMA requests are
+functional, and the interrupts cause the device to exit Stop mode.
+
+Standby
+
+The peripheral is powered down and must be reinitialized after exiting
+Standby mode.
+
+1. Refer to Section 67.3: LPUART implementation to know if the wake-up from Stop mode is supported for a
+given peripheral instance. If an instance is not functional in a given Stop mode, it must be disabled before
+entering this Stop mode.

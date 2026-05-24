@@ -1,0 +1,186 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+Bit 15 PU15: Port A pull-up bit 15
+When set, this bit activates the pull-up on PA15 when APC is set in PWR_APCR. The pull-up
+is not activated if the corresponding PD15 bit is also set.
+Bit 14 Reserved, must be kept at reset value.
+Bits 13:0 PUy: Port A pull-up bit y (y = 13 to 0)
+When set, each bit activates the pull-up on PAy when APC is set in PWR_APCR. The pull-up
+is not activated if the corresponding PDy bit is also set.
+
+10.10.22 PWR port A pull-down control register (PWR_PDCRA)
+Address offset: 0x54
+Reset value: 0x0000 0000
+The register is not affected when exiting Standby mode.
+Each PDy is protected against nonsecure access when SECy = 1 in GPIOA_SECCFGR.
+Each PDy is protected against unprivileged access when SECy = 1 in GPIOA_SECCFGR
+and SPRIV = 1 in PWR_PRIVCFGR, or when SECy = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+PD14
+
+Res.
+
+PD12
+
+PD11
+
+PD10
+
+PD9
+
+PD8
+
+PD7
+
+PD6
+
+PD5
+
+PD4
+
+PD3
+
+PD2
+
+PD1
+
+PD0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bit 14 PD14: Port A pull-down bit 14
+When set, this bit activates the pull-down on PA14 when APC is set in PWR_APCR.
+Bit 13 Reserved, must be kept at reset value.
+Bits 12:0 PDy: Port A pull-down bit y (y = 12 to 0)
+When set, each bit activates the pull-down on PAy when APC is set in PWR_APCR.
+
+RM0456 Rev 6

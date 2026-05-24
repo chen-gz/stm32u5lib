@@ -1,0 +1,186 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Bit 2 EXTTRIG: External trigger edge event
+EXTTRIG is set by hardware to inform application that a valid edge on the selected external trigger
+input has occurred. If the trigger is ignored because the timer has already started, then this flag is
+not set. EXTTRIG flag can be cleared by writing 1 to the EXTTRIGCF bit in the LPTIM_ICR register.
+Bit 1 ARRM: Autoreload match
+ARRM is set by hardware to inform application that LPTIM_CNT register’s value reached the
+LPTIM_ARR register’s value. ARRM flag can be cleared by writing 1 to the ARRMCF bit in the
+LPTIM_ICR register.
+Bit 0 CC1IF: Compare 1 interrupt flag
+The CC1IF flag is set by hardware to inform application that LPTIM_CNT register value matches the
+compare register's value. The CC1IF flag can be cleared by writing 1 to the CC1CF bit in the
+LPTIM_ICR register.
+0: No match
+1: The content of the counter LPTIM_CNT register value has matched the LPTIM_CCR1 register's
+value
+
+58.7.2
+
+LPTIMx interrupt and status register [alternate] (LPTIMx_ISR)
+(x = 1 to 3)
+This description of the register can only be used for output compare mode. See next section
+for input capture mode.
+Address offset: 0x000
+Reset value: 0x0000 0000
+
+31
+Res.
+
+30
+Res.
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+
+24
+
+Res.
+
+DIER
+OK
+
+23
+Res.
+
+22
+Res.
+
+21
+Res.
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+CMP2
+OK
+
+Res.
+
+Res.
+
+Res.
+
+r
+15
+Res.
+
+14
+Res.
+
+13
+Res.
+
+12
+Res.
+
+11
+Res.
+
+10
+Res.
+
+r
+
+9
+
+8
+
+CC2IF
+
+REP
+OK
+
+7
+UE
+
+r
+
+r
+
+r
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+DOWN
+
+UP
+
+ARR
+OK
+
+CMP1
+OK
+
+EXT
+TRIG
+
+ARRM
+
+CC1IF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bit 24 DIEROK: Interrupt enable register update OK
+DIEROK is set by hardware to inform application that the APB bus write operation to the
+LPTIM_DIER register has been successfully completed. DIEROK flag can be cleared by writing 1 to
+the DIEROKCF bit in the LPTIM_ICR register.
+Bits 23:22 Reserved, must be kept at reset value.
+Bit 21 Reserved, must be kept at reset value.
+Bit 20 Reserved, must be kept at reset value.
+Bit 19 CMP2OK: Compare register 2 update OK
+CMP2OK is set by hardware to inform application that the APB bus write operation to the
+LPTIM_CCR2 register has been successfully completed. CMP2OK flag can be cleared by writing 1
+to the CMP2OKCF bit in the LPTIM_ICR register.
+Note: If LPTIM does not implement at least 2 channels this bit is reserved. Refer to Section 58.3.
+Bits 18:12 Reserved, must be kept at reset value.

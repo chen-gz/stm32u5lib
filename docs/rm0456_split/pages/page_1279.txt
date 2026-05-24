@@ -1,0 +1,91 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Reading calibration factor procedure
+Once the calibration is complete (ADCAL bit cleared by hardware), the calibration factor can
+be read from the ADC_CALFACT2 register. The CALINDEX[0:3] bitfield of the ADC_CR
+register can be incremented to access other calibration factors:
+
+Note:
+
+1.
+
+Make sure DEEPPWD = 0, ADVREGEN = 1, and check that the ADC voltage regulator
+startup time has elapsed (LDORDY = 1).
+
+2.
+
+Make sure that ADEN = 1.
+
+3.
+
+Set CAPTURE_COEF and clear LATCH_COEF in the ADC_CALFACT register.
+
+4.
+
+Select the calibration factor by setting CALINDEX[0:3] in ADC control register
+(ADC_CR).
+
+5.
+
+Read the calibration factor from the ADC_CALFACT2 register.
+
+6.
+
+Repeat steps 4 and 5 for each required calibration factor.
+
+7.
+
+Clear the CAPTURE_COEF bit in the ADC_CALFACT register.
+
+The software can access the calibration factor only when ADEN = 1, ADSTART = 0 and
+JADSTART = 0 (ADC enabled and no conversion is ongoing).
+
+Software procedure to reinject the calibration factor into the ADC
+
+Note:
+
+1.
+
+Make sure ADEN = 1, ADSTART = 0 and JADSTART = 0 (ADC enabled and no
+conversion is ongoing).
+
+2.
+
+Clear the CAPTURE_COEF and LATCH_COEF bits in the ADC_CALFACT register
+
+3.
+
+Set CALINDEX[3:0] to the targeted calibration index to be updated, then write the
+calibration factor to CALFACT[31:0] in the ADC_CALFACT2 register.
+
+4.
+
+Repeat step 3 for all the calibration index bytes.
+
+5.
+
+Set the LATCH_COEF bit in the ADC_CALFACT register.
+
+6.
+
+Clear the LATCH_COEF bit in the ADC_CALFACT register.
+
+The software is allowed to update the calibration factor only when ADEN = 1 and
+ADSTART = 0 and JADSTART = 0 (ADC enabled and no conversion is ongoing).
+If some of the calibration factor bytes are not written when the LATCH_COEF bit is set, the
+calibration factor becomes the default value.
+
+Calibration factor index
+The calibration factors are stored in the analog block in an indexed way. Index 0b0000 and
+0b1000 contain the offset calibration factor while index 0b0001 to 0b0110 contain the
+linearity factor. The lower two bytes of index 0b0111 contain the linearity calibration factor.
+The internal offset calibration factor must be programmed into byte 2 of index (0b0111).
+However, it is read at byte 3 of index 0b1000. When programming or reinjecting the
+calibration factor, make sure to use the correct indexes for read and write operations.
+Refer to Table 310 for a summary.
+
+RM0456 Rev 6

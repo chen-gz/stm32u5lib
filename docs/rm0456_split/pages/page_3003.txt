@@ -1,0 +1,38 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+Table 740. Resume event detection for host
+[RXDP,RXDM] status
+“00”
+
+Wake-up event
+
+Required resume software action
+
+Not allowed (noise on bus)
+
+Go back in Suspend mode
+
+Full speed capable device:
+Not allowed (noise on bus)
+
+None
+
+“10”
+Low speed device: Device
+remote wake-up resume
+
+“01”
+
+Full speed capable device:
+Device remote wake-up
+resume
+
+None
+
+Low speed device:
+Not allowed (noise on bus)
+“11”

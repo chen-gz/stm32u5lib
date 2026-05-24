@@ -1,0 +1,65 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Cable Reset
+Cable Reset shown in the following figure is similar in format to Hard Reset, but unlike Hard
+Reset it does not require a specific high-priority treatment.
+Figure 951. Line format of Cable Reset
+
+Preamble
+(training for receiver)
+
+RST-1
+
+Sync-1
+
+RST-1
+
+Sync-3
+
+Cable Reset ordered set
+Legend:
+Provided by the physical layer, not 4b5b-encoded
+Provided by the physical layer, 4b5b-encoded
+MSv45541V2
+
+Collision avoidance
+The physical layer respects the tInterFrameGap delay between end of last-transmitted bit of
+a Tx message, and the first bit of a following message.
+It also checks the idle state of the CC line before starting transmission. The CC line is
+considered idle if it shows less than three (nTransitionCount) transitions within
+tTransitionWindow (12 to 20 μs). The Power Delivery specification revision 3.1 also requires
+to manage the Rp value (source) and monitor Type-C voltage level for these Rp
+modifications (at the sink).
+
+Physical layer signaling schemes
+The bit are signaled with bi-phase mark coding (BMC).
+
+BIST
+Depending on the BIST action required by the protocol layer, either of the following can be
+run:
+•
+
+a Tx BIST pattern test, achieved by writing TXMODE and TXSEND
+
+•
+
+an Rx BIST pattern test, achieved by writing RXMODE to the correct value for RXBIST.
+
+The two possible patterns supported in UCPD (corresponding to “BMC” mode) are:
+•
+
+BIST Test Data (192 bit pattern), applies to Tx and Rx. In the case of Rx, the message
+is received (but discarded rather than passing to the protocol layer, which must
+nevertheless still generate a GoodCRC Tx message in acknowledgment).
+
+•
+
+BIST Carrier Mode 2 (single pattern, infinite length message), applies to Tx only. As
+opposed to Tx, the receiver in this mode simply ignores the CC line during this state.
+
+BIST test data pattern
+The test data pattern is not viewed as a special case in UCPD.

@@ -1,0 +1,56 @@
+3631
+
+Debug support (DBG)
+
+75.12
+
+RM0456
+
+Microcontroller debug unit (DBGMCU)
+The DBGMCU is a component containing a number of registers that control the power and
+clock behavior in debug mode. It allows the debugger (or the software):
+
+75.12.1
+
+•
+
+to maintain the clock and power to the processor cores when in low-power modes
+(Sleep, Stop, or Standby mode)
+
+•
+
+to maintain the clock and power to the system debug and trace components when in
+low-power modes
+
+•
+
+to stop the clock to certain peripherals (SMBUS timeout, watchdogs, timers, RTC)
+when either processor core is stopped in debug mode
+
+Device ID
+The DBGMCU includes an identity code register, DBGMCU_IDCODE. This register
+contains the ID code for the device. Debug tools can locate this register via the CoreSight
+discovery procedure described in Table 75.5.
+
+75.12.2
+
+Low-power mode emulation
+When the device enters either Stop mode (clocks are stopped) or Standby mode (core
+power is switched off), the debugger can no longer access the debug access port and loses
+the connection with the device. To avoid this, the debugger (or software) can set
+DBG_STANDBY and/or DBG_STOP in DBGMCU_CR. These bits, when set, maintain the
+clock and power to the processor while the device is in the corresponding low-power mode.
+The processor remains in Sleep mode, and exits the low-power mode in the normal way.
+Peripheral devices continue to operate, so the device behaviour may not be identical to
+the one in the actual low-power mode.
+
+75.12.3
+
+Peripheral clock freeze
+The DBGMCU peripheral clock freeze registers allow the operation of certain peripherals to
+be suspended in debug mode. The peripheral units which support this feature are listed
+in the table below.
+Table 809. Peripheral clock freeze control bits
+Bus
+
+APB1L

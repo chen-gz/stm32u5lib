@@ -1,0 +1,279 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+73.14.24 OTG host configuration register (OTG_HCFG)
+This register configures the core after power-on. Do not make changes to this register after
+initializing the host.
+Address offset: 0x400
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FSLSS
+r
+
+FSLSPCS[1:0]
+rw
+
+rw
+
+Bits 31:3 Reserved, must be kept at reset value.
+Bit 2 FSLSS: FS- and LS-only support
+The application uses this bit to control the core enumeration speed. Using this bit, the
+application can make the core enumerate as an FS host, even if the connected device
+supports HS traffic. Do not make changes to this field after initial programming.
+Bits 1:0 FSLSPCS[1:0]: FS/LS PHY clock select
+Condition: FS host mode
+01: PHY clock is running at 48 MHz
+Others: Reserved
+Condition: LS host mode
+00: Reserved
+01: Select 48 MHz PHY clock frequency
+10: Select 6 MHz PHY clock frequency
+11: Reserved
+Note: The FSLSPCS must be set on a connection event according to the speed of the
+connected device (after changing this bit, a software reset must be performed).
+
+73.14.25 OTG host frame interval register (OTG_HFIR)
+This register stores the frame interval information for the current speed to which the
+OTG_HS controller has enumerated.
+Address offset: 0x404
+Reset value: 0x0000 EA60
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+RLD
+CTRL
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+FRIVL[15:0]
+rw
+
+rw

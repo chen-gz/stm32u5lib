@@ -1,0 +1,166 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bits 20:19 PKTCNT[1:0]: Packet count
+Indicates the total number of USB packets that constitute the transfer size amount of data for
+endpoint 0.
+This field is decremented every time a packet (maximum size or short packet) is read from
+the Tx FIFO.
+Bits 18:7 Reserved, must be kept at reset value.
+Bits 6:0 XFRSIZ[6:0]: Transfer size
+Indicates the transfer size in bytes for endpoint 0. The core interrupts the application only
+after it has exhausted the transfer size amount of data. The transfer size can be set to the
+maximum packet size of the endpoint, to be interrupted at the end of each packet.
+The core decrements this field every time a packet from the external memory is written to
+the Tx FIFO.
+
+72.15.47 OTG device IN endpoint transmit FIFO status register
+(OTG_DTXFSTSx)
+Address offset: 0x918 + 0x20 * x, (x = 0 to 5)
+Reset value: 0x0000 0200
+This read-only register contains the free space information for the device IN endpoint Tx
+FIFO.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+INEPTFSAV[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 INEPTFSAV[15:0]: IN endpoint Tx FIFO space available
+Indicates the amount of free space available in the endpoint Tx FIFO.
+Values are in terms of 32-bit words:
+0x0: Endpoint Tx FIFO is full
+0x1: 1 word available
+0x2: 2 words available
+0xn: n words available
+Others: Reserved
+
+<!-- pagebreak -->
+

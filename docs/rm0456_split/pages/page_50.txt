@@ -1,0 +1,43 @@
+90
+
+Contents
+
+RM0456
+44.15.62 DSI Host video VA current configuration register
+(DSI_VVACCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1840
+44.15.63 DSI Host FIFO and buffer status register (DSI_FBSR) . . . . . . . . . . . 1841
+
+44.16 DSI Wrapper registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1843
+44.16.1 DSI Wrapper configuration register (DSI_WCFGR) . . . . . . . . . . . . . . 1843
+44.16.2 DSI Wrapper control register (DSI_WCR) . . . . . . . . . . . . . . . . . . . . . 1844
+44.16.3 DSI Wrapper interrupt enable register (DSI_WIER) . . . . . . . . . . . . . 1844
+44.16.4 DSI Wrapper interrupt and status register (DSI_WISR) . . . . . . . . . . . 1845
+44.16.5 DSI Wrapper interrupt flag clear register (DSI_WIFCR) . . . . . . . . . . 1846
+44.16.6 DSI Wrapper PHY configuration register 0 (DSI_WPCR0) . . . . . . . . 1847
+44.16.7 DSI Wrapper regulator and PLL control register (DSI_WRPCR) . . . . 1848
+44.16.8 DSI Wrapper PLL tuning register (DSI_WPTR) . . . . . . . . . . . . . . . . . 1849
+
+44.17 DSI bias registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1849
+44.17.1 DSI bias configuration register (DSI_BCFGR) . . . . . . . . . . . . . . . . . . 1849
+
+44.18 D-PHY registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1850
+44.18.1 DSI D-PHY clock band control register (DSI_DPCBCR) . . . . . . . . . . 1850
+44.18.2 DSI D-PHY clock skew rate control register (DSI_DPCSRCR) . . . . . 1850
+44.18.3 DSI D-PHY data lane 0 HS offset control register
+(DSI_DPDL0HSOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1851
+44.18.4 DSI D-PHY data lane 0 HS LPX offset control register
+(DSI_DPDL0LPXOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1851
+44.18.5 DSI D-PHY data lane 0 band control register
+(DSI_DPDL0BCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1852
+44.18.6 DSI D-PHY data lane 0 skew rate control register
+(DSI_DPDL0SRCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1853
+44.18.7 DSI D-PHY data lane 1 HS offset control register
+(DSI_DPDL1HSOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1853
+44.18.8 DSI D-PHY data lane 1 HS LPX offset control register
+(DSI_DPDL1LPXOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1854
+44.18.9 DSI D-PHY data lane 1 band control register (DSI_DPDL1BCR) . . . 1854
+44.18.10 DSI D-PHY data lane 1 skew rate control register
+(DSI_DPDL1SRCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1855
+44.18.11 DSI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1856
+
+45

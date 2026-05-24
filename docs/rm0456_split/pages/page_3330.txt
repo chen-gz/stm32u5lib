@@ -1,0 +1,146 @@
+1.
+
+Initialize and enable channel x as explained in Section : Channel initialization.
+
+2.
+
+The OTG_HS host writes an IN request to the request queue as soon as the channel x
+gets the grant from the arbiter (round-robin with fairness). In high-bandwidth transfers,
+the OTG_HS host performs consecutive write operations up to MC times.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+3.
+
+The OTG_HS host attempts to send an IN token at the beginning of the next (odd)
+frame/micro-frame.
+
+4.
+
+As soon the packet is received and written to the receive FIFO, the OTG_HS host
+generates a CHH interrupt.
+
+5.
+
+In response to the CHH interrupt, reinitialize the channel for the next transfer.
+Figure 940. Normal isochronous IN transactions - DMA mode
+
+Application
+1
+
+Host
+
+AHB
+
+USB
+
+Device
+
+init_reg(ch_1)
+Periodic Request
+Queue
+Assume that this
+queue can hold
+4 entries.
+
+init_reg(ch_2)
+
+1
+
+2
+
+1
+MPS
+
+3
+
+ch_1
+ch_2
+
+2
+OUT
+
+Odd
+(micro)
+frame
+
+DATA0
+MPS
+
+4
+5
+C hHltd interrupt
+
+init_reg(ch_1)
+
+3
+
+IN
+
+1
+MPS
+
+DATA0
+
+1
+MPS
+
+ChHltdInterrupt
+
+4
+
+ch_1
+ch_2
+
+init_reg(ch_2)
+
+5
+
+OUT
+
+Even
+(micro)
+frame
+
+DATA0
+MPS
+C hH ltd interrupt
+
+init_reg(ch_1)
+IN
+
+1
+MPS
+DATA0
+
+MS36922V1
+
+•
+
+Bulk and control OUT/SETUP split transactions in DMA mode
+The sequence of operations in (channel x) is as follows:
+
+1.
+
+Initialize and enable channel x for start split as explained in Section : Channel
+initialization.
+
+2.
+
+The OTG_HS host starts fetching the first packet as soon the channel is enabled and
+writes the OUT request along with the last 32-bit word fetch.
+
+3.
+
+After successfully transmitting start split, the OTG_HS host generates the CHH
+interrupt.
+
+4.
+
+In response to the CHH interrupt, set the COMPLSPLT bit in OTG_HCSPLT1 to send
+the complete split.
+
+RM0456 Rev 6

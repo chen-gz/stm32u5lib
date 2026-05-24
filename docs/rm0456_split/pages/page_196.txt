@@ -1,0 +1,60 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+The TrustZone architecture is extended beyond AHB and Armv8-M with:
+•
+
+AHB/APB bridge used as secure gate to block or propagate secure/nonsecure and
+privileged/unprivileged transaction towards APB agents
+
+•
+
+PPC (peripheral protection controller) used as secure gate to block or propagate
+secure/nonsecure and privileged/unprivileged transaction towards AHB agents
+
+•
+
+TrustZone block-based MPC firewalls used as secure gate to filter secure/nonsecure,
+privileged/unprivileged access towards internal SRAMs
+
+•
+
+TrustZone watermark MPC firewalls used as secure gate to filter secure/nonsecure,
+privileged/unprivileged access towards external memories
+
+AHB and APB Peripherals can be categorized as:
+•
+
+privileged: peripherals protected by AHB/APB firewall stub that is controlled from
+TZSC to define privilege properties
+
+•
+
+secure: peripherals always protected by an AHB/APB firewall stub. These peripherals
+are always secure (such as TZIC)
+
+•
+
+securable: peripherals protected by an AHB/APB firewall stub that is controlled from
+TZSC to define security properties (optional)
+
+•
+
+nonsecure and unprivileged: peripherals connected directly to AHB/APB
+interconnect without any secure gate
+
+•
+
+TrustZone-aware: peripherals connected directly to AHB or APB bus and
+implementing a specific TrustZone behavior (such as a subset of registers being
+secure). TrustZone-aware AHB masters always drive HNONSEC signal according to
+their security mode (such as Armv8-M core or DMA)
+
+AHB securable masters can be configured in the TZSC to be secure/nonsecure and/or
+privileged/unprivileged.
+
+Application information
+The TZSC, MPCBB and TZIC can be used in one of the following ways:

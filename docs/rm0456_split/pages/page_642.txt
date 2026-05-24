@@ -1,0 +1,7 @@
+642
+
+0x30
+
+GPIOx_
+SECCFGR
+(x = A to J)

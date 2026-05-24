@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Special first index event management
+The FIDX bit in the TIMx_ECR register allows the index to be taken only once, as shown on
+Figure 585. Once the first index has arrived, any subsequent index is ignored. If needed, the
+circuitry can be rearmed by writing the FIDX bit to 0 and setting it again to 1.
+Figure 585. Counter reset as function of FIDX bit setting
+
+Counter
+
+Counter reset
+
+Index input
+
+FIDX = 0
+
+FIDX = 1
+MSv45775V1
+
+Index blanking
+The index event can be blanked using the tim_ti3 or tim_ti4 inputs. During the blanking
+window, the index events are no longer resetting the counter, as shown on the Figure 586
+below.
+This mode is enabled using the IBLK[1:0] bitfield in the TIMx_ECR register, as following:
+•
+
+IBLK[1:0] = 00: Index signal always active
+
+•
+
+IBLK[1:0] = 01: Index signal blanking on tim_ti3 input
+
+•
+
+IBLK[1:0] = 10: Index signal blanking on tim_ti4 input
+Figure 586. Index blanking
+
+Counter
+
+Index input
+
+Counter reset
+
+Blanking signal
+TI3 (CC3P=0)
+
+IBLK[1:0] = 00
+
+IBLK[1:0] = 01
+MSv45776V1
+
+RM0456 Rev 6

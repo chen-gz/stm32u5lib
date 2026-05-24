@@ -1,0 +1,47 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Bit 12 SRAM5PD: SRAM5 power down
+This bit is used to reduce the consumption by powering off the SRAM5.
+0: SRAM5 powered on
+1: SRAM5 powered off
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 11 SRAM4PD: SRAM4 power down
+This bit is used to reduce the consumption by powering off the SRAM4.
+0: SRAM4 powered on
+1: SRAM4 powered off
+Bit 10 SRAM3PD: SRAM3 power down
+This bit is used to reduce the consumption by powering off the SRAM3.
+0: SRAM3 powered on
+1: SRAM3 powered off
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 9 SRAM2PD: SRAM2 power down
+This bit is used to reduce the consumption by powering off the SRAM2.
+0: SRAM2 powered on
+1: SRAM2 powered off
+Bit 8 SRAM1PD: SRAM1 power down
+This bit is used to reduce the consumption by powering off the SRAM1.
+0: SRAM1 powered on
+1: SRAM1 powered off
+Bit 7 ULPMEN: BOR0 ultra-low power mode
+This bit is used to reduce the consumption by configuring the BOR in discontinuous mode.
+This bit has effect only when the BOR level 0 is selected and when the device is in Standby
+mode.
+0: BOR level 0 operating in continuous (normal) mode in Standby mode
+1: BOR level 0 operating in discontinuous (ultra-low power) mode in Standby mode
+Caution: This bit must be set to reach the lowest power consumption in Standby mode.
+Bit 6 RRSB2: SRAM2 page 2 retention in Stop 3 and Standby modes
+This bit is used to keep the SRAM2 page 2 content in Stop 3 and Standby modes.
+The SRAM2 page 2 corresponds to the last 56 Kbytes of the SRAM2
+(from SRAM2 base address + 0x2000 to SRAM2 base address + 0xFFFF).
+0: SRAM2 page2 content not retained in Stop3 and Standby modes
+1: SRAM2 page2 content retained in Stop 3 and Standby modes
+Note: This bit has no effect in Shutdown mode.
+The backup SRAM is also retained when this bit is set.

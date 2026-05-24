@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+Where DBRP[4:0], DTSEG1[4:0], and DTSEG2[3:0] belong to the FDCAN_DBTP
+register.
+The (re)synchronization jump width (SJW) defines an upper bound for the amount of
+lengthening or shortening of the bit segments. It is programmable between one and four
+time quanta.
+A valid edge is defined as the first transition in a bit time from dominant to recessive bus
+level, provided the controller itself does not send a recessive bit.
+If a valid edge is detected in BS1 instead of SYNC_SEG, BS1 is extended by up to SJW, so
+that the sample point is delayed.
+Conversely, if a valid edge is detected in BS2 instead of SYNC_SEG, BS2 is shortened by
+up to SJW, so that the transmit point is moved earlier.
+As a safeguard against programming errors, the configuration of the bit timing register is
+only possible while the device is in Standby mode. The FDCAN_DBTP and FDCAN_NBTP
+registers (dedicated, respectively, to data and nominal bit timing) are only accessible when
+the CCE and INIT of the FDCA_CCCR register are set.
+The FDCAN requires that the CAN time quanta clock is always below or equal to the APB
+clock (fdcan_tq_ck < fdcan_pclk).
+
+Note:
+
+For a detailed description of the CAN bit timing and resynchronization mechanism, refer to
+the ISO 11898-1 standard.
+
+70.3.4
+
+Operating modes
+Configuration
+Access to peripheral version, hardware, and input clock divider configuration. When the
+clock divider is set to 0, the primary input clock is used as it is.
+
+Software initialization
+Software initialization is started by setting the INIT bit of the FDCAN_CCCR register, by
+software, by a hardware reset, or by entering bus-off state. While the INIT bit is set,
+message transfers from and to the CAN bus are stopped, and the status of the CAN bus
+output FDCAN_TX is recessive (high). The EML (error management logic) counters are
+unchanged. Setting the INIT bit does not change any configuration register. Clearing INIT bit
+of FDCAN_CCCR finishes the software initialization. Afterwards the bit stream processor
+(BSP) synchronizes itself to the data transfer on the CAN bus by waiting for the occurrence
+of a sequence of 11 consecutive recessive bits (bus-idle) before it can take part in bus
+activities and start the message transfer.
+Access to the FDCAN configuration registers is only enabled when the INIT bit and the CCE
+bit of the FDCAN_CCCR register are both set.
+The CCE bit of the FDCAN_CCCR register can only be set/cleared while the INIT bit of
+FDCAN_CCCR is set. The CCE bit is automatically cleared when the INIT bit is cleared.
+
+RM0456 Rev 6

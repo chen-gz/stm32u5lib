@@ -1,0 +1,155 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+Figure 877. Tristate strategy on SD output line on an inactive slot
+Bit TRIS = 1 in the SAI_xCR1 and frame length = number of slots
+Audio frame
+sck
+Slot size = data size
+Slot 0 ON
+
+slot
+SD (output)
+
+Slot 1 OFF
+
+Slot 2 OFF
+
+Data 0
+
+Slot 3 ON
+Data 1
+
+.. ON
+
+.. ON
+
+..
+
+..
+
+Slot n ON
+Data m
+
+Slot size > data size
+slot
+
+Slot 0 ON
+
+SD (output)
+
+Data 0
+
+slot
+
+Slot 0 ON
+
+Slot 1 OFF
+
+Slot 2 OFF
+
+Slot 3 ON
+Data 1
+
+Slot 1 OFF
+
+Slot 2 OFF
+
+Slot 3 ON
+Data 0
+
+SD (output)
+
+.. ON
+
+.. ON
+
+..
+
+..
+
+Slot n ON
+
+.. ON
+
+.. ON
+
+Slot n ON
+
+..
+
+..
+
+Data m
+
+Data m
+
+Bit TRIS = 1 in the SAI_xCR1 and frame length > number of slots
+Audio frame
+sck
+Slot size = data size
+slot
+SD (output)
+
+Slot 0 ON
+
+Slot 1 OFF
+
+Slot 2 OFF
+
+Data 0
+
+.. ON
+..
+
+Slot n ON
+Data m
+
+Slot size > data size
+slot
+
+Slot 0 ON
+
+SD (output)
+
+Data 0
+
+slot
+
+Slot 0 ON
+
+Slot 1 OFF
+
+Slot 1 OFF
+
+Slot 2 OFF
+
+Slot 2 OFF
+
+.. ON
+
+Data m
+
+.. ON
+
+.. ON
+
+..
+
+SD (output)
+
+Slot n ON
+
+..
+
+Data m
+MSv192345V1
+
+When the selected audio protocol uses the FS signal as a start of frame and a channel side
+identification (bit FSDEF = 1 in the SAI_xFRCR register), the tristate mode is managed
+according to Figure 878 (where the bit TRIS in the SAI_xCR1 register = 1, and FSDEF=1,
+and half frame length is higher than number of slots/2, and NBSLOT=6).
+
+RM0456 Rev 6

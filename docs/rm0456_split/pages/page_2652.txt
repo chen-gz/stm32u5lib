@@ -1,0 +1,122 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+66
+
+Universal synchronous/asynchronous receiver
+transmitter (USART/UART)
+
+66.1
+
+Introduction
+The USART offers a flexible means to perform full-duplex data exchange with external
+equipments requiring an industry standard NRZ asynchronous serial data format. A very
+wide range of baud rates can be achieved through a fractional baud rate generator.
+The USART supports both synchronous one-way and half-duplex single-wire
+communications, as well as LIN (local interconnection network), smartcard protocol, IrDA
+(infrared data association) SIR ENDEC specifications, and modem operations (CTS/RTS).
+Multiprocessor communications are also supported.
+High-speed data communications are possible by using the DMA (direct memory access)
+for multibuffer configuration.
+
+66.2
+
+USART main features
+•
+
+Full-duplex asynchronous communication
+
+•
+
+NRZ standard format (mark/space)
+
+•
+
+Configurable oversampling method by 16 or 8 to achieve the best compromise
+between speed and clock tolerance
+
+•
+
+Baud rate generator systems
+
+•
+
+Two internal FIFOs for transmit and receive data
+Each FIFO can be enabled/disabled by software and come with a status flag.
+
+•
+
+A common programmable transmit and receive baud rate
+
+•
+
+Dual clock domain with dedicated kernel clock for peripherals independent from PCLK
+
+•
+
+Auto baud rate detection
+
+•
+
+Programmable data word length (7, 8 or 9 bits)
+
+•
+
+Programmable data order with MSB-first or LSB-first shifting
+
+•
+
+Configurable stop bits (1 or 2 stop bits)
+
+•
+
+Synchronous master/slave mode and clock output/input for synchronous
+communications
+
+•
+
+SPI slave transmission underrun error flag
+
+•
+
+Single-wire half-duplex communications
+
+•
+
+Continuous communications using DMA
+
+•
+
+Received/transmitted bytes are buffered in reserved SRAM using centralized DMA.
+
+•
+
+Separate enable bits for transmitter and receiver
+
+•
+
+Separate signal polarity control for transmission and reception
+
+•
+
+Swappable Tx/Rx pin configuration
+
+•
+
+Hardware flow control for modem and RS-485 transceiver
+
+•
+
+Communication control/error detection flags
+
+•
+
+Parity control:
+–
+
+Transmits parity bit
+
+RM0456 Rev 6

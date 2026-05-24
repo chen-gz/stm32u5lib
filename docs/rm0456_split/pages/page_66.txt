@@ -1,0 +1,91 @@
+90
+
+Contents
+
+RM0456
+58.4.6
+
+Prescaler . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2483
+
+58.4.7
+
+Trigger multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2483
+
+58.4.8
+
+Operating mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2484
+
+58.4.9
+
+Timeout function . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2486
+
+58.4.10 Waveform generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2486
+58.4.11 Register update . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2487
+58.4.12 Counter mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2488
+58.4.13 Timer enable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2488
+58.4.14 Timer counter reset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2489
+58.4.15 Encoder mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2489
+58.4.16 Repetition counter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2491
+58.4.17 Capture/compare channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2492
+58.4.18 Input capture mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2493
+58.4.19 PWM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2495
+58.4.20 Autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2497
+58.4.21 DMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2498
+58.4.22 Debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2499
+
+58.5
+
+LPTIM low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2499
+
+58.6
+
+LPTIM interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2499
+
+58.7
+
+LPTIM registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2500
+58.7.1
+
+LPTIM4 interrupt and status register (LPTIM4_ISR) . . . . . . . . . . . . . 2501
+
+58.7.2
+
+LPTIMx interrupt and status register [alternate] (LPTIMx_ISR)
+(x = 1 to 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2502
+
+58.7.3
+
+LPTIMx interrupt and status register [alternate] (LPTIMx_ISR)
+(x = 1 to 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2504
+
+58.7.4
+
+LPTIM4 interrupt clear register (LPTIM4_ICR) . . . . . . . . . . . . . . . . . 2506
+
+58.7.5
+
+LPTIMx interrupt clear register [alternate] (LPTIMx_ICR)
+(x = 1 to 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2507
+
+58.7.6
+
+LPTIMx interrupt clear register [alternate] (LPTIMx_ICR)
+(x = 1 to 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2508
+
+58.7.7
+
+LPTIM4 interrupt enable register (LPTIM4_DIER) . . . . . . . . . . . . . . . 2509
+
+58.7.8
+
+LPTIMx interrupt enable register [alternate] (LPTIMx_DIER)
+(x = 1 to 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2511
+
+58.7.9
+
+LPTIMx interrupt enable register [alternate] (LPTIMx_DIER)
+(x = 1 to 3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2512
+
+58.7.10 LPTIM configuration register (LPTIM_CFGR) . . . . . . . . . . . . . . . . . . 2514
+58.7.11 LPTIM control register (LPTIM_CR) . . . . . . . . . . . . . . . . . . . . . . . . . 2517
+58.7.12 LPTIM compare register 1 (LPTIM_CCR1) . . . . . . . . . . . . . . . . . . . . 2518

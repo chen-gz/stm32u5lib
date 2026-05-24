@@ -1,0 +1,106 @@
+90
+
+Contents
+
+13
+
+RM0456
+12.4.5
+
+Frequency error evaluation and automatic trimming . . . . . . . . . . . . . . 613
+
+12.4.6
+
+CRS initialization and configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . 614
+
+12.5
+
+CRS in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
+
+12.6
+
+CRS interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
+
+12.7
+
+CRS registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 616
+12.7.1
+
+CRS control register (CRS_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 616
+
+12.7.2
+
+CRS configuration register (CRS_CFGR) . . . . . . . . . . . . . . . . . . . . . . 617
+
+12.7.3
+
+CRS interrupt and status register (CRS_ISR) . . . . . . . . . . . . . . . . . . . 618
+
+12.7.4
+
+CRS interrupt flag clear register (CRS_ICR) . . . . . . . . . . . . . . . . . . . . 620
+
+12.7.5
+
+CRS register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 620
+
+General-purpose I/Os (GPIO) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+13.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+
+13.2
+
+GPIO main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+
+13.3
+
+GPIO functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+13.3.1
+
+General-purpose I/O (GPIO) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 624
+
+13.3.2
+
+I/O pin alternate function multiplexer and mapping . . . . . . . . . . . . . . . 625
+
+13.3.3
+
+I/O port control registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 625
+
+13.3.4
+
+I/O port data registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.5
+
+I/O data bitwise handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.6
+
+GPIO locking mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.7
+
+I/O alternate function input/output . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.8
+
+External interrupt/wake-up lines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+
+13.3.9
+
+Input configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+
+13.3.10 Output configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+13.3.11 Alternate function configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 628
+13.3.12 Analog configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 629
+13.3.13 Using the HSE or LSE oscillator pins as GPIOs . . . . . . . . . . . . . . . . . 629
+13.3.14 Using the GPIO pins in the RTC supply domain . . . . . . . . . . . . . . . . . 629
+13.3.15 Using PH3 as GPIO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 630
+13.3.16 Using PA11 and PA12 as GPIOs (STM32U59x/5Ax/5Fx/5Gx only) . . 630
+13.3.17 OPAMPx_VINM dedicated pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 630
+13.3.18 TrustZone security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 630
+13.3.19 Privileged and unprivileged modes . . . . . . . . . . . . . . . . . . . . . . . . . . . 631
+13.3.20 High-speed low-voltage mode (HSLV) . . . . . . . . . . . . . . . . . . . . . . . . . 631
+13.3.21 I/O compensation cell . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 632

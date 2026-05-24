@@ -1,0 +1,89 @@
+RM0456 Rev 6
+
+RM0456
+
+75.2.6
+
+Debug support (DBG)
+
+Security
+The trace and debug components allow a high degree of access to the processor and
+system during product development. In order to protect user code and ensure that the
+debug features can not be used to alter or compromise the normal operation of the finished
+product, these features can be disabled or limited in scope. For example, secure software
+debug and trace can be disabled without preventing the debug of nonsecure code.
+The following authentication signals are used by the system to determine which debug
+features are enabled or disabled:
+•
+
+dbgen: global enable for all debug features
+0: All debug features are disabled.
+1: Debug features in nonsecure state are enabled. Debug features in secure state are
+dependent on the state of the spiden signal.
+
+•
+
+spiden: enables debug in secure state when dbgen = 1.
+0: Debug features are disabled in secure state.
+1: Debug features are enabled in secure state.
+
+•
+
+niden: enables trace and performance monitoring (non-invasive debug).
+0: Trace generation is disabled.
+1: Trace generation in nonsecure state is enabled. Trace generation in secure state is
+dependent on the state of the spniden signal.
+
+•
+
+spniden: enables trace and performance monitoring in secure state when niden = 1.
+0: Trace generation is disabled in secure state.
+1: Trace generation is enabled in secure state.
+
+For detailed information on the behavior of each component according to the state of the
+authentication signals, refer to the relevant component chapter or to the relevant Arm
+technical documentation.
+The state of the signals are set according to the readout protection (RDP) level
+(see Section 7.6.2: Readout protection (RDP)), as shown in the table below:
+Table 790. Authentication signal states
+RDP level
+
+Authentication signal
+state
+
+0
+
+dbgen = 1, spiden = 1
+niden = 1, spniden = 1
+
+Debug and trace is enabled whatever the state of the processor. The
+debugger access to secure memory is permitted.
+
+0.5
+
+dbgen = 1, spiden = 0
+niden = 1, spniden = 0
+
+Debug and trace is enabled when the processor is in nonsecure state. The
+debugger access to secure memory is disabled.
+
+1
+
+dbgen = 1, spiden = 0
+niden = 1, spniden = 0
+
+Debug and trace is enabled when the processor is in nonsecure state. The
+debugger access to secure memory is disabled, as well as to the following
+areas: flash memory, SRAM2, backup registers, ICACHE, on-the-fly
+decryption region (OCTOSPI).
+
+2
+
+dbgen = 0, spiden = 0
+niden = 0, spniden = 0
+
+Debug and trace is disabled.
+
+Description
+
+RM0456 Rev 6

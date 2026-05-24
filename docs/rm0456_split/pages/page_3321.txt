@@ -1,0 +1,31 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+else
+{
+Re-initialize Channel
+}
+}
+
+•
+
+Isochronous IN transactions
+The assumptions are:
+–
+
+The application is attempting to receive one packet (up to 1 maximum packet size)
+in every frame starting with the next odd frame (transfer size = 1 024 bytes).
+
+–
+
+The receive FIFO can hold at least one maximum-packet-size packet and two
+status word per packet (1 031 bytes).
+
+–
+
+Periodic request queue depth = 4.
+
+The sequence of operations is as follows:

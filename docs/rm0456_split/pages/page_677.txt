@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+Peripherals interconnect matrix
+
+Active power mode
+This interconnection remains active down to Stop 2 mode.
+
+16.3.9
+
+Blanking sources to comparators
+From timers (TIM1/2/3/4/5/8/15/16/17) to comparators (COMP1/2)
+
+Purpose
+Advanced-control timers (TIM1/8) and general-purpose timers (TIM2/3/4/5/15/16/17) can be
+used as blanking window input to COMP1/2.
+The blanking function is described in Section 37.4.6: Comparator output-blanking function.
+The blanking sources are given in:
+•
+
+COMP1 control and status register (COMP1_CSR), BLANKSEL[4:0]
+
+•
+
+COMP2 control and status register (COMP2_CSR), BLANKSEL[4:0]
+
+Triggering signals
+Timer output signal TIMx_Ocx are the inputs to blanking source of COMP1/2.
+
+Active power mode
+This feature is available under Run and Sleep modes.
+
+16.3.10
+
+RTC wake-up as inputs to timers
+From RTC to timers (TIM5/16/17)
+
+Purpose
+RTC wake-up interrupt can be used as input to general-purpose timers (TIM5/16/17)
+channel 1.
+
+Triggering signals
+RTC wake-up signal is connected to tim_ti1_in3 signal as described in Table 559:
+Interconnect to the tim_ti1 input multiplexer for TIM5.
+RTC wake-up signal is connected to tim_ti1_in4 signal as described in Table 578:
+Interconnect to the tim_ti1 input multiplexer for TIM16/TIM17.
+
+Active power mode
+This interconnection is active down to Stop 3 mode. Timers are not active but the count is
+performed at wake-up.
+
+RM0456 Rev 6

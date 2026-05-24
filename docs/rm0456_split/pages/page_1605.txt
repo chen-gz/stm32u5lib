@@ -1,0 +1,97 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+Figure 363. SPI timing example
+FBS
+ADF_CCK0 or
+ADF_CCK1
+ADF_SDI0
+
+L0
+
+R0
+
+L1
+
+R1
+
+L2
+
+R2
+
+L3
+
+R3
+
+bs0_ck
+bs0_r
+
+L0
+
+L1
+
+L2
+
+L3
+
+bs0_f
+
+R0
+
+R1
+
+R2
+
+R3
+
+Sampling point
+MSv63670V1
+
+To properly synchronize/receive the data stream, the adf_proc_ck frequency must be
+adjusted according to the constraints listed in Table 394.
+
+Clock absence detection
+A no-clock-transition period may be detected when the serial interface works in normal SPI
+mode. This feature can be used to detect a clock failure in the SPI link.
+The application can program a timeout value via the STH[4:0] bitfield of the SITF0. If the
+ADF does not detect clock transitions for a duration of STH[4:0] x Tadf_proc_ck, then the
+CKABF flag is set.
+An interrupt can be generated if CKABIE is set to 1. The STH[4:0] bitfield is in the ADF serial
+interface control register 0 (ADF_SITF0CR).
+When the serial interface is enabled, the CKABF flag remains to 1 until a first clock transition
+is detected.
+To avoid spurious clock absence detection, the following sequence must be respected:
+1.
+
+Configure the serial interface in normal SPI mode and enable it.
+
+2.
+
+Clear the CKABF flag by writing CKABF bit to 1.
+If no clock transition is detected on the serial interface, the hardware immediately sets
+the CKABF flag to 1.
+
+3.
+
+Note:
+
+Read the CKABF flag:
+–
+
+If CKABF = 1, go back to step 2.
+
+–
+
+If CKABF = 0, a clock has been detected. The CKABIE bit can be set to 1 if the
+application wants an interrupt on detection of a clock absence.
+
+The clock absence detection feature is not available in the LF_MASTER SPI mode.
+
+Manchester mode
+In Manchester coded format, the ADF receives data stream from the external sensor via the
+ADF_SDI0 pin only.
+The ADF_CCK0 and ADF_CCK1 pins are not needed in this mode.
+
+RM0456 Rev 6

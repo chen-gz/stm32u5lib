@@ -1,0 +1,110 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+DPSM before moving to the Send state. This enables, for example, the CMD12
+Stop Transmission command to be sent aligned with the data.
+–
+•
+
+Note:
+
+When writing WAITPEND to 0, the CPSM moves to the Send state.
+
+Boot: If the BOOTEN bit is set in the command register, the CPSM enters the Boot
+state, and when:
+–
+
+BOOTMODE = 0 the SDMMC_CMD line is driven low and when CMDTRANS bit
+is set and the DTDIR = receive, the CPSM DataEnable signal is issued to the
+DPSM. This enables normal boot operation. This state is left at the end of the boot
+procedure by clearing the register bit BOOTEN, which cause the SDMMC_CMD
+line to be driven high and the CPSM Abort signal is issued to the DPSM, before
+moving to the Idle state. The CMDSENT flag is generated 56 cycles after
+SDMMC_CMD line is high.
+
+–
+
+BOOTMODE = 1, move to the Send state. This enables sending of the CMD0
+(boot). Clearing BOOTEN has no effect.
+
+The CPSM remains in the Idle state for at least eight SDMMC_CK periods to meet the NCC
+and NRC timing constraints. NCC is the minimum delay between two host commands, and
+NRC is the minimum delay between the host command and the card response.
+The response timeout has a fixed value of 64 SDMMC_CK clock periods.
+A command is a token that starts an operation. Commands are sent from the host to either a
+single card (addressed command) or all connected cards (broadcast command are
+available for e•MMC V3.31 or previous). Commands are transferred serially on the
+SDMMC_CMD line. All commands have a fixed length of 48 bits. The general format for a
+command token for SD-Memory cards, SDIO cards, and e•MMC cards is shown in Table
+278.
+The command token data is taken from two registers, one containing a 32-bit argument and
+the other containing the 6-bit command index (six bits sent to a card).
+Table 278. Command token format
+Bit position
+
+Width
+
+Value
+
+Description
+
+47
+
+1
+
+0
+
+Start bit
+
+46
+
+1
+
+1
+
+Transmission bit
+
+[45:40]
+
+6
+
+x
+
+Command index
+
+[39:8]
+
+32
+
+x
+
+Argument
+
+[7:1]
+
+7
+
+x
+
+CRC7
+
+0
+
+1
+
+1
+
+End bit
+
+Next to the command data there are command type (WAITRESP) bits controlling the
+command path state machine (CPSM). These bits also determine whether the command
+requires a response, and whether the response is short (48 bit) or long (136 bits) long, and if
+a CRC is present or not.
+A response is a token that is sent from an addressed card or synchronously from all
+connected cards to the host as an answer to a previous received command. All responses
+are sent via the command line SDMMC_CMD. The response transmission always starts
+with the left bit of the bit string corresponding to the response code word. The code length
+depends on the response type. Response tokens R1, R2, R3, R4, R5, and R6 have various

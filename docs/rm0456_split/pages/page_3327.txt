@@ -1,0 +1,119 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+4.
+
+After successfully transmitting the packet, the OTG_HS host generates a CHH
+interrupt.
+
+5.
+
+In response to the CHH interrupt, reinitialize the channel for the next transfer.
+Figure 937. Normal interrupt OUT transactions - DMA mode
+Application
+
+1
+
+Host
+
+AHB
+
+USB
+
+Device
+
+init_reg(ch_1)
+Periodic Request
+Queue
+Assume that this
+queue can hold
+4 entries.
+
+init_reg(ch_2)
+
+1
+
+2
+
+1
+MPS
+
+3
+
+ch_1
+ch_2
+
+2
+O UT
+
+DATA0
+MP S
+
+Odd
+(micro)
+frame
+
+4
+5
+
+A CK
+
+C hH ltd interrupt
+
+init_reg(ch_1)
+
+3
+
+IN
+
+1
+MPS
+DATA0
+
+AC K
+
+1
+MPS
+
+ChHltd interrupt
+
+4
+
+ch_1
+ch_2
+
+init_reg(ch_2)
+
+5
+
+OUT
+
+Even
+(micro)
+frame
+
+D ATA1
+MP S
+
+C hH ltd interrupt
+
+init_reg(ch_1)
+
+AC K
+
+IN
+
+1
+MPS
+
+DATA1
+
+MSv36924V1
+
+•
+
+Interrupt IN transactions in DMA mode
+The sequence of operations (channelx) is as follows:

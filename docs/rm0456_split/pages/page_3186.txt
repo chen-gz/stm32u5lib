@@ -1,0 +1,34 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+negotiation success. The application must read the current Mode bit in the core
+interrupt register (OTG_GINTSTS) to determine host mode operation.
+3.
+
+The application sets the reset bit (PRST in OTG_HPRT) and the OTG_FS controller
+issues a USB reset and enumerates the A-device for data traffic.
+
+4.
+
+The OTG_FS controller continues the host role of initiating traffic, and when done,
+suspends the bus by writing the port suspend bit in the host port control and status
+register.
+
+5.
+
+In Negotiated mode, when the A-device detects a suspend, it disconnects and switches
+back to the host role. The OTG_FS controller deasserts the DP pull down and DM pull
+down in the PHY to indicate the assumption of the device role.
+
+6.
+
+The application must read the current mode bit in the core interrupt (OTG_GINTSTS)
+register to determine the host mode operation.
+
+7.
+
+The OTG_FS controller connects, completing the HNP process.
+
+RM0456 Rev 6

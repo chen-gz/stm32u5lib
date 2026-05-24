@@ -1,0 +1,107 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Figure 946. Clock division and timing elements
+Clock division
+ucpd_ker_ck
+
+Pre-scaler
+/1 to /16
+
+ucpd_clk
+
+PSC_UCPDCLK[2:0]
+
+BMC receiver
+“Half bit” divider
+/1 to /64
+
+hbit_clk (~ 600 kHz)
+
+Counters
+HBITCLKDIV[5:0]
+
+BMC transmitter
+
+“tTransitionWindow”
+2 to 32
+TRANSWIN[4:0]
+
+ucpd_pclk
+
+“tInterFrameGap”
+2 to 32
+
+Registers
+
+IFRGAP[4:0]
+MSv45536V3
+
+Refer to the USB PD specification in order to set appropriate delays. For tTransitionWindow
+and especially for tInterFrameGap, the clock frequency uncertainty must be taken into
+account so as to respect specified timings in all cases.
+
+74.4.3
+
+Physical layer protocol
+The physical layer covers the signaling underlying the USB Power Delivery specification.
+On the transmitter side its main function is to form packets according to the defined packet
+format including generally:
+•
+
+preamble
+
+•
+
+start of packet (SOP, ordered set)
+
+•
+
+payload header
+
+•
+
+payload data
+
+•
+
+cyclic redundancy check (CRC) information
+
+•
+
+end of packet (EOP)
+
+Before going on the CC line, the data stream is BMC-encoded, respecting specified timing
+restrictions.
+On the receive side, the principle task is to:
+•
+
+extract start of packet (SOP, ordered set) information
+
+•
+
+extract payload header
+
+•
+
+extract payload data
+
+•
+
+receive and check CRC
+
+•
+
+receive end of packet (EOP)
+
+The receive is basically a reverse of the transmit process, thus starting with BMC data
+stream decoding.
+
+Symbol encoding
+Apart from the preamble all symbols are encoded with a 4b5b scheme according to the
+specification shown in the following table.
+
+RM0456 Rev 6

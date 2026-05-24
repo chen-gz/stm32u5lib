@@ -1,0 +1,179 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+64.7
+
+RM0456
+
+TAMP registers
+Refer to Section 1.2 of the reference manual for a list of abbreviations used in register
+descriptions. The peripheral registers can be accessed by words (32-bit).
+
+64.7.1
+
+TAMP control register 1 (TAMP_CR1)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x00
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+Res.
+
+Res.
+
+Res.
+
+28
+
+27
+
+26
+
+ITAMP1 ITAMP1 ITAMP1
+3E
+2E
+1E
+rw
+
+rw
+
+rw
+
+12
+
+11
+
+10
+
+Res.
+
+Res.
+
+Res.
+
+25
+Res.
+
+9
+Res.
+
+24
+
+23
+
+ITA- ITAMP8 ITAMP9E
+E
+MP7E
+
+21
+
+20
+
+ITAMP6 ITAMP5
+E
+E
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+19
+Res.
+
+3
+
+18
+
+17
+
+16
+
+ITAMP3 ITAMP2 ITAMP1
+E
+E
+E
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+TAMP8 TAMP7 TAMP6 TAMP5 TAMP4 TAMP3 TAMP2 TAMP1
+E
+E
+E
+E
+E
+E
+E
+E
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 Reserved, must be kept at reset value.
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 ITAMP13E: Internal tamper 13 enable
+0: Internal tamper 13 disabled.
+1: Internal tamper 13 enabled.
+Bit 27 ITAMP12E: Internal tamper 12 enable
+0: Internal tamper 12 disabled.
+1: Internal tamper 12 enabled.
+Bit 26 ITAMP11E: Internal tamper 11 enable
+0: Internal tamper 11 disabled.
+1: Internal tamper 11 enabled.
+Bit 25 Reserved, must be kept at reset value.
+Bit 24 ITAMP9E: Internal tamper 9 enable
+0: Internal tamper 9 disabled.
+1: Internal tamper 9 enabled.
+Bit 23 ITAMP8E: Internal tamper 8 enable
+0: Internal tamper 8 disabled.
+1: Internal tamper 8 enabled.
+Bit 22 ITAMP7E: Internal tamper 7 enable
+0: Internal tamper 7 disabled.
+1: Internal tamper 7 enabled

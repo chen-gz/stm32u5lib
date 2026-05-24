@@ -1,0 +1,53 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 TXFT: TXFIFO threshold flag
+This bit is set by hardware when the number of empty locations in the TXFIFO is greater
+than the threshold programmed in the TXFTCFG[2:0] bitfield of USART_CR3 register.
+An interrupt is generated if the TXFTIE bit (bit 31) is set in the USART_CR3 register.
+0: TXFIFO does not reach the programmed threshold.
+1: TXFIFO reached the programmed threshold.
+Bit 26 RXFT: RXFIFO threshold flag
+This bit is set by hardware when the threshold programmed in the RXFTCFG[2:0] bitfield of
+the USART_CR3 register is reached. This means that there are (RXFTCFG[2:0] – 1) data in
+the Receive FIFO and one data in the USART_RDR register. An interrupt is generated if the
+RXFTIE bit = 1 (bit 27) in the USART_CR3 register.
+0: Receive FIFO does not reach the programmed threshold.
+1: Receive FIFO reached the programmed threshold.
+Note: When the RXFTCFG[2:0] threshold is configured to 101, the RXFT flag is set if
+RXFIFO size data are available, that is, (RXFIFO size – 1) data in the RXFIFO and 1
+data in the USART_RDR. Consequently, the (RXFIFO size + 1) th received data does
+not cause an overrun error. The overrun error occurs after receiving the (RXFIFO
+size + 2) th data.
+Bit 25 TCBGT: Transmission complete before guard time flag
+This bit is set when the last data written in the USART_TDR has been transmitted correctly
+out of the shift register.
+It is set by hardware in smartcard mode, if the transmission of a frame containing data has
+completed and if the smartcard did not send back any NACK. An interrupt is generated if
+TCBGTIE = 1 in the USART_CR3 register.
+This bit is cleared by software, by writing 1 to the TCBGTCF in the USART_ICR register or
+by a write to the USART_TDR register.
+0: Transmission has not completed, or transmission has completed unsuccessfully (that is, a
+NACK is received from the card)
+1: Transmission has completed successfully (before Guard time completion and there is no
+NACK from the smart card).
+Note: If the USART does not support the smartcard mode, this bit is reserved and kept at
+reset value. If the USART supports the smartcard mode and the smartcard mode is
+enabled, the TCBGT reset value is 1. Refer to Section 66.4: USART implementation.
+Bit 24 RXFF: RXFIFO Full
+This bit is set by hardware when the number of received data corresponds to
+RXFIFO size + 1 (RXFIFO full + 1 data in the USART_RDR register.
+An interrupt is generated if the RXFFIE bit = 1 in the USART_CR1 register.
+0: RXFIFO not full.
+1: RXFIFO Full.
+Bit 23 TXFE: TXFIFO Empty
+This bit is set by hardware when TXFIFO is Empty. When the TXFIFO contains at least one
+data, this flag is cleared. The TXFE flag can also be set by writing 1 to the bit TXFRQ (bit 4)
+in the USART_RQR register.
+An interrupt is generated if the TXFEIE bit = 1 (bit 30) in the USART_CR1 register.
+0: TXFIFO not empty.
+1: TXFIFO empty.

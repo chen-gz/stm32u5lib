@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bits 19:17 SCARCNT[2:0]: Smartcard auto-retry count
+This bitfield specifies the number of retries for transmission and reception in smartcard
+mode.
+In transmission mode, it specifies the number of automatic retransmission retries, before
+generating a transmission error (FE bit set).
+In reception mode, it specifies the number or erroneous reception trials, before generating a
+reception error (RXNE/RXFNE and PE bits set).
+This bitfield must be programmed only when the USART is disabled (UE = 0).
+When the USART is enabled (UE = 1), this bitfield may only be written to 0x0, in order to
+stop retransmission.
+0x0: retransmission disabled - No automatic retransmission in transmission mode.
+0x1 to 0x7: number of automatic retransmission attempts (before signaling error)
+Note: If smartcard mode is not supported, this bit is reserved and must be kept at reset
+value. Refer to Section 66.4: USART implementation.
+Bit 16 Reserved, must be kept at reset value.
+Bit 15 DEP: Driver enable polarity selection
+0: DE signal is active high.
+1: DE signal is active low.
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at
+reset value. Refer to Section 66.4: USART implementation.
+Bit 14 DEM: Driver enable mode
+This bit enables the user to activate the external transceiver control, through the DE signal.
+0: DE function is disabled.
+1: DE function is enabled. The DE signal is output on the RTS pin.
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at
+reset value. Section 66.4: USART implementation.
+Bit 13 DDRE: DMA Disable on reception Error
+0: DMA is not disabled in case of reception error. The corresponding error flag is set but
+RXNE is kept 0 preventing from overrun. As a consequence, the DMA request is not
+asserted, so the erroneous data is not transferred (no DMA request), but next correct
+received data is transferred. (used for smartcard mode)
+1: DMA is disabled following a reception error. The corresponding error flag is set, as well
+as RXNE. The DMA request is masked until the error flag is cleared. This means that the
+software must first disable the DMA request (DMAR = 0) or clear RXNE(RXFNE is case
+FIFO mode is enabled) before clearing the error flag.
+This bit can only be written when the USART is disabled (UE = 0).
+Note: The reception errors are: parity error, framing error or noise error.
+Bit 12 OVRDIS: Overrun Disable
+This bit is used to disable the receive overrun detection.
+0: Overrun Error Flag, ORE, is set when received data is not read before receiving new
+data.
+1: Overrun functionality is disabled. If new data is received while the RXNE flag is still set
+the ORE flag is not set and the new received data overwrites the previous content of the
+USART_RDR register. When FIFO mode is enabled, the RXFIFO is bypassed and data are
+written directly in USART_RDR register. Even when FIFO management is enabled, the
+RXNE flag is to be used.
+This bit can only be written when the USART is disabled (UE = 0).
+Note: This control bit enables checking the communication flow w/o reading the data
+
+RM0456 Rev 6

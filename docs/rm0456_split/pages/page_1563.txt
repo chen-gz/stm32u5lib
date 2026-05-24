@@ -1,0 +1,153 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+flag is active. More precisely, when an interrupt must be generated, the MDF
+requests the AHB clock.
+
+39.4.15
+
+Register protection
+The MDF embeds some hardware protection to prevent invalid situations. The table below
+shows the list of write-protected and unprotected fields.
+Table 382. Register protection summary
+Registers
+
+Unprotected
+fields
+
+Write-protected fields
+
+Write-protection
+condition
+
+MDF global control register (MDF_GCR)
+
+TRGO
+
+ILVNB[3:0]
+
+DFLTACTIVE0 = 1
+
+MDF clock generator control register
+(MDF_CKGCR)
+
+CKGDEN
+CCK0EN
+CCK1EN
+
+PROCDIV[6:0],
+CCKDIV[3:0], CKGMOD,
+TRGSRC[3:0], TRGSENS,
+CCK[1:0]DIR
+
+CKGACTIVE = 1
+
+MDF serial interface control register x
+(MDF_SITFxCR)
+
+SITFEN
+
+STH[4:0], SITFMOD[1:0],
+SCKSRC[1:0]
+
+SITFACTIVEx = 1
+DFLTACTIVEx = 1
+or
+SCDACTIVEx = 1
+or
+OLDACTIVEx = 1
+
+MDF bitstream matrix control register x
+(MDF_BSMXxCR)
+
+-
+
+BSSEL[4:0]
+
+MDF digital filter control register x
+(MDF_DFLTxCR)
+
+DFLTEN
+
+NBDIS[7:0], TRGSRC[3:0],
+TRGSENS, FTH, DMAEN,
+SNPSFMT, ACQMOD[2:0]
+
+MDF digital filter configuration register x
+(MDF_DFLTxCICR)
+
+SCALE[5:0]
+
+MCICD[8:0], CICMOD[2:0],
+DATSRC[1:0]
+
+MDF reshape filter configuration register x
+(MDF_DFLTxRSFR)
+
+-
+
+All fields
+
+MDF integrator configuration register x
+(MDF_DFLTxINTR)
+
+-
+
+All fields
+
+MDF out-of limit detector control register x
+(MDF_OLDxCR)
+
+OLDEN
+
+ACICD[4:0],
+ACICN[1:0],THINB
+BKOLD[3:0]
+
+MDF OLDx low threshold register x
+(MDF_OLDxTHLR)
+
+-
+
+All fields
+
+MDF OLDx high threshold register x
+(MDF_OLDxTHHR)
+
+-
+
+All fields
+
+MDF delay control register x (MDF_DLYxCR)
+
+-
+
+SKPDLY[6:0]
+
+SKPBF = 1
+
+MDF short circuit detector control register x
+(MDF_SCDxCR)
+
+SCDEN
+
+BKSCD[3:0], SCDT[7:0]
+
+SCDACTIVEx = 1
+
+MDF DFLTx interrupt enable register x
+(MDF_DFLTxIER)
+
+All fields
+
+-
+
+-
+
+RM0456 Rev 6
+
+DFLTACTIVEx = 1
+
+OLDACTIVEx = 1

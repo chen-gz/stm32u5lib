@@ -1,0 +1,250 @@
+Min
+
+Max
+
+14.2
+
+15
+
+0xF
+
+15
+
+16
+
+0xE
+
+16
+
+17.2
+
+0xD
+
+17.2
+
+18.5
+
+0xC
+
+18.5
+
+20
+
+0xB
+
+20
+
+21.8
+
+0xA
+
+21.8
+
+24
+
+0x9
+
+24
+
+27.5
+
+0x8
+
+27.5
+
+32
+
+0x7
+
+32
+
+-
+
+0x6
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.5
+
+OTG reset register (OTG_GRSTCTL)
+Address offset: 0x10
+Reset value: 0x8000 0000
+The application uses this register to reset various hardware features inside the core.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+AHB
+IDL
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+2
+
+1
+
+0
+
+r
+15
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TXFNUM[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+TXF
+FLSH
+
+RXF
+FLSH
+
+Res.
+
+rs
+
+rs
+
+FCRST PSRST CSRST
+rs
+
+rs
+
+rs
+
+Bit 31 AHBIDL: AHB master idle
+Indicates that the AHB master state machine is in the Idle condition.
+Note: Accessible in both device and host modes.
+Bits 30:11 Reserved, must be kept at reset value.
+Bits 10:6 TXFNUM[4:0]: Tx FIFO number
+This is the FIFO number that must be flushed using the Tx FIFO Flush bit. This field must not
+be changed until the core clears the Tx FIFO Flush bit.
+00000:
+–
+Non-periodic Tx FIFO flush in host mode
+–
+Tx FIFO 0 flush in device mode
+00001:
+–
+Periodic Tx FIFO flush in host mode
+–
+Tx FIFO 1 flush in device mode
+00010: Tx FIFO 2 flush in device mode
+...
+01111: Tx FIFO 15 flush in device mode
+10000: Flush all the transmit FIFOs in device or host mode.
+Note: Accessible in both device and host modes.
+Bit 5 TXFFLSH: Tx FIFO flush
+This bit selectively flushes a single or all transmit FIFOs, but cannot do so if the core is in the
+midst of a transaction.
+The application must write this bit only after checking that the core is neither writing to the Tx
+FIFO nor reading from the Tx FIFO. Verify using these registers:
+Read—NAK Effective interrupt ensures the core is not reading from the FIFO
+Write—AHBIDL bit in OTG_GRSTCTL ensures the core is not writing anything to the FIFO.
+Flushing is normally recommended when FIFOs are reconfigured. FIFO flushing is also
+recommended during device endpoint disable. The application must wait until the core clears
+this bit before performing any operations. This bit takes eight clocks to clear, using the slower
+clock of phy_clk or hclk.
+Note: Accessible in both device and host modes.
+
+RM0456 Rev 6

@@ -1,0 +1,80 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+1.
+
+Select the proper tim_ti2_in[15:0] source (internal or external) with the TI2SEL[3:0] bits
+in the TIMx_TISEL register.
+
+2.
+
+Map tim_ti2fp2 on tim_ti2 by writing CC2S = 01 in the TIMx_CCMR1 register.
+
+3.
+
+tim_ti2fp2 must detect a rising edge, write CC2P = 0 and CC2NP = 0 in the
+TIMx_CCER register.
+
+4.
+
+Configure tim_ti2fp2 as trigger for the slave mode controller (tim_trgi) by writing TS =
+00110 in the TIMx_SMCR register.
+
+5.
+
+tim_ti2fp2 is used to start the counter by writing SMS to 110 in the TIMx_SMCR register
+(trigger mode).
+
+The OPM waveform is defined by writing the compare registers (taking into account the
+clock frequency and the counter prescaler).
+•
+
+The tDELAY is defined by the value written in the TIMx_CCR1 register.
+
+•
+
+The tPULSE is defined by the difference between the autoreload value and the compare
+value (TIMx_ARR - TIMx_CCR1).
+
+•
+
+Suppose the user wants to build a waveform with a transition from 0 to 1 when a
+compare match occurs and a transition from 1 to 0 when the counter reaches the
+autoreload value. To do this PWM mode 2 must be enabled by writing OC1M = 111 in
+the TIMx_CCMR1 register. Optionally the preload registers can be enabled by writing
+OC1PE = 1 in the TIMx_CCMR1 register and ARPE in the TIMx_CR1 register. In this
+case one has to write the compare value in the TIMx_CCR1 register, the autoreload
+value in the TIMx_ARR register, generate an update by setting the UG bit and wait for
+external trigger event on tim_ti2. CC1P is written to 0 in this example.
+
+In this example, the DIR and CMS bits in the TIMx_CR1 register must be low.
+Since only one pulse (Single mode) is needed, a one must be written in the OPM bit in the
+TIMx_CR1 register to stop the counter at the next update event (when the counter rolls over
+from the autoreload value back to 0). When OPM bit in the TIMx_CR1 register is set to 0, so
+the Repetitive mode is selected.
+
+Particular case: tim_ocx fast enable:
+In One-pulse mode, the edge detection on tim_tix input set the CEN bit which enables the
+counter. Then the comparison between the counter and the compare value makes the
+output toggle. But several clock cycles are needed for these operations and it limits the
+minimum delay tDELAY min we can get.
+If one wants to output a waveform with the minimum delay, the OCxFE bit can be set in the
+TIMx_CCMRx register. Then tim_ocxref (and tim_ocx) is forced in response to the stimulus,
+without taking in account the comparison. Its new level is the same as if a compare match
+had occurred. OCxFE acts only if the channel is configured in PWM1 or PWM2 mode.
+
+55.4.16 Retriggerable one-pulse mode
+This mode allows the counter to be started in response to a stimulus and to generate a
+pulse with a programmable length, but with the following differences with non-retriggerable
+one-pulse mode described in Section 55.4.15:
+•
+
+The pulse starts as soon as the trigger occurs (no programmable delay).
+
+•
+
+The pulse is extended if a new trigger occurs before the previous one is completed.
+
+RM0456 Rev 6

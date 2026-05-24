@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 28 SRAM3F: illegal access flag for SRAM3
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 27 MPCBB2_REGF: illegal access flag for MPCBB2 registers
+0: no illegal access event
+1: illegal access event
+Bit 26 SRAM2F: illegal access flag for SRAM2
+0: no illegal access event
+1: illegal access event
+Bit 25 MPCBB1_REGF: illegal access flag for MPCBB1 registers
+0: no illegal access event
+1: illegal access event
+Bit 24 SRAM1F: illegal access flag for SRAM1
+0: no illegal access event
+1: illegal access event
+Bit 23 MPCBB6_REGF: illegal access flag for MPCBB6 registers
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 SRAM6F: illegal access flag for SRAM6
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 21 Reserved, must be kept at reset value.
+Bit 20 HSPI1_MEMF: illegal access flag for HSPI1 memory bank
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 19 OCTOSPI2_MEMF: illegal access flag for OCTOSPI2 memory bank
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 18 BKPSRAMF: illegal access flag for MPCWM3 (BKPSRAM) memory bank
+0: no illegal access event
+1: illegal access event
+
+RM0456 Rev 6

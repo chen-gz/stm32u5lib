@@ -1,0 +1,79 @@
+3020
+
+Serial audio interface (SAI)
+
+69.4.4
+
+RM0456
+
+1.
+
+Write into the SAI_xDR (by software or by DMA).
+
+2.
+
+Wait until the FIFO threshold (FLH) flag is different from 0b000 (FIFO empty).
+
+3.
+
+Enable the audio block in slave transmitter mode.
+
+SAI synchronization mode
+There are two levels of synchronization, either at audio subblock level or at SAI level.
+
+Internal synchronization
+An audio subblock can be configured to operate synchronously with the second audio
+subblock in the same SAI. In this case, the bit clock and the frame synchronization signals
+are shared to reduce the number of external pins used for the communication. The audio
+block configured in synchronous mode sees its own SCK_x, FS_x, and MCLK_x pins
+released back as GPIOs while the audio block configured in asynchronous mode is the one
+for which FS_x and SCK_x ad MCLK_x I/O pins are relevant (if the audio block is
+considered as master).
+Typically, the audio block in synchronous mode can be used to configure the SAI in full
+duplex mode. One of the two audio blocks can be configured as a master and the other as
+slave, or both as slaves with one asynchronous block (corresponding SYNCEN[1:0] bits set
+to 00 in SAI_xCR1) and one synchronous block (corresponding SYNCEN[1:0] bits set to 01
+in the SAI_xCR1 register).
+Note:
+
+Due to internal resynchronization stages, PCLK APB frequency must be higher than twice
+the bit rate clock frequency.
+
+External synchronization
+The audio subblocks can also be configured to operate synchronously with another SAI.
+This can be done as follows:
+
+Note:
+
+1.
+
+The SAI, which is configured as the source from which the other SAI is synchronized,
+has to define which of its audio subblocks is supposed to provide the FS and SCK
+signals to other SAI. This is done by programming SYNCOUT[1:0] bits.
+
+2.
+
+The SAI which receives the synchronization signals, has to select which SAI provides
+the synchronization by setting the proper value on SYNCIN[1:0] bits. For each of the
+two SAI audio subblocks, the user must then specify if it operates synchronously with
+the other SAI via the SYNCEN bit.
+
+The SYNCIN[1:0] and SYNCOUT[1:0] bits are located in the SAI_GCR register, and the
+SYNCEN bits in the SAI_xCR1 register.
+If both audio subblocks in a given SAI need to be synchronized with another SAI, it is
+possible to choose one of the following configurations:
+•
+
+Configure each audio block to be synchronous with another SAI block through the
+SYNCEN[1:0] bits.
+
+•
+
+Configure one audio block to be synchronous with another SAI through the
+SYNCEN[1:0] bits. The other audio block is then configured as synchronous with the
+second SAI audio block through SYNCEN[1:0] bits.
+
+The following table shows how to select the proper synchronization signal depending on the
+SAI block used. For example SAI2 can select the synchronization from SAI1 by setting SAI2
+SYNCIN to 0. If SAI1 wants to select the synchronization coming from SAI2, SAI1 SYNCIN
+must be set to 1. Positions noted as ‘Reserved’ must not be used.

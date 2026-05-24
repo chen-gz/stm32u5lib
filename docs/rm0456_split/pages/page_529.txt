@@ -1,0 +1,66 @@
+RM0456 Rev 6
+
+rw
+
+PLL3RGE[1:0]
+
+PLL3SRC[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 18 PLL3REN: PLL3 DIVR divider output enable
+This bit is set and reset by software to enable the pll3_r_ck output of the PLL3. To save
+power, PLL3REN and PLL3R bits must be set to 0 when pll3_r_ck is not used.
+0: pll3_r_ck output disabled
+1: pll3_r_ck output enabled
+Bit 17 PLL3QEN: PLL3 DIVQ divider output enable
+This bit is set and reset by software to enable the pll3_q_ck output of the PLL3. To save
+power, PLL3QEN and PLL3Q bits must be set to 0 when pll3_q_ck is not used.
+0: pll3_q_ck output disabled
+1: pll3_q_ck output enabled
+Bit 16 PLL3PEN: PLL3 DIVP divider output enable
+This bit is set and reset by software to enable the pll3_p_ck output of the PLL3. To save
+power, PLL3PEN and PLL3P bits must be set to 0 when pll3_p_ck is not used.
+0: pll3_p_ck output disabled
+1: pll3_p_ck output enabled
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:8 PLL3M[3:0]: Prescaler for PLL3
+This bitfield is set and cleared by software to configure the prescaler of the PLL3. The VCO3
+input frequency is PLL3 input clock frequency/PLL3M. This bitfield can be written only when
+the PLL3 is disabled (PLL3ON = 0 and PLL3RDY = 0).
+0000: division by 1 (bypass)
+0001: division by 2
+0010: division by 3
+...
+1111: division by 16
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 PLL3FRACEN: PLL3 fractional latch enable
+This bit is set and reset by software to latch the content of PLL3FRACN in the Σ∆ modulator.
+In order to latch the PLL3FRACN value into the Σ∆ modulator, PLL3FRACEN must be
+set to 0, then set to 1: the transition 0 to 1 transfers the content of PLL3FRACN into the
+modulator (see PLL initialization phase for details).
+Bits 3:2 PLL3RGE[1:0]: PLL3 input frequency range
+This bit is set and reset by software to select the proper reference frequency range used
+for PLL3. It must be written before enabling the PLL3.
+00-01-10: PLL3 input (ref3_ck) clock range frequency between 4 and 8 MHz
+11: PLL3 input (ref3_ck) clock range frequency between 8 and 16 MHz
+Bits 1:0 PLL3SRC[1:0]: PLL3 entry clock source
+This bitfield is set and cleared by software to select PLL3 clock source. It can be written only
+when the PLL3 is disabled. To save power, when no PLL3 is used, this bitfield value must
+be zero.
+00: No clock sent to PLL3
+01: MSIS clock selected as PLL3 clock entry
+10: HSI16 clock selected as PLL3 clock entry
+11: HSE clock selected as PLL3 clock entry
+
+RM0456 Rev 6

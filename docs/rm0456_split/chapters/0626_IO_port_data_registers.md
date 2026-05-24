@@ -1,0 +1,62 @@
+642
+
+General-purpose I/Os (GPIO)
+
+13.3.4
+
+RM0456
+
+I/O port data registers
+Each GPIO has two 16-bit memory-mapped data registers: input and output data registers
+(GPIOx_IDR, x = A to J) and GPIOx_ODR, x = A to J).
+GPIOx_ODR stores the data to be output, it is read/write accessible. The data input through
+the I/O are stored into GPIOx_IDR, a read-only register.
+
+13.3.5
+
+I/O data bitwise handling
+The bit set reset register (GPIOx_BSRR) is a 32-bit register that allows the application to set
+and reset each individual bit in the output data register (GPIOx_ODR). The bit set reset
+register has twice the size of GPIOx_ODR.
+To each bit in GPIOx_ODR, correspond two control bits in GPIOx_BSRR: BS(i) and BR(i).
+When written to 1, BS(i) sets the corresponding ODR(i) bit. When written to 1, BR(i) resets
+the ODR(i) corresponding bit.
+Writing any bit to 0 in GPIOx_BSRR does not have any effect on the corresponding bit in
+GPIOx_ODR. If there is an attempt to both set and reset a bit in GPIOx_BSRR, the set
+action takes priority.
+Using the GPIOx_BSRR register to change the values of individual bits in GPIOx_ODR is a
+“one-shot” effect that does not lock the GPIOx_ODR bits. The GPIOx_ODR bits can always
+be accessed directly. The GPIOx_BSRR register provides a way of performing atomic
+bitwise handling.
+There is no need for the software to disable interrupts when programming the GPIOx_ODR
+at bit level: one or more bits can be modified in a single atomic AHB write access.
+
+13.3.6
+
+GPIO locking mechanism
+The GPIO control registers can be frozen by applying a specific write sequence to the
+GPIOx_LCKR register. The frozen registers are GPIOx_MODER, GPIOx_OTYPER,
+GPIOx_OSPEEDR, GPIOx_PUPDR, GPIOx_AFRL, GPIOx_AFRH, and GPIOx_HSLVR.
+To write GPIOx_LCKR, a specific write/read sequence must be applied. When the right
+LOCK sequence is applied to the bit 16 in this register, the value of LCKR[15:0] is used to
+lock the configuration of the I/Os (during the write sequence the LCKR[15:0] value must be
+the same). When the lock sequence is applied to a port bit, the value of the port bit can no
+longer be modified until the next MCU reset or peripheral reset. Each GPIOx_LCKR bit
+freezes the corresponding bit in the control registers (GPIOx_MODER, GPIOx_OTYPER,
+GPIOx_OSPEEDR, GPIOx_PUPDR, GPIOx_AFRL, and GPIOx_AFRH.
+The lock sequence can only be performed using a word (32-bit long) access
+to GPIOx_LCKR due to the fact that GPIOx_LCKR bit 16 must be set at the same time
+as the [15:0] bits.
+
+13.3.7
+
+I/O alternate function input/output
+Two registers are provided to select one of the alternate function inputs/outputs available for
+each I/O. With these registers, the user can connect an alternate function to some other pin
+as required by the application.
+This means that a number of possible peripheral functions are multiplexed on each GPIO
+using GPIOx_AFRL and GPIOx_AFRH alternate function registers. The application can
+thus select any one of the possible functions for each I/O. The AF selection signal being
+
+<!-- pagebreak -->
+

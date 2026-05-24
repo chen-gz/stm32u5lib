@@ -1,0 +1,84 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Inside the injected sequence, after each conversion is complete:
+•
+
+The converted data are stored into one of the four 32-bit ADC_JDRy registers
+
+•
+
+The JEOC (end of injected conversion) flag is set
+
+•
+
+An interrupt is generated if the JEOCIE bit is set
+
+After the regular sequence is complete:
+•
+
+The EOS (end of regular sequence) flag is set
+
+•
+
+An interrupt is generated if the EOSIE bit is set
+
+After the injected sequence is complete:
+•
+
+The JEOS (end of injected sequence) flag is set
+
+•
+
+An interrupt is generated if the JEOSIE bit is set
+
+Then the ADC stops until a new external regular or injected trigger occurs or until bit
+ADSTART or JADSTART is set again.
+Note:
+
+To convert a single channel, program a sequence with a length of 1.
+
+33.4.15
+
+Continuous conversion mode (CONT = 1)
+This mode applies to regular channels only.
+In continuous conversion mode, when a software or hardware regular trigger event occurs,
+the ADC performs once all the regular conversions of the channels and then automatically
+restarts and continuously converts each conversion of the sequence. This mode is started
+with the CONT bit at 1 either by an external trigger or by setting the ADSTART bit in the
+ADC_CR register.
+Inside the regular sequence, after each conversion is complete:
+•
+
+The converted data are stored into the 32-bit ADC_DR register
+
+•
+
+The EOC (end of conversion) flag is set
+
+•
+
+An interrupt is generated if the EOCIE bit is set
+
+After the sequence of conversions is complete:
+•
+
+The EOS (end of sequence) flag is set
+
+•
+
+An interrupt is generated if the EOSIE bit is set
+
+Then, a new sequence restarts immediately and the ADC continuously repeats the
+conversion sequence.
+Note:
+
+To convert a single channel, program a sequence with a length of 1.
+It is not possible to have both discontinuous mode and continuous mode enabled: it is
+forbidden to set both DISCEN = 1 and CONT = 1.
+Injected channels cannot be converted continuously. The only exception is when an injected
+channel is configured to be converted automatically after regular channels in continuous
+mode (using the JAUTO bit), refer to Section : Auto-injection mode).

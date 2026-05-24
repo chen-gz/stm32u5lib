@@ -1,0 +1,42 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 12 GTZC2SMEN: GTZC2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: GTZC2 clock disabled by the clock gating during Sleep and Stop modes
+1: GTZC2 clock enabled by the clock gating during Sleep and Stop modes
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 ADF1SMEN: ADF1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: ADF1 clock disabled by the clock gating during Sleep and Stop modes
+1: ADF1 clock enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 9 LPDMA1SMEN: LPDMA1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: LPDMA1 clock disabled by the clock gating during Sleep and Stop modes
+1: LPDMA1 clock enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 8:7 Reserved, must be kept at reset value.
+Bit 6 DAC1SMEN: DAC1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: DAC1 clock disabled by the clock gating during Sleep and Stop modes
+1: DAC1 clock enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 5 ADC4SMEN: ADC4 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: ADC4 clock disabled by the clock gating during Sleep and Stop modes
+1: ADC4 clock enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 4:3 Reserved, must be kept at reset value.
+Bit 2 PWRSMEN: PWR clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: PWR clock disabled by the clock gating during Sleep and Stop modes
+1: PWR clock enabled by the clock gating during Sleep and Stop modes
+Bit 1 Reserved, must be kept at reset value.
+Bit 0 LPGPIO1SMEN: LPGPIO1 enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: LPGPIO1 clock disabled by the clock gating during Sleep and Stop modes
+1: LPGPIO1 clock enabled by the clock gating during Sleep and Stop modes

@@ -1,0 +1,145 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+Figure 469 illustrates the cipher block chaining (CBC) encryption.
+Figure 469. CBC encryption
+
+DATATYPE[1:0]
+AES_IVRx (init. vector)
+
+Block 1
+
+Block 2
+
+AES_DINR (plaintext P1)
+
+AES_DINR (plaintext P2)
+
+Swap
+management
+P1'
+IVI
+I1
+
+AES_KEYRx (KEY)
+
+Block cipher
+encryption
+
+DATATYPE[1:0]
+
+I2
+
+AES_KEYRx (KEY)
+
+Block cipher
+encryption
+
+O1
+
+Legend
+input
+
+DATATYPE[1:0]
+
+Swap
+management
+
+Swap
+management
+P2'
+
+O2
+DATATYPE[1:0]
+
+Swap
+management
+
+output
+AES_DOUTR (ciphertext C1)
+
+XOR
+
+AES_DOUTR (ciphertext C2)
+MSv19107V2
+
+In CBC encrypt mode, the first plaintext input block, after bit/byte/half-word swapping (P1’),
+is XOR-ed with a 128-bit IVI bitfield (initialization vector and counter), producing the I1 input
+data for encrypt with the AES core, using a 128- or 256-bit key. The resulting 128-bit output
+block O1, after swapping operation, is used as ciphertext C1. The O1 data is then XOR-ed
+with the second-block plaintext data P2’ to produce the I2 input data for the AES core to
+produce the second block of ciphertext data. The chaining of data blocks continues in this
+way until the last plaintext block in the message is encrypted.
+If the message size is not a multiple of 128 bits, the final partial data block is encrypted in
+the way explained in Section 49.4.6: AES ciphertext stealing and data padding.
+Figure 470 illustrates the cipher block chaining (CBC) decryption.
+Figure 470. CBC decryption
+
+DATATYPE[1:0]
+
+Block 1
+
+Block 2
+
+AES_DINR (ciphertext C1)
+
+AES_DINR (ciphertext C2)
+
+Swap
+management
+I1
+
+AES_KEYRx (KEY)
+
+AES_IVRx (IV)
+
+IVI
+
+Legend
+DATATYPE[1:0]
+input
+output
+
+DATATYPE[1:0]
+
+Swap
+management
+I2
+
+AES_KEYRx (KEY)
+
+Decrypt
+
+Decrypt
+
+O1
+
+O2
+
+P1'
+Swap
+management
+
+AES_DOUTR (plaintext P1)
+
+XOR
+
+DATATYPE[1:0]
+
+P2'
+Swap
+management
+
+AES_DOUTR (plaintext P2)
+MSv19104V2
+
+In CBC decrypt mode, like in ECB decrypt mode, the secret key must be prepared to
+perform an AES decryption.
+After the key preparation process, the decryption goes as follows: the first 128-bit ciphertext
+block (after the swap operation) is used directly as the AES core input block I1 for decrypt
+operation, using the 128-bit or 256-bit key. Its output O1 is XOR-ed with the 128-bit IVI field
+(that must be identical to that used during encryption) to produce the first plaintext block P1.
+
+RM0456 Rev 6

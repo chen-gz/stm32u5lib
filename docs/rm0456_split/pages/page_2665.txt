@@ -1,0 +1,67 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Character reception
+During an USART reception, data are shifted out least significant bit first (default
+configuration) through the RX pin.
+Character reception procedure
+To receive a character, follow the sequence below:
+1.
+
+Program the M bits in USART_CR1 to define the word length.
+
+2.
+
+Select the desired baud rate using the baud rate register USART_BRR
+
+3.
+
+Program the number of stop bits in USART_CR2.
+
+4.
+
+Enable the USART by writing the UE bit in USART_CR1 register to 1.
+
+5.
+
+Select DMA enable (DMAR) in USART_CR3 if multibuffer communication is to take
+place. Configure the DMA register as explained in Section 66.5.20: Continuous
+communication using USART and DMA.
+
+6.
+
+Set the RE bit USART_CR1. This enables the receiver which begins searching for a
+start bit.
+
+When a character is received:
+•
+
+When FIFO mode is disabled, the RXNE bit is set to indicate that the content of the
+shift register is transferred to the RDR. In other words, data have been received and
+can be read (as well as their associated error flags).
+
+•
+
+When FIFO mode is enabled, the RXFNE bit is set to indicate that the RXFIFO is not
+empty. Reading the USART_RDR returns the oldest data entered in the RXFIFO.
+When a data is received, it is stored in the RXFIFO together with the corresponding
+error bits.
+
+•
+
+An interrupt is generated if the RXNEIE (RXFNEIE when FIFO mode is enabled) bit is
+set.
+
+•
+
+The error flags can be set if a frame error, noise, parity or an overrun error was
+detected during reception.
+
+•
+
+In multibuffer communication mode:
+
+•

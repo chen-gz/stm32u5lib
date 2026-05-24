@@ -1,0 +1,81 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+Figure 892. Packet buffer areas with examples of buffer description table locations
+Available buffer address range
+starting from offset 0x40
+
+Available buffer descriptor
+address range
+starting from offset 0x00
+
+Buffer for
+double-buffered
+IN endpoint 3
+..
+.
+
+0x1C
+0x18
+0x14
+0x10
+0x0C
+0x08
+0x04
+0x00
+
+USB_CHEP_RXTXBD_3* [TX]
+USB_CHEP_TXRXBD_3 [TX]
+USB_CHEP_RXTXBD_2 [RX]
+USB_CHEP_TXRXBD_2* [RX]
+USB_CHEP_RXTXBD_1 [RX]
+USB_CHEP_TXRXBD_1 [TX]
+USB_CHEP_RXTXBD_0 [RX]
+USB_CHEP_TXRXBD_0 [TX]
+
+Buffer for
+double-buffered
+OUT endpoint 2
+..
+.
+Transmission buffer
+for
+single-buffered
+endpoint 1
+..
+.
+Reception buffer for
+endpoint 0
+Not used
+
+Transmission buffer
+for endpoint 0
+Packet buffers
+
+(*) indicates alternate mode.
+
+MSv74147V1
+
+Each packet buffer is used either during reception or transmission starting from the bottom.
+The USB peripheral never changes the contents of memory locations adjacent to the
+allocated memory buffers; if a packet bigger than the allocated buffer length is received
+(buffer overrun condition) the data is copied to the memory only up to the last available
+location.
+
+Endpoint initialization
+The first step to initialize an endpoint is to write appropriate values to the
+ADDRn_TX/ADDRn_RX fields in the CHEP_TXBD_n and CHEP_RXBD_n registers (in
+SRAM) so that the USB peripheral finds the data to be transmitted already available and the
+data to be received can be buffered. The UTYPE bits in the USB_CHEPnR register must be
+set according to the endpoint type, eventually using the EPKIND bit to enable any special
+required feature. On the transmit side, the endpoint must be enabled using the STATTX bits
+in the USB_CHEPnR register and COUNTn_TX must be initialized. For reception, STATRX
+bits must be set to enable reception and COUNTn_RX must be written with the allocated
+buffer size using the BLSIZE and NUM_BLOCK fields. Unidirectional endpoints, except
+isochronous and double-buffered bulk endpoints, need to initialize only bits and registers
+related to the supported direction. Once the transmission and/or reception are enabled,
+register USB_CHEPnR and locations ADDRn_TX/ADDRn_RX, COUNTn_TX/COUNTn_RX
+(respectively), must not be modified by the application software, as the hardware can
+RM0456 Rev 6

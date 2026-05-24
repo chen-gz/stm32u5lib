@@ -1,0 +1,100 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+Table 700. SPI interconnection (SPI3)
+
+Signal name
+
+Trigger source
+
+spi_trg0
+
+lpdma1_ch0_tc
+
+spi_trg1
+
+lpdma1_ch1_tc
+
+spi_trg2
+
+lpdma1_ch2_tc
+
+spi_trg3
+
+lpdma1_ch3_tc
+
+spi_trg4
+
+exti4
+
+spi_trg5
+
+exti8
+
+spi_trg6
+
+lptim1_ch1
+
+spi_trg7
+
+lptim3_ch1
+
+spi_trg8
+
+comp1_out
+
+spi_trg9
+
+comp2_out(1)
+
+spi_trg10
+
+rtc_alra_trg
+
+spi_trg11
+
+rtc_wut_trg
+
+spi_trg12
+
+-
+
+spi_trg13
+
+-
+
+spi_trg14
+
+-
+
+spi_trg15
+
+-
+
+1. This connection is not present in STM32U535/545 since COMP2 is not available.
+
+68.4.3
+
+SPI communication general aspects
+The SPI allows the MCU to communicate using different configurations, depending on the
+device targeted and the application requirements. These configurations use two or three
+wires (with software SS management) or three or four wires (with hardware SS
+management). The communication is always initiated and controlled by the master. The
+master provides a clock signal on the SCK line and selects or synchronizes slaves for
+communication by SS line when it is managed by hardware.
+The data between the master and the slave flow synchronously on the MOSI and/or MISO
+lines.
+
+68.4.4
+
+Communications between one master and one slave
+The communication flow can use one of three possible modes: the full-duplex (three wires)
+mode, half-duplex (two wires) mode, or the simplex (two wires) mode. The SS signal is
+optional in single master-slave configuration and is often not connected between the two
+communication nodes. Nevertheless, the SS signal can be helpful in this configuration to
+synchronize the data flow and it is used by default for some specific SPI modes (for example
+the TI mode).
+The next optional RDY signal can help to ensure the correct management of all the
+transferred data at slave side.

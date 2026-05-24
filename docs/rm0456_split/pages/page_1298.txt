@@ -1,0 +1,82 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+can be positive or negative depending on the value of the POSOFF bit. When POSOFF is
+cleared, the converted value is subtracted by the user-defined offset written in
+OFFSETy[23:0] bits. The result can be a negative value. The read data is consequently
+signed and the SEXT bit represents the extended sign value.
+The offset value must be lower than the maximum conversion value (for example, in 14-bit
+mode, the maximum offset value is 0x3FFF).
+The offset can be used to convert unsigned data to signed data (for example, in 14-bit
+mode, the offset value is equal to 0x2000).
+The offset correction is also supported in oversampling mode. For the oversampling mode,
+offset is subtracted before OVSS right shift applied.
+Table 314 describes how the comparison is performed for all the possible resolutions for
+analog watchdog 1, 2, 3.
+Table 314. Offset computation versus data resolution
+Resolution
+(bits
+RES[1:0])
+
+Subtraction/addition between
+raw converted data and offset
+Raw converted left
+-aligned data
+
+Result
+
+Comments
+
+Offset
+
+00: 14-bit
+
+DATA[13:0]
+
+Signed or unsigned
+OFFSET[13:0] 24-bit data, right
+aligned to [13:0]
+
+-
+
+01: 12-bit
+
+DATA[13:2],00
+
+Signed or unsigned
+OFFSET[13:2] 24-bit data, right
+aligned to [11:0]
+
+The user must configure
+OFFSET[11:0] to
+0b0000 0000 0000.
+
+10: 10-bit
+
+DATA[13:4],00
+00
+
+Signed or unsigned
+OFFSET[13:4] 24-bit data, right
+aligned to [9:0]
+
+The user must configure
+OFFSET[3:0] to 0b0000.
+
+11: 8-bit
+
+DATA[13:6],00
+0000
+
+Signed or unsigned
+OFFSET[13:6] 24-bit data, right
+aligned to [7:0]
+
+The user must configure
+OFFSET[5:0] to 0b000000.
+
+Figure 237, Figure 238, Figure 239 and Figure 240 show alignments for signed and
+unsigned data together with corresponding OVSS and LSHIFT values.

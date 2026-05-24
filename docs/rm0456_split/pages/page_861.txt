@@ -1,0 +1,194 @@
+CM[3:0]
+
+Color mode
+
+0000
+
+ARGB8888
+
+0001
+
+RGB888
+
+0010
+
+RGB565
+
+0011
+
+ARGB1555
+
+0100
+
+ARGB4444
+
+0101
+
+L8
+
+RM0456 Rev 6
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+Table 172. Supported color mode in input (continued)
+CM[3:0]
+
+Color mode
+
+0110
+
+AL44
+
+0111
+
+AL88
+
+1000
+
+L4
+
+1001
+
+A8
+
+1010
+
+A4
+
+1011
+
+YCbCr (only for foreground)
+
+The color format are coded as follows:
+•
+
+Alpha value field: transparency
+0xFF value corresponds to an opaque pixel and 0x00 to a transparent one.
+
+•
+
+R field for Red
+
+•
+
+G field for Green
+
+•
+
+B field for Blue
+
+•
+
+L field: luminance
+This field is the index to a CLUT to retrieve the three/four RGB/ARGB components.
+
+If the original format was direct color mode (ARGB/RGB), the extension to 8-bit per channel
+is performed by copying the MSBs into the LSBs. This ensures a perfect linearity of the
+conversion.
+If the original format does not include an alpha channel, the alpha value is automatically
+set to 0xFF (opaque).
+If the original format is indirect color mode (L/AL), a CLUT is required, and each pixel format
+converter is associated with a 256 entry 32-bit CLUT.
+For the specific alpha mode A4 and A8, no color information is stored nor indexed. The color
+to be used for the image generation is fixed and defined in DMA2D_FGCOLR for foreground
+pixels, and in DMA2D_BGCOLR for background pixels.
+The order of the fields in the system memory is defined in the table below.
+Table 173. Data order in memory
+Color mode
+
+@+3
+
+@+2
+
+@+1
+
+@+0
+
+ARGB8888
+
+A0[7:0]
+
+R0[7:0]
+
+G0[7:0]
+
+B0[7:0]
+
+B1[7:0]
+
+R0[7:0]
+
+G0[7:0]
+
+B0[7:0]
+
+G2[7:0]
+
+B2[7:0]
+
+R1[7:0]
+
+G1[7:0]
+
+R3[7:0]
+
+G3[7:0]
+
+B3[7:0]
+
+R2[7:0]
+
+RGB565
+
+R1[4:0]G1[5:3]
+
+G1[2:0]B1[4:0]
+
+R0[4:0]G0[5:3]
+
+G0[2:0]B0[4:0]
+
+ARGB1555
+
+A1[0]R1[4:0]G1[4:3]
+
+G1[2:0]B1[4:0]
+
+A0[0]R0[4:0]G0[4:3]
+
+G0[2:0]B0[4:0]
+
+ARGB4444
+
+A1[3:0]R1[3:0]
+
+G1[3:0]B1[3:0]
+
+A0[3:0]R0[3:0]
+
+G0[3:0]B0[3:0]
+
+L8
+
+L3[7:0]
+
+L2[7:0]
+
+L1[7:0]
+
+L0[7:0]
+
+AL44
+
+A3[3:0]L3[3:0]
+
+A2[3:0]L2[3:0]
+
+A1[3:0]L1[3:0]
+
+A0[3:0]L0[3:0]
+
+RGB888
+
+RM0456 Rev 6

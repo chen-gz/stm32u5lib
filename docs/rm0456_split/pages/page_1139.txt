@@ -1,0 +1,180 @@
+•
+
+D1/D0 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by
+configuring MTYP[2:0] = 001. For instance, Macronix is using this reverse data
+ordering in its Octaflash portfolio (this configuration is not adapted to its OctaRAM™
+memories). DQS is keeping the same polarity as the clock when reading data from the
+memory. Refer to Figure 170: DTR read in octal-SPI mode with DQS (Macronix mode)
+example.
+
+•
+
+D1/D0 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by
+configuring MTYP[2:0] = 011 with specific address phase built with row and column to
+fit with Macronix OctaRAM™ memories requirement (refer to Table 268: OctaRAM
+
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+command address bit assignment (based on 64 Mb OctaRAM). This is the controller
+which translates internally the targeted address provided by the software in row/column
+address formatting to sent to the memory. DQS is keeping the same polarity as the
+clock when reading data from the memory.
+Figure 181. OctaRAM read operation with reverse data ordering D1/D0
+§
+
+NCS
+
+§
+
+CLK
+
+§
+
+DQS
+
+D1
+
+§
+
+IO[7:0]
+Command
+
+Raw address
+
+D3
+
+D0
+
+Word Unit
+
+Column address
+
+D2
+
+Word Unit
+
+Command & Address
+
+MSv71560V1
+
+Table 268. OctaRAM command address bit assignment
+(based on 64 Mb(1) OctaRAM)
+Clock
+
+1st clock
+
+2nd clock
+
+3rd clock
+
+Function
+
+Command
+
+Row address
+
+Column address
+
+SIO[7]
+
+Reserved
+
+RA7
+
+CA9
+
+Reserved
+
+SIO[6]
+
+Reserved
+
+RA6
+
+CA8
+
+Reserved
+
+SIO[5]
+
+Reserved
+
+RA5
+
+CA7
+
+Reserved
+
+RA12
+
+RA4
+
+CA6
+
+Reserved
+
+RA11
+
+RA3
+
+CA5
+
+CA3
+
+SIO[2]
+
+RA10
+
+RA2
+
+CA4
+
+CA2
+
+SIO[1]
+
+RA9
+
+RA1
+
+Reserved
+
+CA1
+
+SIO[0]
+
+RA8
+
+RA0
+
+Reserved
+
+CA0(2)
+
+SIO[4]
+SIO[3]
+
+Command
+
+1. Example of 64 Mb OctaRAM address assignment:
+Row Address [RA12:RA0]: 8K. Column address [CA9:CA0]: 1K. 64 Mb density = 8K x 1K x 8 bits
+2. Column address A0 must be always 0.
+
+•
+
+HyperBus memories need to be selected when targeted by the application. The
+configuration to set depends on the access type:
+–
+
+HyperBus memory mode: The protocol follows the HyperBus specification.
+MTYP[2:0] = 100 is the configuration to use to access the memory space.
+
+–
+
+HyperBus register mode (addressing register space): the memory-mapped
+accesses in this mode must be noncacheable, or the indirect read/write modes
+
+RM0456 Rev 6

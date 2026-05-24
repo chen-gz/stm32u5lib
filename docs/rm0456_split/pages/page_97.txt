@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of tables
+
+Table 304. Memory location of the internal reference voltage sensor
+calibration value . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1268
+Table 305. ADC input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1270
+Table 306. ADC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1270
+Table 307. ADC1/ADC12 interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1270
+Table 308. ADC1/ADC12 external triggers for regular channels . . . . . . . . . . . . . . . . . . . . . . . . . . . 1271
+Table 309. ADC1/ADC12 external triggers for injected channels . . . . . . . . . . . . . . . . . . . . . . . . . . . 1271
+Table 310. Calibration factor index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1280
+Table 311. Configuring the trigger polarity for regular external triggers . . . . . . . . . . . . . . . . . . . . . . 1290
+Table 312. Configuring the trigger polarity for injected external triggers . . . . . . . . . . . . . . . . . . . . . 1290
+Table 313. TSAR timings depending on resolution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1294
+Table 314. Offset computation versus data resolution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1298
+Table 315. 14-bit data formats . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1301
+Table 316. Numerical examples for 16-bit format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1301
+Table 317. Analog watchdog channel selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1310
+Table 318. Analog watchdog 1,2,3 comparison . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1311
+Table 319. Summary of oversampler operating modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1319
+Table 320. ADC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1340
+Table 321. DELAY bits versus ADC resolution. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1372
+Table 322. ADC global register map. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1374
+Table 323. ADC register map and reset values for each ADC (offset = 0x00
+for master ADC, 0x100 for slave ADC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1374
+Table 324. ADC register map and reset values (master and slave ADC
+common registers) offset = 0x300 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1376
+Table 325. ADC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1379
+Table 326. Memory location of the temperature sensor calibration values . . . . . . . . . . . . . . . . . . . 1380
+Table 327. Memory location of the internal reference voltage sensor
+calibration value . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1380
+Table 328. ADC input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1382
+Table 329. ADC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1382
+Table 330. ADC interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1382
+Table 331. Latency between trigger and start of conversion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1387
+Table 332. Configuring the trigger polarity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1395
+Table 333. tSAR timings depending on resolution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1397
+Table 334. Analog watchdog comparison. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1409
+Table 335. Analog watchdog 1 channel selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1409
+Table 336. Maximum output results vs N and M. Grayed values indicates truncation . . . . . . . . . . . 1413
+Table 337. Effect of low-power modes on the ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1418
+Table 338. ADC wake-up and interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1420
+Table 339. ADC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1441
+Table 340. DAC features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1445
+Table 341. DAC input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1447
+Table 342. DAC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1447
+Table 343. DAC interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1448
+Table 344. Data format (case of 12-bit data) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1450
+Table 345. HFSEL description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1451
+Table 346. Sample and refresh timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1457
+Table 347. Channel output modes summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1458
+Table 348. Effect of low-power modes on DAC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1466
+Table 349. DAC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1467
+Table 350. DAC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1483
+Table 351. VREFBUF typical values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+
+RM0456 Rev 6

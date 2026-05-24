@@ -1,0 +1,172 @@
+RM0456 Rev 6
+
+RM0456
+
+System configuration controller (SYSCFG)
+
+15.3.13
+
+SYSCFG OTG_HS PHY tune register 2
+(SYSCFG_OTGHSPHYTUNER2)
+Address offset: 0x7C
+Reset value: 0x81CD 06B1 (for STM32U59x/5Ax)
+Reset value: 0x81CD 06B2 (for STM32U5Fx/5Gx)
+This register can be protected against nonsecure access by setting OTGSEC
+in GTZC1_TZSC_SECCFGR3. When OTGSEC is set, only secure access is allowed:
+non-secure read/write access is RAZ/WI, and generates an illegal access event.
+When the system is not secure (TZEN = 0), there is no access restriction. This register can
+be read and written by privileged and unprivileged access.
+This register in only available on STM32U59x/5Ax/5Fx/5Gx devices.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+Res.
+
+TXPREEMPAMP
+TUNE[1:0]
+rw
+
+rw
+
+SQRXTUNE[2:0]
+rw
+
+rw
+
+rw
+
+Res.
+
+COMPDISTUNE[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bits 14:13 TXPREEMPAMPTUNE[1:0]: High-speed (HS) transmitter preemphasis current control
+11: HS transmitter preemphasis circuit sources 3x preemphasis current
+10: HS transmitter preemphasis circuit sources 2x preemphasis current
+01: HS transmitter preemphasis circuit sources 1x preemphasis current
+00: HS transmitter preemphasis circuit disabled
+Bits 12:7 Reserved, must be kept at reset value.
+Bits 6:4 SQRXTUNE[2:0]: Squelch threshold adjustment
+This bitfield adjusts the voltage level for the threshold used to detect valid high-speed data.
+000: +15% (recommended value)
+011: 0% (default value)
+others: reserved
+Bit 3 Reserved, must be kept at reset value.
+Bits 2:0 COMPDISTUNE[2:0]: Disconnect threshold adjustment
+This bitfield adjusts the voltage level for the threshold used to detect a disconnect event
+at the host.
+010: +5.9% (recommended value)
+001: 0% (default value)
+others: reserved
+
+RM0456 Rev 6

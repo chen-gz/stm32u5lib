@@ -1,0 +1,61 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Description of USART input/output signals
+Table 676. USART internal input/output signals
+Signal name
+
+Signal type
+
+Description
+
+usart_pclk
+
+Input
+
+APB clock
+
+usart_ker_ck
+
+Input
+
+USART kernel clock
+
+usart_wkup
+
+Output
+
+USART provides a wake-up interrupt
+
+usart_it
+
+Output
+
+USART global interrupt
+
+usart_tx_dma
+
+Input/output
+
+USART transmit DMA request
+
+usart_rx_dma
+
+Input/output
+
+USART receive DMA request
+
+usart_trg[15:0]
+
+Input
+
+USART triggers.
+
+Description of USART interconnections
+Table 677. USART interconnection (USART1/2/3/6 and UART4/5)
+
+<!-- pagebreak -->
+

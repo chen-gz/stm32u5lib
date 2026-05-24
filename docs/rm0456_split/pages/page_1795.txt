@@ -1,0 +1,96 @@
+•
+
+Virtual channel ID in the virtual channel ID (VCID) field of the DSI Host LTDC VCID
+register (DSI_LVCIDR).
+
+•
+
+Color coding (COLC) field of the DSI Host LTDC color coding register (DSI_LCOLCR)
+and the color multiplexing (COLMUX) in the DSI Wrapper configuration register
+(DSI_WCFGR).
+
+•
+
+If loose packets are used for 18-bit mode, the loosely packet enable (LPE) bit of the
+DSI Host LTDC color coding register (DSI_LCOLCR) must be set.
+
+RM0456 Rev 6
+
+RM0456
+
+44.14.6
+
+DSI Host (DSI)
+
+Configuring the video mode
+The video mode configuration defines the behavior of the controller in low-power for
+command transmission, the type of video transmission (burst or non-burst mode) and the
+panel horizontal and vertical timing:
+•
+
+•
+
+Select the video transmission mode to define how the processor requires the video line
+to be transported through the DSI link.
+–
+
+Configure the low-power transitions in the DSI_VMCR to define the video periods,
+which are permitted to go to low-power if there is time available to do so.
+
+–
+
+Configure if the controller must request the peripheral acknowledge message at
+the end of frames (DSI_VMCR.FBTAAE).
+
+–
+
+Configure if commands are to be transmitted in low-power (DSI_VMCR.LPE).
+
+Select the video mode type
+–
+
+Burst mode:
+Configure the video mode type (DSI_VMCR.VMT) with value 2'b1x.
+Configure the video packet size (DSI_VPCR.VPSIZE) with the size of the active
+line period, measured in pixels.
+The registers DSI_VCCR and DSI_VNPCR are ignored by the DSI Host.
+
+–
+
+Non-burst mode:
+Configure the video mode type (DSI_VMCR.VMT) with 2'b00 to enable the
+transmission of sync pulses or with 2'b01 to enable the transmission of sync
+events.
+Configure the video packet size (DSI_VPCR.VPSIZE) with the number of pixels to
+be transmitted in a single packet. Selecting this value depends on the available
+memory of the attached peripheral, if the data is first stored, or on the memory you
+want to select for the FIFO in DSI Host.
+Configure the number of chunks (DSI_VCCR.NUMC) with the number of packets
+to be transmitted per video line. The value of VPSIZE * NUMC is the number of
+pixels per line of video, except if NUMC is 0, which disables the multi-packets. If
+you set it to 1, there is still only one packet per line, but it can be part of a chunk,
+followed by a null packet.
+Configure the null packet size (DSI_VNPCR.NPSIZE) with the size of null packets
+to be inserted as part of the chunks. Setting it to 0 disables null packets.
+
+•
+
+Define the video horizontal timing configuration as follows:
+–
+
+Configure the horizontal line time (DSI_VLCR.HLINE) with the time taken by an
+LTDC video line measured in cycles of lane byte clock (for a clock lane at 500 MHz
+the lane byte clock period is 8 ns). When the periods of LTDC clock and lane byte
+clock are not multiples, the value to program the DSI_VLCR.HLINE needs to be
+rounded. A timing mismatch is introduced between the lines due to the rounding of
+configuration values. If the DSI Host is configured not to go to low-power, this
+timing divergence accumulates on every line, introducing a significant amount of
+mismatch towards the end of the frame. The reason for this is that the DSI Host
+cannot resynchronize on every new line because it transmits the blanking packets
+when the horizontal sync event occurs on the LTDC interface. However, the
+accumulated mismatch must become extinct on the last line of a frame, where,
+according to the DSI specification, the link must always return to low-power
+regaining synchronization, when a new frame starts on a vertical sync event. If the
+accumulated timing mismatch is greater than the time in low-power on the last
+
+RM0456 Rev 6

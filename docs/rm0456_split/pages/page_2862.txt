@@ -1,0 +1,199 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+
+Clock generator programming examples
+Table 709 gives programming examples for 48, 96, and 192 kHz.
+Table 709. Clock generator programming examples
+Input
+sai_x_ker_ck
+MCLK
+clock frequency
+
+Y
+98.304 MHz
+
+MCKDIV[5:0]
+
+Audio Sampling
+frequency (FFS)
+
+1
+
+0 or 1
+
+192 kHz
+
+0
+
+1
+
+2
+
+96 kHz
+
+1
+
+0
+
+1
+
+4
+
+48 kHz
+
+2N-1
+
+0
+
+0
+
+1
+
+2
+
+192 kHz
+
+256
+
+2N-1
+
+0
+
+0
+
+1
+
+4
+
+96 kHz
+
+256
+
+N-1
+
+2
+
+0
+
+0
+
+1
+
+8
+
+48 kHz
+
+-
+
+63
+
+-
+
+1
+
+0
+
+8
+
+192 kHz
+
+-
+
+63
+
+-
+
+1
+
+0
+
+16
+
+96 kHz
+
+-
+
+63
+
+-
+
+1
+
+0
+
+32
+
+48 kHz
+
+FMCLK/ FFS
+
+FRL (1)
+
+OSR
+
+512
+
+2N-1
+
+1
+
+0
+
+512
+
+2N
+
+-1
+
+1
+
+512
+
+N
+
+2 -1
+
+256
+
+N
+
+NODIV MCKEN
+
+1. N is an integer value between 3 and 8.
+
+69.4.9
+
+Internal FIFOs
+Each audio block in the SAI has its own FIFO. Depending on if the block is defined to be a
+transmitter or a receiver, the FIFO can be written or read, respectively. Thus, there is only
+one FIFO request linked to the FREQ bit in the SAI_xSR register.
+An interrupt is generated if the FREQIE bit is enabled in the SAI_xIM register. This depends
+on:
+•
+
+The FIFO threshold setting (FLVL bits in SAI_xCR2).
+
+•
+
+Communication direction (transmitter or receiver). Refer to Interrupt generation in
+transmitter mode and Interrupt generation in reception mode.
+
+Interrupt generation in transmitter mode
+The interrupt generation depends on the FIFO configuration in transmitter mode:
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO empty
+(FTH[2:0] set to 0b000), an interrupt is generated (FREQ bit set by hardware to 1 in the
+SAI_xSR register) if no data are available in the SAI_xDR register (FLVL[2:0] bits in
+SAI_xSR are less than 0b001). This interrupt (FREQ bit in the SAI_xSR register) is
+cleared by hardware when the FIFO is no longer empty (FLVL[2:0] bits in SAI_xSR are
+different from 0b000), that is, one or more data are stored in the FIFO.
+• When the FIFO threshold bits in the SAI_xCR2 register are configured as FIFO quarter
+full (FTH[2:0] set to 0b001), an interrupt is generated (FREQ bit set by hardware to 1 in
+the SAI_xSR register) if less than a quarter of the FIFO contains data (FLVL[2:0] bits in
+SAI_xSR are less than 0b010). This interrupt (FREQ bit in the SAI_xSR register) is
+cleared by hardware when at least a quarter of the FIFO contains data (FLVL[2:0] bits in
+SAI_xSR are higher than or equal to 0b010).
+
+RM0456 Rev 6

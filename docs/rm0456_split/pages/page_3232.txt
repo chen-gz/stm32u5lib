@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 15 EOPF: End of periodic frame interrupt
+Indicates that the period specified in the periodic frame interval field of the OTG_DCFG
+register (PFIVL bit in OTG_DCFG) has been reached in the current frame.
+Note: Only accessible in device mode.
+Bit 14 ISOODRP: Isochronous OUT packet dropped interrupt
+The core sets this bit when it fails to write an isochronous OUT packet into the Rx FIFO
+because the Rx FIFO does not have enough space to accommodate a maximum size packet
+for the isochronous OUT endpoint.
+Note: Only accessible in device mode.
+Bit 13 ENUMDNE: Enumeration done
+The core sets this bit to indicate that speed enumeration is complete. The application must
+read the OTG_DSTS register to obtain the enumerated speed.
+Note: Only accessible in device mode.
+Bit 12 USBRST: USB reset
+The core sets this bit to indicate that a reset is detected on the USB.
+Note: Only accessible in device mode.
+Bit 11 USBSUSP: USB suspend
+The core sets this bit to indicate that a suspend was detected on the USB. The core enters
+the suspended state when there is no activity on the data lines for an extended period of
+time.
+Note: Only accessible in device mode.
+Bit 10 ESUSP: Early suspend
+The core sets this bit to indicate that an Idle state has been detected on the USB for 3 ms.
+Note: Only accessible in device mode.
+Bits 9:8 Reserved, must be kept at reset value.
+Bit 7 GONAKEFF: Global OUT NAK effective
+Indicates that the Set global OUT NAK bit in the OTG_DCTL register (SGONAK bit in
+OTG_DCTL), set by the application, has taken effect in the core. This bit can be cleared by
+writing the Clear global OUT NAK bit in the OTG_DCTL register (CGONAK bit in
+OTG_DCTL).
+Note: Only accessible in device mode.
+Bit 6 GINAKEFF: Global IN non-periodic NAK effective
+Indicates that the Set global non-periodic IN NAK bit in the OTG_DCTL register (SGINAK bit
+in OTG_DCTL), set by the application, has taken effect in the core. That is, the core has
+sampled the Global IN NAK bit set by the application. This bit can be cleared by clearing the
+Clear global non-periodic IN NAK bit in the OTG_DCTL register (CGINAK bit in OTG_DCTL).
+This interrupt does not necessarily mean that a NAK handshake is sent out on the USB. The
+STALL bit takes precedence over the NAK bit.
+Note: Only accessible in device mode.
+Bit 5 NPTXFE: Non-periodic Tx FIFO empty
+This interrupt is asserted when the non-periodic Tx FIFO is either half or completely empty,
+and there is space for at least one entry to be written to the non-periodic transmit request
+queue. The half or completely empty status is determined by the non-periodic Tx FIFO empty
+level bit in the OTG_GAHBCFG register (TXFELVL bit in OTG_GAHBCFG).
+Note: Accessible in host mode only.
+
+RM0456 Rev 6

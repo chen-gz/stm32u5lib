@@ -1,0 +1,130 @@
+For detailed information about instance capabilities to exit from Stop and Standby modes,
+refer to Table 702: SPI wake-up and interrupt requests and Table 100: Functionalities
+depending on the working mode.
+
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+68.4
+
+SPI functional description
+
+68.4.1
+
+SPI block diagram
+The SPI enables synchronous, serial communications between the MCU and external
+devices. The application software can manage the communication by polling the status flag
+or using a dedicated SPI interrupt. The main SPI elements and their interactions are shown
+in Figure 846.
+Figure 846. SPI block diagram
+
+SPI
+Serial interface clock domain
+
+RxFIFO
+
+SPI_UDRDR
+
+SPI_RXDR
+SPI_AUTOCR
+
+spi_pclk
+
+spi_pclk
+clock domain
+
+CRC
+Controller
+TX Shift Reg
+UDR
+Controller
+
+SYNC
+
+SPI_TXDR
+
+SPI_CR1
+SPI_CR2
+SPI_CFG[2:1]
+
+SS
+
+TxFIFO
+
+32-bit APB bus
+
+SPI_CRCPOLY
+SPI_TXCRC
+SPI_RXCRC
+
+spi_trg[15:0]
+
+RDY
+
+SYNC
+
+COM Controller
+SPI_IER
+SPI_SR
+SPI_IFCR
+
+RDY
+Logic
+
+DMA Interface
+
+SS Logic
+
+IRQ Interface
+
+SYNC
+
+spi_wkup
+spi_it
+spi_pclk_req
+spi_tx_dma
+spi_rx_dma
+
+...
+
+MOSI
+
+RX Shift Reg
+
+MISO
+
+Clock Generator
+
+SCK
+
+...
+
+Prescaler
+spi_ker_ck clock domain
+
+spi_ker_ck
+spi_ker_ck_req
+MSv50500V1
+
+The simplified scheme of Figure 846 shows three fully independent clock domains:
+•
+
+The spi_pclk clock domain
+
+•
+
+The spi_ker_ck kernel clock domain
+
+•
+
+The serial interface clock domain
+
+All the control and status signals between these domains are strictly synchronized. There is
+no specific constraint concerning the frequency ratio between these clock signals. The user
+has to consider a ratio compatible with the data flow speed to avoid data underrun or
+overrun events.
+
+RM0456 Rev 6

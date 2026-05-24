@@ -1,0 +1,99 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Table 286. Data path status flags and clear bits (continued)
+Flag
+
+Description
+TX
+
+DCRCFAIL
+
+RX
+Boot
+
+ACKFAIL
+
+DTIMEOUT
+
+Set at the end of the CRC when FAIL and busy has finished. (DPSM stay in Busy when
+there is still data to send and wait for CPSM Abort) (DPSM moves from Busy to Idle when
+all data has been sent) or DPSM has been started with DTEN
+Set at the end of the CRC when FAIL and FIFO is empty. (DPSM stays in Receive when
+there is still data to be received and wait for CPSM Abort) (DPSM moves from Receive to
+Idle when all data has been received or DPSM has been started with DTEN)
+
+Boot
+
+Set at the end of the boot acknowledgment when fail. (DPSM stays in Wait_Ack and wait
+for CPSM Abort)
+
+CMD
+R1b
+
+Set after the command response no end of busy received before the timeout. (DPSM
+stays in Busy and wait for CPSM Abort)
+
+TX
+
+Set when no CRC token start bit received within Ncrc, or no end of busy received before
+the timeout. (DPSM stays in Busy and wait for CPSM Abort) (When DPSM has been
+started with DTEN move to Idle)
+Note: The DCRCFAIL flag may also be set when CRC failed before the busy timeout.
+
+RX
+Boot
+
+Set when no start bit received before the timeout. (DPSM stays in Wait_R and wait for
+CPSM Abort) (When DPSM has been started with DTEN move to Idle)
+
+ACKTIMEOUT Boot
+
+Set when no start bit received before the timeout. (DPSM stays in Wait_Ack and wait for
+CPSM Abort)
+
+TX
+
+When DTHOLD = 1 and IDMAEN = 0: Set at the end of data block transfer when the CRC
+is OK and busy has finished, when data transfer is not complete (DATACOUNT >0).
+(DPSM moves from Busy to Wait_S)
+
+DBCKEND
+RX
+Boot
+TX
+
+When DTHOLD = 1: Set at the end of data block transfer when the CRC is OK and busy
+has finished. (DPSM moves from Wait_S to Idle)
+
+RX
+
+When DTHOLD = 1: Set at the end of data block transfer when the CRC is OK and all
+data has been read (FIFO is empty), when data transfer is not complete (DATACOUNT
+>0). (DPSM moves from Wait_R to Idle)
+
+CMD
+R1b
+
+When CPSM Abort event has been sent by the CPSM and busy has finished. (DPSM
+moves from Busy to Idle)
+
+DHOLD
+
+DABORT
+
+When RWSTART = 1: Set at the end of data block transfer when the CRC is OK, when
+data transfer is not complete (DATACOUNT > 0). (DPSM moves from Receive to R_W)
+
+TX
+RX
+
+When CPSM Abort event has been sent by the CPSM before the 2 last bits of the
+transfer. (DPSM moves from any state to Idle)
+
+Boot
+BUSYD0END
+DPSMACT

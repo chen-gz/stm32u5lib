@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 18 AHB2DIS2: AHB2_2 clock disable
+This bit can be set in order to further reduce power consumption, when none of the AHB2
+peripherals from RCC_AHB2ENR2 are used and when their clocks are disabled in
+RCC_AHB2ENR2. When this bit is set, all the AHB2 peripherals clocks from
+RCC_AHB2ENR2 are off.
+0: AHB2_2 clock enabled, distributed to peripherals according to their dedicated clock
+enable control bits
+1: AHB2_2 clock disabled
+Bit 17 AHB2DIS1: AHB2_1 clock disable
+This bit can be set in order to further reduce power consumption, when none of the AHB2
+peripherals from RCC_AHB2ENR1 (except SRAM2 and SRAM3) are used and when their
+clocks are disabled in RCC_AHB2ENR1. When this bit is set, all the AHB2 peripherals
+clocks from RCC_AHB2ENR1 are off, except for SRAM2 and SRAM3.
+0: AHB2_1 clock enabled, distributed to peripherals according to their dedicated clock
+enable control bits
+1: AHB2_1 clock disabled
+Bit 16 AHB1DIS: AHB1 clock disable
+This bit can be set in order to further reduce power consumption, when none of the AHB1
+peripherals (except those listed hereafter) are used and when their clocks are disabled in
+RCC_AHB1ENR. When this bit is set, all the AHB1 peripherals clocks are off, except for
+FLASH, BKPSRAM, ICACHE, DCACHE1 and SRAM1.
+0: AHB1 clock enabled, distributed to peripherals according to their dedicated clock enable
+control bits
+1: AHB1 clock disabled
+Bit 15 Reserved, must be kept at reset value.
+Bits 14:12 DPRE[2:0]: DSI PHY prescaler
+This bitfield is set and cleared by software to control the division factor of DSI PHY bus clock
+(DCLK).
+0xx: DCLK not divided
+100: DCLK divided by 2
+101: DCLK divided by 4
+110: DCLK divided by 8
+111: DCLK divided by 16
+Note: This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bit 11 Reserved, must be kept at reset value.
+Bits 10:8 PPRE2[2:0]: APB2 prescaler
+This bitfield is set and cleared by software to control the division factor of APB2 clock
+(PCLK2).
+0xx: PCLK2 not divided
+100: PCLK2 divided by 2
+101: PCLK2 divided by 4
+110: PCLK2 divided by 8
+111: PCLK2 divided by 16
+Bit 7 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

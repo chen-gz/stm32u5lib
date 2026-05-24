@@ -1,0 +1,34 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Run-time inserting a LLIn via an auxiliary channel, in run-to-completion mode
+The start of the link transfer of the LLIn-1 (start of the LLIn loading) can be conditioned by the
+occurrence of a trigger, when programming the following fields of the GPDMA_CxTR2 in the
+data structure of the LLIn-1:
+•
+
+TRIGM[1:0] = 10 (link transfer triggering mode)
+
+•
+
+TRIGPOL[1:0] = 01 or 10 (rising or falling edge)
+
+•
+
+TRIGSEL[6:0] (see Section 17.3.5 for the trigger selection details)
+
+Another auxiliary channel y can be used to store the channel x LLIn in the memory and to
+generate a transfer complete event gpdma_chy_tc. By selecting this event as the input
+trigger of the link transfer of the LLIn-1 of the channel x, the software can pause the primary
+channel x after its LLIn-1 data transfer, until it is indeed written the LLIn.
+Figure 60 depicts such a dynamic elaboration of a linked-list of a primary channel x, via
+another auxiliary channel y.
+Caution:
+
+This use case is restricted to an application with a LLIn-1 data transfer that does not need a
+trigger. The triggering mode of this LLIn-1 is used to load the next LLIn.
+
+RM0456 Rev 6

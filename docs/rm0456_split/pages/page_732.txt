@@ -1,0 +1,116 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Table 142. Effect of low-power modes on GPDMA (continued)
+Mode
+
+Description
+
+Stop(1)
+
+The content of the GPDMA registers is kept when entering Stop mode. The content of the
+GPDMA registers can be autonomously updated by a next linked-list item from memory, to
+perform autonomous data transfers. GPDMA interrupts can cause the device to exit Stop 0 and 1
+modes(1).
+
+Standby
+
+The GPDMA is powered down and must be reinitialized after exiting Standby mode.
+
+1. Refer to Section 17.3.2 to know if any Stop mode is supported.
+
+17.7
+
+GPDMA interrupts
+There is one GPDMA interrupt line for each channel, and separately for each CPU
+(if several ones in the devices).
+Table 143. GPDMA interrupt requests
+
+GPDMA_CHx
+
+Interrupt
+acronym
+
+Interrupt
+event
+
+Interrupt enable
+
+Event flag
+
+Event clear method
+
+Transfer
+complete
+
+GPDMA_CxCR.TCIE
+
+GPDMA_CxSR.TCF
+
+Write 1 to GPDMA_CxFCR.TCF
+
+Half transfer
+
+GPDMA_CxCR.HTIE
+
+GPDMA_CxSR.HTF
+
+Write 1 to GPDMA_CxFCR.HTF
+
+Data transfer
+GPDMA_CxCR.DTEIE
+error
+
+GPDMA_CxSR.DTEF
+
+Write 1 to GPDMA_CxFCR.DTEF
+
+Update link
+error
+
+GPDMA_CxCR.ULEIE
+
+GPDMA_CxSR.ULEF
+
+Write 1 to GPDMA_CxFCR.ULEF
+
+User setting
+error
+
+GPDMA_CxCR.USEIE
+
+GPDMA_CxSR.USEF
+
+Write 1 to GPDMA_CxFCR.USEF
+
+Suspended
+
+GPDMA_CxCR.SUSPIE GPDMA_CxSR.SUSPF Write 1 to GPDMA_CxFCR.SUSPF
+
+Trigger
+overrun
+
+GPDMA_CxCR.TOFIE
+
+GPDMA_CxSR.TOF
+
+Write 1 to GPDMA_CxFCR.TOF
+
+A GPDMA channel x event may be:
+•
+
+a transfer complete
+
+•
+
+a half-transfer complete
+
+•
+
+a transfer error, due to either:
+
+•
+Note:

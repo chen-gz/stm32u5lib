@@ -1,0 +1,60 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+The MAXTRAN[7:0] value must be greater than the minimal transaction size in terms of
+number of cycles including the command, address, alternate, and dummy phases.
+Note:
+
+The communication regulation feature cannot be used in write mode for the flash memory
+devices that require extra command to reenable the write operation after the NCS is active
+again.
+If NCS boundary, refresh, and communication regulation are enabled at the same time, the
+NCS is released on the first condition met.
+
+Restarting after an interrupted transfer
+When a read or write operation is interrupted by a timeout or communication regulation
+feature, the Octo-SPI interface, as soon as possible after getting back the port ownership,
+reissues the initial command sequence together with the address following the last address
+actually accessed before interruption. The transfer initially set goes on and ends
+seamlessly.
+
+28.4.8
+
+OCTOSPI operating mode introduction
+The OCTOSPI has the following operating modes regardless of the low-level protocol used
+(either regular-command or HyperBus):
+
+28.4.9
+
+•
+
+indirect mode (read or write)
+
+•
+
+automatic status-polling mode (only in regular-command protocol)
+
+•
+
+memory-mapped mode
+
+OCTOSPI indirect mode
+In indirect mode, the commands are started by writing to the OCTOSPI registers, and data
+are transferred by writing or reading the data register, in a similar way to other
+communication peripherals.
+When FMODE[1:0] = 00 in OCTOSPI_CR, the OCTOSPI is in indirect-write mode: bytes are
+sent to the external device during the data phase. Data are provided by writing to
+OCTOSPI_DR.
+When FMODE[1:0] = 01, the OCTOSPI is in indirect-read mode: bytes are received from the
+external device during the data phase. Data are recovered by reading OCTOSPI_DR.
+In indirect mode, when the OCTOSPI is configured in DTR mode over eight lanes with DQS
+disabled, the given starting address and the data length must be even.
+
+Note:
+
+The OCTOSPI_AR register must be updated even if the start address is the same as the
+start address of the previous indirect access.
+The number of bytes to be read/written is specified in OCTOSPI_DLR:

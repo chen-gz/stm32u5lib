@@ -1,0 +1,104 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+
+Suspend/resume operations in GMAC
+In GMAC mode, the sequence described for the GCM applies except that only the header
+phase can be interrupted.
+
+49.4.12
+
+AES counter with CBC-MAC (CCM)
+Overview
+The AES counter with cipher block chaining-message authentication code (CCM)
+algorithm allows encryption and authentication of plaintext, generating the corresponding
+ciphertext and tag (also known as message authentication code). To ensure confidentiality,
+the CCM algorithm is based on AES in counter mode. It uses cipher block chaining
+technique to generate the message authentication code. This is commonly called CBCMAC.
+
+Note:
+
+NIST does not approve this CBC-MAC as an authentication mode outside the context of the
+CCM specification.
+CCM chaining is specified in NIST Special Publication 800-38C, Recommendation for Block
+Cipher Modes of Operation - The CCM Mode for Authentication and Confidentiality. A typical
+message construction for CCM is given in Figure 480.
+Figure 480. Message construction in CCM mode
+Len(C)
+Len(A)
+
+Len(P)
+
+Len(T)
+
+16-byte
+boundaries
+Associated data (A)
+
+flags
+
+Nonce (N)
+Len(N)
+
+Q
+
+0
+
+Enc
+(T)
+
+encrypt
+
+4-byte boundaries
+
+Plaintext (P)
+
+0
+
+authenticate
+
+[a]32
+[a]16
+
+B0
+
+Authenticated & encrypted ciphertext (C)
+
+Decrypt and compare
+
+MAC (T)
+
+Zero padding
+
+MSv42159V2
+
+The structure of the message is:
+•
+
+•
+
+16-byte first authentication block (B0), composed of three distinct fields:
+–
+
+Q: a bit string representation of the octet length of P (Len(P))
+
+–
+
+Nonce (N): a single-use value (that is, a new nonce must be assigned to each
+new communication) of Len(N) size. The sum Len(N) + Len(P) must be equal to
+15 bytes.
+
+–
+
+Flags: most significant octet containing four flags for control information, as
+specified by the standard. It contains two 3-bit strings to encode the values t (MAC
+length expressed in bytes) and Q (plaintext length such that Len(P) < 28q bytes).
+The counter blocks range associated to Q is equal to 28Q-4, that is, if the maximum
+value of Q is 8, the counter blocks used in cipher must be on 60 bits.
+
+16-byte blocks (B) associated to the Associated Data (A).
+This part of the message is only authenticated, not encrypted. This section has a
+
+RM0456 Rev 6

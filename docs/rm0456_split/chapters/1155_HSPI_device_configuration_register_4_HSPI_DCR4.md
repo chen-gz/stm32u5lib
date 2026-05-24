@@ -1,0 +1,317 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+30.7.5
+
+HSPI device configuration register 4 (HSPI_DCR4)
+Address offset: 0x014
+Reset value: 0x0000 0000
+This register can be modified only when BUSY = 0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+REFRESH[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+REFRESH[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 REFRESH[31:0]: Refresh rate
+This bitfield enables the refresh rate feature. The NCS is released every REFRESH + 1
+clock cycles for writes, and REFRESH + 4 clock cycles for reads. These two values can be
+extended with few clock cycles when refresh occurs during a byte transmission
+in single-, dual-, or quad-SPI mode, because the byte transmission must be completed.
+0: Refresh disabled
+Others: Maximum communication length is set to REFRESH + 1 clock cycles.
+
+30.7.6
+
+HSPI status register (HSPI_SR)
+Address offset: 0x020
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+FLEVEL[6:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+BUSY
+
+TOF
+
+SMF
+
+FTF
+
+TCF
+
+TEF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bits 14:8 FLEVEL[6:0]: FIFO level
+This bitfield gives the number of valid bytes that are being held in the FIFO.FLEVEL = 0 when
+the FIFO is empty, and 64 when it is full. In automatic-status polling mode, FLEVEL is zero.
+Bits 7:6 Reserved, must be kept at reset value.
+Bit 5 BUSY: Busy
+This bit is set when an operation is ongoing. It is cleared automatically when the operation
+with the external device is finished and the FIFO is empty.
+Bit 4 TOF: Timeout flag
+This bit is set when timeout occurs. It is cleared by writing 1 to CTOF.
+Bit 3 SMF: Status match flag
+This bit is set in automatic status-polling mode when the unmasked received data matches
+the corresponding bits in the match register (HSPI_PSMAR).
+It is cleared by writing 1 to CSMF.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

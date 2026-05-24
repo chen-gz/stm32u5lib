@@ -1,0 +1,156 @@
+LPDMA_CxTR2.TRIGSEL[4:0]
+
+Selected LPDMA trigger
+
+21
+
+lpdma1_ch3_tc
+
+22
+
+gpdma1_ch0_tc
+
+23
+
+gpdma1_ch1_tc
+
+24
+
+gpdma1_ch4_tc
+
+25
+
+gpdma1_ch5_tc
+
+26
+
+gpdma1_ch6_tc
+
+27
+
+gpdma1_ch7_tc
+
+28
+
+gpdma1_ch12_tc
+
+29
+
+gpdma1_ch13_tc
+
+30
+
+tim2_trgo
+
+31
+
+tim15_trgo
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+18.4
+
+LPDMA functional description
+
+18.4.1
+
+LPDMA block diagram
+The LPDMA block diagram is illustrated in the figure below.
+Figure 72. LPDMA block diagram
+
+LPDMA
+Channel datapath and
+transfer input control
+
+DMA
+triggers
+
+Data transfer
+generation
+
+Channel x (1)
+---
+
+AHB master
+interface
+
+Arbitration
+
+Channel 1
+Link transfer
+generation
+
+Channel 0
+
+DMA
+clock
+
+Interrupt generation
+DMA channel registers
+
+Stop DMA
+channel in
+debug mode
+
+32-bit AHB bus
+
+DMA
+requests
+
+Transfer output control
+
+Events generation
+Channel x (1)
+DMA global
+registers
+
+Channel state
+management
+
+--Channel 1
+Channel 0
+
+Security and privilege
+management
+
+AHB slave interface
+
+Clock management
+
+DMA channel
+interrupt
+DMA channel
+transfer complete
+(lpdma_chx_tc) (1)
+
+DMA channel state
+(vs privilege
+and security)
+DMA illegal event
+(vs security)
+DMA clock request
+
+(1) Refer to the device implementation table for the number of channels.
+
+32-bit AHB bus
+
+18.4.2
+
+MSv62625V2
+
+LPDMA channel state and direct programming without
+any linked-list
+After a LPDMA reset, a LPDMA channel x is in idle state. When the software writes 1 into
+the in LPDMA_CxCR.EN enable control bit, the channel takes into account the value of the
+different channel configuration registers (LPDMA_CxXXX), switches to the active/non-idle
+state and starts to execute the corresponding requested data transfers.
+After enabling/starting a LPDMA channel transfer by writing 1 into the LPDMA_CxCR.EN
+bit, a LPDMA channel interrupt on a complete transfer notifies the software that the LPDMA
+channel is back in idle state (EN is then de-asserted by hardware) and that the channel is
+ready to be reconfigured then enabled again.
+
+RM0456 Rev 6

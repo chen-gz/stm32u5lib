@@ -1,0 +1,166 @@
+RM0456 Rev 6
+
+RM0456
+
+On-the-fly decryption engine (OTFDEC)
+
+52.6
+
+OTFDEC registers
+
+52.6.1
+
+OTFDEC control register (OTFDEC_CR)
+Address offset: 0x0
+Reset value: 0x0000 0000
+Nonsecure AHB write access (HNONSEC = 1) is discarded if the TrustZone security is
+enabled in the product.
+Unprivileged reads return zero and unprivileged writes are ignored if PRIV bit is set in
+OTFDEC_PRIVCFGR.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ENC
+rw
+
+Bits 31:1 Reserved, must be kept at reset value.
+Bit 0 ENC: Encryption mode bit
+When this bit is set, OTFDEC is used in encryption mode, during which application can write
+clear text data then read back encrypted data. When this bit is cleared (default), OTFDEC is
+used in decryption mode, during which application only read back decrypted data. For both
+modes, cryptographic context (keys, nonces, firmware versions) must be properly initialized.
+When this bit is set, only data accesses are allowed (zeros are returned otherwise, and
+XONEIF is set). When MODE = 11, enhanced encryption mode is automatically selected.
+0: OTFDEC working in decryption mode
+1: OTFDEC working in encryption mode
+Note: When ENC bit is set, no access to OCTOSPI must be done (registers and
+Memory-mapped region).
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

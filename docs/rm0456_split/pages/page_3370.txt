@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+After power arrives and the MCU boots, the desired behavior (for example source) must be
+programmed into ANAMODE and ANASUBMODE[1:0] before setting the UCPD_DBDIS bit
+of the PWR_CR3 register to remove dead battery pull-down resistor and allow the values
+just programmed to take effect.
+Use of Standby low-power mode is possible for sinks in the unattached state.
+
+74.4.7
+
+UCPD Type-C voltage monitoring and de-bouncing
+For correct operation of the Type-C state machine and for detecting the cable orientation,
+the CC1/2 lines must be monitored for voltage level, while ignoring fast events such as
+peaks.
+Thresholds between voltage levels on the CC1/2 lines are determined through PHY
+threshold detector settings.
+The TYPEC_VSTATE_CC1/2[1:0] bitfields reflect the CC1/2 line levels processed with a
+hardware de-bouncing filter that suppresses high-speed line events such as peaks. The
+PHYCCSEL bit selects the line, CC1 or CC2, to be used for Power Delivery signaling.
+For minimizing the power consumption, it is recommended to use the polling method, with
+the Type-C detectors only turned on for the instant of polling, rather than keeping the
+Type-C detectors permanently on and wake the device up from Stop mode upon CC1/2 line
+events.
+
+74.4.8
+
+UCPD fast role swap (FRS)
+FRS signaling
+The FRS condition (a pulse of a specific length), is generated upon setting the FRSTX bit.
+For the duration of FRS condition, the currently active I/O configured as UCPD_FRSTX1 (or
+2) (alternate function) controls, with high level, the gate of an external NMOS transistor that
+pulls the active CC line down.
+
+FRS detection
+FRS monitoring is enabled by setting the bit FRSRXEN, after writing PHYCCSEL that
+selects the active CC line depending on the cable orientation detected.
+
+74.4.9
+
+UCPD DMA Interface
+DMA is implemented in the UCPD and when it is enabled the byte-level interrupts to handle
+UCPD1_TXDR and UCPD1_RXDR registers (Tx and Rx data register, each one byte) are
+no longer needed.
+By enabling bits TXDMAEN and/or RXDMAEN, DMA can be activated independently for Tx
+and/or Rx functionality.
+
+74.4.10
+
+Wake-up from Stop mode
+For power consumption optimization, it is useful to use Stop mode and wait for events on
+CC lines to wake the MCU up.
+In order for this to work, it must be first enabled by writing a 1 to WUPEN.
+
+RM0456 Rev 6

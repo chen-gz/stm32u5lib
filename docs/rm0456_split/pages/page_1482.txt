@@ -1,0 +1,171 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:16 THOLD2[9:0]: DAC channel2 hold time (only valid in sample and hold mode).
+Hold time = (THOLD[9:0]) x LSI/LSE clock period
+These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Note: This register can be modified only when EN2 = 0.
+Bits 15:10 Reserved, must be kept at reset value.
+Bits 9:0 THOLD1[9:0]: DAC channel1 hold time (only valid in sample and hold mode)
+Hold time = (THOLD[9:0]) x LSI/LSE clock period
+Note: This register can be modified only when EN1 = 0.
+
+Note:
+
+These bits can be written only when the DAC channel is disabled and in normal operating
+mode (when bit ENx = 0 and bit CENx = 0 in the DAC_CR register). If ENx = 1 or CENx = 1
+the write operation is ignored.
+
+35.7.20
+
+DAC sample and hold refresh time register (DAC_SHRR)
+Address offset: 0x4C
+Reset value: 0x0001 0001
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+TREFRESH2[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+TREFRESH1[7:0]
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:16 TREFRESH2[7:0]: DAC channel2 refresh time (only valid in sample and hold mode)
+Refresh time = (TREFRESH[7:0]) x LSI/LSE clock period
+These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Note: This register can be modified only when EN2 = 0.
+Bits 15:8 Reserved, must be kept at reset value.
+Bits 7:0 TREFRESH1[7:0]: DAC channel1 refresh time (only valid in sample and hold mode)
+Refresh time = (TREFRESH[7:0]) x LSI/LSE clock period
+Note: This register can be modified only when EN1 = 0.
+
+Note:

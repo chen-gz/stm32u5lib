@@ -1,0 +1,175 @@
+667
+
+System configuration controller (SYSCFG)
+
+RM0456
+
+15.3
+
+SYSCFG registers
+
+15.3.1
+
+SYSCFG secure configuration register (SYSCFG_SECCFGR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+When the system is secure (TZEN = 1), this register provides write access security and can
+be written only when the access is secure. It can be globally write-protected, or each bit of
+this register can be individually write-protected. A nonsecure write access is WI and
+generates an illegal access event. There are no read restrictions.
+When the system is not secure (TZEN = 0), this register is RAZ/WI.
+This register can be read and written by privileged and unprivileged access, except
+for FPUSEC that can be written only with privileged access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FPUSE
+C
+
+Res.
+
+CLASS SYSCF
+BSEC GSEC
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 FPUSEC: FPU security
+0: SYSCFG_FPUIMR can be read and written by secure and nonsecure access.
+1: SYSCFG_FPUIMR can be read and written by secure access only.
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 CLASSBSEC: Class B security
+0: SYSCFG_CFGR2 can be read and written by secure and nonsecure access.
+1: SYSCFG_CFGR2 can be read and written by secure access only.
+Bit 0 SYSCFGSEC: SYSCFG clock control, memory erase status and compensation cell registers
+security
+0: SYSCFG configuration clock in RCC registers, SYSCFG_MESR and SYSCFG_CCCSR,
+SYSCFG_CCVR and SYSCFG_CCCR can be read and written by secure and nonsecure
+access.
+1: SYSCFG configuration clock in RCC registers, SYSCFG_MESR and SYSCFG_CCCSR,
+SYSCFG_CCVR and SYSCFG_CCCR can be read and written by secure access only.
+
+<!-- pagebreak -->
+

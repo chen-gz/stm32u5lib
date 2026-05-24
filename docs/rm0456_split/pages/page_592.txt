@@ -1,0 +1,198 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bits 3:2 USART2SEL[1:0]: USART2 kernel clock source selection
+These bits are used to select the USART2 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: LSE selected
+Note: The USART2 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or LSE.
+This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bits 1:0 USART1SEL[1:0]: USART1 kernel clock source selection
+These bits are used to select the USART1 kernel clock source.
+00: PCLK2 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: LSE selected
+Note: The USART1 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or LSE.
+
+11.8.47
+
+RCC peripherals independent clock configuration register 2
+(RCC_CCIPR2)
+Address offset: 0x0E4
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+OTGHSSEL[1:0]
+rw
+
+rw
+
+15
+
+14
+
+DSISE
+L
+
+SDMM
+CSEL
+
+rw
+
+rw
+
+29
+
+28
+
+27
+
+Res.
+
+Res.
+
+I2C6SEL[1:0]
+
+I2C5SEL[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+RNGSEL[1:0]
+rw
+
+rw
+
+26
+
+SAESS
+EL
+rw
+
+25
+
+24
+
+23
+
+HSPI1SEL[1:0]
+
+SAI2SEL[2:0]
+rw
+
+rw
+
+22
+
+21
+
+OCTOSPISEL[1:
+0]
+
+SAI1SEL[2:0]
+rw
+
+rw
+
+rw
+
+20
+
+rw
+
+19
+Res.
+
+18
+
+17
+
+16
+
+LTDCS USART6SEL[1:0
+EL
+]
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+MDF1SEL[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:30 OTGHSSEL[1:0]: OTG_HS PHY kernel clock source selection
+These bits are used to select the OTG_HS PHY kernel clock source.
+00: HSE selected
+01: PLL1 “P” (pll1_p_ck) selected. If selecting this option, then only HSE input should be
+selected in PLL1SRC.
+10: HSE/2 selected
+11: PLL1 “P” divided by 2 (pll1_p_ck/2) selected. If selecting this option, then only HSE input
+should be selected in PLL1SRC.
+Note: This bitfield is only available on some devices in the STM32U5 Series. Refer to the
+device datasheet for availability of its associated peripheral. If not present, consider this
+bitfield as reserved and keep it at reset value.
+Bits 29:28 Reserved, must be kept at reset value.

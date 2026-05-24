@@ -1,0 +1,276 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+DBGMCU APB2 peripheral freeze register (DBGMCU_APB2FZR)
+Address offset: 0x10
+Reset value: 0x0000 0000
+31
+Res.
+
+15
+Res.
+
+30
+Res.
+
+29
+Res.
+
+14
+
+13
+
+Res.
+
+DBG_T
+IM8_ST
+OP
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+Res.
+
+20
+Res.
+
+19
+Res.
+
+18
+
+17
+
+16
+
+DBG_T DBG_T DBG_T
+IM17_S IM16_S IM15_S
+TOP
+TOP
+TOP
+rw
+
+rw
+
+rw
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+DBG_T
+IM1_ST
+OP
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+17
+
+16
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:16 DBG_TIMy_STOP: TIMy stop in debug (y = 17 to 15)
+0: normal operation. TIMy continues to operate while CPU is in debug mode.
+1: stop in debug. TIMy is frozen while CPU is in debug mode.
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 DBG_TIM8_STOP: TIM8 stop in debug
+0: normal operation. TIM8 continues to operate while CPU is in debug mode.
+1: stop in debug. TIM8 is frozen while CPU is in debug mode.
+Bit 12 Reserved, must be kept at reset value.
+Bit 11 DBG_TIM1_STOP: TIM1 stop in debug
+0: normal operation. TIM1 continues to operate while CPU is in debug mode.
+1: stop in debug. TIM1 is frozen while CPU is in debug mode.
+Bits 10:0 Reserved, must be kept at reset value.
+
+DBGMCU APB3 peripheral freeze register (DBGMCU_APB3FZR)
+Address offset: 0x14
+Reset value: 0x0000 0000
+31
+
+30
+
+Res.
+
+DBG_R
+TC_ST
+OP
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+Res.
+
+20
+Res.
+
+rw
+15
+Res.
+
+14
+Res.
+
+13
+Res.
+
+12
+Res.
+
+19
+
+rw
+
+rw
+
+rw
+
+Res.
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+DBG_I
+2C3_S
+TOP
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 DBG_RTC_STOP: RTC stop in debug
+0: normal operation. RTC continues to operate while CPU is in debug mode.
+1: stop in debug. RTC is frozen while CPU is in debug mode.

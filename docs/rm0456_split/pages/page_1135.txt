@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+FIFO and data management
+Data in indirect mode pass through a 64-byte FIFO that is internal to the HSPI. FLEVEL in
+HSPI_SR indicates how many bytes are currently being held in the FIFO.
+In indirect-write mode (FMODE[1:0] = 00), the software adds data to the FIFO when it writes
+in the HSPI_DR. A word write adds 4 bytes to the FIFO, a half-word write adds 2 bytes, and
+a byte write adds only 1 byte. If the software adds too many bytes to the FIFO (more than
+indicated in DL[31:0]), the extra bytes are flushed from the FIFO at the end of the write
+operation (when TCF is set).
+The byte/half-word accesses to the HSPI_DR must be done only to the least significant
+byte/halfword of the 32-bit register.
+FTHRES is used to define a FIFO threshold after which point the FIFO threshold flag, FTF,
+gets set. In indirect-read mode, FTF is set when the number of valid bytes to be read from
+the FIFO is above the threshold. FTF is also set if there is any data left in the FIFO after the
+last byte is read from the external device, regardless of FTHRES setting. In indirect-write
+mode, the FTF is set when the number of empty bytes in the FIFO is above the threshold.
+If FTIE = 1, there is an interrupt when the FTF is set. If DMAEN = 1, a DMA transfer is
+initiated when the FTF is set. The FTF is cleared by hardware as soon as the threshold
+condition is no longer true (after enough data has been transferred by the CPU or DMA).
+In indirect-read mode, when the FIFO becomes full, the HSPI temporarily stops reading
+bytes from the external device to avoid an overrun.
+The last data read in RX FIFO remains valid as long as there is no request for the next line.
+This means that, when the application reads several times in a row at the same location, the
+data is provided from the RX FIFO and not read again from the distant memory.
+
+30.4.10
+
+HSPI automatic status-polling mode
+In automatic status-polling mode, the HSPI periodically starts a command to read a defined
+number of status bytes (up to four). The received bytes can be masked to isolate some
+status bits and an interrupt can be generated when the selected bits have a defined value.
+The automatic status-polling mode must be used only in regular-command protocol. For
+HyperBus protocol, it is not exploitable since the read status register into the HyperFlash
+memory must be performed in two steps (a write operation followed by a read operation).
+The access to the device begins in the same manner as in indirect-read mode. BUSY in
+HSPI_SR goes high at this point, and stays high even between the periodic accesses.
+The content of MASK[31:0] in HSPI_PSMAR is used to mask the data from the external
+device in automatic status-polling mode:
+•
+
+If the MASK[n] = 0, then bit n of the result is masked and not considered.
+
+•
+
+If MASK[n] = 1, and the content of bit[n] is the same as MATCH[n] in HSPI_PSMAR,
+then there is a match for bit n.
+
+If PMM = 0 in HSPI_CR, the AND-match mode is activated: SMF is set in HSPI_SR only
+when there is a match on all of the unmasked bits.
+If PMM = 1 in HSPI_CR, the OR-match mode is activated: SMF gets set if there is a match
+on any of the unmasked bits.
+An interrupt is called when SMF = 1 if SMIE = 1.
+
+RM0456 Rev 6

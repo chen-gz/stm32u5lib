@@ -1,0 +1,43 @@
+128
+
+Documentation conventions
+
+RM0456
+
+Bits (binary notation) or bits nibbles (hexadecimal notation) of which the reset value is
+unmodified are marked as U.
+
+1.4
+
+Glossary
+This section gives a brief definition of acronyms and abbreviations used in this document:
+•
+
+1.5
+
+Word: data of 32-bit length.
+
+•
+
+Half-word: data of 16-bit length.
+
+•
+
+Byte: data of 8-bit length.
+
+•
+
+AHB: advanced high-performance bus.
+
+•
+
+APB: advanced peripheral bus.
+
+Availability of peripherals
+For availability of peripherals on specific devices, refer to Table 6: Memory map and
+peripheral register boundary addresses.
+For detailed availability of peripherals and their number across all sales types (depending
+on product line and package), refer to the device datasheet.
+
+<!-- pagebreak -->
+

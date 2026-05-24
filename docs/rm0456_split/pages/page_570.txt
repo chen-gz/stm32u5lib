@@ -1,0 +1,52 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 30 DCACHE1SMEN: DCACHE1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: DCACHE1 clocks disabled by the clock gating during Sleep and Stop modes
+1: DCACHE1 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 29 ICACHESMEN: ICACHE clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: ICACHE clocks disabled by the clock gating during Sleep and Stop modes
+1: ICACHE clocks enabled by the clock gating during Sleep and Stop modes
+Bit 28 BKPSRAMSMEN: BKPSRAM clock enable during Sleep and Stop modes
+This bit is set and cleared by software
+0: BKPSRAM clocks disabled by the clock gating during Sleep and Stop modes
+1: BKPSRAM clocks enabled by the clock gating during Sleep and Stop modes
+Bits 27:25 Reserved, must be kept at reset value.
+Bit 24 GTZC1SMEN: GTZC1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: GTZC1 clocks disabled by the clock gating during Sleep and Stop modes
+1: GTZC1 clocks enabled by the clock gating during Sleep and Stop modes
+Bits 23:22 Reserved, must be kept at reset value.
+Bit 21 DCACHE2SMEN: DCACHE2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: DCACHE2 clocks disabled by the clock gating during Sleep and Stop modes
+1: DCACHE2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 20 GPU2DSMEN: GPU2D clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: GPU2D clocks disabled by the clock gating during Sleep and Stop modes
+1: GPU2D clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 19 GFXMMUSMEN: GFXMMU clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: GFXMMU clocks disabled by the clock gating during Sleep and Stop modes
+1: GFXMMU clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 18 DMA2DSMEN: DMA2D clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: DMA2D clocks disabled by the clock gating during Sleep and Stop modes
+1: DMA2D clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.

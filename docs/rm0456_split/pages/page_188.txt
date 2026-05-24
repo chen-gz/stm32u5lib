@@ -1,0 +1,98 @@
+191
+
+System security
+
+RM0456
+
+1. Including ST engineering test modes, used for field returns.
+2. Only applicable when TrustZone security is activated in the product.
+3. External flash memory area decrypted on-the-fly with the OTFDEC.
+
+3.12
+
+Software intellectual property protection and collaborative
+development
+Thanks to the software intellectual property protection and collaborative model, the devices
+allow the design of solutions integrating innovative third-party libraries.
+Collaborative development is summarized on the figure below. Starting from a personalized
+device sold by STMicroelectronics, a vendor A can integrate a portion of hardware and
+software on a platform A, that can then be used by a vendor B, who does the same before
+deploying a final product to the end users.
+
+Note:
+
+Each platform vendor can provision individual platforms for development not to be
+connected to a production cloud network (“Development Platform X”).
+
+User states
+Vendor states
+
+Figure 16. Collaborative development principle
+
+Development platform B
+
+Use
+
+STM32 personalized
+device
+
+Development platform B
+
+Platform part
+
+Vendor A manufacturing
+
+r pro
+
+visio
+
+ed
+
+t
+gra
+
+e
+
+ning
+
+Platform A
+
+Int
+
+Platform part
+
+Vendor B manufacturing
+
+Use
+
+r pro
+
+visio
+
+ning
+
+ed
+rat
+
+eg
+
+Platform B
+
+Int
+
+tion
+
+ctiza
+
+Deployed product
+
+u
+Prod
+
+Decommissioning
+
+Decommissioned product
+MSv64455V1
+
+The features described hereafter contribute to securing the software intellectual property
+within such a collaborative development.

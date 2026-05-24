@@ -1,0 +1,34 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bit 6 APWFE: Adapted command mode payload write FIFO empty
+This bit indicates the empty status of the adapted command mode write payload FIFO:
+0: Write payload FIFO not empty
+1: Write payload FIFO empty
+Bit 5 ACWFF: Adapted command mode command write FIFO full
+This bit indicates the full status of the adapted command mode write command FIFO:
+0: Write command FIFO not full
+1: Write command FIFO full
+Bit 4 ACWFE: Adapted command mode command write FIFO empty
+This bit indicates the empty status of the adapted command mode write command FIFO:
+0: Write command FIFO not empty
+1: Write command FIFO empty
+Bit 3 VPWFF: Video mode payload write FIFO full
+This bit indicates the full status of the video mode write payload FIFO:
+0: Write payload FIFO not full
+1: Write payload FIFO full
+Bit 2 VPWFE: Video mode payload write FIFO empty
+This bit indicates the empty status of the video mode write payload FIFO:
+0: Write payload FIFO not empty
+1: Write payload FIFO empty
+Bit 1 VCWFF: Video mode command write FIFO full
+This bit indicates the full status of the video mode write command FIFO:
+0: Write command FIFO not full
+1: Write command FIFO full
+Bit 0 VCWFE: Video mode command write FIFO empty
+This bit indicates the empty status of the video mode write command FIFO:
+0: Write command FIFO not empty
+1: Write command FIFO empty

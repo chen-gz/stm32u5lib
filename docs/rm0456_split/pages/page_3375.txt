@@ -1,0 +1,85 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Use of DMA for reception
+DMA (Direct Memory Access) can be enabled for reception by setting the RXDMAEN bit in
+the UCPD_CR register.
+Whenever a Rx message is expected:
+
+74.5.5
+
+•
+
+Program a DMA receive operation (and spare buffer) a little longer than the maximum
+possible message (length depends on extended message support).
+
+•
+
+After receiving RXORDDET, DMA operation starts working in the background.
+
+•
+
+On reception of RXMSGEND interrupt, read RXPAYSZ.
+
+•
+
+Double-check RXPAYSZ vs. the number of DMA Rx bytes (must correspond but DMA
+read of RXDR is slightly after RXDR gets last byte).
+
+•
+
+Process the DMA Rx buffer.
+
+•
+
+Prepare next Rx DMA buffer as soon as possible in order to be ready.
+
+UCPD software trimming
+The CC pull-up (Rp) and pull-down (Rd) devices must be trimmed on each part, to meet the
+required accuracy. The trimming values are saved in the non-volatile memory.
+To trim the CC pull-up and pull-down devices by software, apply the following procedure:
+1.
+
+Retrieve the trim values from the non-volatile memory (refer to Table 775: UCPD
+software trim data)
+
+2.
+
+At initialization, write the trim values to the UCPD_CFGR3 register bitfields as follows:
+–
+
+3.
+
+74.6
+
+3A0_CC1[3:0] to TRIM_CC1_RP[3:0]
+
+–
+
+3A0_CC2[3:0] to TRIM_CC2_RP[3:0]
+
+–
+
+Rd_CC1[3:0] to TRIM_CC1_RD[3:0]
+
+–
+
+Rd_CC2[3:0] to TRIM_CC2_RD[3:0]
+
+At each setting of ANASUBMODE to 1A5 or 3A0, respectively, write the trimming
+values to the UCPD_CFGR3 register bitfields as follows:
+–
+
+1A5_CC1[3:0] or 3A0_CC1[3:0], respectively, to TRIM_CC1_RP[3:0]
+
+–
+
+1A5_CC2[3:0] or 3A0_CC2[3:0], respectively, to TRIM_CC2_RP[3:0]
+
+UCPD low-power modes
+A summary of low-power modes is shown below in Table 784: Effect of low power modes on
+the UCPD.
+Table 784. Effect of low power modes on the UCPD

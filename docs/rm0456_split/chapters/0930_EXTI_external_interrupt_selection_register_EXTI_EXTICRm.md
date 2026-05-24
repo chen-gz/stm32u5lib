@@ -1,0 +1,226 @@
+935
+
+Extended interrupts and event controller (EXTI)
+
+23.6.8
+
+RM0456
+
+EXTI external interrupt selection register (EXTI_EXTICRm)
+Address offset: 0x060 + 0x4 * (m - 1) (m = 1 to 4)
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+EXTI{4*(m-1)+3}[7:0]
+
+20
+
+19
+
+18
+
+17
+
+16
+
+EXTI{4*(m-1)+2}[7:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+EXTI{4*(m-1)+1}[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+EXTI{4*(m-1)}[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 EXTI{4*(m-1)+3}[7:0]: EXTI{4*(m-1)+3} GPIO port selection
+These bits are written by software to select the source input for EXTI{4*(m-1)+3} external
+interrupt.
+When EXTI_SECCFGR.SEC{4*(m-1)+3} is disabled, this field can be accessed with
+nonsecure and secure access.
+When EXTI_SECCFGR.SEC{4*(m-1)+3} is enabled, this field can only be accessed with
+secure access. Nonsecure write is discarded, and nonsecure read returns 0.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+3} is disabled, this field can be accessed with
+privileged and unprivileged access.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+3} is enabled, this field can only be accessed with
+privileged access. Unprivileged write to this bit is discarded.
+0x00: PA[{4*(m-1)+3}] pin
+0x01: PB[{4*(m-1)+3}] pin
+0x02: PC[{4*(m-1)+3}] pin
+0x03: PD[{4*(m-1)+3}] pin
+0x04: PE[{4*(m-1)+3}] pin
+0x05: PF[{4*(m-1)+3}] pin
+0x06: PG[{4*(m-1)+3}] pin
+0x07: PH[{4*(m-1)+3}] pin
+0x08: PI[{4*(m-1)+3}] pin
+0x09: PJ[{4*(m-1)+3}] pin
+Others: reserved
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+RM0456
+
+Extended interrupts and event controller (EXTI)
+
+Bits 23:16 EXTI{4*(m-1)+2}[7:0]: EXTI{4*(m-1)+2} GPIO port selection
+These bits are written by software to select the source input for the EXTI{4*(m-1)+2} external
+interrupt.
+When EXTI_SECCFGR.SEC{4*(m-1)+2} is disabled, this field can be accessed with
+non-secure and secure access.
+When EXTI_SECCFGR.SEC{4*(m-1)+2} is enabled, this field can only be accessed with
+secure access. Nonsecure write is discarded, and nonsecure read returns 0.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+2} is disabled, this field can be accessed with
+privileged and unprivileged access.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+2} is enabled, this field can only be accessed with
+privileged access. Unprivileged write to this bit is discarded.
+0x00: PA[{4*(m-1)+2}] pin
+0x01: PB[{4*(m-1)+2}] pin
+0x02: PC[{4*(m-1)+2}] pin
+0x03: PD[{4*(m-1)+2}] pin
+0x04: PE[{4*(m-1)+2}] pin
+0x05: PF[{4*(m-1)+2}] pin
+0x06: PG[{4*(m-1)+2}] pin
+0x07: PH[{4*(m-1)+2}] pin
+0x08: PI[{4*(m-1)+2}] pin
+0x09: PJ[{4*(m-1)+2}] pin
+Others: reserved
+Bits 15:8 EXTI{4*(m-1)+1}[7:0]: EXTI{4*(m-1)+1} GPIO port selection
+These bits are written by software to select the source input for EXTI{4*(m-1)+1} external
+interrupt.
+When EXTI_SECCFGR.SEC{4*(m-1)+1} is disabled, this field can be accessed with
+nonsecure and secure access.
+When EXTI_SECCFGR.SEC{4*(m-1)+1} is enabled, this field can only be accessed with
+secure access. Nonsecure write is discarded and nonsecure read returns 0.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+1} is disabled, this field can be accessed with
+privileged and unprivileged access.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+1} is enabled, this field can only be accessed with
+privileged access. Unprivileged write to this bit is discarded.
+0x00: PA[{4*(m-1)+1] pin
+0x01: PB[{4*(m-1)+1] pin
+0x02: PC[{4*(m-1)+1] pin
+0x03: PD[{4*(m-1)+1] pin
+0x04: PE[{4*(m-1)+1] pin
+0x05: PF[{4*(m-1)+1] pin
+0x06: PG[{4*(m-1)+1] pin
+0x07: PH[{4*(m-1)+1] pin
+0x08: PI[{4*(m-1)+1] pin
+0x09: PJ[{4*(m-1)+1] pin
+Others: reserved
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

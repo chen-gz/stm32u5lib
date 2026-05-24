@@ -1,0 +1,76 @@
+1.
+
+Write CONDRST at 1 and at 0 in the RNG_CR register to reset the conditioning logic.
+
+2.
+
+Wait for the CONDRST bit to be cleared by hardware. Then clear the SEIS interrupt
+status bit in the RNG_SR register.
+
+3.
+
+If SECS is still set in RNG_SR it means a new seed error occurred (unlikely). In this
+case go back to step 1).
+
+RM0456 Rev 6
+
+RM0456
+Note:
+
+True random number generator (RNG)
+After a seed error RNG restarts generating random numbers when SECS is cleared.
+When the application sets the ARDIS bit in the RNG_CR register, the auto-reset is disabled.
+CONDRST must be used in step 1.
+
+RNG tamper errors
+When an unexpected error is found by the RNG an internal tamper event is triggered in the
+TAMP peripheral, and the RNG stops delivering random data.
+When this event occurs, the secure application needs to reset the RNG peripheral either
+using the central reset management or the global SoC reset. Then a proper initialization of
+the RNG is required, again.
+
+48.3.8
+
+RNG low-power use
+If power consumption is a concern, the RNG can be disabled as soon as the DRDY bit is set
+to 1 by setting the RNGEN bit to 0 in the RNG_CR register. As the post-processing logic and
+the output buffer remain operational while RNGEN = 0 following features are available to
+the software:
+•
+
+If there are valid words in the output buffer four random numbers can still be read from
+the RNG_DR register.
+
+•
+
+If there are valid bits in the conditioning output internal register four additional random
+numbers can be still be read from the RNG_DR register. If it is not the case RNG must
+be reenabled by the application until the expected new noise source bits threshold is
+reached (128-bit in NIST mode) and a complete conditioning round is done.
+Four new random words are then available only if the expected number of conditioning
+round is reached (two if NISTC = 0). The overall time can be found in Section 48.5:
+RNG processing time on page 1914.
+
+When disabling the RNG the user deactivates all the analog seed generators, whose power
+consumption is given in the datasheet electrical characteristics section. The user also gates
+all the logic clocked by the RNG clock. Note that this strategy is adding latency before a
+random sample is available on the RNG_DR register, because of the RNG initialization time.
+If the RNG block is disabled during initialization (that is well before the DRDY bit rises for the
+first time), the initialization sequence resumes from where it was stopped when RNGEN bit
+is set to 1, unless the application resets the conditioning logic using CONDRST bit in the
+RNG_CR register.
+When the application wants to disable the RNG clock it is recommended to wait two RNG
+kernel clock cycles between clearing the RNGEN bit and disabling the RNG kernel clock
+using the RCC.
+Also, when application needs to enter a power mode where RNG is de-activated, it is
+recommended to wait two RNG kernel clock cycles between clearing the RNGEN bit and
+entering the low power mode using the PWR.
+In the two cases above, to avoid unexpected consumption when RNG analog oscillators
+stay active, application can set the bit 13 in RNG_CR register. Setting this bit adds some
+marginal power consumption while RNGEN bit is set (RNG activated).
+Note:
+
+The power modes where RNG is deactivated (that is retained or not available) can be found
+in the PWR section.
+
+RM0456 Rev 6

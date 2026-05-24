@@ -1,0 +1,76 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+where DEVSIZE+1 is the number of address bits required to address the external device.
+The external device capacity can go up to 4 Gbytes (addressed using 32 bits) in indirect
+mode, but the addressable space in memory-mapped mode is limited to 256 Mbytes.
+If DMM = 1, DEVSIZE[4:0] must reflect the total capacity of the two devices together
+considering the above formula (DEVSIZE[4:0] value is so equal to one of the two memory
+capacities).
+When the HSPI executes two commands, one immediately after the other, it raises the NCS
+high between the two commands, at least one CLK cycle by default.
+If the external device requires more time between commands, CSHT[5:0] can be used to
+specify the minimum number of CLK cycles (up to 64) for which the NCS must remain high.
+CKMODE indicates the level that the CLK takes between commands (when NCS = 1).
+In HyperBus protocol, the device timing (tACC and tRWR) and the Latency mode must be
+configured in HSPI_HLCR.
+
+Memory types
+External memory providers may present some architecture and slight data formatting
+differences between them. The bitfield MTYP[2:0] into the HSPI_CR register allows
+targeting the right controller configuration depending on the associated memory type
+selected in the application. This is the responsibility of the software developer to align the
+controller configuration to fit with the targeted memory type.
+The memory types are grouped in a such way:
+•
+
+D0/D1 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by
+configuring MTYP[2:0] = 000. For instance, Micron is using such data ordering. In this
+configuration, the DQS is sent with a polarity inverted respect to the clock polarity.
+Figure 180. D0/D1 data ordering in octal-SPI DTR mode (Micron) - Read access
+§
+
+NCS
+
+DQS
+IO[7:0]
+
+EEh
+
+11h
+
+A[31:24] A[23:16]
+
+A[15:8]
+
+A[7:0]
+
+Address
+
+§
+
+§
+
+§
+
+CLK
+
+Dummy
+
+D0
+
+D1
+
+Word
+unit
+
+D2
+
+D3
+
+Word
+unit
+MSv71558V1

@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 5 MSIKRDY: MSIK clock ready flag
+This bit is set by hardware to indicate that the MSIK is stable. It is set only when MSI kernel
+oscillator is enabled by software by setting MSIKON.
+0: MSIK (MSI kernel) oscillator not ready
+1: MSIK (MSI kernel) oscillator ready
+Note: Once MSIKON bit is cleared, MSIKRDY goes low after six MSIK oscillator clock cycles.
+Bit 4 MSIKON: MSIK clock enable
+This bit is set and cleared by software. It is cleared by hardware to stop the MSIK when
+entering Stop, Standby, or Shutdown mode. This bit is set by hardware to force the MSIK
+oscillator ON when exiting Standby or Shutdown mode. It is set by hardware to force the
+MSIK oscillator on when STOPWUCK = 0 or STOPKERWUCK = 0 when exiting Stop modes,
+or in case of a failure of the HSE oscillator.
+0: MSIK (MSI kernel) oscillator disabled
+1: MSIK (MSI kernel) oscillator enabled
+Bit 3 MSIPLLEN: MSI clock PLL-mode enable
+This bit is set and cleared by software to enable/disable the PLL part of the MSI clock source.
+MSIPLLEN must be enabled after LSE is enabled (LSEON enabled) and ready (LSERDY set
+by hardware). A hardware protection prevents from enabling MSIPLLEN if LSE is not ready.
+This bit is cleared by hardware when LSE is disabled (LSEON = 0) or when the CSS on LSE
+detects a LSE failure (see RCC_CSR).
+0: MSI PLL-mode OFF
+1: MSI PLL-mode ON
+Bit 2 MSISRDY: MSIS clock ready flag
+This bit is set by hardware to indicate that the MSIS oscillator is stable. It is set only when
+MSIS is enabled by software (by setting MSISON).
+0: MSIS (MSI system) oscillator not ready
+1: MSIS (MSI system) oscillator ready
+Note: Once the MSISON bit is cleared, MSISRDY goes low after six MSIS clock cycles.
+Bit 1 MSIKERON: MSI enable for some peripheral kernels
+This bit is set and cleared by software to force MSI ON even in Stop modes. Keeping the MSI
+on in Stop mode allows the communication speed not to be reduced by the MSI startup time.
+This bit has no effect on MSISON and MSIKON values (see Section 11.4.24 for more
+details). This bit must be configured at 0 before entering Stop 3 mode.
+0: No effect on MSI oscillator
+1: MSI oscillator forced ON even in Stop mode
+Bit 0 MSISON: MSIS clock enable
+This bit is set and cleared by software. It is cleared by hardware to stop the MSIS oscillator
+when entering Stop, Standby or Shutdown mode. This bit is set by hardware to force
+the MSIS oscillator on when exiting Standby or Shutdown mode. It is set by hardware to force
+the MSIS oscillator ON when STOPWUCK = 0 when exiting Stop modes, or in case of a
+failure of the HSE oscillator.
+Set by hardware when used directly or indirectly as system clock.
+0: MSIS (MSI system) oscillator off
+1: MSIS (MSI system) oscillator on
+
+RM0456 Rev 6

@@ -1,0 +1,174 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+73.14.17 OTG non-periodic transmit FIFO/queue status register
+(OTG_HNPTXSTS)
+Note:
+
+In device mode, this register is not valid.
+This read-only register contains the free space information for the non-periodic Tx FIFO and
+the non-periodic transmit request queue.
+Address offset: 0x02C
+Reset value: 0x0008 0400
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+NPTXQTOP[6:0]
+
+20
+
+19
+
+18
+
+17
+
+16
+
+NPTQXSAV[7:0]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+NPTXFSAV[15:0]
+r
+
+r
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:24 NPTXQTOP[6:0]: Top of the non-periodic transmit request queue
+Entry in the non-periodic Tx request queue that is currently being processed by the MAC.
+Bits 30:27: Channel/endpoint number
+Bits 26:25:
+XXXX00X: IN/OUT token
+XXXX01X: Zero-length transmit packet (device IN/host OUT)
+XXXX11X: Channel halt command
+Bit 24: Terminate (last entry for selected channel/endpoint)
+Bits 23:16 NPTQXSAV[7:0]: Non-periodic transmit request queue space available
+Indicates the amount of free space available in the non-periodic transmit request queue.
+This queue holds both IN and OUT requests.
+0: Non-periodic transmit request queue is full
+1: 1 location available
+2: locations available
+n: n locations available (0 ≤ n ≤ 8)
+Others: Reserved
+Bits 15:0 NPTXFSAV[15:0]: Non-periodic Tx FIFO space available
+Indicates the amount of free space available in the non-periodic Tx FIFO.
+Values are in terms of 32-bit words.
+0: Non-periodic Tx FIFO is full
+1: 1 word available
+2: 2 words available
+n: n words available (where 0 ≤ n ≤ 512)
+Others: Reserved

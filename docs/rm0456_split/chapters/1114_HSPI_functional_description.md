@@ -1,0 +1,394 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+30.4
+
+HSPI functional description
+
+30.4.1
+
+HSPI block diagram
+The block diagrams provided below correspond to a single HSPI connected to the I/O ports.
+Figure 164. HSPI block diagram for 16-bit configuration
+
+STM32
+AHB
+
+Registers/
+control
+
+Clock
+management
+
+RX/TX data
+FIFO
+
+AHB
+
+Shift register
+DMA signals
+
+Interrupts
+6
+
+HSPI
+
+High-speed interface
+
+hspi_ker_ck
+hspi_nrst
+
+16-bit SPI
+memory
+
+Signals from
+ALT function
+
+HSPI_NCLK
+HSPI_CLK
+
+NCLK
+CLK
+
+HSPI_IO0
+HSPI_IO1
+HSPI_IO2
+HSPI_IO3
+HSPI_IO4
+HSPI_IO5
+HSPI_IO6
+HSPI_IO7
+HSPI_IO8
+HSPI_IO9
+HSPI_IO10
+HSPI_IO11
+HSPI_IO12
+HSPI_IO13
+HSPI_IO14
+HSPI_IO15
+HSPI_NCS
+
+IO0
+IO1
+IO2
+IO3
+IO4
+IO5
+IO6
+IO7
+IO8
+IO9
+IO10
+IO11
+IO12
+IO13
+IO14
+IO15
+NCS
+
+HSPI_DQS0
+HSPI_DQS1
+
+(RW)DS0
+(RW)DS1
+
+Signal connected or not depending on the board configuration
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+MSv65069V3
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+Figure 165. HSPI block diagram for dual-octal configuration
+
+STM32
+AHB
+
+Registers/
+control
+
+Octo-SPI
+memory 1
+
+Signals from
+ALT function
+
+Clock
+management
+
+HSPI_NCLK
+
+NCLK
+
+HSPI_CLK
+
+CLK
+
+HSPI_IO0
+
+IO0
+
+HSPI_IO1
+
+IO1
+
+HSPI_IO2
+
+IO2
+
+HSPI_IO3
+
+IO3
+
+HSPI_IO4
+
+IO4
+
+HSPI_IO5
+
+IO5
+
+HSPI_IO6
+
+IO6
+
+RX/TX data
+FIFO
+
+AHB
+
+hspi_nrst
+
+Shift register
+DMA signals
+
+High-speed interface
+
+hspi_ker_ck
+
+Interrupts
+6
+
+HSPI_IO7
+
+IO7
+
+HSPI_NCS
+
+NCS
+
+HSPI_DQS0
+
+(RW)DS
+
+Octo-SPI
+memory 2
+NCLK
+CLK
+
+HSPI_IO8
+
+IO0
+
+HSPI_IO9
+
+IO1
+
+HSPI_IO10
+
+IO2
+
+HSPI_IO11
+
+IO3
+
+HSPI_IO12
+
+IO4
+
+HSPI_IO13
+
+IO5
+
+HSPI_IO14
+
+IO6
+
+HSPI_IO15
+
+IO7
+NCS
+
+HSPI
+
+HSPI_DQS1
+
+(RW)DS
+
+Signal connected or not depending on the board configuration
+
+MSv65074V3
+
+Figure 166. HSPI block diagram for octal configuration
+STM32
+AHB
+
+Registers/
+control
+
+Clock
+management
+
+RX/TX data
+FIFO
+
+AHB
+
+Shift register
+DMA signals
+
+Interrupts
+6
+
+High-speed interface
+
+hspi_ker_ck
+hspi_nrst
+
+Octo-SPI
+memory
+
+Signals from
+ALT function
+
+HSPI_NCLK
+HSPI_CLK
+
+NCLK
+CLK
+
+HSPI_IO0
+HSPI_IO1
+HSPI_IO2
+HSPI_IO3
+HSPI_IO4
+HSPI_IO5
+HSPI_IO6
+HSPI_IO7
+HSPI_IO8
+HSPI_IO9
+HSPI_IO10
+HSPI_IO11
+HSPI_IO12
+HSPI_IO13
+HSPI_IO14
+HSPI_IO15
+HSPI_NCS
+
+IO0
+IO1
+IO2
+IO3
+IO4
+IO5
+IO6
+IO7
+
+HSPI_DQS0
+HSPI_DQS1
+
+HSPI
+
+Signal connected or not depending on the board configuration
+
+RM0456 Rev 6
+
+NCS
+(RW)DS
+
+MSv65073V3
+
+<!-- pagebreak -->
+
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Figure 167. HSPI block diagram in quad configuration
+
+STM32
+AHB
+
+Registers/
+control
+
+Clock
+management
+
+Signals from
+ALT function
+
+HSPI_NCLK
+HSPI_CLK
+
+RX/TX data
+FIFO
+
+AHB
+
+hspi_nrst
+
+Shift register
+DMA signals
+
+Interrupts
+6
+
+HSPI
+
+High-speed interface
+
+hspi_ker_ck
+
+HSPI_IO0
+HSPI_IO1
+HSPI_IO2
+HSPI_IO3
+HSPI_IO4
+HSPI_IO5
+HSPI_IO6
+HSPI_IO7
+HSPI_NCS
+HSPI_DQS0
+HSPI_IO8
+HSPI_IO9
+HSPI_IO10
+HSPI_IO11
+HSPI_IO12
+HSPI_IO13
+HSPI_IO14
+HSPI_IO15
+
+CLK
+IO0
+IO1
+IO2
+IO3
+NCS
+
+HSPI_DQS1
+
+(1) The Quad-SPI memory is connected to HSPI_IO[0:3] but it can also be connected to
+HSPI_IO[4:7], HSPI_IO[8:11], or HSPI_IO[12:15].
+
+<!-- pagebreak -->
+

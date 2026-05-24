@@ -1,0 +1,213 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 1 TOLPRXIE: Timeout low-power reception interrupt enable
+This bit enables the interrupt generation on timeout low-power reception.
+0: Interrupt on timeout low-power reception disabled
+1: Interrupt on timeout low-power reception enabled
+Bit 0 TOHSTXIE: Timeout high-speed transmission interrupt enable
+This bit enables the interrupt generation on timeout high-speed transmission .
+0: Interrupt on timeout high-speed transmission disabled
+1: Interrupt on timeout high-speed transmission enabled
+
+44.15.45 DSI Host force interrupt register 0 (DSI_FIR0)
+Address offset: 0x00D8
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FPE4
+
+FPE3
+
+FPE2
+
+FPE1
+
+FPE0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+FAE15
+
+FAE14
+
+FAE13
+
+FAE12
+
+FAE11
+
+FAE10
+
+FAE9
+
+FAE8
+
+FAE7
+
+FAE6
+
+FAE5
+
+FAE4
+
+FAE3
+
+FAE2
+
+FAE1
+
+FAE0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 FPE4: Force PHY error 4
+Writing one to this bit forces a PHY error 4.
+Bit 19 FPE3: Force PHY error 3
+Writing one to this bit forces a PHY error 3.
+Bit 18 FPE2: Force PHY error 2
+Writing one to this bit forces a PHY error 2.
+Bit 17 FPE1: Force PHY error 1
+Writing one to this bit forces a PHY error 1.
+Bit 16 FPE0: Force PHY error 0
+Writing one to this bit forces a PHY error 0.
+Bit 15 FAE15: Force acknowledge error 15
+Writing one to this bit forces an acknowledge error 15.
+Bit 14 FAE14: Force acknowledge error 14
+Writing one to this bit forces an acknowledge error 14.
+Bit 13 FAE13: Force acknowledge error 13
+Writing one to this bit forces an acknowledge error 13.
+Bit 12 FAE12: Force acknowledge error 12
+Writing one to this bit forces an acknowledge error 12.
+Bit 11 FAE11: Force acknowledge error 11
+Writing one to this bit forces an acknowledge error 11.
+Bit 10 FAE10: Force acknowledge error 10
+Writing one to this bit forces an acknowledge error 10.
+
+RM0456 Rev 6

@@ -1,0 +1,171 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+
+The line clock counter generating the line clock is reloaded on VSYNC event.
+Figure 758. Active counters with external VSYNC only
+Line clock counter
+
+FCCUF
+VSYNC
+HSYNC
+
+SWReload
+
+LCCReload
+
+LCCUF
+
+Auto-reload
+
+TE
+SYSCK
+
+22-bit counter
+
+FCCUF
+VSYNC
+LCCUF HSYNC
+
+Line clock
+
+TE
+Selected function
+
+Frame clock counter
+
+FCCUF
+VSYNC
+HSYNC
+
+FCCReload
+
+LCCUF
+
+Auto-reload
+
+TE
+
+LCCUF
+VSYNC
+HSYNC
+
+SWReload
+
+12-bit counter
+
+FCCUF
+VSYNC
+FCCUF HSYNC
+
+Frame clock
+
+TE
+
+TE
+MSv66916V1
+
+The line clock counter can also act as a prescaler for the frame clock counter to have a
+wider range of counting. FCCUF acts as line clock.
+Figure 759. Prescaling when external VSYNC only
+Line clock counter
+
+FCCUF
+VSYNC
+HSYNC
+
+SWReload
+
+LCCReload
+
+LCCUF
+
+Auto-reload
+
+TE
+SYSCK
+
+22-bit counter
+
+FCCUF
+VSYNC
+LCCUF HSYNC
+
+Line clock
+
+TE
+
+Frame clock counter
+
+FCCUF
+VSYNC
+HSYNC
+
+FCCReload
+
+LCCUF
+VSYNC
+HSYNC
+
+SWReload
+LCCUF
+
+Auto-reload
+
+TE
+
+Selected function
+
+12-bit counter
+
+FCCUF
+VSYNC
+FCCUF HSYNC
+
+Frame clock
+
+TE
+
+TE
+MSv66917V1
+
+External CSYNC only
+With external CSYNC only, the clock generator provides to the GFXTIM, the frame clock
+and the line clock based only on CSYNC (in the following figures, CSYNC is input on TE).
+Figure 760. Waveforms with external CSYNC only
+TE (CSYNC)
+
+(VSYNC + HSYNC)
+xCCReload
+
+xCCounter
+
+n n-1
+
+xCCUF
+0
+
+n n-1
+
+xCCReload
+m
+
+n n-1
+
+xCCReload
+q
+
+n n-1
+
+xCCReload
+q
+
+n n-1
+
+xCCUF
+MSv66918V1
+
+The CSYNC (on TE pin in this example) acts as line clock and LCCUF acts as frame clock.
+The line clock counter generating the frame clock is reloaded on CSYNC event.

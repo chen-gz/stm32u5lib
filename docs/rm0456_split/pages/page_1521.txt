@@ -1,0 +1,45 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+The data from each serial interface can be routed to any filter in order to perform:
+•
+
+the PDM to PCM conversion
+
+•
+
+the out-off limit detection
+
+•
+
+the short detection
+
+The serial interfaces are enabled by setting the corresponding SITFEN bit to 1. Once the
+interface is enabled, it receives serial data from the external Σ∆ modulator.
+Note:
+
+Before enabling the serial interface, the user must insure that the mdf_proc_ck is already
+enabled (see Section 39.4.5 for details).
+The SITFx are controlled via the MDF serial interface control register x (MDF_SITFxCR).
+As shown in Figure 328, for each SITF, there is a large choice of clocking possibilities:
+•
+
+If the serial interface is programmed in SPI mode, the selected clock source is a copy
+of the clock present on MDF_CCK0 or MDF_CCK1 or MDF_CKIx pin (see 2 in
+Figure 328).
+
+•
+
+If the serial interface is programmed in LF_MASTER SPI mode, the selected clock
+source must be the clock directly provided by the CCKDIV to the MDF_CCK0 or
+MDF_CCK1 pin (see 1 in Figure 328). In this case MDF_CKIx must not be selected.
+
+See Table 374 for additional information.
+Note:
+
+Using the common clock (MDF_CCK0 or MDF CCK1) can be helpful to share the same
+clock between several SITFx.
+
+RM0456 Rev 6

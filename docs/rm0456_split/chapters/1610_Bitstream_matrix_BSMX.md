@@ -1,0 +1,96 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+CKGEN activation sequence example
+1.
+
+Set CKGDEN to 0.
+
+2.
+
+Wait for CKGACTIVE = 0. If CKGDEN was previously enabled, this phase can take two
+periods of adf_hclk, and two periods of adf_proc_ck.
+
+3.
+
+Program PROCDIV[6:0], CKGMOD, CCKDIV[3:0], TRGSRC[3:0], TRGSENS,
+CCK1EN and CCK0EN.
+
+4.
+
+Set CKGDEN to 1.
+
+When needed, at any moment, CCK[1:0]EN bitfield value can be changed without disabling
+the clock generator.
+
+Clock frequency constraints
+Table 394 shows the frequency constraints to receive and process properly the samples.
+Note:
+
+The reshape filter (RSFLT) needs up to 24 cycles of adf_proc_ck clock to process one
+sample.
+Table 394. Clock constraints with respect to the incoming stream(1)
+ADF clock constraints
+
+SITF0 mode
+
+With RSFLT disabled
+
+With RSFLT enabled
+
+FADF_CCKy max frequency limited to 5 MHz
+LF_MASTER
+SPI
+
+Fadf_proc_ck > 2 x FADF_CCKy
+and
+Fadf_hclk ≥ Fadf_proc_ck
+
+Fadf_proc_ck > 24 x FADF_CCKy / (MCICD+1)
+and
+Fadf_proc_ck > 2 x FADF_CCKy
+and
+Fadf_hclk ≥ Fadf_proc_ck
+
+FADF_CKx max frequency limited to 25 MHz
+MASTER SPI
+SLAVE SPI
+
+Fadf_proc_ck > 4 x FADF_CCKy
+and
+Fadf_hclk ≥ Fadf_proc_ck
+
+Fadf_proc_ck > 24 x FADF_CCKy / (MCICD+1)
+and
+Fadf_proc_ck > 4 x FADF_CCKy
+and
+Fadf_hclk ≥ Fadf_proc_ck
+
+FSYMB max frequency limited to 20 MHz
+Manchester
+
+Fadf_proc_ck > 24 x FADF_CCKy / (MCICD+1)
+and
+Fadf_proc_ck > 6 x FSYMB
+and
+Fadf_hclk ≥ Fadf_proc_ck
+
+Fadf_proc_ck > 6 x FSYMB
+and
+Fadf_hclk ≥ Fadf_proc_ck
+
+1. FADF_CCKyrepresents the frequency of clock received via ADF_CCKy, or generated via ADF_CCKy. FSYMB represents the
+frequency of the received symbol rate for Manchester mode.
+
+40.4.6
+
+Bitstream matrix (BSMX)
+The BSMX receives the bitstreams from the serial interface SITF0 and provides the
+selected stream to the digital filter DFLT0.
+As shown in Figure 361, the SITF0 provides two bitstreams (bs0_r and bs0_f) to the BSMX.
+
+<!-- pagebreak -->
+

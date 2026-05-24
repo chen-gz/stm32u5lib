@@ -1,0 +1,83 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 265. Alternate trigger: injected group of each ADC
+
+1st trigger
+
+JEOC on
+master ADC
+
+JEOC on
+master ADC
+
+JEOC,JEOS on
+master ADC
+
+MASTER ADC
+SLAVE ADC
+2nd trigger JEOC on
+slave ADC
+
+3rd trigger
+
+JEOC on
+slave ADC
+
+JEOC, JEOS
+on slave ADC
+
+JEOC on
+JEOC on
+master ADC master ADC
+
+JEOC,JEOS on
+master ADC
+
+MASTER ADC
+SLAVE ADC
+4th trigger
+
+JEOC on
+slave ADC
+
+Sampling
+Conversion
+
+JEOC on JEOC, JEOS
+slave ADC on slave ADC
+ai16059-m
+
+Note:
+
+Regular conversions can be enabled on one or all ADCs. In this case, the regular
+conversions are independent of each other. A regular conversion is interrupted when the
+ADC has to perform an injected conversion. It is resumed when the injected conversion is
+finished.
+The time interval between two trigger events must be greater than or equal to one ADC
+clock period. The minimum time interval between two trigger events that start conversions
+on the same ADC is the same as in the single ADC mode.
+Injected discontinuous mode enabled (JDISCEN = 1 for both ADC)
+If the injected discontinuous mode is enabled for both master and slave ADCs:
+•
+
+When the 1st trigger occurs, the first injected channel of the master ADC is converted.
+
+•
+
+When the 2nd trigger occurs, the first injected channel of the slave ADC is converted.
+
+•
+
+And so on.
+
+A JEOS interrupt, if enabled, is generated after all injected channels of the master ADC in
+the group have been converted.
+A JEOS interrupt, if enabled, is generated after all injected channels of the slave ADC in the
+group have been converted.
+JEOC interrupts, if enabled, can also be generated after each injected conversions.
+If another external trigger occurs after all injected channels in the group have been
+converted, then the alternate trigger process restarts.

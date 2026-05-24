@@ -1,0 +1,119 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+Galois/counter mode (GCM)
+Figure 463. GCM encryption and authentication principle
+Initialization
+vector
+
++1
+
+Counter
+value
+
+key
+
+key
+
+Init
+(Encrypt)
+
+Plaintext block 1
+H
+
+Counter
+
+value + 1
+
+key
+
+Encrypt
+
++1
+
+Counter
+
+key
+
+Encrypt
+
+Plaintext block 2
+
+value + 2
+
+Encrypt
+
+Plaintext block 3
+
+Ciphertext block 1
+
+Ciphertext block 2
+
+Ciphertext block 3
+
+GF2mul
+
+GF2mul
+
+GF2mul
+
+Legend
+input
+output
+XOR
+
+Final
+
+TAG
+MSv42143V1
+
+In Galois/counter mode (GCM), the plaintext message is encrypted while a message
+authentication code (MAC) is computed in parallel, thus generating the corresponding
+ciphertext and its MAC (also known as authentication tag). It is defined in NIST Special
+Publication 800-38D, Recommendation for Block Cipher Modes of Operation Galois/Counter Mode (GCM) and GMAC.
+GCM mode is based on AES in counter mode for confidentiality. It uses a multiplier over a
+fixed finite field for computing the message authentication code. It requires an initial value
+and a particular 128-bit block at the end of the message.
+
+Galois message authentication code (GMAC) principle
+Figure 464. GMAC authentication principle
+Initialization
+vector
+
+key
+
+Legend
+
+Init
+(Encrypt)
+
+H
+
+Plaintext block 1
+
+Plaintext block 2
+
+Plaintext block 3
+
+GF2mul
+
+GF2mul
+
+GF2mul
+
+input
+output
+
+Final
+
+TAG
+
+XOR
+MSv42144V1
+
+Galois message authentication code (GMAC) allows authenticating a message and
+generating the corresponding message authentication code (MAC). It is defined in NIST
+Special Publication 800-38D, Recommendation for Block Cipher Modes of Operation Galois/Counter Mode (GCM) and GMAC.

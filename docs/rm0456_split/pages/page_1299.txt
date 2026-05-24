@@ -1,0 +1,154 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 237. Right alignment (offset disabled, unsigned value)
+
+31
+
+15 13
+
+0
+
+0000
+
+14-bit data
+
+D13..D0
+
+31
+
+15 11
+
+12-bit data
+
+0
+
+0000
+
+D11..D0
+
+31
+
+7
+
+15
+
+8-bit data
+
+0000
+
+23
+
+31
+14-bit data
+OSR=1024
+
+00
+
+0
+D7..D0
+
+15
+
+0
+
+00
+
+D23..D0
+
+31
+
+13
+
+15
+
+16-bit data
+OSR=1024
+
+OVSS = 0000
+
+0
+
+0000
+
+D13..D0
+
+OVSS = 1010
+MSv62491V1
+
+Figure 238. Right alignment (offset enabled, signed value)
+
+31
+14-bit data
+
+15 13
+SEXT
+
+15
+
+31
+SEXT
+
+0
+D7..D0
+
+SEXT
+
+SEXT
+
+7
+
+0
+
+15
+
+8-bit data
+
+31
+
+0
+D11..D0
+
+15
+
+31
+
+14-bit data
+OSR=1024
+
+11
+
+SEXT
+
+8-bit data
+
+23
+
+Signed 32-bit or
+16-bit format
+
+D13..D0
+
+31
+12-bit data
+
+0
+
+SSAT = 1
+
+D6..D0
+
+15
+D23..D0
+
+Signed 8-bit
+format
+
+0
+OVSS = 0000
+
+MSv62492V1
+
+RM0456 Rev 6

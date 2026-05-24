@@ -1,0 +1,84 @@
+18
+
+5
+
+Bit 29 DQSE: DQS enable
+This bit enables the data strobe management.
+0: DQS disabled
+1: DQS enabled
+
+Bits 21:20 ABSIZE[1:0]: Alternate-byte size
+This bitfield defines the alternate-byte size.
+00: 8-bit alternate bytes
+01: 16-bit alternate bytes
+10: 24-bit alternate bytes
+11: 32-bit alternate bytes
+
+19
+ABDTR
+
+rw
+
+Bits 31:30 Reserved, must be kept at reset value.
+
+Bits 23:22 Reserved, must be kept at reset value.
+
+20
+
+rw
+
+IMODE[2:0]
+rw
+
+rw
+
+rw
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+Bit 19 ABDTR: Alternate-byte double transfer rate
+This bit sets the DTR mode for the alternate-byte phase.
+0: DTR mode disabled for the alternate-byte phase
+1: DTR mode enabled for the alternate-byte phase
+Bits 18:16 ABMODE[2:0]: Alternate-byte mode
+This bitfield defines the alternate byte phase mode of operation.
+000: No alternate bytes
+001: Alternate bytes on a single line
+010: Alternate bytes on two lines
+011: Alternate bytes on four lines
+100: Alternate bytes on eight lines
+Others: Reserved
+Bits 15:14 Reserved, must be kept at reset value.
+Bits 13:12 ADSIZE[1:0]: Address size
+This bitfield defines the address size.
+00: 8-bit address
+01: 16-bit address
+10: 24-bit address
+11: 32-bit address
+Bit 11 ADDTR: Address double transfer rate
+This bit sets the DTR mode for the address phase.
+0: DTR mode disabled for the address phase
+1: DTR mode enabled for the address phase
+Bits 10:8 ADMODE[2:0]: Address mode
+This bitfield defines the address phase mode of operation.
+000: No address
+001: Address on a single line
+010: Address on two lines
+011: Address on four lines
+100: Address on eight lines
+Others: Reserved
+Bits 7:6 Reserved, must be kept at reset value.
+Bits 5:4 ISIZE[1:0]: Instruction size
+This bitfield defines the instruction size.
+00: 8-bit instruction
+01: 16-bit instruction
+10: 24-bit instruction
+11: 32-bit instruction
+Bit 3 IDTR: Instruction double transfer rate
+This bit sets the DTR mode for the instruction phase.
+0: DTR mode disabled for the instruction phase
+1: DTR mode enabled for the instruction phase
+
+RM0456 Rev 6

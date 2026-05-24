@@ -1,0 +1,54 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Note:
+
+RM0456
+
+The capture prescaler is not used for triggering, so it does not need to be configured.
+4.
+
+Select rising edge polarity by writing CC2P = 0 and CC2NP = 0 in the TIMx_CCER
+register.
+
+5.
+
+Configure the timer in external clock mode 1 by writing SMS = 111 in the TIMx_SMCR
+register.
+
+6.
+
+Select tim_ti2 as the input source by writing TS = 00110 in the TIMx_SMCR register.
+
+7.
+
+Enable the counter by writing CEN = 1 in the TIMx_CR1 register.
+
+When a rising edge occurs on tim_ti2, the counter counts once and the TIF flag is set.
+The delay between the rising edge on tim_ti2 and the actual clock of the counter is due to
+the resynchronization circuit on tim_ti2 input.
+Figure 621. Control circuit in external clock mode 1
+
+tim_ti2
+CEN
+
+tim_cnt_ck, tim_psc_ck
+
+Counter register
+
+34
+
+35
+
+36
+
+TIF
+
+Write TIF=0
+
+MSv62319V1
+
+External clock source mode 2
+This mode is selected by writing ECE = 1 in the TIMx_SMCR register.
+The counter can count at each rising or falling edge on the external trigger input tim_etr_in.
+Figure 622 gives an overview of the external trigger input block.

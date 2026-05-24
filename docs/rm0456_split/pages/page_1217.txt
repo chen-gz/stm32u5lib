@@ -1,0 +1,102 @@
+The remaining number of data bytes in the FIFO must be read until the receive
+FIFO is empty (RXFIFOE flag is set), and when IDMAEN = 0 the FIFO must be
+reset with FIFORST.
+
+The remaining number of data bytes (multiple of data blocks) still to be read when
+resuming the operation must be determined from the remaining number of bytes
+indicated by the DATACOUNT.
+
+When a DTIMEOUT flag occurs during the suspend procedure, this must be ignored.
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+To resume receiving data from the card, the following steps must be taken by firmware:
+1.
+
+The remaining number of data bytes (multiple of data blocks) must be programmed in
+DATALENGTH.
+
+2.
+
+The DPSM must be configured to receive data in the DTDIR bit.
+
+3.
+
+The resume command must be sent from the CPSM, with the CMDTRANS bit set and
+the CMDSUSPEND bit set, which ends the interrupt period when data transfer is
+resumed (response bit DF = 1) and enabled the DPSM, after which the card resumes
+sending data.
+
+While sending data to the card, the SDMMC can suspend the write operation after the write
+data block CRC status end (DPSM in Busy). Before sending the suspend command to the
+card the following steps must be taken by firmware:
+1.
+
+Enable DHOLD flag (and DBCKEND flag when IDMAEN = 0)
+
+2.
+
+The DPSM must be prevented from start sending a new data block by setting
+DTHOLD.
+
+3.
+
+When IDMAEN = 0: When receiving the DBCKEND flag the data transfer is stopped.
+Firmware can stop filling the FIFO, after which the FIFO must be reset with FIFORST.
+Any bytes still in the FIFO need to be rewritten when resuming the operation.
+
+4.
+
+When receiving the DHOLD flag the data transfer is stopped. The remaining number of
+data bytes still to be written when resuming must be determined from the remaining
+number of bytes indicated by the DATACOUNT.
+
+5.
+
+To suspend the card the suspend command must be sent by the CPSM with the
+CMDSUSPEND bit set. This makes possible to start the interrupt period after the
+suspend command response when the bus is suspended (response bit BS = 0).
+
+To resume sending data to the card, the following steps must be taken by firmware:
+1.
+
+The remaining number of data bytes must be programmed in DATALENGTH.
+
+2.
+
+The DPSM must be configured for transmission with DTDIR set and enabled by having
+the CPSM send the resume command with the CMDTRANS bit set and the
+CMDSUSPEND bit set. This ends the interrupt period and start the data transfer. The
+DPSM either goes to the Wait_S state when SDMMC_D0 does not signal busy, or goes
+to the Busy state when busy is signaled.
+
+3.
+
+When IDMAEN = 1: The IDMA needs to be reprogrammed for the remaining bytes to
+be transfered.
+
+4.
+
+When IDMAEN = 0: Firmware must start filling the FIFO with the remaining data.
+
+SD I/O Read Wait
+There are two methods to pause the data transfer during the block gap:
+1.
+
+Stopping the SDMMC_CK.
+
+2.
+
+Using Read Wait signaling on SDMMC_D2.
+
+The SDMMC can perform a Read Wait with register settings according Table 292.
+Depending the SDMMC operation mode (DS, HS, SDR12, SDR25) or (SDR50, SDR104,
+DDR) each method has a different characteristic.
+The timing for pause read operation by stopping the SDMMC_CK for DS, HS, SDR12, and
+SDR25, the SDMMC_CK may be stopped 2 SDMMC_CK cycles after the end bit. When
+ready the host resumes by restarting clock (see Figure 207).
+
+RM0456 Rev 6

@@ -1,0 +1,218 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+If the TCRDMAEN bit of the I2C_AUTOCR register is set, the I2C_EVC (I2C control event)
+DMA request is generated when TCR bit of the I2C_ISR register is set. The DMA controller
+must be programmed to write the remaining number of bytes to transfer in the I2C_CR2
+register.
+
+65.8
+
+I2C debug modes
+When the device enters debug mode (core halted), the SMBus timeout either continues
+working normally or stops, depending on the DBG_I2Cx_STOP bits in the DBG block.
+
+65.9
+
+I2C registers
+Refer to Section 1.2 for the list of abbreviations used in register descriptions.
+The registers are accessed by words (32-bit).
+
+65.9.1
+
+I2C control register 1 (I2C_CR1)
+Address offset: 0x00
+Reset value: 0x0000 0000
+Access: no wait states, except if a write access occurs while a write access is ongoing. In
+this case, wait states are inserted in the second write access, until the previous one is
+completed. The latency of the second write access can be up to
+2 x i2c_pclk + 6 x i2c_ker_ck.
+
+31
+
+30
+
+STOPF ADDRA
+ACLR
+CLR
+rw
+
+rw
+
+15
+
+14
+
+RXDM TXDMA
+AEN
+EN
+rw
+
+rw
+
+29
+
+28
+
+27
+
+26
+
+25
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Res.
+
+ANF
+OFF
+rw
+
+24
+FMP
+
+rw
+
+rw
+
+22
+
+ALERT
+PECEN
+EN
+
+21
+
+20
+
+SMBD
+EN
+
+SMBH
+EN
+
+19
+GCEN
+
+18
+
+17
+
+WUPE NOSTR
+N
+ETCH
+
+16
+SBC
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ERRIE
+
+TCIE
+
+STOP
+IE
+
+NACKI
+E
+
+ADDRI
+E
+
+RXIE
+
+TXIE
+
+PE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DNF[3:0]
+rw
+
+23
+
+rw
+
+Bit 31 STOPFACLR: STOP detection flag (STOPF) automatic clear
+0: STOPF flag is set by hardware, cleared by software by setting STOPCF bit.
+1: STOPF flag remains cleared by hardware. This mode can be used in NOSTRETCH target
+mode, to avoid the overrun error if the STOPF flag is not cleared before next data
+transmission. This allows a target data management by DMA only, without any interrupt from
+peripheral.
+Bit 30 ADDRACLR: Address match flag (ADDR) automatic clear
+0: ADDR flag is set by hardware, cleared by software by setting ADDRCF bit.
+1: ADDR flag remains cleared by hardware. This mode can be used in target mode, to avoid
+the ADDR clock stretching if the I2C enables only one target address. This allows a target
+data management by DMA only, without any interrupt from peripheral.
+Bits 29:25 Reserved, must be kept at reset value.

@@ -1,0 +1,91 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Figure 292. Example of overrun (OVR)
+
+ADSTART(1)
+EOC
+EOS
+OVR
+ADSTP
+TRGx(1)
+ADC state(2)
+
+RDY
+
+CH0
+
+CH1
+
+CH2
+
+CH0
+
+CH1
+
+CH0 STOP
+
+RDY
+
+OVERRUN
+
+ADC_DR read
+access
+ADC_DR
+(OVRMOD=0)
+
+D0
+
+D1
+
+D2
+
+D0
+
+ADC_DR
+(OVRMOD=1)
+
+D0
+
+D1
+
+D2
+
+D0
+
+by S/W
+
+CH2
+
+D1
+
+D2
+
+by H/W
+
+triggered
+MSv30343V3
+
+Managing a sequence of data converted without using the DMA
+If the conversions are slow enough, the conversion sequence can be handled by software.
+In this case the software must use the EOC flag and its associated interrupt to handle each
+data result. Each time a conversion is complete, the EOC bit is set in the ADC_ISR register
+and the ADC_DR register can be read. The OVRMOD bit in the ADC_CFGR1 register must
+be configured to 0 to manage overrun events as an error.
+
+Managing converted data without using the DMA without overrun
+It may be useful to let the ADC convert one or more channels without reading the data after
+each conversion. In this case, the OVRMOD bit must be configured at 1 and the OVR flag
+must be ignored by the software. When OVRMOD is et to 1, an overrun event does not
+prevent the ADC from continuing to convert and the ADC_DR register always contains the
+latest conversion data.
+
+Managing converted data using the DMA
+Since all converted channel values are stored in a single data register, it is efficient to use
+DMA when converting more than one channel. This avoids losing the conversion data
+results stored in the ADC_DR register.
+When DMA mode is enabled (DMAEN bit set to 1 in the ADC_CFGR1 register), a DMA
+request is generated after the conversion of each channel. This allows the transfer of the

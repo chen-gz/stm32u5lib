@@ -1,0 +1,56 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+65.4.9
+
+RM0456
+
+I2C controller mode
+I2C controller initialization
+Before enabling the peripheral, the I2C controller clock must be configured, by setting the
+SCLH and SCLL bits in the I2C_TIMINGR register.
+The STM32CubeMX tool calculates and provides the I2C_TIMINGR content in the I2C
+Configuration window.
+A clock synchronization mechanism is implemented in order to support multicontroller
+environment and target clock stretching.
+In order to allow clock synchronization:
+•
+
+The low level of the clock is counted using the SCLL counter, starting from the SCL low
+level internal detection.
+
+•
+
+The high level of the clock is counted using the SCLH counter, starting from the SCL
+high level internal detection.
+
+I2C detects its own SCL low level after a tSYNC1 delay depending on the SCL falling edge,
+SCL input noise filters (analog and digital), and SCL synchronization to the I2CxCLK clock.
+I2C releases SCL to high level once the SCLL counter reaches the value programmed in the
+SCLL[7:0] bitfield of the I2C_TIMINGR register.
+I2C detects its own SCL high level after a tSYNC2 delay depending on the SCL rising edge,
+SCL input noise filters (analog and digital), and SCL synchronization to the I2CxCLK clock.
+I2C ties SCL to low level once the SCLH counter reaches the value programmed in the
+SCLH[7:0] bitfield of the I2C_TIMINGR register.
+Consequently the controller clock period is:
+tSCL = tSYNC1 + tSYNC2 + {[(SCLH+ 1) + (SCLL+ 1)] x (PRESC+ 1) x tI2CCLK}
+The duration of tSYNC1 depends upon:
+•
+
+SCL falling slope
+
+•
+
+input delay induced by the analog filter (when enabled)
+
+•
+
+input delay induced by the digital filter (when enabled): DNF[3:0] x tI2CCLK
+
+•
+
+delay due to SCL synchronization with the i2c_ker_ck clock (two to three i2c_ker_ck
+periods)
+
+The duration of tSYNC2 depends upon:

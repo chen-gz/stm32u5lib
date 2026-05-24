@@ -1,0 +1,172 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 18 HVDMSRCEN: Battery charging specification – host CDP port voltage source enable on DM
+0: DM voltage source disabled
+1: DM Voltage source enabled
+Bit 17 HCDPDETEN: Battery charging specification – host CDP port voltage detector enable on DP
+0: DP voltage detection disabled
+1: DP voltage detection enabled
+Bit 16 HCDPEN: Battery charging specification – host CDP behavior enable
+0: Disable CDP behavior
+1: Enable CDP behavior
+Bits 15:5 Reserved, must be kept at reset value.
+Bit 4 Reserved, must be kept at reset value.
+Bit 3 SESSVLD: VBUS session indicator
+Indicates if VBUS is above VBUS session threshold.
+0: VBUS is below VBUS session threshold
+1: VBUS is above VBUS session threshold
+Bit 2 FSVMINUS: Battery charging specification – single-ended DM indicator
+This bit gives the voltage level on DM (also result of the comparison with VLGC threshold as
+defined in BC v1.2 standard).
+0: DM voltage at low level
+1: DM voltage at high level
+Bit 1 FSVPLUS: Battery charging specification – single-ended DP indicator
+This bit gives the voltage level on DP (also result of the comparison with VLGC threshold as
+defined in BC v1.2 standard).
+0: DM voltage at low level
+1: DM voltage at high level
+Bit 0 CHGDET: Battery charging specification – charger detection, result of the current mode
+(primary or secondary).
+0: Low value on pin
+1: High value on pin
+
+73.14.19 OTG core ID register (OTG_CID)
+This is a register containing the Product ID as reset value.
+Address offset: 0x03C
+Reset value: 0x0000 5000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+PRODUCT_ID[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+PRODUCT_ID[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 PRODUCT_ID[31:0]: Product ID field
+Application-programmable ID field.

@@ -1,0 +1,66 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+USARTDIV is an unsigned fixed point number that is coded on the USART_BRR register.
+
+Note:
+
+•
+
+When OVER8 = 0, BRR = USARTDIV.
+
+•
+
+When OVER8 = 1
+–
+
+BRR[2:0] = USARTDIV[3:0] shifted 1 bit to the right.
+
+–
+
+BRR[3] must be kept cleared.
+
+–
+
+BRR[15:4] = USARTDIV[15:4]
+
+The baud counters are updated to the new value in the baud registers after a write operation
+to USART_BRR. Hence the baud rate register value must not be changed during
+communication.
+In case of oversampling by 16 and 8, USARTDIV must be greater than or equal to 16.
+
+How to derive USARTDIV from USART_BRR register values
+Example 1
+To obtain 9600 bauds with usart_ker_ck_pres= 8 MHz:
+•
+
+In case of oversampling by 16:
+USARTDIV = 8 000 000/9600
+BRR[3:0] = USARTDIV = 0d833 = 0x0341
+
+•
+
+In case of oversampling by 8:
+USARTDIV = 2 * 8 000 000/9600
+USARTDIV = 1666,66 (0d1667 = 0x683)
+BRR[3:0] = 0x3 >>1 = 0x1
+BRR[3:0] = 0x681
+
+Example 2
+To obtain 921.6 kbauds with usart_ker_ck_pres = 48 MHz:
+•
+
+In case of oversampling by 16:
+USARTDIV = 48 000 000/921 600
+BRR[3:0] = USARTDIV = 52 = 0x34
+
+•
+
+In case of oversampling by 8:
+USARTDIV = 2 * 48 000 000/921 600
+USARTDIV = 104 (0d104 = 0x68)
+BRR[3:0] = USARTDIV[3:0] >> 1 = 0x8 >> 1 = 0x4
+BRR[3:0] = 0x64

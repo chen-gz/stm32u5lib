@@ -1,0 +1,126 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Data frame format
+The SPI shift register can be set up to shift out MSB-first or LSB-first, depending on the
+value of the LSBFRST bit of the SPI_CFG2 register.
+The data frame size is configured through the DSIZE bitfield of the SPI_CFG1 register to a
+range that depends on the SPI instance (see Section 68.3: SPI implementation). The setting
+applies to both transmission and reception. The data bits in the SPI_TXDR/SPI_RXDR
+registers are right-aligned with 8, 16, or 32 bits, depending on the data size (see
+Figure 856). These registers can consequently be accessed by bytes, half-words, or words.
+FIFO accesses smaller than a single data are forbidden. When the FIFO occupancy flag is
+raised, a FIFO access greater than the FIFO threshold can lead to spurious data being read
+or written data being lost. When the access to/from the SPI_TXDR/SPI_RXDR registers is a
+multiple of the configured data size, data packing is applied automatically, while the lowest
+significant bits/bytes are communicated first. For more details, see Section 68.4.12: SPI
+data transmission and reception procedures.
+Figure 856. Data alignment when data size is not equal to 8, 16 or 32 bits
+'6,=(ELWV
+GDWDLVULJKWDOLJQHGRQE\WH
+([DPSOH: DSIZE[4:0]=00011
+
+7
+
+Tx
+
+4
+
+3
+
+0
+
+XXXX
+
+7
+
+Rx
+
+ELWV'6,=(ELWV
+GDWDLVULJKWDOLJQHGRQKDOIZRUG
+([DPSOH: DSIZE[4:0]=01101
+
+15 14 13
+
+0
+
+XX
+
+4
+
+3
+
+0
+
+0000
+
+ELWV'6,=(ELWV
+GDWDLVULJKWDOLJQHGRQZRUG
+([DPSOH: DSIZE[4:0]=11010
+31
+
+27
+
+26
+
+0
+
+26
+
+0
+
+XXXXX
+
+15 13 12
+00
+
+0
+
+31
+
+27
+
+00000
+
+MSv40473V1
+
+68.4.10
+
+Configuring the SPI
+The configuration procedure is almost the same for the master and the slave. For specific
+mode setups, follow the dedicated chapters. When a standard communication must be
+initialized, perform these steps:
+1.
+
+Write the proper GPIO registers: configure GPIO alternate functions at MOSI, MISO,
+SCK, SS, and RDY pins if applied.
+
+2.
+
+Write into the SPI_CFG1 and SPI_CFG2 registers and set up the proper values of all
+‘not reserved’ bits and bitfields, prior to enabling the SPI, with the following exceptions:
+a)
+
+The SSOM, MASRX, SSOE, RDIOM, MBR[2:0], BPASS, MIDI[3:0], MSSI[3:0] bits
+are taken into account in master mode only, the MSSI[3:0] bits take effect when
+the SSOE bit is set, the RDIOP bit takes no effect when the RDIOM bit is not set in
+master mode. When the slave is configured in TI mode, the MBR[2:0] setting is
+also considered.
+
+b)
+
+UDRCFG is taken into account in slave mode only.
+
+c)
+
+CRCSIZE[4:0] bitfield must be configured if CRCEN is set.
+
+d)
+
+CPOL, CPHA, LSBFRST, SSOM, SSOE, SSIOP, SSM, RDIOP, RDIOM, MSSI,
+and MIDI are not required in TI mode.
+
+RM0456 Rev 6

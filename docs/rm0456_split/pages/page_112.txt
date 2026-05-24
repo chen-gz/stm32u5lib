@@ -1,0 +1,58 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 238. Right alignment (offset enabled, signed value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1299
+Figure 239. Left alignment (offset disabled, unsigned value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1300
+Figure 240. Left alignment (offset enabled, signed value) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1300
+Figure 241. Example of overrun (OVRMOD = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1303
+Figure 242. Example of overrun (OVRMOD = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1303
+Figure 243. AUTODLY = 1, regular conversion in continuous mode, software trigger . . . . . . . . . . . 1307
+Figure 244. AUTODLY = 1, regular hardware conversions interrupted by injected conversions
+(DISCEN = 0; JDISCEN = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1307
+Figure 245. AUTODLY = 1, regular hardware conversions interrupted by injected conversions. . . . . . . .
+(DISCEN = 1, JDISCEN = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1308
+Figure 246. AUTODLY = 1, regular continuous conversions interrupted by injected conversions . . 1309
+Figure 247. AUTODLY = 1 in auto- injected mode (JAUTO = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1309
+Figure 248. Analog watchdog guarded area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1310
+Figure 249. ADCy_AWDx_OUT signal generation (on all regular channels). . . . . . . . . . . . . . . . . . . 1312
+Figure 250. ADC_AWDx_OUT signal generation (AWDx flag not cleared by software) . . . . . . . . . . 1313
+Figure 251. ADC_AWDx_OUT signal generation (on a single regular channel) . . . . . . . . . . . . . . . . 1313
+Figure 252. ADC_AWDx_OUT signal generation (on all injected channels) . . . . . . . . . . . . . . . . . . . 1313
+Figure 253. 14-bit result oversampling with 10-bits right shift and rounding . . . . . . . . . . . . . . . . . . . 1315
+Figure 254. Triggered regular oversampling mode (TROVS bit = 1) . . . . . . . . . . . . . . . . . . . . . . . . . 1316
+Figure 255. Regular oversampling modes (4x ratio) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1317
+Figure 256. Regular and injected oversampling modes used simultaneously . . . . . . . . . . . . . . . . . . 1318
+Figure 257. Triggered regular oversampling with injection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1318
+Figure 258. Oversampling in auto-injected mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1319
+Figure 259. Dual ADC block diagram(1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1321
+Figure 260. Injected simultaneous mode on four channels: dual ADC mode . . . . . . . . . . . . . . . . . . 1322
+Figure 261. Regular simultaneous mode on 16 channels: dual ADC mode . . . . . . . . . . . . . . . . . . . 1324
+Figure 262. Interleaved mode on one channel in continuous conversion mode: dual ADC mode . . 1326
+Figure 263. Interleaved mode on one channel in single conversion mode: dual ADC mode . . . . . . 1326
+Figure 264. Interleaved conversion with injection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1327
+Figure 265. Alternate trigger: injected group of each ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1328
+Figure 266. Alternate trigger: Four injected channels (each ADC) in discontinuous mode . . . . . . . . 1329
+Figure 267. Alternate + regular simultaneous . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1330
+Figure 268. Case of trigger occurring during injected conversion . . . . . . . . . . . . . . . . . . . . . . . . . . . 1330
+Figure 269. Interleaved single channel CH0 with injected sequence CH11, CH12 . . . . . . . . . . . . . . 1331
+Figure 270. Two interleaved channels (CH1, CH2) with injected sequence CH11, CH12
+- case 1: Master interrupted first . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1331
+Figure 271. Two Interleaved channels (CH1, CH2) with injected sequence CH11, CH12
+- case 2: Slave interrupted first . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1331
+Figure 272. DMA Requests in regular simultaneous mode when DAMDF[1:0] = 00 . . . . . . . . . . . . . 1332
+Figure 273. DMA requests in regular simultaneous mode when DAMDF[1:0] = 10 . . . . . . . . . . . . . 1333
+Figure 274. DMA requests in interleaved mode when DAMDF[1:0] = 10 . . . . . . . . . . . . . . . . . . . . . 1334
+Figure 275. Temperature sensor channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1336
+Figure 276. VBAT channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1337
+Figure 277. VREFINT channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1338
+Figure 278. ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1381
+Figure 279. ADC calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1384
+Figure 280. Calibration factor forcing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1385
+Figure 281. Enabling/disabling the ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1386
+Figure 282. ADC clock scheme . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1387
+Figure 283. ADC4 connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1389
+Figure 284. Analog-to-digital conversion time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1394
+Figure 285. ADC conversion timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1394

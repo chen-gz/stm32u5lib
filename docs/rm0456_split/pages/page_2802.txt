@@ -1,0 +1,157 @@
+I/O type
+
+SCK
+
+Input/output Master clock output / slave clock input
+
+SS
+
+Input/output Master output / slave selection input
+
+RDY
+
+Input/output SPI master input / slave FIFOs status occupancy output
+
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+1. Functionality of MOSI and MISO pins can be swapped. Their directions may vary in SPI bidirectional halfduplex mode.
+
+Description of SPI input/output signals
+Table 698. SPI internal input/output signals
+Signal name
+
+Signal type
+
+Description
+
+spi_pclk
+
+Input
+
+SPI clock signal feeds the peripheral bus interface
+
+spi_ker_ck
+
+Input
+
+SPI kernel clock
+
+spi_ker_ck_req
+
+Output
+
+SPI kernel clock request
+
+spi_pclk_req
+
+Output
+
+SPI clock request
+
+spi_wkup
+
+Output
+
+SPI provides a wake-up interrupt
+
+spi_it
+
+Output
+
+SPI global interrupt
+
+spi_tx_dma
+
+Input/output
+
+SPI transmit DMA request
+
+spi_rx_dma
+
+Input/output
+
+SPI receive DMA request
+
+spi_trg[15:0]
+
+Input
+
+SPI triggers
+
+Description of SPI interconnections
+Table 699. SPI interconnection (SPI1 and SPI2)
+Signal name
+
+Trigger source
+
+spi_trg0
+
+gpdma1_ch0_tc
+
+spi_trg1
+
+gpdma1_ch1_tc
+
+spi_trg2
+
+gpdma1_ch2_tc
+
+spi_trg3
+
+gpdma1_ch3_tc
+
+spi_trg4
+
+exti4
+
+spi_trg5
+
+exti9
+
+spi_trg6
+
+lptim1_ch1
+
+spi_trg7
+
+lptim2_ch1
+
+spi_trg8
+
+comp1_out
+
+spi_trg9
+
+comp2_out(1)
+
+spi_trg10
+
+rtc_alra_trg
+
+spi_trg11
+
+rtc_wut_trg
+
+spi_trg12
+
+-
+
+spi_trg13
+
+-
+
+spi_trg14
+
+-
+
+spi_trg15
+
+-
+
+1. This connection is not present in STM32U535/545 since COMP2 is not available.
+
+RM0456 Rev 6

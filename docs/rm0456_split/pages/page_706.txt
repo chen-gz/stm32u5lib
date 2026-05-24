@@ -1,0 +1,72 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Figure 61. GPDMA channel execution and linked-list programming
+in link step mode (GPDMA_CxCR.LSM = 1)
+
+Channel state = Idle
+Initialize DMA channel
+
+Reconfigure DMA channel
+Enable DMA channel
+
+Channel state = Active
+Valid user
+setting ?
+
+N
+
+Y
+Setting USEF = 1
+Disabling DMA channel
+
+N
+
+BNDT  0 ?
+Y
+
+Executing once the data
+transfer from the register file
+
+No transfer
+error ?
+
+N
+
+Y
+N
+
+Setting DTEF = 1
+Disabling DMA channel
+
+LLR 0 ?
+Y
+
+Loading next LLI
+into the register file
+
+No transfer
+error ?
+
+N
+
+Y
+Valid user
+setting ?
+
+Setting ULEF = 1
+Disabling DMA channel
+N
+
+Y
+Setting TCF = 1
+Disabling DMA channel
+
+Setting USEF = 1
+Disabling DMA channel
+
+End
+MSv62633V1

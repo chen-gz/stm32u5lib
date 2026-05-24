@@ -1,0 +1,84 @@
+PWM output
+
+COMP1_BLANKSEL[4:0]
+
+None (no blanking)
+
+00000
+
+tim1_oc5
+
+xxxx1
+
+tim2_oc3
+
+xxx1x
+
+RM0456 Rev 6
+
+RM0456
+
+Comparator (COMP)
+Table 359. COMP1 output-blanking PWM assignment (continued)
+PWM output
+
+COMP1_BLANKSEL[4:0]
+
+tim3_oc3
+
+xx1xx
+
+Reserved
+
+Others
+
+Table 360. COMP2 output-blanking PWM assignment
+
+37.4.3
+
+PWM output
+
+COMP2_BLANKSEL[4:0]
+
+None (no blanking)
+
+00000
+
+tim3_oc4
+
+xxxx1
+
+tim8_oc5
+
+xxx1x
+
+tim15_oc1
+
+xx1xx
+
+Reserved
+
+Others
+
+Comparator LOCK mechanism
+The comparators can be used for safety purposes, such as over-current or thermal
+protection. For applications having specific functional safety requirements, the comparator
+programming must not be altered in case of spurious register access or program counter
+corruption. For this purpose, the comparator control and status registers can be writeprotected (read-only).
+Once the programming is completed, the COMPxLOCK bit can be set to 1. This causes the
+whole COMPx_CSR register to become read-only, including the COMPxLOCK bit.
+The write protection can only be reset by an MCU reset.
+
+37.4.4
+
+Window comparator
+The purpose of the window comparator is to monitor the analog voltage if it is within the
+voltage range defined by the lower and upper threshold.
+The two embedded comparators can be used to create a window comparator. The
+monitored analog voltage is connected to the non-inverting (plus) inputs of comparators
+connected together. The upper and lower threshold voltages are connected to the inverting
+(minus) inputs of the comparators.
+Two non-inverting inputs can be connected internally together by enabling the WINMODE
+bit to save one IO for other purposes.
+
+RM0456 Rev 6

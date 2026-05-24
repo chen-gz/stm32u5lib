@@ -1,0 +1,179 @@
+856
+
+Chrom-ART Accelerator controller (DMA2D)
+
+RM0456
+
+Bit 5 START: Start
+This bit can be set to start the automatic loading of the CLUT. It is automatically reset:
+- at the end of the transfer
+- when the transfer is aborted by the user application by setting ABORT in DMA2D_CR
+- when a transfer error occurs
+- when the transfer has not started due to a configuration error or another transfer operation
+already ongoing (data transfer or automatic background CLUT transfer)
+Bit 4 CCM: CLUT color mode
+This bit defines the color format of the CLUT. It can only be written when the transfer is
+disabled. Once the CLUT transfer has started, this bit is read-only.
+0: ARGB8888
+1: RGB888
+Other: Reserved
+Bits 3:0 CM[3:0]: Color mode
+These bits defines the color format of the foreground image. They can only be written when
+data transfers are disabled. Once the transfer has started, they are read-only.
+0000: ARGB8888
+0001: RGB888
+0010: RGB565
+0011: ARGB1555
+0100: ARGB4444
+0101: L8
+0110: AL44
+0111: AL88
+1000: L4
+1001: A8
+1010: A4
+Other: Reserved
+
+19.5.9
+
+DMA2D foreground color register (DMA2D_FGCOLR)
+Address offset: 0x020
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+23
+
+22
+
+21
+
+rw
+
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+
+RED[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+GREEN[7:0]
+rw
+
+20
+
+BLUE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:16 RED[7:0]: Red value
+These bits define the Red value for the A4 or A8 mode of the foreground image. They can
+only be written when data transfers are disabled. Once the transfer has started, they are
+read-only.
+These bits can also be used for fixed color FG in memory-to-memory with blending and fixed
+color FG (BG fetch only with FG and BG PFC active) mode.

@@ -1,0 +1,124 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+Figure 209. Read Wait with SDMMC_CK < 50 MHz
+SDMMC_CK
+2 CK
+
+SDMMC_D1
+
+2 CK
+
+Read data
+
+Read data
+2 CK
+
+SDMMC_D2
+
+Read data
+
+SDMMC_D3
+SDMMC_D0
+
+Read data
+
+Read Wait
+
+Read data
+
+Int period
+
+Read data
+
+SDMMC_CMD
+
+CMD
+MSv40941V2
+
+For SDR50, SDR104 with a SDMMC_CK more than 50MHz, and DDR50, the card treats
+the Read Wait request on SDMMC_D2 as an asynchronous event. The host by asserting
+SDMMC_D2 low after minimum 2 SDMMC_CK cycles and maximum 5 SDMMC_CK cycles,
+request the card to enter Read Wait. To exit Read Wait the host must raise SDMMC_D2
+high during one SDMMC_CK cycles before making it Hi-Z. The host must raise SDMMC_D2
+on the SDMMC_CK clock (see Figure 210).
+Figure 210. Read Wait with SDMMC_CK > 50 MHz
+NAC 8 CK min.
+tOP
+0
+
+1
+
+tOP
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+8
+
+8
+
+8
+
+9
+
+10
+
+SDMMC_CK
+
+1
+
+SDMMC_D2
+
+Read data End
+
+SDMMC_D3
+SDMMC_D1
+SDMMC_D0
+
+Read data End
+
+Read Wait
+
+1
+
+0
+Read data
+Start
+
+0
+Read data
+Start
+
+2 CK min.
+5 CK max.
+MSv40948V2
+
+In Read Wait SDMMC_D2 signaling, when RWSTART is set, the DPSM drives SDMMC_D2
+after the end bit of the current received data block CRC. The Read Wait signaling on
+SDMMC_D2 is removed when writing 1 to the RWSTOP bit. The DPSM remains in R_W
+state for two more SDMMC_CK clock cycles to drive SDMMC_D2 to 1 for one clock cycle
+(in accordance with SDIO specification), where after the DPSM waits for a start bit from the
+card.
+During the Read Wait signaling on SDMMC_D2 commands can be issued to the card.
+During the Read Wait interval, the SDMMC can detect SDIO interrupts on SDMMC_D1.
+
+31.6.2
+
+CMD12 send timing
+CMD12 is used to stop/abort the data transfer, the card data transmission is terminated two
+clock cycles after the end bit of the Stop Transmission command.
+
+RM0456 Rev 6

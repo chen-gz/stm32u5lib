@@ -1,0 +1,183 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+Bits 7:6 IPOS[1:0]: Index positioning
+In quadrature encoder mode (SMS[3:0] = 0001, 0010, 0011, 1110, 1111), this bit indicates in
+which AB input configuration the Index event resets the counter.
+00: Index resets the counter when AB = 00
+01: Index resets the counter when AB = 01
+10: Index resets the counter when AB = 10
+11: Index resets the counter when AB = 11
+In directional clock mode or clock plus direction mode (SMS[3:0] = 1010, 1011, 1100, 1101),
+these bits indicates on which level the Index event resets the counter. In bidirectional clock
+mode, this applies for both clock inputs.
+x0: Index resets the counter when clock is 0
+x1: Index resets the counter when clock is 1
+Note: IPOS[1] bit is not significant
+Bit 5 FIDX: First index
+This bit indicates if the first index only is taken into account
+0: Index is always active
+1: the first Index only resets the counter
+Bits 4:3 IBLK[1:0]: Index blanking
+This bit indicates if the Index event is conditioned by the tim_ti3 input
+00: Index always active
+01: Index disabled hen tim_ti3 input is active, as per CC3P bitfield
+10: Index disabled when tim_ti4 input is active, as per CC4P bitfield
+11: Reserved
+Bits 2:1 IDIR[1:0]: Index direction
+This bit indicates in which direction the Index event resets the counter.
+00: Index resets the counter whatever the direction
+01: Index resets the counter when up-counting only
+10: Index resets the counter when down-counting only
+11: Reserved
+Bit 0 IE: Index enable
+This bit indicates if the Index event resets the counter.
+0: Index disabled
+1: Index enabled
+
+55.5.20
+
+TIMx timer input selection register (TIMx_TISEL)(x = 2 to 5)
+Address offset: 0x05C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+rw
+15
+
+14
+
+13
+
+12
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+26
+
+25
+
+24
+
+TI4SEL[3:0]
+
+11
+
+rw
+
+rw
+
+rw
+
+10
+
+9
+
+8
+
+TI2SEL[3:0]
+rw
+
+rw
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+19
+
+rw
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+18
+
+17
+
+16
+
+TI3SEL[3:0]
+
+3
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+TI1SEL[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

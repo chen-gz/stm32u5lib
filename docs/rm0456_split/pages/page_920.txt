@@ -1,0 +1,117 @@
+935
+
+Extended interrupts and event controller (EXTI)
+
+23.2.1
+
+RM0456
+
+EXTI connections between peripherals and CPU
+Some peripherals able to generate wake-up or interrupt events when the system is in Stop
+mode, are connected to the EXTI.
+•
+
+Peripheral wake-up signals that generate a pulse or do not have an interrupt status bit
+in the peripheral, are connected to an EXTI configurable event input. For these events,
+the EXTI provides a status pending bit that requires to be cleared. It is the EXTI
+interrupt, associated with the status bit, that interrupts the CPU.
+
+•
+
+All GPIO ports input to the EXTI multiplexer allow the selection of a port pin to wake up
+the system via a configurable event.
+
+The EXTI configurable event interrupts are connected to the NVIC.
+The dedicated EXTI/EVG CPU event is connected to the CPU rxev input.
+The EXTI CPU wake-up signals are connected to the PWR and are used to wake up the
+system and the CPU subsystem bus clocks.
+
+23.2.2
+
+EXTI interrupt/event mapping
+The EXTI lines are connected as shown in the table below.
+Table 190. EXTI line connections
+EXTI line
+
+Line source
+
+Line type
+
+0-15
+
+GPIO
+
+Configurable
+
+16
+
+PVD output
+
+Configurable
+
+17
+
+COMP1 output
+
+Configurable
+
+18(1)
+
+COMP2 output
+
+Configurable
+
+19
+
+VDDUSB voltage monitor
+
+Configurable
+
+20
+
+VDDIO2 voltage monitor
+
+Configurable
+
+21
+
+VDDA voltage monitor 1
+
+Configurable
+
+22
+
+VDDA voltage monitor 2
+
+Configurable
+
+23(2)
+
+LSECSS or MSI_PLL_UNLOCK
+
+Configurable
+
+23(3)
+
+MSI_PLL_UNLOCK
+
+Configurable
+
+(3)
+
+LSECSS
+
+Configurable
+
+25(3)
+
+IWDG early interrupt
+
+Configurable
+
+24
+
+1. Not available in STM32U535/545 devices.
+2. Not available in STM32U535/545/59x/5Ax/5Fx/5Gx devices and STM32U575/585 rev. X devices.
+Available in all other revisions of STM32U575/585.
+3. Available on all STM32U5 Series except STM32U575/585 devices.

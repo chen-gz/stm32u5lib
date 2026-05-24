@@ -1,0 +1,181 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Bit 0 FTHF: RXFIFO threshold flag
+This bit is set by hardware, and cleared by the hardware when the RXFIFO level is lower than
+the threshold.
+0: RXFIFO threshold not reached
+1: RXFIFO threshold reached
+
+40.8.11
+
+ADF SAD control register (ADF_SADCR)
+Address offset: 0x0B8
+Reset value: 0x0000 0000
+This register is used for the configuration and the control of the sound activity detection.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SADAC
+TIVE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+15
+Res.
+
+Res.
+
+SADMOD[1:0]
+rw
+
+rw
+
+Res.
+
+HYSTE
+N
+
+FRSIZE[2:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+SADST[1:0]
+r
+
+r
+
+DETCF
+G
+rw
+
+DATCAP[1:0]
+rw
+
+rw
+
+SADEN
+rw
+
+Bit 31 SADACTIVE: SAD Active flag
+This bit is set and cleared by hardware. It is used to check if the SAD is effectively enabled
+(active) or not. The protected fields and registers of this function can only be updated when
+the SADACTIVE is set to 0 (see Section 40.4.13: Register protection for details).
+The delay between a transition on SADEN and a transition on SADACTIVE is two periods of
+AHB clock and two periods of adf_proc_ck.
+0: SAD not active and can be configured if needed
+1: SAD active and protected fields cannot be configured.
+Bits 30:14 Reserved, must be kept at reset value.
+Bits 13:12 SADMOD[1:0]: SAD working mode
+This bitfield is set and cleared by software. It is used to define the way the SAD works.
+00: Threshold value computed according to the estimated ambient noise
+The SAD triggers when the sound level (SDLVL) is bigger than the defined threshold. In this
+mode, the SAD works like a voice activity detector.
+01: Threshold value equal to ANMIN[12:0], multiplied by the gain selected by SNTHR[3:0]
+The SAD triggers when the sound level (SDLVL) is bigger than the defined threshold. In this
+mode, the SAD works like a sound detector.
+1x: Threshold value given by 4 x ANMIN[12:0]
+The SAD triggers when the estimated ambient noise (ANLVL), multiplied by the gain selected
+by SNTHR[3:0] is bigger than the defined threshold. In this mode, the SAD is working like an
+ambient noise estimator. Hysteresis function cannot be used in this mode.
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 11 Reserved, must be kept at reset value.

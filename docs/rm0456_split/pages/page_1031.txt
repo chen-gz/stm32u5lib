@@ -1,0 +1,79 @@
+rw
+
+rw
+
+19
+
+ADDHLD[3:0]
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+18
+
+17
+
+16
+
+BUSTURN[3:0]
+
+ADDSET[3:0]
+rw
+
+rw
+
+rw
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+Bits 31:30 DATAHLD[1:0]: Data hold phase duration
+These bits are written by software to define the duration of the data hold phase in HCLK cycles
+(refer to Figure 121 to Figure 133), used in asynchronous write accesses:
+00: DATAHLD phase duration = 1 × HCLK clock cycle (default)
+01: DATAHLD phase duration = 2 × HCLK clock cycle
+10: DATAHLD phase duration = 3 × HCLK clock cycle
+11: DATAHLD phase duration = 4 × HCLK clock cycle
+Bits 29:28 ACCMOD[1:0]: Access mode.
+Specifies the asynchronous access modes as shown in the next timing diagrams.These bits are
+taken into account only when the EXTMOD bit in the FMC_BCRx register is 1.
+00: Access mode A
+01: Access mode B
+10: Access mode C
+11: Access mode D
+Bits 27:20 Reserved, must be kept at reset value.
+Bits 19:16 BUSTURN[3:0]: Bus turnaround phase duration
+These bits are written by software to add a delay at the end of current write transaction to next
+transaction on the same bank.
+For FRAM memories, the bus turnaround delay must be configured to match the minimum tPC
+(precharge time) timings. The bus turnaround delay is inserted between any consecutive
+transactions on the same bank (read/read, write/write, read/write and write/read). The chip select is
+toggling between any consecutive accesses.
+(BUSTURN + 1)HCLK period ≥ tPC min
+0000: BUSTURN phase duration = 1 HCLK clock cycle added
+...
+1111: BUSTURN phase duration = 16 x HCLK clock cycles added (default value after reset)
+Bits 15:8 DATAST[7:0]: Data-phase duration.
+These bits are written by software to define the duration of the data phase (refer to Figure 121 to
+Figure 133), used in asynchronous SRAM, PSRAM and NOR flash memory accesses:
+0000 0000: Reserved
+0000 0001: DATAST phase duration = 1 × HCLK clock cycles
+0000 0010: DATAST phase duration = 2 × HCLK clock cycles
+...
+1111 1111: DATAST phase duration = 255 × HCLK clock cycles (default value after reset)
+Bits 7:4 ADDHLD[3:0]: Address-hold phase duration.
+These bits are written by software to define the duration of the address hold phase (refer to
+Figure 130 to Figure 133), used in asynchronous multiplexed accesses:
+0000: Reserved
+0001: ADDHLD phase duration = 1 × HCLK clock cycle
+0010: ADDHLD phase duration = 2 × HCLK clock cycle
+...
+1111: ADDHLD phase duration = 15 × HCLK clock cycles (default value after reset)
+Note: In synchronous NOR flash accesses, this value is not used, the address hold phase is always
+1 flash clock period duration.
+
+RM0456 Rev 6

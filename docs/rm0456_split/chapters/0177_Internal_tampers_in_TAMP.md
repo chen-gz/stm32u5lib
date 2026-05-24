@@ -1,0 +1,136 @@
+Timestamps are automatically generated when a tamper event occurs.
+
+RM0456 Rev 6
+
+RM0456
+
+System security
+The internal tamper sources are listed in the table below.
+Table 17. Internal tampers in TAMP
+
+Tamper input
+
+NOER bit number
+in TAMP_CR3
+
+itamp1
+
+0
+
+Backup domain voltage continuous monitoring, functional in VBAT mode
+
+itamp2
+
+1
+
+Temperature monitoring, functional in VBAT mode
+
+itamp3
+
+2
+
+LSE monitoring, functional in VBAT mode
+
+itamp4, 10
+
+-
+
+Not used
+
+itamp5
+
+4
+
+RTC calendar overflow (rtc_calovf)
+
+itamp6
+
+5
+
+JTAG/SWD access when RDP > 0
+
+itamp7, 12, 13
+
+6, 11, 12
+
+itamp8
+
+7
+
+Monotonic counter overflow (generated internally)
+
+itamp9
+
+8
+
+Fault generation for cryptographic peripherals (SAES, PKA, AES, RNG)
+
+itamp11
+
+10
+
+IWDG timeout and potential tamper (IWDG reset when at least one enabled
+tamper flag is set)
+
+Tamper source
+
+Voltage monitoring (VCORE, VREF+), through ADC analog watchdog,
+functional down to Stop 2 mode
+
+Response to tampers
+Each source of tamper in the device can be configured to trigger the following events:
+•
+
+Generate an interrupt, capable of waking up the device from Stop and Standby modes
+(see TAMPxMSK bits in TAMP_CR2 register).
+
+•
+
+Generate a hardware trigger for the low-power timers.
+
+•
+
+Erase device secrets if the corresponding TAMPxNOER bit is cleared in TAMP_CR2
+(for tamper pins) or TAMP_CR3 (for internal tamper). These erasable secrets are:
+–
+
+symmetric keys stored in backup registers (x32), in SAES, AES, HASH, and
+OTFDEC (encrypted flash memory regions are read as zero)
+
+–
+
+asymmetric keys stored in PKA SRAM, erased when VDD is present
+
+–
+
+other secrets stored in SRAM2 and CPU instruction cache memory
+(SRAM2 erased when VDD is present)
+
+–
+
+nonvolatile information used to derive the DHUK in SAES is zeroed until complete
+SRAM2 erase
+
+–
+
+2-Kbyte backup SRAM (depending on configuration bit), erased when VDD
+is present
+
+–
+
+ICACHE and DCACHE1 erased when VDD is present
+
+Read/write accesses by software to all these secrets can be blocked, by setting the
+BKBLOCK bit in TAMP_CR2. The device secrets access is possible only when BKBLOCK is
+cleared, and no tamper flag is set for any enabled tamper source.
+Note:
+
+Device secret erase is also triggered by setting BKERASE in TAMP_CR2, or by performing
+an RDP regression as defined in Section 3.10.1.
+Device secrets are not reset by system reset or when the device wakes up
+from Standby mode.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

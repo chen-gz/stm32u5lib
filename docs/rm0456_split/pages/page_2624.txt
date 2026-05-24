@@ -1,0 +1,74 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+Figure 804. Transfer bus diagram for SMBus target transmitter (SBC = 1)
+legend:
+
+Example SMBus target transmitter 2 bytes + PEC
+
+transmission
+TXIS TXIS
+
+ADDR
+
+S
+
+Address
+
+reception
+
+A
+
+data1
+
+EV1
+
+EV2 EV3
+
+NBYTES
+
+A
+
+data2
+
+A
+
+PEC
+
+NA
+
+P
+
+SCL stretch
+
+3
+
+EV1: ADDR ISR: check ADDCODE, program NBYTES = 3, set PECBYTE, set ADDRCF
+EV2: TXIS ISR: wr data1
+EV3: TXIS ISR: wr data2
+MSv19869V3
+
+SMBus target receiver
+When using the I2C peripheral in SMBus mode, set the SBC bit to enable the PEC checking
+at the end of the programmed number of data bytes. To allow the ACK control of each byte,
+the reload mode must be selected (RELOAD = 1). Refer to Target byte control mode for
+more details.
+To check the PEC byte, the RELOAD bit must be cleared and the PECBYTE bit must be set.
+In this case, after the receipt of NBYTES[7:0] - 1 data bytes, the next received byte is
+compared with the internal I2C_PECR register content. A NACK is automatically generated
+if the comparison does not match, and an ACK is automatically generated if the comparison
+matches, whatever the ACK bit value. Once the PEC byte is received, it is copied into the
+I2C_RXDR register like any other data, and the RXNE flag is set.
+Upon a PEC mismatch, the PECERR flag is set and an interrupt is generated if the ERRIE
+bit of the I2C_CR1 register is set.
+If no ACK software control is required, the user can set the PECBYTE bit and, in the same
+write operation, load NBYTES[7:0] with the number of bytes to receive in a continuous flow.
+After the receipt of NBYTES[7:0] - 1 bytes, the next received byte is checked as being the
+PEC.
+Caution:
+
+The PECBYTE bit has no effect when the RELOAD bit is set.
+
+RM0456 Rev 6

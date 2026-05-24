@@ -1,0 +1,200 @@
+•
+
+Foreground CLUT automatic loading: MA bits in DMA2D_FGCMAR are not aligned
+with CCM in DMA2D_FGPFCCR.
+
+•
+
+Background CLUT automatic loading: MA bits in DMA2D_BGCMAR are not aligned
+with CCM in DMA2D_BGPFCCR.
+
+•
+
+Memory transfer (except in register-to-memory and memory-to-memory with blending
+and fixed color FG): MA bits in DMA2D_FGMAR are not aligned with CM
+in DMA2D_FGPFCCR.
+
+•
+
+Memory transfer (except in register-to-memory and memory-to-memory with blending
+and fixed color FG): CM bits in DMA2D_FGPFCCR are invalid.
+
+•
+
+Memory transfer (except in register-to-memory and memory-to-memory with blending
+and fixed color FG): PL bits in DMA2D_NLR are odd while CM is DMA2D_FGPFCCR
+is A4 or L4.
+
+•
+
+Memory transfer (except in register-to-memory and memory-to-memory with blending
+and fixed color FG): LO bits in DMA2D_FGOR are odd while CM in
+DMA2D_FGPFCCR is A4 or L4, and LOM in DMA2D_CR is pixel mode.
+
+•
+
+Memory transfer (only in blending mode, except in memory-to-memory with blending
+and fixed color FG): MA bits in DMA2D_BGMAR are not aligned with the CM
+in DMA2D_BGPFCCR
+
+•
+
+Memory transfer (only in blending and blending with fixed color FG): CM bits
+in DMA2D_BGPFCCR are invalid.
+
+•
+
+Memory transfer (only in blending and blending with fixed color FG mode): PL bits
+in DMA2D_NLR odd while CM inDMA2D_BGPFCCR is A4 or L4.
+
+•
+
+Memory transfer (only in blending and blending with fixed color FG): LO bits in
+DMA2D_BGOR are odd while CM inDMA2D_BGPFCCR is A4 or L4, and LOM
+in DMA2D_CR is pixel mode.
+
+•
+
+Memory transfer (except in memory-to-memory): MA bits in DMA2D_OMAR are not
+aligned with CM in DMA2D_OPFCCR.
+
+•
+
+Memory transfer (except in memory-to-memory): CM bits in DMA2D_OPFCCR
+are invalid.
+
+RM0456 Rev 6
+
+RM0456
+
+20.3.14
+
+Chrom-ART Accelerator controller (DMA2D)
+•
+
+Memory transfer with byte swapping: PL bits in DMA2D_NLR are odd, or MA bits in
+DMA2D_OMAR are odd, or LO in bytes (resulting from LOM in DMA2D_CR and LO in
+DMA2D_OOR) are odd while SB = 1 in DMA2D_OPFCCR.
+
+•
+
+Memory transfer: NL bits in DMA2D_NLR are all zeros.
+
+•
+
+Memory transfer: PL bits in DMA2D_NLR are all zeros.
+
+•
+
+Memory transfer: MODE bits in DMA2D_CR are invalid.
+
+•
+
+YCbCr format: when a CLUT loading starts setting START in DMA2D_FGPFCCR
+
+•
+
+YCbCr format: when memory-to-memory mode is selected
+
+•
+
+YCbCr format: when YCbCR4:4:4 is selected, and the sum of number of pixel (PL) and
+line offset LO is not a multiple of 8 pixels
+
+•
+
+YCbCr format: when YCbCr4:2:2 or YCbCr4:2:0 is selected, and the sum of number of
+pixel (PL) and line offset LO is not a multiple of 16 pixels
+
+YCbCr support
+The DMA2D foreground plane can support 8x8 block-based YCbCr as output by the
+JPEG decoder with different chroma subsampling factors.
+The memory organization follows the standard JFIF rules:
+•
+
+Each of the three color components must be coded on 8-bit.
+
+•
+
+Each component must be arranged by blocks of 8x8 (64 bytes) called MCU.
+
+Depending of the chroma subsampling factor, the MCU must be arranged in the memory as
+described in the table below.
+Table 181. MCU order in memory
+Sub-sampling
+
+@
+
+@ + 64
+
+@ + 128
+
+@+192
+
+@+256
+
+@ + 320
+
+4:4:4
+
+Y1
+
+Cb1
+
+Cr1
+
+Y2
+
+Cb2
+
+Cr2
+
+4:2:2
+
+Y1
+
+Y2
+
+Cb12
+
+Cr12
+
+Y3
+
+Y4
+
+4:2:0
+
+Y1
+
+Y2
+
+Y3
+
+Y4
+
+Cb1234
+
+Cr1234
+
+The chroma subsampling factor is configured through CSS in DMA2D_FGPFCCR.
+Once the DMA2D has started with the foreground configured in YCbCr color mode, the first
+two chroma MCUs are loaded in the foreground CLUT. Once the chroma MCUs are loaded,
+the DMA2D performs the loading of the Y MCU as for a classical color mode.
+
+20.3.15
+
+DMA2D transfer control (start, suspend, abort, and completion)
+Once the DMA2D is configured, the transfer can be launched by setting START
+in DMA2D_CR. Once the transfer is completed, START is automatically reset, and TCIF flag
+is raised in DMA2D_ISR. An interrupt can be generated if TCIE is set in DMA2D_CR.
+The user application can suspend the DMA2D at any time by setting SUSP in DMA2D_CR.
+The transaction can be aborted by setting ABORT i nDMA2D_CR, or can be restarted by
+resetting SUSP in DMA2D_CR.
+The user application can abort at any time an ongoing transaction by setting ABORT
+in DMA2D_CR. In this case, the TCIF flag is not raised.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

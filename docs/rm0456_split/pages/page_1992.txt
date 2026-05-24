@@ -1,0 +1,61 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+Decryption in Shared-key mode
+Each time SAES needs to share a key with the AES peripheral, shared encrypted key must
+be decrypted in SAES, then loaded by the AES. The overall sequence is described next.
+Sequence in the SAES peripheral
+The decryption sequence of a shared key is the same as for a wrapped key, with KMOD[1:0]
+set to 10 (shared key) and KSHAREID[1:0] kept at 00 in the step 3 in Figure 496. See
+Decryption in Wrapped-key mode for details.
+Note:
+
+Instead of being shared, a decrypted shared key can be used directly in SAES as the
+KEYSEL[2:0] bitfield is automatically cleared. In this case, KMOD[1:0] must be set to 00
+(normal key mode).
+Sequence in the AES peripheral
+Once the shared key is decrypted in SAES key registers, it can be shared with the AES
+peripheral, while SAES peripheral remains in key sharing state, that is, with KMOD[1:0] = 10
+and KEYVALID = 1 in the SAES_SR register. The sequence in the AES key share target
+peripheral is as follows:
+1.
+
+Initialize the AES processor to process some data
+
+2.
+
+When the key must be loaded, set the same KEYSIZE as for the SAES peripheral and
+write the KMOD[1:0] bitfield of the AES_CR register to 10 (shared key). If the previous
+sequence in the SAES peripheral completed successfully, with KMOD[1:0] kept at 10
+and KSHAREID[1:0] kept at 00, the SAES_KEYRx registers are automatically copied
+into the AES_KEYRx registers, with BUSY set in AES_SR.
+
+3.
+
+Once the transfer is completed, the BUSY flag is cleared and KEYVALID set in the
+AES_SR register. If KEYVALID is not set when BUSY bit is cleared, or if a key error flag
+(KEIF) is set an unexpected event occurred during the transfer, such as a DPA error, a
+tamper event or the KEYVALID SAES flag was cleared before the end of the transfer.
+When such errors occur, the whole key sharing process starting from the SAES
+peripheral must be restarted, through the IPRST bits of both control registers.
+
+4.
+
+As KEYVALID is set, the key share target peripheral is initialized with a valid, shared
+key. The application can proceed with the data processing of data, setting KMOD[1:0]
+to 00.
+
+This sequence can be run multiple times (for example, to manage a suspend/resume
+situation), as long as SAES is unused and duly remains in key sharing state.
+Note:
+
+in SAES peripheral, when KMOD[1:0] = 10 (shared key) and MODE[1:0] = 10 (decryption),
+a read access to the SAES_DOUTR register triggers a read error (RDERR).
+When KEYSEL[2:0] = 001 (DHUK) or 100 (DHUK XOR BHK), the application software
+must use the same privilege, security, KMOD[1:0] / KSHAREID[1:0], CHMOD[2:0], and
+KEYSIZE context for encryption and decryption. Otherwise, the result is incorrect.
+When KMOD[1:0] = 10 and BUSY = 1 in the AES peripheral and KEYSIZE value of AES
+and SAES differs, the key sharing fails and the KEIF flag is raised in both peripherals.

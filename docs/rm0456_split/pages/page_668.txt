@@ -1,0 +1,20 @@
+667
+
+Peripherals interconnect matrix
+
+RM0456
+
+16
+
+Peripherals interconnect matrix
+
+16.1
+
+Interconnect matrix introduction
+Several peripherals have direct connections between them. This allows autonomous
+communication and or synchronization between peripherals, saving CPU resources, thus
+power supply consumption.
+In addition, these hardware connections remove software latency and allow design of
+predictable system.
+Depending on peripherals, these interconnections can operate in various power modes:
+Run, Sleep, Stop 0, Stop 1, and Stop 2 modes.

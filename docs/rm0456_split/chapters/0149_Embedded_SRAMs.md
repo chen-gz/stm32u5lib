@@ -1,0 +1,270 @@
+RM0456 Rev 6
+
+I2C register map
+
+USART register map
+
+RM0456
+
+STM32U575/585
+
+STM32U59x/5Ax
+
+STM32U5Fx/5Gx
+
+0x5000 3000 - 0x5000 33FF
+
+0x4000 3000 - 0x4000 33FF
+
+1K
+
+IWDG
+
+IWDG register map
+
+X
+
+X
+
+X
+
+X
+
+0x5000 2C00 - 0x5000 2FFF
+
+0x4000 2C00 - 0x4000 2FFF
+
+1K
+
+WWDG
+
+WWDG register map
+
+X
+
+X
+
+X
+
+X
+
+0x5000 1800 - 0x5000 2BFF
+
+0x4000 1800 - 0x4000 2BFF
+
+5K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x5000 1400 - 0x5000 17FF
+
+0x4000 1400 - 0x4000 17FF
+
+1K
+
+TIM7
+
+X
+
+X
+
+X
+
+X
+
+0x5000 1000 - 0x5000 13FF
+
+0x4000 1000 - 0x4000 13FF
+
+1K
+
+TIM6
+
+X
+
+X
+
+X
+
+X
+
+0x5000 0C00 - 0x5000 0FFF
+
+0x4000 0C00 - 0x4000 0FFF
+
+1K
+
+TIM5
+
+X
+
+X
+
+X
+
+X
+
+0x5000 0800 - 0x5000 0BFF
+
+0x4000 0800 - 0x4000 0BFF
+
+1K
+
+TIM4
+
+X
+
+X
+
+X
+
+X
+
+0x5000 0400 - 0x5000 07FF
+
+0x4000 0400 - 0x4000 07FF
+
+1K
+
+TIM3
+
+X
+
+X
+
+X
+
+X
+
+0x5000 0000 - 0x5000 03FF
+
+0x4000 0000 - 0x4000 03FF
+
+1K
+
+TIM2
+
+X
+
+X
+
+X
+
+X
+
+APB1 (cont’d)
+
+Bus
+
+Secure boundary
+address
+
+Nonsecure boundary
+address
+
+Size (bytes)
+
+STM32U535/545
+
+Table 6. Memory map and peripheral register boundary addresses (continued)
+
+Peripheral register
+map
+
+Peripheral
+
+TIMx register map
+
+TIMx register map
+
+1. Only one COMP in STM32U535/545.
+2. No dual ADC mode on STM32U535/545/575/585.
+3. MDF features only two filters in STM32U535/545.
+4. FDCAN1 is not present on STM32U5Fx devices.
+
+2.3.3
+
+Embedded SRAMs
+Table 7. SRAM sizes
+
+SRAM
+
+STM32U535/545
+
+SRAM1
+
+STM32U575/585
+
+192 Kbytes
+64 Kbytes
+-
+
+512 Kbytes
+
+SRAM4
+
+832 Kbytes
+16 Kbytes
+
+SRAM5
+
+-
+
+-
+
+SRAM6
+
+-
+
+-
+
+BKSRAM
+TOTAL
+
+STM32U5Fx/5Gx
+
+768 Kbytes
+
+SRAM2
+SRAM3
+
+STM32U59x/5Ax
+
+832 Kbytes
+-
+
+512 Kbytes
+
+2514 Kbytes
+
+3026 Kbytes
+
+2 Kbytes
+274 Kbytes
+
+786 Kbytes
+
+These SRAMs can be accessed as bytes, half-words (16 bits), or full words (32 bits).
+These memories can be addressed both by CPU and DMAs.
+The CPU can access the SRAM1, SRAM2, SRAM3, SRAM5, and SRAM6 through
+the system bus, or through the C-bus depending on the selected address. The CPU can
+access the SRAM4 and BKPSRAM through the system bus only.
+When the TrustZone security is enabled, all SRAMs are secure after reset. The SRAM can
+be programmed as nonsecure with a block granularity. For more details, refer to Section 5:
+Global TrustZone controller (GTZC).
+SRAM features are detailed in Section 6.3.1: Internal SRAMs features.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

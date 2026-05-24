@@ -1,0 +1,415 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bits 13:11 ATOSEL2[2:0]: Active tamper shared output 2 selection
+000: TAMPOUTSEL2 = TAMP_OUT1
+001: TAMPOUTSEL2 = TAMP_OUT2
+010: TAMPOUTSEL2 = TAMP_OUT3
+011: TAMPOUTSEL2 = TAMP_OUT4
+100: TAMPOUTSEL2 = TAMP_OUT5
+101: TAMPOUTSEL2 = TAMP_OUT6
+110: TAMPOUTSEL2 = TAMP_OUT7
+111: TAMPOUTSEL2 = TAMP_OUT8
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bits 12:11 are the mirror of ATOSEL2[1:0] in the TAMP_ATCR1, and so can also be read or
+written through TAMP_ATCR1.
+Bits 10:8 ATOSEL1[2:0]: Active tamper shared output 1 selection
+000: TAMPOUTSEL1 = TAMP_OUT1
+001: TAMPOUTSEL1 = TAMP_OUT2
+010: TAMPOUTSEL1 = TAMP_OUT3
+011: TAMPOUTSEL1 = TAMP_OUT4
+100: TAMPOUTSEL1 = TAMP_OUT5
+101: TAMPOUTSEL1 = TAMP_OUT6
+110: TAMPOUTSEL1 = TAMP_OUT7
+111: TAMPOUTSEL1 = TAMP_OUT8
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bits 9:8 are the mirror of ATOSEL1[1:0] in the TAMP_ATCR1, and so can also be read or
+written through TAMP_ATCR1.
+Bits 7:0 Reserved, must be kept at reset value.
+
+Note:
+
+Changing the active tampers configuration in this register is not allowed when a TAMPxAM
+bit is set, unless the corresponding TAMPxE bits are all cleared in the TAMP_CR1 register.
+All tampers configured in active mode must be enabled at the same time (by setting all
+related TAMPxE in the same TAMP_CR1 write).
+All tampers configured in active mode must be disabled at the same time (by clearing all
+related TAMPxE in the same TAMP_CR1 write).
+A minimum duration of 1 CK_ATPRE period must be waited for after disabling the active
+tampers and before re-enabling them.
+
+64.7.9
+
+TAMP secure configuration register (TAMP_SECCFGR)
+If TZEN = 1, this register can be written only when the APB access is secure. If TZEN = 0,
+BKPRWSEC[7:0], BKPWSEC[7:0] and BHKLOCK can be written with nonsecure APB
+access, and TAMPSEC, CNT1SEC cannot be written.
+This register can be globally write-protected, or each bit of this register can be individually
+write-protected against unprivileged access depending on the TAMP_PRIVCFGR
+configuration (refer to Section 64.4.7: TAMP privilege protection modes).
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+RM0456
+
+Tamper and backup registers (TAMP)
+Address offset: 0x20
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+TAMP
+SEC
+
+BHK
+LOCK
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rs
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+CNT1
+SEC
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+BKPWSEC[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+BKPRWSEC[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 TAMPSEC: Tamper protection (excluding monotonic counters and backup registers)
+0: Tamper configuration and interrupt can be written when the APB access is secure or
+nonsecure.
+1: Tamper configuration and interrupt can be written only when the APB access is secure.
+Note: Refer to Section 64.4.5: TAMP secure protection modes for details on the read
+protection.
+Bit 30 BHKLOCK: Boot hardware key lock
+This bit can be read and can only be written to 1 by software. It is cleared by hardware
+together with the backup registers following a tamper detection event or when the readout
+protection (RDP) is disabled.
+0: The Backup registers from TAMP_BKP0R to TAMP_BKP7R can be accessed according to
+the Protection zone they belong to.
+1: The backup registers from TAMP_BKP0R to TAMP_BKP7R cannot be accessed neither in
+read nor in write (they are read as 0 and write ignore).
+Bits 29:24 Reserved, must be kept at reset value.
+Bits 23:16 BKPWSEC[7:0]: Backup registers write protection offset
+BKPWSEC value must be from 0 to 32.
+Protection zone 2 is defined for backup registers from TAMP_BKPyR (y = BKPRWSEC) to
+TAMP_BKPzR (z = BKPWSEC-1, with BKPWSEC > BKPRWSEC):
+–
+if TZEN=1, these backup registers can be written only with secure access.
+–
+They can be read with secure or nonsecure access.
+If BKPWSEC = 0 or if BKPWSEC ≤ BKPRWSEC: there is no protection zone 2.
+Protection zone 3 is defined for backup registers from TAMP_BKPtR (t = BKPWSEC if
+BKPWSEC ≥ BKPRWSEC, else t = BKPRWSEC).
+–
+They can be read or written with secure or nonsecure access.
+If BKPWSEC = 32: there is no protection zone 3.
+Refer to Figure 775: Backup registers protection zones.
+Note: If TZEN=0: the protection zone 2 can be read and written with nonsecure access.
+Note: If BKPWPRIV is set, BKPRWSEC[7:0] can be written only in privileged mode.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bit 15 CNT1SEC: Monotonic counter 1 secure protection
+0: Monotonic counter 1 (TAMP_COUNT1R) can be read and written when the APB access is
+secure or nonsecure.
+1: Monotonic counter 1 (TAMP_COUNT1R) can be read and written only when the APB
+access is secure.
+Bits 14:8 Reserved, must be kept at reset value.
+Bits 7:0 BKPRWSEC[7:0]: Backup registers read/write protection offset
+BKPRWSEC value must be from 0 to 32.
+Protection zone 1 is defined for backup registers from TAMP_BKP0R to TAMP_BKPxR
+(x = BKPRWSEC-1, with BKPRWSEC ≥ 1).
+–
+if TZEN=1, these backup registers can be read and written only with secure access.
+If BKPRWSEC = 0: there is no protection zone 1.
+Refer to Figure 775: Backup registers protection zones.
+Note: If TZEN=0: the protection zone 1 can be read and written with nonsecure access.
+Note: If BKPRWPRIV is set, BKPRWSEC[7:0] can be written only in privileged mode.
+
+64.7.10
+
+TAMP privilege configuration register (TAMP_PRIVCFGR)
+This register can be written only when the APB access is privileged.
+When TZEN = 1, this register can be write-protected, or each bit of this register can be
+individually write-protected against nonsecure access depending on the TAMP_SECCFGR
+configuration (refer to Section 64.4.5: TAMP secure protection modes).
+Address offset: 0x24
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+TAMP
+PRIV
+
+30
+
+29
+
+BKP
+BKPR
+WPRIV WPRIV
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+CNT1
+PRIV
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+<!-- pagebreak -->
+

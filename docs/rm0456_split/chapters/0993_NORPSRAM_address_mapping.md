@@ -1,0 +1,91 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+Figure 120. FMC memory banks
+Bank
+
+Supported memory type
+
+Bank 1
+4 x 64 Mbyte
+
+NOR/PSRAM/SRAM
+
+Address
+0x6000 0000
+
+0x6FFF FFFF
+0x7000 0000
+Not used
+0x7FFF FFFF
+0x8000 0000
+Bank 3
+4 x 64 Mbyte
+
+NAND flash memory
+
+0x8FFF FFFF
+0x9000 0000
+Not used
+0x9FFF FFFF
+MSv69581V1
+
+27.5.1
+
+NOR/PSRAM address mapping
+HADDR[27:26] bits are used to select one of the four memory banks as shown in Table 214.
+Table 214. NOR/PSRAM bank selection
+HADDR[27:26](1)
+
+Selected bank
+
+00
+
+Bank 1 - NOR/PSRAM 1
+
+01
+
+Bank 1 - NOR/PSRAM 2
+
+10
+
+Bank 1 - NOR/PSRAM 3
+
+11
+
+Bank 1 - NOR/PSRAM 4
+
+1. HADDR are internal AHB address lines that are translated to external memory.
+
+The HADDR[25:0] bits contain the external memory address. Since HADDR is a byte
+address whereas the memory is addressed at word level, the address actually issued to the
+memory varies according to the memory data width, as shown in the following table.
+Table 215. NOR/PSRAM External memory address
+Memory width(1)
+
+Data address issued to the memory
+
+Maximum memory capacity (bits)
+
+8-bit
+
+HADDR[25:0]
+
+64 Mbytes x 8 = 512 Mbits
+
+16-bit
+
+HADDR[25:1] >> 1
+
+64 Mbytes/2 x 16 = 512 Mbits
+
+1. In case of a 16-bit external memory width, the FMC internally uses HADDR[25:1] to generate the address
+for external memory FMC_A[24:0].
+Whatever the external memory width, FMC_A[0] must be connected to external memory address A[0].
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

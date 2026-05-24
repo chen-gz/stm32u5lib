@@ -1,0 +1,164 @@
+Value (note)
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+MODE
+
+0x20
+
+Curve prime order n length
+
+(in bits, not null,)
+
+RAM@0x400
+
+Curve modulus p length
+
+(in bits, not null,
+8 < value < 640)
+
+RAM@0x408
+
+Curve coefficient a sign
+
+0x0: positive
+0x1: negative
+
+RAM@0x410
+
+RM0456 Rev 6
+
+64 bits
+
+RM0456
+
+Public key accelerator (PKA)
+Table 511. ECC Fp scalar multiplication (continued)
+Parameters with direction
+
+IN
+
+OUT
+
+Value (note)
+
+Storage
+
+Curve coefficient |a|
+
+(absolute value, |a| < p)
+
+RAM@0x418
+
+Curve coefficient b
+
+(positive integer)
+
+RAM@0x520
+
+Curve modulus value p
+
+(odd integer prime, 0 < p < 2640
+
+)
+
+640
+
+)
+
+RAM@0x1088
+RAM@0x12A0
+
+Scalar multiplier k
+
+(0 ≤ k < 2
+
+Point P coordinate xP
+
+(x < p)
+
+RAM@0x578
+
+Point P coordinate yP
+
+(y < p)
+
+RAM@0x470
+
+Curve prime order n
+
+(integer prime)
+
+RAM@0xF88
+
+Result: k x P coordinate x’
+
+(result < p)
+
+RAM@0x578
+
+Result: k x P coordinate y’
+
+(result < p)
+
+RAM@0x5D0
+
+No errors: 0xD60D
+Errors: 0xCBC9
+
+RAM@0x680
+
+ERROR Error k x P
+
+Size
+
+EOS
+
+64 bits
+
+When performing this operation the following special cases must be noted:
+•
+
+For k = 0 this function returns a point at infinity (0, 0) if curve parameter b is nonzero,
+(0, 1) otherwise. For k different from 0 it might happen that a point at infinity is returned.
+When the application detects this behavior a new computation must be carried out.
+
+•
+
+For k < 0 (that is, a negative scalar multiplication is required) the multiplier absolute
+value
+k = |-k| must be provided to the PKA. After the computation completion, the formula
+-P = (x, -y) can be used to compute the y coordinate of the effective final result (the x
+coordinate remains the same).
+
+Note:
+
+The error code is not affected when PKA automatically clears the PKA RAM at the end of
+this protected operation. When the error output equals 0xD60D, the result output is not
+affected either.
+
+53.4.16
+
+ECDSA sign
+ECDSA signing operation (outlined in Section 53.3.5) is summarized in Table 512 (input
+parameters) and in Table 513 (output parameters).
+The application has to check if the output error is equal to 0xD60D, if it is different a new k
+must be generated and the ECDSA sign operation must be repeated.
+
+Note:
+
+Once this operation is started PKA control register and PKA memory is no more available.
+Access is restored once BUSY bit is set to 0 by the PKA.
+When this operation completes with errors due to unexpected hardware events a PKA
+tamper event is triggered to TAMP peripheral, and access to PKA RAM becomes blocked
+until erased by hardware. PKA tamper is also triggered when the programmed input point is
+not found on the input ECC curve. PKA operation "Point on elliptic curve" can be used to
+avoid this.
+
+RM0456 Rev 6

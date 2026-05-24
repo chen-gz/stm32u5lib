@@ -1,0 +1,166 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Bits 2:0 IMODE[2:0]: Instruction mode
+This bitfield defines the instruction phase mode of operation.
+000: No instruction
+001: Instruction on a single line
+010: Instruction on two lines
+011: Instruction on four lines
+100: Instruction on eight lines
+Others: Reserved
+
+30.7.20
+
+HSPI wrap timing configuration register (HSPI_WPTCR)
+Address offset: 0x148
+Reset value: 0x0000 0000
+This register can be modified only when BUSY = 0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+SSHIF
+T
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DCYC[4:0]
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 SSHIFT: Sample shift
+By default, the HSPI samples data 1/2 of a CLK cycle after the data is driven by the external
+device.
+This bit allows the data to be sampled later in order to consider the external signal delays.
+0: No shift
+1: 1/2 cycle shift
+The software must ensure that SSHIFT = 0 when the data phase is configured in DTR mode
+(when DDTR = 1).
+Bits 29:5 Reserved, must be kept at reset value.
+Bits 4:0 DCYC[4:0]: Number of dummy cycles
+This bitfield defines the duration of the dummy phase according to the memory latency.
+In both SDR and DTR modes, it specifies a number of CLK cycles (0-31).

@@ -1,0 +1,39 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Bit 11 BREQ: Block hardware request
+If the channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1 (software
+request for a memory-to-memory transfer), this bit is ignored. Else:
+0: the selected hardware request is driven by a peripheral with a hardware
+request/acknowledge protocol at a burst level.
+1: the selected hardware request is driven by a peripheral with a hardware
+request/acknowledge protocol at a block level (see Section 17.3.3).
+Bit 10 DREQ: destination hardware request
+This bit is ignored if channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1
+(software request for a memory-to-memory transfer). Else:
+0: selected hardware request driven by a source peripheral (request signal taken into
+account by the GPDMA transfer scheduler over the source/read port)
+1: selected hardware request driven by a destination peripheral (request signal taken into
+account by the GPDMA transfer scheduler over the destination/write port)
+Note:
+Bit 9 SWREQ: software request
+This bit is internally taken into account when GPDMA_CxCR.EN is asserted.
+0: no software request. The selected hardware request REQSEL[6:0] is taken into account.
+1: software request for a memory-to-memory transfer. The default selected hardware request
+as per REQSEL[6:0] is ignored.
+Bits 8:7 Reserved, must be kept at reset value.
+Bits 6:0 REQSEL[6:0]: GPDMA hardware request selection
+These bits are ignored if channel x is activated (GPDMA_CxCR.EN asserted) with
+SWREQ = 1 (software request for a memory-to-memory transfer). Else, the selected
+hardware request is internally taken into account as per Section 17.3.3.
+Caution: The user must not assign a same input hardware request (same REQSEL[6:0]
+value) to different active GPDMA channels (GPDMA_CxCR.EN = 1 and
+GPDMA_CxTR2.SWREQ = 0 for these channels). GPDMA is not intended to
+hardware support the case of simultaneous enabled channels incorrectly configured
+with a same hardware peripheral request signal, and there is no user setting error
+reporting.
+
+RM0456 Rev 6

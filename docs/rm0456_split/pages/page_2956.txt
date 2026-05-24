@@ -1,0 +1,182 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Bits 15:0 TSC[15:0]: Timestamp counter
+The internal/external timestamp counter value is captured on start of frame (both Rx and Tx).
+When TSS[1:0] = 01 in FDCAN_TSCC, the timestamp counter is incremented in multiples of
+CAN bit times [1 … 16] depending on the configuration of TCP[3:0] in FDCAN_TSCC. A wrap
+around sets the TSW interrupt flag in FDCAN_IR. Write access resets the counter to 0.
+When TSS[1:0] = 10, TSC[15:0] reflects the external timestamp counter value. A write
+access has no impact.
+
+Note:
+
+A “wrap around” is a change of the timestamp counter value from non-0 to 0 that is not
+caused by write access to FDCAN_TSCV.
+
+70.4.10
+
+FDCAN timeout counter configuration register (FDCAN_TOCC)
+Address offset: 0x0028
+Reset value: 0xFFFF 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+TOP[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TOS[1:0]
+rw
+
+0
+ETOC
+
+rw
+
+rw
+
+Bits 31:16 TOP[15:0]: Timeout period
+Start value of the timeout counter (down-counter). Configures the timeout period.
+This bitfield is write-protected (P), write access is possible only when the CCE and INIT bits of
+the FDCAN_CCCR register are both set.
+Bits 15:3 Reserved, must be kept at reset value.
+Bits 2:1 TOS[1:0]: Timeout select
+When operating in continuous mode, a write to FDCAN_TOCV presets the counter to the
+value configured by TOP[15:0] in FDCAN_TOCC and continues down-counting. When the
+timeout counter is controlled by one of the FIFOs, an empty FIFO presets the counter to the
+value configured by TOP[15:0]. Down-counting is started when the first FIFO element is
+stored.
+00: Continuous operation
+01: Timeout controlled by Tx event FIFO
+10: Timeout controlled by Rx FIFO 0
+11: Timeout controlled by Rx FIFO 1
+This bitfield is write-protected (P), write access is possible only when the CCE and INIT bits of
+the FDCAN_CCCR register are both set.
+Bit 0 ETOC: Timeout counter enable
+0: Timeout counter disabled
+1: Timeout counter enabled
+This bit is write-protected (P), write access is possible only when the CCE and INIT bits of the
+FDCAN_CCCR register are both set.
+
+For more details, see Timeout counter.
+
+RM0456 Rev 6

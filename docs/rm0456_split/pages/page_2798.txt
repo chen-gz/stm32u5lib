@@ -1,0 +1,123 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+68
+
+Serial peripheral interface (SPI)
+
+68.1
+
+Introduction
+The serial peripheral interface (SPI) can be used to communicate with external devices
+while using the specific synchronous protocol. The SPI protocol supports half-duplex, fullduplex, and simplex synchronous, serial communication with external devices. The interface
+can be configured as master or slave and can operate in multislave or multimaster
+configurations. The device configured as master provides a communication clock (SCK) to
+the slave device. The slave select (SS) and ready (RDY) signals can be applied optionally
+just to set up communication with a concrete slave and to ensure it handles the data flow
+properly. The Motorola data format is used by default, but some other specific modes are
+supported as well.
+
+68.2
+
+SPI main features
+•
+
+Full-duplex synchronous transfers on three lines
+
+•
+
+Half-duplex synchronous transfer on two lines (with bidirectional data line)
+
+•
+
+Simplex synchronous transfers on two lines (with unidirectional data line)
+
+•
+
+From 4-bit up to 32-bit data size selection
+
+•
+
+Multimaster or multislave mode capability
+
+•
+
+Dual clock domain, the peripheral kernel clock is independent from the APB bus clock
+
+•
+
+Baud rate prescaler up to kernel frequency/2 or bypass from RCC in master mode
+
+•
+
+Protection of configuration and setting
+
+•
+
+Hardware or software management of SS for both master and slave
+
+•
+
+Adjustable minimum delays between data and between SS and data flow
+
+•
+
+Configurable SS signal polarity and timing, MISO x MOSI swap capability
+
+•
+
+Programmable clock polarity and phase
+
+•
+
+Programmable data order with MSB-first or LSB-first shifting
+
+•
+
+Programmable number of data within a transfer to control SS and CRC
+
+•
+
+Dedicated transmission and reception flags with interrupt capability
+
+•
+
+SPI Motorola and TI format support
+
+•
+
+Hardware CRC can verify the integrity of the communication at the end of a transfer by:
+–
+
+Adding CRC value in Tx mode
+
+–
+
+Automatic CRC error checking for Rx mode
+
+•
+
+Error detection with interrupt capability in case of data overrun, CRC error, data
+underrun, the mode fault, and frame error, depending on the operating mode
+
+•
+
+Two 8-bit width embedded Rx and Tx FIFOs (FIFO size depends on instances)
+
+•
+
+Configurable FIFO thresholds (to handle the data packets)
+
+•
+
+Capability to handle data streams by system DMA controller
+
+•
+
+Configurable behavior at slave underrun condition (support of cascaded circular
+buffers)
+
+RM0456 Rev 6

@@ -1,0 +1,68 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Figure 818. Mute mode using address mark detection
+In this example, the current address of the receiver is 1
+(programmed in the USART_CR2 register)
+RXNE
+
+IDLE
+
+RX
+
+Addr=0 Data 1 Data 2
+
+RWU
+
+IDLE
+
+RXNE
+
+Addr=1 Data 3 Data 4 Addr=2 Data 5
+
+Mute mode
+
+Normal mode
+Matching address
+
+MMRQ written to 1
+(RXNE was cleared)
+
+RXNE
+
+Mute mode
+
+Non-matching address
+
+Non-matching address
+MSv31155V1
+
+66.5.12
+
+USART Modbus communication
+The USART offers basic support for the implementation of Modbus/RTU and Modbus/ASCII
+protocols. Modbus/RTU is a half-duplex, block-transfer protocol. The control part of the
+protocol (address recognition, block integrity control and command interpretation) must be
+implemented in software.
+The USART offers basic support for the end of the block detection, without software
+overhead or other resources.
+
+Modbus/RTU
+In this mode, the end of one block is recognized by a “silence” (idle line) for more than 2
+character times. This function is implemented through the programmable timeout function.
+The timeout function and interrupt must be activated, through the RTOEN bit in the
+USART_CR2 register and the RTOIE in the USART_CR1 register. The value corresponding
+to a timeout of 2 character times (for example 22 x bit time) must be programmed in the
+RTO register. When the receive line is idle for this duration, after the last stop bit is received,
+an interrupt is generated, informing the software that the current block reception has not
+completed.
+
+Modbus/ASCII
+In this mode, the end of a block is recognized by a specific (CR/LF) character sequence.
+The USART manages this mechanism using the character match function.
+By programming the LF ASCII code in the ADD[7:0] field and by activating the character
+match interrupt (CMIE = 1), the software is informed when a LF has been received and can
+check the CR/LF in the DMA buffer.

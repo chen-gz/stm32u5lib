@@ -1,0 +1,19 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bits 24, 14:12 OC4M[3:0]: Output compare 4 mode
+Refer to OC3M[3:0] bit description
+Bit 11 OC4PE: Output compare 4 preload enable
+Bit 10 OC4FE: Output compare 4 fast enable
+Bits 9:8 CC4S[1:0]: Capture/compare 4 selection
+This bitfield defines the direction of the channel (input/output) as well as the used input.
+00: CC4 channel is configured as output
+01: CC4 channel is configured as input, tim_ic4 is mapped on tim_ti4
+10: CC4 channel is configured as input, tim_ic4 is mapped on tim_ti3
+11: CC4 channel is configured as input, tim_ic4 is mapped on tim_trc. This mode is working
+only if an internal trigger input is selected through TS bit (TIMx_SMCR register)
+Note: CC4S bits are writable only when the channel is OFF (CC4E = 0 in TIMx_CCER).
+Bit 7 OC3CE: Output compare 3 clear enable

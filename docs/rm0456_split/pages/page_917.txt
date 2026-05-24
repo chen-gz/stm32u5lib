@@ -1,0 +1,69 @@
+LSECSS
+MSI_PLL_UNLOCK
+
+RM0456 Rev 6
+
+RM0456
+
+Nested vectored interrupt controller (NVIC)
+
+Priority
+
+Position
+
+Table 187. STM32U5 series vector table(1) (continued)
+Type of
+priority
+
+Acronym
+
+Description
+
+Address
+
+136 144
+
+Settable LCD_TFT_ERR
+
+LTDC global error interrupt
+
+0x0000 0260
+
+137 145
+
+Settable DSIHOST
+
+DSI global interrupt
+
+0x0000 0264
+
+138 146
+
+Settable DCACHE2
+
+DCACHE 2 global interrupt
+
+0x0000 0268
+
+139 147
+
+Settable GFXTIM
+
+GFXTIM global interrupt
+
+0x0000 026C
+
+140 148
+
+Settable JPEG
+
+JPEG sync interrupt
+
+0x0000 0270
+
+1. Some interrupt lines are only available on some STM32U5 Series devices. Refer to the device datasheet for availability of
+associated peripheral. If not present, consider this interrupt line as reserved.
+2. Reserved in STM32U575/585 rev. X devices. LSECSS and MSI_PLL_UNLOCK interrupt lines are available in all other
+revisions of STM32U575/585 and on all other STM32U5 Series devices.
+
+RM0456 Rev 6

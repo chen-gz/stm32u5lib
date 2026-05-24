@@ -1,0 +1,87 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+Figure 328. SITFx overview
+
+MDF
+
+To BSMX
+
+SITF0
+bs0_r
+
+bs0_f
+
+Serial
+RX
+
+MDF_SDI0
+
+MDF_SITF0CR.SCKSRC
+
+MDF_CKI0
+
+2
+1
+0
+
+MDF_SITF0CR.SITFMOD
+
+...
+
+...
+
+To BSMX
+
+SITFx
+bsx_r
+
+bsx_f
+
+Serial
+RX
+
+MDF_SDIx
+
+MDF_SITFxCR.SCKSRC
+2
+
+MDF_CKIx
+
+1
+0
+
+MDF_SITFxCR.SITFMOD
+
+mdf_proc_ck
+mdf_ker_ck
+
+CCK1EN
+MDF_CCK1
+
+CKGEN
+
+MDF_CCK0
+(1) (2)
+CCK0EN
+mdf_ker_ck clock domain
+
+(1) SITF0 in SPI mode
+(2) SITF0 in LF_MASTER SPI mode
+
+Note: refer to the MDF implementation section to define the ‘x’ value.
+
+MSv62654V1
+
+LF_MASTER and normal SPI modes
+The LF_MASTER SPI mode is a special mode allowing the usage of a mdf_proc_ck clock
+frequency, only two times higher than the sensor clock. This mode is dedicated to low-power
+use-cases, using low-speed sensors.
+In LF_MASTER SPI mode, the MDF must provide the bitstream clock to the external
+sensors via MDF_CCK0 and MDF_CCK1 pins, and receives the bitstream data via the
+serial data input MDF_SDIx.
+For each SITFx, the application must select the same clock than the one provided to the
+external sensor (MDF_CCK0 or MDF_CCK1), in order to guarantee optimal timing
+performances. This selection is done via SCKSRC[1:0].

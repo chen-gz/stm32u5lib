@@ -1,0 +1,158 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Bits 7:4 ADDHLD[3:0]: Address-hold phase duration
+These bits are written by software to define the duration of the address hold phase (refer to
+Figure 121 to Figure 133), used in mode D or multiplexed accesses:
+0000: Reserved
+0001: ADDHLD phase duration =1 × HCLK clock cycle
+0010: ADDHLD phase duration = 2 × HCLK clock cycle
+...
+1111: ADDHLD phase duration = 15 × HCLK clock cycles (default value after reset)
+For each access mode address-hold phase duration, refer to the respective figure
+(Figure 121 to Figure 133).
+Note: In synchronous accesses, this value is not used, the address hold phase is always 1
+memory clock period duration.
+Bits 3:0 ADDSET[3:0]: Address setup phase duration
+These bits are written by software to define the duration of the address setup phase (refer to
+Figure 121 to Figure 133), used in SRAMs, ROMs, asynchronous NOR flash and PSRAM:
+0000: ADDSET phase duration = 0 × HCLK clock cycle
+...
+1111: ADDSET phase duration = 15 × HCLK clock cycles (default value after reset)
+For each access mode address setup phase duration, refer to the respective figure
+(Figure 121 to Figure 133).
+Note: In synchronous accesses, this value is don’t care.
+In Muxed mode or mode D, the minimum value for ADDSET is 1.
+In mode 1 and PSRAM memory, the minimum value for ADDSET is 1.
+
+Note:
+
+PSRAMs (CRAMs) have a variable latency due to internal refresh. Therefore these
+memories issue the NWAIT signal during the whole latency phase to prolong the latency as
+needed.
+With PSRAMs (CRAMs) the filled DATLAT must be set to 0, so that the FMC exits its latency
+phase soon and starts sampling NWAIT from memory, then starts to read or write when the
+memory is ready.
+This method can be used also with the latest generation of synchronous flash memories that
+issue the NWAIT signal, unlike older flash memories (check the datasheet of the specific
+flash memory being used).
+
+SRAM/NOR-flash write timing registers x (FMC_BWTRx)
+Address offset: 0x104 + 0x8 * (x - 1), (x = 1 to 4)
+Reset value: 0x0FFF FFFF
+This register contains the control information of each memory bank. It is used for SRAMs,
+PSRAMs and NOR flash memories. When the EXTMOD bit is set in the FMC_BCRx
+register, then this register is active for write access.
+31
+
+30
+
+DATAHLD[1:0]
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+ACCMOD[1:0]
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+rw
+
+rw
+
+rw
+
+DATAST[7:0]

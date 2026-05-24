@@ -1,0 +1,177 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Bits 7:6 WUSEL4[1:0]: wake-up pin WKUP4 selection
+This field must be configured when WUPEN4 = 0.
+00: WKUP4_0
+01: WKUP4_1
+10: WKUP4_2
+11: WKUP4_3
+Bits 5:4 WUSEL3[1:0]: wake-up pin WKUP3 selection
+This field must be configured when WUPEN3 = 0.
+00: WKUP3_0
+01: WKUP3_1
+10: WKUP3_2
+11: WKUP3_3
+Bits 3:2 WUSEL2[1:0]: wake-up pin WKUP2 selection
+This field must be configured when WUPEN2 = 0.
+00: WKUP2_0
+01: WKUP2_1
+10: WKUP2_2
+11: WKUP2_3
+Bits 1:0 WUSEL1[1:0]: wake-up pin WKUP1 selection
+This field must be configured when WUPEN1 = 0.
+00: WKUP0_0
+01: WKUP0_1
+10: WKUP0_2
+11: WKUP0_3
+
+10.10.9
+
+PWR backup domain control register 1 (PWR_BDCR1)
+Address offset: 0x20
+Backup domain reset value: 0x0000 0000
+Power-on reset: not affected
+The register is not affected when exiting Standby mode.
+System reset: not affected
+This register is write-protected when DBP is cleared in PWR_DBPR. This register is
+protected against nonsecure access when VBSEC = 1 in PWR_SECCFGR. This register is
+protected against unprivileged access when VBSEC = 1 and SPRIV = 1 in
+PWR_PRIVCFGR, or when VBSEC = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+MONE
+N
+
+Res.
+
+Res.
+
+Res.
+
+BREN
+
+rw
+
+Bits 31:5 Reserved, must be kept at reset value.

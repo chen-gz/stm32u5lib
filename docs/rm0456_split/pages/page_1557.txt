@@ -1,0 +1,85 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+Figure 350. Break interface simplified view
+
+MDF_OLD0CR.BKOLDy
+old_brk0
+
+...
+
+From OLD0 to x
+blocks
+
+MDF break interface
+
+MDF_OLDxCR.BKOLDy
+old_brkx
+mdf_breaky (note)
+
+MDF_SCD0CR.BKSCDy
+scd_brk0
+
+...
+
+From SCD0 to x
+blocks
+
+OR
+
+MDF_SCDxCR.BKSCDy
+scd_brkx
+
+Note: The same logic is implemented for each mdf_breaky output (y can be 0, 1, 2 or 3).
+
+39.4.13
+
+MSv62684V1
+
+Data transfer to memory
+Data format
+The samples processed by DFLTx are stored into a RXFIFO. The application can read the
+samples stored into the FIFOs via the MDF digital filter data register x (MDF_DFLTxDR).
+The samples inside this register are signed and left aligned. The bit 31 always represents
+the sign.
+The MDF provides 24-bit left-aligned data. Performing a 16-bit access to MDF_DFLTxDR
+allows the application to get the 16 most significant bits. Performing a 32-bit access to
+MDF_DFLTxDR allows the application to get a 24-bit data size.
+Figure 351. MDF_DFLTxDR data format
+
+23
+
+RXFIFO width
+
+0
+
+1
+...
+FIFO_DEPTH
+
+16 15
+
+31
+
+MDF_DFLTxDR
+
+PCM[23:0]
+
+7
+
+0
+zero’s
+MSv62689V1
+
+Data re-synchronization
+The samples stored into the RXFIFOs can be transferred into the memory by using either
+DMA requests or interrupt signaling.
+Note:
+
+The RXFIFOs are located into the mdf_ker_ck clock domain, while MDF_DFLTxDR are
+located into the mdf_hclk (AHB) clock domain.
+When the AHB clock is available, if MDF_DFLTxDR is empty and if a sample is available
+into the RXFIFO, this sample is transferred into MDF_DFLTxDR.
+RM0456 Rev 6

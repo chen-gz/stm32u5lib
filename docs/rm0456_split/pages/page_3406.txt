@@ -1,0 +1,178 @@
+RM0456 Rev 6
+
+r
+
+RM0456
+
+Debug support (DBG)
+
+Bit 7 WDATAERR: write data error (read-only) in SW-DP
+This bit indicates that there is a parity or framing error on the data phase of a write, or a write
+accepted by the DP is then discarded without being submitted to the AP.
+This bit is reset by writing one to the ABORT.WDERRCLR bit.
+0: no error
+1: an error occurred
+Note: This bit is reserved in JTAG-DP.
+Bit 6 READOK: AP read response (read-only) in SW-DP
+This bit indicates the response to the last AP read access.
+0: read not OK
+1: read OK
+Note: This bit is reserved in JTAG-DP.
+Bit 5 STICKYERR: transaction error (read-only in SW-DP, read/write in JTAG-DP)
+This bit indicates that an error occurred in an AP transaction.It is reset by writing 1 to the
+DP_ABORTR.STKERRCLR bit (in SW-DP and JTAG-DP)
+0: no error
+1: an error occurred
+Bits 4:2 Reserved, must be kept at reset value.
+Bit 1 STICKYORUN: overrun (read-only in SW-DP, read/write in JTAG-DP).
+This bit indicates that an overrun occurred (new transaction received before previous
+transaction completed). This bit is only set if the ORUNDETECT bit is set. it is reset by
+writing 1 to the DP_ABORTR.ORUNERRCLR bit (in SW-DP and JTAG-DP).
+0: no overrun
+1: an overrun occurred
+Bit 0 ORUNDETECT: overrun detection mode enable.
+0: disabled
+1: enabled. In the event of an overrun, the STICKYORUN bit is set and subsequent
+transactions are blocked until the STICKYORUN bit is cleared.
+
+DP data link control register (DP_DLCR)
+Address offset: 0x4
+Reset value: 0x0000 0000
+This register is accessible when DP_SELECTR.DPBANKSEL[3:0] = 0x1.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TURNROUND
+[1:0]
+r
+
+WIREMODE[1:0]
+
+r
+
+r
+
+r
+
+Bits 31:10 Reserved, must be kept at reset value.
+Bits 9:8 TURNROUND[1:0]: tristate period for SWDIO
+0x0: 1 data bit period
+
+RM0456 Rev 6

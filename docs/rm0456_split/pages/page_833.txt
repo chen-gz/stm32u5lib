@@ -1,0 +1,85 @@
+•
+
+Register-to-memory
+
+•
+
+Memory-to-memory
+
+•
+
+Memory-to-memory with PFC
+
+•
+
+Memory-to-memory with PFC and blending
+
+•
+
+Memory-to-memory with PFC, blending and fixed FG color
+
+•
+
+Memory-to-memory with PFC, blending and fixed BG color
+
+RM0456 Rev 6
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+
+Register-to-memory
+The register-to-memory mode is used to fill a user defined area with a predefined color.
+The color format is set in DMA2D_OPFCCR.
+The DMA2D does not perform any data fetching from any source. It just writes the color
+defined in DMA2D_OCOLR to the area located at the address pointed by DMA2D_OMAR,
+and defined in DMA2D_NLR and DMA2D_OOR.
+
+Memory-to-memory
+In memory-to-memory mode, the DMA2D does not perform any graphical data
+transformation. The foreground input FIFO acts as a buffer and the data are transferred
+from the source memory location defined in DMA2D_FGMAR to the destination memory
+location pointed by DMA2D_OMAR.
+The color mode programmed by CM[3:0] in DMA2D_FGPFCCR defines the number of bits
+per pixel for both input and output.
+The size of the area to be transferred is defined by DMA2D_NLR and DMA2D_FGOR for
+the source, and by DMA2D_NLR and DMA2D_OOR for the destination.
+
+Memory-to-memory with PFC
+In this mode, the DMA2D performs a pixel format conversion of the source data and stores
+them in the destination memory location.
+The size of the areas to be transferred are defined by DMA2D_NLR and DMA2D_FGOR for
+the source, and by DMA2D_NLR and DMA2D_OOR for the destination.
+Data are fetched from the location defined in DMA2D_FGMAR and processed by the
+foreground PFC. The original pixel format is configured through DMA2D_FGPFCCR.
+If the original pixel format is direct color mode, then the color channels are all expanded
+to 8 bits.
+If the pixel format is indirect color mode, the associated CLUT has to be loaded into the
+CLUT memory.
+The CLUT loading can be done automatically by following the sequence below:
+1.
+
+Set the CLUT address into DMA2D_FGCMAR.
+
+2.
+
+Set the CLUT size with CS[7:0] bits in DMA2D_FGPFCCR.
+
+3.
+
+Set the CLUT format (24 or 32 bits) with CCM in DMA2D_FGPFCCR.
+
+4.
+
+Start the CLUT loading by setting START i nDMA2D_FGPFCCR.
+
+Once the CLUT loading is complete, the CTCIF flag in DMA2D_IFR is raised, and an
+interrupt is generated if CTCIE = 1 in DMA2D_CR. The automatic CLUT loading process
+can not work in parallel with classical DMA2D transfers.
+The CLUT can also be filled by the CPU or by any other master through the APB port. The
+access to the CLUT is not possible when a DMA2D transfer is ongoing and uses
+the CLUT (indirect color format).
+In parallel to the color conversion process, the alpha value is added or changed depending
+on the value programmed in DMA2D_FGPFCCR. If the original image does not have an
+
+RM0456 Rev 6

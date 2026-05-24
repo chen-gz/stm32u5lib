@@ -1,0 +1,69 @@
+•
+
+The interrupts for the input FIFO must be disabled to prevent an unwanted interrupt
+request upon flushing the FIFO.
+
+•
+
+The DMA channel must be stopped to prevent an unwanted DMA trigger.
+
+RM0456 Rev 6
+
+RM0456
+
+JPEG codec (JPEG)
+The consequence of not flushing the FIFO at the end of the encoding process is that any
+remaining data is taken into the next JPEG encoding.
+
+JPEG encoding
+Once the JPEG header is generated, the incoming MCUs are encoded and the resulting
+data stream sent to the output FIFO.
+
+DMA generation for output FIFO
+A DMA request is generated when the 32-byte output FIFO becomes at least half-full, that
+is, when there are at least 16 bytes of data.
+A burst transfer is launched by the DMA to read 16 bytes of data.
+Read returns 0 if the output FIFO is empty.
+At the end of the encoding process, the last bytes may remain in the output FIFO as the
+stream padding may not be on 16 bytes.
+These additional bytes must be managed by the CPU using the output FIFO not empty flag.
+In case of abort of the JPEG codec operations by resetting the START bit of the
+JPEG_CONFR0 register, the output FIFO can be flushed. The FIFO can be flushed by
+setting the OFF bit (output FIFO flush) of the JPEG_CR register.
+Prior to flushing the FIFO, the DMA for the input FIFO must be disabled to prevent an
+unwanted DMA request upon flushing the FIFO.
+
+Interrupt or DMA trigger generation for output FIFO
+Output FIFO can be managed using interrupts or DMA triggers through two flags according
+to the FIFO state:
+•
+
+Output FIFO not empty flag: a 32-bit value can be read out.
+
+•
+
+Output FIFO threshold flag: 8 words (32 bytes) can be read out.
+
+Reads return 0 if the output FIFO is empty.
+In case of abort of the JPEG codec operations by resetting the START bit of the
+JPEG_CONFR0 register, the output FIFO can be flushed. The FIFO can be flushed by
+setting the FF bit (FIFO flush) of the JPEG_CR register.
+Prior to flushing the FIFO:
+•
+
+The interrupts for the output FIFO must be disabled to prevent an unwanted interrupt
+request upon flushing the FIFO.
+
+•
+
+The DMA channel must be stopped to prevent an unwanted DMA trigger.
+
+The output FIFO must be flushed at the end of processing before any JPEG configuration
+change.
+The EOCF bit (end of conversion flag) of the JPEG_SR register can only be cleared when
+the output FIFO is empty.
+Clearing either of the HDR bit (header processing) of the JPEG_CONFR1 register and the
+JCEN bit (JPEG codec enable) of the JPEG_CR register is allowed only when the EOCF bit
+of the JPEG_SR register is cleared.
+
+RM0456 Rev 6

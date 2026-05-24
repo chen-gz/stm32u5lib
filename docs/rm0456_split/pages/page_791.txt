@@ -1,0 +1,86 @@
+Equal maximum bandwidth between requests with same priority
+
+•
+
+Reserved bandwidth (noted as BQ3) to the time-sensitive requests (with priority 3)
+
+•
+
+Residual weighted bandwidth between different low-priority requests (priority 0 versus
+priority 1 versus priority 2).
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+The two following examples highlight that the weighted round-robin arbitration is driven by
+the programmed priorities:
+•
+
+Example 1: basic application with two non time-sensitive LPDMA requests: req0 and
+req1. There are the following programming possibilities:
+–
+
+If they are assigned with same priority, the allocated bandwidth by the arbiter to
+req0 (Breq0) is equal to the allocated bandwidth to req1(Breq1).
+
+–
+
+If req0 is assigned to priority 0 and req1 to priority 1, the allocated bandwidth to
+req0 (BP0) is 3 times less than the allocated bandwidth to req1 (BP1).
+
+Breq0 = Breq1 = 1/2 * (1 - BQ3)
+
+Breq0 = BP0 = 1/2 * 1/2 * (1 - BQ3) = 1/4 * (1 - BQ3)
+Breq1 = BP1 = (1/2 + 1) * 1/2 * (1 - BQ3) = 3/4 * (1 - BQ3)
+–
+
+If req0 is assigned to priority 0 and req1 to priority 2, the allocated bandwidth to
+req0 (BP0) is 5 times less than the allocated bandwidth to req1 (BP2).
+Breq0 = BP0 = 1/2 * 1/3 * (1 - BQ3) = 1/6 * (1 - BQ3)
+Breq1 = BP2 = (1/2 + 1 +1) * 1/3 * (1 - BQ3) = 5/6 * (1 - BQ3)
+
+The above computed bandwidth calculation is based on a theoretical input request,
+always active for any LPDMA clock cycle. This computed bandwidth from the arbiter
+must be weighted by the frequency of the request given by the application, that cannot
+be always active and may be quite much variable from one LPDMA client (example I2C
+at 400 kHz) to another one (PWM at 1 kHz) than the above x3 and x5 ratios.
+•
+
+Example 2: application where the user distributes a same non-null N number of
+LPDMA requests to every non time-sensitive priority 0, 1 and 2. The bandwidth
+calculation is then the following:
+–
+
+The allocated bandwidth to the set of requests of priority 0 (BP0) is
+BP0 = 1/3 * 1/3 * (1 - BQ3) = 1/9 * (1 - BQ3)
+
+–
+
+The allocated bandwidth to the set of requests of priority 1(BP1) is
+
+–
+
+The allocated bandwidth to the set of requests of priority 2(BP2) is
+
+BP1 = (1/3 + 1/2) * 1/3 * (1 - BQ3) = 5/18 * (1 - BQ3)
+BP2 = (1/3 + 1/2 + 1) * 1/3 * (1 - BQ3) = 11/18 * (1 - BQ3)
+–
+
+The allocated bandwidth to any request n (Bn) among the N requests of that
+priority Pi (i = 0 to 2) is Bn = 1/N * BPi
+
+–
+
+The allocated bandwidth to any request n of priority 0i (Bn, Pi) is
+Bn, P0 = 1/N *1/9 * (1 - BQ3)
+Bn, P1 = 1/N *5/18 * (1 - BQ3)
+Bn, P2 = 1/N *11/18 * (1 - BQ3)
+
+In this example, when the master port bus bandwidth is not totally consumed by the
+time-sensitive queue 3, the residual bandwidth is such that 2.5 times less bandwidth is
+allocated to any request of priority 0 versus priority 1, and 5.5 times less bandwidth is
+allocated to any request of priority 0 versus priority 2.
+
+RM0456 Rev 6

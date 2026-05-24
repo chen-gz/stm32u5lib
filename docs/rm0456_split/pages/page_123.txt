@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 796. Transfer sequence flow for I2C controller transmitter, N ≤ 255 bytes. . . . . . . . . . . . . . . 2715
+Figure 797. Transfer sequence flow for I2C controller transmitter, N > 255 bytes. . . . . . . . . . . . . . . 2716
+Figure 798. Transfer bus diagrams for I2C controller transmitter
+(mandatory events only) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2717
+Figure 799. Transfer sequence flow for I2C controller receiver, N ≤ 255 bytes . . . . . . . . . . . . . . . . 2719
+Figure 800. Transfer sequence flow for I2C controller receiver, N > 255 bytes. . . . . . . . . . . . . . . . . 2720
+Figure 801. Transfer bus diagrams for I2C controller receiver
+(mandatory events only) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2721
+Figure 802. Timeout intervals for tLOW:SEXT, tLOW:MEXT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2725
+Figure 803. Transfer sequence flow for SMBus target transmitter N bytes + PEC . . . . . . . . . . . . . . 2728
+Figure 804. Transfer bus diagram for SMBus target transmitter (SBC = 1). . . . . . . . . . . . . . . . . . . . 2729
+Figure 805. Transfer sequence flow for SMBus target receiver N bytes + PEC . . . . . . . . . . . . . . . . 2730
+Figure 806. Bus transfer diagrams for SMBus target receiver (SBC = 1) . . . . . . . . . . . . . . . . . . . . . 2731
+Figure 807. Bus transfer diagrams for SMBus controller transmitter . . . . . . . . . . . . . . . . . . . . . . . . . 2732
+Figure 808. Bus transfer diagrams for SMBus controller receiver . . . . . . . . . . . . . . . . . . . . . . . . . . . 2734
+Figure 809. USART block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2760
+Figure 810. Word length programming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2764
+Figure 811. Configurable stop bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2766
+Figure 812. TC/TXE behavior when transmitting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2768
+Figure 813. Start bit detection when oversampling by 16 or 8 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2769
+Figure 814. usart_ker_ck clock divider block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2772
+Figure 815. Data sampling when oversampling by 16 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2773
+Figure 816. Data sampling when oversampling by 8 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2774
+Figure 817. Mute mode using Idle line detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2781
+Figure 818. Mute mode using address mark detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2782
+Figure 819. Break detection in LIN mode (11-bit break length - LBDL bit is set) . . . . . . . . . . . . . . . . 2785
+Figure 820. Break detection in LIN mode vs. Framing error detection. . . . . . . . . . . . . . . . . . . . . . . . 2786
+Figure 821. USART example of synchronous master transmission. . . . . . . . . . . . . . . . . . . . . . . . . . 2787
+Figure 822. USART data clock timing diagram in synchronous master mode
+(M bits = 00) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2787
+Figure 823. USART data clock timing diagram in synchronous master mode
+(M bits = 01) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2788
+Figure 824. USART data clock timing diagram in synchronous slave mode
+(M bits = 00) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2789
+Figure 825. ISO 7816-3 asynchronous protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2791
+Figure 826. Parity error detection using the 1.5 stop bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2793
+Figure 827. IrDA SIR ENDEC block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2797
+Figure 828. IrDA data modulation (3/16) - normal mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2797
+Figure 829. Transmission using DMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2799
+Figure 830. Reception using DMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2800
+Figure 831. Hardware flow control between two USARTs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2800
+Figure 832. RS232 RTS flow control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2801
+Figure 833. RS232 CTS flow control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2802
+Figure 834. LPUART block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2849
+Figure 835. LPUART word length programming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2853
+Figure 836. Configurable stop bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2855
+Figure 837. TC/TXE behavior when transmitting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2857
+Figure 838. lpuart_ker_ck clock divider block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2861
+Figure 839. Mute mode using Idle line detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2865
+Figure 840. Mute mode using address mark detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2866
+Figure 841. Transmission using DMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2868
+Figure 842. Reception using DMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2869
+
+RM0456 Rev 6

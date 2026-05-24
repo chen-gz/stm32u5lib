@@ -1,0 +1,330 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Table 295. SDMMC interrupts
+Interrupt
+acronym
+
+Interrupt event
+
+Event flag
+
+Enable control
+bit
+
+Interrupt clear
+method
+
+Exit from
+Sleep
+mode
+
+SDMMC
+
+Command response CRC fail
+
+CCRCFAIL
+
+CCRCFAILIE
+
+CCRCFAILC
+
+Yes
+
+SDMMC
+
+Data block CRC fail
+
+DCRCFAIL
+
+DCRCFAILIE
+
+DCRCFAILC
+
+Yes
+
+SDMMC
+
+Command response timeout
+
+CTIMEOUT
+
+CTIMEOUTIE
+
+CTIMEOUTC
+
+Yes
+
+SDMMC
+
+Data timeout
+
+DTIMEOUT
+
+DTIMEOUTIE
+
+DTIMEOUTC
+
+Yes
+
+SDMMC
+
+Transmit FIFO underrun
+
+TXUNDERR
+
+TXUNDERRIE
+
+TXUNDERRC
+
+Yes
+
+SDMMC
+
+Receive FIFO overrun
+
+RXOVERR
+
+RXOVERRIE
+
+RXOVERRC
+
+Yes
+
+SDMMC
+
+Command reponse received
+
+CMDREND
+
+CMDRENDIE
+
+CMDRENDC
+
+Yes
+
+SDMMC
+
+Comand sent
+
+CMDSENT
+
+CMDSENTIE
+
+CMDSENTC
+
+Yes
+
+SDMMC
+
+Data transfer ended
+
+DATAEND
+
+DATAENDIE
+
+DATAENDC
+
+Yes
+
+SDMMC
+
+Data transfer hold
+
+DHOLD
+
+DHOLDIE
+
+DHOLDC
+
+Yes
+
+SDMMC
+
+Data block sent or received
+
+DBCKEND
+
+DBCKENDIE
+
+DBCKENDC
+
+Yes
+
+SDMMC
+
+Data transfer aborted
+
+DABORT
+
+DABORTIE
+
+DABORTC
+
+Yes
+
+SDMMC
+
+Transmit FIFO half empty
+
+TXFIFOHE
+
+TXFIFOHEIE
+
+N/A
+
+Yes
+
+SDMMC
+
+Receive FIFO half full
+
+RXFIFOHF
+
+RXFIFOHFIE
+
+N/A
+
+Yes
+
+SDMMC
+
+Transmit FIFO full
+
+TXFIFOF
+
+N/A
+
+N/A
+
+Yes
+
+SDMMC
+
+Receive FIFO full
+
+RXFIFOF
+
+RXFIFOFIE
+
+N/A
+
+Yes
+
+SDMMC
+
+Transmit FIFO empty
+
+TXFIFOE
+
+TXFIFOEIE
+
+N/A
+
+Yes
+
+SDMMC
+
+Receive FIFO empty
+
+RXFIFOE
+
+N/A
+
+N/A
+
+Yes
+
+SDMMC
+
+Command response end of busy
+
+BUSYD0END
+
+BUSYD0ENDIE
+
+BUSYD0ENDC
+
+Yes
+
+SDMMC
+
+SDIO interrupt
+
+SDIOIT
+
+SDIOITIE
+
+SDIOITC
+
+Yes
+
+SDMMC
+
+Boot acknowledgment fail
+
+ACKFAIL
+
+ACKFAILIE
+
+ACKFAILC
+
+Yes
+
+SDMMC
+
+Boot acknowledgment timeout
+
+ACKTIMEOUT
+
+SDMMC
+
+Voltage switch timing
+
+VSWEND
+
+VSWENDIE
+
+VSWENDC
+
+Yes
+
+SDMMC
+
+SDMM_CK stopped in voltage
+switch
+
+CKSTOP
+
+CKSTOPIE
+
+CKSTOPC
+
+Yes
+
+SDMMC
+
+IDMA transfer error
+
+IDMATE
+
+IDMATEIE
+
+IDMATEC
+
+Yes
+
+SDMMC
+
+IDMA buffer transfer complete
+
+IDMABTC
+
+IDMABTCIE
+
+IDMABTCC
+
+Yes

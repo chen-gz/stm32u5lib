@@ -1,0 +1,188 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+The figure below shows a simplified view of the trigger logic available for each filter and for
+the clock generator.
+Figure 340. Trigger logic for DFLT and CKGEN
+
+MDF
+TRIG0
+
+DFLT0CR.TRGSRC
+
+old_evt0
+00
+11
+22
+
+rising
+
+33
+......
+1515
+
+GCR.TRGO
+
+mdf_trgi0
+
+...
+
+mdf_trgi13
+
+rising
+falling
+
+DFLT0CR.DFLTRUN
+DFLT0CR.DFLTEN
+
+0
+
+To snapshot logic
+of DFLT0
+
+rising / falling
+rising / falling
+
+...
+rising / falling
+
+TRIGx
+
+DFLTxCR.TRGSRC
+DFLTxCR.ACQMOD
+DFLTxCR.TRGSENS
+
+old_evtx
+00
+11
+22
+
+rising /
+falling
+
+33
+......
+1515
+
+...
+1
+mdf_trgix
+
+clr
+D Q
+
+D Q
+
+falling
+
+ck
+
+DFLTxCR.DFLTRUN
+DFLTxCR.DFLTEN
+
+0
+
+DFLTx
+
+ACQ_CTL
+1
+To snapshot logic
+of DFLTx
+
+D Q
+ck
+mdf_proc_ck
+
+ck
+
+ck
+
+ck
+
+D Q
+clr
+
+D Q
+
+D Q
+
+CKGCR.TRGSRC
+
+TRIG_CK
+falling
+
+...
+
+1
+
+rising
+
+rising
+ck
+
+DFLT0
+
+ACQ_CTL
+1
+
+...
+
+mdf_trgi1
+...
+
+Resync and
+edge detection
+
+falling
+
+DFLT0CR.ACQMOD
+DFLT0CR.TRGSENS
+
+00
+11
+22
+33
+......
+1515
+
+CKGCR.TRGSENS
+
+rising
+falling
+
+0
+
+cck_trg
+
+1
+
+CKGEN
+
+mdf_proc_ck clock domain
+MSv62675V1
+
+A block common to all TRIG blocks performs the rising and falling edges detection and the
+resynchronization of the input triggers to the mdf_ker_ck clock domain. This implementation
+allows the application to use triggers with pulse width smaller than the mdf_ker_ck period.
+In synchronous modes, the TRIG block offers the possibility to select one of the following
+trigger sources:
+•
+
+mdf_trgi[13:0] signals (refer to Table 371 for the trigger connections)
+
+•
+
+TRGO bit in MDF_GCR
+
+•
+
+OLD event of each filter path
+
+The edge sensitivity can also be selected, except for TRGO and OLD events.
+
+Asynchronous continuous acquisition mode
+This mode allows the application to start a continuous acquisition on one or several filters by
+simply writing their DFLTEN bits to 1.

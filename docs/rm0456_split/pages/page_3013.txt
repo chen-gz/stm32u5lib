@@ -1,0 +1,195 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+71.6.6
+
+RM0456
+
+USB battery charging detector (USB_BCDR)
+Address offset: 0x58
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+DPPU_
+DPD
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PS2
+DET
+
+SDET
+
+PDET
+
+DC
+DET
+
+SDEN
+
+PDEN
+
+DCD
+EN
+
+BCD
+EN
+
+r
+
+r
+
+r
+
+r
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 DPPU_DPD: DP pull-up / DPDM pull-down
+– Device mode
+This bit is set by software to enable the embedded pull-up on DP line. Clearing it to 0 can be
+used to signal disconnect to the host when needed by the user software.
+– Host mode
+This bit is set by software to enable the embedded pull-down on DP and DM lines.
+Bits 14:8 Reserved, must be kept at reset value.
+Bit 7 PS2DET: DM pull-up detection status
+– Device mode
+This bit is active only during PD and gives the result of comparison between DM voltage
+level and VLGC threshold. In normal situation, the DM level must be below this threshold. If it
+is above, it means that the DM is externally pulled high. This can be caused by connection to
+a PS2 port (which pulls-up both DP and DM lines) or to some proprietary charger not
+following the BCD specification.
+0: Normal port detected (connected to SDP, ACA, CDP or DCP).
+1: PS2 port or proprietary charger detected.
+Bit 6 SDET: Secondary detection (SD) status
+– Device mode
+This bit gives the result of SD.
+0: CDP detected.
+1: DCP detected.
+Bit 5 PDET: Primary detection (PD) status
+– Device mode
+This bit gives the result of PD.
+0: no BCD support detected (connected to SDP or proprietary device).
+1: BCD support detected (connected to ACA, CDP or DCP).
+Bit 4 DCDET: Data contact detection (DCD) status
+– Device mode
+This bit gives the result of DCD.
+0: data lines contact not detected.
+1: data lines contact detected.

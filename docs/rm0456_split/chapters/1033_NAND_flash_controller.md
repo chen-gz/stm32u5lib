@@ -1,0 +1,140 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+Bits 15:0 CSCOUNT[15:0]: Chip select counter.
+This bitfield is used to define the maximum duration of the chip select low, which is obtained by the
+formula:
+CSCOUNT[15:0] * TAHB, where TAHB is the AHB clock period.
+For refresh considerations, the PSRAM chip select must not stay low for more than tCEM = ~4 μs.
+CSCOUNT[15:0] applies both to asynchronous and synchronous modes.
+When CSCOUNT[15:0] = 0x0000, the feature is disabled.
+
+27.7
+
+NAND flash controller
+The FMC generates the appropriate signal timings to drive the following types of device:
+•
+
+8- and 16-bit NAND flash memories
+
+The NAND bank is configured through dedicated registers (Section 27.7.7). The
+programmable memory parameters include access timings (shown in Table 244) and ECC
+configuration.
+Table 244. Programmable NAND flash access parameters
+
+27.7.1
+
+Parameter
+
+Function
+
+Access mode
+
+Unit
+
+Min. Max.
+
+Memory setup
+time
+
+Number of clock cycles (HCLK)
+required to set up the address
+before the command assertion
+
+Read/Write
+
+AHB clock cycle
+(HCLK)
+
+1
+
+255
+
+Memory wait
+
+Minimum duration (in HCLK clock
+cycles) of the command assertion
+
+Read/Write
+
+AHB clock cycle
+(HCLK)
+
+2
+
+255
+
+Memory hold
+
+Number of clock cycles (HCLK)
+during which the address must be
+held (as well as the data if a write
+access is performed) after the
+command de-assertion
+
+Read/Write
+
+AHB clock cycle
+(HCLK)
+
+1
+
+254
+
+Memory
+databus high-Z
+
+Number of clock cycles (HCLK)
+during which the data bus is kept
+in high-Z state after a write
+access has started
+
+Write
+
+AHB clock cycle
+(HCLK)
+
+1
+
+255
+
+External memory interface signals
+The following tables list the signals that are typically used to interface NAND flash memory.
+
+Note:
+
+The prefix “N” identifies the signals which are active low.
+
+8-bit NAND flash memory
+Table 245. 8-bit NAND flash
+FMC signal name
+
+I/O
+
+Function
+
+A[17]
+
+O
+
+NAND flash address latch enable (ALE) signal
+
+A[16]
+
+O
+
+NAND flash command latch enable (CLE) signal
+
+D[7:0]
+
+I/O
+
+8-bit multiplexed, bidirectional address/data bus
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

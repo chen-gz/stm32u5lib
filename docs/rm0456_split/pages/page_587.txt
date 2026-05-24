@@ -1,0 +1,200 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+11.8.45
+
+RCC SmartRun domain peripheral autonomous mode register
+(RCC_SRDAMR)
+Address offset: 0x0D8
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+SRAM4
+AMEN
+
+30
+Res.
+
+rw
+15
+
+14
+
+29
+
+28
+
+27
+
+rw
+
+25
+
+24
+
+23
+
+22
+
+Res.
+
+Res.
+
+Res.
+
+21
+
+20
+
+RTCAP
+VREFA
+BAME
+MEN
+N
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+I2C3A
+MEN
+
+LPUAR
+T1AME
+N
+
+SPI3A
+MEN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+COMP OPAMP LPTIM4 LPTIM3 LPTIM1
+AMEN AMEN AMEN AMEN AMEN
+rw
+
+26
+
+LPGPI
+ADF1A LPDMA DAC1A
+ADC4A
+O1AME
+MEN 1AMEN MEN
+MEN
+N
+
+rw
+
+rw
+
+rw
+
+Bit 31 SRAM4AMEN: SRAM4 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: SRAM4 autonomous mode disabled during Stop 0/1/2 mode
+1: SRAM4 autonomous mode enabled during Stop 0/1/2 mode
+Bit 30 Reserved, must be kept at reset value.
+Bit 29 ADF1AMEN: ADF1 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: ADF1 autonomous mode disabled during Stop 0/1/2 mode
+1: ADF1 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 28 LPDMA1AMEN: LPDMA1 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: LPDMA1 autonomous mode disabled during Stop 0/1/2 mode
+1: LPDMA1 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 27 DAC1AMEN: DAC1 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: DAC1 autonomous mode disabled during Stop 0/1/2 mode
+1: DAC1 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 26 LPGPIO1AMEN: LPGPIO1 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: LPGPIO1 autonomous mode disabled during Stop 0/1/2 mode
+1: LPGPIO1 autonomous mode enabled during Stop 0/1/2 mode
+Bit 25 ADC4AMEN: ADC4 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: ADC4 autonomous mode disabled during Stop 0/1/2 mode
+1: ADC4 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 24:22 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

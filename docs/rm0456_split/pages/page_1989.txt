@@ -1,0 +1,126 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+Figure 495. Operation with wrapped keys
+Wrapped-key mode (KMOD = 01)
+Step 2: load
+
+DOUT
+wrapped (encrypted) key
+
+KEYSEL = 001 or 100
+MODE = 00 (encryption)
+
+dec
+
+DIN
+unwrapped key
+
+SAES
+
+Step 3: use
+
+IV (if applicable)
+
+enc
+
+BHK
+
+SAES
+
+DHUK
+
+DIN
+wrapped key
+
+DHUK
+
+DIN
+clear-text key
+
+IV (if applicable)
+
+DHUK
+BHK
+
+DHUK
+
+Step 1: provision
+
+Normal-key mode (KMOD = 00)
+
+DOUT
+
+unwrapped (decrypted) key
+
+KEYSEL = 001 or 100
+MODE =10 (decryption)
+
+SAES
+enc/dec
+
+KEYSEL = 00 (to keep the wrapped key)
+MODE = any value
+
+Pink: hardware secret (not readable by application)
+
+Note:
+
+DHUK value depends on privilege, KMOD[1:0], KEYSEL, CHMOD[2:0], and on whether
+SAES peripheral is secure or nonsecure.
+Encryption in Wrapped-key mode
+Recommended sequence to wrap (that is, encrypt) a key is described below:
+1.
+
+Verify that BUSY = 0 in SAES_SR (no RNG random number fetch in progress).
+
+2.
+3.
+
+Disable the SAES peripheral by clearing the EN bit of the SAES_CR register.
+In SAES_CR register, select the Mode 1 (encryption) by setting to 00 the MODE[1:0]
+bitfield, and select ECB or CBC chaining mode by setting CHMOD[2:0] bitfield to 000 or
+001, respectively. Data type can be defined as 32-bit, with DATATYPE[1:0] bitfield set
+to 00. Key size must be properly configured using KEYSIZE bit, and KMOD[1:0] bitfield
+must be set as 01 (wrapped key). The KEYSIZE information is used both for the
+encryption key and for the key to be encrypted.
+
+4.
+
+Write the SAES_IVRx registers with the initialization vector if CBC mode has been
+selected in previous step.
+
+5.
+
+Select the DHUK by setting the KEYSEL[2:0] bitfield of the SAES_CR register to 001 or
+100. Upon successful key loading BUSY bit is cleared and KEYVALID bit is set in
+SAES_SR register. Refer to Section 50.4.12: SAES key registers for detail on
+KEYSEL = 100 usage.
+
+6.
+
+Enable SAES by setting the EN bit of the SAES_CR register.
+
+7.
+
+Write the SAES_DINR register four times to input the key to encrypt (MSB first, see
+Table 481 on page 1995).
+
+8.
+
+Wait until the CCF flag is set in the SAES_SR register.
+
+9.
+
+Get the encrypted key (MSB first) by reading the SAES_DOUTR register four times.
+Then clear the CCF flag by setting the CCF bit in SAES_ICR register.
+
+10. Repeat steps 6 to 8 if KEYSIZE is 256 bits.
+Note:
+
+Encryption in Wrapped-key mode is only supported when ECB or CBC is selected through
+CHMOD[2:0].
+
+RM0456 Rev 6

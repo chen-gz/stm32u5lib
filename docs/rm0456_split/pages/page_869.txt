@@ -1,0 +1,71 @@
+•
+
+It is unchanged.
+
+•
+
+It is replaced by ALPHA[7:0] value in DMA2D_FGPFCCR.
+
+•
+
+It is replaced by the original value multiplied by ALPHA[7:0] value in
+DMA2D_FGPFCCR divided by 255.
+
+RM0456 Rev 6
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+The resulting 32-bit data are encoded by the output PFC into the format specified by
+CM[2:0] in DMA2D_OPFCCR. The output pixel format cannot be the indirect mode since no
+CLUT generation process is supported.
+Processed data are written into destination memory location pointed by DMA2D_OMAR.
+
+Memory-to-memory with PFC and blending
+In this mode, two sources are fetched in the foreground and background FIFOs from the
+memory locations defined by DMA2D_FGMAR and DMA2D_BGMAR respectively.
+The two pixel format converters have to be configured as described in memory-to-memory
+mode. Their configurations can be different as each pixel format converter is independent
+and has its own CLUT memory.
+Once each pixel has been converted into 32 bits by its respective PFC, all pixels are
+blended according to the equation below:
+with αMult =
+
+αFG . αBG
+255
+
+αOUT = αFG + αBG - αMult
+
+COUT =
+
+CFG.αFG + CBG.αBG - CBG.αMult
+αOUT
+
+with C = R or G or B
+
+Division are rounded to the nearest lower integer
+
+The resulting 32-bit pixel value is encoded by the output PFC according to the specified
+output format, and data are written into the destination memory location pointed
+by DMA2D_OMAR.
+
+Memory-to-memory with PFC, blending and fixed color FG
+In this mode, only one source is fetched in the background FIFO from the memory location
+defined by DMA2D_BGMAR.
+The value of the foreground color is given by DMA2D_FGCOLR, and the alpha value is set
+to 0xFF (opaque).
+The alpha value can be replaced or modified according to AM[1:0] and ALPHA[7:0]
+in DMA2D_FGPFCCR.
+The two pixel format converters have to be configured as described in memory-to-memory
+mode. Their configurations can be different as each pixel format converter is independent
+and has its own CLUT memory
+Once each pixel has been converted into 32 bits by its respective PFC, all pixels are
+blended together. The resulting 32-bit pixel value is encoded by the output PFC according to
+the specified output format. Data are written into the destination memory location pointed
+by DMA2D_OMAR.
+
+Memory-to-memory with PFC, blending and fixed color BG
+In this mode, only open source is fetched in the foreground FIFO from the memory location
+defined by DMA2D_FGMAR.
+
+RM0456 Rev 6

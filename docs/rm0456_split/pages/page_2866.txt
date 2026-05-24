@@ -1,0 +1,174 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+between 2, 4, 6, or 8 microphones. For example, if the application is using 3 microphones,
+the user has to select 4.
+
+Enabling the PDM interface
+To enable the PDM interface, follow the sequence below:
+
+Note:
+
+1.
+
+Configure SAI_A in TDM master mode (see Table 710).
+
+2.
+
+Configure the PDM interface as follows:
+a)
+
+Define the number of digital microphones via MICNBR.
+
+b)
+
+Enable the bitstream clock needed in the application by setting the corresponding
+bits on CKEN to 1.
+
+3.
+
+Enable the PDM interface, via the PDMEN bit.
+
+4.
+
+Enable the SAI_A.
+
+Once the PDM interface and SAI_A are enabled, the first two frames received on SAI_ADR
+are invalid and must be dropped.
+
+Startup sequence
+Figure 868 shows the startup sequence: Once the PDM interface is enabled, it waits for the
+frame synchronization event prior to starting the acquisition of the microphone samples.
+After 8 SAI_CK clock periods, a data byte coming from each microphone is available, and
+transferred to the SAI, via the serial audio interface.
+Figure 868. Start-up sequence
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+1
+
+2
+
+3
+
+4
+
+5 6
+
+7
+
+8
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+Pdm_ck
+saia_clk_out
+Don’t care
+
+saia_sd_in
+
+8 bits
+
+8 bits
+
+8 bits
+
+8 bits
+
+8 bits
+
+8 bits
+
+8 bits
+
+8 bits
+
+M1L-x
+
+M1R-x
+
+M2L-x
+
+M2R-x
+
+M1L-y
+
+M1R-y
+
+M2L-y
+
+M2R-y
+
+saia_fs_out
+PDMEN
+N
+
+SAIEN
+Wait for frame
+sync.
+
+N+1
+
+Frame sync is detected, waiting
+for receiving 8 bits from each
+microphone
+
+N+2
+
+Transmission to SAI of the data received Transmission to SAI of the data received
+on frame N, and acquisition of the next on frame N+1, and acquisition of the next
+8 bits from each microphone.
+8 bits from each microphone.
+No re-sync with the frame sync
+No re-sync with the frame sync
+MSv35469V3
+
+SAI_ADR data format
+The arrangement of the data coming from the microphone into the SAI_ADR register
+depends on the following parameters:
+•
+
+Number of microphones
+
+•
+
+Slot width selected
+
+•
+
+LSBFIRST bit
+
+The slot width defines the number of significant bits into each word available into the
+SAI_ADR.
+
+RM0456 Rev 6

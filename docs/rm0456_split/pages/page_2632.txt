@@ -1,0 +1,70 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+Timeout error (TIMEOUT)
+A timeout error occurs for any of these conditions:
+•
+
+TIDLE = 0 and SCL remains low for the time defined in the TIMEOUTA[11:0] bitfield:
+this is used to detect an SMBus timeout.
+
+•
+
+TIDLE = 1 and both SDA and SCL remains high for the time defined in the TIMEOUTA
+[11:0] bitfield: this is used to detect a bus idle condition.
+
+•
+
+Controller cumulative clock low extend time reaches the time defined in the
+TIMEOUTB[11:0] bitfield (SMBus tLOW:MEXT parameter).
+
+•
+
+Target cumulative clock low extend time reaches the time defined in the
+TIMEOUTB[11:0] bitfield (SMBus tLOW:SEXT parameter).
+
+When a timeout violation is detected in controller mode, a STOP condition is automatically
+sent.
+When a timeout violation is detected in target mode, the SDA and SCL lines are
+automatically released.
+When a timeout error is detected, the TIMEOUT flag is set in the I2C_ISR register and an
+interrupt is generated if the ERRIE bit of the I2C_CR1 register is set.
+
+Alert (ALERT)
+The ALERT flag is set when the I2C peripheral is configured as a host (SMBHEN = 1), the
+SMBALERT# signal detection is enabled (ALERTEN = 1), and a falling edge is detected on
+the SMBA pin. An interrupt is generated if the ERRIE bit of the I2C_CR1 register is set.
+
+65.5
+
+I2C in low-power modes
+Table 670. Effect of low-power modes to I2C
+Mode
+
+Description
+
+Sleep
+
+No effect. I2C interrupts cause the device to exit the Sleep mode.
+
+Stop(1)
+
+The contents of I2C registers are kept. If the autonomous mode is enabled and
+I2C is clocked by an internal oscillator available in Stop mode: transfers in
+controller and in target modes are functional. DMA requests are functional, and
+the interrupts cause the device to exit the Stop mode. If WUPEN = 0: the I2C must
+be disabled before entering Stop mode.
+
+Standby
+
+The I2C peripheral is powered down. It must be reinitialized after exiting Standby
+mode.
+
+1. Refer to Section 65.3: I2C implementation for information about the Stop modes supported by each
+instance. If the wake-up from a specific Stop mode is not supported, the instance must be disabled before
+entering that specific Stop mode.
+
+RM0456 Rev 6

@@ -1,0 +1,194 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+
+Bits 2:1 CKPOL[1:0]: Clock Polarity
+When the LPTIM is clocked by an external clock source, CKPOL bits is used to configure the active
+edge or edges used by the counter:
+00:the rising edge is the active edge used for counting.
+If the LPTIM is configured in Encoder mode (ENC bit is set), the encoder sub-mode 1 is active.
+01:the falling edge is the active edge used for counting.
+If the LPTIM is configured in Encoder mode (ENC bit is set), the encoder sub-mode 2 is active.
+10:both edges are active edges. When both external clock signal edges are considered active ones,
+the LPTIM must also be clocked by an internal clock source with a frequency equal to at least
+four times the external clock frequency.
+If the LPTIM is configured in Encoder mode (ENC bit is set), the encoder sub-mode 3 is active.
+11:not allowed
+Refer to Section 58.4.15: Encoder mode for more details about Encoder mode sub-modes.
+Bit 0 CKSEL: Clock selector
+The CKSEL bit selects which clock source the LPTIM uses:
+0: LPTIM is clocked by internal clock source (APB clock or any of the embedded oscillators)
+1: LPTIM is clocked by an external clock source through the LPTIM external Input1
+
+Caution:
+
+The LPTIM_CFGR register must only be modified when the LPTIM is disabled (ENABLE bit
+reset to 0).
+
+58.7.11
+
+LPTIM control register (LPTIM_CR)
+Address offset: 0x010
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+RST
+ARE
+
+COUN
+TRST
+
+CNT
+STRT
+
+SNG
+STRT
+
+ENA
+BLE
+
+rw
+
+rs
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bit 4 RSTARE: Reset after read enable
+This bit is set and cleared by software. When RSTARE is set to '1', any read access to LPTIM_CNT
+register asynchronously resets LPTIM_CNT register content.
+This bit can be set only when the LPTIM is enabled.
+Bit 3 COUNTRST: Counter reset
+This bit is set by software and cleared by hardware. When set to '1' this bit triggers a synchronous
+reset of the LPTIM_CNT counter register. Due to the synchronous nature of this reset, it only takes
+place after a synchronization delay of 3 LPTimer core clock cycles (LPTimer core clock can be
+different from APB clock).
+This bit can be set only when the LPTIM is enabled. It is automatically reset by hardware.
+Caution: COUNTRST must never be set to '1' by software before it is already cleared to '0' by
+hardware. Software must consequently check that COUNTRST bit is already cleared to '0'
+before attempting to set it to '1'.
+
+RM0456 Rev 6

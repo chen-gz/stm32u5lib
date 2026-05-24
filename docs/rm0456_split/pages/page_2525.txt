@@ -1,0 +1,190 @@
+2687
+
+Real-time clock (RTC)
+
+63.6.18
+
+RM0456
+
+RTC alarm B register (RTC_ALRMBR)
+This register can be written only when ALRBE is reset in RTC_CR register, or in initialization
+mode.
+This register can be protected against nonsecure access. Refer to Section 63.3.4: RTC
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 63.3.5: RTC
+privilege protection modes.
+Address offset: 0x48
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+MSK4
+
+WD
+SEL
+
+29
+
+28
+
+27
+
+DT[1:0]
+
+26
+
+25
+
+24
+
+DU[3:0]
+
+23
+
+22
+
+MSK3
+
+PM
+
+21
+
+20
+
+19
+
+18
+
+HT[1:0]
+
+17
+
+16
+
+HU[3:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+MSK2
+rw
+
+MNT[2:0]
+rw
+
+rw
+
+MNU[3:0]
+rw
+
+MSK1
+rw
+
+rw
+
+ST[2:0]
+rw
+
+rw
+
+Bit 31 MSK4: Alarm B date mask
+0: Alarm B set if the date and day match
+1: Date and day don’t care in alarm B comparison
+Bit 30 WDSEL: Week day selection
+0: DU[3:0] represents the date units
+1: DU[3:0] represents the week day. DT[1:0] is don’t care.
+Bits 29:28 DT[1:0]: Date tens in BCD format
+Bits 27:24 DU[3:0]: Date units or day in BCD format
+Bit 23 MSK3: Alarm B hours mask
+0: Alarm B set if the hours match
+1: Hours don’t care in alarm B comparison
+Bit 22 PM: AM/PM notation
+0: AM or 24-hour format
+1: PM
+Bits 21:20 HT[1:0]: Hour tens in BCD format
+Bits 19:16 HU[3:0]: Hour units in BCD format
+Bit 15 MSK2: Alarm B minutes mask
+0: Alarm B set if the minutes match
+1: Minutes don’t care in alarm B comparison
+Bits 14:12 MNT[2:0]: Minute tens in BCD format
+Bits 11:8 MNU[3:0]: Minute units in BCD format

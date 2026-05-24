@@ -1,0 +1,71 @@
+90
+
+Contents
+
+RM0456
+69.6.11 SAI configuration register 2 (SAI_BCR2) . . . . . . . . . . . . . . . . . . . . . . 3006
+69.6.12 SAI frame configuration register (SAI_BFRCR) . . . . . . . . . . . . . . . . . 3008
+69.6.13 SAI slot register (SAI_BSLOTR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3009
+69.6.14 SAI interrupt mask register (SAI_BIM) . . . . . . . . . . . . . . . . . . . . . . . . 3010
+69.6.15 SAI status register (SAI_BSR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3012
+69.6.16 SAI clear flag register (SAI_BCLRFR) . . . . . . . . . . . . . . . . . . . . . . . . 3014
+69.6.17 SAI data register (SAI_BDR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3015
+69.6.18 SAI PDM control register (SAI_PDMCR) . . . . . . . . . . . . . . . . . . . . . . 3015
+69.6.19 SAI PDM delay register (SAI_PDMDLY) . . . . . . . . . . . . . . . . . . . . . . 3016
+69.6.20 SAI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3019
+
+70
+
+FD controller area network (FDCAN) . . . . . . . . . . . . . . . . . . . . . . . . . 3021
+70.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3021
+
+70.2
+
+FDCAN main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3023
+
+70.3
+
+FDCAN functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3024
+70.3.1
+
+FDCAN block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3024
+
+70.3.2
+
+FDCAN pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3025
+
+70.3.3
+
+Bit timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3026
+
+70.3.4
+
+Operating modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3027
+
+70.3.5
+
+Error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3036
+
+70.3.6
+
+Message RAM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3037
+
+70.3.7
+
+FIFO acknowledge handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3046
+
+70.3.8
+
+FDCAN Rx FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3046
+
+70.3.9
+
+FDCAN Tx buffer element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3048
+
+70.3.10 FDCAN Tx event FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3050
+70.3.11 FDCAN standard message ID filter element . . . . . . . . . . . . . . . . . . . 3051
+70.3.12 FDCAN extended message ID filter element . . . . . . . . . . . . . . . . . . . 3052
+
+70.4

@@ -1,0 +1,114 @@
+RM0456 Rev 6
+
+RM0456
+
+50.4.10
+
+Secure AES coprocessor (SAES)
+
+SAES operation with shared keys
+SAES peripheral can share application keys wrapped with hardware-secret key DHUK,
+XOR-ed or not with application key BHK . With this feature, the application software can
+make the AES keys available to the AES peripheral, without exposing them in clear-text
+(unencrypted).
+Shared key sequences are too small to be suspended/resumed. SAES cannot unwrap a
+shared key using an unwrapped key.
+
+Note:
+
+When a key stored in SAES is shared with AES, the protection given by KEYPROT bit is
+lost. The protection is detailed in Section 50.4.12: SAES key registers.
+Figure 496 summarizes how to use Shared-key mode. To protect the shared key, DHUK
+must be selected, by setting KEYSEL[2:0] to 001 or 100. Alternatively, select BHK by
+setting KEYSEL to 010 if the corresponding registers are read/write-locked in the TAMP
+peripheral.
+Figure 496. Usage of Shared-key mode
+Shared-key mode (KMOD = 10)
+Step 2: load
+
+DOUT
+wrapped (encrypted)
+shared key
+
+dec
+
+DIN
+DIN
+
+shared key
+
+unwrapped (decrypted)
+shared key
+
+AES
+
+shared key
+
+SAES
+
+Step 3: use
+
+IV (if applicable)
+
+enc
+
+BHK
+
+SAES
+
+DHUK
+
+DIN
+wrapped shared key
+
+DHUK
+
+DIN
+clear-text shared key
+
+IV (if applicable)
+
+DHUK
+BHK
+
+DHUK
+
+Step 1: provision
+
+Normal-key mode (KMOD = 00)
+
+SAES
+enc/dec
+
+enc/dec
+DOUT
+DOUT
+
+KEYSEL = 001 or 100
+MODE = 00 (encryption)
+
+KEYSEL = 001 or 100
+MODE =10 (decryption)
+
+KEYSEL = 00 (to keep the wrapped key)
+MODE = any value
+
+Pink: hardware secret (not readable by application)
+
+Note:
+
+DHUK value depends on privilege, KMOD[1:0], KSHAREID, KEYSEL, CHMOD[2:0], and on
+whether SAES peripheral is secure or nonsecure.
+In the step 3, AES represents the AES peripheral.
+
+Encryption in Shared-key mode
+Before SAES can share a key with the AES peripheral, the key must be encrypted once.
+The encryption sequence of a shared key is the same as for a wrapped key, with KMOD[1:0]
+set to 10 (shared key) and KSHAREID[1:0] kept at 00 in the step 3 in Figure 496. See
+Encryption in Wrapped-key mode for details.
+Note:
+
+Encryption in Shared-key mode is only supported when ECB or CBC is selected through
+CHMOD[2:0].
+
+RM0456 Rev 6

@@ -1,0 +1,76 @@
+684
+
+Peripherals interconnect matrix
+
+RM0456
+
+The general-purpose timer (TIM16/17) output channels TIMx_OC1, are used to generate
+the waveform of the infrared signal output.
+This functionality is described in Section 60: Infrared interface (IRTIM).
+
+16.3.15
+
+Triggers for communication peripherals
+From LP timers (LPTIM1/2/3), comparators (COMP1/2), GPDMA1 transfer complete,
+LPDMA1 transfer complete, EXTI, RTC alarm and RTC wake-up to USART1/2/3/6,
+UART4/5, LPUART1, I2C1/2/3/4/5/6, and SPI1/2/3.
+
+Purpose
+LP timer (LPTIM1//3) output channels (lptim1_ch1, lptim1_ch2 and lptim3_ch1), comparator
+(COMP1/2) output channels (comp1_out and comp2_out), EXTI, RTC alarm and RTC
+wake-up, can be used as trigger to start a communication on the selected USART, UART,
+LPUART, I2C, or SPI peripheral.
+A GPDMA1 transfer complete can trigger both the GPDMA1 regular or linked-list new
+transfers and communication on selected communication peripheral.
+A LPDMA1 transfer complete can trigger both the LPDMA1 new transfers and the
+communication on selected peripheral.
+
+Triggering signals
+The outputs from triggers are directly connected to peripheral trigger inputs.
+The selection of input triggers is detailed in:
+•
+
+Table 677: USART interconnection (USART1/2/3/6 and UART4/5)
+
+•
+
+Table 689: LPUART interconnections (LPUART1)
+
+•
+
+Table 657: I2C1, I2C2, I2C4, I2C5, I2C6 interconnection and Table 658: I2C3
+interconnection
+
+The outputs (from timer) are directly connected to SPI1/2/3 inputs on signals spi_itrx
+(x = 6, 7). The selection of input triggers on SPI is provided in:
+•
+
+Table 699: SPI interconnection (SPI1 and SPI2)
+
+•
+
+Table 700: SPI interconnection (SPI3)
+
+Active power mode
+These interconnections remain active in Run, Sleep, and Stop modes if both source and
+communication line are autonomous under the mode. Refer to:
+
+16.3.16
+
+•
+
+Section 66.6: USART in low-power modes
+
+•
+
+Section 65.5: I2C in low-power modes
+
+•
+
+Section 68.6: SPI in low-power modes
+
+Triggers to GPDMA/LPDMA
+From EXTI, RTC (alarm/wake-up), TAMP (TAMP1/2/3), timers (TIM2/15), LP timers
+(LPTIM1/3/4), comparators (COMP1/2), LP/GPDMA1 transfer complete
+(gpdma1_chx_tc/lpdma1_chx_tc), ADC1/4 analog watchdog, and LTDC, DSI, DMA2D,
+GPU2D, JPEG, to LPDMA1 and GPDMA1

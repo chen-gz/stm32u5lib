@@ -1,0 +1,311 @@
+RM0456 Rev 6
+
+RM0456
+
+LCD-TFT display controller (LTDC)
+
+43.7.13
+
+LTDC current display status register (LTDC_CDSR)
+Address offset: 0x048
+Reset value: 0x0000 000F
+This register returns the status of the current display phase which is controlled by the
+HSYNC, VSYNC, and horizontal/vertical DE signals.
+Example: if the current display phase is the vertical synchronization, the VSYNCS bit is set
+(active high). If the current display phase is the horizontal synchronization, the HSYNCS bit
+is active high.
+The returned status does not depend on the configured polarity in the LTDC_GCR register,
+instead it returns the current active display phase.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+HDES
+
+VDES
+
+r
+
+r
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+HSYNC VSYNC
+S
+S
+r
+
+r
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 HSYNCS: Horizontal synchronization display status
+0: Active low
+1: Active high
+Bit 2 VSYNCS: Vertical synchronization display status
+0: Active low
+1: Active high
+Bit 1 HDES: Horizontal data enable display status
+0: Active low
+1: Active high
+Bit 0 VDES: Vertical data enable display status
+0: Active low
+1: Active high
+
+43.7.14
+
+LTDC layer x control register (LTDC_LxCR)
+Address offset: 0x084 + 0x80 * (x - 1), (x = 1 to 2)
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+CLUTE
+N
+
+Res.
+
+COLKE
+N
+
+LEN
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+RM0456 Rev 6
+
+Res.

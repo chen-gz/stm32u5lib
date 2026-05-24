@@ -1,0 +1,184 @@
+1599
+
+Multi-function digital filter (MDF)
+
+39.8.15
+
+RM0456
+
+MDF DFLTx interrupt enable register x (MDF_DFLTxIER)
+Address offset: 0x12C + 0x80 * (x - 1), (x = 1 to 5)
+Reset value: 0x0000 0000
+This register is used for allowing or not, the events to generate an interrupt. The number of
+registers is equal to the amount of filters. Refer to Section 39.3 for details.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SSDRI
+E
+
+DOVRI
+E
+
+FTHIE
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RFOVR CKABI
+IE
+E
+rw
+
+rw
+
+SATIE
+rw
+
+SSOVR
+SCDIE
+IE
+rw
+
+Res.
+
+rw
+
+Bits 31:12 Reserved, must be kept at reset value.
+Bit 11 RFOVRIE: Reshape filter overrun interrupt enable
+This bit is set and cleared by software.
+0: Reshape filter overrun interrupt disabled
+1: Reshape filter overrun interrupt enabled
+Bit 10 CKABIE: Clock absence detection interrupt enable
+This bit is set and cleared by software.
+0: Clock absence interrupt disabled
+1: Clock absence interrupt enabled
+Bit 9 SATIE: Saturation detection interrupt enable
+This bit is set and cleared by software.
+0: Saturation interrupt disabled
+1: Saturation interrupt enabled
+Bit 8 SCDIE: SCDx interrupt enable
+This bit is set and cleared by software.
+0: SCDx interrupt disabled
+1: SCDx interrupt enabled
+Bit 7 SSOVRIE: Snapshot overrun interrupt enable
+This bit is set and cleared by software.
+0: Snapshot overrun interrupt disabled
+1: Snapshot overrun interrupt enabled
+Bits 6:5 Reserved, must be kept at reset value.
+Bit 4 OLDIE: OLDx interrupt enable
+This bit is set and cleared by software.
+0: OLDx event interrupt disabled
+1: OLDx event interrupt enabled
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 SSDRIE: Snapshot data ready interrupt enable
+This bit is set and cleared by software.
+0: Snapshot data ready interrupt disabled
+1: Snapshot data ready interrupt enabled

@@ -1,0 +1,21 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Bits 19:16 TRIGSEL[3:0]: Trigger selection (refer to Section 65.4.2: I2C pins and internal signals I2C
+interconnections tables).
+0000: i2c_trg0 selected
+0001: i2c_trg1 selected
+...
+1111: i2c_trg15 selected
+Note: This bit can be written only when PE = 0
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 TCRDMAEN: DMA request enable on Transfer Complete Reload event
+0: DMA request not generated on Transfer Complete Reload event
+1: DMA request generated on Transfer Complete Reload event
+Bit 6 TCDMAEN: DMA request enable on Transfer Complete event
+0: DMA request not generated on Transfer Complete event
+1: DMA request generated on Transfer Complete event
+Bits 5:0 Reserved, must be kept at reset value.

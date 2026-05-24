@@ -1,0 +1,106 @@
+191
+
+System security
+
+RM0456
+
+The TrustZone-aware logic around GPIO ports, used as the alternate function, is
+summarized in the table below.
+Table 12. Secure alternate function between peripherals and allocated I/Os
+Security configuration
+
+Alternate function logic
+Comment
+
+Peripheral
+Secure
+Nonsecure
+Secure
+Nonsecure
+
+Allocated I/O pin
+
+Input
+
+Output
+
+Secure
+
+I/O data
+
+Peripheral data
+
+Zero
+
+Zero
+
+I/O data
+
+Peripheral data
+
+Nonsecure
+
+Out of reset configuration
+-
+
+When an analog function with an analog switch is used, the connection to the peripherals
+listed in the table below, is blocked by hardware when the peripheral is nonsecure and the
+I/O is secure.
+
+Analog function(1)
+
+Output
+
+Peripheral
+
+Input
+
+Table 13. Nonsecure peripheral functions that are not connected to secure I/Os
+How to set a peripheral or
+function as secure
+
+ADC12
+
+ADC12_INy (y = 1 to 17)
+
+Set ADC12SEC
+in GTZC1_TZSC_ SECCFGR3
+
+ADC4
+
+ADC4_INy (y = 1 to 19)
+
+Set ADC4SEC
+in GTZC2_TZSC_ SECCFGR1
+
+X
+OPAMPx (x = 1, 2) OPAMPx_VINy (x = 1, 2; y = 1, 2)
+COMPx (x = 1, 2)
+
+COMPx_INy (x = 1; y = 1 to 3)
+COMPx_INy (x = 2; y = 1, 2)
+
+-
+
+Set OPAMPSEC
+in GTZC2_TZSC_ SECCFGR1
+Set COMPSEC in
+GTZC2_TZSC_ SECCFGR1
+
+1. Used to find the I/O corresponding to the signal/function on the package (refer to the product datasheet).
+
+Finally, regarding GPIO and security, the table below summarizes the list of peripheral
+functions that do not have any hardware protection linked to TrustZone. The listed signals
+(input and/or outputs) are not blocked when the I/O is set as secure, and the associated
+peripheral function is nonsecure.
+For example, when a secure application sets PA4 as secure to be used as LPTIM2_OUT,
+if the DAC is nonsecure, it can be programmed to output data to PA4, potentially causing
+malfunction to the secure application.
+Similarly, when a secure application sets PA0 as secure to be used as UART4_TX, if TAMP
+is nonsecure, it can be programmed to capture the USART input traffic through the
+TAMP_IN function.
+It is important that, for each case described in the table below, the secure application
+decides if a potential effect on data integrity or confidentiality is critical or not. For example,
+if the USART situation described above is not acceptable (data transiting on secure USART
+is confidential), then the secure application must configure the TAMP as secure even if it is
+not used by the secure application.

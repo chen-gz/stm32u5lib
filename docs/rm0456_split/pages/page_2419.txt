@@ -1,0 +1,175 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+kernel clock cycles, PRESC[2:0] being the clock decimal division factor (1, 2, 4,..128). Any
+successive write violating this delay, leads to unpredictable results.
+Caution:
+
+The CCxSEL, ICxF[1:0], CCxP[1:0] and ICxPSC[1:0] fields must only be modified when the
+channel x is disabled (CCxE bit reset to 0).
+If LPTIM does not implement any channel this register is reserved. Refer to Section 58.3.
+
+58.7.18
+
+LPTIM compare register 2 (LPTIM_CCR2)
+Address offset: 0x034
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CCR2[15:0]
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 CCR2[15:0]: Capture/compare 2 value
+If channel CC2 is configured as output:
+CCR2 is the value to be loaded in the capture/compare 2 register.
+Depending on the PRELOAD option, the CCR2 register is immediately updated if the PRELOAD bit
+is reset and updated at next LPTIM update event if PREOAD bit is reset.
+The capture/compare register 2 contains the value to be compared to the counter LPTIM_CNT and
+signaled on OC2 output.
+If channel CC2 is configured as input:
+CCR2 becomes read-only, it contains the counter value transferred by the last input capture 2 event.
+The LPTIM_CCR2 register is read-only and cannot be programmed.
+
+Caution:
+
+The LPTIM_CCR2 register must only be modified when the LPTIM is enabled (ENABLE bit
+set to 1).
+
+Note:
+
+If the LPTIM implements less than 2 channels this register is reserved. Refer to
+Section 58.3: LPTIM implementation.
+
+58.7.19
+
+LPTIM register map
+The following table summarizes the LPTIM registers.

@@ -1,0 +1,101 @@
+•
+
+Once a simultaneous injected sequence of conversions has ended, a new injected
+trigger event is accepted only if both JEOS bits of the master and the slave ADC have
+been cleared (delay phase). Any new injected trigger events occurring during the
+ongoing injected sequence and the associated delay phase are ignored.
+
+•
+
+Once a regular sequence of conversions of the master ADC has ended, a new regular
+trigger event of the master ADC is accepted only if the master data register (ADC_DR)
+has been read. Any new regular trigger events occurring for the master ADC during the
+ongoing regular sequence and the associated delay phases are ignored.
+There is the same behavior for regular sequences occurring on the slave ADC.
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Regular simultaneous mode with independent injected
+This mode is selected by programming bits DUAL[4:0] = 00110.
+This mode is performed on a regular group of channels. The external trigger source comes
+from the regular group multiplexer of the master ADC (selected by the EXTSEL[4:0] bits in
+the ADC_CFGR register). A simultaneous trigger is provided to the slave ADC.
+In this mode, independent injected conversions are supported. An injection request (either
+on master or on the slave) aborts the current simultaneous conversions, which are restarted
+once the injected conversion is completed.
+Note:
+
+Do not convert the same channel on the two ADCs (no overlapping sampling times for the
+two ADCs when converting the same channel).
+In regular simultaneous mode, one must convert sequences with the same length and
+inside a sequence, the N-th conversion in master and slave must be configured with the
+same sampling time.
+Software is notified by interrupts when it can read the data:
+•
+
+At the end of each conversion event (EOC) on the master ADC, a master EOC interrupt
+is generated (if EOCIE is enabled) and software can read the ADC_DR of the master
+ADC.
+
+•
+
+At the end of each conversion event (EOC) on the slave ADC, a slave EOC interrupt is
+generated (if EOCIE is enabled) and software can read the ADC_DR of the slave ADC.
+
+•
+
+As the duration of the master regular sequence is equal to the duration of the slave one
+(like in Figure 261), it is possible for the software to enable only one of the two EOC
+interrupt (ex: master EOC) and read both converted data from the Common Data
+register (ADC12_CDR).
+
+It is also possible to read the regular data using the DMA. Two methods are possible:
+•
+
+•
+
+Note:
+
+Using two DMA channels (one for the master and one for the slave). In this case bits
+DAMDF[1:0] must be kept cleared.
+–
+
+Configure the DMA master ADC channel to read ADC_DR from the master. DMA
+requests are generated at each EOC event of the master ADC.
+
+–
+
+Configure the DMA slave ADC channel to read ADC_DR from the slave. DMA
+requests are generated at each EOC event of the slave ADC.
+
+Configuring dual ADC mode data format DAMDF[1:0] bits, which leaves one DMA
+channel free for other uses:
+–
+
+Configure DAMDF[1:0] = 10 or 11 (depending on resolution).
+
+–
+
+A single DMA channel is used (the one of the master). Configure the DMA master
+ADC channel to read the common ADC register (ADC12_CDR)
+
+–
+
+A single DMA request is generated each time both master and slave EOC events
+have occurred. At that time, the slave ADC converted data is available in the
+upper half-word of the ADC12_CDR 32-bit register and the master ADC converted
+data is available in the lower half-word of the ADC12_CDR register.
+
+–
+
+both EOC flags are cleared when the DMA reads the ADC12_CDR register.
+
+When DAMDF[1:0] = 10 or 11, the user must program the same number of conversions in
+the master’s sequence as in the slave’s sequence. Otherwise, the remaining conversions do
+not generate a DMA request.
+
+RM0456 Rev 6

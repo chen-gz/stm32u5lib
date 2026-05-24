@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+FTH[2:0]
+rw
+
+rw
+
+rw
+
+RM0456
+
+Serial audio interface (SAI)
+
+Bits 15:14 COMP[1:0]: Companding mode.
+These bits are set and cleared by software. The µ-Law and the A-Law log are a part of the CCITT
+G.711 recommendation, the type of complement that is used depends on CPL bit.
+The data expansion or data compression are determined by the state of bit MODE[0].
+The data compression is applied if the audio block is configured as a transmitter.
+The data expansion is automatically applied when the audio block is configured as a receiver.
+Refer to Section : Companding mode for more details.
+00: No companding algorithm
+01: Reserved.
+10: µ-Law algorithm
+11: A-Law algorithm
+Note: Companding mode is applicable only when Free protocol mode is selected.
+Bit 13 CPL: Complement bit.
+This bit is set and cleared by software.
+It defines the type of complement to be used for companding mode
+0: 1’s complement representation.
+1: 2’s complement representation.
+Note: This bit has effect only when the companding mode is µ-Law algorithm or A-Law algorithm.
+Bits 12:7 MUTECNT[5:0]: Mute counter.
+These bits are set and cleared by software. They are used only in reception mode.
+The value set in these bits is compared to the number of consecutive mute frames detected in
+reception. When the number of mute frames is equal to this value, the flag MUTEDET is set and an
+interrupt is generated if bit MUTEDETIE is set.
+Refer to Section : Mute mode for more details.
+Bit 6 MUTEVAL: Mute value.
+This bit is set and cleared by software. It is meaningful only when the audio block operates as a
+transmitter, the number of slots is lower or equal to 2 and the MUTE bit is set.
+If more slots are declared, the bit value sent during the transmission in mute mode is equal to 0,
+whatever the value of MUTEVAL.
+if the number of slot is lower or equal to 2 and MUTEVAL = 1, the MUTE value transmitted for each
+slot is the one sent during the previous frame.
+Refer to Section : Mute mode for more details.
+0: Bit value 0 is sent during the mute mode.
+1: Last values are sent during the mute mode.
+Note: This bit is meaningless and must not be used for SPDIF audio blocks.
+Bit 5 MUTE: Mute.
+This bit is set and cleared by software. It is meaningful only when the audio block operates as a
+transmitter. The MUTE value is linked to value of MUTEVAL if the number of slots is lower or equal to
+2, or equal to 0 if it is greater than 2.
+Refer to Section : Mute mode for more details.
+0: No mute mode.
+1: Mute mode enabled.
+Note: This bit is meaningless and must not be used for SPDIF audio blocks.
+
+RM0456 Rev 6

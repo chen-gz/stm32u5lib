@@ -1,0 +1,104 @@
+NODIV
+
+SAIEN for block x
+
+X
+
+0
+
+MCLK_x
+Disabled
+Enabled
+Disabled
+
+1
+
+1
+
+0
+
+Enabled
+Enabled
+
+MCLK_x can also be generated in AC’97 mode, when MCLKEN is set to 1.
+
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+
+Generation of the bit clock (SCK_x)
+The clock generator provides the bit clock (SCK_x) when the audio block is defined as
+Master. The frame synchronization (FS_x) is also derived from the signals provided by the
+clock generator.
+In Slave mode, the value of NODIV and OSR fields are ignored, and the SCK_x clock is not
+generated.
+The bit clock strobing edge of SCK_x can be configured through the CKSTR fields, which is
+functional both in master and slave mode.
+Figure 865 illustrates the architecture of the audio block clock generator.
+Figure 865. Audio block clock generator overview
+
+SAI clock generator x
+MCKDIV[5:0]
+sai_x_ker_
+ck
+
+NODIV
+SAIEN for block x
+MCKEN
+
+Clock divider
+
+FRL[7:0]
+
+OSR
+÷2
+
+1
+0
+
+÷
+
+256
+FRL+1
+
+MCLK_x
+NODIV
+
+[0]
+
+0
+SCK_x
+
+1
+Audio Block x
+
+÷ (FRL+1)
+
+FS_x
+
+FRL[7:0]
+[0]: FRL+1 must be a power of 2 when NOMCK = 0
+MSv43706V3
+
+The NODIV bit must be used to force the ratio between the master clock (MCLK_x) and the
+frame synchronization (FS_x) frequency to 256 or 512.
+•
+
+If NODIV is set to 0, the frequency ratio between the frame synchronization and the
+master clock is fixed to 512 or 256, according to OSR value, but the frame length must
+be a power of 2. More details are given below.
+
+•
+
+If NODIV is set to 1, the application can adjust the frequency of the bit clock (SCK_x)
+via MCKDIV. In addition, there is no restriction on the frame length value as long as the
+frame length is bigger or equal to 8 (that is, FRL[7:0] > 6). The frame synchronization
+frequency depends on MCKDIV and frame length (FRL[7:0]). In that case, the
+frequency of the MCLK_x is equal to the SCK_x.
+
+The NODIV, MCKEN, SAIEN, OVR, CKSTR, and MCKDIV[5:0] bits belong to the SAI_xCR1
+register, while FRL[7:0] belongs to SAI_xFRCR.
+
+RM0456 Rev 6

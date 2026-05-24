@@ -1,0 +1,265 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+11.8.41
+
+RCC APB1 peripheral clock enable in Sleep and Stop modes
+register 1 (RCC_APB1SMENR1)
+Address offset: 0x0C4
+Reset value: 0xFFFF FFFF
+Access: no wait state; word, half-word, and byte access
+This register only configures the clock gating, not the clock source itself. When a bit is set
+in Stop mode, the corresponding peripheral clock is enabled only when a peripheral
+(this one or another) requests the AHB or APB clock (refer to Section 11.4.24).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+USART
+6SMEN
+
+CRSS
+MEN
+
+rw
+
+rw
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+SPI2S
+MEN
+
+Res.
+
+WWDG
+SMEN
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+Res.
+
+I2C2S
+MEN
+
+I2C1S
+MEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TIM7S
+MEN
+
+TIM6S
+MEN
+
+TIM5S
+MEN
+
+TIM4S
+MEN
+
+TIM3S
+MEN
+
+TIM2S
+MEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+Res.
+
+rw
+
+20
+
+19
+
+18
+
+17
+
+16
+
+UART5 UART4 USART USART
+SMEN SMEN 3SMEN 2SMEN
+
+Res.
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 USART6SMEN: USART6 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: USART6 clocks disabled by the clock gating during Sleep and Stop modes
+1: USART6 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 24 CRSSMEN: CRS clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: CRS clocks disabled by the clock gating during Sleep and Stop modes
+1: CRS clocks enabled by the clock gating during Sleep and Stop modes
+Bit 23 Reserved, must be kept at reset value.
+Bit 22 I2C2SMEN: I2C2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: I2C2 clocks disabled by the clock gating during Sleep and Stop modes
+1: I2C2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 21 I2C1SMEN: I2C1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: I2C1 clocks disabled by the clock gating during Sleep and Stop modes
+1: I2C1 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 20 UART5SMEN: UART5 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: UART5 clocks disabled by the clock gating during Sleep and Stop modes
+1: UART5 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 19 UART4SMEN: UART4 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: UART4 clocks disabled by the clock gating during Sleep and Stop modes
+1: UART4 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 18 USART3SMEN: USART3 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: USART3 clocks disabled by the clock gating during Sleep and Stop modes
+1: USART3 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 17 USART2SMEN: USART2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: USART2 clocks disabled by the clock gating during Sleep and Stop modes
+1: USART2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 16:15 Reserved, must be kept at reset value.
+Bit 14 SPI2SMEN: SPI2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SPI2 clocks disabled by the clock gating during Sleep and Stop modes
+1: SPI2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 13:12 Reserved, must be kept at reset value.
+Bit 11 WWDGSMEN: Window watchdog clock enable during Sleep and Stop modes
+This bit is set and cleared by software. It is forced to one by hardware when the hardware
+WWDG option is activated.
+0: Window watchdog clocks disabled by the clock gating during Sleep and Stop modes
+1: Window watchdog clocks enabled by the clock gating during Sleep and Stop modes
+Bits 10:6 Reserved, must be kept at reset value.
+Bit 5 TIM7SMEN: TIM7 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM7 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM7 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 4 TIM6SMEN: TIM6 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM6 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM6 clocks enabled by the clock gating during Sleep and Stop modes
+
+<!-- pagebreak -->
+

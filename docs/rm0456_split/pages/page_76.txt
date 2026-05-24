@@ -1,0 +1,118 @@
+90
+
+Contents
+
+RM0456
+
+68.4
+
+SPI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2905
+68.4.1
+
+SPI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2905
+
+68.4.2
+
+SPI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2906
+
+68.4.3
+
+SPI communication general aspects . . . . . . . . . . . . . . . . . . . . . . . . . 2908
+
+68.4.4
+
+Communications between one master and one slave . . . . . . . . . . . . 2908
+
+68.4.5
+
+Standard multislave communication . . . . . . . . . . . . . . . . . . . . . . . . . 2911
+
+68.4.6
+
+Multimaster communication . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2912
+
+68.4.7
+
+Slave select (SS) pin management . . . . . . . . . . . . . . . . . . . . . . . . . . 2913
+
+68.4.8
+
+Ready pin (RDY) management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2917
+
+68.4.9
+
+Communication formats . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2917
+
+68.4.10 Configuring the SPI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2919
+68.4.11 Enabling the SPI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2920
+68.4.12 SPI data transmission and reception procedures . . . . . . . . . . . . . . . 2921
+68.4.13 Disabling the SPI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2925
+68.4.14 Communication using DMA (direct memory addressing) . . . . . . . . . . 2926
+68.4.15 Autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2927
+
+68.5
+
+SPI specific modes and control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2929
+68.5.1
+
+TI mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2929
+
+68.5.2
+
+SPI error flags . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2930
+
+68.5.3
+
+CRC computation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2933
+
+68.6
+
+SPI in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2934
+
+68.7
+
+SPI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2934
+
+68.8
+
+SPI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2936
+68.8.1
+
+SPI control register 1 (SPI_CR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2936
+
+68.8.2
+
+SPI control register 2 (SPI_CR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2938
+
+68.8.3
+
+SPI configuration register 1 (SPI_CFG1) . . . . . . . . . . . . . . . . . . . . . . 2938
+
+68.8.4
+
+SPI configuration register 2 (SPI_CFG2) . . . . . . . . . . . . . . . . . . . . . . 2941
+
+68.8.5
+
+SPI interrupt enable register (SPI_IER) . . . . . . . . . . . . . . . . . . . . . . . 2943
+
+68.8.6
+
+SPI status register (SPI_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2944
+
+68.8.7
+
+SPI interrupt/status flags clear register (SPI_IFCR) . . . . . . . . . . . . . 2947
+
+68.8.8
+
+SPI autonomous mode control register (SPI_AUTOCR) . . . . . . . . . . 2948
+
+68.8.9
+
+SPI transmit data register (SPI_TXDR) . . . . . . . . . . . . . . . . . . . . . . . 2948
+
+68.8.10 SPI receive data register (SPI_RXDR) . . . . . . . . . . . . . . . . . . . . . . . 2949
+68.8.11 SPI polynomial register (SPI_CRCPOLY) . . . . . . . . . . . . . . . . . . . . . 2949
+68.8.12 SPI transmitter CRC register (SPI_TXCRC) . . . . . . . . . . . . . . . . . . . 2950
+68.8.13 SPI receiver CRC register (SPI_RXCRC) . . . . . . . . . . . . . . . . . . . . . 2951

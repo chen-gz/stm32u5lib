@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+Bits 10:8 FRSIZE[2:0]: Frame size
+This bitfield is set and cleared by software. it is used to define the size of one frame and also
+to define how many samples are taken into account to compute the short-term signal level.
+000: 8 PCM samples used to compute the short-term signal level
+001: 16 PCM samples used to compute the short-term signal level
+010: 32 PCM samples used to compute the short-term signal level
+011: 64 PCM samples used to compute the short-term signal level
+100: 128 PCM samples used to compute the short-term signal level
+101: 256 PCM samples used to compute the short-term signal level
+11x: 512 PCM samples used to compute the short-term signal level
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 7 HYSTEN: Hysteresis enable
+This bit is set and cleared by software. It is used to enable/disable the hysteresis function
+(see Table 396 for details). This bit must be kept to 0 when SADMOD[1:0] = 1x.
+0: Hysteresis function disabled. THRH is always used.
+1: Hysteresis function enabled. THRH is used for MONITOR to DETECT transition and THRL
+is used for DETECT to MONITOR transition.
+Note: This bit can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 6 Reserved, must be kept at reset value.
+Bits 5:4 SADST[1:0]: SAD state
+This bitfield is set and cleared by hardware. It indicates the SAD state and is meaningful only
+when SADEN = 1. The SAD state can be:
+- LEARN when the SAD is in learning phase or in SDLVL computation mode
+- MONITOR when the SAD is in monitoring phase
+- DETECT when the SAD detects a sound
+00: SAD in LEARN state
+01: SAD in MONITOR state
+11: SAD in DETECT state
+Bit 3 DETCFG: Sound trigger event configuration
+This bit is set and cleared by software. It is used to define if the sddet_evt event is generated
+only when the SAD enters to MONITOR state or when the SAD enters or exits the DETECT
+state.
+0: sddet_evt generated when SAD enters the MONITOR state
+1: sddet_evt generated when SAD enters or exits the DETECT state
+Note: This bit can be write-protected (see Section 40.4.13: Register protection for details).
+Bits 2:1 DATCAP[1:0]: Data capture mode
+This bitfield is set and cleared by software. It is used to define in which conditions, the
+samples provided by DLFT0 are stored into the memory.
+00: Samples from DFLT0 not transfered into the memory
+01: Samples from DFLT0 transfered into the memory when SAD is in DETECT state
+1x: Samples from DFLT0 transfered into memory when SAD and DFLT0 are enabled
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 0 SADEN: Sound activity detector enable
+This bit is set and cleared by software. It is used to enable/disable the SAD.
+0: SAD disabled and SAD state reset
+1: SAD enabled
+
+RM0456 Rev 6

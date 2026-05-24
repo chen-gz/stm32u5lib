@@ -1,0 +1,58 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 140. Access to non ‘CE don’t care’ NAND-flash . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1037
+Figure 141. OCTOSPI block diagram in octal configuration
+(for STM32U5 series except STM32U535/545 devices). . . . . . . . . . . . . . . . . . . . . . . . . 1048
+Figure 142. OCTOSPI block diagram in quad configuration
+(for STM32U5 series except STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . 1048
+Figure 143. OCTOSPI block diagram in dual-quad configuration
+(for STM32U5 series except STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . 1049
+Figure 144. OCTOSPI block diagram in octal configuration
+(for STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1049
+Figure 145. OCTOSPI block diagram in quad configuration
+(for STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1050
+Figure 146. OCTOSPI block diagram in dual-quad configuration
+(for STM32U535/545 devices) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1050
+Figure 147. SDR read command in octal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1052
+Figure 148. DTR read in octal-SPI mode with DQS (Macronix mode) example . . . . . . . . . . . . . . . . 1055
+Figure 149. SDR write command in octo-SPI mode example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1057
+Figure 150. DTR write in octal-SPI mode (Macronix mode) example . . . . . . . . . . . . . . . . . . . . . . . . 1057
+Figure 151. Example of HyperBus read operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1059
+Figure 152. HyperBus write operation with initial latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1060
+Figure 153. HyperBus read operation with additional latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1061
+Figure 154. HyperBus write operation with additional latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1061
+Figure 155. HyperBus write operation with no latency (register write). . . . . . . . . . . . . . . . . . . . . . . . 1062
+Figure 156. HyperBus read operation page crossing with latency. . . . . . . . . . . . . . . . . . . . . . . . . . . 1062
+Figure 157. D0/D1 data ordering in octal-SPI DTR mode (Micron) - Read access . . . . . . . . . . . . . . 1069
+Figure 158. OctaRAM read operation with reverse data ordering D1/D0 . . . . . . . . . . . . . . . . . . . . . 1070
+Figure 159. NCS when CKMODE = 0 (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1075
+Figure 160. NCS when CKMODE = 1 in SDR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1076
+Figure 161. NCS when CKMODE = 1 in DTR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1076
+Figure 162. NCS when CKMODE = 1 with an abort (T = CLK period). . . . . . . . . . . . . . . . . . . . . . . . 1076
+Figure 163. OCTOSPIM block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1106
+Figure 164. HSPI block diagram for 16-bit configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1114
+Figure 165. HSPI block diagram for dual-octal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1115
+Figure 166. HSPI block diagram for octal configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1115
+Figure 167. HSPI block diagram in quad configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1116
+Figure 168. HSPI block diagram for dual-quad configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1117
+Figure 169. SDR read command in 16-bit configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1119
+Figure 170. DTR read in octal-SPI mode with DQS (Macronix mode) example . . . . . . . . . . . . . . . . 1122
+Figure 171. SDR write command in octal-SPI mode example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1124
+Figure 172. DTR write in octal-SPI mode (Macronix mode) example . . . . . . . . . . . . . . . . . . . . . . . . 1124
+Figure 173. Example of HyperBus read operation (8-bit data mode) . . . . . . . . . . . . . . . . . . . . . . . . 1127
+Figure 174. HyperBus write operation with initial latency (8-bit data mode) . . . . . . . . . . . . . . . . . . . 1129
+Figure 175. HyperBus read operation with additional latency (8-bit data mode) . . . . . . . . . . . . . . . . 1129
+Figure 176. HyperBus write operation with additional latency (8-bit data mode) . . . . . . . . . . . . . . . . 1130
+Figure 177. HyperBus write operation with no latency (register write). . . . . . . . . . . . . . . . . . . . . . . . 1130
+Figure 178. HyperBus read operation page crossing with latency (8-bit data mode) . . . . . . . . . . . . 1131
+Figure 179. HyperBus write operation with initial latency (16-bit mode) . . . . . . . . . . . . . . . . . . . . . . 1132
+Figure 180. D0/D1 data ordering in octal-SPI DTR mode (Micron) - Read access . . . . . . . . . . . . . . 1138
+Figure 181. OctaRAM read operation with reverse data ordering D1/D0 . . . . . . . . . . . . . . . . . . . . . 1139
+Figure 182. NCS when CKMODE = 0 (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1145
+Figure 183. NCS when CKMODE = 1 in SDR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1146
+Figure 184. NCS when CKMODE = 1 in DTR mode (T = CLK period) . . . . . . . . . . . . . . . . . . . . . . . 1146
+Figure 185. NCS when CKMODE =1 with an abort (T = CLK period). . . . . . . . . . . . . . . . . . . . . . . . 1146

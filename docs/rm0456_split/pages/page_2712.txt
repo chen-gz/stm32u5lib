@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bit 11 CLKEN: Clock enable
+This bit enables the user to enable the CK pin.
+0: CK pin disabled
+1: CK pin enabled
+Note: If neither synchronous mode nor smartcard mode is supported, this bit is reserved and must
+be kept at reset value. Refer to Section 66.4: USART implementation.
+In smartcard mode, in order to provide correctly the CK clock to the smartcard, the steps below
+must be respected:
+UE = 0
+SCEN = 1
+GTPR configuration
+CLKEN= 1
+UE = 1
+Bit 10 CPOL: Clock polarity
+This bit enables the user to select the polarity of the clock output on the CK pin in synchronous
+mode. It works in conjunction with the CPHA bit to produce the desired clock/data relationship
+0: Steady low value on CK pin outside transmission window
+1: Steady high value on CK pin outside transmission window
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If synchronous mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bit 9 CPHA: Clock phase
+This bit is used to select the phase of the clock output on the CK pin in synchronous mode. It works
+in conjunction with the CPOL bit to produce the desired clock/data relationship (see Figure 815 and
+Figure 816)
+0: The first clock transition is the first data capture edge
+1: The second clock transition is the first data capture edge
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If synchronous mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bit 8 LBCL: Last bit clock pulse
+This bit is used to select whether the clock pulse associated with the last data bit transmitted (MSB)
+has to be output on the CK pin in synchronous mode.
+0: The clock pulse of the last data bit is not output to the CK pin
+1: The clock pulse of the last data bit is output to the CK pin
+Caution: The last bit is the 7th or 8th or 9th data bit transmitted depending on the 7 or 8 or 9 bit
+format selected by the M bit in the USART_CR1 register.
+This bit can only be written when the USART is disabled (UE = 0).
+Note: If synchronous mode is not supported, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 LBDIE: LIN break detection interrupt enable
+Break interrupt mask (break detection using break delimiter).
+0: Interrupt is inhibited
+1: An interrupt is generated whenever LBDF = 1 in the USART_ISR register
+Note: If LIN mode is not supported, this bit is reserved and must be kept at reset value. Refer to
+Section 66.4: USART implementation.
+
+RM0456 Rev 6

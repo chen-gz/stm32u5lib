@@ -1,0 +1,51 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Bit 11 ULEIE: update link transfer error interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 10 DTEIE: data transfer error interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 9 HTIE: half transfer complete interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 8 TCIE: transfer complete interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bits 7:3 Reserved, must be kept at reset value.
+Bit 2 SUSP: suspend
+Writing 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is
+written into this bit 2. Else:
+Software must write 1 in order to suspend an active channel (with an ongoing DMA transfer
+over its master ports).
+The software must write 0 in order to resume a suspended channel, following the
+programming sequence detailed in Figure 74.
+0: write: resume channel, read: channel not suspended
+1: write: suspend channel, read: channel suspended.
+Bit 1 RESET: reset
+This bit is write only. Writing 0 has no impact. Writing 1 implies the reset of the following: the
+channel internal state, SUSP and EN bits (whatever is written receptively in bit 2 and bit 0).
+The reset is effective when the channel is in steady state, meaning one of the following:
+- active channel in suspended state (LPDMA_CxSR.SUSPF = 1 and
+LPDMA_CxSR.IDLEF = LPDMA_CxCR.EN = 1)
+- channel in disabled state (LPDMA_CxSR.IDLEF = 1 and LPDMA_CxCR.EN = 0).
+After writing a RESET, to continue using this channel, the user must explicitly reconfigure the
+channel including the hardware-modified configuration registers (LPDMA_CxBR1,
+LPDMA_CxSAR and LPDMA_CxDAR) before enabling again the channel (see the
+programming sequence in Figure 75).
+0: no channel reset
+1: channel reset
+Bit 0 EN: enable
+Writing 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is
+written into this bit 0. Else:
+this bit is de-asserted by hardware when there is a transfer error (master bus error or user
+setting error) or when there is a channel transfer complete (channel ready to be configured,
+for example: if LSM = 1 at the end of a single execution of the LLI).
+Else, this bit can be asserted by software.
+Writing 0 into this EN bit is ignored.
+0: write: ignored, read: channel disabled
+1: write: enable channel, read: channel enabled

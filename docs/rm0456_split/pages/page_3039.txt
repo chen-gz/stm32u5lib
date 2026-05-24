@@ -1,0 +1,68 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Figure 895. OTG_FS peripheral-only connection
+VDD
+5 V to VDD
+Voltage
+regulator
+VDD
+GPIO
+GPIO + IRQ
+
+EN
+
+STMPS2141STR
+Current-limited 5 V Pwr
+Overcurrent power distribution
+switch(1)
+
+DM
+OSC_IN
+
+DP
+
+OSC_OUT
+
+VSS
+
+USB micro connector
+
+VBUS
+
+MSv36916V2
+
+1. Use a regulator to build a bus-powered device.
+
+72.6.1
+
+SRP-capable peripheral
+The SRP capable bit in the Global USB configuration register (SRPCAP bit in
+OTG_GUSBCFG) enables the OTG_FS to support the session request protocol (SRP). In
+this way, it allows the remote A-device to save power by switching off VBUS while the USB
+session is suspended.
+The SRP peripheral mode program model is described in detail in the B-device session
+request protocol section.
+
+72.6.2
+
+Peripheral states
+Powered state
+The VBUS input detects the B-session valid voltage by which the USB peripheral is allowed
+to enter the powered state (see USB2.0 section 9.1). The OTG_FS then automatically
+connects the DP pull-up resistor to signal full-speed device connection to the host and
+generates the session request interrupt (SRQINT bit in OTG_GINTSTS) to notify the
+powered state.
+The VBUS input also ensures that valid VBUS levels are supplied by the host during USB
+operations. If a drop in VBUS below B-session valid happens to be detected (for instance
+because of a power disturbance or if the host port has been switched off), the OTG_FS
+automatically disconnects and the session end detected (SEDET bit in OTG_GOTGINT)
+interrupt is generated to notify that the OTG_FS has exited the powered state.
+In the powered state, the OTG_FS expects to receive some reset signaling from the host.
+No other USB operation is possible. When a reset signaling is received the reset detected
+interrupt (USBRST in OTG_GINTSTS) is generated. When the reset signaling is complete,
+the enumeration done interrupt (ENUMDNE bit in OTG_GINTSTS) is generated and the
+OTG_FS enters the Default state.

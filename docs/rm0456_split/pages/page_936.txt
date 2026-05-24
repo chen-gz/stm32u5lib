@@ -1,0 +1,28 @@
+935
+
+Cyclic redundancy check calculation unit (CRC)
+
+24
+
+Cyclic redundancy check calculation unit (CRC)
+
+24.1
+
+Introduction
+
+RM0456
+
+The CRC (cyclic redundancy check) calculation unit is used to get a CRC code from 8-, 16or 32-bit data word and a generator polynomial.
+Among other applications, CRC-based techniques are used to verify data transmission or
+storage integrity. In the scope of the functional safety standards, they offer a means of
+verifying the flash memory integrity. The CRC calculation unit helps compute a signature of
+the software during runtime, to be compared with a reference signature generated at link
+time and stored at a given memory location.
+
+24.2
+
+CRC main features
+•
+
+Uses CRC-32 (Ethernet) polynomial: 0x4C11DB7
+X32 + X26 + X23 + X22 + X16 + X12 + X11 + X10 +X8 + X7 + X5 + X4 + X2+ X +1

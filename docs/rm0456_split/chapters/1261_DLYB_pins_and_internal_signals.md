@@ -1,0 +1,153 @@
+•
+
+register interface block providing AHB access to the DLYB registers
+
+•
+
+delay line supporting the unit delays
+
+•
+
+delay line length sampling
+
+•
+
+output clock selection multiplexer
+
+RM0456 Rev 6
+
+RM0456
+
+Delay block (DLYB)
+
+Delay block (DLYB)
+
+dlyb_hclk
+
+REGISTER
+INTERFACE
+
+DELAY LINE
+
+UNIT
+Unit
+Delay
+0
+
+dlyb_in_ck
+
+Unit
+Delay
+1
+
+Unit
+Delay
+2
+
+Unit
+Delay
+3
+
+Unit
+Delay
+11
+
+DEN
+SAMPLER
+0
+1
+2
+3
+
+SEN
+
+LENGTH
+
+32-bit AHB bus
+
+Figure 220. DLYB block diagram
+
+11
+0
+
+dlyb_out_ck
+
+1
+
+2
+
+MUX
+
+3
+
+4
+
+12
+
+LNG
+LNGF
+
+SEL
+
+CLOCK OUT MUX
+
+MSv37830V2
+
+32.4.2
+
+DLYB pins and internal signals
+Table 299 lists the DLYB internal signals.
+Table 299. DLYB internal input/output signals
+
+32.4.3
+
+Signal name
+
+Signal type
+
+Description
+
+dlyb_hclk
+
+Digital input
+
+Delay block register interface clock
+
+dlyb_in_ck
+
+Digital input
+
+Delay block input clock
+
+dlyb_out_ck
+
+Digital output
+
+Delay block output clock
+
+General description
+The delay block is enabled by setting the DEN bit in the DLYB control register (DLYB_CR).
+The length sampler is enabled through the SEN bit in DLYB_CR register.
+When the delay block is enabled, the delay added by a unit delay is defined by the
+UNIT[6:0] field in the DLYB configuration register (DLYB_CFGR).
+
+Note:
+
+UNIT[6:0] can be programmed only when the output clock is disabled (SEN = 1).
+When the delay block is enabled, the output clock phase is selected through the SEL[3:0]
+field in DLYB_CFGR register.
+
+Note:
+
+SEL can be programmed only when the output clock is disabled (SEN = 1).
+The output clock can be de-phased over one input clock period by configuring the delay line
+length to span one period. The delay line length can be configured by enabling the length
+sampler through the SEN bit, that gives access to the delay line length (LNG[11:0]) and
+length valid flag (LNGF) in DLYB_CFGR.
+If an output clock delay smaller than one input clock period is needed the delay line length
+can be reduced. This allows a smaller unit delay providing higher resolution.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

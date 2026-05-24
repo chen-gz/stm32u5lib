@@ -1,0 +1,127 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+1. X = supported.
+
+50.4
+
+SAES functional description
+
+50.4.1
+
+SAES block diagram
+Figure 485 shows the block diagram of SAES.
+Figure 485. SAES block diagram
+TAMP
+TAMP_BKP0R
+BHK
+
+...
+AES
+
+TAMP_BKP7R
+
+Shared key
+
+RNG bus
+
+PRNG
+
+sca/dpa
+protections
+
+32-bit
+access
+32-bit
+AHB bus
+
+IV, counter
+
+AES_IVRx
+
+status
+
+AES_SR
+
+control
+
+AES_CR
+
+data out
+
+AES_DOUTR
+
+DOUT
+
+data in
+
+AES_DINR
+
+DIN
+
+saes_it
+
+DMA
+interface
+
+KGen
+
+RHUK
+
+KEY
+
+AES_KEYRx
+
+saes_hclk
+
+saes_in_dma
+
+DHUK
+
+Banked
+registers
+
+key
+
+AHB
+interface
+
+saes_out_dma
+
+KEY
+
+SAES
+
+IVI
+
+swap
+
+AES
+Core
+(AEA)
+
+Control Logic
+
+IRQ
+interface
+
+saes_itamp_out
+
+saes_ker_ck
+
+Note:
+
+AES represents the AES peripheral. The saes_ker_ck represents the rcc_shsi_ck clock
+signal.
+
+50.4.2
+
+SAES internal signals
+Table 480 describes the user relevant internal signals interfacing the SAES peripheral.
+Table 480. SAES internal input/output signals
+
+<!-- pagebreak -->
+

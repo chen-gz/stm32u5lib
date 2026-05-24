@@ -1,0 +1,26 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 546. PWM resolution vs frequency
+PWM resolution
+
+20-bit
+
+16-bit
+Dithering
+
+No Dithering
+
+PWM frequency
+
+FPWM
+min
+
+MSv47464V2
+
+The duty cycle and/or period changes are spread over 16 consecutive periods, as described
+in Figure 547.
+
+RM0456 Rev 6

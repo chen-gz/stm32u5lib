@@ -1,0 +1,99 @@
+1259
+
+Delay block (DLYB)
+
+RM0456
+
+32
+
+Delay block (DLYB)
+
+32.1
+
+Introduction
+The delay block (DLYB) is used to generate an output clock that is dephased from the input
+clock. The phase of the output clock must be programmed by the user application. The
+output clock is then used to clock the data received by another peripheral such as an
+SDMMC or Octo-SPI interface.
+The delay is voltage- and temperature-dependent, that may require the application to reconfigure and recenter the output clock phase with the receive data.
+
+32.2
+
+DLYB main features
+The delay block has the following features:
+
+32.3
+
+•
+
+Input clock frequency ranging from 25 MHz to the maximum frequency supported by
+the communication interface (see datasheet)
+
+•
+
+Up to 12 oversampling phases.
+
+DLYB implementation
+Table 298. STM32U5 series features
+DLYB associated
+peripheral
+
+DLYBOS1
+
+DLYBOS2
+
+DLYBSD1
+
+DLYBSD2
+
+OCTOSPI1
+
+X
+
+-
+
+-
+
+-
+
+OCTOSPI2
+
+-
+
+X
+
+-
+
+-
+
+SDMMC1
+
+-
+
+-
+
+X
+
+-
+
+SDMMC2
+
+-
+
+-
+
+-
+
+X
+
+32.4
+
+DLYB functional description
+
+32.4.1
+
+DLYB diagram
+The delay block includes the following sub-blocks (shown in the figure below):
+
+<!-- pagebreak -->
+

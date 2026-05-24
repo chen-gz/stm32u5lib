@@ -1,0 +1,59 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+handshake, the packet count for the endpoint is decremented by one, until the packet
+count is zero. The packet count is not decremented on a timeout.
+5.
+
+For zero length packets (indicated by an internal zero length flag), the core sends out a
+zero-length packet for the IN token and decrements the packet count field.
+
+6.
+
+If there are no data in the FIFO for a received IN token and the packet count field for
+that endpoint is zero, the core generates an “IN token received when Tx FIFO is empty”
+(ITTXFE) interrupt for the endpoint, provided that the endpoint NAK bit is not set. The
+core responds with a NAK handshake for non-isochronous endpoints on the USB.
+
+7.
+
+The core internally rewinds the FIFO pointers and no timeout interrupt is generated.
+
+8.
+
+When the transfer size is 0 and the packet count is 0, the transfer complete (XFRC)
+interrupt for the endpoint is generated and the endpoint enable is cleared.
+
+Application programming sequence:
+1.
+
+Program the OTG_DIEPTSIZx register with the transfer size and corresponding packet
+count.
+
+2.
+
+Program the OTG_DIEPCTLx register with the endpoint characteristics and set the
+CNAK and EPENA (endpoint enable) bits.
+
+3.
+
+When transmitting non-zero length data packet, the application must poll the
+OTG_DTXFSTSx register (where x is the FIFO number associated with that endpoint)
+to determine whether there is enough space in the data FIFO. The application can
+optionally use TXFE (in OTG_DIEPINTx) before writing the data.
+
+•
+
+Generic periodic IN data transfers
+
+This section describes a typical periodic IN data transfer.
+Application requirements:
+1.
+
+Application requirements 1, 2, 3, and 4 of Generic non-periodic IN data transfers on
+page 3278 also apply to periodic IN data transfers, except for a slight modification of
+requirement 2.
+–

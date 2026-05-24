@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+
+Bit 17 TEN2: DAC channel2 trigger enable
+This bit is set and cleared by software to enable/disable DAC channel2 trigger
+0: DAC channel2 trigger disabled and data written into the DAC_DHR2 register are
+transferred one dac_hclk clock cycle later to the DAC_DOR2 register
+1: DAC channel2 trigger enabled and data from the DAC_DHR2 register are transferred
+three dac_hclk clock cycles later to the DAC_DOR2 register
+Note: When software trigger is selected, the transfer from the DAC_DHR2 register to the
+DAC_DOR2 register takes only one dac_hclk clock cycle.
+These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Bit 16 EN2: DAC channel2 enable
+This bit is set and cleared by software to enable/disable DAC channel2.
+0: DAC channel2 disabled
+1: DAC channel2 enabled
+Note: These bits are available only on dual-channel DACs. Refer to Section 35.3: DAC
+implementation.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 CEN1: DAC channel1 calibration enable
+This bit is set and cleared by software to enable/disable DAC channel1 calibration, it can be
+written only if bit EN1 = 0 into DAC_CR (the calibration mode can be entered/exit only when
+the DAC channel is disabled) Otherwise, the write operation is ignored.
+0: DAC channel1 in normal operating mode
+1: DAC channel1 in calibration mode
+Bit 13 DMAUDRIE1: DAC channel1 DMA Underrun Interrupt enable
+This bit is set and cleared by software.
+0: DAC channel1 DMA Underrun Interrupt disabled
+1: DAC channel1 DMA Underrun Interrupt enabled
+Bit 12 DMAEN1: DAC channel1 DMA enable
+This bit is set and cleared by software.
+0: DAC channel1 DMA mode disabled
+1: DAC channel1 DMA mode enabled
+Bits 11:8 MAMP1[3:0]: DAC channel1 mask/amplitude selector
+These bits are written by software to select mask in wave generation mode or amplitude in
+triangle generation mode.
+0000: Unmask bit0 of LFSR/ triangle amplitude equal to 1
+0001: Unmask bits[1:0] of LFSR/ triangle amplitude equal to 3
+0010: Unmask bits[2:0] of LFSR/ triangle amplitude equal to 7
+0011: Unmask bits[3:0] of LFSR/ triangle amplitude equal to 15
+0100: Unmask bits[4:0] of LFSR/ triangle amplitude equal to 31
+0101: Unmask bits[5:0] of LFSR/ triangle amplitude equal to 63
+0110: Unmask bits[6:0] of LFSR/ triangle amplitude equal to 127
+0111: Unmask bits[7:0] of LFSR/ triangle amplitude equal to 255
+1000: Unmask bits[8:0] of LFSR/ triangle amplitude equal to 511
+1001: Unmask bits[9:0] of LFSR/ triangle amplitude equal to 1023
+1010: Unmask bits[10:0] of LFSR/ triangle amplitude equal to 2047
+≥ 1011: Unmask bits[11:0] of LFSR/ triangle amplitude equal to 4095
+
+RM0456 Rev 6

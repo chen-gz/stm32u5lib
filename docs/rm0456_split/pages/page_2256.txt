@@ -1,0 +1,56 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Figure 615. Counter timing diagram, internal clock divided by 4, TIMx_ARR = 0x36
+
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+0034
+
+0035
+
+0036
+
+0035
+
+Counter overflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+Note: Here, center_aligned mode 2 or 3 is updated with an UIF on overflow
+
+MSv62312V1
+
+1. Center-aligned mode 2 or 3 is used with a UIF on overflow.
+
+Figure 616. Counter timing diagram, internal clock divided by N
+tim_psc_ck
+
+tim_cnt_ck
+
+Counter register
+
+20
+
+1F
+
+01
+
+00
+
+Counter underflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)

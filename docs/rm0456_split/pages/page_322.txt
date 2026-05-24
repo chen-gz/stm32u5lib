@@ -1,0 +1,59 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+areas are erased (even if it is defined as secure by block-based). The backup registers, the
+OTFDEC keys, ICACHE, DCACHE, PKA SRAM, and all SRAMs are mass erased.
+The OTP area is not erased. The RDP level 0.5 and partial nonsecure erase are only
+available when TrustZone is active.
+Note:
+
+Full mass erase is performed only when level 1 is active and level 0 requested. When the
+protection level is increased (0 to 0.5, 0 to 1, 0.5 to 1, 1 to 2, 0 to 2 or 0.5 to 2), there is no
+mass erase.
+To validate the readout protection level change, the option bytes must be reloaded through
+the OBL_LAUNCH bit in FLASH nonsecure control register (FLASH_NSCR).
+Before launching a RDP regression, the software must invalidate the ICACHE and wait for
+the BUSYF bit to get cleared.
+Figure 25. RDP level transition scheme when TrustZone is disabled (TZEN = 0)
+Write
+RDP ;$$DQG
+RDP [&&
+Level 1
+RDP 0xAA
+RDP 0xCC
+Write
+RDP = 0xCC
+
+2(0
+
+Level 2
+RDP = 0xCC
+
+2(0
+
+Write
+RDP ;$$DQG
+RDP [&&
+
+Write
+RDP = 0xCC
+
+Write
+RDP = 0xAA
+Mass erase
+
+Level 0
+RDP = 0xAA
+Write
+RDP = 0xAA
+
+5'3LQFUHDVHRSWLRQE\WHVPRGLILFDWLRQ
+5'3UHJUHVVLRQ IXOOPDVVHUDVH ±FDQEHGRQHE\GHEXJLQWHUIDFHRUE\
+ERRWORDGHU5HJUHVVLRQFDQEHEORFNHGE\2(0NH\
+5HJUHVVLRQQRWSRVVLEOHE\GHIDXOW±FDQEHDOORZHGE\GHEXJLQWHUIDFHZLWK
+2(0NH\LISUHYLRXVO\SURYLVLRQHGLQORZHU5'3OHYHOV
+5'3XQFKDQJHGRSWLRQE\WHVPRGLILFDWLRQ
+5'3XQFKDQJHG2QO\6:$3B%$1.RSWLRQELWFDQEHPRGLILHG

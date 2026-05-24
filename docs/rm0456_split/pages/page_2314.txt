@@ -1,0 +1,81 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+and data6. The data is transferred to the CCRx registers as follows: on the first update DMA
+request, data1 is transferred to CCR2, data2 is transferred to CCR3, data3 is transferred to
+CCR4 and on the second update DMA request, data4 is transferred to CCR2, data5 is
+transferred to CCR3, and data6 is transferred to CCR4.
+Note:
+
+A null value can be written to the reserved registers.
+
+55.4.26
+
+TIM2/TIM3/TIM4/TIM5 DMA requests
+The TIM2/TIM3/TIM4/TIM5 can generate a DMA requests, as shown in Table 571.
+Table 571. DMA request
+DMA request
+
+Enable
+control bit
+
+tim_upd_dma
+
+Update
+
+UDE
+
+tim_cc1_dma
+
+Capture/compare 1
+
+CC1DE
+
+tim_cc2_dma
+
+Capture/compare 2
+
+CC2DE
+
+tim_cc3_dma
+
+Capture/compare 3
+
+CC3DE
+
+tim_cc4_dma
+
+Capture/compare 4
+
+CC4DE
+
+tim_trgi_dma
+
+Trigger
+
+TDE
+
+DMA request signal
+
+Note:
+
+Some timer's DMA requests may not be connected to the DMA controller. Refer to the DMA
+section(s) for more details.
+
+55.4.27
+
+Debug mode
+When the microcontroller enters debug mode (Cortex®-M33 core halted), the TIMx counter
+can either continue to work normally or stops.
+The behavior in debug mode can be programmed with a dedicated configuration bit per
+timer in the Debug support (DBG) module.
+For more details, refer to section Debug support (DBG).
+
+55.4.28
+
+TIM2/TIM3/TIM4/TIM5 low-power modes
+Table 572. Effect of low-power modes on TIM2/TIM3/TIM4/TIM5
+Mode

@@ -1,0 +1,41 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Bit 23 PMM: Polling match mode
+This bit indicates which method must be used to determine a match during the automatic
+status-polling mode.
+0: AND-match mode, SMF is set if all the unmasked bits received from the device match
+the corresponding bits in the match register.
+1: OR-match mode, SMF is set if any of the unmasked bits received from the device matches
+its corresponding bit in the match register.
+Note: This bit can be modified only when BUSY = 0.
+Bit 22 APMS: Automatic status-polling mode stop
+This bit determines if the automatic status-polling mode is stopped after a match.
+0: Automatic status-polling mode is stopped only by abort or by disabling the HSPI.
+1: Automatic status-polling mode stops as soon as there is a match.
+Note: This bit can be modified only when BUSY = 0.
+Bit 21 Reserved, must be kept at reset value.
+Bit 20 TOIE: Timeout interrupt enable
+This bit enables the timeout interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 19 SMIE: Status match interrupt enable
+This bit enables the status match interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 18 FTIE: FIFO threshold interrupt enable
+This bit enables the FIFO threshold interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 17 TCIE: Transfer complete interrupt enable
+This bit enables the transfer complete interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 16 TEIE: Transfer error interrupt enable
+This bit enables the transfer error interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bits 15:14 Reserved, must be kept at reset value.

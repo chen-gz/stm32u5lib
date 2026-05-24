@@ -1,0 +1,114 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Bits 1:0 SDW_LOG2[1:0]: binary logarithm of the source data width of a burst in bytes
+00: byte
+01: half-word (2 bytes)
+10: word (4 bytes)
+11: user setting error reported and no transfer issued
+Note: A source block size must be a multiple of the source data width
+(GPDMA_CxBR1.BNDT[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error
+is reported and no transfer is issued.
+A source burst transfer must have an aligned address with its data width (start address
+GPDMA_CxSAR[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is
+reported and none transfer is issued.
+Setting a 8-byte data width causes a user setting error to be reported and no transfer is
+issued.
+
+17.8.11
+
+GPDMA channel x transfer register 2 (GPDMA_CxTR2)
+Address offset: 0x94 + 0x80 * x (x = 0 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (GPDMA_PRIVCFGR.PRIVx).
+This register controls the transfer of a channel x.
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed (the hardware deasserted
+GPDMA_CxCR.EN). A channel transfer can be completed and programmed at different
+levels: block or LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by GPDMA
+from the memory, if GPDMA_CxLLR.UT2 = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+TCEM[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TRIGPOL[1:0]
+
+Res.
+
+rw
+
+rw
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+BREQ
+
+DREQ
+
+SWRE
+Q
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+TRIGM[1:0]
+rw

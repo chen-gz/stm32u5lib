@@ -1,0 +1,176 @@
+RM0456 Rev 6
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+RM0456
+
+Debug support (DBG)
+
+Bits 31:9 Reserved, must be kept at reset value.
+Bit 8 TRIGIN: trigger on trigger in
+1: Indicates a trigger in the trace stream when the TRIGIN input is asserted.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 FONMAN: flush on manual
+0: flush completed
+1: Generates a flush.
+Bits 5:2 Reserved, must be kept at reset value.
+Bit 1 ENFCONT: continuous formatting enable
+Setting this bit to zero in SWO mode bypasses the formatter and only ITM/DWT trace is
+output, ETM trace is discarded.
+0: continuous formatting disabled
+1: continuous formatting enabled
+Bit 0 Reserved, must be kept at reset value.
+
+TPIU periodic synchronization counter register (TPIU_PSCR)
+Address offset: 0x308
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+Res.
+
+Res.
+
+Res.
+
+PSCOUNT[12:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bits 12:0 PSCOUNT[12:0]: formatter frames counter
+Enables effective use of different sized TPAs without wasting large amounts of the storage
+capacity of the capture device. This counter contains the number of formatter frames since
+the last synchronization packet of 128 bits. It is a 12-bit counter with a maximum count value
+of 4096. This equates to synchronization every 65536 bytes, that is, 4096 packets x 16 bytes
+per packet. The default is set up for a synchronization packet every 1024 bytes, that is, every
+64 formatter frames. If the formatter is configured for continuous mode, full and half-word
+synchronization frames are inserted during normal operation. Under these circumstances,
+the count value is the maximum number of complete frames between full synchronization
+packets.
+
+RM0456 Rev 6

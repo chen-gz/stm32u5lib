@@ -1,0 +1,97 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 261. Regular simultaneous mode on 16 channels: dual ADC mode
+
+MASTER ADC
+SLAVE ADC
+
+...
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+CH16
+
+CH14
+
+CH13
+
+CH12 ...
+
+Trigger
+Sampling
+
+CH16
+CH1
+End of regular sequence on
+MASTER and SLAVE ADC
+
+Conversion
+ai16054b
+
+If DISCEN = 1 then each “n” simultaneous conversions of the regular sequence require a
+regular trigger event to occur (“n” is defined by DISCNUM).
+This mode can be combined with AUTDLY mode:
+•
+
+Once a simultaneous conversion of the sequence has ended, the next conversion in
+the sequence is started only if the common data register, ADC12_CDR (or the regular
+data register of the master ADC) has been read (delay phase).
+
+•
+
+Once a simultaneous regular sequence of conversions has ended, a new regular
+trigger event is accepted only if the common data register (ADC12_CDR) has been
+read (delay phase). Any new regular trigger events occurring during the ongoing
+regular sequence and the associated delay phases are ignored.
+
+It is possible to use the DMA to handle data in regular simultaneous mode combined with
+AUTDLY mode, assuming that multi-DMA mode is used: DAMDF[1:0] bits must be set to 10
+or 11.
+When regular simultaneous mode is combined with AUTDLY mode, it is mandatory for the
+user to ensure that:
+
+Note:
+
+•
+
+The number of conversions in the master’s sequence is equal to the number of
+conversions in the slave sequence.
+
+•
+
+For each simultaneous conversion of the sequence, the length of the conversion of the
+slave ADC is inferior to the length of the conversion of the master ADC. Note that the
+length of the sequence depends on the number of channels to convert and the
+sampling time and the resolution of each channel.
+
+This combination of regular simultaneous mode and AUTDLY mode is restricted to the use
+case when only regular channels are programmed: it is forbidden to program injected
+channels in this combined mode.
+
+Interleaved mode with independent injected
+This mode is selected by programming bits DUAL[4:0] = 00111.
+This mode can be started only on a regular group (usually one channel). The external
+trigger source comes from the regular channel multiplexer of the master ADC.
+After an external trigger occurs:
+•
+
+The master ADC starts immediately.
+
+•
+
+The slave ADC starts after a delay of several ADC clock cycles after the sampling
+phase of the master ADC has complete.
+
+The minimum delay which separates two conversions in interleaved mode is configured in
+the DELAY bits in the ADC12_CCR register. This delay starts to count after the end of the
+sampling phase of the master conversion. This way, an ADC cannot start a conversion if the

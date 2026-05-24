@@ -1,0 +1,89 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Example using the main filter chain
+If the ADF filter is programmed as follows:
+•
+
+The input signal is coming from a serial interface (DsinRSFLT = 1 bit).
+
+•
+
+CIC order = 5 (N), with a decimation value of 24 (D1).
+
+•
+
+SCALE[5:0] is set to - 12 dB.
+
+•
+
+RSFLT enabled, and the decimation by four is enabled.
+
+•
+
+HPF is enabled.
+
+Check first the data size at CIC output:
+DS CIC = ( 5 × log 2 ( 24 ) ) + 1 bit = 23.92 bits
+
+The size is lower than 26 bits, so the CIC works in good conditions.
+The data size at CIC output is very close to 24 bits, so the SCALE must be adjusted in order
+to provide a 22-bit max signal to the RSFLT. An attenuation of 12 dB is needed.
+Then the signal level provided to the RSFLT is:
+5
+
+Asout SCALE = 24 × 10
+
+–
+12
+--------20
+
+× 1 = 2.10
+
+6
+
+6
+
+ln ( 2.10 ) + 1 = 21.93 bits
+DS SCALE = -----------------------ln ( 2 )
+
+If a higher gain is used, the RSFLT may saturate the output signal for strong input signals.
+At the end, the final signal amplitude is:
+5
+
+Asout HPF = 24 × 10
+
+–--------12
+20
+
+× 10
+
+9.5
+------20
+
+× 1 = 5.9711 × 10
+
+6
+
+6
+
+ln ( 5.9711 × 10 )- + 1⎞ = 23.51 bits
+Dsout HPF = ⎛ -------------------------------------------⎝
+⎠
+ln ( 2 )
+
+or:
+
+40.7.6
+
+⎛ 2 23.51⎞
+SDB OUT = 20 × log 10 ⎜ -------------⎟ = – 2.84 dBFS
+⎝ 2 24 ⎠
+
+How to compute SAD thresholds
+The SAD does not compute the RMS value of the converted signal, but the average of the
+absolute values. As a consequence, the estimated level differs from the RMS value of the
+signal:

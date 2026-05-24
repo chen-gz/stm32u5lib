@@ -1,0 +1,30 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+decoded on the USB, the application writes the corresponding number into the device
+address field in the device configuration register (DAD bit in OTG_DCFG). The OTG_HS
+then enters the address state and is ready to answer host transactions at the configured
+USB address.
+
+Suspended state
+The OTG_HS peripheral constantly monitors the USB activity. After counting 3 ms of USB
+idleness, the early suspend interrupt (ESUSP bit in OTG_GINTSTS) is issued, and
+confirmed 3 ms later, if appropriate, by the suspend interrupt (USBSUSP bit in
+OTG_GINTSTS). The device suspend bit is then automatically set in the device status
+register (SUSPSTS bit in OTG_DSTS) and the OTG_HS enters the suspended state.
+The suspended state may optionally be exited by the device itself. In this case the
+application sets the remote wake-up signaling bit in the device control register (RWUSIG bit
+in OTG_DCTL) and clears it after 1 to 15 ms.
+When a resume signaling is detected from the host, the resume interrupt (WKUPINT bit in
+OTG_GINTSTS) is generated and the device suspend bit is automatically cleared.
+
+73.6.2
+
+Peripheral endpoints
+The OTG_HS core instantiates the following USB endpoints:
+•
+
+•

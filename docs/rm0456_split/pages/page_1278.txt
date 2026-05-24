@@ -1,0 +1,71 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+The calibration factor can be written if the ADC is enabled and no calibration is ongoing
+(ADEN = 1 and ADSTART = 0 and JADSTART = 0). Then, at the next start of conversion,
+the calibration factor is injected into the analog ADC.
+Refer to the device datasheet for the offset and linearity calibration time requirements.
+
+Software procedure to calibrate the ADC
+1.
+
+Make sure DEEPPWD = 0, ADVREGEN = 1 and check that the ADC voltage regulator
+startup time has elapsed (LDORDY = 1).
+
+2.
+
+Make sure ADEN = 0.
+
+3.
+
+Either enable the linearity calibration (ADCALLIN = 1) or disable it (ADCALLIN = 0).
+
+4.
+
+Make sure CAPTURE_COEF and LATCH_COEF in ADC_CALFACT are cleared.
+
+5.
+
+Set ADCAL in the ADC_CR register and wait until ADCAL = 0.
+
+Figure 225 shows the ADC calibration timing diagram.
+Note:
+
+The software can launch the calibration only when ADEN = 0, LDORDY = 1 (ADC disabled
+and LDO ready).
+Single-ended and differential channels cannot be calibrated separately. The offset
+calibration is performed within the same sequence.
+Figure 225. ADC calibration
+
+ADCALLIN
+
+0: Linear calibrarion disable
+
+1: Linear calibration enable
+
+tCAB
+ADCAL
+ADC State
+
+OFF
+
+Startup
+
+Internal calibration
+factor
+
+by S/W
+
+OFF
+
+Default factor
+
+by H/W
+
+Calibration factor
+
+Indicative timings
+MSv62470V3

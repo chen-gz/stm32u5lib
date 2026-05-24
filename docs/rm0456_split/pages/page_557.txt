@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 24 OTFDEC2EN: OTFDEC2 clock enable
+This bit is set and cleared by software.
+0: OTFDEC2 clock disabled
+1: OTFDEC2 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 23 OTFDEC1EN: OTFDEC1 clock enable
+This bit is set and cleared by software.
+0: OTFDEC1 clock disabled
+1: OTFDEC1 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 22 Reserved, must be kept at reset value.
+Bit 21 OCTOSPIMEN: OCTOSPIM clock enable
+This bit is set and cleared by software.
+0: OCTOSPIM clock disabled
+1: OCTOSPIM clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 20 SAESEN: SAES clock enable
+This bit is set and cleared by software.
+0: SAES clock disabled
+1: SAES clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 19 PKAEN: PKA clock enable
+This bit is set and cleared by software.
+0: PKA clock disabled
+1: PKA clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 18 RNGEN: RNG clock enable
+This bit is set and cleared by software.
+0: RNG clock disabled
+1: RNG clock enabled
+Bit 17 HASHEN: HASH clock enable
+This bit is set and cleared by software
+0: HASH clock disabled
+1: HASH clock enabled
+
+RM0456 Rev 6

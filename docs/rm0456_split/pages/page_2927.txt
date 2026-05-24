@@ -1,0 +1,51 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Restricted operation mode
+In restricted operation mode, the node is able to receive data and remote frames, and to
+give acknowledge to valid frames, but it does not send data frames, remote frames, active
+error frames, or overload frames. In case of an error condition or overload condition, it does
+not send dominant bits. Instead, it waits for the occurrence of a bus-idle condition to
+resynchronize itself to the CAN communication. The error counters (REC[6:0] and TEC[7:0]
+in FDCAN_ECR) are frozen while the error logging (CEL[7:0]) is active. The software can
+set the FDCAN into restricted operation mode by setting the ASM bit of FDCAN_CCCR. The
+bit can only be set by software when both CCE and INIT bits are set in FDCAN_CCCR. The
+bit can be cleared by software at any time.
+Restricted operation mode is automatically entered when the Tx handler is not able to read
+data from the message RAM in time. To leave restricted operation mode, the software has to
+clear the ASM bit of FDCAN_CCCR.
+The restricted operation mode can be used in applications that adapt themselves to different
+CAN bit rates. In this case, the application tests different bit rates and leaves the restricted
+operation mode after it has received a valid frame.
+Note:
+
+The restricted operation mode must not be combined with the loop-back mode (internal or
+external).
+
+Bus monitoring mode
+The FDCAN is set in bus monitoring mode by setting the MON bit of the FDCAN_CCCR
+register. In bus monitoring mode (for more details refer to ISO11898-1, 10.12 bus
+monitoring), the FDCAN is able to receive valid data frames and valid remote frames, but
+cannot start a transmission. In this mode, it sends only recessive bits on the CAN bus. If the
+FDCAN is required to send a dominant bit (ACK bit, overload flag, active error flag), the bit is
+rerouted internally so that the FDCAN can monitor it, even if the CAN bus remains in
+recessive state. In bus monitoring mode, the FDCAN_TXBRP register is held in reset state.
+The bus monitoring mode can be used to analyze the traffic on a CAN bus without affecting
+it by the transmission of dominant bits. Figure 885 shows the connection of FDCAN_TX and
+FDCAN_RX signals to the FDCAN in bus monitoring mode.
+Figure 885. Pin control in bus monitoring mode
+FDCAN_TX
+
+FDCAN_RX
+
+=1
+
+Tx
+
+Rx
+
+FDCAN
+MS41462V1

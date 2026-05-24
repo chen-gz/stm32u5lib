@@ -1,0 +1,182 @@
+RM0456 Rev 6
+
+w
+
+CMUTE COVRUD
+DET
+R
+w
+
+w
+
+RM0456
+
+Serial audio interface (SAI)
+
+Bit 5 CAFSDET: Clear anticipated frame synchronization detection flag.
+This bit is write only.
+Programming this bit to 1 clears the AFSDET flag in the SAI_xSR register.
+It is not used in AC’97 or SPDIF mode.
+Reading this bit always returns the value 0.
+Bit 4 CCNRDY: Clear Codec not ready flag.
+This bit is write only.
+Programming this bit to 1 clears the CNRDY flag in the SAI_xSR register.
+This bit is used only when the AC’97 audio protocol is selected in the SAI_xCR1 register.
+Reading this bit always returns the value 0.
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 CWCKCFG: Clear wrong clock configuration flag.
+This bit is write only.
+Programming this bit to 1 clears the WCKCFG flag in the SAI_xSR register.
+This bit is used only when the audio block is set as master (MODE[1] = 0) and NODIV = 0 in the
+SAI_xCR1 register.
+Reading this bit always returns the value 0.
+Bit 1 CMUTEDET: Mute detection flag.
+This bit is write only.
+Programming this bit to 1 clears the MUTEDET flag in the SAI_xSR register.
+Reading this bit always returns the value 0.
+Bit 0 COVRUDR: Clear overrun / underrun.
+This bit is write only.
+Programming this bit to 1 clears the OVRUDR flag in the SAI_xSR register.
+Reading this bit always returns the value 0.
+
+69.6.9
+
+SAI data register (SAI_ADR)
+Address offset: 0x20
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DATA[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DATA[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 DATA[31:0]: Data
+A write to this register loads the FIFO provided the FIFO is not full.
+A read from this register empties the FIFO if the FIFO is not empty.
+
+RM0456 Rev 6

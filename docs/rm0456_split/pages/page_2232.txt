@@ -1,0 +1,160 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bit 3 BK2CMP3E: tim_brk2_cmp3 enable
+This bit enables the tim_brk2_cmp3 for the timer’s tim_brk2 input. tim_brk2_cmp3 output is
+‘ORed’ with the other tim_brk2 sources.
+0: tim_brk2_cmp3 input disabled
+1: tim_brk2_cmp3 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 2 BK2CMP2E: tim_brk2_cmp2 enable
+This bit enables the tim_brk2_cmp2 for the timer’s tim_brk2 input. tim_brk2_cmp2 output is
+‘ORed’ with the other tim_brk2 sources.
+0: tim_brk2_cmp2 input disabled
+1: tim_brk2_cmp2 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 1 BK2CMP1E: tim_brk2_cmp1 enable
+This bit enables the tim_brk2_cmp1 for the timer’s tim_brk2 input. tim_brk2_cmp1 output is
+‘ORed’ with the other tim_brk2 sources.
+0: tim_brk2_cmp1 input disabled
+1: tim_brk2_cmp1 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 0 BK2INE: TIMx_BKIN2 input enable
+This bit enables the TIMx_BKIN2 alternate function input for the timer’s tim_brk2 input.
+TIMx_BKIN2 input is ‘ORed’ with the other tim_brk2 sources.
+0: TIMx_BKIN2 input disabled
+1: TIMx_BKIN2 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+
+Note:
+
+Refer to Section 54.3.2: TIM1/TIM8 pins and internal signals for product specific
+implementation.
+
+54.6.29
+
+TIMx DMA control register (TIMx_DCR)(x = 1, 8)
+Address offset: 0x3DC
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw

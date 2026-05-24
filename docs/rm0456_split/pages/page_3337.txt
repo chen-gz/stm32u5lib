@@ -1,0 +1,84 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+receive data FIFO to write SETUP data only, and never uses this space for data
+packets.
+3.
+
+The application must read the 2 words of the SETUP packet from the receive FIFO.
+
+4.
+
+The application must read and discard the setup stage done word from the receive
+FIFO.
+
+•
+
+Internal data flow
+
+1.
+
+When a SETUP packet is received, the core writes the received data to the receive
+FIFO, without checking for available space in the receive FIFO and irrespective of the
+endpoint’s NAK and STALL bit settings.
+–
+
+2.
+
+For every SETUP packet received on the USB, 3 words of data are written to the
+receive FIFO, and the STUPCNT field is decremented by 1.
+–
+
+The first word contains control information used internally by the core
+
+–
+
+The second word contains the first 4 bytes of the SETUP command
+
+–
+
+The third word contains the last 4 bytes of the SETUP command
+
+3.
+
+When the setup stage changes to a data IN/OUT stage, the core writes an entry (setup
+stage done word) to the receive FIFO, indicating the completion of the setup stage.
+
+4.
+
+On the AHB side, SETUP packets are emptied by the application.
+
+5.
+
+When the application pops the setup stage done word from the receive FIFO, the core
+interrupts the application with an STUP interrupt (OTG_DOEPINTx), indicating it can
+process the received SETUP packet.
+
+6.
+
+The core clears the endpoint enable bit for control OUT endpoints.
+
+•
+
+Application programming sequence
+
+1.
+
+Program the OTG_DOEPTSIZx register.
+–
+
+STUPCNT = 3
+
+2.
+
+Wait for the RXFLVL interrupt (OTG_GINTSTS) and empty the data packets from the
+receive FIFO.
+
+3.
+
+Assertion of the STUP interrupt (OTG_DOEPINTx) marks a successful completion of
+the SETUP data transfer.
+–

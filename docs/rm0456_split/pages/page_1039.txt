@@ -1,0 +1,128 @@
+11
+
+10
+
+9
+
+TCLR[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+ECCEN
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+5
+
+4
+
+PWID[1:0]
+rw
+
+rw
+
+19
+
+18
+
+17
+
+ECCPS[2:0]
+
+TAR3
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+PTYP PBKEN PWAITEN
+rw
+
+rw
+
+16
+
+rw
+
+rw
+0
+Res.
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bits 19:17 ECCPS[2:0]: ECC page size
+Defines the page size for the extended ECC:
+000: 256 bytes
+001: 512 bytes
+010: 1024 bytes
+011: 2048 bytes
+100: 4096 bytes
+101: 8192 bytes
+Bits 16:13 TAR[3:0]: ALE to RE delay
+Sets time from ALE low to RE low in number of AHB clock cycles (HCLK).
+Time is: t_ar = (TAR + SET + 2) × THCLK where THCLK is the HCLK clock period
+0000: 1 HCLK cycle (default)
+1111: 16 HCLK cycles
+Note: SET is MEMSET or ATTSET according to the addressed space.
+Bits 12:9 TCLR[3:0]: CLE to RE delay
+Sets time from CLE low to RE low in number of AHB clock cycles (HCLK).
+Time is t_clr = (TCLR + SET + 2) × THCLK where THCLK is the HCLK clock period
+0000: 1 HCLK cycle (default)
+1111: 16 HCLK cycles
+Note: SET is MEMSET or ATTSET according to the addressed space.
+Bits 8:7 Reserved, must be kept at reset value.
+Bit 6 ECCEN: ECC computation logic enable bit
+0: ECC logic is disabled and reset (default after reset),
+1: ECC logic is enabled.
+Bits 5:4 PWID[1:0]: Data bus width
+Defines the external memory device width.
+00: 8 bits
+01: 16 bits (default after reset).
+10: reserved.
+11: reserved.
+Bit 3 PTYP: Memory type
+Defines the type of device attached to the corresponding memory bank:
+0: Reserved, must be kept at reset value
+1: NAND flash (default after reset)
+Bit 2 PBKEN: NAND flash memory bank enable bit
+Enables the memory bank. Accessing a disabled memory bank causes an ERROR on AHB
+bus
+0: Corresponding memory bank is disabled (default after reset)
+1: Corresponding memory bank is enabled
+Bit 1 PWAITEN: Wait feature enable bit
+Enables the Wait feature for the NAND flash memory bank:
+0: disabled
+1: enabled
+Bit 0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

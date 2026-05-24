@@ -1,0 +1,337 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+Configurations #7, #8, #10 give signal-to-noise ratio around 120 dB, with an ideal
+microphone model, using a sinus signal of 997 Hz.
+
+#6
+
+3.072
+
+#7
+#8
+
+4.096
+
+#9
+#10
+
+6.144
+
+#11
+#12
+
+7.680
+
+32 0x2B (- 14.5 dB)
+
+1
+
+2
+
+5
+
+1
+
+2
+
+1
+
+0
+
+0
+
+5
+
+16 0x01 (+ 3.5 dB)
+
+0
+
+0
+
+6
+
+5
+
+8
+
+2
+
+2
+
+5
+
+12 0x06 (+ 18.1 dB)
+
+1
+
+2
+
+5
+
+24 0x2C (- 12 dB)
+
+1
+
+2
+
+5
+
+32 0x27 (- 26.6 dB)
+
+3
+
+2
+
+5
+
+16 0x02 (+ 6.0 dB)
+
+2
+
+2
+
+5
+
+24 0x2C (- 12 dB)
+
+1
+
+2
+
+5
+
+16 0x01 (+ 3.5 dB)
+
+1
+
+2
+
+5
+
+20 0x2E (- 6.0 dB)
+
+SCALE
+
+16 0x01 (+ 3.5 dB)
+
+1.024
+
+2.048
+
+0x0B (+ 33.6 dB)
+0
+
+0
+
+0
+
+0
+
+0
+
+x
+
+0
+
+0
+
+0
+
+=>
+
+3.072
+
+64
+
+-
+
+32
+
+-
+
+64
+
+32
+
+64
+
+64
+
+1.024
+
+16
+
+32
+
+32
+
+0.512
+
+8
+
+48
+96
+
+64
+64
+
+FPCM (kHz)
+
+5
+
+FMDF_CCKx (MHz)
+
+2
+
+x
+
+mdf_proc_ck
+(MHz)
+
+1
+
+1
+
+HPFBYP
+
+64 0x2D (- 8.5 dB)
+
+FRS (kHz)
+
+#5
+
+4
+
+-
+
+Total dec. ratio
+
+2.048
+
+2
+
+RSFLTD
+
+#4
+
+1
+
+RSFLTBYP
+
+#3
+
+MCICD + 1
+
+1.024
+
+CIC order (1)
+
+#2
+
+CCKDIV + 1
+
+#1
+
+PROCDIV + 1
+
+Configuration
+
+mdf_ker_ck (MHz)
+
+Table 385. Examples of MDF settings for microphone capture
+
+8
+0.512
+
+16
+8
+
+0.768
+
+16
+
+1.536
+
+4.096
+
+128
+
+2.048
+
+64
+
+3.072
+
+96
+
+6.144
+
+64
+
+192
+
+3.072
+
+48
+
+7.680
+
+80
+
+192
+
+3.840
+
+48
+
+64
+
+2.048
+
+16
+
+1.024
+
+16
+
+1.536
+
+1. CICMOD = 100 for CIC order equal to 4. CICMOD = 101 for CIC order equal to 5.
+
+39.7.2
+
+Programming examples
+This example describes how to capture sound from four microphones, assuming that each
+microphone pair shares the same data line. The MDF_SD0 and MDF_SD2 data lines are
+used. The microphone clock is provided by the MDF via MDF_CCK0 pin.
+Table 386. Programming sequence
+Operations
+
+Comments
+
+Adjust the proper kernel clock frequency via
+the RCC block
+
+Assuming that the RCC is programmed to provide a kernel clock
+(mdf_ker_ck) of 12.288 MHz
+
+Select the proper MDF kernel clock source via
+Refer to the RCC of the product.
+the RCC block
+Enable the MDF clocks via the RCC block
+
+Refer to the RCC of the product.
+
+Reset the MDF via the RCC block
+
+Refer to the RCC of the product.
+
+AFMUX programming
+
+Program the AFMUX to select MDF_SD0, MDF_SD2 and
+MDF_CCK0 function.
+
+RM0456 Rev 6

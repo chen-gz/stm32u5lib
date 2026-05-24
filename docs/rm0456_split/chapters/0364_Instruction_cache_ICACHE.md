@@ -1,0 +1,87 @@
+363
+
+Instruction cache (ICACHE)
+
+RM0456
+
+8
+
+Instruction cache (ICACHE)
+
+8.1
+
+ICACHE introduction
+The instruction cache (ICACHE) is introduced on the C-AHB code bus of the Cortex®-M33
+processor, to improve performance when fetching instructions and data from internal and
+external memories.
+Some specific features like dual master ports, hit-under-miss, and critical-word-first refill
+policy, allow close to zero-wait-state performance in most use cases.
+
+8.2
+
+ICACHE main features
+The main features of ICACHE are listed below:
+•
+
+•
+
+•
+
+Bus interface
+–
+
+One 32-bit AHB slave port, the execution port (input from Cortex®-M33 C-AHB
+code interface)
+
+–
+
+Two AHB master ports: master1 and master2 ports (outputs to Fast and Slow
+buses of main AHB bus matrix, respectively)
+
+–
+
+One 32-bit AHB slave port for control (input from AHB peripherals interconnect, for
+ICACHE registers access)
+
+Cache access
+–
+
+0 wait-state on hits
+
+–
+
+Hit-under-miss capability: ability to serve processor requests (access to cached
+data) during an ongoing line refill due to a previous cache miss
+
+–
+
+Dual master access: feature used to decouple the traffic according to targeted
+memory. For example, the ICACHE assigns fast traffic (addressing flash and
+SRAMs) to the AHB master1 port, and slow traffic (addressing external memories)
+to the AHB master2 port, thus preventing processor stalls on lines refills from
+external memories. This allows ISR (interrupt service routine) fetching on internal
+flash memory to take place in parallel with a cache line refill from external
+memories.
+
+–
+
+Minimal impact on interrupt latency, thanks to dual master
+
+–
+
+Optimal cache line refill thanks to WRAPw bursts of the size of the cache line
+(32-bit word size, w, aligned on cache line size)
+
+–
+
+n-way set-associative default configuration with possibility to configure as 1-way,
+means direct mapped cache, for applications needing very-low-power
+consumption profile
+
+Memory address remap
+–
+
+•
+
+<!-- pagebreak -->
+

@@ -1,0 +1,88 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+the slave select input of the other node via the dedicated GPIO pin. After the session is
+complete, the active slave select signal is released and the node mastering the bus
+temporarily returns back to passive slave mode waiting for the next session to start.
+If both nodes raise their mastering request at the same time, a bus conflict event appears
+(see mode fault MODF event). The user can apply some simple arbitration process (for
+example postpone the next attempt by different predefined timeouts applied to both nodes).
+Figure 851. Multimaster application
+
+Rx (Tx) shift register
+Tx (Rx) shift register
+SPI clock
+generator
+Master
+(Slave)
+
+MISO
+
+MISO
+
+MOSI
+
+MOSI
+
+SCK
+
+SCK
+
+GPIO
+
+SS(1)
+
+SS(1)
+
+GPIO
+
+Rx (Tx) shift register
+Tx (Rx) shift register
+SPI clock
+generator
+
+Master
+(Slave)
+
+MSv50502V1
+
+1. The SS pin is configured at hardware input mode at both nodes. Its active level enables the MISO line
+output control as the passive node is configured as a slave.
+2. The RDY signal is not used in this communication.
+
+68.4.7
+
+Slave select (SS) pin management
+In slave mode, the SS works as a standard ‘chip select’ input and lets the slave
+communicate with the master. In master mode, the SS can be used either as an output or an
+input. As an input it can prevent a multimaster bus collision, and as an output it can drive a
+slave select signal of a single slave. The SS signal can be managed internally (software
+management of the SS input) or externally when both the SS input and output are
+associated with the SS pin (hardware SS management). The user can configure which level
+of this input/output external signal (present on the SS pin) is considered as active by the
+SSIOP bit setting. SS level is considered as active if it is equal to SSIOP.
+The hardware or software slave select management can be set using the SSM bit in the
+SPI_CFG2 register:
+•
+
+Software SS management (SSM = 1): in this configuration, slave select information is
+driven internally by the SSI bit value in the SPI_CR1 register. The external SS pin is
+free for other application uses (such as GPIO or other alternate functions).
+
+•
+
+Hardware SS management (SSM = 0): in this case, there are two possible
+configurations. The configuration used depends on the SS output configuration (SSOE
+bit in the SPI_CFG2 register).
+–
+
+SS output enable (SSOE = 1): this configuration is only used when the MCU is
+set as master. The SS pin is managed by the hardware. The functionality is tied to
+CSTART and EOT control. As a consequence, the master must apply the proper
+TSIZE > 0 setting to control the SS output correctly. Even if SPI AF is not applied
+at the SS pin (it can be used as a standard GPIO then), keep anyway SSOE = 1 to
+ensure the default SS input level and prevent any mode fault evaluation at the
+
+RM0456 Rev 6

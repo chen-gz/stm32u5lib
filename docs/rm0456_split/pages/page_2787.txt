@@ -1,0 +1,57 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+Bit 7 TXFNF: TXFIFO not full
+TXFNF is set by hardware when TXFIFO is not full, and so data can be written in the
+LPUART_TDR. Every write in the LPUART_TDR places the data in the TXFIFO. This flag
+remains set until the TXFIFO is full. When the TXFIFO is full, this flag is cleared indicating
+that data can not be written into the LPUART_TDR.
+The TXFNF is kept reset during the flush request until TXFIFO is empty. After sending the
+flush request (by setting TXFRQ bit), the flag TXFNF must be checked prior to writing in
+TXFIFO (TXFNF and TXFE are set at the same time).
+An interrupt is generated if the TXFNFIE bit = 1 in the LPUART_CR1 register.
+0: Data register is full/Transmit FIFO is full.
+1: Data register/Transmit FIFO is not full.
+Note: This bit is used during single buffer transmission.
+Bit 6 TC: Transmission complete
+This bit indicates that the last data written in the LPUART_TDR has been transmitted out of
+the shift register.
+The TC flag behaves as follows:
+–
+When TDN = 0, the TC flag is set when the transmission of a frame containing data
+has completed and when TXE/TXFE is set.
+–
+When TDN is equal to the number of data in the TXFIFO, the TC flag is set when
+TXFIFO is empty and TDN is reached.
+–
+When TDN is greater than the number of data in the TXFIFO, TC remains cleared
+until the TXFIFO is filled again to reach the programmed number of data to be
+transferred.
+–
+When TDN is less than the number of data in the TXFIFO, TC is set when TDN is
+reached even if the TXFIFO is not empty.
+An interrupt is generated if TCIE = 1 in the LPUART_CR1 register.
+The TC bit is cleared by software, by writing 1 to the TCCF of the LPUART_ICR register, or
+by writing to the LPUART_TDR register.
+Bit 5 RXFNE: RXFIFO not empty
+RXFNE bit is set by hardware when the RXFIFO is not empty, and so data can be read from
+the LPUART_RDR register. Every read of the LPUART_RDR frees a location in the RXFIFO.
+It is cleared when the RXFIFO is empty.
+The RXFNE flag can also be cleared by writing 1 to the RXFRQ in the LPUART_RQR
+register.
+An interrupt is generated if RXFNEIE = 1 in the LPUART_CR1 register.
+0: Data is not received
+1: Received data is ready to be read.
+Bit 4 IDLE: Idle line detected
+This bit is set by hardware when an Idle line is detected. An interrupt is generated if
+IDLEIE = 1 in the LPUART_CR1 register. It is cleared by software, writing 1 to the IDLECF in
+the LPUART_ICR register.
+0: No Idle line is detected
+1: Idle line is detected
+Note: The IDLE bit is not set again until the RXFNE bit has been set (that is, a new idle line
+occurs).
+If mute mode is enabled (MME = 1), IDLE is set if the LPUART is not mute (RWU = 0),
+whatever the mute mode selected by the WAKE bit. If RWU = 1, IDLE is not set.

@@ -1,0 +1,108 @@
+RM0456 Rev 6
+
+RM0456
+
+System security
+The table below summarizes these security options available in each DMA channel.
+Table 11. DMA channel use (security)(1)
+Secure DMA channel x (SECx = 1)
+
+Nonsecure DMA channel y (SECy = 0)
+
+Destination type
+Secure source
+
+Nonsecure source
+
+Secure destination
+
+OK
+
+OK(2)
+
+Nonsecure destination
+
+OK(3)
+
+(4)
+
+OK
+
+Secure source
+
+Nonsecure source
+
+Transfer blocked
+Transfer blocked
+
+OK
+
+1. When a transfer is blocked, the transfer completes but the corresponding writes are ignored, and reads return zeros. Also
+an illegal access event to TZIC is automatically triggered by the memory/peripheral used as source or destination.
+2. If the source is a memory, the transfer is only possible if SSEC = 0, otherwise the transfer is blocked.
+3. If the destination is a memory, the transfer is only possible if DSEC = 0, otherwise the transfer is blocked.
+4. If the transfer is memory-to-memory, the transfer is only possible if SSEC = 0 and DSEC = 0, otherwise the transfer
+is blocked.
+
+When a channel is configured as secure:
+•
+
+Registers allocated to this channel (excluding LP/GPDMA_SECCFGR,
+LP/GPDMA_PRIVCFGR, and LP/GPDMA_RCFGLOCKR) are read as zero. Write are
+ignored for nonsecure accesses. A secure illegal access event may also be triggered
+toward the TZIC peripheral.
+–
+
+Note:
+
+Writes to LP/GPDMA_SECCFGR and LP/GPDMA_RCFGLOCKR must be
+secure. For each bit in LP/GPDMA_PRIVCFGR, write must be secure if the
+corresponding bit in LP/GPDMA_SECCFGR is set.
+
+•
+
+In linked-list mode, the loading of the next linked-list data structure from memory is
+performed with secure transfers.
+
+•
+
+When switching to a nonsecure state, the secure application must abort the channel or
+wait until the secure channel is completed before doing the switch.
+
+DMA secure channels are not available when TrustZone is deactivated.
+When a channel is configured as nonsecure, in linked-list mode, the loading of the next
+linked-list data structure from memory is performed with nonsecure transfers.
+See Section 18: Low-power direct memory access controller (LPDMA) and Section 17:
+General purpose direct memory access controller (GPDMA) for more details.
+
+Power control (PWR)
+When the TrustZone security is activated (TZEN = 1), the selected PWR registers can be
+secured through PWR_SECCFGR, protecting the following PWR features:
+•
+
+low-power mode setup
+
+•
+
+wake-up (WKUP) pins
+
+•
+
+voltage detection and monitoring
+
+•
+
+backup domain control
+
+Other PWR configuration bits become secure:
+•
+
+when the system clock selection is secure in the RCC: the voltage scaling (VOS) and
+the regulator booster (BOOSTEN) configurations become secure.
+
+•
+
+when a GPIO is configured as secure: its corresponding bit for pull-up/pull-down
+configuration in Standby mode becomes secure.
+
+RM0456 Rev 6

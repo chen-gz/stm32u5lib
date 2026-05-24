@@ -1,0 +1,49 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 27 LSIRDY: LSI oscillator ready
+This bit is set and cleared by hardware to indicate when the LSI oscillator is stable.
+After LSION is cleared, LSIRDY goes low after three internal low-speed oscillator clock
+cycles. This bit is set when the LSI is used by IWDG or RTC, even if LSION = 0.
+0: LSI oscillator not ready
+1: LSI oscillator ready
+Bit 26 LSION: LSI oscillator enable
+This bit is set and cleared by software. The LSI oscillator is disabled 60 µs maximum after
+the LSION bit is cleared.
+0: LSI oscillator OFF
+1: LSI oscillator ON
+Bit 25 LSCOSEL: Low-speed clock output selection
+This bit is set and cleared by software.
+0: LSI clock selected
+1: LSE clock selected
+Bit 24 LSCOEN: Low-speed clock output (LSCO) enable
+This bit is set and cleared by software.
+0: LSCO disabled
+1: LSCO enabled
+Bits 23:17 Reserved, must be kept at reset value.
+Bit 16 BDRST: Backup domain software reset
+This bit is set and cleared by software.
+0: Reset not activated
+1: Reset the entire backup domain.
+Bit 15 RTCEN: RTC and TAMP clock enable
+This bit is set and cleared by software.
+0: RTC and TAMP clock disabled
+1: RTC and TAMP clock enabled
+Bits 14:13 Reserved, must be kept at reset value.
+Bit 12 LSEGFON: LSE clock glitch filter enable
+This bit is set and cleared by hardware to enable the LSE glitch filter. It can be written only
+when the LSE is disabled (LSEON = 0 and LSERDY = 0).
+0: LSE glitch filter disabled
+1: LSE glitch filter enabled
+Bit 11 LSESYSRDY: LSE system clock (LSESYS) ready
+This bit is set and cleared by hardware to indicate when the LSE system clock is
+stable.When LSESYSEN is set, this LSESYSRDY flag is set after two LSE clock cycles.
+The LSE clock must be already enabled and stable (LSEON and LSERDY are set).
+When the LSEON bit is cleared, LSERDY goes low after six external low-speed oscillator
+clock cycles.
+0: LSESYS clock not ready
+1: LSESYS clock ready
+Bit 10 Reserved, must be kept at reset value.

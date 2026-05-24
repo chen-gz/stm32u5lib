@@ -1,0 +1,148 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 31 DOPNG: Do Ping
+This bit is used only for OUT transfers. Setting this field to 1 directs the host to do PING
+protocol.
+Note: Do not set this bit for IN transfers. If this bit is set for IN transfers, it disables the
+channel.
+Bits 30:29 DPID[1:0]: Data PID
+The application programs this field with the type of PID to use for the initial transaction. The
+host maintains this field for the rest of the transfer.
+00: DATA0
+10: DATA1
+11: SETUP (control) / reserved (non-control)
+Bits 28:19 PKTCNT[9:0]: Packet count
+This field is programmed by the application with the expected number of packets to be
+transmitted (OUT) or received (IN).
+The host decrements this count on every successful transmission or reception of an OUT/IN
+packet. Once this count reaches zero, the application is interrupted to indicate normal
+completion.
+Bits 18:0 XFRSIZ[18:0]: Transfer size
+For an OUT, this field is the number of data bytes the host sends during the transfer.
+For an IN, this field is the buffer size that the application has reserved for the transfer. The
+application is expected to program this field as an integer multiple of the maximum packet
+size for IN transactions (periodic and non-periodic).
+
+72.15.32 Device-mode registers
+These registers must be programmed every time the core changes to device mode
+
+72.15.33 OTG device configuration register (OTG_DCFG)
+Address offset: 0x800
+Reset value: 0x0220 0000
+This register configures the core in device mode after power-on or after certain control
+commands or enumeration. Do not make changes to this register after initial programming.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ERRAT
+IM
+
+Res.
+
+Res.
+
+PFIVL[1:0]
+
+Res.
+
+NZLSO
+HSK
+
+rw

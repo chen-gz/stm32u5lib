@@ -1,0 +1,35 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+•
+
+HSI48: internal 48 MHz RC that potentially drives the OTG_FS, the USB, the SDMMC,
+and the RNG
+
+•
+
+SHSI: secure high-speed internal 48 MHz RC that drives the SAES
+
+•
+
+PLL2 and PLL3 clocks
+
+Each clock source can be switched on or off independently when it is not used, to optimize
+power consumption.
+Several prescalers can be used to configure the AHB frequency, the APB1, APB2, and
+APB3 domains. The maximum frequency of the AHB and APB domains is 160 MHz.
+All the peripheral clocks are derived from their bus clock (HCLK, PCLK1, PCLK2, or PCLK3)
+except the following ones that receive an independent kernel clock. This kernel clock can be
+selected by software between several sources thanks to RCC_CCIPRx registers (x = 1,2,3):
+OTG_FS, USB, or OTG_HS, SDMMCx (x = 1,2), RNG, ADCx (x = 1, 2, 4), DAC1,
+U(S)ARTx (x = 1 to 6), LPUART1, I2Cx (x = 1 to 6), SPIx (x = 1 to 3), OCTOSPIx (x = 1,2),
+SAIx (x = 1,2), MDF1, ADF1, FDCAN1, LPTIMx (x = 1 to 4), SAES, DSI, LTDC, HSPI1.
+In addition, the RTC kernel clock is selected by software in RCC_BDCR. The IWDG clock is
+always the LSI 32 kHz clock.
+The RCC feeds the Cortex system timer (SysTick) external clock with the AHB clock (HCLK)
+divided by eight, or LSE or LSI. The SysTick can work either with this clock or directly with
+the Cortex clock (HCLK), configurable in the SysTick control and status register.
+FCLK acts as Cortex-M33 free-running clock.

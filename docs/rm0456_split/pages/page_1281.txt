@@ -1,0 +1,68 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+from occurring, the software can insert the __DMB(); command after each access to these
+registers.
+
+33.4.9
+
+ADC on-off control (ADEN, ADDIS, ADRDY)
+First of all, follow the procedure described in Section 33.4.6: ADC Deep-power-down mode
+(DEEPPWD) and ADC voltage regulator (ADVREGEN)).
+Once the DEEPPWD bit is cleared and the ADVREGEN bit is set, the ADC can be enabled.
+It requires a stabilization time of tSTAB before staring converting accurately (see Figure 226).
+Two control bits enable or disable the ADC:
+•
+
+When ADEN = 1: the ADC is enabled. The ADRDY is set as soon as the ADC is ready
+for operation.
+
+•
+
+When ADDIS = 1: the ADC is disabled.
+
+ADEN and ADDIS bits are automatically cleared by hardware as soon as the analog ADC is
+effectively disabled.
+Regular conversions can then start either by setting ADSTART (refer to Section 33.4.19:
+Conversion on external trigger and trigger polarity (EXTSEL, EXTEN[1:0], JEXTSEL,
+JEXTEN[1:0])) or when an external trigger event occurs if triggers are enabled.
+Injected conversions start by setting JADSTART or when an external injected trigger event
+occurs if injected triggers are enabled.
+
+Software procedure to enable the ADC
+1.
+
+Clear the ADRDY bit in the ADC_ISR register by writing 1.
+
+2.
+
+Set ADEN = 1.
+
+3.
+
+Wait until ADRDY = 1 (ADRDY is set after the ADC startup time). This can be done by
+using the associated interrupt (ADRDYIE = 1).
+
+4.
+
+Clear the ADRDY bit in the ADC_ISR register by writing 1 (optional).
+
+Software procedure to disable the ADC
+1.
+
+Check that both ADSTART = 0 and JADSTART = 0 to make sure that no conversion is
+ongoing. If required, stop any ongoing regular and injected conversion by setting
+ADSTP = 1 and JADSTP = 1 and then wait until ADSTP = 0 and JADSTP = 0.
+
+2.
+
+Set ADDIS.
+
+3.
+
+If required by the application, wait until ADEN = 0, until the analog ADC is effectively
+disabled (ADDIS is automatically reset once ADEN = 0).
+
+RM0456 Rev 6

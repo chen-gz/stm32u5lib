@@ -1,0 +1,166 @@
+RM0456
+
+I2C3 interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2692
+Comparison of analog and digital filters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2695
+I²C-bus and SMBus specification data setup and hold times . . . . . . . . . . . . . . . . . . . . . 2697
+I2C configuration. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2701
+I²C-bus and SMBus specification clock timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2712
+Timing settings for fI2CCLK of 8 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2722
+Timing settings for fI2CCLK of 16 MHz . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2722
+SMBus timeout specifications . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2724
+SMBus with PEC configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2726
+TIMEOUTA[11:0] for maximum tTIMEOUT of 25 ms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2727
+TIMEOUTB[11:0] for maximum tLOW:SEXT and tLOW:MEXT of 8 ms . . . . . . . . . . . . . . . . 2727
+TIMEOUTA[11:0] for maximum tIDLE of 50 µs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2727
+Effect of low-power modes to I2C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2737
+I2C interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2738
+I2C register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2755
+Instance implementation on STM32U5 series . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2758
+USART/LPUART features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2758
+USART/UART input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2761
+USART internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2762
+USART interconnection (USART1/2/3/6 and UART4/5) . . . . . . . . . . . . . . . . . . . . . . . . . 2762
+Noise detection from sampled data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2774
+Tolerance of the USART receiver when BRR [3:0] = 0000. . . . . . . . . . . . . . . . . . . . . . . 2778
+Tolerance of the USART receiver when BRR[3:0] is different from 0000 . . . . . . . . . . . . 2778
+USART frame formats . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2783
+Effect of low-power modes on the USART . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2804
+USART interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2805
+USART register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2844
+Instance implementation on STM32U5 series . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2847
+USART/LPUART features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2847
+LPUART input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2850
+LPUART internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2850
+LPUART interconnections (LPUART1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2851
+Error calculation for programmed baud rates at lpuart_ker_ck_pres= 32.768 kHz . . . . 2862
+Tolerance of the LPUART receiver . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2863
+Effect of low-power modes on the LPUART . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2874
+LPUART interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2875
+LPUART register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2900
+SPI features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2904
+SPI input/output pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2906
+SPI internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2907
+SPI interconnection (SPI1 and SPI2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2907
+SPI interconnection (SPI3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2908
+Effect of low-power modes on the SPI . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2934
+SPI wake-up and interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2935
+SPI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2952
+SAI features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2954
+SAI internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2956
+SAI input/output pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2956
+External synchronization selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2959
+MCLK_x activation conditions. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2964
+Clock generator programming examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2967
+SAI_A configuration for TDM mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2974
+
+RM0456 Rev 6
+
+RM0456
+Table 711.
+Table 712.
+Table 713.
+Table 714.
+Table 715.
+Table 716.
+Table 717.
+Table 718.
+Table 719.
+Table 720.
+Table 721.
+Table 722.
+Table 723.
+Table 724.
+Table 725.
+Table 726.
+Table 727.
+Table 728.
+Table 729.
+Table 730.
+Table 731.
+Table 732.
+Table 733.
+Table 734.
+Table 735.
+Table 736.
+Table 737.
+Table 738.
+Table 739.
+Table 740.
+Table 741.
+Table 742.
+Table 743.
+Table 744.
+Table 745.
+Table 746.
+Table 747.
+Table 748.
+Table 749.
+Table 750.
+Table 751.
+Table 752.
+Table 753.
+Table 754.
+Table 755.
+Table 756.
+Table 757.
+Table 758.
+Table 759.
+Table 760.
+Table 761.
+Table 762.
+
+List of tables
+TDM frame configuration examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2976
+SOPD pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2980
+Parity bit calculation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2980
+Audio sampling frequency versus symbol rates . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2981
+SAI interrupt sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2990
+SAI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3019
+CAN subsystem I/O signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3025
+CAN subsystem I/O pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3025
+DLC coding in FDCAN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3029
+Possible configurations for frame transmission . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3043
+Rx FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3046
+Rx FIFO element description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3046
+Tx buffer and FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3048
+Tx buffer element description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3048
+Tx event FIFO element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3050
+Tx event FIFO element description. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3050
+Standard message ID filter element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3051
+Standard message ID filter element field description . . . . . . . . . . . . . . . . . . . . . . . . . . . 3052
+Extended message ID filter element . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3052
+Extended message ID filter element field description . . . . . . . . . . . . . . . . . . . . . . . . . . . 3053
+FDCAN register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3083
+STMU535/545 USB implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3087
+USB input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3089
+Double-buffering buffer flag definition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3101
+Bulk double-buffering memory buffers usage (Device mode). . . . . . . . . . . . . . . . . . . . . 3101
+Bulk double-buffering memory buffers usage (Host mode) . . . . . . . . . . . . . . . . . . . . . . 3103
+Isochronous memory buffers usage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3104
+Isochronous memory buffers usage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3105
+Resume event detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3107
+Resume event detection for host . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3108
+Reception status encoding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+Endpoint/channel type encoding. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+Endpoint/channel kind meaning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+Transmission status encoding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3126
+USB register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3128
+Definition of allocated buffer memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3131
+USBSRAM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3134
+OTG_FS speeds supported . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3136
+OTG_FS implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3139
+OTG_FS input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3140
+OTG_FS input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3141
+Compatibility of STM32 low power modes with the OTG . . . . . . . . . . . . . . . . . . . . . . . . 3153
+Core global control and status registers (CSRs). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3161
+Host-mode control and status registers (CSRs) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3162
+Device-mode control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3163
+Data FIFO (DFIFO) access register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3165
+Power and clock gating control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . . . 3165
+TRDT values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3172
+Minimum duration for soft disconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3209
+OTG_FS register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3232
+OTG_HS speeds supported . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3293
+OTG_HS implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3294
+
+RM0456 Rev 6

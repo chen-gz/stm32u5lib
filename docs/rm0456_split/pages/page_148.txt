@@ -1,0 +1,781 @@
+150
+
+RM0456
+
+APB1
+
+STM32U59x/5Ax
+
+STM32U5Fx/5Gx
+
+STM32U575/585
+
+STM32U535/545
+
+Nonsecure boundary
+address
+
+Size (bytes)
+
+APB2
+
+Bus
+
+Table 6. Memory map and peripheral register boundary addresses (continued)
+
+Peripheral
+
+0x5001 7C00 - 0x5001 FFFF
+
+0x4001 7C00 - 0x4001 FFFF
+
+33 K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x5001 6C00 - 0x5001 7BFF
+
+0x4001 6C00 - 0x4001 7BFF
+
+4K
+
+DSI
+
+DSI register map
+
+-
+
+-
+
+X
+
+X
+
+0x5001 6800 - 0x5001 6BFF
+
+0x4001 6800 - 0x4001 6BFF
+
+1K
+
+LTDC
+
+LTDC register map
+
+-
+
+-
+
+X
+
+X
+
+0x5001 6400 - 0x5001 67FF
+
+0x4001 6400 - 0x4001 67FF
+
+1K
+
+GFXTIM
+
+GFXTIM register map
+
+-
+
+-
+
+-
+
+X
+
+0x5001 6400 - 0x5001 6BFF
+
+0x4001 6400 - 0x4001 6BFF
+
+2K
+
+USB RAM
+
+-
+
+X
+
+-
+
+-
+
+-
+
+0x5001 6000 - 0x5001 63FF
+
+0x4001 6000 - 0x4001 63FF
+
+1K
+
+USB
+
+USB register map
+
+X
+
+-
+
+-
+
+-
+
+0x5001 5C00 - 0x5001 5FFF
+
+0x4001 5C00 - 0x4001 5FFF
+
+1K
+
+Reserved
+
+0x5001 5800 - 0x5001 5BFF
+
+0x4001 5800 - 0x4001 5BFF
+
+1K
+
+SAI2
+
+0x5001 5400 - 0x5001 57FF
+
+0x4001 5400 - 0x4001 57FF
+
+1K
+
+SAI1
+
+0x5001 4C00 - 0x5001 53FF
+
+0x4001 4C00 - 0x4001 53FF
+
+2K
+
+Reserved
+
+0x5001 4800 - 0x5001 4BFF
+
+0x4001 4800 - 0x4001 4BFF
+
+1K
+
+TIM17
+
+0x5001 4400 - 0x5001 47FF
+
+0x4001 4400 - 0x4001 47FF
+
+1K
+
+TIM16
+
+0x5001 4000 - 0x5001 43FF
+
+0x4001 4000 - 0x4001 43FF
+
+1K
+
+TIM15
+
+0x5001 3C00 - 0x5001 3FFF
+
+0x4001 3C00 - 0x4001 3FFF
+
+1K
+
+0x5001 3800 - 0x5001 3BFF
+
+0x4001 3800 - 0x4001 3BFF
+
+0x5001 3400 - 0x5001 37FF
+0x5001 3000 - 0x5001 33FF
+
+Secure boundary
+address
+
+Peripheral register
+map
+
+SAI register map
+TIM16/TIM17 register map
+
+-
+
+-
+
+-
+
+-
+
+-
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+-
+
+-
+
+-
+
+-
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+TIM15 register map
+
+X
+
+X
+
+X
+
+X
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+1K
+
+USART1
+
+USART register map
+
+X
+
+X
+
+X
+
+X
+
+0x4001 3400 - 0x4001 37FF
+
+1K
+
+TIM8
+
+TIMx register map
+
+X
+
+X
+
+X
+
+X
+
+0x4001 3000 - 0x4001 33FF
+
+1K
+
+SPI1
+
+SPI register map
+
+X
+
+X
+
+X
+
+X
+
+0x5001 2C00 - 0x5001 2FFF
+
+0x4001 2C00 - 0x4001 2FFF
+
+1K
+
+TIM1
+
+TIMx register map
+
+X
+
+X
+
+X
+
+X
+
+0x5000 E000 - 0x5001 2BFF
+
+0x4000 E000 - 0x4001 2BFF
+
+19 K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x5000 DC00 - 0x5000 DFFF
+
+0x4000 DC00 - 0x4000 DFFF
+
+1K
+
+UCPD1
+
+UCPD register map
+
+-
+
+X
+
+X
+
+X
+
+0x5000 B000 - 0x5000 DBFF
+
+0x4000 B000 - 0x4000 DBFF
+
+11 K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+0x5000 AC00 - 0x5000 AFFF
+
+0x4000 AC00 - 0x4000 AFFF
+
+1K
+
+FDCAN1 RAM
+
+-
+
+X
+
+X
+
+X
+
+0x5000 A800 - 0x5000 ABFF
+
+0x4000 A800 - 0x4000 ABFF
+
+1K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+X
+
+(4)
+
+X
+
+0x5000 A400 - 0x5000 A7FF
+
+0x4000 A400 - 0x4000 A7FF
+
+1K
+
+FDCAN1
+
+FDCAN register map
+
+X
+
+X
+
+X
+
+0x5000 A000 - 0x5000 A3FF
+
+0x4000 A000 - 0x4000 A3FF
+
+1K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x5000 9C00 - 0x5000 9FFF
+
+0x4000 9C00 - 0x4000 9FFF
+
+1K
+
+I2C6
+
+-
+
+-
+
+X
+
+X
+
+0x5000 9800 - 0x5000 9BFF
+
+0x4000 9800 - 0x4000 9BFF
+
+1K
+
+I2C5
+
+0x5000 9400 - 0x5000 97FF
+
+0x4000 9400 - 0x4000 97FF
+
+1K
+
+LPTIM2
+
+0x5000 8800 - 0x5000 93FF
+
+0x4000 8800 - 0x4000 93FF
+
+3K
+
+Reserved
+
+0x5000 8400 - 0x5000 87FF
+
+0x4000 8400 - 0x4000 87FF
+
+1K
+
+I2C4
+
+0x5000 6800 - 0x5000 83FF
+
+0x4000 6800 - 0x4000 83FF
+
+8K
+
+0x5000 6400 - 0x5000 67FF
+
+0x4000 6400 - 0x4000 67FF
+
+1K
+
+I2C register map
+LPTIM register map
+
+(4)
+
+-
+
+-
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+-
+
+-
+
+-
+
+-
+
+-
+
+I2C register map
+
+X
+
+X
+
+X
+
+X
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+USART6
+
+USART register map
+
+-
+
+-
+
+X
+
+X
+
+CRS register map
+
+X
+
+X
+
+X
+
+X
+
+-
+
+-
+
+-
+
+-
+
+-
+
+X
+
+X
+
+X
+
+X
+
+0x5000 6000 - 0x5000 63FF
+
+0x4000 6000 - 0x4000 63FF
+
+1K
+
+CRS
+
+0x5000 5C00 - 0x5000 5FFF
+
+0x4000 5C00 - 0x4000 5FFF
+
+1K
+
+Reserved
+
+0x5000 5800 - 0x5000 5BFF
+
+0x4000 5800 - 0x4000 5BFF
+
+1K
+
+I2C2
+
+0x5000 5400 - 0x5000 57FF
+
+0x4000 5400 - 0x4000 57FF
+
+1K
+
+I2C1
+
+X
+
+X
+
+X
+
+X
+
+0x5000 5000 - 0x5000 53FF
+
+0x4000 5000 - 0x4000 53FF
+
+1K
+
+UART5
+
+X
+
+X
+
+X
+
+X
+
+0x5000 4C00 - 0x5000 4FFF
+
+0x4000 4C00 - 0x4000 4FFF
+
+1K
+
+UART4
+
+X
+
+X
+
+X
+
+X
+
+0x5000 4800 - 0x5000 4BFF
+
+0x4000 4800 - 0x4000 4BFF
+
+1K
+
+USART3
+
+X
+
+X
+
+X
+
+X
+
+0x5000 4400 - 0x5000 47FF
+
+0x4000 4400 - 0x4000 47FF
+
+1K
+
+USART2
+
+-
+
+X
+
+X
+
+X
+
+0x5000 3C00 - 0x5000 43FF
+
+0x4000 3C00 - 0x4000 43FF
+
+2K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-
+
+0x5000 3800 - 0x5000 3BFF
+
+0x4000 3800 - 0x4000 3BFF
+
+1K
+
+SPI2
+
+SPI register map
+
+X
+
+X
+
+X
+
+X
+
+0x5000 3400 - 0x5000 37FF
+
+0x4000 3400 - 0x4000 37FF
+
+1K
+
+Reserved
+
+-
+
+-
+
+-
+
+-
+
+-

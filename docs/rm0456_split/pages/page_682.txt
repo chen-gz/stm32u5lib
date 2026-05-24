@@ -1,0 +1,95 @@
+684
+
+Peripherals interconnect matrix
+
+RM0456
+
+This is according to:
+•
+
+Section 33.2 and Section 34.2: ADC main features
+
+•
+
+Section 33.4.11: Channel selection (SQRx, JSQRx)
+
+•
+
+Table 364: Operational amplifier possible connections
+
+•
+
+Section 37.4.2: COMP pins and internal signals
+
+Active power mode
+These interconnections remain in Stop modes if the selected peripheral is kept active.
+Refer to:
+
+16.3.18
+
+•
+
+Section 34.5: ADC low-power modes
+
+•
+
+Section 37.5: COMP low-power modes
+
+•
+
+Section 38.4: OPAMP low-power modes
+
+ADC data filtering by the MDF1
+From ADC1/ADC2 to MDF1
+
+Purpose
+The MDF1 allows the connection of up to two ADCs to the filter path. For each filter, the
+DATSRC[1:0] field in the MDF digital filter configuration register x (MDF_DFLTxCICR) is
+used to select either data from the ADCs in:
+•
+
+Section 33.4.4: ADC connectivity
+
+•
+
+Table 373: MDF ADC data connections
+
+•
+
+•
+
+–
+
+mdf_adcitf1_dat[15:0] to adc1_dat
+
+–
+
+mdf_adcitf2_dat[15:0] to adc2_dat
+
+Table 307: ADC1/ADC12 interconnection
+–
+
+adcx_dat[15:0] (x = 1) to mdf1_adcx_dat[15:0] for STM32U535/545/575/585
+
+–
+
+adcx_dat[15:0] (x = 1, 2) mdf1_adcx_dat[15:0] for STM32U59x/5Ax/5Fx/5Gx
+
+Section 39.5: MDF low-power modes
+–
+
+Stop 0 and Stop 1 modes
+
+Active power mode
+This feature remains available down to Sleep mode.
+
+16.3.19
+
+Clock source for the DAC sample and hold mode
+LSI/LSE to DAC1/2
+
+Purpose
+DAC1/2 can run in Stop mode. The sample and hold block and its associated registers use
+the LSI or LSE clock source (dac_hold_ck) in Stop mode.
+Table 342: DAC internal input/output signals:
+dac_hold_ck, Input, DAC low-power clock used in sample and hold mode

@@ -1,0 +1,71 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+70.3
+
+FDCAN functional description
+
+70.3.1
+
+FDCAN block diagram
+Figure 882. FDCAN block diagram
+fdcan_tq_ck
+
+Interrupts
+interface
+
+fdcan_intr0_it
+fdcan_intr1_it
+
+CAN core
+Sync
+
+FDCAN_RX
+
+Ctrl_APB
+
+Control and
+Configuration
+registers
+
+FDCAN_TX
+
+Sync
+Tx Req
+
+Tx State Rx State
+TX Handler
+
+fdcan_pclk
+TX prioritization
+Frame Synchro
+
+Message RAM
+interface
+
+RX Handler
+Acceptance filter
+
+fdcan_ts[0:15]
+CANFDL
+
+Kernel clock domain
+
+APB clock domain
+MSv51819V2
+
+Dual interrupt lines
+The FDCAN peripheral provides two interrupt lines, fdcan_intr0_it and fdcan_intr1_it.
+By programming the EINT0 and EINT1 bits of the FDCAN_ILE register, the interrupt lines
+can be independently enabled or disabled.
+
+CAN core
+The CAN core contains the protocol controller and receive/transmit shift registers. It handles
+all ISO 11898-1: 2015 protocol functions and supports both 11-bit and 29-bit identifiers.
+
+Sync
+This block synchronizes signals from the APB clock domain to the CAN kernel clock domain
+and vice versa.

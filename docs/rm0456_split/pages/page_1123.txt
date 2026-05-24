@@ -1,0 +1,76 @@
+•
+
+IO0/IO1 are at high-impedance (input) during the data phase for the read operations,
+and outputs in all other cases.
+
+•
+
+IO2 is in output mode and forced to 0.
+
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+•
+
+IO3 is in output mode and forced to 1.
+
+•
+
+IO4 to IO15 are in output mode and forced to 0.
+
+In the dummy phase when DMODE[2:0] = 010, IO0/IO1 are always high-impedance.
+
+Quad-SPI mode
+In quad-SPI mode, four bits are sent/received simultaneously over the IO0/IO1/IO2/IO3
+signals.
+The different phases can each be configured separately to use the quad-SPI mode by
+setting to 011 the IMODE, ADMODE, ABMODE, and DMODE fields in HSPI_CCR and
+HSPI_WCCR.
+In each phase configured in quad-SPI mode:
+•
+
+IO0 to IO3 are all at high-impedance (inputs) during the data phase for the read
+operations, and outputs in all other cases.
+
+•
+
+IO4 to IO15 are in output mode and forced to 0.
+
+In the dummy phase when DMODE[2:0] = 011, IO0 to IO3 are all high-impedance.
+
+Octal-SPI mode
+In regular octal-SPI mode, the eight bits are sent/received simultaneously over the IO[0:7]
+signals.
+The different phases can each be configured separately to use the octal-SPI mode by
+setting to 100 the IMODE, ADMODE, ABMODE, and DMODE fields in HSPI_CCR and
+HSPI_WCCR.
+In each phase that is configured in octal-SPI mode, IO[0:7] are all at high-impedance (input)
+during the data phase for read operations, and outputs in all other cases.
+In the dummy phase when DMODE[2:0] = 100, IO[0:7] are all high-impedance.
+
+HSPI mode
+In HSPI mode, the 16 bits are sent/received simultaneously over the IO[0:15] signals during
+the data phase.
+The following phases must be configured separately to use the HSPI mode:
+1.
+
+Set to 100 the IMODE, ADMODE, and ABMODE fields (in HSPI_CCR and
+HSPI_WCCR).
+
+2.
+
+Set to 101 the DMODE fields (in HSPI_CCR and HSPI_WCCR).
+
+In each phase that is configured in HSPI mode, IO[0:15] are all at high-impedance (input)
+during the data phase for read operations, and outputs in all other cases.
+In the dummy phase when DMODE[2:0] = 101, IO[0:15] are all high-impedance.
+IO[8:15] are used only in HSPI mode. If none of the phases are configured to use this mode,
+then the pins corresponding to IO[8:15] can be used for other functions, even while the
+HSPI is active.
+
+Single-data rate (SDR) mode
+By default, all the phases operate in single-data rate (SDR) mode.
+
+RM0456 Rev 6

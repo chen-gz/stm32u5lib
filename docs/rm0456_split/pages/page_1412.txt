@@ -1,0 +1,88 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Figure 302. Analog watchdog threshold update
+
+ADC state
+
+Conversion
+
+Conversion
+
+Conversion
+
+Conversion
+
+Threshold updated
+LTx, HTx
+
+XXXX
+
+XXXY
+
+XXXZ
+Masked
+
+Active
+
+Comparison
+
+Active
+MSv45365V1
+
+34.4.26
+
+Oversampler
+The oversampling unit performs data preprocessing to offload the CPU. It can handle
+multiple conversions and average them into a single data with increased data width, up to
+16-bit.
+It provides a result with the following form, where N and M can be adjusted:
+
+1
+Result = ---- ×
+M
+
+n = N–1
+
+∑ Conversion ( tn )
+n=0
+
+It allows the following functions to be performed by hardware: averaging, data rate
+reduction, SNR improvement, basic filtering.
+The oversampling ratio N is defined using the OVSR[2:0] bits in the ADC_CFGR2 register. It
+can range from 2x to 256x. The division coefficient M consists of a right bit shift up to 8 bits.
+It is configured through the OVSS[3:0] bits in the ADC_CFGR2 register.
+The summation unit can yield a result up to 20 bits (256 x 12-bit), which is first shifted right.
+The lower bits of the result are then truncated, keeping only the 16 least significant bits
+rounded to the nearest value using the least significant bits left apart by the shifting, before
+being finally transferred into the ADC_DR data register.
+Note:
+
+If the intermediate result after the shifting exceeds 16 bits, the upper bits of the result are
+simply truncated.
+Figure 303. 20-bit to 16-bit result truncation
+19
+
+15
+
+11
+
+7
+
+3
+
+0
+
+Raw 20-bit data
+
+Shifting
+15
+
+0
+
+Truncation
+and rounding
+MS31928V2

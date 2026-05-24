@@ -1,0 +1,153 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Calibration factor forcing software procedure
+1.
+
+Ensure that ADEN = 1 and ADSTART = 0 (ADC started with no conversion ongoing).
+
+2.
+
+Write ADC_CALFACT with the saved calibration factor.
+
+3.
+
+The calibration factor is used as soon as a new conversion is launched.
+Figure 280. Calibration factor forcing
+
+ADC state
+Internal calibration
+factor[6:0]
+
+Ready (not converting)
+Updating
+calibration
+
+Converting channel
+(Single ended)
+
+Ready
+
+Converting channel
+(Single ended)
+
+F2
+
+F1
+
+Start conversion
+(hardware or software)
+WRITE ADC_CALFACT
+CALFACT[6:0]
+
+F2
+
+by H/W
+
+by S/W
+
+MSv31925V2
+
+34.4.5
+
+ADC on-off control (ADEN, ADDIS, ADRDY)
+At power-up, the ADC is disabled and put in power-down mode (ADEN = 0).
+As shown in Figure 281, the ADC needs a stabilization time of tSTAB before it starts
+converting accurately.
+Two control bits are used to enable or disable the ADC:
+•
+
+Set ADEN = 1 to enable the ADC. The ADRDY flag is set as soon as the ADC is ready
+for operation.
+
+•
+
+Set ADDIS = 1 to disable the ADC and put the ADC in Power-down. The ADEN and
+ADDIS bits are then automatically cleared by hardware as soon as the ADC is fully
+disabled.
+
+Conversion can then start either by setting ADSTART to 1 (refer to Section 34.4.16:
+Conversion on external trigger and trigger polarity (EXTSEL, EXTEN)) or when an external
+trigger event occurs if triggers are enabled.
+Follow the procedure below to enable the ADC:
+1.
+
+Clear the ADRDY bit in ADC_ISR register by programming this bit to 1.
+
+2.
+
+Set ADEN = 1 in the ADC_CR register.
+
+3.
+
+Wait until ADRDY = 1 in the ADC_ISR register (ADRDY is set after the ADC startup
+time). This can be handled by interrupt if the interrupt is enabled by setting the
+ADRDYIE bit in the ADC_IER register.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Follow the procedure below to disable the ADC:
+1.
+
+Check that ADSTART = 0 in the ADC_CR register to ensure that no conversion is
+ongoing. If the software trigger mode was used, stop the software trigger mode by
+writing 1 to the ADSTP bit of the ADC_CR register and waiting until this bit is read at 0.
+
+2.
+
+Set ADDIS = 1 in the ADC_CR register.
+
+3.
+
+If required by the application, wait until ADEN = 0 in the ADC_CR register, indicating
+that the ADC is fully disabled (ADDIS is automatically reset once ADEN = 0).
+
+4.
+
+Clear the ADRDY bit in ADC_ISR register by programming this bit to 1 (optional).
+Figure 281. Enabling/disabling the ADC
+
+ADEN
+tSTAB
+ADRDY
+
+ADDIS
+
+ADC
+state
+
+by S/W
+
+OFF
+
+Startup
+
+RDY
+
+Converting CH
+
+RDY
+
+REQ
+-OF
+
+OFF
+
+by H/W
+MSv62472V1
+
+Note:
+
+<!-- pagebreak -->
+

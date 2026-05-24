@@ -1,0 +1,186 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 7:5 SAI1SEL[2:0]: SAI1 kernel clock source selection
+These bits are used to select the SAI1 kernel clock source.
+000: PLL2 “P” (pll2_p_ck) selected
+001: PLL3 “P” (pll3_p_ck) selected
+010: PLL1 “P” (pll1_p_ck) selected
+011: input pin AUDIOCLK selected
+100: HSI16 clock selected
+others: reserved
+Note: If the selected clock is the external clock and this clock is stopped, a switch to another
+clock is impossible.
+Bits 4:3 Reserved, must be kept at reset value.
+Bits 2:0 MDF1SEL[2:0]: MDF1 kernel clock source selection
+These bits are used to select the MDF1 kernel clock source.
+000: HCLK selected
+001: PLL1 “P” (pll1_p_ck) selected
+010: PLL3 “Q” (pll3_q_ck) selected
+011: input pin AUDIOCLK selected
+100: MSIK clock selected
+others: reserved
+
+11.8.48
+
+RCC peripherals independent clock configuration register 3
+(RCC_CCIPR3)
+Address offset: 0x0E8
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+DAC1S
+EL
+rw
+
+14
+
+13
+
+12
+
+ADCDACSEL[2:0]
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+LPTIM34SEL[1:0
+LPTIM1SEL[1:0]
+]
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+I2C3SEL[1:0]
+
+rw
+
+rw
+
+rw
+
+5
+Res.
+
+4
+
+3
+
+18
+
+17
+
+16
+
+ADF1SEL[2:0]
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+SPI3SEL[1:0]
+
+LPUART1SEL[2:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:16 ADF1SEL[2:0]: ADF1 kernel clock source selection
+These bits are used to select the ADF1 kernel clock source.
+000: HCLK selected
+001: PLL1 “P” (pll1_p_ck) selected
+010: PLL3 “Q” (pll3_q_ck) selected
+011: input pin AUDIOCLK selected
+100: MSIK clock selected
+others: reserved
+Note: The ADF1 is functional in Stop 0, Stop 1, and Stop 2 modes only when the kernel clock
+is AUDIOCLK or MSIK.
+
+RM0456 Rev 6

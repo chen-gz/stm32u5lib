@@ -1,0 +1,21 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+SDMMC_CMD output is in the Hi-Z state. Data sent on SDMMC_CMD are synchronous
+with the SDMMC_CK according the NEGEDGE register bit see Figure 192.
+The command and short response with CRC, the CRC generator calculates the CRC
+checksum for all 40 bits before the CRC code. This includes the start bit, transmission bit,
+command index, and command argument (or card status).
+For the long response the CRC checksum is calculated only over the 120 bits of R2 CID or
+CSD. Note that the start bit, transmission bit and the six reserved bits are not used in the
+CRC calculation.
+The CRC checksum is a 7-bit value:
+CRC[6:0] = remainder [(M(x) * x7) / G(x)]
+G(x) = x7 + x3 + 1
+M(x) = (first bit) * xn + (second bit) * xn-1+... + (last bit before CRC) * x0
+Where n = 39 or 119.
+The CPSM can send a number of specific commands to handle various operating modes
+when CPSMEN is set, see Table 282.

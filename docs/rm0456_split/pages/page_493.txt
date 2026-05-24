@@ -1,0 +1,108 @@
+RM0456 Rev 6
+
+RM0456
+
+11.4.6
+
+Reset and clock control (RCC)
+
+PLL
+The RCC features three PLLs:
+•
+
+a main PLL, PLL1, that is generally used to provide clocks to the CPU and
+to some peripherals
+
+•
+
+two dedicated PLL2 and PLL3 that are used to generate the kernel clock
+for peripherals
+
+The PLLs integrated into the RCC are completely independent. They offer the following
+features:
+•
+
+Input frequency range: 4 to 16 MHz
+
+•
+
+Capability to work either in integer or fractional mode
+
+•
+
+13-bit sigma-delta (Σ∆) modulator, allowing to fine-tune the VCO frequency by steps
+of 11 to 0.3 ppm
+
+•
+
+The Σ∆ modulator can be updated on-the-fly, without generating frequency overshoots
+on PLLs outputs.
+
+•
+
+Each PLL offers three outputs with post-dividers.
+
+The PLLs are controlled via RCC_PLLxDIVR, RCC_PLLxFRACR, RCC_PLLxCFGR, and
+RCC_CR (x = 1, 2, 3).
+The frequency of the reference clock provided to the PLLs (refx_ck) must range
+from 4 to 16 MHz. The user application must program properly the PLLxM (x = 1, 2, 3)
+dividers in RCC_PLL1CFGR), RCC_PLL2CFGR, and RCC_PLL3CFGR, in order to match
+this condition. In addition, PLLxRGE must be set according to the reference input frequency
+to guarantee an optimal performance of the PLL.
+To reduce the power consumption, it is recommended to configure the VCOx output to
+the lowest frequency.
+Figure 41. PLL block diagram
+PLLx
+PLLxRGE
+UHI[BFN
+
+128 to 544 MHz
+
+4 to 16 MHz
+3)'&3
+
+LPF
+
+VCO
+
+PLLxP
+vcox_ck
+PLLxPEN
+
+·2
+
+SOO[BSBFN
+
+PLLxQ
+
+PLLxN
+
+PLLxQEN
+
+·2
+
+PLLxREN
+
+·2
+
+SOO[BTBFN
+
+PLLxR
+·«129«
+
+SOO[BUBFN
+
+Ȉǻ0RGXODWRU
+PLLxFRACEN
+
+6+B5(*
+
+PLLxFRACN
+MSv65658V2
+
+PLLxN loop divider must be programmed to achieve the expected frequency at VCO output.
+In addition, the VCO output range must be respected.
+The PLLx operates in integer mode when PLLxFRACEN is 0, and the PLL is enabled with
+PLLxON. The fractional mode can be enabled at any time by setting PLL1FRACN to the
+
+RM0456 Rev 6

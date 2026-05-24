@@ -1,0 +1,79 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+Figure 194. Command/response path
+To control unit
+
+Command / Response
+path
+
+Registers
+
+Status
+flag
+
+Command
+timer
+
+Control
+logic
+
+Response
+registers
+Response
+shift
+register
+
+CRC
+
+in
+
+SDMMC_CMD
+
+sdmmc_rx_ck
+
+Command
+registers
+Command
+shift
+register
+
+CRC
+
+out
+
+SDMMC_CK
+MSv40160V2
+
+Command/response path state machine (CPSM):
+•
+
+•
+
+When the command register is written to and the enable bit is set, command transfer
+starts. When the command has been sent the CRC is appended and the command
+path state machine (CPSM) sets the status flags and:
+–
+
+if a response is not required enters the Idle state.
+
+–
+
+If a response is required, it waits for the response.
+
+When the response is received,
+–
+
+for a response with CRC, the received CRC code and the internally generated
+code are compared, and the appropriate status flag is set according the result.
+
+–
+
+for a response without CRC, no CRC is checked, and the appropriate status flag is
+not set.
+
+When ever the CPSM is active (not in the Idle state), the CPSMACT bit is set.
+
+RM0456 Rev 6

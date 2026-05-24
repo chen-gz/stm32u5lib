@@ -1,0 +1,87 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Table 242. FMC_BCRx bitfields (Synchronous multiplexed write mode) (continued)
+Bit number
+
+Bit name
+
+Value to set
+
+13
+
+WAITEN
+
+To be set to 1 if the memory supports this feature, to be kept at 0
+otherwise.
+
+12
+
+WREN
+
+0x1
+
+11
+
+WAITCFG
+
+0x0
+
+10
+
+Reserved
+
+0x0
+
+9
+
+WAITPOL
+
+to be set according to memory
+
+8
+
+BURSTEN
+
+no effect on synchronous write
+
+7
+
+Reserved
+
+0x1
+
+6
+
+FACCEN
+
+Set according to memory support
+
+5-4
+
+MWID
+
+As needed
+
+3-2
+
+MTYP
+
+0x1
+
+1
+
+MUXEN
+
+As needed
+
+0
+
+MBKEN
+
+0x1
+
+Table 243. FMC_BTRx bitfields (Synchronous multiplexed write mode)

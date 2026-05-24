@@ -1,0 +1,190 @@
+1696
+
+Digital camera interface (DCMI)
+
+RM0456
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bit 4 LINE_RIS: Line raw interrupt status
+This bit gets set when the DCMI_HSYNC signal changes from the inactive state to the
+active state. It goes high even if the line is not valid.
+In the case of embedded synchronization, this bit is set only if the CAPTURE bit in
+DCMI_CR is set.
+It is cleared by setting the LINE_ISC bit of the DCMI_ICR register.
+Bit 3 VSYNC_RIS: DCMI_VSYNC raw interrupt status
+This bit is set when the DCMI_VSYNC signal changes from the inactive state to the active
+state.
+In the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in
+DCMI_CR.
+It is cleared by setting the VSYNC_ISC bit of the DCMI_ICR register.
+Bit 2 ERR_RIS: Synchronization error raw interrupt status
+0: No synchronization error detected
+1: Embedded synchronization characters are not received in the correct order.
+This bit is valid only in the embedded synchronization mode. It is cleared by setting the
+ERR_ISC bit of the DCMI_ICR register.
+Note: This bit is available only in embedded synchronization mode.
+Bit 1 OVR_RIS: Overrun raw interrupt status
+0: No data buffer overrun occurred
+1: A data buffer overrun occurred and the data FIFO is corrupted.
+The bit is cleared by setting the OVR_ISC bit of the DCMI_ICR register.
+Bit 0 FRAME_RIS: Capture complete raw interrupt status
+0: No new capture
+1: A frame has been captured.
+This bit is set when a frame or window has been captured.
+In case of a cropped window, this bit is set at the end of line of the last line in the crop. It is
+set even if the captured frame is empty (for example window cropped outside the frame).
+The bit is cleared by setting the FRAME_ISC bit of the DCMI_ICR register.
+
+41.5.4
+
+DCMI interrupt enable register (DCMI_IER)
+The DCMI_IER register is used to enable interrupts. When one of the DCMI_IER bits is set,
+the corresponding interrupt is enabled. This register is accessible in both read and write.
+Address offset: 0x0C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+LINE
+_IE
+
+VSYNC
+_IE
+
+ERR
+_IE
+
+OVR
+_IE
+
+FRAME
+_IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:5 Reserved, must be kept at reset value.
+
+<!-- pagebreak -->
+

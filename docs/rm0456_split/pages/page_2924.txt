@@ -1,0 +1,96 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+In a CAN FD frame, the two bits following FDF (res and BRS) decide whether the bit rate
+inside this CAN FD frame is switched. A CAN FD bit rate switch is signified by res dominant
+and BRS recessive. The coding of res recessive is reserved for future expansion of the
+protocol. In case the FDCAN receives a frame with FDF recessive and res recessive, it
+signals a protocol exception event by setting the PXE bit of the FDCAN_PSR register. When
+protocol exception handling is enabled (PXHD = 0 in FDCAN_CCCR), this causes the
+operation state to change from receiver (ACT[1:0] = 10 in FDCAN_PSR) to integrating
+(ACT[1:0] = 00 in FDCAN_PSR) at the next sample point. If protocol exception handling is
+disabled (PXHD = 1 in FDCAN_CCCR), the FDCAN treats a recessive res bit as a form
+error and responds with an error frame.
+CAN FD operation is enabled by programming the FDOE bit of the FDCAN_CCCR register.
+In case FDOE = 1, transmission and reception of CAN FD frames are enabled.
+Transmission and reception of classic CAN frames are always possible. Whether a CAN FD
+frame or a classic CAN frame is transmitted can be configured via the FDF bit in the
+respective Tx buffer element. With FDOE = 0, received frames are interpreted as classic
+CAN frames, which leads to the transmission of an error frame when receiving a CAN FD
+frame. When CAN FD operation is disabled, no CAN FD frames are transmitted even if the
+FDF bit of a Tx buffer element is set. The FDOE and BRSE bits of the FDCAN_CCCR
+register can only be changed while the INIT and CCE bits are both set.
+With FDOE = 0, the setting of the FDF and BRS bits is ignored, and frames are transmitted
+in classic CAN format. With FDOE = 1 and BRSE = 0, only the FDF bit of a Tx buffer
+element is evaluated. With FDOE = 1 and BRSE = 1, transmission of CAN FD frames with
+bit rate switching is enabled. All Tx buffer elements with FDF and BRS bits set are
+transmitted in CAN FD format with bit rate switching.
+A mode change during CAN operation is recommended only under the following conditions:
+•
+
+The failure rate in the CAN FD data phase is significant higher than in the CAN FD
+arbitration phase. In this case, disable the CAN FD bit rate switching option for
+transmissions.
+
+•
+
+During system startup, all nodes transmit classic CAN messages until it is verified that
+they are able to communicate in CAN FD format. If this is true, all nodes switch to CAN
+FD operation.
+
+•
+
+Wake-up messages in CAN partial networking have to be transmitted in classic CAN
+format.
+
+•
+
+End-of-line programming in case not all nodes are CAN FD capable. Non-CAN FD
+nodes are held in silent mode until programming is complete. Then all nodes switch
+back to classic CAN communication.
+
+In the FDCAN format, the coding of the DLC differs from that of the standard CAN format.
+The DLC codes 0 to 8 have the same coding as in standard CAN, the codes 9 to 15 (that in
+standard CAN all code a data field of 8 bytes) are coded according to Table 719.
+:
+
+Table 719. DLC coding in FDCAN
+DLC
+
+9
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+
+Number of data bytes
+
+12
+
+16
+
+20
+
+24
+
+32
+
+48
+
+64
+
+In CAN FD fast frames, the bit timing is switched inside the frame, after the BRS (bit rate
+switch) bit, if this bit is recessive. Before the BRS bit, in the FDCAN arbitration phase, the
+standard CAN bit timing is used as defined by the FDCAN_DBTP register. In the following
+
+RM0456 Rev 6

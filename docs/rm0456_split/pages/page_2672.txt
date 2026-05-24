@@ -1,0 +1,68 @@
+RM0456 Rev 6
+
+RM0456
+
+66.5.9
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Tolerance of the USART receiver to clock deviation
+The USART asynchronous receiver operates correctly only if the total clock system
+deviation is less than the tolerance of the USART receiver.
+The causes which contribute to the total deviation are:
+•
+
+DTRA: deviation due to the transmitter error (which also includes the deviation of the
+transmitter’s local oscillator)
+
+•
+
+DQUANT: error due to the baud rate quantization of the receiver
+
+•
+
+DREC: deviation of the receiver local oscillator
+
+•
+
+DTCL: deviation due to the transmission line (generally due to the transceivers which
+can introduce an asymmetry between the low-to-high transition timing and the high-tolow transition timing)
+DTRA + DQUANT + DREC + DTCL + DWU < USART receiver tolerance
+
+where
+DWU is the error due to sampling point deviation when the wake-up from lowpower mode is used.
+when M[1:0] = 01:
+t WUUSART
+DWU = -------------------------11 × Tbit
+
+when M[1:0] = 00:
+t WUUSART
+DWU = -------------------------10 × Tbit
+
+when M[1:0] = 10:
+t WUUSART
+DWU = -------------------------9 × Tbit
+
+tWUUSART is the time between the detection of the start bit falling edge and the
+instant when the clock (requested by the peripheral) is ready and reaching the
+peripheral, and the regulator is ready.
+The USART receiver can receive data correctly at up to the maximum tolerated deviation
+specified in Table 679, Table 680, depending on the following settings:
+•
+
+9-, 10- or 11-bit character length defined by the M bits in the USART_CR1 register
+
+•
+
+Oversampling by 8 or 16 defined by the OVER8 bit in the USART_CR1 register
+
+•
+
+Bits BRR[3:0] of USART_BRR register are equal to or different from 0000.
+
+•
+
+Use of 1 bit or 3 bits to sample the data, depending on the value of the ONEBIT bit in
+the USART_CR3 register.
+
+RM0456 Rev 6

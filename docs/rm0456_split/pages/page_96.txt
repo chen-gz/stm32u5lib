@@ -1,0 +1,58 @@
+106
+
+List of tables
+
+RM0456
+
+Table 254. OCTOSPI internal signals. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1051
+Table 255. Command/address phase description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1059
+Table 256. OctaRAM command address bit assignment
+(based on 64-Mbyte OctaRAM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1070
+Table 257. Address alignment cases . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1077
+Table 258. OCTOSPI interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1078
+Table 259. OCTOSPI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1101
+Table 260. OCTOSPIM implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1105
+Table 261. OCTOSPIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1106
+Table 262. OCTOSPIM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+Table 263. Instances on STM32U5 series devices . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1113
+Table 264. HSPI implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1113
+Table 265. HSPI input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1117
+Table 266. HSPI internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1117
+Table 267. Command/address phase description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1128
+Table 268. OctaRAM command address bit assignment
+(based on 64 Mb OctaRAM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1139
+Table 269. Address alignment cases . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1147
+Table 270. HSPI interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1148
+Table 271. HSPI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1174
+Table 272. SDMMC features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1178
+Table 273. SDMMC operation modes SD and SDIO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1181
+Table 274. SDMMC operation modes e•MMC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1181
+Table 275. SDMMC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1182
+Table 276. SDMMC pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1183
+Table 277. SDMMC Command and data phase selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1184
+Table 278. Command token format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1190
+Table 279. Short response with CRC token format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1191
+Table 280. Short response without CRC token format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1191
+Table 281. Long response with CRC token format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1191
+Table 282. Specific Commands overview. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1192
+Table 283. Command path status flags . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1193
+Table 284. Command path error handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1193
+Table 285. Data token format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1201
+Table 286. Data path status flags and clear bits. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1201
+Table 287. Data path error handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1203
+Table 288. Data FIFO access . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1204
+Table 289. Transmit FIFO status flags . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1205
+Table 290. Receive FIFO status flags . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1206
+Table 291. AHB and SDMMC_CK clock frequency relation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1211
+Table 292. SDIO special operation control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1211
+Table 293. 4-bit mode Start, interrupt, and CRC-status Signaling detection . . . . . . . . . . . . . . . . . . 1215
+Table 294. CMD12 use cases . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1220
+Table 295. SDMMC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1234
+Table 296. Response type and SDMMC_RESPxR registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1241
+Table 297. SDMMC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1257
+Table 298. STM32U5 series features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+Table 299. DLYB internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1261
+Table 300. Delay block control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1262
+Table 301. DLYB register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1264
+Table 302. ADC features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1267
+Table 303. Memory location of the temperature sensor calibration values . . . . . . . . . . . . . . . . . . . 1267

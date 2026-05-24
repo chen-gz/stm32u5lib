@@ -1,0 +1,79 @@
+1377
+
+Analog-to-digital converter (ADC12)
+Note:
+
+RM0456
+
+Care must be taken when using high shifting values, since this reduces the comparison
+range. For instance, if the oversampled result is shifted by 4 bits, thus yielding an 8-bit rightaligned data, the effective analog watchdog comparison can only be performed on 8 bits.
+The comparison is done between ADC_DR[11:4] and HT[7:0]/LT[[7:0]. HT[11:8]/LT[11:8]
+must be kept reset.
+
+Triggered mode
+The averager can also be used for basic filtering purpose. Although not a very powerful filter
+(slow roll-off and limited stop band attenuation), it can be used as a notch filter to reject
+constant parasitic frequencies (typically coming from the mains or from a switched mode
+power supply). For this purpose, a specific discontinuous mode can be enabled with the
+TROVS bit of the DC_CFGR2, to be able to have an oversampling frequency defined by a
+user and independent from the conversion time itself.
+The Figure 254 below shows how conversions are started in response to triggers during
+discontinuous mode.
+If the TROVS bit is set, the content of the DISCEN bit is ignored and considered as 1.
+Figure 254. Triggered regular oversampling mode (TROVS bit = 1)
+CONT=0
+DISCEN = 1
+TROVS = 0
+
+Trigger
+
+Trigger
+
+Ch(N)0 Ch(N)1 Ch(N)2 Ch(N)3
+
+Ch(N)0 Ch(N)1 Ch(N)2 Ch(N)3
+
+EOC flag set
+CONT=0
+DISCEN = 1
+TROVS = 1
+
+Trigger
+
+Ch(N)0
+
+Trigger
+
+Ch(N)1
+
+Trigger
+
+Ch(N)2
+
+Trigger
+
+Ch(N)3
+
+Trigger
+
+Trigger
+
+Ch(N)0
+
+Ch(N)1
+
+Trigger
+
+Ch(N)2
+
+EOC flag set
+MS34455V2
+
+Injected and regular sequencer management when oversampling
+In oversampling mode, injected and regular sequencers can have different behaviors. The
+oversampling can be enabled for both sequencers with some limitations if they have to be
+used simultaneously (this is related to a unique accumulation unit).
+
+Oversampling regular channels only
+The regular oversampling mode bit, ROVSM, defines how the regular oversampling
+sequence is resumed if it is interrupted by injected conversion:

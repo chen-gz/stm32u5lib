@@ -1,0 +1,78 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Soft disconnect
+The powered state can be exited by software with the soft disconnect feature. The DP pullup resistor is removed by setting the soft disconnect bit in the device control register (SDIS
+bit in OTG_DCTL), causing a device disconnect detection interrupt on the host side even
+though the USB cable was not really removed from the host port.
+
+Default state
+In the Default state the OTG_FS expects to receive a SET_ADDRESS command from the
+host. No other USB operation is possible. When a valid SET_ADDRESS command is
+decoded on the USB, the application writes the corresponding number into the device
+address field in the device configuration register (DAD bit in OTG_DCFG). The OTG_FS
+then enters the address state and is ready to answer host transactions at the configured
+USB address.
+
+Suspended state
+The OTG_FS peripheral constantly monitors the USB activity. After counting 3 ms of USB
+idleness, the early suspend interrupt (ESUSP bit in OTG_GINTSTS) is issued, and
+confirmed 3 ms later, if appropriate, by the suspend interrupt (USBSUSP bit in
+OTG_GINTSTS). The device suspend bit is then automatically set in the device status
+register (SUSPSTS bit in OTG_DSTS) and the OTG_FS enters the suspended state.
+The suspended state may optionally be exited by the device itself. In this case the
+application sets the remote wake-up signaling bit in the device control register (RWUSIG bit
+in OTG_DCTL) and clears it after 1 to 15 ms.
+When a resume signaling is detected from the host, the resume interrupt (WKUPINT bit in
+OTG_GINTSTS) is generated and the device suspend bit is automatically cleared.
+
+72.6.3
+
+Peripheral endpoints
+The OTG_FS core instantiates the following USB endpoints:
+•
+
+•
+
+Control endpoint 0:
+–
+
+Bidirectional and handles control messages only
+
+–
+
+Separate set of registers to handle in and out transactions
+
+–
+
+Proper control (OTG_DIEPCTL0/OTG_DOEPCTL0), transfer configuration
+(OTG_DIEPTSIZ0/OTG_DOEPTSIZ0), and status-interrupt
+(OTG_DIEPINT0/)OTG_DOEPINT0) registers. The available set of bits inside the
+control and transfer size registers slightly differs from that of other endpoints
+
+5 IN endpoints
+–
+
+Each of them can be configured to support the isochronous, bulk or interrupt
+transfer type
+
+–
+
+Each of them has proper control (OTG_DIEPCTLx), transfer configuration
+(OTG_DIEPTSIZx), and status-interrupt (OTG_DIEPINTx) registers
+
+–
+
+The device IN endpoints common interrupt mask register (OTG_DIEPMSK) is
+available to enable/disable a single kind of endpoint interrupt source on all of the
+IN endpoints (EP0 included)
+
+–
+
+Support for incomplete isochronous IN transfer interrupt (IISOIXFR bit in
+OTG_GINTSTS), asserted when there is at least one isochronous IN endpoint on
+
+RM0456 Rev 6

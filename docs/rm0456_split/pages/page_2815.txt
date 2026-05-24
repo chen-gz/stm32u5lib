@@ -1,0 +1,61 @@
+2952
+
+Serial peripheral interface (SPI)
+e)
+
+68.4.11
+
+RM0456
+
+Once the AFCNTR bit is set in the SPI_CFG2 register, all the SPI outputs start to
+be propagated onto the associated GPIO pins regardless of the peripheral enable.
+So, any later configuration changes of the SPI_CFG1 and SPI_CFG2 registers
+can affect the level of signals on these pins.
+
+3.
+
+Write to the SPI_CR2 register to select the length of the transfer, if it is not known
+TSIZE must be programmed to zero.
+
+4.
+
+Write to the SPI_CRCPOLY and into the TCRCINI, RCRCINI, and CRC33_17 bits of
+the SPI_CR1 register to configure the CRC polynomial and CRC calculation if needed.
+
+5.
+
+Configure DMA streams dedicated for the SPI Tx and Rx in DMA registers if the DMA
+streams are used (see Section 68.4.14: Communication using DMA (direct memory
+addressing)).
+
+6.
+
+Configure SSI, HDDIR, and MASRX in the SPI_CR1 register if required.
+
+7.
+
+Program the IOLOCK bit in the SPI_CR1 register if the configuration protection is
+required (for safety).
+
+Enabling the SPI
+It is recommended to configure and enable the SPI slave before the master sends the clock.
+But there is no impact if the configuration and enabling procedure is done while traffic is
+ongoing on the bus, assuming that the SS signal is managed by hardware at slave or kept
+inactive by the slave software when the software management of the SS signal is applied
+(see Section 68.4.7). To prevent any risk of any data underrun, all the data to be sent have
+to be written to the slave transmitter data register before the master starts its clocking. The
+SCK signal must be settled to the idle state level corresponding to the selected polarity,
+before the SPI slave is selected by SS, else the following transfer may be desynchronized.
+When the SPI slave is enabled at the hardware SS management mode, all the transfers are
+ignored even in case of the SS is found at active level. They are ignored until the slave
+detects a start of the SS signal (its transition from nonactive to active level) just
+synchronizing the slave with the master. That is why the hardware management mode
+cannot be used when the external SS pin is fixed. There is no such protection at the SS
+software management. In this case, the SSI bit must be changed when there is no traffic on
+the bus and the SCK signal is at idle state level between transfers exclusively in this case.
+The master in full duplex (or in any transmit-only mode) starts to communicate when the SPI
+is enabled, the CSTART bit is set, and the TxFIFO is not empty, or with the next write to
+TxFIFO.
+In any master receive-only mode, the master starts to communicate and the clock starts
+running after the SPI is enabled and the CSTART bit is set.
+For handling DMA, see Section 68.4.14.

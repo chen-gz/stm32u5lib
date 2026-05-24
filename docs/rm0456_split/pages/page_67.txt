@@ -1,0 +1,113 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+58.7.13 LPTIM autoreload register (LPTIM_ARR) . . . . . . . . . . . . . . . . . . . . . 2519
+58.7.14 LPTIM counter register (LPTIM_CNT) . . . . . . . . . . . . . . . . . . . . . . . . 2519
+58.7.15 LPTIM configuration register 2 (LPTIM_CFGR2) . . . . . . . . . . . . . . . 2520
+58.7.16 LPTIM repetition register (LPTIM_RCR) . . . . . . . . . . . . . . . . . . . . . . 2521
+58.7.17 LPTIM capture/compare mode register 1 (LPTIM_CCMR1) . . . . . . . 2521
+58.7.18 LPTIM compare register 2 (LPTIM_CCR2) . . . . . . . . . . . . . . . . . . . . 2524
+58.7.19 LPTIM register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2524
+
+59
+
+Graphic timer (GFXTIM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2527
+59.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2527
+
+59.2
+
+GFXTIM main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2527
+
+59.3
+
+GFXTIM functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2527
+59.3.1
+
+Block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2527
+
+59.3.2
+
+GFXTIM pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 2528
+
+59.3.3
+
+Clock generator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2529
+
+59.3.4
+
+Example of clock generator configuration . . . . . . . . . . . . . . . . . . . . . 2531
+
+59.3.5
+
+Absolute timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2535
+
+59.3.6
+
+Relative timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2536
+
+59.3.7
+
+Tearing-effect detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2537
+
+59.3.8
+
+Event generator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2537
+
+59.3.9
+
+Watchdog timer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2538
+
+59.4
+
+GFXTIM interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2539
+
+59.5
+
+GFXTIM registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2540
+59.5.1
+
+GFXTIM configuration register (GFXTIM_CR) . . . . . . . . . . . . . . . . . 2540
+
+59.5.2
+
+GFXTIM clock generator configuration register (GFXTIM_CGCR) . . 2541
+
+59.5.3
+
+GFXTIM timers configuration register (GFXTIM_TCR) . . . . . . . . . . . 2543
+
+59.5.4
+
+GFXTIM timers disable register (GFXTIM_TDR) . . . . . . . . . . . . . . . . 2544
+
+59.5.5
+
+GFXTIM events control register (GFXTIM_EVCR) . . . . . . . . . . . . . . 2545
+
+59.5.6
+
+GFXTIM events selection register (GFXTIM_EVSR) . . . . . . . . . . . . . 2545
+
+59.5.7
+
+GFXTIM watchdog timer configuration register
+(GFXTIM_WDGTCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2547
+
+59.5.8
+
+GFXTIM interrupt status register (GFXTIM_ISR) . . . . . . . . . . . . . . . 2549
+
+59.5.9
+
+GFXTIM interrupt clear register (GFXTIM_ICR) . . . . . . . . . . . . . . . . 2550
+
+59.5.10 GFXTIM interrupt enable register (GFXTIM_IER) . . . . . . . . . . . . . . . 2552
+59.5.11 GFXTIM timers status register (GFXTIM_TSR) . . . . . . . . . . . . . . . . . 2554
+59.5.12 GFXTIM line clock counter reload register (GFXTIM_LCCRR) . . . . . 2555
+59.5.13 GFXTIM frame clock counter reload register (GFXTIM_FCCRR) . . . 2555
+
+RM0456 Rev 6

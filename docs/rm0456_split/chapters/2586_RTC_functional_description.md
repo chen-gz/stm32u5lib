@@ -1,0 +1,240 @@
+RM0456 Rev 6
+
+RM0456
+
+65.4.1
+
+Inter-integrated circuit interface (I2C)
+
+I2C block diagram
+Figure 779. Block diagram
+
+I2CCLK
+
+i2c_ker_ck
+
+Data control
+Shift register
+
+Digital
+noise
+filter
+
+Analog
+noise
+filter
+
+GPIO
+logic
+
+I2C_SDA
+
+Digital
+noise
+filter
+
+Analog
+noise
+filter
+
+GPIO
+logic
+
+I2C_SCL
+
+SMBUS
+PEC
+generation/
+check
+Asynchronous
+trigger
+detection
+
+i2c_trg[15:0]
+
+Clock control
+Controller clock
+generation
+Target clock
+stretching
+SMBus Timeout
+check
+
+i2c_it
+i2c_tx_dma
+i2c_rx_dma
+
+SMBus Alert
+control/status
+
+i2c_evc_dma
+
+i2c_pclk
+
+PCLK
+
+I2C_SMBA
+
+Registers
+
+APB bus
+MSv60510V2
+
+65.4.2
+
+I2C pins and internal signals
+Table 655. I2C input/output pins
+Pin name
+
+Signal type
+
+I2C_SDA
+
+Bidirectional
+
+I²C-bus data
+
+I2C_SCL
+
+Bidirectional
+
+I²C-bus clock
+
+I2C_SMBA
+
+Bidirectional
+
+SMBus alert
+
+RM0456 Rev 6
+
+Description
+
+<!-- pagebreak -->
+
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Table 656. I2C internal input/output signals
+Internal signal name Signal type
+
+Description
+
+i2c_ker_ck
+
+Input
+
+I2C kernel clock, also named I2CCLK in this document
+
+i2c_pclk
+
+Input
+
+I2C APB clock
+
+i2c_trg[15:0]
+
+Input
+
+I2C triggers
+
+i2c_it
+
+Output
+
+I2C interrupts, refer to Table 671 for the list of interrupt sources
+
+i2c_rx_dma
+
+Output
+
+I2C receive data DMA request (I2C_RX)
+
+i2c_tx_dma
+
+Output
+
+I2C transmit data DMA request (I2C_TX)
+
+i2c_evc_dma
+
+Output
+
+I2C event control DMA request (I2C_EVC)
+
+Table 657. I2C1, I2C2, I2C4, I2C5, I2C6 interconnection
+Signal name
+
+Source/destination
+
+i2c_trg0
+
+gpdma1_ch0_tc
+
+i2c_trg1
+
+gpdma1_ch1_tc
+
+i2c_trg2
+
+gpdma1_ch2_tc
+
+i2c_trg3
+
+gpdma1_ch3_tc
+
+i2c_trg4
+
+exti5
+
+i2c_trg5
+
+exti9
+
+i2c_trg6
+
+lptim1_ch1
+
+i2c_trg7
+
+lptim2_ch1
+
+i2c_trg8
+
+comp1_out
+
+i2c_trg9
+
+comp2_out
+
+i2c_trg10
+
+rtc_alra_trg
+
+i2c_trg11
+
+rtc_wut_trg
+
+i2c_trg12
+
+-
+
+i2c_trg13
+
+-
+
+i2c_trg14
+
+-
+
+i2c_trg15
+
+-
+
+Table 658. I2C3 interconnection
+
+<!-- pagebreak -->
+

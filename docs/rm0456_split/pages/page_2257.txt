@@ -1,0 +1,67 @@
+MSv62313V1
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 617. Counter timing diagram, Update event with ARPE = 1 (counter underflow)
+
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+06
+
+05
+
+04
+
+03
+
+02
+
+01
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter underflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+Auto-reload preload
+register
+
+FD
+
+36
+
+Write a new value in TIMx_ARR
+Auto-reload active
+register
+
+FD
+
+36
+MSv62314V1
+
+RM0456 Rev 6

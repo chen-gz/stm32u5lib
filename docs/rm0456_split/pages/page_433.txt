@@ -1,0 +1,70 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+clock if STOPWUCK is cleared. The MSIS selection allows a wake-up at higher frequency
+(up to 24 MHz).
+When exiting Stop 3 mode, I/Os that were configured with pull-up or pull-down during Stop 3
+mode through PWR_PUCRx or PWR_PDCRx registers keep this configuration upon exiting
+Stop 3 mode until the APC bit in PWR_CR3 is cleared by software. Once APC is cleared,
+the I/Os pull-up/pull-down state is configured according to the GPIOx_PUPDR registers.
+The content of the PWR_PUCRx or PWR_PDCRx registers is not lost and can be re-used
+for a sub-sequent entering into Stop 3 mode.
+Figure 35. I/O states in Stop 3 mode
+IO state retention disabled
+GPIO mode
+
+Normal
+
+Floating
+
+Normal
+
+System mode
+
+Run
+
+Stop 3
+
+Run
+
+Stop 3 entry
+
+WFI/WFE/Sleep on exit
+
+APC (PWR)
+Wakeup request
+IO state retention enabled
+GPIO mode
+
+Normal
+
+State retained (PU/PD)
+
+System mode
+
+Run
+
+Stop 3 entry
+
+WFI/WFE/Sleep on exit
+
+APC (PWR)
+
+Normal
+
+Stop 3
+
+Set
+
+Run
+
+Clear
+
+Wakeup request
+MSv66126V1
+
+When exiting the Stop 3 mode, the MCU is in Run mode, range 4.
+
+RM0456 Rev 6

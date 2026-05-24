@@ -1,0 +1,142 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+GCM processing
+Figure 477 describes the GCM implementation in the AES peripheral. The GCM is selected
+by writing 011 to the CHMOD[2:0] bitfield of the AES_CR register.
+Figure 477. GCM authenticated encryption
+(3) Payload
+
+Block 1
+AES_IVRx
+ICB + (32-bit counter = 0x02)
+
+(1) Init
+AES_KEYRx (KEY)
+
+Block n
+AES_IVRx
+
+CBn
+
+Counter
+increment (+1)
+
+CB1
+[0]128
+
+CBn
+
+AES_KEYRx (KEY)
+
+AES_KEYRx (KEY)
+Encrypt
+
+Encrypt
+
+AES_DINR (plaintext P1)
+
+H
+
+Swap
+management
+
+Swap
+management
+
+AES_DINR (plaintext Pn)
+
+DATATYPE
+[1:0]
+
+DATATYPE
+[1:0]
+
+(2) Header
+AES_DINR (AAD 0)
+
+GF2mul
+
+Swap
+management
+
+Swap
+management
+
+DATATYPE
+[1:0]
+
+Swap
+management
+
+DATATYPE[1:0]
+
+AES_DINR (AAD i)
+
+DATATYPE
+[1:0]
+
+Swap
+management
+
+H
+
+GF2mul
+
+AES_DOUTR
+(ciphertext Cn)
+
+AES_DOUTR
+(ciphertext C1)
+
+H
+H
+
+Encrypt
+
+GF2mul
+
+(4) Final
+
+GF2mul
+
+H
+
+GF2mul
+
+AES_DINR
+Len(A)64 || Len(C)64
+
+AES_IVRx
+(IV + 32-bit counter (= 0x1))
+
+Legend
+
+H
+
+S
+
+input
+
+Encrypt
+
+output
+XOR
+AES_KEYRx (key)
+
+AES_DOUTR
+(Authentication TAG T)
+
+The mechanism for the confidentiality of the plaintext in GCM mode is similar to that in the
+Counter mode, with a particular increment function (denoted 32-bit increment) that
+generates the sequence of input counter blocks.
+AES_IVRx registers keeping the counter block of data are used for processing each data
+block. The AES peripheral automatically increments the Counter[31:0] bitfield. The first
+counter block (CB1) is derived from the initial counter block ICB by the application software
+(see Table 472).
+Table 472. Initialization of AES_IVRx registers in GCM mode
+
+Note:

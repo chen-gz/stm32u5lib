@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+The data setup phase must be programmed so that WAIT can be detected 4 HCLK cycles
+before the end of the memory transaction. The following cases must be considered:
+1.
+
+The memory asserts the WAIT signal aligned to NOE/NWE which toggles:
+DATAST ≥ ( 4 × HCLK ) + max_wait_assertion_time
+
+2.
+
+The memory asserts the WAIT signal aligned to NEx (or NOE/NWE not toggling):
+if
+max_wait_assertion_time > address_phase + hold_phase
+then:
+
+DATAST ≥ ( 4 × HCLK ) + ( max_wait_assertion_time – address_phase – hold_phase )
+otherwise
+DATAST ≥ 4 × HCLK
+where max_wait_assertion_time is the maximum time taken by the memory to assert
+the WAIT signal once NEx/NOE/NWE is low.
+Figure 134 and Figure 135 show the number of HCLK clock cycles that are added to the
+
+memory access phase after WAIT is released by the asynchronous memory (independently
+of the above cases).
+Figure 134. Asynchronous wait during a read access waveforms
+Memory transaction
+
+A[25:0]
+
+address phase
+
+data setup phase
+
+NEx
+
+NWAIT
+
+don’t care
+
+don’t care
+
+NOE
+
+data driven by memory
+
+D[15:0]
+
+4HCLK
+
+MS30463V2
+
+1. NWAIT polarity depends on WAITPOL bit setting in FMC_BCRx register.
+
+RM0456 Rev 6

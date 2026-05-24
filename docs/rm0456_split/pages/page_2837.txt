@@ -1,0 +1,48 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Bit 24 CPHA: clock phase
+0: the first clock transition is the first data capture edge
+1: the second clock transition is the first data capture edge
+Bit 23 LSBFRST: data frame format
+0: MSB transmitted first
+1: LSB transmitted first
+Bit 22 MASTER: SPI master
+0: SPI slave
+1: SPI master
+Bits 21:19 SP[2:0]: serial protocol
+000: SPI Motorola
+001: SPI TI
+others: reserved, must not be used
+Bits 18:17 COMM[1:0]: SPI Communication Mode
+00: full-duplex
+01: simplex transmitter
+10: simplex receiver
+11: half-duplex
+Bit 16 Reserved, must be kept at reset value.
+Bit 15 IOSWP: swap functionality of MISO and MOSI pins
+When this bit is set, the function of MISO and MOSI pins alternate functions are inverted.
+Original MISO pin becomes MOSI and original MOSI pin becomes MISO.
+0: no swap
+1: MOSI and MISO are swapped
+Bit 14 RDIOP: RDY signal input/output polarity
+0: high level of the signal means the slave is ready for communication
+1: low level of the signal means the slave is ready for communication
+Bit 13 RDIOM: RDY signal input/output management
+0: RDY signal is defined internally fixed as permanently active (RDIOP setting has no effect)
+1: RDY signal is overtaken from alternate function input (at master case) or output (at slave
+case) of the dedicated pin (RDIOP setting takes effect)
+Note: When DSIZE in the SPI_CFG1 register is configured shorter than 8 bits, the RDIOM bit
+must be kept at zero.
+Bits 12:8 Reserved, must be kept at reset value.
+Bits 7:4 MIDI[3:0]: Master Inter-Data Idleness
+Specifies minimum time delay (expressed in SPI clock cycles periods) inserted between two
+consecutive data frames in master mode.
+0000: no delay
+0001: 1 clock cycle period delay
+...
+1111: 15 clock cycle periods delay
+Note: This feature is not supported in TI mode.

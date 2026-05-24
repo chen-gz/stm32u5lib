@@ -1,0 +1,215 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 5 DMA2DIE: illegal access interrupt enable for register of DMA2D
+0: interrupt disabled
+1: interrupt enabled
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 4 TSCIE: illegal access interrupt enable for TSC
+0: interrupt disabled
+1: interrupt enabled
+Bit 3 CRCIE: illegal access interrupt enable for CRC
+0: interrupt disabled
+1: interrupt enabled
+Bit 2 FMACIE: illegal access interrupt enable for FMAC
+0: interrupt disabled
+1: interrupt enabled
+Bit 1 CORDICIE: illegal access interrupt enable for CORDIC
+0: interrupt disabled
+1: interrupt enabled
+Bit 0 MDF1IE: illegal access interrupt enable for MDF1
+0: interrupt disabled
+1: interrupt enabled
+
+5.7.4
+
+GTZC1 TZIC interrupt enable register 4 (GTZC1_TZIC_IER4)
+Address offset: 0x00C
+Reset value: 0x0000 0000
+Secure privileged access only.
+This register is used to enable interrupt of illegal access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+MPCB
+MPCB
+MPCB
+MPCB
+MPCB
+SRAM5
+SRAM3
+SRAM2
+SRAM1
+SRAM6
+B5_RE
+B3_RE
+B2_RE
+B1_RE
+B6_RE
+IE
+IE
+IE
+IE
+IE
+GIE
+GIE
+GIE
+GIE
+GIE
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+TZIC1I TZSC1I
+E
+E
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Res.
+
+21
+Res.
+
+5
+Res.
+
+20
+
+19
+
+18
+
+17
+
+16
+
+OCTOS
+OCTOS
+HSPI1_
+BKPSR FSMC_
+PI2_M
+PI1_M
+MEMIE
+AMIE MEMIE
+EMIE
+EMIE
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+FLASH
+OTFDE OTFDE FLASHI
+_REGI
+C2IE
+C1IE
+E
+E
+rw
+
+rw
+
+rw
+
+rw
+
+GPDM
+A1IE
+rw
+
+Bit 31 MPCBB5_REGIE: illegal access interrupt enable for MPCBB5 registers
+0: interrupt disabled
+1: interrupt enabled
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.

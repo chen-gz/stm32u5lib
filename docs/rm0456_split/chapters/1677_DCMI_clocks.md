@@ -1,0 +1,85 @@
+Internal signal
+name
+
+Signal type
+
+dcmi_dma
+
+Output
+
+DCMI DMA request
+
+dcmi_it
+
+Output
+
+DCMI interrupt request
+
+dcmi_hclk
+
+Input
+
+DCMI interface clock
+
+Description
+
+RM0456 Rev 6
+
+RM0456
+
+41.3.3
+
+Digital camera interface (DCMI)
+
+DCMI clocks
+The digital camera interface uses two clock domains, DCMI_PIXCLK and HCLK. The
+signals generated with DCMI_PIXCLK are sampled on the rising edge of HCLK once they
+are stable. An enable signal is generated in the HCLK domain, to indicate that data coming
+from the camera are stable and can be sampled. The maximum DCMI_PIXCLK period must
+be higher than 2.5 HCLK periods.
+
+41.3.4
+
+DCMI DMA interface
+The DMA interface is active when the CAPTURE bit of the DCMI_CR register is set. A DMA
+request is generated each time the camera interface receives a complete 32-bit data block
+in its register.
+
+41.3.5
+
+DCMI physical interface
+The interface is composed of 11/13/15/17 inputs. Only the Slave mode is supported.
+The camera interface can capture 8-bit, 10-bit, 12-bit or 14-bit data depending on the
+EDM[1:0] bits of the DCMI_CR register. If less than 14 bits are used, the unused input pins
+must be connected to ground.
+DCMI pins are shown in Table 410.
+The data are synchronous with DCMI_PIXCLK and change on the rising/falling edge of the
+pixel clock depending on the polarity.
+The DCMI_HSYNC signal indicates the start/end of a line.
+The DCMI_VSYNC signal indicates the start/end of a frame
+Figure 393. DCMI signal waveforms
+DCMI_PIXCLK
+
+DCMI_D[13:0]
+
+DCMI_HSYNC
+
+DCMI_VSYNC
+ai15606c
+
+1. The capture edge of DCMI_PIXCLK is the falling edge, the active state of DCMI_HSYNC and
+DCMI_VSYNC is 1.
+2. DCMI_HSYNC and DCMI_VSYNC can change states at the same time.
+
+8-bit data
+When EDM[1:0] = 00 in DCMI_CR the interface captures 8 LSBs at its input (DCMI_D[7:0])
+and stores them as 8-bit data. The DCMI_D[13:8] inputs are ignored. In this case, to capture
+a 32-bit word, the camera interface takes four pixel clock cycles.
+The first captured data byte is placed in the LSB position in the 32-bit word and the 4th
+captured data byte is placed in the MSB position in the 32-bit word. The table below gives
+an example of the positioning of captured data bytes in two 32-bit words.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

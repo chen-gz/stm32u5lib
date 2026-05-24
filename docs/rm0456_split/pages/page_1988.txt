@@ -1,0 +1,72 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+5.
+
+Save initialization vector registers (only required in CBC mode as SAES_IVRx registers
+are altered during the data processing).
+
+6.
+
+Disable the SAES peripheral by clearing the bit EN of the SAES_CR register.
+
+7.
+
+Save the SAES_CR register and clear the key registers if they are not needed, to
+process the higher priority message.
+
+8.
+
+If DMA is used, save the DMA controller status (pointers for IN and OUT data transfers,
+number of remaining bytes, and so on).
+
+To resume the processing of a message, proceed as follows:
+1.
+
+50.4.9
+
+If DMA is used, configure the DMA controller so as to complete the rest of the FIFO IN
+and FIFO OUT transfers.
+
+2.
+
+Disable the SAES peripheral by clearing the EN bit of the SAES_CR register.
+
+3.
+
+Restore SAES_CR register (with correct KEYSIZE) then restore SAES_KEYRx
+registers. Alternatively, select a key source different from key registers, using
+KEYSEL[2:0]. Refer to Section 50.4.12: SAES key registers for details.
+
+4.
+
+Prepare the decryption key as described in Section 50.4.5: SAES decryption round key
+preparation (only required for ECB or CBC decryption).
+
+5.
+
+Restore SAES_IVRx registers using the saved configuration (only required in CBC
+mode).
+
+6.
+
+Enable the SAES peripheral by setting the EN bit of the SAES_CR register.
+
+7.
+
+If DMA is used, enable SAES DMA transfers by setting the DMAINEN and
+DMAOUTEN bits of the SAES_CR register.
+
+SAES operation with wrapped keys
+SAES peripheral can wrap (encrypt) and unwrap (decrypt) application keys using
+hardware-secret key DHUK, XOR-ed or not with application key BHK. With this feature,
+AES keys can be made usable by application software without being exposed in clear-text
+(unencrypted).
+Wrapped key sequences are too small to be suspended/resumed. SAES cannot unwrap a
+key using an unwrapped key.
+Figure 495 summarizes the operation with wrapped keys. To protect the wrapped key,
+select DHUK by setting KEYSEL[2:0] to 001 or 100. Alternatively, select BHK by setting
+KEYSEL to 010 if the corresponding registers are read/write-locked in the TAMP peripheral.

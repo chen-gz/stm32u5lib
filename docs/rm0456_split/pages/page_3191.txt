@@ -1,0 +1,89 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+73.4.2
+
+RM0456
+
+OTG_HS pin and internal signals
+Table 763. OTG_HS input/output pins
+Signal name
+
+Signal type
+
+Description
+
+OTG_HS_DP
+
+Digital input/output USB OTG D+ line
+
+OTG_HS_DM
+
+Digital input/output USB OTG D- line
+
+OTG_HS_ID
+
+Digital input
+
+USB OTG ID
+
+OTG_HS_VBUS
+
+Analog input
+
+USB OTG VBUS
+
+OTG_HS_SOF
+
+Digital output
+
+USB OTG Start Of Frame (visibility)
+
+Table 764. OTG_HS input/output signals
+Signal name
+
+73.4.3
+
+Signal type
+
+Description
+
+usb_sof
+
+Digital output
+
+USB OTG start-of-frame event for on chip peripherals
+
+usb_wkup
+
+Digital output
+
+USB OTG wake-up event output
+
+usb_gbl_it
+
+Digital output
+
+USB OTG global interrupt
+
+OTG_HS core
+The OTG_HS receives the 60 MHz clock from the reset and clock controller (RCC). This is
+typically generated in the PLL associated with the HS PHY and enabled in the RCC.
+This clock is used for driving the 60 MHz domain at high-speed (480 Mbit/s) and must be
+enabled prior to configuring the OTG core.
+The CPU reads and writes from/to the OTG core registers through the AHB peripheral bus.
+It is informed of USB events through the single USB OTG interrupt line described in
+Section 73.12: OTG_HS interrupts.
+The CPU submits data over the USB by writing 32-bit words to dedicated OTG locations
+(push registers). The data are then automatically stored into Tx-data FIFOs configured
+within the USB data RAM. There is one Tx FIFO push register for each in-endpoint
+(peripheral mode) or out-channel (host mode).
+The CPU receives the data from the USB by reading 32-bit words from dedicated OTG
+addresses (pop registers). The data are then automatically retrieved from a shared Rx FIFO
+configured within the 4-Kbyte USB data RAM. There is one Rx FIFO pop register for each
+out-endpoint or in-channel.
+The USB protocol layer is driven by the serial interface engine (SIE) and serialized over the
+USB by the transceiver module within the on-chip physical layer (PHY).
+
+Caution:

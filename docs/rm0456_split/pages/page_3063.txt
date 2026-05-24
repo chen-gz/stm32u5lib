@@ -1,0 +1,41 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 4 AVALOEN: A-peripheral session valid override enable.
+This bit is used to enable/disable the software to override the Avalid signal using the
+AVALOVAL bit.
+0:Override is disabled and Avalid signal from the respective PHY selected is used internally
+by the core
+1:Internally Avalid received from the PHY is overridden with AVALOVAL bit value
+Note: Only accessible in host mode.
+Bit 3 VBVALOVAL: VBUS valid override value.
+This bit is used to set override value for vbusvalid signal when VBVALOEN bit is set.
+0: vbusvalid value is '0' when VBVALOEN = 1
+1: vbusvalid value is '1' when VBVALOEN = 1
+Note: Only accessible in host mode.
+Bit 2 VBVALOEN: VBUS valid override enable.
+This bit is used to enable/disable the software to override the vbusvalid signal using the
+VBVALOVAL bit.
+0: Override is disabled and vbusvalid signal from the respective PHY selected is used
+internally by the core
+1: Internally vbusvalid received from the PHY is overridden with VBVALOVAL bit value
+Note: Only accessible in host mode.
+Bit 1 SRQ: Session request
+The application sets this bit to initiate a session request on the USB. The application can
+clear this bit by writing a 0 when the host negotiation success status change bit in the
+OTG_GOTGINT register (HNSSCHG bit in OTG_GOTGINT) is set. The core clears this bit
+when the HNSSCHG bit is cleared.
+If the user uses the USB 1.1 full-speed serial transceiver interface to initiate the session
+request, the application must wait until VBUS discharges to 0.2 V, after the B-session valid bit
+in this register (BSVLD bit in OTG_GOTGCTL) is cleared.
+0: No session request
+1: Session request
+Note: Only accessible in device mode.
+Bit 0 SRQSCS: Session request success
+The core sets this bit when a session request initiation is successful.
+0: Session request failure
+1: Session request success
+Note: Only accessible in device mode.

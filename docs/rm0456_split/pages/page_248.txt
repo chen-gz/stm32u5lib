@@ -1,0 +1,101 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 8 CSAI2F: clear the illegal access flag for SAI2
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 7 CSAI1F: clear the illegal access flag for SAI1
+0: no action
+1: status flag cleared
+Bit 6 CTIM17F: clear the illegal access flag for TIM7
+0: no action
+1: status flag cleared
+Bit 5 CTIM16F: clear the illegal access flag for TIM6
+0: no action
+1: status flag cleared
+Bit 4 CTIM15F: clear the illegal access flag for TIM5
+0: no action
+1: status flag cleared
+Bit 3 CUSART1F: clear the illegal access flag for USART1
+0: no action
+1: status flag cleared
+Bit 2 CTIM8F: clear the illegal access flag for TIM8
+0: no action
+1: status flag cleared
+Bit 1 CSPI1F: clear the illegal access flag for SPI1
+0: no action
+1: status flag cleared
+Bit 0 CTIM1F: clear the illegal access flag for TIM1
+0: no action
+1: status flag cleared
+
+5.7.11
+
+GTZC1 TZIC flag clear register 3 (GTZC1_TZIC_FCR3)
+Address offset: 0x028
+Reset value: 0x0000 0000
+Secure privilege access only.
+
+31
+Res.
+
+30
+Res.
+
+15
+
+14
+
+29
+Res.
+
+13
+
+28
+
+27
+
+26
+
+CDCA CHSPI
+CJPEG
+CHE2_ 1_REG
+F
+REGF
+F
+
+25
+CGFX
+MMU_
+REGF
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+COCT COCT CFSM
+CGFX CGPU2 CRAM
+CSDM
+OSPI2_ OSPI1_ C_REG
+MMUF
+DF
+CFGF
+MC2F
+REGF REGF
+F

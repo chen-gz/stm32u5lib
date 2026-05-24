@@ -1,0 +1,92 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Packet format
+Messages other than Hard Reset and Cable Reset
+The packet format is shown in the following figure, with information on 4b5b encode and
+data source.
+Figure 949. Packet format
+Preamble
+(training for receiver)
+
+SOP*
+(start of packet)
+
+Header
+
+...
+
+Byte 0
+
+Byte n-1
+
+Byte 1
+
+Byte n
+
+...
+
+EOP
+(end of packet)
+
+CRC
+
+Legend:
+Provided by the physical layer, not 4b5b-encoded
+Provided by the physical layer, 4b5b-encoded
+Provided by the protocol layer, 4b5b-encoded
+MSv45539V2
+
+Hard Reset
+The physical layer handles the Hard Reset signaling differently than the other types of
+message as it has higher priority to be able to interrupt an ongoing transfer.
+The physical layer specification implies the following sequence in the case of an ongoing Tx
+message:
+1.
+
+Terminate the message by sending an EOP K-code and discard the rest of the
+message.
+
+2.
+
+Wait for tInterFrameGap time.
+
+3.
+
+If the CC line is not idle, wait until it goes idle.
+
+4.
+
+Send the preamble followed by the four K-codes of Hard Reset signaling.
+
+5.
+
+Disable the CC channel (stop sending and receiving), reset the physical layer and
+inform the protocol layer that the physical layer is reset.
+
+6.
+
+Re-enable the channel when requested by the protocol layer.
+Figure 950. Line format of Hard Reset
+
+Preamble
+(training for receiver)
+
+RST-1
+
+RST-1
+
+RST-1
+
+RST-2
+
+Hard Reset ordered set
+Legend:
+Provided by the physical layer, not 4b5b-encoded
+Provided by the physical layer, 4b5b-encoded
+MSv45540V2
+
+RM0456 Rev 6

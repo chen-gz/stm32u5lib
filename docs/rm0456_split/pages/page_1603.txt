@@ -1,0 +1,127 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+Table 391. ADF internal signals (continued)
+
+Signal name
+
+Signal type
+
+adf_flt0_dma
+
+Remarks
+
+Input/output DMA request/acknowledge signals for the ADF processing chain
+
+adf_flt0_it
+
+Output
+
+Global interrupt signals
+
+adf_bus_ckreq
+
+Output
+
+Bus interface clock request output
+
+adf_ker_ckreq
+
+Output
+
+Kernel clock request output
+
+adf_ker_ck
+
+Input
+
+Kernel clock input
+
+adf_hclk
+
+Input
+
+AHB bus interface clock input
+
+adf_sad_det
+
+Output
+
+SAD sound detection: 1 means that detecting sound
+
+adf_adcitf1_dat[15:0]
+
+Input
+
+ADCITF1 data input
+
+adf_adcitf2_dat[15:0]
+
+Input
+
+ADCITF2 data input
+
+Table 392. ADF trigger connections
+
+40.4.3
+
+Trigger name
+
+Direction
+
+Trigger source/destination
+
+adf_trgi
+
+Input
+
+From exti15
+
+adf_trgo
+
+Output
+
+To mdf_trgi13
+
+Serial input interface (SITF)
+The SITF0 input interface allows the connection of the external sensor to the digital filter via
+the bitstream matrix (BSMX). The SITF0 can be configured in the following modes:
+•
+
+LF_MASTER SPI mode (low-frequency)
+
+•
+
+normal SPI mode
+
+•
+
+Manchester mode
+
+The data from the serial interface is routed to the filter in order to perform the PDM to PCM
+conversion and the sound activity detection.
+The serial interface is enabled by setting the SITFEN bit to 1. Once the interface is enabled,
+it receives serial data from the external Σ∆ modulator.
+Note:
+
+Before enabling the serial interface, the user must insure that the adf_proc_ck is already
+enabled (see Section 40.4.5: Clock generator (CKGEN) for details).
+The SITF0 is controlled via the ADF serial interface control register 0 (ADF_SITF0CR).
+As shown in the Figure 362, ADF_CCK0 or ADF_CCK1 can be selected as clock source, in
+order to sample the incoming bitstream:
+•
+
+If the serial interface is programmed in SPI mode, the selected clock source is a copy
+of the clock present on the ADF_CCK0 or ADF_CCK1 pin.
+
+•
+
+If the serial interface is programmed in LF_MASTER SPI mode, the selected clock
+source is the clock directly provided by the CCKDIV to the ADF_CCK0 or ADF_CCK1
+pin.
+
+See Table 393 for additional information.
+
+RM0456 Rev 6

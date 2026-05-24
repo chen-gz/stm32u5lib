@@ -1,0 +1,175 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Bits 8:0 TDR[8:0]: Transmit data value
+Contains the data character to be transmitted.
+The TDR register provides the parallel interface between the internal bus and the output shift
+register (see Section 67.4.1: LPUART block diagram).
+When transmitting with the parity enabled (PCE bit set to 1 in the LPUART_CR1 register),
+the value written in the MSB (bit 7 or bit 8 depending on the data length) has no effect
+because it is replaced by the parity.
+Note: This register must be written only when TXE/TXFNF = 1.
+
+67.7.13
+
+LPUART prescaler register (LPUART_PRESC)
+This register can only be written when the LPUART is disabled (UE = 0).
+Address offset: 0x2C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PRESCALER[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 PRESCALER[3:0]: Clock prescaler
+The LPUART input clock can be divided by a prescaler:
+0000: input clock not divided
+0001: input clock divided by 2
+0010: input clock divided by 4
+0011: input clock divided by 6
+0100: input clock divided by 8
+0101: input clock divided by 10
+0110: input clock divided by 12
+0111: input clock divided by 16
+1000: input clock divided by 32
+1001: input clock divided by 64
+1010: input clock divided by 128
+1011: input clock divided by 256
+Others: Reserved, must not be used.
+Note: When PRESCALER is programmed with a value different of the allowed ones,
+programmed prescaler value is equal to 1011, that is, input clock divided by 256.
+If the prescaler is not supported, this bitfield is reserved and must be kept at reset
+value. Refer to Section 67.3: LPUART implementation.
+
+RM0456 Rev 6

@@ -1,0 +1,50 @@
+910
+
+Chrom-GRC (GFXMMU)
+
+RM0456
+
+The LUT is common to all the buffers i.e. all the buffers have the same “shape”.
+Figure 97. Virtual buffer
+16-byte block
+
+Out screen block
+192/256 blocks (3072/4096 Byte)
+
+Line N first block on screen
+
+Line N+1 last
+block on screen
+Virtual buffer
+
+1024 lines
+
+Configuration
+192/256 x 16-byte blocks per line
+1024 lines
+
+Continuous memory locations
+Physical buffer
+
+Line N first block on
+screen
+
+Line N last block
+on screen
+
+Line N+1 first
+block on screen
+
+Line N+1 last
+block on screen
+
+MSv43800V1
+
+Virtual buffer overview
+For a frame buffer coded in 32 bpp or 16 bpp, the virtual buffer can be configured to have
+192 or 256 blocks. This results in a virtual frame buffer of 768 x 1024 or 1024 x 1024 pixels
+for 32 bpp and 1536 x 1024 or 2048 x 1024 for 16 bpp.
+For a frame buffer coded in 24 bpp, the virtual buffer must be configured to have 192 blocks
+to have an integer number of pixel per lines. This results in a virtual frame buffer of
+1024 x 1024 pixels for 24 bpp.
+Each buffer can be physically mapped anywhere in the physical memory thanks to:

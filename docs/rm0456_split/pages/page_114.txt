@@ -1,0 +1,58 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 337. CIC3 and CIC5 frequency response with decimation ratio = 32 . . . . . . . . . . . . . . . . . . . 1536
+Figure 338. Reshape filter frequency response normalized (FRS / 2 = 1). . . . . . . . . . . . . . . . . . . . . 1541
+Figure 339. Out-of-limit detector thresholds. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1544
+Figure 340. Trigger logic for DFLT and CKGEN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1546
+Figure 341. Asynchronous continuous mode (ACQMOD[2:0] = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . 1547
+Figure 342. Asynchronous single-shot mode (ACQMOD[2:0] = 001) . . . . . . . . . . . . . . . . . . . . . . . . 1548
+Figure 343. Synchronous continuous mode (ACQMOD[2:0] = 010) . . . . . . . . . . . . . . . . . . . . . . . . . 1549
+Figure 344. Synchronous single-shot mode (ACQMOD[2:0] = 011) . . . . . . . . . . . . . . . . . . . . . . . . . 1550
+Figure 345. Window continuous mode (ACQMOD[2:0] = 100) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1551
+Figure 346. Snapshot mode example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1553
+Figure 347. Discard function example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1554
+Figure 348. Start sequence with DFLTEN, in continuous mode, audio configuration . . . . . . . . . . . . 1555
+Figure 349. Start sequence with trigger input, in continuous mode, motor configuration . . . . . . . . . 1556
+Figure 350. Break interface simplified view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1557
+Figure 351. MDF_DFLTxDR data format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1557
+Figure 352. Data re-synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1558
+Figure 353. Data transfer in interleaved-transfer mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1559
+Figure 354. Data path for interleaved- and independent-transfer modes . . . . . . . . . . . . . . . . . . . . . 1561
+Figure 355. Example of overflow and transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1562
+Figure 356. MDF interrupt interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1565
+Figure 357. Sensor connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1570
+Figure 358. Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1571
+Figure 359. Detailed frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1571
+Figure 360. Simplified DFLT view with gain information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1574
+Figure 361. ADF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+Figure 362. SITF overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1604
+Figure 363. SPI timing example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1605
+Figure 364. Manchester timing example (SITFMOD = 11) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1606
+Figure 365. CKGEN overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1609
+Figure 366. BSMX overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1611
+Figure 367. DFLT overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1612
+Figure 368. Programmable delay. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1613
+Figure 369. CIC4 and CIC5 frequency response with decimation ratio = 32 or 16 . . . . . . . . . . . . . . 1614
+Figure 370. Reshape filter frequency response normalized (FRS / 2 = 1). . . . . . . . . . . . . . . . . . . . . 1620
+Figure 371. Trigger logic for DFLT and CKGEN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1622
+Figure 372. Asynchronous continuous mode (ACQMOD[2:0] = 0) . . . . . . . . . . . . . . . . . . . . . . . . . . 1623
+Figure 373. Asynchronous single-shot mode (ACQMOD[2:0] = 001) . . . . . . . . . . . . . . . . . . . . . . . . 1624
+Figure 374. Synchronous continuous mode (ACQMOD[2:0] = 010) . . . . . . . . . . . . . . . . . . . . . . . . . 1625
+Figure 375. Synchronous single-shot mode (ACQMOD[2:0] = 011) . . . . . . . . . . . . . . . . . . . . . . . . . 1626
+Figure 376. Window continuous mode (ACQMOD[2:0] = 100) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1627
+Figure 377. Discard function example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1629
+Figure 378. Start sequence with DFLTEN, in continuous mode, audio configuration . . . . . . . . . . . . 1629
+Figure 379. SAD block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1630
+Figure 380. SAD flow diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1632
+Figure 381. SAD timing diagram example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1638
+Figure 382. ADF_DFLTxDR data format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1638
+Figure 383. Data re-synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1639
+Figure 384. Example of overflow and transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1640
+Figure 385. ADF interrupt interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1643
+Figure 386. Sensor connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1648
+Figure 387. Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1648
+Figure 388. Detailed frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1649

@@ -1,0 +1,84 @@
+RM0456 Rev 6
+
+RM0456
+
+2.1.9
+
+Memory and bus architecture
+
+GFXMMU-bus
+This bus connects the GFXMMU master interface to the bus matrix. This bus is used only by
+the GFXMMU to load/store data from/to the memory. This bus targets the data memories:
+internal flash memory, internal SRAMs (SRAM1, SRAM2, SRAM3, SRAM5, and SRAM6)
+and external memories through FSMC, HSPI1, or OCTOSPIs. The GFXMMU has also a
+slave bus connection to be accessed by graphical peripheral master buses.
+
+2.1.10
+
+SDMMC1 and SDMMC2 controllers DMA buses
+These buses connect the SDMMC1 and SDMMC2 DMA master interfaces to the bus matrix.
+These buses are used only by the SDMMC1 and SDMMC2 DMA to load/store data from/to
+the memory. These buses target the data memories: internal flash memory, internal SRAMs
+(SRAM1, SRAM2, SRAM3, SRAM5, and SRAM6) and external memories through FSMC,
+HSPI1, or OCTOSPIs.
+
+2.1.11
+
+Bus matrix
+The bus matrix manages the access arbitration between masters. The arbitration uses a
+round-robin algorithm. This bus matrix features a fast bus multiplexer used to connect each
+master to a given slave without latency (see Figure 1). For the same master, other slaves
+undergo a latency of at least one cycle at each new access.
+
+2.1.12
+
+AHB/APB bridges
+The three AHB/APB bridges provide full synchronous connections between the AHB and
+the APB buses, allowing flexible selection of the peripheral frequency.
+Refer to Section 2.3.2: Memory map and register boundary addresses for the address
+mapping of the peripherals connected to these bridges.
+After each device reset, all peripheral clocks are disabled (except for the internal SRAMs
+and flash memory interfaces). Before using a peripheral, its clock must be enabled in the
+RCC_AHBxENR and RCC_APBxENR registers.
+
+Note:
+
+When an 8- or 16-bit access is performed on an APB register, the access is transformed into
+a 32-bit access: the bridge duplicates the 8- or 16-bit data to feed the 32-bit vector.
+
+2.1.13
+
+SmartRun domain (SRD)
+The SRD architecture relies on a DMA allowing autonomous operation during low-power
+modes down to Stop 2.
+This architecture also features a 32-bit AHB bus matrix that interconnects:
+•
+
+•
+
+Note:
+
+two masters:
+–
+
+the main AHB bus matrix
+
+–
+
+LPDMA1 (low-power DMA featuring one master port)
+
+two slaves:
+–
+
+AHB3 peripherals including AHB to APB bridge connected to APB3
+
+–
+
+internal SRAM4
+
+The SRAM4 is the only SRAM that can be accessed by the LPDMA1.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

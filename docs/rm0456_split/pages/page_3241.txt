@@ -1,0 +1,164 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bits 20:17 PKTSTS[3:0]: Packet status
+Indicates the status of the received packet
+0010: IN data packet received
+0011: IN transfer completed (triggers an interrupt)
+0101: Data toggle error (triggers an interrupt)
+0111: Channel halted (triggers an interrupt)
+Others: Reserved
+Bits 16:15 DPID[1:0]: Data PID
+Indicates the data PID of the received packet
+00: DATA0
+10: DATA1
+01: DATA2
+11: MDATA
+Bits 14:4 BCNT[10:0]: Byte count
+Indicates the byte count of the received IN data packet.
+Bits 3:0 CHNUM[3:0]: Channel number
+Indicates the channel number to which the current received packet belongs.
+
+73.14.14 OTG receive FIFO size register (OTG_GRXFSIZ)
+The application can program the RAM size that must be allocated to the Rx FIFO.
+Address offset: 0x024
+Reset value: 0x0000 0400
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RXFD[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 RXFD[15:0]: Rx FIFO depth
+This value is in terms of 32-bit words.
+Maximum value is 1024
+Programmed values must respect the available FIFO memory allocation and must not
+exceed the power-on value.

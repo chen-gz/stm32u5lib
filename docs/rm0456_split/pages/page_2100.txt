@@ -1,0 +1,125 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Table 540. Interconnect to the tim_etr input multiplex for STM2U59x/5Ax/5Fx/5Gx
+Timer external trigger input
+signal
+
+Timer external trigger signal assignment
+TIM1
+
+TIM8
+
+tim_etr12
+
+adc4_awd2
+
+adc4_awd2
+
+tim_etr13
+
+adc4_awd3
+
+adc4_awd3
+
+tim_etr14
+
+adc2_awd1
+
+adc2_awd1
+
+tim_etr15
+
+Reserved
+
+Tables below list the sources connected to the tim_brk and tim_brk2inputs.
+Table 541. Timer break interconnect
+tim_brk inputs
+
+TIM1
+
+TIM8
+
+TIM1_BKIN pin
+
+TIM8_BKIN pin
+
+tim_brk_cmp1
+
+comp1_out
+
+comp1_out
+
+tim_brk_cmp2
+
+(1)
+
+comp2_out(1)
+
+TIM_BKIN
+
+comp2_out
+
+tim_brk_cmp3
+tim_brk_cmp4
+
+Reserved
+
+tim_brk_cmp5
+tim_brk_cmp6
+tim_brk_cmp7
+
+mdf1_break0
+
+tim_brk_cmp8
+
+mdf1_break2
+Reserved
+
+1. This connection is not present in STM32U535/545 as COMP2 is not available.
+
+Table 542. Timer break2 interconnect
+tim_brk2 inputs
+
+TIM1
+
+TIM8
+
+TIM1_BKIN2 pin
+
+TIM8_BKIN2 pin
+
+tim_brk2_cmp1
+
+comp1_out
+
+comp1_out
+
+tim_brk2_cmp2
+
+comp2_out(1)
+
+comp2_out(1)
+
+TIM_BKIN2
+
+tim_brk2_cmp3
+tim_brk2_cmp4
+
+Reserved
+
+tim_brk2_cmp5
+tim_brk2_cmp6
+tim_brk2_cmp7
+
+mdf1_break1
+
+tim_brk2_cmp8
+
+mdf1_break3
+Reserved
+
+1. This connection is not present in STM32U535/545 as COMP2 is not available.

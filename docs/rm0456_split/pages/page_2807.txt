@@ -1,0 +1,81 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Figure 850. Master and three independent slaves connected in star topology
+(1)
+
+SS
+Rx shift register
+Tx shift register
+SPI clock
+generator
+Master
+
+MISO
+
+MISO
+
+MOSI
+
+MOSI
+
+SCK
+
+SCK
+
+IO1
+
+SS
+
+Tx shift register
+Rx shift register
+
+Slave 1
+
+IO2
+IO3
+
+MISO
+MOSI
+
+Tx shift register
+Rx shift register
+
+SCK
+SS
+Slave 2
+
+MISO
+MOSI
+
+Tx shift register
+Rx shift register
+
+SCK
+SS
+Slave 3
+MSv50508V1
+
+1. The master single SS pin hardware output functionality cannot support this topology (to be replaced by a
+set of GPIOs under software control). The SS pin is free for other application uses (such as GPIO or other
+alternate functions). Refer to Section 68.4.7 for details.
+2. If the application cannot ensure that no more than a single SS active signal is provided by the master at a
+given time, it is better to configure the MISO pins in an open-drain configuration with an external pull-up on
+the MISO line to prevent conflicts between the interconnected outputs of the slaves. Else, a push-pull
+configuration can be applied without an extra resistor (see I/O alternate function input/output (GPIO)
+section).
+3. The RDY signals can be read by the master from the slaves optionally.
+
+68.4.6
+
+Multimaster communication
+Unless the SPI bus is not designed primarily for a multimaster capability, the user can use a
+built-in feature that detects a potential conflict between two nodes trying to master the bus at
+the same time. For this detection, the SS pin is configured in hardware input mode. The
+connection of more than two SPI nodes working in this mode is impossible, as only one
+node can apply its output on a common data line at a given time.
+When the nodes are not active, both stay in slave mode by default. Once a node wants to
+overtake control on the bus, it switches itself into master mode and applies active level on

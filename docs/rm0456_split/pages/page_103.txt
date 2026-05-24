@@ -1,0 +1,166 @@
+RM0456
+
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2240
+Interconnect to the tim_ti1 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2241
+Interconnect to the tim_ti2 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2241
+Interconnect to the tim_ti3 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2242
+Interconnect to the tim_ti4 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2242
+TIMx internal trigger connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2242
+Interconnect to the tim_etr input multiplexer
+for STM32U535/545/575/585 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2243
+Interconnect to the tim_etr input multiplexer
+for the STM32U59x/5Ax/5Fx/5Gx . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2243
+Interconnect to the tim_ocref_clr input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2244
+CCR and ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2275
+CCR register change dithering pattern in center-aligned PWM mode . . . . . . . . . . . . . . 2276
+Counting direction versus encoder signals(CC1P = CC2P = 0) . . . . . . . . . . . . . . . . . . . 2285
+Counting direction versus encoder signals and polarity settings . . . . . . . . . . . . . . . . . . 2290
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2314
+Effect of low-power modes on TIM2/TIM3/TIM4/TIM5 . . . . . . . . . . . . . . . . . . . . . . . . . . 2314
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2315
+Output control bit for standard tim_ocx channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2336
+TIM2/TIM3/TIM4/TIM5 register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . 2348
+TIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2354
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2355
+Interconnect to the tim_ti1 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2355
+Interconnect to the tim_ti2 input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2356
+TIMx internal trigger connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2356
+Timer break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2356
+System break interconnect . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2357
+Interconnect to the ocref_clr input multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2357
+CCR and ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2377
+Break protection disarming conditions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2386
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2397
+Effect of low-power modes on TIM15/TIM16/TIM17 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2398
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2398
+Output control bits for complementary tim_ocx and tim_ocxn channels with break
+feature (TIM15) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2414
+TIM15 register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2427
+Output control bits for complementary tim_oc1 and tim_oc1n channels with break
+feature (TIM16/TIM17) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2440
+TIM16/TIM17 register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2454
+TIM internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2457
+TIMx_ARR register change dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2467
+DMA request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2468
+Effect of low-power modes on TIM6/TIM7 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2468
+Interrupt request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2468
+TIMx register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2474
+STM32U5 series LPTIM features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2476
+LPTIM1/2/3 input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2478
+LPTIM4 input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2478
+LPTIM1/2/3 internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2479
+LPTIM4 internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2479
+LPTIM1/2/3/4 external trigger connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+LPTIM1/2/3/4 input 1 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+
+RM0456 Rev 6
+
+RM0456
+Table 606.
+Table 607.
+Table 608.
+Table 609.
+Table 610.
+Table 611.
+Table 612.
+Table 613.
+Table 614.
+Table 615.
+Table 616.
+Table 617.
+Table 618.
+Table 619.
+Table 620.
+Table 621.
+Table 622.
+Table 623.
+Table 624.
+Table 625.
+Table 626.
+Table 627.
+Table 628.
+Table 629.
+Table 630.
+Table 631.
+Table 632.
+Table 633.
+Table 634.
+Table 635.
+Table 636.
+Table 637.
+Table 638.
+Table 639.
+Table 640.
+Table 641.
+Table 642.
+Table 643.
+Table 644.
+Table 645.
+Table 646.
+Table 647.
+Table 648.
+Table 649.
+Table 650.
+Table 651.
+Table 652.
+Table 653.
+Table 654.
+Table 655.
+Table 656.
+Table 657.
+
+List of tables
+LPTIM1/2 input 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+LPTIM1/2/3 input capture 1 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2480
+LPTIM1 input capture 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2481
+LPTIM2 input capture 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2481
+LPTIM3 input capture 2 connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2481
+Prescaler division ratios . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2483
+Encoder counting scenarios . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2490
+Input capture Glitch filter latency (in counter step unit). . . . . . . . . . . . . . . . . . . . . . . . . . 2494
+Effect of low-power modes on the LPTIM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2499
+Interrupt events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2500
+LPTIM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2524
+GFXTIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2528
+GFXTIM internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2528
+GFXTIM trigger interconnections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2529
+Graphic timer interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2539
+GFXTIM register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2560
+STM32U5 series IWDG features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2564
+IWDG delays versus actions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2566
+IWDG internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2566
+Effect of low power modes on IWDG . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2570
+IWDG interrupt request . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2572
+IWDG register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2577
+WWDG features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2578
+WWDG internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2579
+WWDG interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2582
+WWDG register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2584
+RTC input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2588
+RTC internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2588
+RTC interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2589
+RTC pin PC13 configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2590
+RTC_OUT mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2592
+Effect of low-power modes on RTC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2607
+RTC pins functionality over modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2607
+Nonsecure interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2608
+Secure interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2608
+RTC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2638
+TAMP input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2643
+TAMP internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2643
+TAMP interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2644
+Device resource x tamper protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2650
+Active tamper output change period . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2653
+Minimum ATPER value. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2654
+Active tamper filtered pulse duration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2655
+Effect of low-power modes on TAMP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+TAMP pins functionality over modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+Interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2657
+TAMP register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2686
+STM32U535/545/575/585 I2C implementation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2689
+STM32U59x/5Ax/5Fx/5Gx I2C implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2689
+I2C input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2691
+I2C internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2692
+I2C1, I2C2, I2C4, I2C5, I2C6 interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2692
+
+RM0456 Rev 6

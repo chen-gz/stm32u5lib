@@ -1,0 +1,34 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Target receiver
+The RXNE bit of the I2C_ISR register is set when the I2C_RXDR is full, which generates an
+interrupt if the RXIE bit of the I2C_CR1 register is set. RXNE is cleared when I2C_RXDR is
+read.
+When STOP condition is received and the STOPIE bit of the I2C_CR1 register is set, the
+STOPF flag in the I2C_ISR register is set and an interrupt is generated.
+Figure 789. Transfer sequence flow for I2C target receiver, NOSTRETCH = 0
+
+Target reception
+
+Target initialization
+
+No
+I2C_ISR.ADDR
+=1?
+Yes
+SCL
+stretched
+Read ADDCODE and DIR in I2C_ISR
+Set I2C_ICR.ADDRCF
+
+No
+I2C_ISR.RXNE
+=1?
+Yes
+Write I2C_RXDR.RXDATA
+
+MSv19855V3

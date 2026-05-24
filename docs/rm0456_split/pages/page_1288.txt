@@ -1,0 +1,136 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+33.4.17
+
+RM0456
+
+Timing
+The elapsed time between the start of a conversion and the end of conversion is the sum of
+the configured sampling time plus the successive approximation time depending on data
+resolution for single conversion and minus the overlap time between the sampling and the
+previous SAR for continuous conversion.
+In single conversion mode:
+T
+
+T
+
+CONV
+
+= T
+
+SMPL
+
+CONV
+
++T
+
+SAR
+
+= T
+
+SMPL
+
+= 22 × T
+
++T
+
+SAR
+
+= [5
+
+min
+
++ 17
+
+14bits
+
+adc_ker_ck min for 14bits
+
+]× T
+
+adc_ker_ck
+
+= 400.0 ns (for F
+
+adc_ker_ck
+
+= 55 MHz)
+
+Figure 228. Analog-to-digital conversion time in single conversion
+ADC state
+
+RDY
+
+Analog channel
+
+Sampling Ch(N)
+
+Sampling Ch(N+1)
+Ch(N+1)
+
+Ch(N)
+
+Internal S/H
+
+Sample AIN(N)
+
+Hold AIN(N)
+
+(1)
+
+tSAR(2)
+
+tSMPL
+ADSTART
+
+Converting Ch(N)
+
+Sample AIN(N+1)
+
+Set by
+SW
+
+EOSMP
+
+Set by
+HW
+
+Cleared
+by SW
+Set by
+HW
+
+EOC
+ADC_DR
+
+Data N-1
+
+Cleared by
+HW/SW
+Data N
+
+Indicative timings
+MSv30532V2
+
+1. tSMPL depends on SMP[2:0].
+2. tSAR depends on RES[1:0].
+
+33.4.18
+
+Stopping an ongoing conversion (ADSTP, JADSTP)
+The software can decide to stop regular conversions ongoing by setting ADSTP, and
+injected conversions ongoing by setting JADSTP.
+Stopping conversions resets the ongoing ADC operation. The ADC can then be
+reconfigured (for example by changing the channel selection or the trigger). It is then ready
+for a new operation.
+Injected conversions can be stopped while regular conversions are still ongoing and vice
+versa. This enables, for instance, to reconfigure the injected conversion sequence and
+triggers while regular conversions are still ongoing (and vice versa).
+When the ADSTP bit is set by software, any ongoing regular conversion is aborted with
+partial result discarded (ADC_DR register is not updated with the current conversion).
+When the JADSTP bit is set by software, any ongoing injected conversion is aborted with
+partial result discarded (ADC_JDRy register is not updated with the current conversion).
+The scan sequence is also aborted and reset (meaning that relaunching the ADC would
+restart a new sequence).

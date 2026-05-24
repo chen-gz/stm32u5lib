@@ -1,0 +1,86 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 264. Interleaved conversion with injection
+Injected trigger
+
+Resume (always on master)
+
+CH11
+ADC1 (master)
+
+CH1
+
+ADC2 (slave)
+
+CH1
+CH2
+
+CH2
+read
+CDR
+
+Legend:
+
+Sampling
+
+CH1
+
+CH1
+CH2
+
+read
+CDR
+
+CH1
+CH2
+
+conversions
+aborted
+
+CH1
+CH2
+
+read
+CDR
+
+CH0
+read
+CDR
+
+Conversion
+
+MS34460V1
+
+Alternate trigger mode
+This mode is selected by programming bits DUAL[4:0] = 01001.
+This mode can be started only on an injected group. The source of external trigger comes
+from the injected group multiplexer of the master ADC.
+This mode is only possible when selecting hardware triggers: JEXTEN[1:0] must not be 0x0.
+Injected discontinuous mode disabled (JDISCEN = 0 for both ADC)
+1.
+
+When the 1st trigger occurs, all injected master ADC channels in the group are
+converted.
+
+2.
+
+When the 2nd trigger occurs, all injected slave ADC channels in the group are
+converted.
+
+3.
+
+And so on.
+
+A JEOS interrupt, if enabled, is generated after all injected channels of the master ADC in
+the group have been converted.
+A JEOS interrupt, if enabled, is generated after all injected channels of the slave ADC in the
+group have been converted.
+JEOC interrupts, if enabled, can also be generated after each injected conversion.
+If another external trigger occurs after all injected channels in the group have been
+converted then the alternate trigger process restarts by converting the injected channels of
+the master ADC in the group.
+
+RM0456 Rev 6

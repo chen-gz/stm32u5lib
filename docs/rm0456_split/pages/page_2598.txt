@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+Target byte control mode
+To allow byte ACK control in target reception mode, the target byte control mode must be
+enabled, by setting the SBC bit of the I2C_CR1 register. This is required to comply with
+SMBus standards.
+The reload mode must be selected to allow byte ACK control in target reception mode
+(RELOAD = 1). To get control of each byte, NBYTES[7:0] must be initialized to 0x1 in the
+ADDR interrupt subroutine, and reloaded to 0x1 after each received byte. When the byte is
+received, the TCR bit is set, stretching the SCL signal low between the eighth and the ninth
+SCL pulse. The user can read the data from the I2C_RXDR register, and then decide to
+acknowledge it or not by configuring the ACK bit of the I2C_CR2 register. The SCL stretch is
+released by programming NBYTES to a non-zero value: the acknowledge or
+not-acknowledge is sent and the next byte can be received.
+NBYTES[7:0] can be loaded with a value greater than 0x1. Receiving then continues until
+the corresponding number of bytes are received.
+Note:
+
+The SBC bit must be configured when the I2C peripheral is disabled, when the target is not
+addressed, or when ADDR = 1.
+The RELOAD bit value can be changed when ADDR = 1, or when TCR = 1.
+
+Caution:
+
+The target byte control mode is not compatible with NOSTRETCH mode. Setting SBC when
+NOSTRETCH = 1 is not allowed.
+Figure 785. Target initialization flow
+Target
+initialization
+
+Initial settings
+
+Clear OA1EN and OA2EN in I2C_OAR1/I2C_OAR2
+
+Configure OA1[9:0], OA1MODE, OA1EN, OA2[6:0],
+OA2MSK[2:0], OA2EN, and GCEN
+
+Optional: Configure SBC in I2C_CR1(1)
+
+Enable interrupts and/or DMA in I2C_CR1
+
+End
+MSv19850V4
+
+1. SBC must be set to support SMBus features.
+
+RM0456 Rev 6

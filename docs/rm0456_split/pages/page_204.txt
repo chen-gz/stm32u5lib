@@ -1,0 +1,214 @@
+275
+
+Global TrustZone controller (GTZC)
+•
+
+RM0456
+
+to 0x0000 0000, making these internal memories block nonsecure and unprivileged by
+default when TrustZone security is disabled at system level (TZEN = 0)
+
+For external memories and backup SRAM:
+•
+
+all GTZC_TZSC_MPCWMxzR registers are set to 0x0000 0000, making these
+memories secure and privileged by default when TrustZone security is enabled a
+system level (TZEN = 1).
+
+•
+
+GTZC_TZSC_MPCWMxzR registers are not accessible, and these memories are
+nonsecure and unprivileged by default when TrustZone security is disabled at system
+level (TZEN = 0).
+
+Secure boot code can then program the security settings, making components secure or not
+as needed.
+
+5.5
+
+GTZC interrupts
+TZIC is a secure peripheral, thus it systematically generates an illegal access event when
+accessed by a nonsecure access. The MPCBB and TZSC are TrustZone-aware
+peripherals, meaning that secure and nonsecure registers co-exist within the peripheral.
+Table 38. GTZC interrupt request
+Event flag
+
+Enable control bit
+
+Interrupt clear
+method
+
+Exit
+Sleep
+mode
+
+Exit
+Exit
+Stop Standby
+mode
+mode
+
+All flags in
+GTZC_TZIC_SRx
+
+All bits in
+GTZC_TZIC_IERx
+
+Write 1 in the bit
+GTZC_TZIC_FCRx
+
+Yes
+
+Yes
+
+Interrupt Interrupt
+acronym event
+Illegal
+access
+
+GTZC
+
+5.6
+
+No
+
+GTZC1 TZSC registers
+All registers are accessed only by words (32-bit).
+
+5.6.1
+
+GTZC1 TZSC control register (GTZC1_TZSC_CR)
+Address offset: 0x000
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+LCK
+rs
+
+Bits 31:1 Reserved, must be kept at reset value.

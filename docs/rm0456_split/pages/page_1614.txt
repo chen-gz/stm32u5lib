@@ -1,0 +1,47 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+The SincN digital filter embedded into the ADF can be configurable in Sinc4 or Sinc5,
+according to CICMOD:
+•
+
+If CICMOD[2:0] = 4, Sinc4 is selected.
+
+•
+
+If CICMOD[2:0] = 5, Sinc5 is selected.
+
+The filters have the following transfer function:
+
+⎛ 1 – z –D⎞
+H ( z ) = ⎜ ----------------⎟
+⎝ 1 – z–1 ⎠
+
+N
+
+where N can be 4 or 5, and D is the decimation ratio. D is equal to MCICD+1.
+Figure 369. CIC4 and CIC5 frequency response with decimation ratio = 32 or 16
+
+MSv63614V1
+
+CIC output data size
+The size of samples delivered by the CIC (DSCIC), depends on the following parameters:
+•
+
+CIC order (N)
+
+•
+
+CIC decimation ratio (D)
+
+•
+
+data size of the input stream (DSIN)
+
+The CIC order and decimation ratio must be programmed in order to insure that the data
+size does not exceed the 26-bit CIC capability.
+The following formula gives the output data size (DSCIC) according to the parameters
+above.

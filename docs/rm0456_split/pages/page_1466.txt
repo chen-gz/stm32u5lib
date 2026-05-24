@@ -1,0 +1,110 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+DMA transfers in autonomous mode are performed following the sequence described
+below:
+1.
+
+The DAC outputs the voltage on a GPIO or on an on-chip peripheral (dac_ker_ck and
+dac_hclk are not required).
+
+2.
+
+The DAC receives a hardware trigger from another peripheral.
+
+3.
+
+The DAC asserts the clock request.
+
+4.
+
+The DAC loads the DAC_DHRx register into DAC_DOR register.
+
+5.
+
+The DAC generates a DMA request.
+
+6.
+
+The DMA transfers the new data from memory to DAC_DHRx registers.
+
+7.
+
+The DAC deasserts the clock request.
+
+To initialize the DAC to operate autonomously in Stop mode, follow the sequence below:
+1.
+
+Enable the DAC clock autonomous mode in the RCC.
+
+2.
+
+Select the DAC kernel clock in the RCC.
+
+3.
+
+Enable dac_hold_ck clock for the DAC in the RCC.
+
+4.
+
+Select a sample and hold mode through MODEx bit.
+
+5.
+
+Configure the sample and hold mode by setting TSAMPLEx[9:0], THOLDx[9:0],
+TREFRESHx[7:0] bits.
+
+6.
+
+Load the target value into DAC_DHRx register.
+
+7.
+
+Set TENx bit to output the DAC value.
+
+8.
+
+Configure the trigger setting through TSEL[3:0] bits.
+
+9.
+
+Set DMAENx bit and configure the DMA interface.
+
+10. Set the AUTOMODE bit.
+
+Timing uncertainty of DAC_DHRx to DAC_DOR transfer
+After each trigger event, the data contained in DAC_DHRx register is transferred to the
+DAC_DOR register. Since this transfer is based on AHB clock, the transfer timing depends
+on the clock availability.
+When the AHB clock is stopped, a minimum time is required to restart it. This time depends
+on the clock source.
+
+35.5
+
+DAC in low-power modes
+Table 348. Effect of low-power modes on DAC
+Mode
+
+Description
+
+Sleep
+
+No effect, DAC used with DMA.
+
+Stop(1)
+
+The DAC remains functional and can perform DMA transfers in sample and
+hold mode.
+
+Standby
+
+The DAC peripheral is powered down and must be reinitialized after exiting
+Standby or Shutdown mode.
+
+Shutdown
+
+1. Refer to Section 35.3: DAC implementation for information on the Stop modes supported by the DAC
+peripheral.

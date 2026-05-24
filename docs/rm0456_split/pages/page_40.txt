@@ -1,0 +1,128 @@
+90
+
+Contents
+
+36
+
+37
+
+38
+
+RM0456
+
+Voltage reference buffer (VREFBUF) . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+36.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+
+36.2
+
+VREFBUF implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+
+36.3
+
+VREFBUF functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+
+36.4
+
+VREFBUF trimming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1487
+
+36.5
+
+VREFBUF registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1488
+36.5.1
+
+VREFBUF control and status register (VREFBUF_CSR) . . . . . . . . . 1488
+
+36.5.2
+
+VREFBUF calibration control register (VREFBUF_CCR) . . . . . . . . . 1489
+
+36.5.3
+
+VREFBUF register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1489
+
+Comparator (COMP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+37.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+
+37.2
+
+COMP main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+
+37.3
+
+COMP implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+
+37.4
+
+COMP functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+37.4.1
+
+COMP block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+
+37.4.2
+
+COMP pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+
+37.4.3
+
+Comparator LOCK mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1493
+
+37.4.4
+
+Window comparator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1493
+
+37.4.5
+
+Hysteresis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+
+37.4.6
+
+Comparator output-blanking function . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+
+37.4.7
+
+COMP power and speed modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1495
+
+37.4.8
+
+Scaler function . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1495
+
+37.5
+
+COMP low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1496
+
+37.6
+
+COMP interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1496
+
+37.7
+
+COMP registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1497
+37.7.1
+
+COMP1 control and status register (COMP1_CSR) . . . . . . . . . . . . . 1497
+
+37.7.2
+
+COMP2 control and status register (COMP2_CSR) . . . . . . . . . . . . . 1498
+
+37.7.3
+
+COMP register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1500
+
+Operational amplifier (OPAMP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+38.1
+
+OPAMP introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+
+38.2
+
+OPAMP main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+
+38.3
+
+OPAMP functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+38.3.1

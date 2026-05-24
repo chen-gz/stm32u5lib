@@ -1,0 +1,84 @@
+RM0456 Rev 6
+
+RM0456
+
+Data cache (DCACHE)
+Figure 31. DCACHE TAG and data memories functional view
+T-bit
+
+AHB_address
+(HADDR_in)
+
+pLRU-t
+
+Vn-1 Pn-1 Dn-1
+V0
+
+P0 D0
+
+W-bit
+
+TAG
+
+Index
+
+Offset
+
+way selection
+(for replacement)
+
+TAG_Way(n-1)
+
+Data_Way(n-1)
+
+TAG_Way0
+
+Data_Way0
+
+Data memory
+
+n ways
+
+T-bit
+
+LpW lines / way
+
+LpW lines / way
+
+TAG memory
+
+n ways
+
+B-bit
+
+l-bit
+
+==
+==
+
+Cache hit/miss, in Way(n-1)
+Cache hit/miss, in Way0
+MSv49708V2
+
+9.4.4
+
+DCACHE enable
+To activate the DCACHE functioning, the EN bit must be set in DCACHE_CR control
+register.
+When DCACHE is disabled, it is bypassed and all transactions are copied from slave port to
+master port in the same clock cycle, and no comparison is performed with TAG address.
+DCACHE is by default disabled at boot.
+
+9.4.5
+
+Cacheable and noncacheable traffic
+DCACHE is developed for a Cortex®-M33 core or another bus master peripheral and
+caches the memory regions addressed by the AHB bus connected to it.
+In addition, the AHB bus traffic to the memory regions can be cacheable or noncacheable.
+An incoming memory request to DCACHE is defined as cacheable according to its AHB
+transaction memory lookup attribute.
+In case of write transaction, the DCACHE write policy is defined as write-through or writeback according to its AHB transaction memory bufferable attribute (see Table 92).
+These AHB attributes depend on the memory protection unit (MPU) programming for the
+addressed region.
+
+RM0456 Rev 6

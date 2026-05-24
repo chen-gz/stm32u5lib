@@ -1,0 +1,70 @@
+RM0456 Rev 6
+
+RM0456
+
+18.4.8
+
+Low-power direct memory access controller (LPDMA)
+
+LPDMA channel state and linked-list programming in link step mode
+When LPDMA_CxCR.LSM = 1, a channel transfer is executed and completed after each
+single execution of a LLI, including its (conditional) data transfer and its (conditional) link
+transfer.
+A LPDMA channel transfer can be programmed at LLI level, started by writing 1 into
+LPDMA_CxCR.EN, and after completed at LLI level:
+•
+
+•
+
+Note:
+
+The current LLIn transfer is described with:
+–
+
+LPDMA_CxTR1 defines the source/destination elementary single transfers.
+
+–
+
+LPDMA_CxBR1 defines the number of bytes at a block level (BNDT[15:0]).
+
+–
+
+LPDMA_CxTR2 defines the input control (request, trigger) and the output control
+(transfer complete event) of the transfer.
+
+–
+
+LPDMA_CxSAR/LPDMA_CxDAR defines the source/destination transfer start
+address.
+
+–
+
+LPDMA_CxLLR defines the data structure and the address offset of the next
+LLIn+1 in the memory.
+
+The current LLIn transfer is completed after the single execution of the current LLIn:
+–
+
+after the (conditional) data transfer completion (when
+LPDMA_CxBR1.BNDT[15:0] = 0)
+
+–
+
+after the (conditional) update of the LPDMA link register file from the data structure
+of the next LLIn+1 in memory
+
+If a LLI is recursive (pointing to itself as a next LLI, either LPDMA_CxLLR.ULL = 1 and
+LPDMA_CxLLR.LA[15:2] is updated by the same value, or LPDMA_CxLLR.ULL = 0), a
+channel in link step mode is completed after each repeated single execution of this LLI.
+Figure 80 depicts the LPDMA channel execution mode, and its programming in link step
+mode.
+
+Note:
+
+Figure 80 is not intended to illustrate how often a TCEF can be raised, depending on the
+programmed value of TCEM[1:0] in LPDMA_CxTR2. It can be raised at (each) block
+completion, at (each) 2D block completion, at (each) LLI completion, or only at the last LLI
+data transfer completion. In link step mode, the channel is disabled after each single
+execution of a LLI, and depending on the value of TCEM[1:0] a TCEF is raised or not.
+
+RM0456 Rev 6

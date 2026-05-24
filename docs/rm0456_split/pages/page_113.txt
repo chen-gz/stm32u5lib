@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 286. Stopping an ongoing conversion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1395
+Figure 287. Single conversions of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1398
+Figure 288. Continuous conversion of a sequence, software trigger . . . . . . . . . . . . . . . . . . . . . . . . . 1399
+Figure 289. Single conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . . . . . 1399
+Figure 290. Continuous conversions of a sequence, hardware trigger . . . . . . . . . . . . . . . . . . . . . . . 1400
+Figure 291. Data alignment and resolution (oversampling disabled: OVSE = 0). . . . . . . . . . . . . . . . 1401
+Figure 292. Example of overrun (OVR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1402
+Figure 293. Wait conversion mode (continuous mode, software trigger). . . . . . . . . . . . . . . . . . . . . . 1404
+Figure 294. Auto-off mode state diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1406
+Figure 295. ADC behavior with WAIT = 0 and AUTOFF = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1406
+Figure 296. ADC behavior with WAIT = 1 and AUTOFF = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1407
+Figure 297. Autonomous mode state diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1408
+Figure 298. Analog watchdog guarded area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1409
+Figure 299. ADC_AWDx_OUT signal generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1410
+Figure 300. ADC_AWDx_OUT signal generation (AWDx flag not cleared by software) . . . . . . . . . . 1411
+Figure 301. ADC_AWDx_OUT signal generation (on a single channel) . . . . . . . . . . . . . . . . . . . . . . 1411
+Figure 302. Analog watchdog threshold update . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1412
+Figure 303. 20-bit to 16-bit result truncation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1412
+Figure 304. Numerical example with 5-bits shift and rounding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1413
+Figure 305. Triggered oversampling mode (TOVS bit = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1415
+Figure 306. Temperature sensor and VREFINT channel block diagram . . . . . . . . . . . . . . . . . . . . . . 1416
+Figure 307. VBAT channel block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1418
+Figure 308. Dual-channel DAC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1446
+Figure 309. Data registers in single DAC channel mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1449
+Figure 310. Data registers in dual DAC channel mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1450
+Figure 311. Timing diagram for conversion with trigger disabled TEN = 0 . . . . . . . . . . . . . . . . . . . . 1451
+Figure 312. DAC LFSR register calculation algorithm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1454
+Figure 313. DAC conversion (SW trigger enabled) with LFSR wave generation. . . . . . . . . . . . . . . . 1454
+Figure 314. DAC triangle wave generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1455
+Figure 315. DAC conversion (SW trigger enabled) with triangle wave generation . . . . . . . . . . . . . . 1455
+Figure 316. DAC sample and hold mode phase diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1458
+Figure 317. VREFBUF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+Figure 318. Comparator block diagrams . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+Figure 319. Window mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+Figure 320. Comparator hysteresis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+Figure 321. Comparator output blanking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1495
+Figure 322. Scaler . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1496
+Figure 323. Standalone mode: external gain setting mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1503
+Figure 324. Follower configuration. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1504
+Figure 325. PGA mode, internal gain setting (x2/x4/x8/x16), inverting input not used . . . . . . . . . . . 1505
+Figure 326. PGA mode, internal gain setting (x2/x4/x8/x16), inverting input used for
+filtering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1506
+Figure 327. MDF block diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1518
+Figure 328. SITFx overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1522
+Figure 329. SPI timing example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1523
+Figure 330. Manchester timing example (SITFMOD = 11) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1525
+Figure 331. CKGEN overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1528
+Figure 332. BSMX overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1530
+Figure 333. SCD functional view . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1531
+Figure 334. SCD timing example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1531
+Figure 335. DFLT overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1533
+Figure 336. Programmable delay. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1534
+
+RM0456 Rev 6

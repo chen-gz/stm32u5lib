@@ -1,0 +1,42 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+When the serial interface is enabled, the CKABF flag remains to 1 until a first clock transition
+is detected.
+To avoid spurious clock absence detection, the following sequence must be respected:
+1.
+
+Configure the serial interface in normal SPI mode and enable it.
+
+2.
+
+Clear the CKABF flag by writing CKABF bit to 1.
+If no clock transition is detected on the serial interface, the hardware immediately sets
+the CKABF flag to 1.
+
+3.
+
+Note:
+
+Read the CKABF flag:
+–
+
+If CKABF = 1, go back to step 2.
+
+–
+
+If CKABF i= 0, a clock has been detected. The CKABIE bit can be set to 1 if the
+application wants an interrupt on detection of a clock absence.
+
+The clock absence detection feature is not available in the LF_MASTER SPI mode.
+
+Manchester mode
+In Manchester coded format, the MDF receives data stream from the external sensor via the
+MDF_SDIx pin only.
+The MDF_CKIx pins are not needed in this mode.
+Decoded data and clock signals are recovered from serial stream after Manchester
+decoding. They are available on bsx_r. There are two possible settings of Manchester
+codings:

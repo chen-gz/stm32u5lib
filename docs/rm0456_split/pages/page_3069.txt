@@ -1,0 +1,50 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 4 RXFFLSH: Rx FIFO flush
+The application can flush the entire Rx FIFO using this bit, but must first ensure that the core
+is not in the middle of a transaction.
+The application must only write to this bit after checking that the core is neither reading from
+the Rx FIFO nor writing to the Rx FIFO.
+The application must wait until the bit is cleared before performing any other operations. This
+bit requires 8 clocks (slowest of PHY or AHB clock) to clear.
+Note: Accessible in both device and host modes.
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 FCRST: Host frame counter reset
+The application writes this bit to reset the frame number counter inside the core. When the
+frame counter is reset, the subsequent SOF sent out by the core has a frame number of 0.
+When application writes '1' to the bit, it might not be able to read back the value as it gets
+cleared by the core in a few clock cycles.
+Note: Only accessible in host mode.
+Bit 1 PSRST: Partial soft reset
+Resets the internal state machines but keeps the enumeration info. Can be used to recover
+some specific PHY errors.
+Note: Accessible in both device and host modes.
+Bit 0 CSRST: Core soft reset
+Resets the HCLK and PHY clock domains as follows:
+Clears the interrupts and all the CSR register bits except for the following bits:
+– GATEHCLK bit in OTG_PCGCCTL
+– STPPCLK bit in OTG_PCGCCTL
+– FSLSPCS bits in OTG_HCFG
+– DSPD bit in OTG_DCFG
+– SDIS bit in OTG_DCTL
+– OTG_GCCFG register
+All module state machines (except for the AHB slave unit) are reset to the Idle state, and all
+the transmit FIFOs and the receive FIFO are flushed.
+Any transactions on the AHB Master are terminated as soon as possible, after completing the
+last data phase of an AHB transfer. Any transactions on the USB are terminated immediately.
+The application can write to this bit any time it wants to reset the core. This is a self-clearing
+bit and the core clears this bit after all the necessary logic is reset in the core, which can take
+several clocks, depending on the current state of the core. Once this bit has been cleared,
+the software must wait at least 3 PHY clocks before accessing the PHY domain
+(synchronization delay). The software must also check that bit 31 in this register is set to 1
+(AHB Master is Idle) before starting any operation.
+Typically, the software reset is used during software development and also when the user
+dynamically changes the PHY selection bits in the above listed USB configuration registers.
+When the user changes the PHY, the corresponding clock for the PHY is selected and used
+in the PHY domain. Once a new clock is selected, the PHY domain has to be reset for proper
+operation.
+Note: Accessible in both device and host modes.

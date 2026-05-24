@@ -1,0 +1,173 @@
+RM0456 Rev 6
+
+RM0456
+
+33.3
+
+Analog-to-digital converter (ADC12)
+
+ADC implementation
+The tables below describe the ADC implementation on STM32U5 series devices. It also
+includes ADC4 for comparison.
+Table 302. ADC features(1)
+ADC modes/features
+
+STM32U535/545/ STM32U59x/5Ax/
+575/585
+5Fx/5Gx
+ADC1
+
+ADC1
+
+STM32U535/545/575/585/
+59x/5Ax/5Fx/5Gx
+
+ADC2
+
+ADC4
+
+Resolution
+
+14 bits
+
+12 bits
+
+Maximum sampling speed
+for 14-bit resolution
+
+2.5 Msps
+
+2.5 Msps
+
+Hardware offset calibration
+
+X
+
+X
+
+X
+
+-
+
+Hardware linearity calibration
+Extended calibration mode
+
+X
+
+(2)
+
+X
+
+-
+
+Single-ended inputs
+
+X
+
+X
+
+Differential inputs
+
+X
+
+-
+
+Injected channel conversion
+
+X
+
+-
+
+Oversampling
+
+up to x1024
+
+up to x256
+
+Data register
+
+32 bits
+
+16 bits
+
+DMA support
+
+X
+
+X
+
+Parallel data output to MDF
+
+X
+
+-
+
+Dual mode
+
+-
+
+X
+
+-
+
+Autonomous mode
+
+-
+
+X
+
+Offset compensation
+
+X
+
+-
+
+Gain compensation
+
+X
+
+-
+
+Number of analog watchdogs
+
+3
+
+3
+
+Wake-up from Stop mode
+
+-
+
+X(3)
+
+1. Note: ‘X’ = supported, ‘-’ = not supported.
+2. For STM32U575/585, the extended calibration mode is not supported on device revision X.
+3. Wake-up supported from Stop 0, Stop 1 and Stop 2 modes.
+
+Table 303. Memory location of the temperature sensor calibration values
+Name
+
+Description
+
+Memory address
+
+TS_CAL1
+
+Temperature sensor 14-bit raw data
+acquired by ADC1 at 30 °C (± 5 °C),
+VDDA = VREF+ = 3.0 V (±10 mV)
+
+0x0BFA 0710 - 0x0BFA 0711
+
+TS_CAL2
+
+Temperature sensor 14-bit raw data
+acquired by ADC1 at 130 °C (± 5 °C),
+VDDA = VREF+ = 3.0 V (±10 mV)
+
+0x0BFA 0742 - 0x0BFA 0743
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,176 @@
+1886
+
+JPEG codec (JPEG)
+
+RM0456
+
+Bit 4 OFNEF: Output FIFO not empty flag
+This bit flags that data is available in the output FIFO. This flag must not be considered when
+using DMA.
+0: Empty (data not available)
+1: Not empty (data available)
+Bit 3 OFTF: Output FIFO threshold flag
+This bit flags that the amount of data in the output FIFO reaches or exceeds a threshold. This
+flag must not be considered when using DMA.
+0: Below threshold
+1: At or above threshold
+Bit 2 IFNFF: Input FIFO not full flag
+This bit flags that the input FIFO is not full (data can be written). This flag must not be
+considered when using DMA.
+0: Full
+1: Not full
+Bit 1 IFTF: Input FIFO threshold flag
+This bit flags that the amount of data in the input FIFO is below a threshold. This flag must not
+be considered when using DMA.
+0: At or above threshold
+1: Below threshold.
+Bit 0 Reserved, must be kept at reset value.
+
+46.5.8
+
+JPEG clear flag register (JPEG_CFR)
+Address offset: 0x038
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+CHPDF CEOCF
+rt_w1
+
+rt_w1
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bit 6 CHPDF: Clear header parsing done flag
+Writing 1 clears the HPDF bit of the JPEG_SR register.
+0: No effect
+1: Clear
+Bit 5 CEOCF: Clear end of conversion flag
+Writing 1 clears the ECF bit of the JPEG_SR register.
+0: No effect
+1: Clear
+Bits 4:0 Reserved, must be kept at reset value.
+
+<!-- pagebreak -->
+

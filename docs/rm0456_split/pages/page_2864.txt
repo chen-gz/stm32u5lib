@@ -1,0 +1,65 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+interrupt (FREQ bit in the SAI_xSR register) is cleared by hardware when the FIFO is not
+full (FLVL[2:0] bits in SAI_xSR are less than 0b101).
+Like interrupt generation, the SAI can use the DMA if the DMAEN bit in the SAI_xCR1
+register is set. The FREQ bit assertion mechanism is the same as the interrupt generation
+mechanism described above for FREQIE.
+Each FIFO is an 8-word FIFO. Each read or write operation from/to the FIFO targets one
+word FIFO location whatever the access size. Each FIFO word contains one audio slot.
+FIFO pointers are incremented by one word after each access to the SAI_xDR register.
+Data must be right-aligned when written in the SAI_xDR register.
+Data received are right-aligned in the SAI_xDR register.
+The FIFO pointers can be reinitialized when the SAI is disabled by configuring the FFLUSH
+bit in the SAI_xCR2 register. If FFLUSH is set when the SAI is enabled, the data present in
+the FIFO are lost automatically.
+
+PDM interface
+The PDM (pulse density modulation) interface is provided in order to support digital
+microphones. Up to 4 digital microphone pairs can be connected in parallel. Depending on
+product implementation, less microphones can be supported (refer to Section 69.3: SAI
+implementation).
+Figure 866 shows a typical connection of a digital microphone pair via a PDM interface.
+Both microphones share the same bitstream clock and data line. Thanks to a configuration
+pin (LR), a microphone can provide valid data on SAI_CK[m] rising edge while the other
+provides valid data on SAI_CK[m] falling edge (m being the number of clock lines).
+Figure 866. PDM typical connection and timing
+Vcc
+LR
+
+SAI
+SAI_A
+
+TDM link
+M Audio link
+
+PDM_IF
+
+69.4.10
+
+SAI_Dn
+MpL
+SAI_CKm
+GND
+LR
+
+MpR
+
+SAI_Dn
+
+MpL MpR MpL MpR MpL MpR MpL MpR MpL
+
+SAI_CKm
+MSv35467V7
+
+1. n refers to the number of data lines and p to the number of microphone pairs.
+
+The PDM function is intended to be used in conjunction with SAI_A subblock configured in
+TDM master mode. It cannot be used with SAI_B subblock. The PDM interface uses the
+timing signals provided by the serial audio interface of SAI_A and adapts them to generate a
+bitstream clock (SAI_CK[m]).
+
+RM0456 Rev 6

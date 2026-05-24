@@ -1,0 +1,82 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Peripheral Tx FIFOs
+The core has a dedicated FIFO for each IN endpoint. The application configures FIFO sizes
+by writing the endpoint 0 transmit FIFO size register (OTG_DIEPTXF0) for IN endpoint0 and
+the device IN endpoint transmit FIFOx registers (OTG_DIEPTXFx) for IN endpoint-x.
+
+72.11.2
+
+Host FIFO architecture
+Figure 900. Host-mode FIFO address mapping and AHB FIFO access mapping
+Single data
+FIFO
+
+Any periodic channel
+DFIFO push access
+from AHB
+
+Periodic Tx
+packets
+Periodic Tx FIFO
+control (optional)
+
+OTG_HPTXFSIZ[31:16]
+
+OTG_HPTXFSIZ[15:0]
+
+MAC pop
+Any non-periodic
+channel DFIFO push
+access from AHB
+
+Non-periodic
+Tx packets
+Non-periodic Tx
+FIFO control
+
+OTG_HNPTXFSIZ[31:16]
+
+OTG_HNPTXFSIZ[15:0]
+
+MAC pop
+Rx packets
+Any channel DFIFO pop
+access from AHB
+
+OTG_GRXFSIZ[15:0]
+
+Rx FIFO control
+Rx start address fixed to 0
+A1=0
+
+MAC push
+
+MSv36930V1
+
+Host Rx FIFO
+The host uses one receiver FIFO for all periodic and nonperiodic transactions. The FIFO is
+used as a receive buffer to hold the received data (payload of the received packet) from the
+USB until it is transferred to the system memory. Packets received from any remote IN
+endpoint are stacked back-to-back until free space is available. The status of each received
+packet with the host channel destination, byte count, data PID and validity of the received
+data are also stored into the FIFO. The size of the receive FIFO is configured in the receive
+FIFO size register (OTG_GRXFSIZ).
+The single receive FIFO architecture makes it highly efficient for the USB host to fill in the
+receive data buffer:
+•
+
+All IN configured host channels share the same RAM buffer (shared FIFO)
+
+•
+
+The OTG_FS core can fill in the receive FIFO up to the limit for any sequence of IN
+tokens driven by the host software
+
+The application receives the Rx FIFO not-empty interrupt as long as there is at least one
+packet available for download. It reads the packet information from the receive status read
+and pop register and finally pops the data off the receive FIFO.

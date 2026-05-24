@@ -1,0 +1,92 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+The Synchronous single-shot acquisition mode is selected when ACQMOD[2:0] = 011.
+The sequence below shows the most important programming steps (assuming that DFLTEN
+bits of the filters are set to 0):
+1.
+
+Configure and enable the clock generator (CKGEN), so that the frequency of
+mdf_proc_ck clock is compatible with the targeted application (see examples in
+Table 381).
+
+2.
+
+Enable the CKGEN and, if needed, enable the MDF_CCK0 and MDF_CCK1 clocks.
+
+3.
+
+Program the wanted filter configuration and set the ACQMOD[2:0] to 011.
+
+4.
+
+Set to 1 the SITFEN bit of the requested data interfaces.
+
+5.
+
+Select the proper trigger source and sensitivity for each filter.
+
+6.
+
+Before setting DFLTEN to 1, wait for DFLTACTIVE = 0: it insures that the previous filter
+deactivation sequence has been properly terminated.
+
+7.
+
+Set DFLTEN to 1 for the filters to enable.
+
+8.
+
+Then when the trigger condition is met, the filters start the acquisition and provide one
+data to the RXFIFO, then the filters are ready to accept a new trigger.
+
+TRGSENS allows the selection of the trigger edge (rising or falling). The trigger is ignored if
+an acquisition is ongoing or if DFLTEN is set to 0.
+The figure below shows a simplified example where the trigger logic is sensitive to a rising
+edge trigger (TRGSENS = 0). Every time a trigger rising edge is detected with DFLTEN = 1,
+an acquisition sequence is triggered. The first samples provided by the filter can be
+discarded if needed. At the end of each conversion, the decimation counters and filter taps
+are reset. DFLTRUN is set to 0 and the filter is ready to start a new conversion.
+Figure 344. Synchronous single-shot mode (ACQMOD[2:0] = 011)
+MDF_DFLTxCR.DFLTEN
+mdf_trgi[y]
+Discard (note)
+DFLTx output
+
+X
+
+...
+
+X
+
+Discard (note)
+
+S1
+
+X
+
+...
+
+X OFF
+S2
+Dropped !
+
+MDF_DFLTxCR.DFLTRUN
+MDF_DFLTxCR.DFLTACTIVE
+
+MDF_CCK/CKI
+Note: the discard phase is optional.
+
+Note:
+
+MSv62679V1
+
+The acquisition can be stopped by setting DFLTEN back to 0. This resets the filter and
+flushes the RXFIFO, so the samples located into the RXFIFO are lost. The ongoing DMA
+transfer is properly terminated. DFLTACTIVE goes back to 0 when the filter chain is reset
+and the RXFIFO flushed.
+Figure 344 shows a case where DFLTEN is cleared to 0 while an acquisition is ongoing:
+thus the sample S2 is lost. This situation can be avoided with the following steps:

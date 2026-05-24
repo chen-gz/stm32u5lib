@@ -1,0 +1,64 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+18.4.16
+
+RM0456
+
+LPDMA error management
+LPDMA is able to manage and report to the user a transfer error, as follows, depending on
+the root cause.
+
+Data transfer error
+On a bus access (as a AHB single) to the source or the destination:
+•
+
+The source or destination target reports an AHB error.
+
+•
+
+The programmed channel transfer is stopped (LPDMA_CxCR.EN cleared by the
+LPDMA hardware). The channel status register reports an idle state
+(LPDMA_CxSR.IDLEF = 1) and the data error (LPDMA_CxSR.DTEF = 1).
+
+•
+
+After a LPDMA data transfer error, the user must perform a debug session, taking care
+of the product-defined memory mapping of the source and destination, including the
+protection attributes.
+
+•
+
+After a LPDMA data transfer error, the user must issue a channel reset
+(set LPDMA_CxCR.RESET) to reset the hardware LPDMA channel data path before
+the user enables again the same channel for a next transfer.
+
+Link transfer error
+On a tentative update of a LPDMA channel register from the programmed LLI in the
+memory:
+•
+
+The linked-list memory reports an AHB error.
+
+•
+
+The programmed channel transfer is stopped (LPDMA_CxCR.EN cleared by the
+LPDMA hardware), the channel status register reports an idle state
+(LPDMA_CxSR.IDLEF = 1) and the link error (LPDMA_CxSR.ULEF = 1).
+
+•
+
+After a LPDMA link error, the user must perform a debug session, taking care of the
+product-defined memory mapping of the linked-list data structure (LPDMA_CxLBAR
+and LPDMA_CxLLR), including the protection attributes.
+
+•
+
+After a LPDMA link error, the user must explicitly write the linked-list register file
+(LPDMA_CxTR1, LPDMA_CxTR2, LPDMA_CxBR1, LPDMA_CxSAR,
+LPDMA_CxDAR and LPDMA_CxLLR), before the user enables again the same
+channel for a next transfer.
+
+User setting error
+On a tentative execution of a LPDMA transfer with an unauthorized user setting:

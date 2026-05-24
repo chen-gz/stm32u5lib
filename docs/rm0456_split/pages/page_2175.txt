@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+This feature can be used for monitoring the counting direction (or rotation direction) in
+encoder mode, or to have a signal indicating the up/down phases in center-aligned PWM
+mode.
+
+54.3.27
+
+UIF bit remapping
+The IUFREMAP bit in the TIMx_CR1 register forces a continuous copy of the update
+interrupt flag UIF into the timer counter register’s bit 31 (TIMxCNT[31]). This allows both the
+counter value and a potential roll-over condition signaled by the UIFCPY flag to be read in
+an atomic way. In particular cases, it can ease the calculations by avoiding race conditions,
+caused for instance by a processing shared between a background task (counter reading)
+and an interrupt (update interrupt).
+There is no latency between the UIF and UIFCPY flags assertion.
+
+54.3.28
+
+Timer input XOR function
+The TI1S bit in the TIMx_CR2 register, allows the input filter of channel 1 to be connected to
+the output of an XOR gate, combining the three input pins tim_ti1, tim_ti2 and tim_ti3.
+The XOR output can be used with all the timer input functions such as trigger or input
+capture. It is convenient to measure the interval between edges on two input signals, as per
+Figure 593.
+Figure 593. Measuring time interval between edges on three signals
+
+tim_ti1
+tim_ti2
+tim_ti3
+
+XOR
+
+TIMx
+Counter
+MSv75854V1
+
+54.3.29
+
+Interfacing with Hall sensors
+This is done using the advanced-control timers to generate PWM signals to drive the motor
+and another timer TIMx referred to as “interfacing timer” in Figure 594. The “interfacing
+timer” captures the three timer input pins (tim_ti1, tim_ti2 and tim_ti3) connected through a
+XOR to the tim_ti1 input channel (selected by setting the TI1S bit in the TIMx_CR2 register).
+The slave mode controller is configured in reset mode; the slave input is tim_ti1f_ed. Thus,
+each time one of the three inputs toggles, the counter restarts counting from 0. This creates
+a time base triggered by any change on the Hall inputs.
+On the “interfacing timer”, capture/compare channel 1 is configured in capture mode,
+capture signal is tim_trc (See Figure 536). The captured value, which corresponds to the
+time elapsed between two changes on the inputs, gives information about motor speed.
+
+RM0456 Rev 6

@@ -1,0 +1,103 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Trigger hit memorization and trigger overrun flag generation
+The GPDMA monitoring of a trigger for a channel x is started when the channel is
+enabled/loaded with a new active trigger configuration: rising or falling edge on a selected
+trigger (respectively TRIGPOL[1:0] = 01 or TRIGPOL[1:0] = 10).
+The monitoring of this trigger is kept active during the triggered and uncompleted (data or
+link) transfer. If a new trigger is detected, this hit is internally memorized to grant the next
+transfer, as long as the defined rising/falling edge and TRIGSEL[6:0] are not modified, and
+the channel is enabled.
+Transferring a next LLIn+1, that updates the GPDMA_CxTR2 with a new value for any of
+TRIGSEL[6:0] or TRIGPOL[1:0], resets the monitoring, trashing the possible memorized hit
+of the formerly defined LLIn trigger.
+Caution:
+
+After a first new trigger hitn+1 is memorized, if another trigger hitn+2 is detected and if the hitn
+triggered transfer is still not completed, hitn+2 is lost and not memorized. A trigger overrun
+flag is reported (GPDMA_CxSR.TOF = 1) and an interrupt is generated if enabled
+(if GPDMA_CxCR.TOIE = 1). The channel is not automatically disabled by hardware due to
+a trigger overrun.
+Figure 69 illustrates the trigger hit, memorization and overrun in the configuration example
+with a block-level trigger mode and a rising edge trigger polarity.
+Figure 69. Trigger hit, memorization, and overrun waveform
+
+Channel state
+
+IDLE
+
+ACTIVE
+
+Trigger
+
+Peripheral
+request
+block transfer
+
+DMA transfer
+Trigger monitoring
+state
+
+Idle
+
+Active (monitoring)
+
+Trigger monitoring
+action
+
+Active
+
+Hit and
+fire
+
+block transfer
+
+Active
+
+Active
+
+Hit and
+Fire Hit and
+memorize
+memorize
+
+block transfer
+
+Active
+
+Active
+
+Hit and
+trash
+
+Active
+
+Fire
+
+Trigger overrun
+Hit and trash
+
+Hit and fire (or fire alone)
+
+Hit and memorize
+
+MSv66923V1
+
+Note:
+
+The user can assign the same input trigger event to different channels. This can be used to
+trigger different channels on a broadcast trigger event.
+
+17.4.13
+
+GPDMA circular buffering with linked-list programming
+GPDMA circular buffering for memory-to-peripheral and
+peripheral-to-memory transfers, with a linear addressing channel
+For a circular buffering, with a continuous memory-to-peripheral (or peripheral-to-memory)
+transfer, the software must set up a channel with half transfer and complete transfer
+
+RM0456 Rev 6

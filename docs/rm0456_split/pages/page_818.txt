@@ -1,0 +1,175 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Bits 31:0 SA[31:0]: source address
+This field is the pointer to the address from which the next data is read.
+During the channel activity, depending on the source addressing mode (LPDMA_CxTR1.SINC), this
+field is either kept fixed or incremented by the data width (LPDMA_CxTR1.SDW_LOG2[1:0]) after
+each single source data, reflecting the next address from which data is read.
+In linked-list mode, after a LLI data transfer is completed, this register is automatically updated by
+LPDMA from the memory, provided the LLI is set with LPDMA_CxLLR.USA = 1.
+Note: A source address must be aligned with the programmed data width of a source single (SA[32:0]
+versus LPDMA_CxTR1.SDW_LOG2[1:0]). Else, a user setting error is reported and no transfer
+is issued.
+
+18.8.14
+
+LPDMA channel x destination address register (LPDMA_CxDAR)
+Address offset: 0x0A0 + 0x80 * x (x = 0 to 3)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(LPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (LPDMA_PRIVCFGR.PRIVx).
+This register configures the destination start address of a transfer.
+This register must be written when LPDMA_CxCR.EN = 0.
+This register is read-only when LPDMA_CxCR.EN = 1, and continuously updated by
+hardware, in order to reflect the address of the next single transfer to the destination.
+This register must be written when the channel is completed (then the hardware has
+deasserted LPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block or LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by LPDMA
+from the memory if LPDMA_CxLLR.UDA = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DA[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DA[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:0 DA[31:0]: destination address
+This field is the pointer to the address from which the next data is written.
+During the channel activity, depending on the destination addressing mode (LPDMA_CxTR1.DINC),
+this field is kept fixed or incremented by the data width (LPDMA_CxTR1.DDW_LOG2[1:0]) after
+each single destination data, reflecting the next address from which data is written.
+In linked-list mode, after a LLI data transfer is completed, this register is automatically updated by
+DMA from the memory, provided the LLI is set with LPDMA_CxLLR.UDA = 1.
+Note: A destination address must be aligned with the programmed data width of a destination single
+(DA[2:0] versus LPDMA_CxTR1.DDW_LOG2[1:0]). Else, a user setting error is reported and no
+transfer is issued.

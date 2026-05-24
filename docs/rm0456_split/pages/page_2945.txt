@@ -1,0 +1,102 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Table 724. Tx buffer element description (continued)
+Field
+
+Description
+
+Tn Bits 31:24
+Data byte m
+DBm[7:0]
+Tn Bits 23:16
+Data byte m-1
+DBm-1[7:0]
+Tn Bits 15:8
+Data byte m-2
+DBm-2[7:0]
+Tn Bits 7:0
+DBm-3[7:0]
+
+Data byte m-3
+
+1. The ESI bit of the transmit buffer is OR-ed with the error passive flag to decide the value of the ESI bit in
+the transmitted FD frame. As required by the CAN FD protocol specification, an error active node can
+optionally transmit the ESI bit recessive, but an error passive node always transmits the ESI bit recessive.
+2. When RTR = 1, the FDCAN transmits a remote frame according to ISO11898-1, even if the transmission in
+CAN FD format is enabled by the FDOE bit of the FDCAN_CCCR.
+3. Bits ESI, FDF, and BRS are only evaluated when CAN FD operation is enabled by setting the FDOE bit of
+the FDCAN_CCCR. Bit BRS is only evaluated when in addition BRSE bit is set in FDCAN_CCCR.
+
+70.3.10
+
+FDCAN Tx event FIFO element
+Each element stores information about transmitted messages. By reading the Tx event,
+FIFO the host CPU gets this information in the order that the messages were transmitted.
+Status information about the Tx event FIFO can be obtained from FDCAN_TXEFS register.
+Table 725. Tx event FIFO element
+Bit 31
+E0
+
+ESI
+
+E1
+
+24 23
+XTD
+
+16 15
+
+RTR
+
+MM[7:0]
+
+8 7
+
+0
+
+ID[28:0]
+ET[1:0]
+
+EDL
+
+BRS
+
+DLC[3:0]
+
+TXTS[15:0]
+
+Table 726. Tx event FIFO element description
+Field
+
+Description
+
+E0 Bit 31
+ESI
+
+Error state indicator
+– 0: Transmitting node is error active
+– 1: Transmitting node is error passive
+
+E0 Bit 30
+XTD
+
+Extended identifier
+– 0: 11-bit standard identifier
+– 1: 29-bit extended identifier
+
+E0 Bit 29
+RTR
+
+Remote transmission request
+– 0: Transmit data frame
+– 1: Transmit remote frame
+
+Identifier
+E0 Bits 28:0
+Standard or extended identifier depending on bit XTD. A standard identifier has to be
+ID[28:0]
+written to ID[28:18].

@@ -1,0 +1,103 @@
+1861
+
+DSI Host (DSI)
+
+44.14.1
+
+RM0456
+
+Programing procedure overview
+The procedure for video mode or adapted command mode must respect the following order:
+1.
+
+2.
+
+Configure the LTDC (refer to LTDC section)
+a)
+
+Configure RCC for LTDC
+
+b)
+
+Configure the LTDC PLL, turn it ON, and wait for its lock
+
+c)
+
+Program the panel timings
+
+d)
+
+Enable the relevant layers
+
+Configure the RCC for DSI (refer to RCC section)
+a)
+
+Configure PLL3, turn it on, and wait for its lock
+
+b)
+
+Keep the lane byte clock on PLL3 up and running
+
+c)
+
+Enable the clock for DSI
+
+3.
+
+Optionally, configure the GPIO (if tearing effect requires GPIO usage for example or
+reset for display)
+
+4.
+
+Optionally, reset display (when the display needs to be reset in LP-00)
+
+5.
+
+Optionally, validate the ISR
+
+6.
+
+Turn on the DSI bias (DSI_BCGGR.PWRUP = 1)
+
+7.
+
+Configure the DSI PLL, turn it ON, and wait for its lock as described in Section 44.12.4
+
+8.
+
+Enable DSI Host (DSI_CR.EN = 1)
+
+9.
+
+Configure clock division factors (DSI_CCR.TXECKDIV ≠ 0x0) to start tx_clk_esc clock
+(this clock is required to configure the D-PHY)
+
+10. Configure the D-PHY parameters in the DSI Host, the DSI D-PHY, and in the DSI
+Wrapper to define D-PHY configuration and timing as described in Section 44.14.2
+11. Enable the D-PHY setting the DEN bit of the DSI_PCTLR
+12. Configure the band control (BC fields) and the slew rate (SRC fields) for the clock lane
+and the data lanes in DSI_DPCBCR, DSI_DPDLxBCD, DSI_DPCSRCR, and
+DSI_DPDLxSRCR
+13. Enable the D-PHY clock lane setting the CKEN bit of the DSI_PCTLR
+14. Switch the lane byte clock from PLL3 to D-PHY PLL in the RCC
+15. Wait for the D-PHY to be in STOP state checking the bits:
+a)
+
+the clock lane stop state (PSSC) in the DSI_PSR
+
+b)
+
+data lanes stop state (PSS1/PSS0) in the DSI_PSR
+
+16. Disable the DSI Host (DSI_CR.EN = 0)
+17. Turn on clock lane in high speed as no automatic control (DPCC)
+18. Configure the DSI Host timings as detailed in Section 44.14.3
+19. Configure the DSI Host flow control and DBI interface as detailed in Section 44.14.4
+20. Configure the DSI Host LTDC interface as detailed in Section 44.14.5
+21. Configure the DSI Host for video mode as detailed in Section 44.14.6 or adapted
+command mode as detailed in Section 44.14.7
+22. Optionally, reset display (when the display needs to be reset in LP-11)
+23. Start the DSI (DSI_CR.EN = 1 and DSI_WCR.DSIEN = 1)
+24. Optionally, send DCS commands through the APB generic interface to configure the
+display
+25. Enable the LTDC in the LTDC

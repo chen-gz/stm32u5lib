@@ -1,0 +1,189 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 2 MSISRDYC: MSIS ready interrupt clear
+Writing this bit to 1 clears the MSISRDYF flag. Writing 0 has no effect.
+Bit 1 LSERDYC: LSE ready interrupt clear
+Writing this bit to 1 clears the LSERDYF flag. Writing 0 has no effect.
+Bit 0 LSIRDYC: LSI ready interrupt clear
+Writing this bit to 1 clears the LSIRDYF flag. Writing 0 has no effect.
+
+11.8.21
+
+RCC AHB1 peripheral reset register (RCC_AHB1RSTR)
+Address offset: 0x060
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+CRCR
+ST
+
+JPEGR
+ST
+
+Res.
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Res.
+
+Res.
+
+20
+
+19
+
+18
+
+17
+
+16
+
+GFXM
+GPU2D
+DMA2D RAMC TSCRS
+MURS
+RST
+RST FGRST
+T
+T
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+MDF1R FMAC
+ST
+RST
+rw
+
+rw
+
+CORDI GPDM
+CRST A1RST
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 GPU2DRST: GPU2D reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the GPU2D.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 19 GFXMMURST: GFXMMU reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the GFXMMU.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 18 DMA2DRST: DMA2D reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the DMA2D.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.

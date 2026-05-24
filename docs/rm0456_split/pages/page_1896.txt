@@ -1,0 +1,44 @@
+1904
+
+Touch sensing controller (TSC)
+
+RM0456
+
+Bits 31:28 CTPH[3:0]: Charge transfer pulse high
+These bits are set and cleared by software. They define the duration of the high state of the
+charge transfer pulse (charge of CX).
+0000: 1x tPGCLK
+0001: 2x tPGCLK
+...
+1111: 16x tPGCLK
+Note: These bits must not be modified when an acquisition is ongoing.
+Bits 27:24 CTPL[3:0]: Charge transfer pulse low
+These bits are set and cleared by software. They define the duration of the low state of the
+charge transfer pulse (transfer of charge from CX to CS).
+0000: 1x tPGCLK
+0001: 2x tPGCLK
+...
+1111: 16x tPGCLK
+Note: These bits must not be modified when an acquisition is ongoing.
+Note: Some configurations are forbidden. Refer to the Section 47.3.4: Charge transfer
+acquisition sequence for details.
+Bits 23:17 SSD[6:0]: Spread spectrum deviation
+These bits are set and cleared by software. They define the spread spectrum deviation which
+consists in adding a variable number of periods of the SSCLK clock to the charge transfer
+pulse high state.
+0000000: 1x tSSCLK
+0000001: 2x tSSCLK
+...
+1111111: 128x tSSCLK
+Note: These bits must not be modified when an acquisition is ongoing.
+Bit 16 SSE: Spread spectrum enable
+This bit is set and cleared by software to enable/disable the spread spectrum feature.
+0: Spread spectrum disabled
+1: Spread spectrum enabled
+Note: This bit must not be modified when an acquisition is ongoing.
+Bit 15 SSPSC: Spread spectrum prescaler
+This bit is set and cleared by software. It selects the AHB clock divider used to generate the
+spread spectrum clock (SSCLK).
+0: fHCLK
+1: fHCLK /2
+Note: This bit must not be modified when an acquisition is ongoing.

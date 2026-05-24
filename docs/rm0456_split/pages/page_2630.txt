@@ -1,0 +1,76 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+If the DMA requests are enabled, the data are DMA-transferred to or from the SRAM, while
+the device remains in Stop mode.
+
+Target mode
+In target mode, the autonomous mode is enabled in Stop mode if WUPEN = 1 in the
+I2C_CR1. This mode is supported only when NOSTRETCH = 0.
+The kernel clock is requested by the peripheral on START detection during all the transfer
+until the STOP condition occurs, when the target is addressed. If the target is not
+addressed, the kernel clock request is released after the address phase.
+To optimize the functionality in target mode by using only DMA transfers, it is possible to set
+the ADDRACLR and STOPFACLR bits in the I2C_CR1 in order to avoid to serve the
+Address match (ADDR) and STOP detection (STOPF) events.
+Note:
+
+If the I2C clock is the system clock, or if WUPEN = 0, the internal oscillator is not switched
+on after a START is received in target mode.
+
+Controller mode
+In controller mode, a transfer can be automatically launched when an asynchronous trigger
+is detected in Run, Sleep or Stop mode. The trigger, selected by TRIGSEL in the
+I2C_AUTOCR register, generates a kernel clock request to allow the transfer, and launches
+a START condition and the I2C transfer as defined in the I2C_CR2 register. The kernel clock
+is requested until the STOP condition occurs.
+To avoid waking up the CPU too often, it is possible to replace some interrupts by DMA
+requests, to make some control register write actions. In controller mode, transfer complete
+(TC) and transfer complete reload (TCR) events can generate a DMA request when the
+corresponding TCDMAEN or TCRDMAEN bits of the I2C_AUTOCR register are set.
+Consequently, the I2C_CR2 register can be written thanks to a DMA transfer, to program a
+new transfer (in TC event) or to reload the number of bytes (in TCR event).
+In case a trigger is enabled, but the application needs to take the control back to start a
+different transfer, the following steps are required before writing in the I2C_CR2 register to
+launch the new transfer:
+1.
+
+Wait for BUSY = 0 in the I2C_ISR register
+
+2.
+
+Clear the TRIGEN bit of the I2C_AUTOCR register
+
+3.
+
+Wait for longer than tBUF (bus free time between a STOP and a START condition)
+
+4.
+
+Wait for BUSY = 0 in the I2C_ISR register
+
+Caution:
+
+When the device is in Stop mode, the I2C peripheral receives its kernel clock only when it is
+implicated in the transfer. Consequently, features such as timeouts and bus idle detection
+are not reliable in Stop mode.
+
+Caution:
+
+The digital filter is not compatible with the functionality in Stop mode. Before entering Stop
+mode with the WUPEN bit set, deactivate the digital filter, by writing zero to the DNF[3:0]
+bitfield.
+
+Caution:
+
+Clock stretching must be enabled (NOSTRETCH = 0) to ensure proper operation of the
+wake-up from Stop mode feature.
+
+Caution:
+
+If wake-up from Stop mode is disabled (WUPEN = 0), the I2C peripheral must be disabled
+before entering Stop mode (PE = 0).
+
+RM0456 Rev 6

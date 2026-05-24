@@ -1,0 +1,101 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 534. External trigger input block
+or tim_ti1f
+tim_ti2f
+
+or
+or
+
+TIMx_AF1[17:14]
+tim_trgi
+
+TIM_ETR
+
+tim_etr_in
+
+(tim_etr0)
+
+0
+1
+
+tim_etr[15:1](1)
+
+ETP
+
+tim_etrp
+Divider
+/1, /2, /4, /8 f
+DTS
+
+ETPS[1:0]
+
+Filter
+downcounter
+ETF[3:0]
+
+TIMx_SMCR TIMx_SMCR
+
+Encoder
+mode
+External clock
+mode 1
+
+tim_etrf
+
+External clock
+mode 2
+
+tim_ker_ck
+
+Internal clock
+mode
+
+(internal clock)
+
+tim_psc_ck
+
+TIMx_SMCR
+ECE
+
+SMS[2:0]
+
+TIMx_SMCR
+MSv62320V2
+
+1. Refer to Section 54.3.2: TIM1/TIM8 pins and internal signals.
+
+For example, to configure the upcounter to count each 2 rising edges on tim_etr_in, use the
+following procedure:
+1.
+
+As no filter is needed in this example, write ETF[3:0] = 0000 in the TIMx_SMCR
+register.
+
+2.
+
+Set the prescaler by writing ETPS[1:0] = 01 in the TIMx_SMCR register
+
+3.
+
+Select rising edge detection on the tim_etr_in input by writing ETP = 0 in the
+TIMx_SMCR register
+
+4.
+
+Enable external clock mode 2 by writing ECE = 1 in the TIMx_SMCR register.
+
+5.
+
+Enable the counter by writing CEN = 1 in the TIMx_CR1 register.
+
+The counter counts once each 2 tim_etr_in rising edges.
+The delay between the rising edge on tim_etr_in and the actual clock of the counter is due
+to the resynchronization circuit on the tim_etrp signal. As a consequence, the maximum
+frequency which can be correctly captured by the counter is at most ¼ of tim_ker_ck
+frequency. When the ETRP signal is faster, the user must apply a division of the external
+signal by a proper ETPS prescaler setting.

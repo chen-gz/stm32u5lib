@@ -1,0 +1,177 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+The table below shows the power modes overview.
+Table 99. Low-power mode summary
+
+Mode name
+
+Sleep
+(Sleep-now or
+Sleep-on-exit)
+
+Entry
+
+WFI or Return
+from ISR
+
+WFE
+
+Stop 0
+
+LPMS = 000 +
+SLEEPDEEP bit +
+WFI or Return
+from ISR or WFE
+
+Stop 1
+
+LPMS = 001 +
+SLEEPDEEP bit +
+WFI or Return
+from ISR or WFE
+
+Stop 2
+
+LPMS = 010 +
+SLEEPDEEP bit +
+WFI or Return
+from ISR or WFE
+
+Stop 3
+
+LPMS = 011 +
+SLEEPDEEP bit +
+WFI or Return
+from ISR or WFE
+
+Standby with
+SRAM2_
+8 Kbytes
+
+LPMS = 10x+
+RRS1 = 1 +
+SLEEPDEEP bit +
+WFI or Return
+from ISR or WFE
+
+Standby with
+SRAM2_Full
+
+Wake-up
+source(1)
+
+Wake-up
+system clock
+
+Effect on clocks
+
+Any interrupt
+except OTG_FS,
+CPU clock OFF
+USB, and UCPD
+Same as before
+No effect on other
+in range 4
+entering Sleep mode clocks or analog clock
+– OTG_HS in
+sources
+range 3 and 4
+
+Voltage
+regulators
+
+Range
+1, 2, 3, 4
+
+Wake-up event
+
+Any EXTI line
+(configured in
+the EXTI
+registers)
+Specific
+peripherals
+events/interrupts
+(2)
+
+All clocks OFF except
+LSI and LSE
+HSI16 when
+STOPWUCK = 1 in
+RCC_CFGR1
+MSIS with the
+frequency before
+entering the Stop
+mode, limited to
+24 MHz, when
+STOPWUCK = 0
+
+Range
+1, 2, 3, 4
+
+MSIK, MSIS, or
+HSI16 can
+be enabled
+temporarily when
+requested by an
+autonomous
+peripheral, or forced
+to be kept enabled.
+
+Low-power
+regulator
+(SMPS or
+LDO)
+
+WKUP pin edge,
+RTC/TAMP
+events/interrupts
+All clocks OFF except
+(2), external
+LPMS = 10x+
+LSI and LSE
+RRS1 = RRS2 = 1+ reset in NRST
+MSIS from 1 MHz up
+pin,
+SLEEPDEEP bit +
+to 4 MHz
+IWDG
+reset
+WFI or Return
+from ISR or WFE
+
+Standby
+
+LPMS = 10x +
+RRS1 = RRS2 = 0
++ SLEEPDEEP bit +
+WFI or Return
+from ISR or WFE
+
+Shutdown
+
+LPMS = 11x +
+SLEEPDEEP bit +
+WFI or Return
+from ISR or WFE
+
+OFF
+
+WKUP pin edge,
+RTC/TAMP
+events/interrupts
+(2), external
+reset in NRST
+pin
+
+MSIS 4 MHz
+
+RM0456 Rev 6
+
+All clocks off except
+LSE
+
+OFF

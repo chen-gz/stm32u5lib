@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+72.15.31 OTG host channel x transfer size register (OTG_HCTSIZx) . . . . . . . 3205
+72.15.32 Device-mode registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3206
+72.15.33 OTG device configuration register (OTG_DCFG) . . . . . . . . . . . . . . . 3206
+72.15.34 OTG device control register (OTG_DCTL) . . . . . . . . . . . . . . . . . . . . 3208
+72.15.35 OTG device status register (OTG_DSTS) . . . . . . . . . . . . . . . . . . . . . 3210
+72.15.36 OTG device IN endpoint common interrupt mask register
+(OTG_DIEPMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3211
+72.15.37 OTG device OUT endpoint common interrupt mask register
+(OTG_DOEPMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3212
+72.15.38 OTG device all endpoints interrupt register (OTG_DAINT) . . . . . . . . 3213
+72.15.39 OTG all endpoints interrupt mask register
+(OTG_DAINTMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3214
+72.15.40 OTG device VBUS discharge time register
+(OTG_DVBUSDIS) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3214
+72.15.41 OTG device VBUS pulsing time register
+(OTG_DVBUSPULSE) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3215
+72.15.42 OTG device IN endpoint FIFO empty interrupt mask register
+(OTG_DIEPEMPMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3215
+72.15.43 OTG device control IN endpoint 0 control register
+(OTG_DIEPCTL0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3216
+72.15.44 OTG device IN endpoint x control register (OTG_DIEPCTLx) . . . . . 3217
+72.15.45 OTG device IN endpoint x interrupt register (OTG_DIEPINTx) . . . . . 3220
+72.15.46 OTG device IN endpoint 0 transfer size register
+(OTG_DIEPTSIZ0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3221
+72.15.47 OTG device IN endpoint transmit FIFO status register
+(OTG_DTXFSTSx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3222
+72.15.48 OTG device IN endpoint x transfer size register (OTG_DIEPTSIZx) . 3223
+72.15.49 OTG device control OUT endpoint 0 control register
+(OTG_DOEPCTL0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3224
+72.15.50 OTG device OUT endpoint x interrupt register (OTG_DOEPINTx) . . 3225
+72.15.51 OTG device OUT endpoint 0 transfer size register
+(OTG_DOEPTSIZ0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3227
+72.15.52 OTG device OUT endpoint x control register
+(OTG_DOEPCTLx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3228
+72.15.53 OTG device OUT endpoint x transfer size register
+(OTG_DOEPTSIZx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3230
+72.15.54 OTG power and clock gating control register (OTG_PCGCCTL) . . . 3231
+72.15.55 OTG_FS register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3232
+
+72.16 OTG_FS programming model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3240
+72.16.1 Core initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3240
+72.16.2 Host initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3241
+
+RM0456 Rev 6

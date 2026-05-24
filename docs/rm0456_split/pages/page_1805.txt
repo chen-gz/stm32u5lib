@@ -1,0 +1,189 @@
+RM0456 Rev 6
+
+COLC[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+DSI Host (DSI)
+
+Bits 3:0 COLC[3:0]: Color coding
+This field configures the DPI color coding.
+0000: 16-bit configuration 1
+0001: 16-bit configuration 2
+0010: 16-bit configuration 3
+0011: 18-bit configuration 1
+0100: 18-bit configuration 2
+0101: 24-bit
+Others: Reserved
+
+44.15.6
+
+DSI Host LTDC polarity configuration register (DSI_LPCR)
+Address offset: 0x0014
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+HSP
+
+VSP
+
+DEP
+
+rw
+
+rw
+
+rw
+
+Bits 31:3 Reserved, must be kept at reset value.
+Bit 2 HSP: HSYNC polarity
+This bit configures the polarity of HSYNC pin. It is recommanded to keep the default polarity
+configuration to guarantee a correct behavior.
+0: HSYNC pin active high (default)
+1: HSYNC pin active low
+Bit 1 VSP: VSYNC polarity
+This bit configures the polarity of VSYNC pin. It is recommanded to keep the default polarity
+configuration to guarantee a correct behavior.
+0: VSYNC pin active high (default)
+1: VSYNC pin active low
+Bit 0 DEP: Data enable polarity
+This bit configures the polarity of data enable pin. It is recommanded to keep the default
+polarity configuration to guarantee a correct behavior.
+0: Data enable pin active high (default)
+1: Data enable pin active low
+
+44.15.7
+
+DSI Host low-power mode configuration register (DSI_LPMCR)
+Address offset: 0x0018
+Reset value: 0x0000 0000
+
+RM0456 Rev 6

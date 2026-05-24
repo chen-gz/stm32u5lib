@@ -1,0 +1,65 @@
+RM0456 Rev 6
+
+16
+
+HSEBY HSERD HSEO
+P
+Y
+N
+
+rw
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 24 PLL1ON: PLL1 enable
+This bit is set and cleared by software to enable the main PLL. It is cleared by hardware
+when entering Stop, Standby, or Shutdown mode. This bit cannot be reset if the PLL1 clock is
+used as the system clock.
+0: PLL1 OFF
+1: PLL1 ON
+Bits 23:21 Reserved, must be kept at reset value.
+Bit 20 HSEEXT: HSE external clock bypass mode
+This bit is set and reset by software to select the external clock mode in bypass mode.
+External clock mode must be configured with HSEON bit to be used by the device. This bit
+can be written only if the HSE oscillator is disabled. This bit is active only if the HSE bypass
+mode is enabled.
+0: external HSE clock analog mode
+1: external HSE clock digital mode (through I/O Schmitt trigger)
+Bit 19 CSSON: Clock security system enable
+This bit is set by software to enable the clock security system. When CSSON is set, the clock
+detector is enabled by hardware when the HSE oscillator is ready, and disabled by hardware
+if a HSE clock failure is detected. This bit is set only and is cleared by reset.
+0: clock security system OFF (clock detector OFF)
+1: clock security system ON (clock detector ON if the HSE oscillator is stable, OFF if not).
+Bit 18 HSEBYP: HSE crystal oscillator bypass
+This bit is set and cleared by software to bypass the oscillator with an external clock.
+The external clock must be enabled with the HSEON bit set, to be used by the device.
+This bit can be written only if the HSE oscillator is disabled.
+0: HSE crystal oscillator not bypassed
+1: HSE crystal oscillator bypassed with external clock
+Bit 17 HSERDY: HSE clock ready flag
+This bit is set by hardware to indicate that the HSE oscillator is stable.
+0: HSE oscillator not ready
+1: HSE oscillator ready
+Note: Once the HSEON bit is cleared, HSERDY goes low after six HSE clock cycles.
+Bit 16 HSEON: HSE clock enable
+This bit is set and cleared by software. It is cleared by hardware to stop the HSE oscillator
+when entering Stop, Standby, or Shutdown mode. This bit cannot be reset if the HSE
+oscillator is used directly or indirectly as the system clock.
+0: HSE oscillator off
+1: HSE oscillator on
+Bit 15 SHSIRDY: SHSI clock ready flag
+This bit is set by hardware to indicate that the SHSI oscillator is stable. It is set only when
+SHSI is enabled by software (by setting SHSION).
+0: SHSI oscillator not ready
+1: SHSI oscillator ready
+Note: Once the SHSION bit is cleared, SHSIRDY goes low after six SHSI clock cycles.
+Bit 14 SHSION: SHSI clock enable
+This bit is set and cleared by software. It is cleared by hardware to stop the SHSI when
+entering in Stop, Standby, or Shutdown modes.
+0: SHSI oscillator off
+1: SHSI oscillator on
+
+RM0456 Rev 6

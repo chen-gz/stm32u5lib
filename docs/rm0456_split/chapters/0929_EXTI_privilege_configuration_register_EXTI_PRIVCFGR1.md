@@ -1,0 +1,302 @@
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SEC25 SEC24 SEC23 SEC22 SEC21 SEC20 SEC19 SEC18 SEC17 SEC16
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SEC9
+
+SEC8
+
+SEC7
+
+SEC6
+
+SEC5
+
+SEC4
+
+SEC3
+
+SEC2
+
+SEC1
+
+SEC0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+RM0456
+
+Extended interrupts and event controller (EXTI)
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:0 SECx: Security enable on event input x (x = 25 to 0)
+When EXTI_PRIVCFGR.PRIVx is disabled, SECx can be accessed with privileged and
+unprivileged access.
+When EXTI_PRIVCFGR.PRIVx is enabled, SECx can only be written with privileged access.
+Unprivileged write to this SECx is discarded.
+0: Event security disabled (nonsecure)
+1: Event security enabled (secure)
+Note: SEC25, SEC24, and SEC23 bits are only available on some devices in the STM32U5
+Series. Refer to the EXTI line connections table for its availability. If not present,
+consider this bit as reserved and keep at reset value.
+
+23.6.7
+
+EXTI privilege configuration register (EXTI_PRIVCFGR1)
+Address offset: 0x018
+Reset value: 0x0000 0000
+This register provides privileged write access protection. An unprivileged read returns the
+register data. This register contains only bits for security capable input events.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+25
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+PRIV8
+
+PRIV7
+
+PRIV6
+
+PRIV5
+
+PRIV4
+
+PRIV3
+
+PRIV2
+
+PRIV1
+
+PRIV0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+PRIV15 PRIV14 PRIV13 PRIV12 PRIV11 PRIV10 PRIV9
+rw
+
+24
+
+PRIV25 PRIV24 PRIV23 PRIV22 PRIV21 PRIV20 PRIV19 PRIV18 PRIV17 PRIV16
+
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:0 PRIVx: Security enable on event input x (x = 25 to 0)
+When EXTI_SECCFGR.SECx is disabled, PRIVx can be accessed with secure and
+nonsecure access.
+When EXTI_SECCFGR.SECx is enabled, PRIVx can only be written with secure access.
+Nonsecure write to this PRIVx is discarded.
+0: Event privilege disabled (unprivileged)
+1: Event privilege enabled (privileged)
+Note: PRIV25, PRIV24, and PRIV23 bits are only available on some devices in the STM32U5
+Series. Refer to the EXTI line connections table for its availability. If not present,
+consider this bit as reserved and keep at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

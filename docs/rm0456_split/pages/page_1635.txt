@@ -1,0 +1,182 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+•
+
+If SADMOD[1:0] = 1x, THRH is obtained by multiplying the current ANMIN[12:0] by 4.
+THR H = ANMIN × 4
+
+This threshold value is then compared to:
+ANLVL × 10
+
+GdB SNTHR
+---------------------------20
+
+The hysteresis mode can be enabled to reduce the spurious transitions between MONITOR
+and DETECT states. In hysteresis mode (HYSTEN = 1), the following threshold values are
+used:
+•
+
+THRH when the SAD is in MONITOR state.
+
+•
+
+THRL when the SAD is in DETECT state.
+
+Table 401 shows the thresholds values according to SNTHR.
+Table 401. Threshold values according SNTHR(1)
+SNTHR[3:0]
+
+THRH
+
+THRL
+
+Comments
+
+0
+
+LVL + 3.5 dB
+
+LVL x 1.5
+
+LVL + 3.5 dB
+
+LVL x 1.5
+
+No hysteresis
+
+1
+
+LVL + 6.0 dB
+
+LVL x 2
+
+LVL + 3.5 dB
+
+LVL x 1.5
+
+Hysteresis of 2.5 dB
+
+2
+
+LVL + 9.5 dB
+
+LVL x 3
+
+LVL + 6.0 dB
+
+LVL x 2
+
+Hysteresis of 3.5 dB
+
+3
+
+LVL + 12.0 dB
+
+LVL x 4
+
+LVL + 9.5 dB
+
+LVL x 3
+
+Hysteresis of 2.5 dB
+
+4
+
+LVL + 15.6 dB
+
+LVL x 6
+
+LVL + 12.0 dB
+
+LVL x 4
+
+Hysteresis of 3.5 dB
+
+5
+
+LVL + 18.1 dB
+
+LVL x 8
+
+LVL + 15.6 dB
+
+LVL x 6
+
+Hysteresis of 2.5 dB
+
+6
+
+LVL + 21.6 dB
+
+LVL x 12
+
+LVL + 18.1 dB
+
+LVL x 8
+
+Hysteresis of 3.5 dB
+
+7
+
+LVL + 24.1 dB
+
+LVL x 16
+
+LVL + 21.6 dB
+
+LVL x 12
+
+Hysteresis of 2.5 dB
+
+8
+
+LVL + 27.6 dB
+
+LVL x 24
+
+LVL + 24.1dB
+
+LVL x 16
+
+Hysteresis of 3.5 dB
+
+9
+
+LVL + 30.1 dB
+
+LVL x 32
+
+LVL + 27.6dB
+
+LVL x 24
+
+Hysteresis of 2.5 dB
+
+1. LVL must be replaced by ANLVL when SADMOD[1:0] = 0 and by ANMIN for other SADMOD[1:0] values.
+
+When the hysteresis function is disabled, the SAD always use THRH.
+Note:
+
+The hysteresis mode must not be used when SADMOD[1:0] = 1x.
+
+Trigger logic
+The signal compared to this threshold depends also on SADMOD[1:0].
+The trigger condition is reached when the selected signal (SELSIG) is bigger than the
+threshold level.
+If the trigger condition is met, the following happens:
+•
+
+The SAD switches to DETECT state.
+
+•
+
+The SAD refreshes the hangover counter with HGOVR.
+
+•
+
+The sddet_evt event is asserted if the SAD transits from MONITOR to DETECT.
+
+RM0456 Rev 6

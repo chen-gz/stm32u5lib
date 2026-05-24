@@ -1,0 +1,97 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+•
+
+Example 2: application where the user distributes a same non-null N number of
+GPDMA requests to every non time-sensitive priority 0, 1 and 2. The bandwidth
+calculation is then the following:
+–
+
+The allocated bandwidth to the set of requests of priority 0 (BP0) is
+BP0 = 1/3 * 1/3 * (1 - BQ3) = 1/9 * (1 - BQ3)
+
+–
+
+The allocated bandwidth to the set of requests of priority 1(BP1) is
+BP1 = (1/3 + 1/2) * 1/3 * (1 - BQ3) = 5/18 * (1 - BQ3)
+
+–
+
+The allocated bandwidth to the set of requests of priority 2(BP2) is
+BP2 = (1/3 + 1/2 + 1) * 1/3 * (1 - BQ3) = 11/18 * (1 - BQ3)
+
+–
+
+The allocated bandwidth to any request n (Bn) among the N requests of that
+priority Pi (i = 0 to 2) is Bn = 1/N * BPi
+
+–
+
+The allocated bandwidth to any request n of priority 0i (Bn, Pi) is
+Bn, P0 = 1/N *1/9 * (1 - BQ3)
+Bn, P1 = 1/N *5/18 * (1 - BQ3)
+Bn, P2 = 1/N *11/18 * (1 - BQ3)
+
+In this example, when the master port bus bandwidth is not totally consumed by the
+time-sensitive queue 3, the residual bandwidth is such that 2.5 times less bandwidth is
+allocated to any request of priority 0 versus priority 1, and 5.5 times less bandwidth is
+allocated to any request of priority 0 versus priority 2.
+More generally, assume that the following requests are present:
+•
+
+I requests (I ≥ 0) assigned to priority 0
+If I > 0, these requests are noted from i = 0 to I-1.
+
+•
+
+J requests (J ≥ 0) assigned to priority 1
+If J > 0, these requests are noted from j = 0 to J-1.
+
+•
+
+K requests (K > 0) assigned to priority 2
+These requests are noted from k = 0 to K-1
+
+•
+
+L requests (L ≥ 0) assigned to priority 3
+If L > 0, these requests are noted from l = 0 to L-1.
+
+As BQ3 is the reserved bandwidth to time-sensitive requests, the bandwidth for each
+request L with priority 3 is:
+•
+
+Bl = BQ3 / L for L > 0 (else: Bl = 0)
+
+The bandwidth for each non-time sensitive queue is:
+•
+
+BQ0 = 1/3 * (1 - BQ3)
+
+•
+
+BQ1 = 1/3 * (1 - BQ3)
+
+•
+
+BQ2 = 1/3 * (1 - BQ3)
+
+The bandwidth for the set of requests with priority 0 is:
+•
+
+BP0 = I / (I + J + K) * BQ0
+
+The bandwidth for each request i with priority 0 is:
+•
+
+Bi = BP0 / I for L > 0 (else BP0 = 0)
+
+The bandwidth for the set of requests with priority 1 and routed to queue 0 is:
+•
+
+BP1,Q0 = J / (I + J + K) * BQ0
+
+RM0456 Rev 6

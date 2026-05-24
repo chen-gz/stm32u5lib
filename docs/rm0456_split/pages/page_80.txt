@@ -1,0 +1,134 @@
+90
+
+Contents
+
+RM0456
+
+71.5
+
+71.6
+
+71.7
+
+72
+
+71.4.1
+
+USB block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3088
+
+71.4.2
+
+USB pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3089
+
+71.4.3
+
+USB reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3089
+
+71.4.4
+
+General description and Device mode functionality . . . . . . . . . . . . . . 3089
+
+71.4.5
+
+Description of USB blocks used in both Device and Host modes . . . 3090
+
+71.4.6
+
+Description of host frame scheduler (HFS) specific to Host mode . . 3091
+
+Programming considerations for Device and Host modes . . . . . . . . . . 3092
+71.5.1
+
+Generic USB Device programming . . . . . . . . . . . . . . . . . . . . . . . . . . 3092
+
+71.5.2
+
+System and power-on reset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3093
+
+71.5.3
+
+Double-buffered endpoints and usage in Device mode . . . . . . . . . . . 3100
+
+71.5.4
+
+Double buffered channels: usage in Host mode . . . . . . . . . . . . . . . . 3102
+
+71.5.5
+
+Isochronous transfers in Device mode . . . . . . . . . . . . . . . . . . . . . . . 3103
+
+71.5.6
+
+Isochronous transfers in Host mode . . . . . . . . . . . . . . . . . . . . . . . . . 3104
+
+71.5.7
+
+Suspend/resume events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3105
+
+USB registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3109
+71.6.1
+
+USB control register (USB_CNTR) . . . . . . . . . . . . . . . . . . . . . . . . . . 3109
+
+71.6.2
+
+USB interrupt status register (USB_ISTR) . . . . . . . . . . . . . . . . . . . . . 3112
+
+71.6.3
+
+USB frame number register (USB_FNR) . . . . . . . . . . . . . . . . . . . . . . 3116
+
+71.6.4
+
+USB Device address (USB_DADDR) . . . . . . . . . . . . . . . . . . . . . . . . 3116
+
+71.6.5
+
+USB LPM control and status register (USB_LPMCSR) . . . . . . . . . . . 3117
+
+71.6.6
+
+USB battery charging detector (USB_BCDR) . . . . . . . . . . . . . . . . . . 3118
+
+71.6.7
+
+USB endpoint/channel n register (USB_CHEPnR) . . . . . . . . . . . . . . 3119
+
+71.6.8
+
+USB register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3128
+
+USBSRAM registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3129
+71.7.1
+
+Channel/endpoint transmit buffer descriptor n
+(USB_CHEP_TXRXBD_n) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3130
+
+71.7.2
+
+Channel/endpoint receive buffer descriptor n [alternate]
+(USB_CHEP_TXRXBD_n) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3130
+
+71.7.3
+
+Channel/endpoint receive buffer descriptor n
+(USB_CHEP_RXTXBD_n) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3132
+
+71.7.4
+
+Channel/endpoint transmit buffer descriptor n [alternate]
+(USB_CHEP_RXTXBD_n) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3133
+
+71.7.5
+
+USBSRAM register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3134
+
+USB on-the-go full-speed (OTG_FS) . . . . . . . . . . . . . . . . . . . . . . . . . 3135
+72.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3135
+
+72.2
+
+OTG_FS main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3137
+72.2.1

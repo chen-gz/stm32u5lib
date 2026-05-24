@@ -1,0 +1,76 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Figure 217. Card cycle power / power up diagram
+Power stable
+
+Card Vcc
+Vcc min
+
+SDMMC_CK
+
+SDMMC_CMD
+
+SDMMC_Dn
+
+SDMMC state
+
+Driven ‘0’
+HiZ
+
+CMD
+
+Driven ‘0’
+HiZ
+Driven ‘0’
+
+Reset
+
+Power-cycle
+1 ms min
+
+0.1 ms min
+Power ramp up
+
+31.7
+
+Driven ‘1’
+
+Power-off
+
+Power-on
+
+1 ms min
+74
+SDMMC_CK
+clocks
+
+MSv39275V1
+
+Hardware flow control
+The hardware flow control during data transfer functionality is used to avoid FIFO underrun
+(TX mode) and overrun (RX mode) errors.
+The behavior is to stop SDMMC_CK during data transfer and freeze the SDMMC state
+machines. The data transfer is stalled when the FIFO is unable to transmit or receive data.
+The data transfer remains stalled until the transmit FIFO is half full or all data according
+DATALENGHT has been stored, or until the receive FIFO is half empty. Only state machines
+clocked by SDMMC_CK are frozen, the AHB interfaces are still alive. The FIFO can thus be
+filled or emptied even if flow control is activated.
+On an IDMA linked list transfer error, the hardware flow control is disabled. As a
+consequence, depending on when the IDMA linked list transfer error occurs, an underrun or
+overrun error may also occur (see Section : IDMA transfer error management).
+To enable hardware flow control during data transfer, the HWFC_EN register bit must be set
+to 1. After reset hardware flow control is disabled.
+Hardware flow control must only be used when the SDMMC_Dn data is cycle-aligned with
+the SDMMC_CK. Whenever the sdmmc_fb_ck from the DLYB delay block is used, i.e in the
+case of SDR104 mode with a tOP and DtOP delay > 1 cycle, hardware flow control can not
+be used.
+
+31.8
+
+Ultra-high-speed phase I (UHS-I) voltage switch
+UHS-I mode (SDR12, SDR25, SDR50, SDR104, and DDR50) requires the support for 1.8 V
+signaling. After power up the card starts in 3.3V mode. CMD11 invokes the voltage switch

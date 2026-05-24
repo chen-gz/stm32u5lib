@@ -1,0 +1,60 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+RM0456
+
+• In case of AL44 input pixel format, the CLUT must be loaded by only16 colors. The
+address of each color must be filled by replicating the 4-bit L channel to 8-bit as follows:
+– L0 (indexed color 0), at address 0x00
+– L1, at address 0x11
+– L2, at address 0x22
+– .....
+– L15, at address 0xFF
+
+Color frame buffer address
+Every layer has a start address for the color frame buffer configured through the
+LTDC_LxCFBAR register.
+When a layer is enabled, the data is fetched from the color frame buffer.
+
+Color frame buffer length
+Every layer has a total line length setting for the color frame buffer in bytes and a number of
+lines in the frame buffer configurable in the LTDC_LxCFBLR and LTDC_LxCFBLNR register
+respectively.
+The line length and the number of lines settings are used to stop the prefetching of data to
+the layer FIFO at the end of the frame buffer:
+•
+
+If it is set to less bytes than required, a FIFO underrun interrupt is generated if it has
+been previously enabled.
+
+•
+
+If it is set to more bytes than actually required, the useless data read from the FIFO is
+discarded. The useless data is not displayed.
+
+Color frame buffer pitch
+Every layer has a configurable pitch for the color frame buffer, that is the distance between
+the start of one line and the beginning of the next line in bytes. It is configured through the
+LTDC_LxCFBLR register.
+
+Layer blending
+The blending is always active and the two layers can be blended following the blending
+factors configured through the LTDC_LxBFCR register.
+The blending order is fixed and it is bottom up. If two layers are enabled, first the Layer1 is
+blended with the Background color, then the layer2 is blended with the result of blended
+color of layer1 and the background. Refer to the figure below.
+Figure 410. Blending two layers with background
+
+Layer2
+Layer1
+
+Layer2
+
+BG
+
+Layer1 + BG
+
+Layer2 +
+Layer1 + BG
+MSv48123V1

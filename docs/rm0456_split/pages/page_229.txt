@@ -1,0 +1,226 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 0 TIM1IE: illegal access interrupt enable for TIM1
+0: interrupt disabled
+1: interrupt enabled
+
+5.7.3
+
+GTZC1 TZIC interrupt enable register 3 (GTZC1_TZIC_IER3)
+Address offset: 0x008
+Reset value: 0x0000 0000
+Secure privileged access only.
+This register is used to enable interrupt of illegal access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+DCAC
+GFXM
+OCTOS OCTOS
+HSPI1_
+GFXM GPU2D RAMC
+FSMC_ SDMM
+HE2_R
+MU_RE
+PI2_RE PI1_RE
+REGIE
+MUIE
+IE
+FGIE
+REGIE C2IE
+EGIE
+GIE
+GIE
+GIE
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+JPEGI
+E
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SAESI
+E
+
+PKAIE
+
+RNGIE
+
+HASHI
+E
+
+AESIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+OTGIE DCMIIE
+rw
+
+rw
+
+DCAC ICACH
+ADC12I
+DMA2D
+HE1_R E_REG
+TSCIE
+E
+IE
+EGIE
+IE
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CRCIE
+rw
+
+SDMM OCTOS
+C1IE
+PIMIE
+
+FMACI CORDI
+E
+CIE
+rw
+
+rw
+
+MDF1I
+E
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bit 28 JPEGIE: illegal access interrupt enable for JPEG
+0: interrupt disabled
+1: interrupt enabled
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 27 DCACHE2_REGIE: illegal access interrupt enable for DCACHE2 registers
+0: interrupt disabled
+1: interrupt enabled
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 26 HSPI1_REGIE: illegal access interrupt enable for HSPI1 registers
+0: interrupt disabled
+1: interrupt enabled
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 25 GFXMMU_REGIE: illegal access interrupt enable for GFXMMU registers
+0: interrupt disabled
+1: interrupt enabled
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,174 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Bits 10:4 INTVAL[6:0]: Integration value selection
+This bitfield is set and cleared by software. It is used to select the integration value.
+0: The integration value is 1, meaning bypass mode (default after reset).
+1: The integration value is 2.
+2: The integration value is 3.
+...
+127: The integration value is 128.
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 3:2 Reserved, must be kept at reset value.
+Bits 1:0 INTDIV[1:0]: Integrator output division
+This bitfield is set and cleared by software. It is used to rescale the signal at the integrator
+output in order keep the data width lower than 24 bits.
+00: The integrator data outputs are divided by 128 (default value).
+01: The integrator data outputs are divided by 32.
+10: The integrator data outputs are divided by 4.
+11: The integrator data outputs are not divided.
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+
+39.8.9
+
+MDF out-of limit detector control register x (MDF_OLDxCR)
+Address offset: 0x098 + 0x80 * x, (x = 0 to 5)
+Reset value: 0x0000 0000
+This register is used to configure the OLDx.The number of registers is equal to the amount
+of filters. Refer to Section 39.3 for details.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+OLDAC
+TIVE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+r
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+ACICN[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+7
+
+6
+
+21
+
+20
+
+rw
+
+18
+
+17
+
+ACICD[4:0]
+rw
+
+rw
+
+5
+
+4
+
+BKOLD[3:0]
+rw
+
+19
+
+rw
+
+rw
+
+rw
+
+16
+Res.
+
+rw
+
+3
+
+2
+
+Res.
+
+Res.
+
+rw
+1
+
+0
+
+THINB OLDEN
+rw
+
+rw
+
+Bit 31 OLDACTIVE: OLDx active flag
+This bit is set and cleared by hardware. It is used to check if the OLDx is effectively enabled
+(active) or not. The protected fields and registers of this function can only be updated when
+the OLDACTIVE is set to 0 (refer to Section 39.4.15 for details).
+The delay between a transition on OLDEN and a transition on OLDACTIVE is two periods of
+AHB clock and two periods of mdf_proc_ck.
+0: OLDx not active and can be configured if needed
+1: OLDx active and protected fields cannot be configured
+Bits 30:22 Reserved, must be kept at reset value.

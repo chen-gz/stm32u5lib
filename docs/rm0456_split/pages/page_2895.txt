@@ -1,0 +1,148 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Bit 4 CNRDYIE: Codec not ready interrupt enable (AC’97).
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When the interrupt is enabled, the audio block detects in the slot 0 (tag0) of the AC’97 frame if the
+Codec connected to this line is ready or not. If it is not ready, the CNRDY flag in the SAI_xSR
+register is set and an interrupt is generated.
+This bit has a meaning only if the AC’97 mode is selected through PRTCFG[1:0] bits and the audio
+block is operates as a receiver.
+Bit 3 FREQIE: FIFO request interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the FREQ bit in the SAI_xSR register is set.
+Since the audio block defaults to operate as a transmitter after reset, the MODE bit must be
+configured before setting FREQIE to avoid a parasitic interrupt in receiver mode,
+Bit 2 WCKCFGIE: Wrong clock configuration interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+This bit is taken into account only if the audio block is configured as a master (MODE[1] = 0) and
+NODIV = 0.
+It generates an interrupt if the WCKCFG flag in the SAI_xSR register is set.
+Note: This bit is used only in Free protocol mode and is meaningless in other modes.
+Bit 1 MUTEDETIE: Mute detection interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the MUTEDET bit in the SAI_xSR register is set.
+This bit has a meaning only if the audio block is configured in receiver mode.
+Bit 0 OVRUDRIE: Overrun/underrun interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the OVRUDR bit in the SAI_xSR register is set.
+
+69.6.7
+
+SAI status register (SAI_ASR)
+Address offset: 0x18
+Reset value: 0x0000 0008
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+LFSDE
+AFSDET CNRDY
+T
+r

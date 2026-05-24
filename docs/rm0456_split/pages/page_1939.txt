@@ -1,0 +1,184 @@
+A 16-byte initial counter block (ICB), composed of two distinct fields:
+–
+
+Initialization vector (IV): a 96-bit value that must be unique for each encryption
+cycle with a given key.
+
+–
+
+Counter: a 32-bit big-endian integer that is incremented each time a block
+processing is completed. The initial value of the counter must be set to 1.
+
+The plaintext P is encrypted as ciphertext C, with a known length. This length can be
+non-multiple of 16 bytes, in which case a plaintext padding is required.
+
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+
+CTR encryption and decryption
+Figure 474 and Figure 475 describe the CTR encryption and decryption process,
+respectively, as implemented in the AES peripheral. The CTR mode is selected by writing
+010 to the CHMOD[2:0] bitfield of AES_CR register.
+Figure 474. CTR encryption
+Block 1
+
+Block 2
+
+AES_IVRx
+
+AES_IVRx
+
+Nonce + 32-bit counter
+
+Nonce + 32-bit counter (+1)
+
+Counter
+increment (+1)
+
+I1
+AES_KEYRx (KEY)
+
+I2
+AES_KEYRx (KEY)
+
+Encrypt
+AES_DINR (plaintext P1)
+
+Swap
+management
+
+O1
+
+DATATYPE[1:0]
+
+Encrypt
+AES_DINR (plaintext P2)
+
+Swap
+management
+
+DATATYPE[1:0]
+
+P1'
+
+Legend
+DATATYPE[1:0]
+
+input
+
+O2
+
+P2'
+
+C1'
+Swap
+management
+
+DATATYPE[1:0]
+
+C2'
+Swap
+management
+
+output
+AES_DOUTR (ciphertext C1)
+
+XOR
+
+AES_DOUTR (ciphertext C2)
+MSv19102V3
+
+Figure 475. CTR decryption
+Block 1
+
+Block 2
+
+AES_IVRx
+
+AES_IVRx
+
+Nonce + 32-bit counter
+
+Nonce + 32-bit counter (+1)
+
+Counter
+increment (+1)
+I1
+
+I2
+AES_KEYRx (KEY)
+
+AES_KEYRx (KEY)
+Encrypt
+AES_DINR (ciphertext C1)
+
+Swap
+management
+
+O1
+
+DATATYPE[1:0]
+
+Encrypt
+AES_DINR (ciphertext C2)
+
+Swap
+management
+
+DATATYPE[1:0]
+
+C1'
+
+Legend
+input
+
+DATATYPE[1:0]
+
+P1'
+Swap
+management
+
+O2
+
+C2'
+DATATYPE[1:0]
+
+P2'
+Swap
+management
+
+output
+AES_DOUTR (plaintext P1)
+
+AES_DOUTR (plaintext P2)
+
+XOR
+
+MSv18942V2
+
+In CTR mode, the cryptographic core output (also called keystream) Ox is XOR-ed with
+relevant input block (Px' for encryption, Cx' for decryption), to produce the correct output
+block (Cx' for encryption, Px' for decryption). Initialization vectors in AES must be initialized
+as shown in Table 470.
+Table 470. CTR mode initialization vector definition
+AES_IVR3[31:0]
+
+AES_IVR2[31:0]
+
+AES_IVR1[31:0]
+
+AES_IVR0[31:0]
+
+IVI[127:96]
+
+IVI[95:64]
+
+IVI[63:32]
+
+IVI[31:0}
+32-bit counter = 0x0001
+
+RM0456 Rev 6

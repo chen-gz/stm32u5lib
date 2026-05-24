@@ -1,0 +1,85 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Whenever a linked list buffer has been transfered and the current buffer ULA = 1, an end-oflinked-list-buffer-transfer-complete interrupt (IDMABTC) may be generated (if interrupt is
+enabled).
+
+Linked list acknowledgment
+In the case where software dynamically updates the linked list, during the SDMMC transfer,
+the availability of a new linked list buffer can be acknowledged by the acknowledge buffer
+ready (ABR) bit.
+When ABR acknowledges that the new linked list buffer is ready, the IDMA continues
+transferring data from the new linked list buffer.
+When ABR indicates that the new linked list buffer is not ready, an IDMA transfer error is
+generated (see Section : IDMA transfer error management). Depending when the IDMA
+transfer error occurs, it normally causes the generation of an TXUNDERR or RXOVERR
+error. When a linked list buffer is not acknowledged in time the SDMMC transfer is stopped.
+The ABR information is “don't care” when starting the linked list from software programmed
+register information. The first linked list buffer must be ready to be used before starting the
+SDMMC transfer.
+
+IDMA transfer error management
+An IDMA transfer error can occur:
+•
+
+When reading or writing a reserved address space (for data or linked list information).
+
+•
+
+When there is no more linked list buffer space to store received SDMMC data.
+
+•
+
+When all linked list buffer data has been transfered and still more SDMMC data needs
+to be sent.
+
+•
+
+When the availability of a linked list buffer is not acknowledged.
+
+On an IDMA transfer error subsequent IDMA transfers are disabled and an IDMATE flag is
+set and hardware flow control is disabled. Depending when the IDMA transfer error occurs,
+it normally causes the generation of a TXUNDERR or RXOVERR error.
+The behavior of the IDMATE flag depend on when the IDMA transfer error occurs during the
+SDMMC transfer:
+•
+
+•
+
+•
+
+An IDMA transfer error is detected before any SDMMC transfer error (TXUNDERR,
+RXOVERR, DCRCFAIL, or DTIMEOUT):
+–
+
+The IDMATE flag is set at the same time as the SDMMC transfer error flag.
+
+–
+
+The TXUNDERR, RXOVERR, DCRCFAIL, or DTIMEOUT interrupt is generated.
+
+An IDMA transfer error is detected during a STOP_TRANSNMISSION command:
+–
+
+The IDMATE flag is set at the same time as the DABORT flag.
+
+–
+
+The DABORT interrupt is generated.
+
+An IDMA transfer error is detected at the end of the SDMMC transfer (DHOLD, or
+DATAEND).
+–
+
+The IDMATE flag is set at the end of the SDMMC transfer.
+
+–
+
+A SDMMC transfer end interrupt is generated and a DHOLD or DATAEND flag is
+set.
+
+The IDMATE is generated on an other SDMMC transfer interrupt (TXUNDERR. RXOVERR,
+DCRCFAIL, DTIMEOUT, DABORT, DHOLD, or DATAEND).

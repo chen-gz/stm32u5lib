@@ -1,0 +1,93 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Figure 227. Bulb mode timing diagram
+Normal mode (discontinuous sampling)
+ADC state
+
+idle
+
+sample
+
+conversion
+
+idle
+
+sample
+
+conversion
+
+idle
+
+Trigger
+
+BULB mode (continuous sampling)
+ADC state
+
+idle
+
+sample
+
+conversion
+
+sample
+
+conversion
+
+sample
+
+Trigger
+Sampling time programmed in
+SMP bits
+MSv62473V1
+
+Sampling time control trigger mode
+When the SMPTRIG bit is set, the sampling time programmed though SMPx bits is not
+applicable. The sampling time is controlled by the trigger signal edge.
+When a hardware trigger is selected, each rising edge of the trigger signal starts the
+sampling period. A falling edge ends the sampling period and starts the conversion.
+When a software trigger is selected, the software trigger is not the ADSTART bit in ADC_CR
+but the SWTRIG bit. SWTRIG bit has to be set to start the sampling period, and the
+SWTRIG bit has to be cleared to end the sampling period and start the conversion.
+The maximum sampling time is limited (refer to the ADC characteristics section of the
+datasheet).
+This mode is not compatible with the continuous conversion mode and injected channel
+conversion.
+When the SMPTRIG bit is set, it is not allowed to set the BULB bit.
+
+33.4.14
+
+Single conversion mode (CONT = 0)
+In single conversion mode, the ADC performs once the conversions of all channels. This
+mode is started with the CONT bit at 0 by either:
+•
+
+Setting the ADSTART bit in the ADC_CR register (for a regular channel, with software
+trigger selected)
+
+•
+
+Setting the JADSTART bit in the ADC_CR register (for an injected channel, with
+software trigger selected)
+
+•
+
+External hardware trigger event (for a regular or injected channel)
+ADSTART bit or JADSTART bit must be set before triggering an external event.
+
+Inside the regular sequence, after each conversion is complete:
+•
+
+The converted data are stored into the 32-bit ADC_DR register
+
+•
+
+The EOC (end of regular conversion) flag is set
+
+•
+
+An interrupt is generated if the EOCIE bit is set
+
+RM0456 Rev 6

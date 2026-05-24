@@ -1,0 +1,154 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+4.
+
+The software safely reconfigures the channel. The software must reprogram the
+hardware-modified LPDMA_CxBR1, LPDMA_CxSAR, and LPDMA_CxDAR registers.
+
+5.
+
+In order to restart the aborted then reprogrammed channel, the software enables it
+again by writing 1 to the LPDMA_CxCR.EN bit.
+
+The abort and restart sequence is illustrated in the figure below.
+Figure 75. LPDMA channel abort and restart sequence
+
+Channel state = Active
+Suspend the DMA channel
+(write 1 to CxCR.SUSP)
+or
+
+SUSPF=1 ?
+
+Channel state = Suspended
+(and Idle)
+Receiving
+
+N
+
+Y
+
+suspended
+interrupt
+
+Reset the DMA channel
+(write 1 to CxCR.RESET)
+
+Channel state = Idle
+Reconfigure the DMA channel
+
+Enable the DMA channel
+
+Channel state = Active
+MSv62628V1
+
+18.4.5
+
+LPDMA linked-list data structure
+Alternatively to the direct programming mode, a channel can be programmed by a list of
+transfers, known as a list of linked-list items (LLI). Each LLI is defined by its data structure.
+The base address in memory of the data structure of a next LLIn+1 of a channel x is the sum
+of the following:
+•
+
+the link base address of the channel x (in LPDMA_CxLBAR)
+
+•
+
+the link address offset (LA[15:2] field in LPDMA_CxLLR)
+
+The data structure for each LLI may be specific.
+A linked-list data structure is addressed following the value of the UT1, UT2, UB1, USA,
+UDA and ULL bits of the LPDMA_CxLLR register.
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+In linked-list mode, each LPDMA linked-list register (LPDMA_CxTR1, LPDMA_CxTR2,
+LPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR or LPDMA_CxLLR) is conditionally and
+automatically updated from the next linked-list data structure in the memory, following the
+current value of the LPDMA_CxLLR register that was conditionally updated from the linkedlist data structure of the previous LLI.
+
+Static linked-list data structure
+For example, when the update bits (UT1, UT2, UB1, USA, UDA and ULL) of the
+LPDMA_CxLLR register are all asserted, the linked-list data structure in memory is maximal
+with six contiguous 32-bit locations, including LPDMA_CxTR1, LPDMA_CxTR2,
+LPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR and LPDMA_CxLLR (see the figure
+below) and including the first linked-list register file (LLI0) and the next LLIs (LLI1, LLI2,...) in
+the memory.
+Figure 76. Static linked-list data structure (all Uxx = 1) of channel x
+DMA register file
+
+Memory from link base address
+DMA_CxLBAR
+
+Channel x linked-list register file
+(LLI0)
+DMA_CxTR1
+
+LLI1
+All Uxx=1
+
+DMA_CxTR1
+
+DMA_CxTR2
+
+DMA_CxTR2
+
+DMA_CxBR1
+
+DMA_CxBR1
+
+DMA_CxSAR
+
+DMA_CxSAR
+
+DMA_CxDAR
+
+DMA_CxDAR
+
+DMA_CxLLR
+
+DMA_CxLLR
+
+Channel x other registers
+
+All Uxx=1
+
+LLI2
+DMA_CxTR1
+
+Other channels registers
+
+DMA_CxTR2
+DMA_CxBR1
+
+Global registers
+
+DMA_CxSAR
+DMA_CxDAR
+DMA_CxLLR
+
+MSv62629V1
+
+Dynamic linked-list data structure
+Alternatively, the memory organization for the full list of LLIs can be compacted with specific
+data structure for each LLI.
+If UT1 = 0 and UT2 = 1, the link address offset of the register LPDMA_CxLLR is pointing to
+the updated value of the LPDMA_CxTR2 instead of the LPDMA_CxTR1 which is not to be
+modified.
+Example: if UT1 = UB1 = USA = 0, and if UT2 = UDA = ULL = 1, the next LLI does not
+contain an updated value for LPDMA_CxTR1, nor LPDMA_CxBR1, nor LPDMA_CxSAR.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

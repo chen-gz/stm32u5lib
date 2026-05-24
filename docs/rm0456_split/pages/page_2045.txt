@@ -1,0 +1,112 @@
+To do to decrypt a region x (this task must be performed by the entity that owns the
+corresponding key):
+a)
+
+Write the correct MODE[1:0] value in OTFDEC_RxCFGR.
+
+b)
+
+Program OTFDEC_RxKEYR registers using the sequence described in KEYCRC
+(to have a valid CRC). Warning as key registers are write only.
+
+c)
+
+Check the key CRC. If OK, set KEYLOCK bit in OTFDEC_RxCFGR. This bit
+cannot be cleared (key registers are no more writable).
+
+d)
+
+Fill the detailed information corresponding to the protected firmware (nonce, start
+address, end address, version number).
+
+e)
+
+Enable decryption of this region using REG_EN.
+
+f)
+
+Set CONFIGLOCK bit in OTFDEC_RxCFGR. This bit cannot be cleared (the
+region configuration is no more writable).
+
+For a given region, when MODE bits are changed, the key registers and associated CRC
+are cleared by hardware. As a consequence step a) above must be done before step b),
+and MODE bits must not be modified after step b).
+
+RM0456 Rev 6
+
+RM0456
+
+52.5.2
+
+On-the-fly decryption engine (OTFDEC)
+
+OTFDEC and power management
+Each time OTFDEC is reset, the correct key loading sequence described in Section 52.5.1
+must be performed (in this case KEYCRC = 0 in OTFDEC_RxCFGR).
+It is recommended for application software to verify this point each time OTFDEC is reset by
+hardware.
+
+52.5.3
+
+Encrypting for OTFDEC
+Code and data standard encryption
+OTFDEC uses standard AES in counter mode when processing a binary stored in a
+protected region with MODE[1:0] = 10. When this mode is selected, any AES compatible
+hardware accelerator or library can be used to encrypt those protected libraries. OTFDEC
+can be used as well, as described in enhanced encryption section below (with
+MODE[1:0] = 10).
+Definition and endianness of the AES inputs and outputs are defined in Section 52.3.4:
+OTFDEC usage of AES in counter mode decryption.
+
+Enhanced encryption with OTFDEC
+OTFDEC uses a proprietary layer of protection on top of the standard AES in counter mode
+when processing a code stored in a protected region with MODE[1:0] = 11.
+Enhanced encryption mode can be used to increase the robustness against tampering.
+Recommended sequence to encrypt using OTFDEC is described below:
+1.
+
+The application in charge of the encryption sets the ENC bit in OTFDEC_CR. This
+application must run in TrustZone secure mode when TrustZone security is enabled in
+the product. If PRIV bit is set in OTFDEC_PRIVCFGR, this application must be
+privileged.
+
+2.
+
+Encryption application initializes OTFDEC as described in Section 52.5.1: OTFDEC
+initialization process. OCTOSPI must also be properly clocked, so that OTFDEC is fully
+functional in encryption mode. This step can also be done before step 1.
+
+3.
+
+Encryption application writes 32-bit of clear-text data at the expected protected
+address, then reads it back encrypted at the same address to store it in RAM. Note that
+this data stays inside the device, as it is intercepted by OTFDEC in encryption mode.
+
+4.
+
+Encryption application goes back to previous step (changing the address) until the
+whole binary is processed.
+
+5.
+
+Encryption application clears the ENC bit in OTFDEC_CR. Another application can
+then take the encrypted binary and flash it to the correct address in external flash.
+
+There are few important notes about this procedure:
+•
+
+Encryption granularity is 32-bit (single 32-bit access is mandatory).
+
+•
+
+While ENC bit is set, reads to non-encrypted regions return normal data (such as no
+encryption nor decryption). While in encryption mode, no access to OCTOSPI
+(including registers) must be done. This is because the OTFDEC cuts the
+communication with OCTOPSI while ENC bit is set.
+
+•
+
+OTFDEC does not support execution while ENC = 1 (only encrypted data reads). Upon
+illegal execution detection a XONEIF flag is raised and zero is returned.
+
+RM0456 Rev 6

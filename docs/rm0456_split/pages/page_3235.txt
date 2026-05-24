@@ -1,0 +1,183 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 20:6 Reserved, must be kept at reset value.
+Bit 5 NPTXFEM: Non-periodic Tx FIFO empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 4 RXFLVLM: Receive FIFO non-empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 3 SOFM: Start of frame mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 2 OTGINT: OTG interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 1 MMISM: Mode mismatch interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 0 Reserved, must be kept at reset value.
+
+73.14.9
+
+OTG interrupt mask register [alternate] (OTG_GINTMSK)
+Valid for Device mode, see previous section for Host mode.
+This register works with the core interrupt register to interrupt the application. When an
+interrupt bit is masked, the interrupt associated with that bit is not generated. However, the
+core interrupt (OTG_GINTSTS) register bit corresponding to that interrupt is still set.
+Address offset: 0x018
+Reset value: 0x0000 0000
+
+31
+WUIM
+
+30
+SRQIM
+
+rw
+
+rw
+
+15
+
+14
+
+EOPF
+M
+
+ISOOD
+RPM
+
+rw
+
+rw
+
+29
+
+28
+
+27
+
+Res.
+
+CIDSC
+HGM
+
+LPMIN
+TM
+
+rw
+
+rw
+
+13
+
+12
+
+11
+
+26
+
+rw
+
+rw
+
+24
+
+23
+
+22
+
+RSTDE
+TM
+
+FSUS
+PM
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+RXFLV
+LM
+
+SOFM
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+10
+
+9
+
+8
+
+ENUM USBRS USBSU ESUSP
+DNEM
+T
+SPM
+M
+rw
+
+25
+
+Res.
+
+Res.
+
+GONA GINAK
+KEFFM EFFM
+
+rw
+
+rw
+
+21
+
+20
+
+IISOOX IISOIX
+FRM
+FRM
+
+rw
+
+Bit 31 WUIM: Resume/remote wake-up detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 30 SRQIM: Session request/new session detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 CIDSCHGM: Connector ID status change mask
+0: Masked interrupt
+1: Unmasked interrupt

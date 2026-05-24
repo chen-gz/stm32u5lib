@@ -1,0 +1,188 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+11.8.26
+
+RCC APB1 peripheral reset register 2 (RCC_APB1RSTR2)
+Address offset: 0x078
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+UCPD1
+RST
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+I2C4RS
+T
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+FDCAN
+1RST
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+I2C6RS I2C5RS LPTIM2
+T
+T
+RST
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 UCPD1RST: UCPD1 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the UCPD1.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 22:10 Reserved, must be kept at reset value.
+Bit 9 FDCAN1RST: FDCAN1 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the FDCAN1.
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 8 Reserved, must be kept at reset value.
+Bit 7 I2C6RST: I2C6 reset
+This bit is set and cleared by software
+0: No effect
+1: Reset the I2C6.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 6 I2C5RST: I2C5 reset
+This bit is set and cleared by software
+0: No effect
+1: Reset the I2C5.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+
+RM0456 Rev 6

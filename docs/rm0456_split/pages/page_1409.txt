@@ -1,0 +1,105 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+Table 334. Analog watchdog comparison
+
+Resolution
+
+Analog Watchdog comparison between:
+
+bits
+RES[1:0]
+
+Raw converted
+data, left aligned(1)
+
+Thresholds
+
+00: 12-bit
+
+DATA[11:0]
+
+LTx[11:0] and HTx[11:0] -
+
+01: 10-bit
+
+DATA[11:2],00
+
+LTx[11:0] and HTx[11:0] The user must configure LTx[1:0] and HTx[1:0] to “00”
+
+10: 8-bit
+
+DATA[11:4],0000
+
+LTx[11:0] and HTx[11:0]
+
+The user must configure LTx[3:0] and HTx[3:0] to
+“0000”
+
+11: 6-bit
+
+DATA[11:6],000000 LTx[11:0] and HTx[11:0]
+
+The user must configure LTx[5:0] and HTx[5:0] to
+“000000”
+
+Comments
+
+1. The watchdog comparison is performed on the raw converted data before any alignment calculation.
+
+Table 335 shows how to configure the AWD1SGL and AWD1EN bits in the ADC_CFGR1
+register to enable the analog watchdog on one or more channels.
+Figure 298. Analog watchdog guarded area
+Analog voltage
+Higher threshold
+
+HTx
+Guarded area
+
+Lower threshold
+
+LTx
+MS45396V1
+
+Table 335. Analog watchdog 1 channel selection
+Channels guarded by the analog watchdog
+None
+All channels
+(1)
+
+Single
+
+channel
+
+AWD1SGL bit
+
+AWD1EN bit
+
+x
+
+0
+
+0
+
+1
+
+1
+
+1
+
+1. Selected by the AWD1CH[4:0] bits
+
+Description of analog watchdog 2 and 3
+The second and third analog watchdogs are more flexible and can guard several selected
+channels by programming the AWDxCHy in ADC_AWDxCR (x = 2, 3).
+The corresponding watchdog is enabled when any AWDxCHy bit (x = 2,3) is set in
+ADC_AWDxCR register.
+When converting data with a resolution of less than 12 bits (configured through DRES[1:0]
+bits), the LSB of the programmed thresholds must be kept cleared because the internal
+comparison is always performed on the full 12-bit raw converted data (left aligned).
+Table 334 describes how the comparison is performed for all the possible resolutions.
+The AWD2/3 analog watchdog status bit is set if the analog voltage converted by the ADC is
+below a low threshold or above a high threshold. These thresholds are programmed in
+RM0456 Rev 6

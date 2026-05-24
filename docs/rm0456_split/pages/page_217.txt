@@ -1,0 +1,108 @@
+22
+
+12
+
+SAESP PKAPR RNGP HASHP AESPR
+RIV
+IV
+RIV
+RIV
+IV
+rw
+
+26
+
+DCAC
+HSPI1_ GFXM GFXM
+RAMC OCTOS OCTOS FSMC_ SDMM
+JPEGP HE2_R
+GPU2D
+REGP MU_RE MUPRI
+FGPRI PI2_RE PI1_RE REGP C2PRI
+RIV
+EGPRI
+PRIV
+RIV
+GPRIV
+V
+V
+GPRIV GPRIV
+RIV
+V
+V
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+CRCP FMACP CORDI MDF1P
+RIV
+RIV
+CPRIV
+RIV
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 28 JPEGPRIV: privileged access mode for JPEG
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 27 DCACHE2_REGPRIV: privileged access mode for DCACHE2 registers
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 26 HSPI1_REGPRIV: privileged access mode for HSPI1 registers
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 25 GFXMMU_REGPRIV: privileged access mode for GFXMMU registers
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 24 GFXMMUPRIV: privileged access mode for GFXMMU
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 23 GPU2DPRIV: privileged access mode for GPU2D
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 RAMCFGPRIV: privileged access mode for RAMCFG
+0: unprivileged
+1: privileged
+Bit 21 OCTOSPI2_REGPRIV: privileged access mode for OCTOSPI2
+0: unprivileged
+1: privileged
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 20 OCTOSPI1_REGPRIV: privileged access mode for OCTOSPI1
+0: unprivileged
+1: privileged
+
+RM0456 Rev 6

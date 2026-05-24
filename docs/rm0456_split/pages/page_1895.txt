@@ -1,0 +1,243 @@
+RM0456 Rev 6
+
+RM0456
+
+Touch sensing controller (TSC)
+In order to improve the system immunity, the Schmitt trigger hysteresis of the GPIOs
+controlled by the TSC must be disabled by resetting the corresponding Gx_IOy bit in the
+TSC_IOHCR register.
+
+47.4
+
+TSC low-power modes
+Table 459. Effect of low-power modes on TSC
+Mode
+
+47.5
+
+Description
+
+Sleep
+
+No effect. Peripheral interrupts cause the device to exit Sleep mode.
+
+Stop
+
+Peripheral registers content is kept.
+
+Standby
+
+Powered-down. The peripheral must be reinitialized after exiting Standby mode.
+
+TSC interrupts
+Table 460. Interrupt control bits
+
+Interrupt event
+
+Enable
+control bit
+
+Event flag
+
+Clear flag
+bit
+
+Exit the
+Sleep mode
+
+Exit the
+Stop mode
+
+Exit the
+Standby mode
+
+End of acquisition
+
+EOAIE
+
+EOAIF
+
+EOAIC
+
+Yes
+
+No
+
+No
+
+Max count error
+
+MCEIE
+
+MCEIF
+
+MCEIC
+
+Yes
+
+No
+
+No
+
+47.6
+
+TSC registers
+Refer to Section 1.2 of the reference manual for a list of abbreviations used in register
+descriptions.
+The peripheral registers can be accessed by words (32-bit).
+
+47.6.1
+
+TSC control register (TSC_CR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+CTPH[3:0]
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+CTPL[3:0]
+
+20
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+SSPSC
+rw
+
+PGPSC[2:0]
+rw
+
+rw
+
+Res.
+rw
+
+Res.
+
+Res.
+
+19
+
+18
+
+17
+
+SSD[6:0]
+
+Res.
+
+MCV[2:0]
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+16
+SSE
+
+rw
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+IODEF
+
+SYNC
+POL
+
+AM
+
+START
+
+TSCE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw

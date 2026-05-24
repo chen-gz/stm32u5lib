@@ -1,0 +1,184 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 2 PENA: Port enable
+A port is enabled only by the core after a reset sequence, and is disabled by an overcurrent
+condition, a disconnect condition, or by the application clearing this bit. The application
+cannot set this bit by a register write. It can only clear it to disable the port. This bit does not
+trigger any interrupt to the application.
+0: Port disabled
+1: Port enabled
+Bit 1 PCDET: Port connect detected
+The core sets this bit when a device connection is detected to trigger an interrupt to the
+application using the host port interrupt bit in the core interrupt register (HPRTINT bit in
+OTG_GINTSTS). The application must write a 1 to this bit to clear the interrupt.
+Bit 0 PCSTS: Port connect status
+0: No device is attached to the port
+1: A device is attached to the port
+
+72.15.28 OTG host channel x characteristics register (OTG_HCCHARx)
+Address offset: 0x500 + 0x20 * x, (x = 0 to 11)
+Reset value: 0x0000 0000
+31
+
+30
+
+CHENA CHDIS
+
+29
+
+28
+
+27
+
+26
+
+ODD
+FRM
+
+25
+
+24
+
+23
+
+22
+
+DAD[6:0]
+
+21
+
+20
+
+19
+
+18
+
+MCNT[1:0]
+
+EPTYP[1:0]
+
+17
+
+16
+
+LSDEV
+
+Res.
+
+rs
+
+rs
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+EPDIR
+rw
+
+EPNUM[3:0]
+rw
+
+rw
+
+rw
+
+MPSIZ[10:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 CHENA: Channel enable
+This field is set by the application and cleared by the OTG host.
+0: Channel disabled
+1: Channel enabled
+Bit 30 CHDIS: Channel disable
+The application sets this bit to stop transmitting/receiving data on a channel, even before
+the transfer for that channel is complete. The application must wait for the Channel disabled
+interrupt before treating the channel as disabled.
+Bit 29 ODDFRM: Odd frame
+This field is set (reset) by the application to indicate that the OTG host must perform a
+transfer in an odd frame. This field is applicable for only periodic (isochronous and interrupt)
+transactions.
+0: Even frame
+1: Odd frame
+Bits 28:22 DAD[6:0]: Device address
+This field selects the specific device serving as the data source or sink.

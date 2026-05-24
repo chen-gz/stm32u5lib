@@ -1,0 +1,85 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+The application to select the wanted stream via the ADF bitstream matrix control register 0
+(ADF_BSMX0CR). This selection is intended to be static.
+Figure 366. BSMX overview
+
+ADF
+ADCITF[2,1]
+
+BSMX
+
+DFLT0
+
+bs0_r
+bs_flt0
+bs0_f
+
+SITF0
+
+BSSEL
+
+MSv63654V1
+
+BSMX programming sequence example
+The BSSEL[4:0] bitfield cannot be changed if the DFLT0 is enabled. The following steps are
+needed to change the value of BSMX:
+1.
+
+40.4.7
+
+Set DFLTEN of DFLT0 to 0.
+
+2.
+
+Wait for BSMXACTIVE = 0.
+
+3.
+
+Program BSSEL[4:0].
+
+4.
+
+Set DFLTEN of DFLT0 to 1.
+
+Digital filter processing (DFLT)
+The digital filter processing includes the following sub-blocks:
+•
+
+symbol remap (SBR)
+
+•
+
+clock skipper delay (DLY)
+
+•
+
+MCIC decimation filter that can be configured in Sinc4 or Sinc5
+
+•
+
+gain control (SCALE)
+
+•
+
+signal saturation (SAT)
+
+•
+
+reshape filter (RSFLT)
+
+•
+
+high-pass filter (HPF)
+
+•
+
+receive RXFIFO
+
+Figure 367 shows the filter path configuration according to CICMOD[2:0]. Several
+configuration bits are available to configure the digital filter to the application needs.
+
+RM0456 Rev 6

@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+Bit 26 TAMPOE: Tamper detection output enable on TAMPALRM
+0: The tamper flag is not routed on TAMPALRM
+1: The tamper flag is routed on TAMPALRM, combined with the signal provided by OSEL and
+with the polarity provided by POL.
+Bit 25 TAMPTS: Activate timestamp on tamper detection event
+0: Tamper detection event does not cause a RTC timestamp to be saved
+1: Save RTC timestamp on tamper detection event
+TAMPTS is valid even if TSE = 0 in the RTC_CR register. Timestamp flag is set up to 3
+ck_apre cycles after the tamper flags.
+Note: TAMPTS must be cleared before entering RTC initialization mode.
+Bit 24 ITSE: timestamp on internal event enable
+0: internal event timestamp disabled
+1: internal event timestamp enabled
+Bit 23 COE: Calibration output enable
+This bit enables the CALIB output
+0: Calibration output disabled
+1: Calibration output enabled
+Bits 22:21 OSEL[1:0]: Output selection
+These bits are used to select the flag to be routed to TAMPALRM output.
+00: Output disabled
+01: Alarm A output enabled
+10: Alarm B output enabled
+11: Wake-up output enabled
+Bit 20 POL: Output polarity
+This bit is used to configure the polarity of TAMPALRM output.
+0: The pin is high when ALRAF/ALRBF/WUTF is asserted (depending on OSEL[1:0]), or
+when a TAMPxF/ITAMPxF is asserted (if TAMPOE = 1).
+1: The pin is low when ALRAF/ALRBF/WUTF is asserted (depending on OSEL[1:0]), or
+when a TAMPxF/ITAMPxF is asserted (if TAMPOE = 1).
+Bit 19 COSEL: Calibration output selection
+When COE = 1, this bit selects which signal is output on CALIB.
+0: Calibration output is 512 Hz
+1: Calibration output is 1 Hz
+These frequencies are valid for RTCCLK at 32.768 kHz and prescalers at their default values
+(PREDIV_A = 127 and PREDIV_S = 255). Refer to Section 63.3.18: Calibration clock output.
+Bit 18 BKP: Backup
+This bit can be written by the user to memorize whether the daylight saving time change has
+been performed or not.
+Bit 17 SUB1H: Subtract 1 hour (winter time change)
+When this bit is set outside initialization mode, 1 hour is subtracted to the calendar time if the
+current hour is not 0. This bit is always read as 0.
+Setting this bit has no effect when current hour is 0.
+0: No effect
+1: Subtracts 1 hour to the current time. This can be used for winter time change.
+
+RM0456 Rev 6

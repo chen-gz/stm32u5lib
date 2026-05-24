@@ -1,0 +1,72 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+Table 267. Command/address phase description
+
+CA bit
+
+Bit name
+
+47
+
+R/W#
+
+46
+
+Address space
+
+45
+
+Burst type
+
+44-16
+
+Description
+Identifies the transaction as a read or a write
+Indicates if the transaction accesses the memory or the register
+space
+Indicates if the burst is linear or wrapped
+
+Row and upper
+Selects the row and the upper column addresses
+column address
+
+15-3
+
+Reserved
+
+2-0
+
+Lower column
+address
+
+Selects the starting 16-bit word within the half page
+
+The address space is configured through the memory type MTYP[2:0] of HSPI_DCR1.
+The total size of the device must be considered through DEVSIZE[4:0] of HSPI_DCR1. In
+case of multi-chip product (MCP), the device size is the sum of all the sizes of all the MCP
+dies.
+
+Warning:
+
+Some memory specifications consider that each address
+corresponds to a 16-bit value. The HSPI considers that each
+address corresponds to an 8-bit value. So, the software
+needs to multiple the address by two when accessing the
+memory registers.
+
+Read/write operation with initial latency
+The HyperBus read and write operations need to respect two timings:
+•
+
+tRWR: minimal read/write recovery time for the device (defined by TRWR[7:0]
+in HSPI_HLCR)
+
+•
+
+tACC: access time for the device (defined in TACC[7:0] of HSPI_HLCR) according to the
+memory latency
+
+During the read operation, the DQS0/1 is used by the device, in two ways (see Figure 173):

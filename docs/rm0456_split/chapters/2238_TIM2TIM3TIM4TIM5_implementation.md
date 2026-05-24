@@ -1,0 +1,13 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+55.3
+
+RM0456
+
+TIM2/TIM3/TIM4/TIM5 implementation
+Table 556. STM32U5 series general purpose timers
+
+<!-- pagebreak -->
+

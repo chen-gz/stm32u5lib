@@ -1,0 +1,185 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+Bit 0 EOP: Nonsecure end of operation
+This bit is set by hardware when one or more flash memory nonsecure operation
+(program/erase) has been completed successfully. This bit is set only if the nonsecure end of
+operation interrupts are enabled (EOPIE = 1 in FLASH_NSCR). This bit is cleared by
+writing 1.
+
+7.9.8
+
+FLASH secure status register (FLASH_SECSR)
+Address offset: 0x24
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word and byte access
+This register is secure. It can be read and written only by secure access. A nonsecure
+read/write access is RAZ/WI. This register can be protected against unprivileged access
+when SPRIV = 1 in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+WDW
+
+BSY
+
+r
+
+r
+
+2
+
+1
+
+0
+
+Res.
+
+OPER
+R
+
+EOP
+
+rc_w1
+
+rc_w1
+
+15
+Res.
+
+14
+Res.
+
+13
+Res.
+
+12
+Res.
+
+11
+Res.
+
+10
+Res.
+
+9
+Res.
+
+8
+Res.
+
+7
+
+6
+
+5
+
+4
+
+3
+
+PGSER SIZER PGAER WRPE
+R
+R
+R
+RR
+
+PROG
+ERR
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Bits 31:18 Reserved, must be kept at reset value.
+Bit 17 WDW: Secure wait data to write
+This bit indicates that the flash memory write buffer has been written by a secure or
+non-secure operation. It is set when the first data is stored in the buffer and cleared when
+the write is performed in the flash memory.
+Bit 16 BSY: Secure busy
+This bit indicates that a flash memory secure or nonsecure operation is in progress. This is
+set on the beginning of a flash operation and reset when the operation finishes or when
+an error occurs.
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 PGSERR: Secure programming sequence error
+This bit is set by hardware when programming sequence is not correct. It is cleared by
+writing 1. Refer to Section 7.3.9 for full conditions of error flag setting.
+Bit 6 SIZERR: Secure size error
+This bit is set by hardware when the size of the access is a byte or half-word during a secure
+program sequence. Only quad-word programming is allowed by means of successive word
+accesses.This bit is cleared by writing 1.
+Bit 5 PGAERR: Secure programming alignment error
+This bit is set by hardware when the first word to be programmed is not aligned with a quadword address, or the second, third or forth word does not belong to the same quad-word
+address.This bit is cleared by writing 1.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

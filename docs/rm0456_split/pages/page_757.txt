@@ -1,0 +1,177 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.16
+
+GPDMA channel x transfer register 3 (GPDMA_CxTR3)
+Address offset: 0xA4 + 0x80 * x (x = 12 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (GPDMA_PRIVCFGR.PRIVx).
+This register controls the transfer of a channel x.
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed (then the hardware has
+deasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block or LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by the
+GPDMA from the memory if GPDMA_CxLLR.UT3 = 1.
+
+31
+
+30
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+Res.
+
+Res.
+
+Res.
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DAO[12:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+SAO[12:0]
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.
+Bits 28:16 DAO[12:0]: destination address offset increment
+The destination address, pointed by GPDMA_CxDAR, is incremented or decremented
+(depending on GPDMA_CxBR1.DDEC) by this offset DAO[12:0] for each programmed
+destination burst. This offset is not including and is added to the programmed burst size
+when the completed burst is addressed in incremented mode (GPDMA_CxTR1.DINC = 1).
+Note: A destination address offset must be aligned with the programmed data width of a
+destination burst (DAO[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0]). Else, a user
+setting error is reported and no transfer is issued.
+Bits 15:13 Reserved, must be kept at reset value.
+Bits 12:0 SAO[12:0]: source address offset increment
+The source address, pointed by GPDMA_CxSAR, is incremented or decremented
+(depending on GPDMA_CxBR1.SDEC) by this offset SAO[12:0] for each programmed
+source burst. This offset is not including and is added to the programmed burst size when the
+completed burst is addressed in incremented mode (GPDMA_CxTR1.SINC = 1).
+Note: A source address offset must be aligned with the programmed data width of a source
+burst (SAO[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0]). Else a user setting error is
+reported and none transfer is issued.
+When the source block size is not a multiple of the destination burst size, and
+is a multiple of the source data width, then the last programmed source burst is not
+completed and is internally shorten to match the block size. In this case, the additional
+GPDMA_CxTR3.SAO[12:0] is not applied.
+
+RM0456 Rev 6

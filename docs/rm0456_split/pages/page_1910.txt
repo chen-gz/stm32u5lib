@@ -1,0 +1,66 @@
+1921
+
+True random number generator (RNG)
+
+RM0456
+
+The associated initialization time can be found in Section 48.5.
+Figure 458. RNG initialization overview
+
+1
+Wait for noise
+source
+
+Software reset
+
+2
+Software reset
+
+Start-up heath tests
+
+Error state
+Start-up test(s)
+not OK
+
+3
+Conditioning keys
+init
+
+Continuous test(s)
+not OK
+
+4
+Generate samples
+5
+MSv44204V2
+
+Figure 458 also highlights a possible software reset sequence, implemented by:
+1.
+
+Writing bits RNGEN = 0 and CONDRST = 1 in the RNG_CR register with the same
+RNG configuration and a new CLKDIV if needed.
+
+2.
+
+Then writing RNGEN = 1 and CONDRST = 0 in the RNG_CR register.
+
+3.
+
+Wait for random number to be ready, after initialization completes.
+
+Note:
+
+When the RNG peripheral is reset through RCC (hardware reset), the RNG configuration for
+optimal randomness is lost in the RNG registers. Software reset with CONFIGLOCK set
+preserves the RNG configuration.
+
+48.3.5
+
+RNG operation
+Normal operation
+To run the RNG using interrupts, the following steps are recommended:
+1.
+
+Check Section 48.6 to verify if a specific RNG configuration is required for the
+application.
+–

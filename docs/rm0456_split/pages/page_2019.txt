@@ -1,0 +1,208 @@
+RM0456 Rev 6
+
+RM0456
+
+Hash processor (HASH)
+In accordance to the kind of data to be processed (e.g. byte swapping when data are ASCII
+text stream) there must be a bit, byte, half-word or no swapping operation to be performed
+on data from the input FIFO before entering the little-endian hash processing core.
+Figure 502 shows how the hash processing core 32-bit data block M0...31 is constructed
+from one 32-bit words popped into input FIFO by the driver, according to the DATATYPE
+bitfield in the HASH control register (HASH_CR).
+HASH_DIN data endianness when bit swapping is disabled (DATATYPE = 00) can be
+described as following: the least significant bit of the message has to be at MSB position in
+the first word entered into the hash processor, the 32nd bit of the bit string has to be at MSB
+position in the second word entered into the hash processor and so on.
+Figure 502. Message data swapping feature
+
+DATATYPE “00”: no swapping
+written first!
+LSB
+
+MSB
+
+System interface
+
+Word0
+
+Word2
+
+Word1
+
+bit31
+
+bit0
+
+bit31
+
+M0
+
+M31
+
+M32
+
+bit0
+
+bit31
+
+M64
+M63
+HASH core interface
+
+LSB
+
+Word3
+bit0
+
+bit31
+
+bit0
+
+M95
+
+M96
+
+M127
+MSB
+
+DATATYPE “01”: 16-bit or half-word swapping
+written first!
+
+LSB
+bit31
+
+M0
+LSB
+
+bit0
+
+bit31
+
+Word1
+bit16 bit15
+
+M15
+
+M31
+
+M32
+
+M47
+
+M16
+
+M48
+
+DATATYPE “10”: 8-bit or byte swapping
+written first!
+LSB
+Word0
+
+M0..7
+LSB
+
+bit0
+
+bit31
+
+bit7..0
+
+Word2
+bit16 bit15
+
+bit0
+
+M63
+HASH core interface
+
+bit31
+
+Word3
+bit16 bit15
+
+M96
+
+M111
+
+M112
+
+Word2
+
+bit31..24 bit23..16 bit15..8
+
+bit7..0
+
+bit31..24 bit23..16 bit15..8
+
+M127
+MSB
+
+Word3
+bit7..0
+
+bit31..24 bit23..16 bit15..8
+
+M96..103
+
+M8..15 M16..23 M24..31
+
+bit0
+
+MSB
+
+System interface
+Word1
+
+bit31..24 bit23..16 bit15..8
+
+MSB
+
+System interface
+
+Word0
+bit16 bit15
+
+HASH core interface
+
+bit7..0
+
+M112..119 M120..127
+MSB
+
+DATATYPE “11”: bit swapping
+LSB
+
+written first!
+
+Word0
+bit31 bit30bit29
+
+Word1
+bit2 bit1 bit0 bit31 bit30 bit29
+
+M0 M1 M2
+LSB
+
+M29 M30 M31 M32 M33 M34
+
+System interface
+Word2
+bit2 bit1 bit0
+
+M61 M62 M63
+HASH core interface
+
+MSB
+Word3
+bit31bit30 bit29
+
+M96 M97 M98
+
+bit2 bit1 bit0
+
+M125M126M127
+MSB
+
+MSv41984V4
+
+RM0456 Rev 6

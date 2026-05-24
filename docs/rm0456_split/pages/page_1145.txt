@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+In automatic status-polling mode, BUSY goes low only after the last periodic access is
+complete, due to a match when APMS = 1 or due to an abort.
+After the first access in memory-mapped mode, BUSY goes low only on an abort.
+Any operation can be aborted by setting ABORT in HSPI_CR. Once the abort is completed,
+BUSY and ABORT are automatically reset, and the FIFO is flushed.
+Before setting ABORT, the software must ensure that all the current transactions are
+finished using the synchronization barriers. When DMA is enabled to handle the data read
+or write operations in HSPI_DR, it is recommended to disable the DMA channel before
+aborting the HSPI.
+
+Note:
+
+Some devices may misbehave if a write operation to a status register is aborted.
+
+30.4.20
+
+HSPI reconfiguration or deactivation
+Before any HSPI reconfiguration, the software must ensure that all the transactions are
+completed:
+
+30.4.21
+
+•
+
+After a memory-mapped write, the software must perform a dummy read followed by a
+synchronization barrier, then an abort.
+
+•
+
+After a memory-mapped read, the software must perform a synchronization barrier
+then an abort.
+
+NCS behavior
+By default, NCS is high, deselecting the external device. NCS falls before an operation
+begins and rises as soon as it finishes.
+When CKMODE = 0 (clock mode 0: CLK stays low when no operation is in progress), NCS
+falls one CLK cycle before an operation first rising CLK edge, and NCS rises one CLK cycle
+after the operation final rising CLK edge (see the figure below).
+Figure 182. NCS when CKMODE = 0 (T = CLK period)
+T
+
+T
+
+NCS
+
+CLK
+
+MSv44100V2
+
+RM0456 Rev 6

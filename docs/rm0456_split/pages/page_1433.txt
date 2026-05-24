@@ -1,0 +1,166 @@
+22
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Bits 27:16 HT1[11:0]: Analog watchdog 1 higher threshold
+These bits are written by software to define the higher threshold for the analog watchdog.
+Refer to Section 34.4.25: Analog window watchdog.
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:0 LT1[11:0]: Analog watchdog 1 lower threshold
+These bits are written by software to define the lower threshold for the analog watchdog.
+Refer to Section 34.4.25: Analog window watchdog.
+
+34.7.8
+
+ADC watchdog threshold register (ADC_AWD2TR)
+Address offset: 0x24
+Reset value: 0x0FFF 0000
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+HT2[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+LT2[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bits 27:16 HT2[11:0]: Analog watchdog 2 higher threshold
+These bits are written by software to define the higher threshold for the analog watchdog.
+Refer to Section 34.4.25: Analog window watchdog.
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:0 LT2[11:0]: Analog watchdog 2 lower threshold
+These bits are written by software to define the lower threshold for the analog watchdog.
+Refer to Section 34.4.25: Analog window watchdog.
+
+RM0456 Rev 6

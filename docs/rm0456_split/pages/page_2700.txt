@@ -1,0 +1,117 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+Table 683. USART interrupt requests
+
+Interrupt
+vector
+
+USART or
+UART
+
+Event
+flag
+
+Enable
+Control
+bit
+
+Transmit data
+register empty
+
+TXE
+
+TXEIE
+
+Write TDR
+
+Yes
+
+Transmit FIFO not
+full
+
+TXFNF
+
+TXFNFIE TXFIFO full
+
+Yes
+
+Transmit FIFO
+empty
+
+TXFE
+
+TXFEIE
+
+Write TDR or write 1
+in TXFRQ
+
+Transmit FIFO
+threshold reached
+
+TXFT
+
+TXFTIE
+
+Write TDR(2)
+
+CTS interrupt
+
+CTSIF
+
+CTSIE
+
+Write 1 in CTSCF
+
+No
+
+Transmission
+complete
+
+TC
+
+TCIE
+
+Write TDR or write 1
+in TCCF
+
+Yes
+
+Transmission
+complete before
+guard time
+
+TCBGT
+
+TCBGTIE
+
+Write TDR or write 1
+in TCBGT
+
+No
+
+Interrupt event
+
+Interrupt clear
+method
+
+RM0456 Rev 6
+
+Exit from Exit from
+Sleep
+Stop(1)
+modes
+mode
+
+Exit from
+Standby
+mode
+
+Yes
+Yes
+
+Yes
+
+No

@@ -1,0 +1,190 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+Unsigned 14-bit data can be extended to 15-bit signed data by using an offset value
+different from 0x2000.
+The original data width can be preserved by setting the SSAT bit to limit the data width to 14
+bits.
+Unsigned data can be saturated to the original data width by setting the USAT bit.
+Table 315 shows the sign-extended data format corresponding to different resolutions.
+Table 315. 14-bit data formats
+SSAT
+
+USAT
+
+Format
+
+Data range (offset = 0x2000)
+
+0
+
+0
+
+Sign-extended 15-bit significant data:
+SEXT[31:14]
+DATA[13:0]
+
+0x0000 1FFF - 0xFFFF E000
+
+1
+
+0
+
+Sign-extended 14-bit significant data:
+SEXT[31:13]
+DATA[12:0]
+
+0x1FFF - 0xE000
+
+0
+
+1
+
+Unsigned saturation14-bit significant data:
+DATA[13:0]
+
+0x3FFF - 0x0000
+
+1
+
+1
+
+Reserved
+
+-
+
+Table 316 provides numerical examples for three different offset values.
+Table 316. Numerical examples for 16-bit format
+Result
+
+Result
+
+Result
+
+SSAT = 0
+
+SSAT = 0
+
+SSAT = 1
+
+USAT = 0
+
+USAT = 1
+
+USAT = 0
+
+0x0000 1FFF
+
+1FFF
+
+1FFF
+
+0x0000 0000
+
+0000
+
+0000
+
+0x0000
+
+0xFFFF E000
+
+E000
+
+E000
+
+0x3FFF
+
+0x0000 1FDF
+
+1FDF
+
+1FDF
+
+0xFFFF FFE0
+
+0000
+
+FFE0
+
+0x0000
+
+0xFFFF DFE0
+
+0000
+
+DFE0
+
+0x3FFF
+
+0x0000 201F
+
+201F
+
+1FFF
+
+0x0000 0020
+
+0020
+
+0020
+
+0x0000
+
+0xFFFF E020
+
+0000
+
+E020
+
+0x3FFF
+
+0x0000 3FDF
+
+3FDF
+
+3FDF
+
+0x0000 1FE0
+
+1FE0
+
+1FE0
+
+0xFFFF FFE0
+
+0000
+
+FFE0
+
+Raw conversion
+result
+
+Offset value
+
+0x3FFF
+0x2000
+
+0x2000
+
+0x2000
+
+0x2000
+0x0000
+
+Caution:
+
+0x2000
+
+0x2020
+
+0x1FE0
+
+0x20
+
+SSAT must not be used in conjunction with USAT. No hardware check is performed to
+ensure that this recommendation is respected.
+
+RM0456 Rev 6

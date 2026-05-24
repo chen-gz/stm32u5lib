@@ -1,0 +1,102 @@
+191
+
+System security
+
+RM0456
+Figure 17. External flash memory protection using SFI
+
+Provisioning
+STM32
+JTAG
+
+SRAM2
+Secure
+3
+bootloader
+part II
+
+1
+
+...
+
+6
+
+SPI
+
+ROM
+
+I2C
+
+Secure
+bootloader
+part I
+
+FDCAN
+
+1
+
+USB
+
+Option
+bytes
+
+2
+
+USART
+
+Host
+
+Flash
+
+4
+
+OTF
+DEC
+
+5
+
+OctoSPI
+
+Flash
+memory
+
+6
+
+SRAM
+1
+
+See details in section “Provisioning” below the figure.
+
+Secure boot
+STM32
+Application
+
+Flash
+Secure boot
+
+1 OTF
+DEC
+
+tamper
+1
+
+...
+
+2
+
+OctoSPI
+
+Flash
+memory
+
+2
+
+See details in section “Secure boot” below the figure.
+MSv65211V2
+
+Provisioning
+Assuming the device is virgin, the first step is to provision both flash memories, as detailed
+below:
+1.
+
+2.

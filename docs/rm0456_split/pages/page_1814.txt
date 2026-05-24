@@ -1,0 +1,51 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bits 23:20 Reserved, must be kept at reset value.
+Bit 19 DLWTX: DCS long write transmission
+This bit configures the DCS long write packet command transmission type:
+0: High-speed
+1: Low-power
+Bit 18 DSR0TX: DCS short read zero parameter transmission
+This bit configures the DCS short read packet with zero parameter command transmission
+type:
+0: High-speed
+1: Low-power
+Bit 17 DSW1TX: DCS short read one parameter transmission
+This bit configures the DCS short read packet with one parameter command transmission
+type:
+0: High-speed
+1: Low-power
+Bit 16 DSW0TX: DCS short write zero parameter transmission
+This bit configures the DCS short write packet with zero parameter command transmission
+type:
+0: High-speed
+1: Low-power
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 GLWTX: Generic long write transmission
+This bit configures the generic long write packet command transmission type:
+0: High-speed
+1: Low-power
+Bit 13 GSR2TX: Generic short read two parameters transmission
+This bit configures the generic short read packet with two parameters command transmission
+type:
+0: High-speed
+1: Low-power
+Bit 12 GSR1TX: Generic short read one parameters transmission
+This bit configures the generic short read packet with one parameters command
+transmission type:
+0: High-speed
+1: Low-power
+Bit 11 GSR0TX: Generic short read zero parameters transmission
+This bit configures the generic short read packet with zero parameters command
+transmission type:
+0: High-speed
+1: Low-power
+Bit 10 GSW2TX: Generic short write two parameters transmission
+This bit configures the generic short write packet with two parameters command
+transmission type:
+0: High-speed
+1: Low-power

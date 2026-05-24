@@ -1,0 +1,65 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+The delay is inserted after each regular conversion (whatever DISCEN = 0 or 1) and after
+each sequence of injected conversions (whatever JDISCEN = 0 or 1).
+Note:
+
+There is no delay inserted between each conversion of the injected sequence, except after
+the last one.
+During a conversion, a hardware trigger event (for the same group of conversions) occurring
+during this delay is ignored.
+
+Note:
+
+This is not true for software triggers where it remains possible during this delay to set the
+bits ADSTART or JADSTART to restart a conversion: it is up to the software to read the data
+before launching a new conversion.
+No delay is inserted between conversions of different groups (a regular conversion followed
+by an injected conversion or conversely):
+•
+
+If an injected trigger occurs during the automatic delay of a regular conversion, the
+injected conversion starts immediately (see Figure 244).
+
+•
+
+Once the injected sequence is complete, the ADC waits for the delay (if not ended) of
+the previous regular conversion before launching a new regular conversion (see
+Figure 246).
+
+The behavior is slightly different in auto-injected mode (JAUTO = 1) where a new regular
+conversion can start only when the automatic delay of the previous injected sequence of
+conversion has ended (when JEOS has been cleared). This is to ensure that the software
+can read all the data of a given sequence before starting a new sequence (see Figure 247).
+To stop a conversion in continuous auto-injection mode combined with auto-delay mode
+(JAUTO = 1, CONT = 1 and AUTDLY = 1), follow the following procedure:
+1.
+
+Wait until JEOS = 1 (no more conversions are restarted).
+
+2.
+
+Clear JEOS.
+
+3.
+
+Set ADSTP = 1.
+
+4.
+
+Read the regular data.
+
+If this procedure is not respected, a new regular sequence can restart if JEOS is cleared
+after ADSTP has been set.
+In AUTDLY mode, a hardware regular trigger event is ignored if it occurs during an already
+ongoing regular sequence or during the delay that follows the last regular conversion of the
+sequence. It is however considered pending if it occurs after this delay, even if it occurs
+during an injected sequence of the delay that follows it. The conversion then starts at the
+end of the delay of the injected sequence.
+In AUTDLY mode, a hardware injected trigger event is ignored if it occurs during an already
+ongoing injected sequence or during the delay that follows the last injected conversion of
+the sequence.

@@ -1,0 +1,82 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+updated at each transmission of an FD frame while the TDC bit of the FDCAN_DBTP
+register is set.
+The following boundary conditions have to be considered for the transmitter delay
+compensation implemented in the FDCAN:
+•
+
+The sum of the measured delay from FDCAN_Tx to FDCAN_Rx and the configured
+transmitter delay compensation offset TDCO[6:0] has to be lower than 6-bit times in the
+data phase.
+
+•
+
+The sum of the measured delay from FDCAN_TX to FDCAN_RX and the configured
+transmitter delay compensation offset TDCO[6:0] has to be lower than or equal to
+127 × mtq. If the sum exceeds this value, the maximum value (127 × mtq) is used for
+transmitter delay compensation.
+
+•
+
+The data phase ends at the sample point of the CRC delimiter, which stops checking
+received bits at the SSPs.
+
+If transmitter delay compensation is enabled by setting the TDC bit of the FDCAN_DBTP;
+the measurement is started within each transmitted CAN FD frame at the falling edge of bit
+FDF to bit res. The measurement is stopped when this edge is seen at the receive input pin
+FDCAN_TX of the transmitter. The resolution of this measurement is one mtq.
+Figure 884. Transceiver delay measurement
+
+Res.
+
+FDF
+FDCAN_TX
+
+FDCAN_RX
+
+BRS
+
+ESI
+
+Transmitter delay
+
+Arbitration phase
+
+DLC
+Data phase
+
+Arbitration phase
+
+Start
+
+Data phase
+
+Stop
+
+Delay
+
+fdcan_tq_ck
+
+Delay counter
+
++
+
+SSP position
+
+TDCR.TDCO
+Delay compensation offset
+MSv41483V2
+
+To avoid that a dominant glitch inside the received FDF bit ends the delay compensation
+measurement before the falling edge of the received res bit (resulting in a too early SSP
+position), the use of a transmitter delay compensation filter window can be enabled by
+programming the TDCF[6:0] bitfield of the FDCAN_TDCR register. This defines a minimum
+value for the SSP position. Dominant edges on FDCAN_RX that would result in an earlier
+SSP position are ignored for transmitter delay measurement. The measurement is stopped
+when the SSP position is at least TDCF[6:0] and FDCAN_RX is low.
+
+RM0456 Rev 6

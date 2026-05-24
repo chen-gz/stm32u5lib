@@ -1,0 +1,38 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 12 LPTIM3SMEN: LPTIM3 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: LPTIM3 clocks disabled by the clock gating during Sleep and Stop modes
+1: LPTIM3 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 11 LPTIM1SMEN: LPTIM1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: LPTIM1 clocks disabled by the clock gating during Sleep and Stop modes
+1: LPTIM1 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 10:8 Reserved, must be kept at reset value.
+Bit 7 I2C3SMEN: I2C3 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: I2C3 clocks disabled by the clock gating during Sleep and Stop modes
+1: I2C3 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 6 LPUART1SMEN: LPUART1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: LPUART1 clocks disabled by the clock gating during Sleep and Stop modes
+1: LPUART1 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 5 SPI3SMEN: SPI3 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SPI3 clocks disabled by the clock gating during Sleep and Stop modes
+1: SPI3 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 4:2 Reserved, must be kept at reset value.
+Bit 1 SYSCFGSMEN: SYSCFG clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SYSCFG clocks disabled by the clock gating during Sleep and Stop modes
+1: SYSCFG clocks enabled by the clock gating during Sleep and Stop modes
+Bit 0 Reserved, must be kept at reset value.

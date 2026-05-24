@@ -1,0 +1,178 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+
+Bits 19:9 Reserved, must be kept at reset value.
+Bit 8 SB: Swap bytes
+When this bit is set, the bytes in the output FIFO are swapped two by two, the number of
+pixel per line (PL) must be even, and the output memory address (OMAR) must be even.
+This register can only be written when the transfer is disabled. Once the transfer has started,
+this register is read-only.
+0: Bytes in regular order in the output FIFO
+1: Bytes are swapped two by two in the output FIFO
+Bits 7:3 Reserved, must be kept at reset value.
+Bits 2:0 CM[2:0]: Color mode
+These bits define the color format of the output image. These bits can only be written when
+data transfers are disabled. Once the transfer has started, they are read-only.
+000: ARGB8888
+001: RGB888
+010: RGB565
+011: ARGB1555
+100: ARGB4444
+Other: Reserved
+
+19.5.15
+
+DMA2D output color register (DMA2D_OCOLR)
+Address offset: 0x038
+Reset value: 0x0000 0000
+The same register is used to show the color values, with different formats depending on the
+color mode.
+This register can only be written when transfers are disabled. Once the CLUT transfer
+started, this register is read-only.
+ARGB8888 or RGB888 color mode
+
+31
+
+30
+
+29
+
+28
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+ALPHA[7:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+RED[7:0]
+
+GREEN[7:0]
+rw
+
+19
+
+BLUE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 ALPHA[7:0]: Alpha channel value of the output color in ARGB8888 mode (otherwise reserved)
+Bits 23:16 RED[7:0]: Red value of the output image in ARGB8888 or RGB888 mode
+Bits 15:8 GREEN[7:0]: Green value of the output image in ARGB8888 or RGB888
+Bits 7:0 BLUE[7:0]: Blue value of the output image in ARGB8888 or RGB888
+
+RM0456 Rev 6

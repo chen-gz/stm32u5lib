@@ -1,0 +1,175 @@
+–
+
+The application is attempting to receive two maximum-packet-size packets
+(transfer size = 1 024 bytes).
+
+–
+
+The receive FIFO can contain at least one maximum-packet-size packet and two
+status words per packet (72 bytes for FS).
+
+–
+
+The non-periodic request queue depth = 4.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+Figure 905. Bulk/control IN transactions
+Application
+
+1
+init_reg(ch_2)
+
+set_ch_en
+(ch_2)
+
+1
+
+set_ch_en
+(ch_2)
+
+Host
+
+USB
+
+Device
+
+init_reg(ch_1)
+
+write_tx_fifo
+(ch_1)
+
+2
+2
+
+AHB
+
+1
+MPS
+
+4
+
+3
+
+Non-Periodic Request
+Queue
+Assume that this queue
+can hold 4 entries.
+
+ch_1
+write_tx_fifo
+(ch_1)
+
+5
+
+1
+MPS
+
+ch_2
+ch_1
+ch_2
+
+OU T
+
+D AT A0
+MPS
+
+3
+ACK
+set_ch_en
+(ch_2)
+
+IN
+
+4
+
+D AT A0
+
+5
+RxFLvl interrupt
+1
+MPS
+
+read_rx_sts
+read_rx_fifo
+
+ch_1
+ch_2
+
+set_ch_en
+(ch_2)
+
+ch_2
+
+ACK
+O UT
+
+D AT A1
+MPS
+
+ch_2
+
+7
+
+ACK
+
+XferCompl interrupt
+
+6
+IN
+
+De-allocate
+(ch_1)
+
+D AT A1
+RxFLvl interrupt
+1
+MPS
+
+read_rx_stsre
+ad_rx_fifo
+
+RxFLvl interrupt
+read_rx_sts
+
+Disable
+(ch_2)
+
+7
+
+6
+8
+
+ACK
+
+ch_2
+
+XferCompl interrupt
+
+9
+RxFLvl interrupt
+
+read_rx_sts
+
+De-allocate
+(ch_2)
+
+11
+
+ChHltd interrupt
+
+10
+12
+
+13
+ai15675b
+
+1. The grayed elements are not relevant in the context of this figure.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

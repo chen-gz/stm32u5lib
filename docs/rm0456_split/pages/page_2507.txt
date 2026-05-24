@@ -1,0 +1,190 @@
+2687
+
+Real-time clock (RTC)
+
+63.6.4
+
+RM0456
+
+RTC initialization control and status register (RTC_ICSR)
+This register is write protected. The write access procedure is described in RTC register
+write protection on page 2598.
+This register can be globally protected, or each bit of this register can be individually
+protected against nonsecure access. Refer to Section 63.3.4: RTC secure protection
+modes.
+This register can be globally protected, or each bit of this register can be individually
+protected against unprivileged access. Refer to Section 63.3.5: RTC privilege protection
+modes.
+Address offset: 0x0C
+Backup domain reset value: 0x0000 0007
+System reset: not affected except INIT, INITF, and RSF bits which are cleared to 0
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RECAL
+PF
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+BIN[1:0]
+
+INIT
+
+INITF
+
+RSF
+
+INITS
+
+SHPF
+
+WUTW
+F
+
+Res.
+
+Res.
+
+rw
+
+r
+
+rc_w0
+
+r
+
+r
+
+r
+
+r
+
+BCDU[2:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:17 Reserved, must be kept at reset value.
+Bit 16 RECALPF: Recalibration pending Flag
+The RECALPF status flag is automatically set to 1 when software writes to the RTC_CALR
+register, indicating that the RTC_CALR register is blocked. When the new calibration settings
+are taken into account, this bit returns to 0. Refer to Re-calibration on-the-fly.
+Bits 15:13 Reserved, must be kept at reset value.
+Bits 12:10 BCDU[2:0]: BCD update (BIN = 10 or 11)
+In mixed mode when both BCD calendar and binary extended counter are used (BIN = 10 or
+11), the calendar second is incremented using the SSR Least Significant Bits.
+0x0: 1s calendar increment is generated each time SS[7:0] = 0
+0x1: 1s calendar increment is generated each time SS[8:0] = 0
+0x2: 1s calendar increment is generated each time SS[9:0] = 0
+0x3: 1s calendar increment is generated each time SS[10:0] = 0
+0x4: 1s calendar increment is generated each time SS[11:0] = 0
+0x5: 1s calendar increment is generated each time SS[12:0] = 0
+0x6: 1s calendar increment is generated each time SS[13:0] = 0
+0x7: 1s calendar increment is generated each time SS[14:0] = 0
+Bits 9:8 BIN[1:0]: Binary mode
+00: Free running BCD calendar mode (Binary mode disabled).
+01: Free running Binary mode (BCD mode disabled)
+10: Free running BCD calendar and Binary modes
+11: Free running BCD calendar and Binary modes

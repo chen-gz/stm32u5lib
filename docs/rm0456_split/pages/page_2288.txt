@@ -1,0 +1,69 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+This mode is enabled with the SMS[3:0] bitfield in the TIMx_SMCR register, as following:
+•
+
+1010: x2 mode, the counter is updated on both rising and falling edges of the clock.
+
+•
+
+1011: x1 mode, the counter is updated on a single clock edge, as per CC2P bit value:
+CC2P = 0 corresponds to rising edge sensitivity and CC2P = 1 corresponds to falling
+edge sensitivity.
+
+The polarity of the direction signal on tim_ti1 is set with the CC1P bit: 0 corresponds to
+positive polarity (up-counting when tim_ti1 is high and down-counting when tim_ti1 is low)
+and CC1P = 1 corresponds to negative polarity (up-counting when tim_ti1 is low).
+Figure 649. Direction plus clock encoder mode
+tim_ti1
+
+tim_ti2
+
+Counter x2 mode
+
+6
+
+Counter x1 mode
+
+6
+
+7
+
+8
+
+7
+
+9
+
+10
+
+8
+
+11
+
+10
+
+9
+
+9
+
+8
+
+8
+
+7
+
+6
+
+7
+MSv62352V1
+
+Directional clock encoder mode
+In the “directional clock” mode on Figure 650, the clocks are provided on two lines, with a
+single one at once, depending on the direction, so as to have one up-counting clock line and
+one down-counting clock line.
+This mode is enabled with the SMS[3:0] bitfield in the TIMx_SMCR register, as following:

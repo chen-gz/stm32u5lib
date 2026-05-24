@@ -1,0 +1,106 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+27.5.2
+
+RM0456
+
+NAND flash memory address mapping
+The NAND bank is divided into memory areas as indicated in Table 216.
+Table 216. NAND memory mapping and timing registers
+Start address
+
+End address
+
+0x8800 0000
+
+0x8BFF FFFF
+
+0x8000 0000
+
+0x83FF FFFF
+
+FMC bank
+Bank 3 - NAND flash
+
+Memory space
+
+Timing register
+
+Attribute
+
+FMC_PATT (0x8C)
+
+Common
+
+FMC_PMEM (0x88)
+
+For NAND flash memory, the common and attribute memory spaces are subdivided into
+three sections (see in Table 217 below) located in the lower 256 Kbytes:
+•
+
+Data section (first 64 Kbytes in the common/attribute memory space)
+
+•
+
+Command section (second 64 Kbytes in the common / attribute memory space)
+
+•
+
+Address section (next 128 Kbytes in the common / attribute memory space)
+Table 217. NAND bank selection
+Section name
+
+HADDR[17:16]
+
+Address range
+
+Address section
+
+1X
+
+0x020000-0x03FFFF
+
+Command section
+
+01
+
+0x010000-0x01FFFF
+
+Data section
+
+00
+
+0x000000-0x0FFFF
+
+The application software uses the 3 sections to access the NAND flash memory:
+•
+
+To sending a command to NAND flash memory, the software must write the
+command value to any memory location in the command section.
+
+•
+
+To specify the NAND flash address that must be read or written, the software must
+write the address value to any memory location in the address section. Since an
+address can be 4 or 5 bytes long (depending on the actual memory size), several
+consecutive write operations to the address section are required to specify the full
+address.
+
+•
+
+To read or write data, the software reads or writes the data from/to any memory
+location in the data section.
+
+Since the NAND flash memory automatically increments addresses, there is no need to
+increment the address of the data section to access consecutive memory locations.
+
+27.6
+
+NOR flash/PSRAM controller
+The FMC generates the appropriate signal timings to drive the following types of memories:
+•
+
+<!-- pagebreak -->
+

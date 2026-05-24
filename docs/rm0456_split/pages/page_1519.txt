@@ -1,0 +1,156 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+39.4.2
+
+MDF pins and internal signals
+Table 369. MDF external pins
+Name
+
+Signal type
+
+Comment
+
+MDF_CKIy (y = 0 to 5)(1)
+
+Input
+
+Dedicated clock signals from external sensors
+
+(1)
+
+MDF_SDIy (y = 0 to 5)
+
+Input
+
+Data signal from external sensors
+
+MDF_CCKy (y = 0, 1)
+
+Input/output
+
+Clock outputs for external sensor, or common clock input from external
+sensors
+
+1. The number of inputs available depends on the number of filters. Refer to Section 39.3 for details.
+
+Table 370. MDF internal signals
+Name
+
+Signal type
+
+Comment
+
+mdf_trgi[13:0]
+
+Input
+
+Trigger inputs in order to control the acquisition (see Table 371: MDF trigger
+connections for details)
+
+mdf_trgo
+
+Output
+
+Trigger output for synchronizing several MDFs
+
+mdf_break[3:0]
+
+Output
+
+Break signals event generation from over-current detector or short-circuit
+detector (see the next table for details)
+
+mdf_flt[5:0]_dma(1)
+(1)
+
+Input/output DMA request/acknowledge signals for each filter processing chain
+Output
+
+Global interrupt signals, for each MDF filter
+
+(1)(2)
+
+mdf_flt[5:0]_rx_it
+
+Output
+
+Receive interrupt signals, for each MDF filter.
+
+mdf_flt[5:0]_evt_it(1)(2)
+
+Output
+
+Event interrupt signals, for each MDF filter.
+
+mdf_bus_ckreq
+
+Output
+
+Bus interface clock request output
+
+mdf_ker_ckreq
+
+Output
+
+Kernel clock request output
+
+mdf_ker_ck
+
+Input
+
+Kernel clock input
+
+mdf_hclk
+
+Input
+
+AHB bus interface clock input
+
+mdf_adcitf1_dat[15:0]
+
+Input
+
+ADCITF1 data input
+
+mdf_adcitf2_dat[15:0]
+
+Input
+
+ADCITF2 data input
+
+mdf_flt[5:0]_it
+
+1. The number of signals available depends on the number of filters. Refer to Section 39.3 for details.
+2. Not always connected. See the interrupt vector table for details.
+
+The table below shows the way the trigger inputs of the MDF are connected.
+Table 371. MDF trigger connections
+Trigger name
+
+Trigger source
+
+mdf_trgi0
+
+tim1_trgo
+
+mdf_trgi1
+
+tim1_trgo2
+
+mdf_trgi2
+
+tim8_trgo
+
+mdf_trgi3
+
+tim8_trgo2
+
+mdf_trgi4
+
+tim3_trgo
+
+RM0456 Rev 6

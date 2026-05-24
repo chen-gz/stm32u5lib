@@ -1,0 +1,54 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+RM0456
+
+Table 431. Clock domain for each register (continued)
+LTDC register
+
+Clock domain
+
+LTDC_SRCR
+LTDC_IER
+
+ltdc_pclk
+
+LTDC_ISR
+LTDC_ICR
+LTDC_SSCR
+LTDC_BPCR
+LTDC_AWCR
+LTDC_TWCR
+LTDC_GCR
+LTDC_BCCR
+LTDC_LIPCR
+LTDC_CPSR
+LTDC_CDSR
+
+Pixel clock (LCD_CLK)
+
+LTDC_LxWHPCR
+LTDC_LxWVPCR
+LTDC_LxCKCR
+LTDC_LxPFCR
+LTDC_LxCACR
+LTDC_LxDCCR
+LTDC_LxBFCR
+LTDC_LxCLUTWR
+
+Care must be taken while accessing the LTDC registers, the APB bus is stalled during:
+•
+
+six ltdc_pclk periods + five LCD_CLK periods (five ltdc_hclk periods for register on AHB
+clock domain) for register write access and update
+
+•
+
+seven ltdc_pclk periods + five LCD_CLK periods (five ltdc_hclk periods for register on
+AHB clock domain) for register read access
+
+For registers on ltdc_pclk clock domain, APB bus is stalled for six ltdc_pclk periods during
+the register write accesses, and for seven ltdc_pclk periods during read accesses.
+The LTDC controller can be reset by setting the corresponding bit in the RCC. It resets the
+three clock domains.

@@ -1,0 +1,306 @@
+RM0456 Rev 6
+
+rc_w1
+
+RM0456
+
+Chrom-GRC (GFXMMU)
+
+Bit 2 CB2OF: Clear buffer 2 overflow flag
+Writing 1 clears the buffer 2 overflow flag in the GFXMMU_SR register.
+Bit 1 CB1OF: Clear buffer 1 overflow flag
+Writing 1 clears the buffer 1 overflow flag in the GFXMMU_SR register.
+Bit 0 CB0OF: Clear buffer 0 overflow flag
+Writing 1 clears the buffer 0 overflow flag in the GFXMMU_SR register.
+
+21.6.4
+
+GFXMMU cache control register (GFXMMU_CCR)
+Address offset: 0x000C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FI
+
+FF
+
+rs
+
+rs
+
+Bits 31:2 Reserved, must be kept at reset value.
+Bit 1 FI: Force invalidate
+When set, the cache entries are invalidated. This bit is reset by hardware when the
+invalidation is complete. Write 0 has no effect.
+0: Invalidation process complete
+1: Force invalidation/invalidation process on going
+Bit 0 FF: Force flush
+When set, the cache entries are flushed. This bit is reset by hardware when the flushing is
+complete. Write 0 has no effect.
+0: Flushing process complete
+1: Force flush/flushing process on going
+
+21.6.5
+
+GFXMMU default value register (GFXMMU_DVR)
+Address offset: 0x0010
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DV[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DV[15:0]
+rw
+
+Bits 31:0 DV[31:0]: Default value
+This field indicates the default 32-bit value which is returned when a master accesses a
+virtual memory location not physically mapped.
+
+RM0456 Rev 6

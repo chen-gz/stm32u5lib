@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 24 SNDLPM: Send LPM transaction
+When the application software sets this bit, an LPM transaction containing two tokens, EXT
+and LPM is sent. The hardware clears this bit once a valid response (STALL, NYET, or
+ACK) is received from the device or the core has finished transmitting the programmed
+number of LPM retries.
+Note: This bit must be set only when the host is connected to a local port.
+Note: Accessible only in host mode.
+Bits 23:21 LPMRCNT[2:0]: LPM retry count
+When the device gives an ERROR response, this is the number of additional LPM retries
+that the host performs until a valid device response (STALL, NYET, or ACK) is received.
+Note: Accessible only in host mode.
+Bits 20:17 LPMCHIDX[3:0]: LPM Channel Index
+The channel number on which the LPM transaction has to be applied while sending an LPM
+transaction to the local device. Based on the LPM channel index, the core automatically
+inserts the device address and endpoint number programmed in the corresponding channel
+into the LPM transaction.
+Note: Accessible only in host mode.
+Bit 16 L1RSMOK: Sleep state resume OK
+Indicates that the device or host can start resume from Sleep state. This bit is valid in LPM
+sleep (L1) state. It is set in sleep mode after a delay of 50 μs (TL1Residency).
+This bit is reset when SLPSTS is 0.
+1: The application or host can start resume from Sleep state
+0: The application or host cannot start resume from Sleep state
+Bit 15 SLPSTS: Port sleep status
+Device mode:
+This bit is set as long as a Sleep condition is present on the USB bus. The core enters the
+Sleep state when an ACK response is sent to an LPM transaction and the TL1TokenRetry
+timer has expired. To stop the PHY clock, the application must set the STPPCLK bit in
+OTG_PCGCCTL, which asserts the PHY suspend input signal.
+The application must rely on SLPSTS and not ACK in LPMRSP to confirm transition into
+sleep.
+The core comes out of sleep:
+– When there is any activity on the USB line state
+– When the application writes to the RWUSIG bit in OTG_DCTL or when the application
+resets or soft-disconnects the device.
+Host mode:
+The host transitions to Sleep (L1) state as a side-effect of a successful LPM transaction by
+the core to the local port with ACK response from the device. The read value of this bit
+reflects the current Sleep status of the port.
+The core clears this bit after:
+– The core detects a remote L1 wake-up signal,
+– The application sets the PRST bit or the PRES bit in the OTG_HPRT register, or
+– The application sets the L1Resume/ remote wake-up detected interrupt bit or disconnect
+detected interrupt bit in the core interrupt register (WKUPINT or DISCINT bit in
+OTG_GINTSTS, respectively).
+0: Core not in L1
+1: Core in L1
+
+RM0456 Rev 6

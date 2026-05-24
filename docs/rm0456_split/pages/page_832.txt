@@ -1,0 +1,88 @@
+856
+
+Chrom-ART Accelerator controller (DMA2D)
+
+RM0456
+
+Table 167. Output FIFO byte reordering steps (continued)
+Steps
+Data ordering after byte swapping
+(SB set)
+
+19.3.11
+
+@+3
+
+@+2
+
+@+1
+
+@+0
+
+B0[7:0]
+
+R1[7:0]
+
+R0[7:0]
+
+G0[7:0]
+
+R2[7:0]
+
+G2[7:0]
+
+G1[7:0]
+
+B1[7:0]
+
+G3[7:0]
+
+B3[7:0]
+
+B2[7:0]
+
+R3[7:0]
+
+DMA2D AHB master port timer
+An 8-bit timer is embedded into the AHB master port to provide an optional limitation of the
+bandwidth on the crossbar.
+This timer is clocked by the AHB clock and counts a dead time between two consecutive
+accesses. This limits the bandwidth availability.
+The timer enabling and the dead time value are configured through the AHB master port
+timer configuration register (DMA2D_AMPTCR).
+
+19.3.12
+
+DMA2D transactions
+DMA2D transactions consist of a sequence of a given number of data transfers.
+The number of data and the width can be programmed by software.
+Each DMA2D data transfer is composed of up to four steps:
+
+19.3.13
+
+1.
+
+Data loading from the memory location pointed by DMA2D_FGMAR and pixel format
+conversion as defined in DMA2D_FGCR
+
+2.
+
+Data loading from a memory location pointed by DMA2D_BGMAR and pixel format
+conversion as defined in DMA2D_BGCR
+
+3.
+
+Blending of all retrieved pixels according to the alpha channels resulting of the PFC
+operation on alpha values
+
+4.
+
+Pixel format conversion of the resulting pixels according to DMA2D_OCR and
+programming of the data to the memory location addressed through DMA2D_OMAR
+
+DMA2D configuration
+Both source and destination data transfers can target peripherals and memories in the
+whole 4 Gbyte memory area, at addresses ranging between 0x0000 0000 and
+0xFFFF FFFF.
+The DMA2D can operate in any of the following modes selected through MODE[2:0] in
+DMA2D_CR:

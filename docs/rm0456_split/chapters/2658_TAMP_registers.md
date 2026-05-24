@@ -1,0 +1,303 @@
+Signal name
+
+Source
+
+usart_trg0
+
+gpdma1_ch0_tc
+
+usart_trg1
+
+gpdma1_ch1_tc
+
+usart_trg2
+
+gpdma1_ch2_tc
+
+usart_trg3
+
+gpdma1_ch3_tc
+
+usart_trg4
+
+exti6
+
+usart_trg5
+
+exti9
+
+usart_trg6
+
+lptim1_ch1
+
+usart_trg7
+
+lptim2_ch1
+
+usart_trg8
+
+comp1_out
+
+usart_trg9
+
+comp2_out
+
+usart_trg10
+
+rtc_alra_trg
+
+usart_trg11
+
+rtc_wut_trg
+
+usart_trg12
+
+-
+
+usart_trg13
+
+-
+
+usart_trg14
+
+-
+
+usart_trg15
+
+-
+
+RM0456 Rev 6
+
+RM0456
+
+66.5.3
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+USART clocks
+The simplified block diagram given in Section 66.5.1: USART block diagram shows two
+fully-independent clock domains:
+•
+
+The usart_pclk clock domain
+The usart_pclk clock signal feeds the peripheral bus interface. It must be active when
+accesses to the USART registers are required.
+
+•
+
+The usart_ker_ck kernel clock domain.
+The usart_ker_ck is the USART clock source. It is independent from usart_pclk and
+delivered by the RCC. The USART registers can consequently be written/read even
+when the usart_ker_ck clock is stopped.
+When the dual clock domain feature is not supported, the usart_ker_ck clock is the
+same as the usart_pclk clock.
+
+There is no constraint between usart_pclk and usart_ker_ck: usart_ker_ck can be faster
+or slower than usart_pclk. The only limitation is the software ability to manage the
+communication fast enough.
+When the USART operates in SPI slave mode, it handles data flow using the serial interface
+clock derived from the external CK signal provided by the external master SPI device. The
+usart_ker_ck clock must be at least 3 times faster than the clock on the CK input.
+
+66.5.4
+
+USART character description
+The word length can be set to 7, 8 or 9 bits, by programming the M bits (M0: bit 12 and M1:
+bit 28) in the USART_CR1 register (see Figure 810):
+
+Note:
+
+•
+
+7-bit character length: M[1:0] = 10
+
+•
+
+8-bit character length: M[1:0] = 00
+
+•
+
+9-bit character length: M[1:0] = 01
+
+In 7-bit data length mode, the smartcard mode, LIN master mode and Auto baud rate (0x7F
+and 0x55 frames detection) are not supported.
+By default, the signal (TX or RX) is in low state during the start bit. It is in high state during
+the stop bit.
+These values can be inverted, separately for each signal, through polarity configuration
+control.
+An Idle character is interpreted as an entire frame of “1”s (the number of “1”s includes the
+number of stop bits).
+A Break character is interpreted on receiving “0”s for a frame period. At the end of the
+break frame, the transmitter inserts 2 stop bits.
+Transmission and reception are driven by a common baud rate generator. The transmission
+and reception clock are generated when the enable bit is set for the transmitter and receiver,
+respectively.
+A detailed description of each block is given below.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Figure 810. Word length programming
+9-bit word length (M = 01 ), 1 Stop bit
+Possible
+Parity
+bit
+
+Data frame
+Start
+bit
+
+Bit0
+
+Bit1
+
+Bit2
+
+Bit3
+
+Bit4
+
+Bit5
+
+Bit6
+
+Bit7
+
+Clock
+
+Bit8
+
+Stop
+bit
+
+Next
+Start
+bit
+
+**
+Start
+bit
+
+Idle frame
+
+Stop
+bit
+
+Stop
+bit
+
+Stop
+bit
+
+Stop
+bit
+
+Start
+bit
+
+Stop
+bit
+
+Start
+bit
+
+Break frame
+
+Start
+bit
+
+8-bit word length (M = 00 ), 1 Stop bit
+Possible
+Parity
+bit
+
+Data frame
+Start
+bit
+
+Bit0
+
+Bit1
+
+Bit2
+
+Bit3
+
+Bit4
+
+Bit5
+
+Bit6
+
+Bit7
+
+Clock
+
+Stop
+bit
+
+Next
+Start
+bit
+
+**
+Start
+bit
+
+Idle frame
+Break frame
+
+7-bit word length (M = 10 ), 1 Stop bit
+Possible
+Parity
+bit
+
+Data frame
+Start
+bit
+
+Bit0
+
+Bit1
+
+Bit2
+
+Bit3
+
+Bit4
+
+Bit5
+
+Bit6
+
+Stop
+bit
+
+Next
+Start
+bit
+
+**
+
+Clock
+
+Idle frame
+Break frame
+
+Start
+bit
+Stop
+bit
+
+** LBCL bit controls last data clock pulse
+MS33194V2
+
+<!-- pagebreak -->
+

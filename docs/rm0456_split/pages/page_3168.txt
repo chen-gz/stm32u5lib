@@ -1,0 +1,98 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+1.
+
+The internal data flow for isochronous OUT endpoints is the same as that for nonisochronous OUT endpoints, but for a few differences.
+
+2.
+
+When an isochronous OUT endpoint is enabled by setting the endpoint enable and
+clearing the NAK bits, the Even/Odd frame bit must also be set appropriately. The core
+receives data on an isochronous OUT endpoint in a particular frame only if the
+following condition is met:
+–
+
+3.
+
+EONUM (in OTG_DOEPCTLx) = FNSOF[0] (in OTG_DSTS)
+
+When the application completely reads an isochronous OUT data packet (data and
+status) from the receive FIFO, the core updates the RXDPID field in OTG_DOEPTSIZx
+with the data PID of the last isochronous OUT data packet read from the receive FIFO.
+
+Application programming sequence:
+1.
+
+Program the OTG_DOEPTSIZx register for the transfer size and the corresponding
+packet count
+
+2.
+
+Program the OTG_DOEPCTLx register with the endpoint characteristics and set the
+endpoint enable, ClearNAK, and Even/Odd frame bits.
+
+3.
+
+–
+
+EPENA = 1
+
+–
+
+CNAK = 1
+
+–
+
+EONUM = (0: Even/1: Odd)
+
+Wait for the RXFLVL interrupt (in OTG_GINTSTS) and empty the data packets from the
+receive FIFO
+–
+
+This step can be repeated many times, depending on the transfer size.
+
+4.
+
+The assertion of the XFRC interrupt (in OTG_DOEPINTx) marks the completion of the
+isochronous OUT data transfer. This interrupt does not necessarily mean that the data
+in memory are good.
+
+5.
+
+This interrupt cannot always be detected for isochronous OUT transfers. Instead, the
+application can detect the INCOMPISOOUT interrupt in OTG_GINTSTS.
+
+6.
+
+Read the OTG_DOEPTSIZx register to determine the size of the received transfer and
+to determine the validity of the data received in the frame. The application must treat
+the data received in memory as valid only if one of the following conditions is met:
+–
+
+RXDPID = DATA0 (in OTG_DOEPTSIZx) and the number of USB packets in
+which this payload was received = 1
+
+–
+
+RXDPID = DATA1 (in OTG_DOEPTSIZx) and the number of USB packets in
+which this payload was received = 2
+The number of USB packets in which this payload was received =
+Application programmed initial packet count – core updated final packet count
+
+The application can discard invalid data packets.
+•
+
+Incomplete isochronous OUT data transfers
+
+This section describes the application programming sequence when isochronous OUT data
+packets are dropped inside the core.
+Internal data flow:
+1.
+
+For isochronous OUT endpoints, the XFRC interrupt (in OTG_DOEPINTx) may not
+always be asserted. If the core drops isochronous OUT data packets, the application
+
+RM0456 Rev 6

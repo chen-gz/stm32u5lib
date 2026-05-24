@@ -1,0 +1,162 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+Figure 335. DFLT overview
+MDF
+DFLTx
+
+Out-off-limit detector (OLD)
+
+HPFC
+
+RSFLTD
+CMP
+
+RX
+FIFO
+
+HPF
+
+INT
+
+0
+
+0
+
+PCM[23:0]
+
+OEC
+
+1
+
+1
+
+Ļ
+
+'Ļ
+
+ACIC[3:1]
+ACICF
+
+'Ļ
+
+MCIC[3:1]
+MCICF
+
+SCALE
+
+SAT
+
+0
+
+
+RSFLTBYP
+
+SAT
+RSFLT
+
+HPFBYP
+SAT
+
+INTVAL
+
++
+-
+
+SCALE
+
+0xx
+
+DATSRC
+
+0xx
+
+11
+100
+
+'Ļ
+
+MCIC4
+
+100
+
+OFFSET 101
+
+'Ļ
+
+MCIC5
+
+101
+
+DLY
+
+10
+0x
+
+Discard logic
+
+ĸ
+-ĸ
+
+From
+ADCITF2
+From
+ADCITF1
+From
+BSMX
+
+SBR
+FPCM frequency domain
+
+CICMOD
+FRS frequency domain
+
+SCDx
+
+FBS frequency domain
+
+mdf_proc_ck clock domain
+MSv62661V1
+
+Symbol remap and source selection
+The symbol remap (SBR) converts the bitstream selected by the BSMX into data usable by
+the filter path. More especially:
+•
+
+The high levels are converted into a 16-bit signed number + 1.
+
+•
+
+The low levels are converted into a 16-bit signed number - 1.
+
+The signal source of the digital filter can be selected via DATSRC[1:0] between the two
+following:
+•
+
+data coming from the BSMX
+
+•
+
+data coming from one of the ADC interfaces (ADCITF2 or 1)
+
+Programmable micro-delay control (DLY)
+The digital filter has a delay line that allows the timing adjustment of each stream with the
+resolution of the bitstream clock.
+This feature is particularly helpful in the case of microphone beam forming applications
+where delays smaller than the final sampling rate, must be applied to the incoming
+stream.This feature is helpful when the MDF is synchronized with other ADF or MDF blocks
+for a beam forming application for example.
+The delay is performed by discarding a given number of samples from the selected input
+stream, before samples enter into the CIC filter. This data discarding is performed by
+skipping a given number of data strobe, preventing the CIC filter to take into account those
+data.
+When the wanted amount of data strobe has been skipped, the next incoming samples are
+strobed normally.
+Figure 336 shows an example of how to apply dynamically small delay to an incoming
+stream. For simplification, the CIC filter performs a decimation by height in this example.
+CIC1 represents the CIC included in the ADF and CIC0 represents a filter from another ADF
+or MDF instance.
+
+RM0456 Rev 6

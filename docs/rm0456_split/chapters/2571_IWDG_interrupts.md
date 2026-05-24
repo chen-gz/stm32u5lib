@@ -1,0 +1,51 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bit 27 ITAMP12IE: Internal tamper 12 interrupt enable
+0: Internal tamper 12 interrupt disabled.
+1: Internal tamper 12 interrupt enabled.
+Bit 26 ITAMP11IE: Internal tamper 11 interrupt enable
+0: Internal tamper 11 interrupt disabled.
+1: Internal tamper 11 interrupt enabled.
+Bit 25 Reserved, must be kept at reset value.
+Bit 24 ITAMP9IE: Internal tamper 9 interrupt enable
+0: Internal tamper 9 interrupt disabled.
+1: Internal tamper 9 interrupt enabled.
+Bit 23 ITAMP8IE: Internal tamper 8 interrupt enable
+0: Internal tamper 8 interrupt disabled.
+1: Internal tamper 8 interrupt enabled.
+Bit 22 ITAMP7IE: Internal tamper 7 interrupt enable
+0: Internal tamper 7 interrupt disabled.
+1: Internal tamper 7 interrupt enabled.
+Bit 21 ITAMP6IE: Internal tamper 6 interrupt enable
+0: Internal tamper 6 interrupt disabled.
+1: Internal tamper 6 interrupt enabled.
+Bit 20 ITAMP5IE: Internal tamper 5 interrupt enable
+0: Internal tamper 5 interrupt disabled.
+1: Internal tamper 5 interrupt enabled.
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 ITAMP3IE: Internal tamper 3 interrupt enable
+0: Internal tamper 3 interrupt disabled.
+1: Internal tamper 3 interrupt enabled.
+Bit 17 ITAMP2IE: Internal tamper 2 interrupt enable
+0: Internal tamper 2 interrupt disabled.
+1: Internal tamper 2 interrupt enabled.
+Bit 16 ITAMP1IE: Internal tamper 1 interrupt enable
+0: Internal tamper 1 interrupt disabled.
+1: Internal tamper 1 interrupt enabled
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 TAMP8IE: Tamper 8 interrupt enable
+0: Tamper 8 interrupt disabled.
+1: Tamper 8 interrupt enabled.
+Bit 6 TAMP7IE: Tamper 7interrupt enable
+0: Tamper 7 interrupt disabled.
+1: Tamper 7interrupt enabled.
+Bit 5 TAMP6IE: Tamper 6 interrupt enable
+0: Tamper 6 interrupt disabled.
+1: Tamper 6 interrupt enabled.
+
+<!-- pagebreak -->
+

@@ -1,0 +1,50 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Bit 13 TSW: Timestamp wraparound
+0: No timestamp counter wrap-around
+1: Timestamp counter wrapped around
+Bit 12 TEFL: Tx event FIFO element lost
+0: No Tx event FIFO element lost
+1: Tx event FIFO element lost
+Bit 11 TEFF: Tx event FIFO full
+0: Tx event FIFO Not full
+1: Tx event FIFO full
+Bit 10 TEFN: Tx event FIFO new entry
+0: Tx event FIFO unchanged
+1: Tx handler wrote Tx event FIFO element.
+Bit 9 TFE: Tx FIFO empty
+0: Tx FIFO non-empty
+1: Tx FIFO empty
+Bit 8 TCF: Transmission cancellation finished
+0: No transmission cancellation finished
+1: Transmission cancellation finished
+Bit 7 TC: Transmission completed
+0: No transmission completed
+1: Transmission completed
+Bit 6 HPM: High-priority message
+0: No high-priority message received
+1: High-priority message received
+Bit 5 RF1L: Rx FIFO 1 message lost
+0: No Rx FIFO 1 message lost
+1: Rx FIFO 1 message lost
+Bit 4 RF1F: Rx FIFO 1 full
+0: Rx FIFO 1 not full
+1: Rx FIFO 1 full
+Bit 3 RF1N: Rx FIFO 1 new message
+0: No new message written to Rx FIFO 1
+1: New message written to Rx FIFO 1
+Bit 2 RF0L: Rx FIFO 0 message lost
+0: No Rx FIFO 0 message lost
+1: Rx FIFO 0 message lost
+Bit 1 RF0F: Rx FIFO 0 full
+0: Rx FIFO 0 not full
+1: Rx FIFO 0 full
+Bit 0 RF0N: Rx FIFO 0 new message
+0: No new message written to Rx FIFO 0
+1: New message written to Rx FIFO 0
+
+RM0456 Rev 6

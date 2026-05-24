@@ -1,0 +1,143 @@
+Bit Fields
+
+Values
+
+Comments
+
+MODE
+
+0b01
+
+Mode must be MASTER receiver.
+
+PRTCFG
+
+0b00
+
+Free protocol for TDM.
+
+DS
+
+X
+
+To be adjusted according to the required data format, in accordance with
+the frame length and the number of slots (FRL and NBSLOT). See
+Table 711.
+
+LSBFIRST
+
+X
+
+This parameter can be used according to the desired data format.
+
+CKSTR
+
+0
+
+Signal transitions occur on the rising edge of the SCK_A bit clock. Signals
+are stable on the falling edge of the bit clock.
+
+MONO
+
+0
+
+Stereo mode.
+
+FRL
+
+X
+
+To be adjusted according to the number of microphones (MICNBR). See
+Table 711.
+
+FSALL
+
+0
+
+Pulse width is one bit clock cycle.
+
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+Table 710. SAI_A configuration for TDM mode (continued)
+Bit Fields
+
+Values
+
+Comments
+
+FSDEF
+
+0
+
+FS signal is a start of frame.
+
+FSPOL
+
+1
+
+FS is active high.
+
+FSOFF
+
+0
+
+FS is asserted on the first bit of slot 0.
+
+FBOFF
+
+0
+
+No offset on slot.
+
+SLOTSZ
+
+0
+
+Slot size = data size.
+
+NBSLOT
+
+X
+
+To be adjusted according to the required data format, in accordance with
+the slot size, and the frame length (FRL and DS). See Table 711.
+
+SLOTEN
+
+X
+
+To be adjusted according to NBSLOT.
+
+NODIV
+
+1
+
+No need to generate a master clock MCLK.
+
+MCKDIV
+
+X
+
+Depends on the frequency provided to sai_a_ker_ck input.
+This parameter must be adjusted to generate the proper bitstream clock
+frequency. See Table 711.
+
+Adjusting the bitstream clock rate
+To program the serial audio interface properly, the user application must take into account
+the settings given in Table 710, and follow the sequence below:
+1.
+
+Adjust the bit clock frequency (FSCK_A) according to the required frequency for the
+PDM bitstream clock, using the following formula:
+F SCK_A = F PDM_CK × ( MICNBR + 1 ) × 2
+MICNBR can be 0, 1, 2 or 3 (0 = 2 microphones; see Section 69.6.18)
+
+2.
+
+Set the frame length (FRL) using the following formula:
+FRL = ( 16 × ( MICNBR + 1 ) ) – 1
+
+RM0456 Rev 6

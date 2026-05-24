@@ -1,0 +1,40 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 17 FSMC_MEMF: illegal access flag for MPCWM2 (FSMC NAND) and MPCWM3 (FSMC NOR)
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 16 OCTOSPI1_MEMF: illegal access flag for MPCWM1 (OCTOSPI1) memory bank
+0: no illegal access event
+1: illegal access event
+Bit 15 TZIC1F: illegal access flag for GTZC1 TZIC registers
+0: no illegal access event
+1: illegal access event
+Bit 14 TZSC1F: illegal access flag for GTZC1 TZSC registers
+0: no illegal access event
+1: illegal access event
+Bits 13:5 Reserved, must be kept at reset value.
+Bit 4 OTFDEC2F: illegal access flag for OTFDEC2
+0: no illegal access event
+1: illegal access event
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 3 OTFDEC1F: illegal access flag for OTFDEC1
+0: no illegal access event
+1: illegal access event
+Bit 2 FLASHF: illegal access flag for flash memory
+0: no illegal access event
+1: illegal access event
+Bit 1 FLASH_REGF: illegal access flag for FLASH registers
+0: no illegal access event
+1: illegal access event
+Bit 0 GPDMA1F: illegal access flag for GPDMA1
+0: no illegal access event
+1: illegal access event

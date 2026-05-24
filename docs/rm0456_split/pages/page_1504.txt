@@ -1,0 +1,52 @@
+1514
+
+Operational amplifier (OPAMP)
+
+RM0456
+
+Follower configuration mode
+The procedure to use the OPAMP in follower mode is detailed below (all bits in
+OPAMPx_CSR):
+
+Note:
+
+1.
+
+Set OPAMODE[1:0] = 11 (internal follower).
+
+2.
+
+Clear VP_SEL to 0 (GPIO connected to OPAMPx_VINP, named VINP in this
+document).
+
+3.
+
+As soon as OPAEN is set to 1, the signal on the VINP pin is copied to the
+OPAMP_VOUT pin.
+
+The pin corresponding to OPAMP_VINM is free for another usage.
+The signal on the OPAMP output is also seen as an ADC input. As a consequence, the
+OPAMP configured in follower mode can be used to perform impedance adaptation on input
+signals before feeding them to the ADC input, assuming the input signal frequency is
+compatible with the operational amplifier gain bandwidth specification.
+Figure 324. Follower configuration
+STM32
+GPIO
+DAC_OUT
+
++
+ADC
+
+GPIO
+-
+
+Always connected to
+OPAMP output (can be
+used during debug)
+MS35325V1
+
+Programmable gain amplifier mode
+The procedure to use the OPAMP to amplify the amplitude of an input signal is presented
+hereafter (all bits in OPAMPx_CSR):
+
+Note:

@@ -1,0 +1,175 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Bits 11:8 SQ3[3:0]: 3rd conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 3rd conversion of
+the sequence. 0b1111 indicates end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+Refer to SQ8[3:0] for a definition of channel selection.
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+Bits 7:4 SQ2[3:0]: 2nd conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 2nd conversion of
+the sequence. 0b1111 indicates end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+Refer to SQ8[3:0] for a definition of channel selection.
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+Bits 3:0 SQ1[3:0]: 1st conversion of the sequence
+These bits are programmed by software with the channel number assigned to the 1st conversion of
+the sequence. 0b1111 indicates end of the sequence.
+When 0b1111 (end of sequence) is programmed to the lower sequence channels, these bits are
+ignored.
+Refer to SQ8[3:0] for a definition of channel selection.
+Note: The software is allowed to write this bit only when ADSTART is cleared to 0 by writing ADSTP
+to 1 (which ensures that no conversion is ongoing).
+
+34.7.11
+
+ADC watchdog threshold register (ADC_AWD3TR)
+Address offset: 0x2C
+Reset value: 0x0FFF 0000
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+HT3[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+LT3[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bits 27:16 HT3[11:0]: Analog watchdog 3 higher threshold
+These bits are written by software to define the higher threshold for the analog watchdog.
+Refer to Section 34.4.25: Analog window watchdog.
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:0 LT3[11:0]: Analog watchdog 3lower threshold
+These bits are written by software to define the lower threshold for the analog watchdog.
+Refer to Section 34.4.25: Analog window watchdog.

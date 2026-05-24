@@ -1,0 +1,103 @@
+Feature
+
+CRS
+
+TRIM width
+
+7 bits
+
+RM0456 Rev 6
+
+RM0456
+
+Clock recovery system (CRS)
+
+12.4
+
+CRS functional description
+
+12.4.1
+
+CRS block diagram
+Figure 43. CRS block diagram
+SYNCSRC
+
+SWSYNC
+
+crs_sync_in_0
+crs_sync_in_1
+
+SYNC divider
+(/1, /2, /4,…, /128)
+
+crs_sync_in_2
+
+SYNC
+
+crs_sync_in_3
+
+crs_it
+crs_pclk
+
+FELIM
+
+32-bit AHB
+bus
+TRIM
+
+FEDIR
+
+FECAP
+
+crs_trimx
+RCC
+
+crs_48m_ck
+16-bit counter
+
+48 MHz clock
+
+RELOAD
+
+CRS
+
+48 MHz clock to
+peripherals
+MSv69553V2
+
+12.4.2
+
+CRS internal signals
+Below the list of CRS internal signals.
+Table 121. CRS internal input/output signals
+Internal signal name
+
+Signal type
+
+Description
+
+crs_it
+
+Digital output
+
+CRS interrupt
+
+crs_pclk
+
+Digital input
+
+AHB bus clock
+
+crs_48m_ck
+
+Digital input
+
+HSI48 48 MHz clock
+
+crs_trim[0:6]
+
+Digital output
+
+HSI48 oscillator smooth trimming value
+
+RM0456 Rev 6

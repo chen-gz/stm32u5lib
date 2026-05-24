@@ -1,0 +1,56 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+Bit 1 PDWN: Power down
+This bit is used to completely switch off all USB-related analog parts if it is required to
+completely disable the USB peripheral for any reason. When this bit is set, the USB
+peripheral is disconnected from the transceivers and it cannot be used.
+0: Exit power down
+1: Enter power down mode
+Bit 0 USBRST: USB Reset
+– Condition: Device mode
+Software can set this bit to reset the USB core, exactly as it happens when receiving a
+RESET signaling on the USB.The USB peripheral, in response to a RESET, resets its
+internal protocol state machine. Reception and transmission are disabled until the
+RST_DCON bit is cleared. All configuration registers do not reset: the microcontroller must
+explicitly clear these registers (this is to ensure that the RST_DCON interrupt can be safely
+delivered, and any transaction immediately followed by a RESET can be completed). The
+function address and endpoint registers are reset by an USB reset event.
+0: No effect
+1: USB core is under reset
+– Condition: Host mode
+Software sets this bit to drive USB reset state on the bus and initialize the device. USB reset
+terminates as soon as this bit is cleared by software.
+0: No effect
+1: USB reset driven
+
+71.6.2
+
+USB interrupt status register (USB_ISTR)
+Address offset: 0x44
+Reset value: 0x0000 0000
+This register contains the status of all the interrupt sources permitting application software to
+determine which events caused an interrupt request.
+The upper part of this register contains single bits, each of them representing a specific
+event. These bits are set by the hardware when the related event occurs; if the
+corresponding bit in the USB_CNTR register is set, a generic interrupt request is generated.
+The interrupt routine, examining each bit, performs all necessary actions, and finally it clears
+the serviced bits. If any of them is not cleared, the interrupt is considered to be still pending,
+and the interrupt line is kept high again. If several bits are set simultaneously, only a single
+interrupt is generated.
+Endpoint/channel transaction completion can be handled in a different way to reduce
+interrupt response latency. The CTR bit is set by the hardware as soon as an
+endpoint/channel successfully completes a transaction, generating a generic interrupt
+request if the corresponding bit in USB_CNTR is set. An endpoint/channel dedicated
+interrupt condition is activated independently from the CTRM bit in the USB_CNTR register.
+Both interrupt conditions remain active until software clears the pending bit in the
+corresponding USB_CHEPnR register (the CTR bit is actually a read only bit). For endpoint/channel-related interrupts, the software can use the direction of transaction (DIR) and IDN
+read-only bits to identify which endpoint/channel made the last interrupt request and called
+the corresponding interrupt service routine.
+The user can choose the relative priority of simultaneously pending USB_ISTR events by
+specifying the order in which software checks USB_ISTR bits in an interrupt service routine.
+Only the bits related to events, which are serviced, are cleared. At the end of the service
+routine, another interrupt is requested, to service the remaining conditions.

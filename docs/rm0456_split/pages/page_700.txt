@@ -1,0 +1,86 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Figure 57. GPDMA dynamic linked-list data structure
+of a linear addressing channel x
+LLIn
+All Uxx = 1
+
+DMA_CxTR1
+DMA_CxTR2
+DMA_CxBR1
+
+UT1 = UB1 = USA = 0
+UT2 = UDA = ULL = 1
+
+DMA_CxSAR
+
+LLIn+1
+DMA_CxTR2
+DMA_CxDAR
+
+DMA_CxDAR
+
+DMA_CxLLR
+
+DMA_CxLLR
+MSv62630V1
+
+Figure 58. GPDMA dynamic linked-list data structure
+of a 2D addressing channel x
+LLIn
+All Uxx = 1
+
+DMA_CxTR1
+DMA_CxTR2
+DMA_CxBR1
+
+UT1 = UB1 = USA = 0
+UT3 = UB2 = 0
+UT2 = UDA = ULL = 1
+
+DMA_CxSAR
+DMA_CxDAR
+
+LLIn+1
+DMA_CxTR2
+DMA_CxDAR
+DMA_CxLLR
+
+DMA_CxTR3
+DMA_CxBR2
+DMA_CxLLR
+MSv63646V1
+
+The user must program GPDMA_CxLLR for each LLIn to be 32-bit aligned and not to
+exceed the 64-Kbyte addressable space pointed by GPDMA_CxLBAR.
+
+17.4.6
+
+Linked-list item transfer execution
+A LLIn transfer is the sequence of:
+
+Note:
+
+1.
+
+a data transfer: GPDMA executes the data transfer as described by the GPDMA
+internal register file (this data transfer can be void/null for LLI0)
+
+2.
+
+a conditional link transfer: GPDMA automatically and conditionally updates its internal
+register file by the data structure of the next LLIn+1, as defined by the GPDMA_CxLLR
+value of the LLIn.
+
+The initial data transfer as defined by the internal register file (LLI0) can be null
+(GPDMA_CxBR1.BNDT[15:0] = 0) provided that the conditional update bit UB1 in
+GPDMA_CxLLR is set (meaning there is a non-null data transfer described by the next LLI1
+in the memory to be executed).
+Depending on the intended GPDMA usage, a GPDMA channel x can be executed as
+described by the full linked-list (run-to-completion mode, GPDMA_CxCR.LSM = 0) or a
+GPDMA channel x can be programmed for a single execution of a LLI (link step mode,
+GPDMA_CxCR.LSM = 1), as described in the next sections.

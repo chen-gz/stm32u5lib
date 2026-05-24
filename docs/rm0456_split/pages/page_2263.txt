@@ -1,0 +1,123 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+The output stage generates an intermediate waveform which is then used for reference:
+tim_ocxref (active high). The polarity acts at the end of the chain.
+Figure 625. Capture/compare channel 1 main circuit
+APB Bus
+
+MCU-peripheral interface
+Input mode
+
+Output mode
+
+16/32-bit
+
+CC1S[1]
+Capture/compare preload register
+
+CC1S[0]
+IC1PS
+
+CC1S[1]
+CC1S[0]
+
+Compare
+transfer
+
+Capture
+
+CC1E
+
+OC1PE
+
+OC1PE
+UEV
+TIMx_CCMR1
+(from time
+base unit)
+
+compare shadow register
+CC1G
+Comparator
+
+TIMx_EGR
+
+CNT>CCR1
+Counter
+
+CNT=CCR1
+
+MSv63030V1
+
+Figure 626. Output stage of capture/compare channel (channel 1, idem ch.2, 3 and 4)
+TIMx_SMCR
+OCCS(1)
+tim_ocref_clr 0
+
+To the master
+mode controller
+
+tim_etrf 1
+
+tim_oc1refc
+
+tim_ocref_clr_int
+
+tim_oc1ref
+
+‘0’
+
+CNT > CCR1
+
+Output
+mode
+CNT = CCR1
+controller
+
+tim_oc2ref
+
+Output
+selector
+
+0
+
+0
+
+1
+
+1
+
+CC1E
+
+CC1P
+
+TIMx_CCER
+
+OC1CE
+
+TIMx_CCER
+
+Output
+enable
+circuit
+
+tim_oc1
+
+CC1E TIMx_CCER
+
+OC1M[3:0]
+
+TIMx_CCMR1
+MSv62374V2
+
+1. Available on some instances only. If not available, tim_etrf is directly connected to tim_ocref_clr_int.
+
+The capture/compare block is made of one preload register and one shadow register. Write
+and read always access the preload register.
+In capture mode, captures are actually done in the shadow register, which is copied into the
+preload register.
+
+RM0456 Rev 6

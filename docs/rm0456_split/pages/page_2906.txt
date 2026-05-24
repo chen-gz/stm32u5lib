@@ -1,0 +1,68 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Serial audio interface (SAI)
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bit 6 LFSDETIE: Late frame synchronization detection interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the LFSDET bit is set in the SAI_xSR register.
+This bit is meaningless in AC’97, SPDIF mode or when the audio block operates as a master.
+Bit 5 AFSDETIE: Anticipated frame synchronization detection interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the AFSDET bit in the SAI_xSR register is set.
+This bit is meaningless in AC’97, SPDIF mode or when the audio block operates as a master.
+Bit 4 CNRDYIE: Codec not ready interrupt enable (AC’97).
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When the interrupt is enabled, the audio block detects in the slot 0 (tag0) of the AC’97 frame if the
+Codec connected to this line is ready or not. If it is not ready, the CNRDY flag in the SAI_xSR
+register is set and an interrupt is generated.
+This bit has a meaning only if the AC’97 mode is selected through PRTCFG[1:0] bits and the audio
+block is operates as a receiver.
+Bit 3 FREQIE: FIFO request interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the FREQ bit in the SAI_xSR register is set.
+Since the audio block defaults to operate as a transmitter after reset, the MODE bit must be
+configured before setting FREQIE to avoid a parasitic interrupt in receiver mode,
+Bit 2 WCKCFGIE: Wrong clock configuration interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+This bit is taken into account only if the audio block is configured as a master (MODE[1] = 0) and
+NODIV = 0.
+It generates an interrupt if the WCKCFG flag in the SAI_xSR register is set.
+Note: This bit is used only in Free protocol mode and is meaningless in other modes.
+Bit 1 MUTEDETIE: Mute detection interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the MUTEDET bit in the SAI_xSR register is set.
+This bit has a meaning only if the audio block is configured in receiver mode.
+Bit 0 OVRUDRIE: Overrun/underrun interrupt enable.
+This bit is set and cleared by software.
+0: Interrupt is disabled
+1: Interrupt is enabled
+When this bit is set, an interrupt is generated if the OVRUDR bit in the SAI_xSR register is set.
+
+RM0456 Rev 6

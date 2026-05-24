@@ -1,0 +1,50 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 21 RTCAPBAMEN: RTC and TAMP autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: RTC and TAMP autonomous mode disabled during Stop 0/1/2mode
+1: RTC and TAMP autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 20 VREFAMEN: VREFBUF autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: VREFBUF autonomous mode disabled during Stop 0/1/2 mode
+1: VREFBUF autonomous mode enabled during Stop 0/1/2 mode
+Bits 19:16 Reserved, must be kept at reset value.
+Bit 15 COMPAMEN: COMP autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: COMP autonomous mode disabled during Stop 0/1/2 mode
+1: COMP autonomous mode enabled during Stop 0/1/2 mode
+Bit 14 OPAMPAMEN: OPAMP autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: OPAMP autonomous mode disabled during Stop 0/1/2 mode
+1: OPAMP autonomous mode enabled during Stop 0/1/2 mode
+Bit 13 LPTIM4AMEN: LPTIM4 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: LPTIM4 autonomous mode disabled during Stop 0/1/2 mode
+1: LPTIM4 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 12 LPTIM3AMEN: LPTIM3 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: LPTIM3 autonomous mode disabled during Stop 0/1/2 mode
+1: LPTIM3 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 11 LPTIM1AMEN: LPTIM1 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: LPTIM1 autonomous mode disabled during Stop 0/1/2 mode
+1: LPTIM1 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 10:8 Reserved, must be kept at reset value.
+Bit 7 I2C3AMEN: I2C3 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: I2C3 autonomous mode disabled during Stop 0/1/2 mode
+1: I2C3 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 6 LPUART1AMEN: LPUART1 autonomous mode enable in Stop 0/1/2 mode
+This bit is set and cleared by software.
+0: LPUART1 autonomous mode disabled during Stop 0/1/2 mode
+1: LPUART1 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.

@@ -1,0 +1,130 @@
+In case the tampers are disabled by software, and re-enabled afterwards, the SEED
+must be written after enabling tampers:
+a)
+
+Write TAMP_CR1 to enable tampers (all the needed tampers must be enabled in
+the same write access).
+
+b)
+
+Write SEED by writing four times in the TAMP_ATSEEDR.
+
+c)
+
+Wait until SEEDF = 0 in TAMP_ATOR. Backup registers are then protected by
+active tamper.
+
+RM0456 Rev 6
+
+RM0456
+
+64.5
+
+Tamper and backup registers (TAMP)
+
+TAMP low-power modes
+Table 649. Effect of low-power modes on TAMP
+Mode
+
+Description
+
+Sleep
+
+No effect.
+TAMP interrupts cause the device to exit the Sleep mode.
+
+Stop
+
+No effect, except for level detection with filtering and active tamper modes which remain
+active only when the clock source is LSE or LSI. Some internal tampers sources are not
+functional, refer to Table 100: Functionalities depending on the working mode.
+TAMP interrupts cause the device to exit the Stop mode.
+
+Standby
+
+No effect, except for level detection with filtering and active tamper modes which remain
+active only when the clock source is LSE or LSI. Some internal tampers sources are not
+functional, refer to Table 100: Functionalities depending on the working mode.
+TAMP interrupts cause the device to exit the Standby mode.
+
+No effect, except for level detection with filtering and active tamper modes which remain
+active only when the clock source is LSE. Some internal tampers sources are not
+Shutdown functional, refer to Table 100: Functionalities depending on the working mode.
+TAMP interrupts cause the device to exit the Shutdown mode.
+
+Table 650. TAMP pins functionality over modes
+
+64.6
+
+Pin name
+
+Functional in all low-power modes
+
+Functional in VBAT mode
+
+TAMP_IN[8:1]
+
+Yes
+
+Yes
+
+TAMP_OUT[8:1]
+
+Yes
+
+Yes
+
+TAMP interrupts
+The interrupt channel is set in the masked interrupt status register or in the secure masked
+interrupt status register depending on its security mode configuration (TAMPSEC).
+Table 651. Interrupt requests
+Interrupt acronym
+
+TAMP
+
+Interrupt
+event
+
+Event
+flag(1)
+
+Enable
+control bit
+
+Interrupt
+clear
+method
+
+Exit from
+low-power
+modes
+
+Tamper x(2)
+
+TAMPxF
+
+TAMPxIE
+
+Write 1 in
+CTAMPxF
+
+Yes(3)
+
+Internal
+tamper y(2)
+
+ITAMPyF
+
+ITAMPyIE
+
+Write 1 in
+CITAMPyF
+
+Yes(3)
+
+1. The event flags are in the TAMP_SR register.
+2. The number of tampers and internal tampers events depend on products.
+3. Refer to Table 649: Effect of low-power modes on TAMP for more details about available features in the
+low-power modes.
+
+RM0456 Rev 6

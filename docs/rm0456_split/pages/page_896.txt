@@ -1,0 +1,95 @@
+910
+
+Chrom-GRC (GFXMMU)
+
+RM0456
+
+The MMU LUT is implemented as a 1024 x 35-bit RAM
+Figure 99. MMU block diagram
+
+Add[21:4]
+
+Line/block
+decoder
+
+Block[7:0]
++
+
+[21:4]
+
+Block0Offset[21:4]
+Line[9:0]
+
+LookUp
+RAM
+
+LineEnable
++
+FirstBlock[7:0]
+
+Add[23:4]
+
+1024 x 35-bit
+
+Add[23:22]
+
+Overflow
+C
+
+LastBlock[7:0]
+
+pBufferOffset
+
+Block
+valid
+comp.
+
+PhyAdd[22:4]
+Valid
+
+pBufferOffset[22:4]
+
+MSv43802V1
+
+Line block decoder
+The line block decoder is generating the block number and the line number according the
+address.
+
+Look up RAM
+The look up RAM is a 1024 x 35-bit RAM with the following fields:
+•
+
+1-bit line enable
+
+•
+
+8-bit first valid block
+
+•
+
+8-bit last valid block
+
+•
+
+18-bit for line offset
+
+As the RAM is bigger than a word, each entry is split into two words on the memory map.
+The write access are done in two steps:
+1.
+
+Write the first word with enable/first valid block/last valid block in the GFXMMU_LUTxL
+memory location (internally buffered).
+
+2.
+
+Write the second word with line offset in the GFXMMU_LUTxH memory location
+(effective write into the memory together with the internally buffered value).
+
+A write in the LUT can happen any time but it can lead to inconsistencies if a master is using
+the MMU at the same time. As the CPU has the priority during LUT programming, this may
+slow down MMU calculation.
+There is no restriction during read operations, but this may slow down CPU as the MMU has
+the priority on LUT accesses.
+
+Block validation/comparator
+This block is checking if the block is valid.

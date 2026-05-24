@@ -1,0 +1,177 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+Table 251. OCTOSPI/HSPI implementation (continued)
+OCTOSPI feature
+
+OCTOSPI1/2
+
+HSPI1
+
+Prefetch disable
+
+-
+
+-
+
+Prefetch hardware software
+
+-
+
+-
+
+28.4
+
+OCTOSPI functional description
+
+28.4.1
+
+OCTOSPI block diagram
+Figure 141. OCTOSPI block diagram in octal configuration
+(for STM32U5 series except STM32U535/545 devices)
+STM32
+Registers/
+control
+
+AHB
+
+Clock
+management
+
+OCTOSPIM port1
+
+Data
+FIFO
+
+AHB
+octospi_ker_ck
+
+Shift
+register
+
+DMA signals
+
+Octo-SPI
+memory
+
+Delay
+block
+
+5
+
+Interrupts
+5
+
+OCTOSPI
+
+OCTOSPIM_P1_NCLK
+
+NCLK
+
+OCTOSPIM_P1_CLK
+
+CLK
+
+OCTOSPIM_P1_IO0
+
+IO0
+
+OCTOSPIM_P1_IO1
+
+IO1
+
+OCTOSPIM_P1_IO2
+
+IO2
+
+OCTOSPIM_P1_IO3
+
+IO3
+
+OCTOSPIM_P1_IO4
+
+IO4
+
+OCTOSPIM_P1_IO5
+
+IO5
+
+OCTOSPIM_P1_IO6
+
+IO6
+
+OCTOSPIM_P1_IO7
+
+IO7
+
+OCTOSPIM_P1_NCS
+
+NCS
+
+OCTOSPIM_P1_DQS
+
+DQS
+
+Signal connected or not depending on the board configuration
+
+MSv60468V4
+
+Figure 142. OCTOSPI block diagram in quad configuration
+(for STM32U5 series except STM32U535/545 devices)
+STM32
+Clock
+management
+
+AHB
+octospi_ker_ck
+
+Data FIFO
+
+DMA signals
+
+Shift
+register
+
+Quad-SPI
+memory
+
+Delay
+block
+OCTOSPIM port1
+
+Registers/
+control
+
+AHB
+
+5
+
+OCTOSPIM_P1_CLK
+
+CLK
+
+OCTOSPIM_P1_IO0
+
+Q0/SI
+
+OCTOSPIM_P1_IO1
+
+Q1/SO
+
+OCTOSPIM_P1_IO2
+
+Q2/WP
+
+OCTOSPIM_P1_IO3
+
+Q3/HOLD
+
+OCTOSPIM_P1_NCS
+
+NCS
+
+Interrupts OCTOSPI
+5

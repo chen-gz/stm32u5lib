@@ -1,0 +1,71 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+11.8.36 RCC APB3 peripheral clock enable register (RCC_APB3ENR) . . . . . 568
+11.8.37 RCC AHB1 peripheral clock enable in Sleep and Stop modes register
+(RCC_AHB1SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 569
+11.8.38 RCC AHB2 peripheral clock enable in Sleep and
+Stop modes register 1 (RCC_AHB2SMENR1) . . . . . . . . . . . . . . . . . . 572
+11.8.39 RCC AHB2 peripheral clock enable in Sleep and
+Stop modes register 2 (RCC_AHB2SMENR2) . . . . . . . . . . . . . . . . . . 576
+11.8.40 RCC AHB3 peripheral clock enable in Sleep and Stop modes register
+(RCC_AHB3SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 577
+11.8.41 RCC APB1 peripheral clock enable in Sleep and Stop modes
+register 1 (RCC_APB1SMENR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 579
+11.8.42 RCC APB1 peripheral clocks enable in Sleep and
+Stop modes register 2 (RCC_APB1SMENR2) . . . . . . . . . . . . . . . . . . 581
+11.8.43 RCC APB2 peripheral clocks enable in Sleep and Stop modes register
+(RCC_APB2SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 583
+11.8.44 RCC APB3 peripheral clock enable in Sleep and Stop modes register
+(RCC_APB3SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 585
+11.8.45 RCC SmartRun domain peripheral autonomous mode register
+(RCC_SRDAMR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 587
+11.8.46 RCC peripherals independent clock configuration register 1
+(RCC_CCIPR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 589
+11.8.47 RCC peripherals independent clock configuration register 2
+(RCC_CCIPR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 592
+11.8.48 RCC peripherals independent clock configuration register 3
+(RCC_CCIPR3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 595
+11.8.49 RCC backup domain control register (RCC_BDCR) . . . . . . . . . . . . . . 597
+11.8.50 RCC control/status register (RCC_CSR) . . . . . . . . . . . . . . . . . . . . . . . 600
+11.8.51 RCC secure configuration register (RCC_SECCFGR) . . . . . . . . . . . . 602
+11.8.52 RCC privilege configuration register (RCC_PRIVCFGR) . . . . . . . . . . 603
+11.8.53 RCC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 604
+
+12
+
+Clock recovery system (CRS) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+12.1
+
+CRS introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+
+12.2
+
+CRS main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+
+12.3
+
+CRS implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+
+12.4
+
+CRS functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .611
+12.4.1
+
+CRS block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 611
+
+12.4.2
+
+CRS internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 611
+
+12.4.3
+
+Synchronization input . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 612
+
+12.4.4
+
+Frequency error measurement . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 613
+
+RM0456 Rev 6

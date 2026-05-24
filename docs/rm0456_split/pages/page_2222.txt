@@ -1,0 +1,162 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bit 31 GC5C3: Group channel 5 and channel 3
+Distortion on channel 3 output:
+0: No effect of tim_oc5ref on tim_oc3refc
+1: tim_oc3refc is the logical AND of tim_oc3ref and tim_oc5ref
+This bit can either have immediate effect or be preloaded and taken into account after an
+update event (if preload feature is selected in TIMxCCMR2).
+Note: it is also possible to apply this distortion on combined PWM signals.
+Bit 30 GC5C2: Group channel 5 and channel 2
+Distortion on channel 2 output:
+0: No effect of tim_oc5ref on tim_oc2refc
+1: tim_oc2refc is the logical AND of tim_oc2ref and tim_oc5ref
+This bit can either have immediate effect or be preloaded and taken into account after an
+update event (if preload feature is selected in TIMxCCMR1).
+Note: it is also possible to apply this distortion on combined PWM signals.
+Bit 29 GC5C1: Group channel 5 and channel 1
+Distortion on channel 1 output:
+0: No effect of oc5ref on oc1refc
+1: oc1refc is the logical AND of oc1ref and oc5ref
+This bit can either have immediate effect or be preloaded and taken into account after an
+update event (if preload feature is selected in TIMxCCMR1).
+Note: it is also possible to apply this distortion on combined PWM signals.
+Bits 28:20 Reserved, must be kept at reset value.
+Bits 19:0 CCR5[19:0]: Capture/compare 5 value
+CCR5 is the value to be loaded in the actual capture/compare 5 register (preload value).
+It is loaded permanently if the preload feature is not selected in the TIMx_CCMR3 register
+(bit OC5PE). Else the preload value is copied in the active capture/compare 5 register when
+an update event occurs.
+The active capture/compare register contains the value to be compared to the counter
+TIMx_CNT and signaled on tim_oc5 output.
+Non-dithering mode (DITHEN = 0)
+The register holds the compare value in CCR5[15:0]. The CCR5[19:16] bits are reset.
+Dithering mode (DITHEN = 1)
+The register holds the integer part in CCR5[19:4]. The CCR5[3:0] bitfield contains the
+dithered part.
+
+54.6.22
+
+TIMx capture/compare register 6 (TIMx_CCR6)(x = 1, 8)
+Address offset: 0x04C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+19
+
+18
+
+17
+
+16
+
+CCR6[19:16]
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CCR6[15:0]
+rw
+
+rw

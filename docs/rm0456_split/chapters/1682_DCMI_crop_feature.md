@@ -1,0 +1,59 @@
+1696
+
+Digital camera interface (DCMI)
+
+RM0456
+
+Figure 396. Frame capture waveforms in continuous grab mode
+
+DCMI_HSYNC
+
+DCMI_VSYNC
+
+Frame 1 captured
+
+Frame 2 captured
+
+ai15833b
+
+1. Here, the active state of DCMI_HSYNC and DCMI_VSYNC is 1.
+2. DCMI_HSYNC and DCMI_VSYNC can change states at the same time.
+
+In continuous grab mode, the FCRC[1:0] bits in DCMI_CR can be configured to grab all
+pictures, every second picture or one out of four pictures to decrease the frame capture
+rate.
+Note:
+
+In the hardware synchronization mode (ESS = 0 in DCMI_CR), the IT_VSYNC interrupt is
+generated (if enabled) even when CAPTURE = 0 in DCMI_CR so, to reduce the frame
+capture rate even further, the IT_VSYNC interrupt can be used to count the number of
+frames between 2 captures in conjunction with the Snapshot mode. This is not allowed by
+embedded data synchronization mode.
+
+41.3.8
+
+DCMI crop feature
+With the crop feature, the camera interface can select a rectangular window from the
+received image. The start (upper left corner) coordinates and size (horizontal dimension in
+number of pixel clocks and vertical dimension in number of lines) are specified using two
+32-bit registers (DCMI_CWSTRT and DCMI_CWSIZE). The size of the window is specified
+in number of pixel clocks (horizontal dimension) and in number of lines (vertical dimension).
+Figure 397. Coordinates and size of the window after cropping
+VST[12:0] in DCMI_CWSTRT
+
+VLINE[13:0] in DCMI_CWSIZE
+HOFFCNT[13:0]
+in
+DCMI_CWSTRT
+
+CAPCNT[13:0] in DCMI_CWSIZE
+MS35933V3
+
+These registers specify the coordinates of the starting point of the capture window as a line
+number (in the frame, starting from 0) and a number of pixel clocks (on the line, starting from
+0), and the size of the window as a line number and a number of pixel clocks. The CAPCNT
+value can only be a multiple of 4 (two least significant bits are forced to 0) to allow the
+correct transfer of data through the DMA.
+
+<!-- pagebreak -->
+

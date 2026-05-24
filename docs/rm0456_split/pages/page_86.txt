@@ -1,0 +1,46 @@
+90
+
+Contents
+
+RM0456
+73.14.27 OTG_Host periodic transmit FIFO/queue status register
+(OTG_HPTXSTS) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3358
+73.14.28 OTG host all channels interrupt register (OTG_HAINT) . . . . . . . . . . 3359
+73.14.29 OTG host all channels interrupt mask register
+(OTG_HAINTMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3359
+73.14.30 OTG host port control and status register (OTG_HPRT) . . . . . . . . . . 3360
+73.14.31 OTG host channel x characteristics register (OTG_HCCHARx) . . . . 3362
+73.14.32 OTG host channel x split control register (OTG_HCSPLTx) . . . . . . . 3363
+73.14.33 OTG host channel x interrupt register (OTG_HCINTx) . . . . . . . . . . . 3364
+73.14.34 OTG host channel x interrupt mask register (OTG_HCINTMSKx) . . 3365
+73.14.35 OTG host channel x transfer size register (OTG_HCTSIZx) . . . . . . . 3366
+73.14.36 OTG host channel x DMA address register(OTG_HCDMAx) . . . . . . 3367
+73.14.37 Device-mode registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3367
+73.14.38 OTG device configuration register (OTG_DCFG) . . . . . . . . . . . . . . . 3367
+73.14.39 OTG device control register (OTG_DCTL) . . . . . . . . . . . . . . . . . . . . 3369
+73.14.40 OTG device status register (OTG_DSTS) . . . . . . . . . . . . . . . . . . . . . 3371
+73.14.41 OTG device IN endpoint common interrupt mask register
+(OTG_DIEPMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3372
+73.14.42 OTG device OUT endpoint common interrupt mask register
+(OTG_DOEPMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3373
+73.14.43 OTG device all endpoints interrupt register (OTG_DAINT) . . . . . . . . 3374
+73.14.44 OTG all endpoints interrupt mask register
+(OTG_DAINTMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3375
+73.14.45 OTG device threshold control register (OTG_DTHRCTL) . . . . . . . . . 3375
+73.14.46 OTG device IN endpoint FIFO empty interrupt mask register
+(OTG_DIEPEMPMSK) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3376
+73.14.47 OTG device IN endpoint x control register [alternate]
+(OTG_DIEPCTLx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3377
+73.14.48 OTG device IN endpoint x control register [alternate]
+(OTG_DIEPCTLx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3379
+73.14.49 OTG device IN endpoint x interrupt register (OTG_DIEPINTx) . . . . . 3381
+73.14.50 OTG device IN endpoint 0 transfer size register
+(OTG_DIEPTSIZ0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3382
+73.14.51 OTG device IN endpoint x DMA address register
+(OTG_DIEPDMAx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3383
+73.14.52 OTG device IN endpoint transmit FIFO status register
+(OTG_DTXFSTSx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3383
+73.14.53 OTG device IN endpoint x transfer size register (OTG_DIEPTSIZx) . 3384
+73.14.54 OTG device control OUT endpoint 0 control register
+(OTG_DOEPCTL0) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3384
+73.14.55 OTG device OUT endpoint x interrupt register (OTG_DOEPINTx) . . 3386

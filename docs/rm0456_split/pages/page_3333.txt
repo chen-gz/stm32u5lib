@@ -1,0 +1,99 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+73.15.6
+
+RM0456
+
+Device programming model
+Endpoint initialization on USB reset
+1.
+
+Set the NAK bit for all OUT endpoints
+–
+
+2.
+
+3.
+
+4.
+
+Unmask the following interrupt bits
+–
+
+INEP0 = 1 in OTG_DAINTMSK (control 0 IN endpoint)
+
+–
+
+OUTEP0 = 1 in OTG_DAINTMSK (control 0 OUT endpoint)
+
+–
+
+STUPM = 1 in OTG_DOEPMSK
+
+–
+
+XFRCM = 1 in OTG_DOEPMSK
+
+–
+
+XFRCM = 1 in OTG_DIEPMSK
+
+–
+
+TOM = 1 in OTG_DIEPMSK
+
+Set up the data FIFO RAM for each of the FIFOs
+–
+
+Program the OTG_GRXFSIZ register, to be able to receive control OUT data and
+setup data. If thresholding is not enabled, at a minimum, this must be equal to 1
+max packet size of control endpoint 0 + 2 words (for the status of the control OUT
+data packet) + 10 words (for setup packets).
+
+–
+
+Program the OTG_DIEPTXF0 register (depending on the FIFO number chosen) to
+be able to transmit control IN data. At a minimum, this must be equal to 1 max
+packet size of control endpoint 0.
+
+Program the following fields in the endpoint-specific registers for control OUT endpoint
+0 to receive a SETUP packet
+–
+
+5.
+
+SNAK = 1 in OTG_DOEPCTLx (for all OUT endpoints)
+
+STUPCNT = 3 in OTG_DOEPTSIZ0 (to receive up to 3 back-to-back SETUP
+packets)
+
+For USB OTG_HS in DMA mode, the OTG_DOEPDMA0 register must have a valid
+memory address to store any SETUP packets received.
+
+At this point, all initialization required to receive SETUP packets is done.
+
+Endpoint initialization on enumeration completion
+1.
+
+On the Enumeration Done interrupt (ENUMDNE in OTG_GINTSTS), read the
+OTG_DSTS register to determine the enumeration speed.
+
+2.
+
+Program the MPSIZ field in OTG_DIEPCTL0 to set the maximum packet size. This
+step configures control endpoint 0. The maximum packet size for a control endpoint
+depends on the enumeration speed.
+
+3.
+
+For USB OTG_HS in DMA mode, program the OTG_DOEPCTL0 register to enable
+control OUT endpoint 0, to receive a SETUP packet.
+
+At this point, the device is ready to receive SOF packets and is configured to perform control
+transfers on control endpoint 0.
+
+Endpoint initialization on SetAddress command
+This section describes what the application must do when it receives a SetAddress
+command in a SETUP packet.

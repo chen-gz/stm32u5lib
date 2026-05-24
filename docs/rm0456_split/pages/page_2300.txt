@@ -1,0 +1,60 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+The error assertion is delayed to the transition 0 to 1 when in up-counting. This is to cope
+with narrow index pulses in gated A and B mode, as shown on Figure 667.
+Figure 667. Up-counting encoder error detection
+Channel A
+
+Channel B
+
+Index
+
+IERRF
+
+Counter
+
+5
+
+6
+
+7
+
+0
+
+1
+
+Error detected
+
+Abort (index detection)
+
+6
+
+0
+
+2
+
+3
+
+2
+
+3
+
+Channel A
+
+Channel B
+
+Index
+
+IERRF
+
+Counter
+
+5
+
+7
+
+Error detected

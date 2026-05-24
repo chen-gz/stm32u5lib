@@ -1,0 +1,137 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Auto-injected mode
+It is possible to oversample auto-injected sequences and have all conversions results stored
+in registers. This enables to save a DMA resource. This mode is available only when both
+regular and injected oversampling active: JAUTO = 1, ROVSE = 1 and JOVSE = 1. Other
+combinations are not supported. The ROVSM bit is ignored in auto-injected mode.
+Figure 258 shows how the conversions are sequenced.
+Figure 258. Oversampling in auto-injected mode
+Regular channels N0 N1 N2 N3
+
+N0 N1 N2 N3
+
+Injected channels I0 I1 I2 I3 J0 J1 J2 J3 K0 K1 K2 K3 L0 L1 L2 L3
+JAUTO =1, ROVSE = 1, JOVSE = 1, ROVSM = X, TROVS = 0
+MS34459V1
+
+It is possible to have also the triggered mode enabled, using the TROVS bit. In this case,
+the ADC must be configured as follows: JAUTO = 1, DISCEN = 0, JDISCEN = 0,
+ROVSE = 1, JOVSE = 1 and TROVSE = 1.
+
+Dual ADC modes support when oversampling
+It is possible to have oversampling enabled when working in dual ADC configuration, for the
+injected simultaneous mode and regular simultaneous mode. In this case, the two ADCs
+must be programmed with the very same settings (including oversampling).
+All other dual ADC modes are not supported when either regular or injected oversampling is
+enabled (ROVSE = 1 or JOVSE = 1).
+
+Summary of combined modes
+Table 319 summarizes all mode combinations, including non-supported modes.
+Table 319. Summary of oversampler operating modes
+Regular over- Injected oversampling:
+sampling:
+ROVSE bit
+
+JOVSE bit
+
+Oversampler
+mode:
+ROVSM bit
+
+Triggered regular mode:
+
+0 = continued
+
+TROVS bit
+
+Comment
+
+1 = resumed
+1
+
+0
+
+0 (continued)
+
+0
+
+Regular continued mode
+
+1
+
+0
+
+0 (continued)
+
+1
+
+Not supported
+
+1
+
+0
+
+1 (resumed)
+
+0
+
+Regular resumed mode
+
+1
+
+0
+
+1 (resumed)
+
+1
+
+Triggered regular resumed
+mode
+
+1
+
+1
+
+0 (continued)
+
+X
+
+Not supported
+
+1
+
+1
+
+1 (resumed)
+
+0
+
+Injected and regular resumed
+mode
+
+1
+
+1
+
+1 (resumed)
+
+1
+
+Not supported
+
+0
+
+1
+
+X
+
+X
+
+Injected oversampling
+
+RM0456 Rev 6

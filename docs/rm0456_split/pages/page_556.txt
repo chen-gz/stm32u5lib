@@ -1,0 +1,212 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.30
+
+RM0456
+
+RCC AHB2 peripheral clock enable register 1 (RCC_AHB2ENR1)
+Address offset: 0x08C
+Reset value: 0x4000 0000 (for STM32U535/545)
+Reset value: 0xC000 0000 (for STM32U575/585/59x/5Ax/5Fx/5Gx)
+Access: no wait state, word, half-word, and byte access
+
+Note:
+
+When the peripheral clock is not active, read or write access to peripheral registers is
+not supported.
+
+31
+
+30
+
+SRAM3 SRAM2
+EN
+EN
+rw
+
+rw
+
+15
+
+14
+
+OTGH
+SPHYE
+N
+
+OTGE
+N
+
+rw
+
+rw
+
+29
+
+28
+
+27
+
+Res.
+
+SDMM
+C2EN
+
+SDMM
+C1EN
+
+rw
+
+rw
+
+13
+
+12
+
+Res.
+
+DCMI_
+PSSIE
+N
+rw
+
+26
+
+25
+
+Res.
+
+Res.
+
+11
+
+10
+
+9
+
+Res.
+
+ADC12
+EN
+rw
+
+24
+
+23
+
+OTFDE OTFDE
+C2EN C1EN
+rw
+
+rw
+
+8
+
+7
+
+22
+Res.
+
+6
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+OCTOS SAESE
+RNGE HASHE
+PKAEN
+AESEN
+PIMEN
+N
+N
+N
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+GPIOJ GPIOIE GPIOH GPIOG GPIOF GPIOE GPIOD GPIOC GPIOB GPIOA
+EN
+N
+EN
+EN
+EN
+EN
+EN
+EN
+EN
+EN
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 SRAM3EN: SRAM3 clock enable
+This bit is set and reset by software.
+0: SRAM3 clock disabled
+1: SRAM3 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 30 SRAM2EN: SRAM2 clock enable
+This bit is set and reset by software.
+0: SRAM2 clock disabled
+1: SRAM2 clock enabled
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 SDMMC2EN: SDMMC2 clock enable
+This bit is set and cleared by software.
+0: SDMMC2 clock disabled
+1: SDMMC2 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 27 SDMMC1EN: SDMMC1 clock enable
+This bit is set and cleared by software.
+0: SDMMC1 clock disabled
+1: SDMMC1 clock enabled
+Bits 26:25 Reserved, must be kept at reset value.

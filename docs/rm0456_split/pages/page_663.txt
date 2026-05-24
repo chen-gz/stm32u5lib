@@ -1,0 +1,170 @@
+RM0456 Rev 6
+
+RM0456
+
+System configuration controller (SYSCFG)
+
+Bits 15:12 PCC2[3:0]: PMOS compensation code of the I/Os supplied by VDDIO2
+These bits are written by software to define an I/O compensation cell code for PMOS
+transistors. This code is applied to the I/O compensation cell when CS2 = 1
+in SYSCFG_CCCSR.
+Bits 11:8 NCC2[3:0]: NMOS compensation code of the I/Os supplied by VDDIO2
+These bits are written by software to define an I/O compensation cell code for NMOS
+transistors. This code is applied to the I/O compensation cell when CS2 = 1
+in SYSCFG_CCCSR.
+Bits 7:4 PCC1[3:0]: PMOS compensation code of the I/Os supplied by VDD
+These bits are written by software to define an I/O compensation cell code for PMOS
+transistors. This code is applied to the I/O compensation cell when CS1 = 1
+in SYSCFG_CCCSR.
+Bits 3:0 NCC1[3:0]: NMOS compensation code of the I/Os supplied by VDD
+These bits are written by software to define an I/O compensation cell code for NMOS
+transistors. This code is applied to the I/O compensation cell when CS1 = 1
+in SYSCFG_CCCSR.
+
+15.3.11
+
+SYSCFG RSS command register (SYSCFG_RSSCMDR)
+Address offset: 0x2C
+Power-on reset value: 0x0000 0000
+System reset: not affected
+When the system is secure (TZEN = 1), this register can be read and written only when the
+APB access is secure. Otherwise it is RAZ/WI.
+When the system is not secure (TZEN = 0), this register is RAZ/WI. This register can be
+read and written by privileged and unprivileged access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RSSCMD[15:0]
+rw
+
+rw
+
+ì
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 RSSCMD[15:0]: RSS commands
+This field defines a command to be executed by the RSS.
+
+RM0456 Rev 6

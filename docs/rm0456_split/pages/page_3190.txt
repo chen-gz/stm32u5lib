@@ -1,0 +1,127 @@
+4 Kbytes
+
+USB 2.0 link power management (LPM) support
+
+X
+
+OTG revision supported
+
+2.0
+
+Battery charging detection (BCD) support
+
+X
+
+Integrated PHY
+
+HS
+
+HNP and SRP support
+
+-
+
+SRP: OTG_DVBUSDIS register
+
+-
+
+SRP: OTG_DVBUSPULSE register
+
+-
+
+HNP: OTG_GOTGCTL bits 11:8
+
+-
+
+SRP: OTG_GOTGCTL bits 1:0
+
+-
+
+HNP/SRP: OTG_GOTGINT bits 19; 17; 9:8
+
+-
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Table 762. OTG_HS implementation(1) (continued)
+USB features
+
+OTG_HS for STM32U59x/5Ax/5Fx/5Gx
+
+HNP: OTG_GUSBCFG bit 9
+
+-
+
+SRP: OTG_GUSBCFG bit 8
+
+-
+
+OTG_PCGCCTL1 register
+
+X
+
+1. “X” = supported, “-” = not supported, “FS” = supported in FS mode, “HS” = supported in HS mode.
+
+73.4
+
+OTG_HS functional description
+
+73.4.1
+
+OTG_HS block diagram
+Figure 918. OTG_HS high-speed block diagram
+
+APB (peripheral bus)
+
+SYSCFG
+
+CPU
+
+Memory
+
+AHB (application bus)
+
+UTMI+
+
+OTG_HS
+(USB OTG HS core)
+
+AHB master
+interface
+
+OTG detections
+
+OTG_HS_DP
+OTG_HS_DM
+
+OTG_HS_ID
+OTG_HS_VBUS
+
+Interrupt: async wakeup
+
+Interrupt: global
+
+Peripheral 1
+
+OTG HS PHY
+
+NVIC
+
+AHB slave
+interface
+
+Peripheral 2
+
+Data FIFO RAM
+interface
+
+OTG_HS_SOF
+
+Data FIFO
+single port RAM
+(SPRAM)
+MSv66254V1
+
+RM0456 Rev 6

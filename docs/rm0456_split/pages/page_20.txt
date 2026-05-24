@@ -1,0 +1,84 @@
+90
+
+Contents
+
+RM0456
+17.4.10 GPDMA FIFO-based transfers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 713
+17.4.11 GPDMA transfer request and arbitration . . . . . . . . . . . . . . . . . . . . . . . 720
+17.4.12 GPDMA triggered transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 724
+17.4.13 GPDMA circular buffering with linked-list programming . . . . . . . . . . . . 725
+17.4.14
+
+GPDMA secure/nonsecure channel . . . . . . . . . . . . . . . . . . . . . . . . . . 727
+
+17.4.15 GPDMA privileged/unprivileged channel . . . . . . . . . . . . . . . . . . . . . . . 728
+17.4.16 GPDMA error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 728
+17.4.17 GPDMA autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 730
+
+17.5
+
+GPDMA in debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 731
+
+17.6
+
+GPDMA in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 731
+
+17.7
+
+GPDMA interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 732
+
+17.8
+
+GPDMA registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 734
+17.8.1
+
+GPDMA secure configuration register (GPDMA_SECCFGR) . . . . . . . 734
+
+17.8.2
+
+GPDMA privileged configuration register (GPDMA_PRIVCFGR) . . . . 735
+
+17.8.3
+
+GPDMA configuration lock register (GPDMA_RCFGLOCKR) . . . . . . . 735
+
+17.8.4
+
+GPDMA nonsecure masked interrupt status register
+(GPDMA_MISR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 736
+
+17.8.5
+
+GPDMA secure masked interrupt status register (GPDMA_SMISR) . . 737
+
+17.8.6
+
+GPDMA channel x linked-list base address register
+(GPDMA_CxLBAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 737
+
+17.8.7
+
+GPDMA channel x flag clear register (GPDMA_CxFCR) . . . . . . . . . . 738
+
+17.8.8
+
+GPDMA channel x status register (GPDMA_CxSR) . . . . . . . . . . . . . . 739
+
+17.8.9
+
+GPDMA channel x control register (GPDMA_CxCR) . . . . . . . . . . . . . 740
+
+17.8.10 GPDMA channel x transfer register 1 (GPDMA_CxTR1) . . . . . . . . . . 742
+17.8.11 GPDMA channel x transfer register 2 (GPDMA_CxTR2) . . . . . . . . . . 746
+17.8.12 GPDMA channel x block register 1 (GPDMA_CxBR1) . . . . . . . . . . . . 750
+17.8.13 GPDMA channel x alternate block register 1 (GPDMA_CxBR1) . . . . . 751
+17.8.14 GPDMA channel x source address register (GPDMA_CxSAR) . . . . . 754
+17.8.15 GPDMA channel x destination address register (GPDMA_CxDAR) . . 756
+17.8.16 GPDMA channel x transfer register 3 (GPDMA_CxTR3) . . . . . . . . . . 757
+17.8.17 GPDMA channel x block register 2 (GPDMA_CxBR2) . . . . . . . . . . . . 758
+17.8.18 GPDMA channel x linked-list address register (GPDMA_CxLLR) . . . . 759
+17.8.19 GPDMA channel x alternate linked-list address register
+(GPDMA_CxLLR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 761
+17.8.20 GPDMA register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 762
+
+18

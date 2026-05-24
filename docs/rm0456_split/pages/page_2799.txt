@@ -1,0 +1,72 @@
+2952
+
+Serial peripheral interface (SPI)
+
+68.3
+
+RM0456
+
+•
+
+Autonomous functionality in Stop modes (handling of the transfer flow and required
+clock distribution) with wake-up from Stop capability
+
+•
+
+Optional status pin RDY signalizing that the slave device is ready to handle the data
+flow
+
+SPI implementation
+The table below describes the SPI implementation.
+Table 696. SPI features
+SPI1, SPI2 (full-featured
+instances)
+
+SPI3 (limited-featured instance)
+
+Configurable from 4 to 32 bits
+
+8/16 bits
+
+CRC polynomial length configurable
+from 5 to 33 bits
+
+CRC polynomial length 9/17 bits
+
+FIFO size
+
+16 x 8 bits
+
+8 x 8 bits
+
+FIFO threshold
+
+1 - 16 data
+
+1 - 4 data
+
+Number of data control
+
+Up to 65535
+
+Up to 1023, no remaining data
+counter (CTSIZE)
+
+Autonomous in Stop mode with wakeup capability
+
+Yes
+
+Yes
+
+Autonomous in Standby mode
+with wake-up capability
+
+No
+
+No
+
+SPI feature
+Data size
+CRC computation
+
+Note:

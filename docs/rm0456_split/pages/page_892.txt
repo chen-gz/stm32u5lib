@@ -1,0 +1,71 @@
+891
+
+Chrom-GRC (GFXMMU)
+
+21
+
+RM0456
+
+Chrom-GRC (GFXMMU)
+This section only applies to STM32U599/5A9 and STM32U5Fx/5Gx devices.
+
+21.1
+
+Introduction
+The graphic MMU is a graphical oriented memory management unit aimed to:
+
+21.2
+
+21.3
+
+•
+
+Optimize memory usage according to the display shape
+
+•
+
+Cache linear accesses to the frame buffer
+
+•
+
+Prefetch data
+
+GFXMMU main features
+•
+
+Fully programmable display shape to physically store only the visible pixel
+
+•
+
+Up to 4 virtual buffers
+
+•
+
+Each virtual buffer have 3072 or 4096 bytes per line and 1024 lines
+
+•
+
+Each virtual buffer can be physically mapped to any system memory
+
+•
+
+Optional cache for linear accesses
+
+•
+
+Cache can be locked to a virtual buffer
+
+•
+
+Cache prefetch mechanism for linear accesses anticipation
+
+•
+
+Interrupt in case of buffer overflow (1 per buffer)
+
+•
+
+Interrupt in case of memory transfer error
+
+GFXMMU implementation
+Table 184. GFXMMU implementation

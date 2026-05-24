@@ -1,0 +1,7 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+Refer to Section 2.3 for the register boundary addresses.

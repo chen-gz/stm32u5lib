@@ -1,0 +1,102 @@
+RM0456 Rev 6
+
+RM0456
+Note:
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+In master mode, the CK pin operates in conjunction with the TX pin. Thus, the clock is
+provided only if the transmitter is enabled (TE = 1) and data are being transmitted
+(USART_TDR data register written). This means that it is not possible to receive
+synchronous data without transmitting data.
+Figure 821. USART example of synchronous master transmission
+
+RX
+TX
+
+Data out
+Data in
+Synchronous device
+(slave SPI)
+
+USART
+
+Clock
+
+CK
+
+MSv31158V2
+
+Figure 822. USART data clock timing diagram in synchronous master mode
+(M bits = 00)
+Idle or preceding
+Start
+transmission
+
+Idle or next
+Stop transmission
+
+M bits = 00 (8 data bits)
+
+Clock (CPOL=0, CPHA=0)
+
+*
+
+Clock (CPOL=0, CPHA=1)
+
+*
+*
+
+Clock (CPOL=1, CPHA=0)
+*
+
+Clock (CPOL=1, CPHA=1)
+Data on TX
+(from master)
+
+0
+Start
+
+Data on RX
+(from slave)
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+LSB
+0
+
+7
+MSB Stop
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+MSB
+*
+
+LSB
+Capture strobe
+
+*LBCL bit controls last data pulse
+MSv34709V2
+
+RM0456 Rev 6

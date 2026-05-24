@@ -1,0 +1,77 @@
+IWDG
+
+RM0456 Rev 6
+
+RM0456
+
+Independent watchdog (IWDG)
+
+3. Wake-up from Stop with interrupt is supported only in Stop 0, Stop 1, and Stop 2 modes for
+STM32U575/585, and in Stop 0, Stop 1, Stop 2, and Stop 3 modes for STM32U535/545/59x/5Ax/5Fx/5Gx.
+4. Controlled via DBG_IWDG_STOP in DBG section.
+5. Controlled via the option byte IWDG_STOP in FLASH section.
+6. Controlled via the option byte IWDG_STDBY in FLASH section.
+7. Controlled via the option byte IWDG_SW in FLASH section.
+
+61.4
+
+IWDG functional description
+
+61.4.1
+
+IWDG block diagram
+Figure 766 shows the functional blocks of the independent watchdog module.
+Figure 766. Independent watchdog block diagram
+
+IWDG
+APB
+
+VCORE voltage domain
+Register interface
+
+IRQ
+interface
+
+iwdg_it
+
+iwdg_pclk
+sync
+
+iwdg_ker_req
+
+Shadow registers and Control
+
+12-bit reload value
+iwdg_ker_ck
+
+Prescaler
+presc_ck
+
+IWDCNT
+(12 bits)
+
+iwdg_in_rst
+
+Comparator logic
+
+iwdg_wkup
+iwdg_out_rst
+
+VDD voltage domain
+MS49973V4
+
+The register and IRQ interfaces are located into the VCORE voltage domain. The watchdog
+function itself is located into the VDD voltage domain to remain functional in low power
+modes. See Section 61.3 for IWDG capabilities.
+The register and IRQ interfaces are mainly clocked by the APB clock (iwdg_pclk), while the
+watchdog function is clocked by a dedicated kernel clock (iwdg_ker_ck). A synchronization
+mechanism makes the data exchange between the two domains possible. Note that most of
+the registers located in the register interface are shadowed into the VDD voltage domain.
+The IWDG down-counter (IWDCNT) is clocked by the prescaled clock (presc_ck). The
+prescaled clock is generated from the kernel clock iwdg_ker_ck divided by the prescaler,
+according to PR[3:0] bitfield.
+The table below gives the timing delays according to the actions performed on the IWDG:
+changing the prescaler, the timeout, the window or the early wake-up comparator values or
+doing a refresh.
+
+RM0456 Rev 6

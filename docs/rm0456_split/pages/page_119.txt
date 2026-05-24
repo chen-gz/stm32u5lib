@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 596. Control circuit in Gated mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2179
+Figure 597. Control circuit in trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2180
+Figure 598. Control circuit in external clock mode 2 + trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . 2181
+Figure 599. General-purpose timer block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2239
+Figure 600. Counter timing diagram with prescaler division change from 1 to 2 . . . . . . . . . . . . . . . . 2245
+Figure 601. Counter timing diagram with prescaler division change from 1 to 4 . . . . . . . . . . . . . . . . 2246
+Figure 602. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2247
+Figure 603. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2247
+Figure 604. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2248
+Figure 605. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2248
+Figure 606. Counter timing diagram, Update event when ARPE = 0 (TIMx_ARR not preloaded). . . 2249
+Figure 607. Counter timing diagram, Update event when ARPE = 1 (TIMx_ARR preloaded). . . . . . 2250
+Figure 608. Counter timing diagram, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2251
+Figure 609. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2252
+Figure 610. Counter timing diagram, internal clock divided by 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2252
+Figure 611. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2253
+Figure 612. Counter timing diagram, Update event . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2253
+Figure 613. Counter timing diagram, internal clock divided by 1, TIMx_ARR = 0x6 . . . . . . . . . . . . . 2255
+Figure 614. Counter timing diagram, internal clock divided by 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2255
+Figure 615. Counter timing diagram, internal clock divided by 4, TIMx_ARR = 0x36 . . . . . . . . . . . . 2256
+Figure 616. Counter timing diagram, internal clock divided by N. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2256
+Figure 617. Counter timing diagram, Update event with ARPE = 1 (counter underflow). . . . . . . . . . 2257
+Figure 618. Counter timing diagram, Update event with ARPE = 1 (counter overflow) . . . . . . . . . . . 2258
+Figure 619. Control circuit in normal mode, internal clock divided by 1 . . . . . . . . . . . . . . . . . . . . . . . 2259
+Figure 620. tim_ti2 external clock connection example . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2259
+Figure 621. Control circuit in external clock mode 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2260
+Figure 622. External trigger input block . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2261
+Figure 623. Control circuit in external clock mode 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2262
+Figure 624. Capture/compare channel (example: channel 1 input stage) . . . . . . . . . . . . . . . . . . . . . 2262
+Figure 625. Capture/compare channel 1 main circuit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2263
+Figure 626. Output stage of capture/compare channel (channel 1, idem ch.2, 3 and 4) . . . . . . . . . . 2263
+Figure 627. PWM input mode timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2266
+Figure 628. Output compare mode, toggle on tim_oc1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2268
+Figure 629. Edge-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2269
+Figure 630. Center-aligned PWM waveforms (ARR = 8) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2270
+Figure 631. Dithering principle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2271
+Figure 632. Data format and register coding in dithering mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2272
+Figure 633. PWM resolution vs frequency (16-bit mode). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2273
+Figure 634. PWM resolution vs frequency (32-bit mode). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2273
+Figure 635. PWM dithering pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2274
+Figure 636. Dithering effect on duty cycle in center-aligned PWM mode . . . . . . . . . . . . . . . . . . . . . 2275
+Figure 637. Generation of two phase-shifted PWM signals with 50% duty cycle . . . . . . . . . . . . . . . 2277
+Figure 638. Combined PWM mode on channels 1 and 3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2278
+Figure 639. OCREF_CLR input selection multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2279
+Figure 640. Clearing TIMx tim_ocxref . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2279
+Figure 641. Example of One-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2280
+Figure 642. Retriggerable one-pulse mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2282
+Figure 643. Pulse generator circuitry . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2283
+Figure 644. Pulse generation on compare event, for edge-aligned and encoder modes . . . . . . . . . 2283
+Figure 645. Extended pulse width in case of concurrent triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . 2284
+Figure 646. Example of counter operation in encoder interface mode . . . . . . . . . . . . . . . . . . . . . . . 2286
+Figure 647. Example of encoder interface mode with tim_ti1fp1 polarity inverted . . . . . . . . . . . . . . 2286
+
+RM0456 Rev 6

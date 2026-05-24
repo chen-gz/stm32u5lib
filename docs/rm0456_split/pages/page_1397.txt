@@ -1,0 +1,101 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+Lower resolution reduces the conversion time needed for the successive approximation
+steps as shown in Table 333.
+Table 333. tSAR timings depending on resolution
+RES[1:0]
+bits
+
+34.4.19
+
+tSAR
+(ADC clock
+cycles)
+
+tSAR (ns) at
+fADC = 35 MHz
+
+tSMPL (min)
+
+tCONV
+
+(ADC clock
+cycles)
+
+(ADC clock cycles)
+(with min. tSMPL)
+
+tCONV (ns) at
+fADC = 35 MHz
+
+12
+
+12.5
+
+357
+
+1.5
+
+14
+
+400
+
+10
+
+10.5
+
+300
+
+1.5
+
+12
+
+343
+
+8
+
+8.5
+
+243
+
+1.5
+
+10
+
+286
+
+6
+
+6.5
+
+186
+
+1.5
+
+8
+
+229
+
+End of conversion, end of sampling phase (EOC, EOSMP flags)
+The ADC indicates each end of conversion (EOC) event.
+The ADC sets the EOC flag in the ADC_ISR register as soon as a new conversion data
+result is available in the ADC_DR register. An interrupt can be generated if the EOCIE bit is
+set in the ADC_IER register. The EOC flag is cleared by software either by writing 1 to it, or
+by reading the ADC_DR register.
+The ADC also indicates the end of sampling phase by setting the EOSMP flag in the
+ADC_ISR register. The EOSMP flag is cleared by software by writing1 to it. An interrupt can
+be generated if the EOSMPIE bit is set in the ADC_IER register.
+The aim of this interrupt is to allow the processing to be synchronized with the conversions.
+Typically, an analog multiplexer can be accessed in hidden time during the conversion
+phase, so that the multiplexer is positioned when the next sampling starts.
+
+Note:
+
+As there is only a very short time left between the end of the sampling and the end of the
+conversion, it is recommenced to use polling or a WFE instruction rather than an interrupt
+and a WFI instruction.
+
+RM0456 Rev 6

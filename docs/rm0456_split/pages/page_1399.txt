@@ -1,0 +1,117 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+Figure 288. Continuous conversion of a sequence, software trigger
+
+ADSTART(1)
+EOC
+EOS
+ADSTP
+SCANDIR
+ADC state(2)
+
+RDY
+
+CH0
+
+ADC_DR
+
+by S/W
+
+CH9
+
+CH10 CH17
+
+CH0
+
+CH9
+
+D0
+
+D9
+
+D17
+
+D0
+
+D10
+
+RDY
+
+CH10 STP
+
+CH17
+
+D9
+
+CH10
+D17
+
+by H/W
+MSv30339V2
+
+1. EXTEN = 00, CONT = 1.
+2. CHSEL = 0x20601, WAIT = 0, AUTOFF = 0.
+
+Figure 289. Single conversions of a sequence, hardware trigger
+
+ADSTART(1)
+EOC
+EOS
+TRGx(1)
+ADC state(2)
+
+RDY
+
+ADC_DR
+
+by S/W
+
+by H/W
+
+triggered
+
+ignored
+
+CH0
+
+CH1
+
+CH2
+
+CH3
+
+RDY CH0
+
+CH1
+
+CH2
+
+CH3
+
+RDY
+
+D0
+
+D1
+
+D2
+
+D3
+
+D0
+
+D1
+
+D2
+
+D3
+
+MSv30340V2
+
+1. EXTSEL = TRGx (over-frequency), EXTEN = 01 (rising edge), CONT = 0.
+2. CHSEL = 0xF, SCANDIR = 0, WAIT = 0, AUTOFF = 0.
+
+RM0456 Rev 6

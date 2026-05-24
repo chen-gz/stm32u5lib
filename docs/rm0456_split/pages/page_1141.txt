@@ -1,0 +1,96 @@
+•
+
+Set SMF (an interrupt is generated if enabled).
+
+•
+
+Stop automatically the periodic retrieving of the status bytes.
+
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+The received value can be masked with the value stored in HSPI_PSMKR, and can be
+ORed or ANDed with the value stored in HSPI_PSMAR.
+In case of a match, SMF is set and an interrupt is generated if enabled. The HSPI can be
+automatically stopped if AMPS is set. In any case, the latest retrieved value is available in
+HSPI_DR.
+When the HSPI is used in automatic status-polling mode, the frames are constructed in the
+following way:
+1.
+
+Specify the input mask in HSPI_PSMKR.
+
+2.
+
+Specify the comparison value in HSPI_PSMAR.
+
+3.
+
+Specify the read period in HSPI_PIR.
+
+4.
+
+Specify a number of data bytes to read in HSPI_DLR.
+
+5.
+
+Specify the frame timing in HSPI_TCR.
+
+6.
+
+Specify the frame format in HSPI_CCR.
+
+7.
+
+Specify the instruction in HSPI_IR.
+
+8.
+
+Specify the optional alternate byte to be sent right after the address phase in
+HSPI_ABR.
+
+9.
+
+Specify the optional targeted address in HSPI_AR.
+
+If the address register (HSPI_AR) does not need to be updated for a particular command,
+then the command sequence starts as soon as HSPI_CCR is written. This is the case when
+ADMODE[2:0] = 000.
+When an address is required (ADMODE[2:0] ≠ 000), the command sequence starts as soon
+as the address is updated with a write to HSPI_AR.
+
+Memory-mapped mode configuration
+In memory-mapped mode, the external device is seen as an internal memory but with some
+latency during accesses. Read and write operations are allowed to the external device in
+this mode.
+It is not recommended to program the flash memory using memory-mapped writes, as the
+internal flags for erase or programming status have to be polled. The indirect-write mode
+fulfills this operation, possibly in conjunction with the automatic status-polling mode.
+Memory-mapped mode is entered by setting FMODE[1:0] = 11 in HSPI_CR.
+The programmed instruction and frame are sent when an AHB master accesses the
+memory mapped space.
+The FIFO is used as a prefetch buffer to anticipate any linear reads. Any access to
+HSPI_DR in this mode returns zero.
+The data length register (HSPI_DLR) has no meaning in memory-mapped mode.
+When the HSPI is used in memory-mapped mode, the frames are constructed in the
+following way:
+1.
+
+Specify the frame timing in HSPI_TCR for read operation.
+
+2.
+
+Specify the frame format in HSPI_CCR for read operation.
+
+3.
+
+Specify the instruction in HSPI_IR.
+
+4.
+
+Specify the optional alternate byte to be sent right after the address phase in
+HSPI_ABR for read operation.
+
+RM0456 Rev 6

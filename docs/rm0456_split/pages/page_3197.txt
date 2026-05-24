@@ -1,0 +1,88 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+the core interrupt register (OEPINT bit in OTG_GINTSTS or IEPINT bit in OTG_GINTSTS,
+respectively) is set. Before the application can read these registers, it must first read the
+device all endpoints interrupt (OTG_DAINT) register to get the exact endpoint number for
+the device endpoint-x interrupt register. The application must clear the appropriate bit in this
+register to clear the corresponding bits in the OTG_DAINT and OTG_GINTSTS registers
+The peripheral core provides the following status checks and interrupt generation:
+
+73.7
+
+•
+
+transfer completed interrupt, indicating that data transfer was completed on both the
+application (AHB) and USB sides
+
+•
+
+setup stage has been done (control-out only)
+
+•
+
+associated transmit FIFO is half or completely empty (in endpoints)
+
+•
+
+NAK acknowledge has been transmitted to the host (isochronous-in only)
+
+•
+
+IN token received when Tx FIFO was empty (bulk-in/interrupt-in only)
+
+•
+
+Out token received when endpoint was not yet enabled
+
+•
+
+babble error condition has been detected
+
+•
+
+endpoint disable by application is effective
+
+•
+
+endpoint NAK by application is effective (isochronous-in only)
+
+•
+
+more than 3 back-to-back setup packets were received (control-out only)
+
+•
+
+timeout condition detected (control-in only)
+
+•
+
+isochronous out packet has been dropped, without generating an interrupt
+
+OTG_HS as a USB host
+This section gives the functional description of the OTG_HS in the USB host mode. The
+OTG_HS works as a USB host in the following circumstances:
+Automatic host mode direct from ID pin:
+The ID pin is not always available, refer to product datasheet for available pins.
+•
+
+Use cases:
+–
+
+•
+
+Micro connector: A-Device with a Micro-A plug inserted, and connector ID pin
+connected to the STM32 ID pin which will then be detected in a low state.
+
+Note that the integrated pull-down resistors are automatically set on the DP/DM lines.
+
+Manual forcing of host mode when not possible via ID pin:
+The force host mode bit (FHMOD) in the OTG USB configuration register
+(OTG_GUSBCFG) forces the OTG_HS core to work as a USB host-only when required.
+•
+
+•
+Note:

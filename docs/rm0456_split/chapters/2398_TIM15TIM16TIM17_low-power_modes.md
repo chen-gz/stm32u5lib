@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 CC2IF: Compare 2 interrupt flag
+If channel CC2 is configured as output:
+The CC2IF flag is set by hardware to inform application that LPTIM_CNT register value matches the
+compare register's value. CC2IF flag can be cleared by writing 1 to the CC2CF bit in the LPTIM_ICR
+register.
+0: No match
+1: The content of the counter LPTIM_CNT register value has matched the LPTIM_CCR2 register's
+value
+Note: If LPTIM does not implement at least 2 channels this bit is reserved. Refer to Section 58.3.
+Bit 8 REPOK: Repetition register update OK
+REPOK is set by hardware to inform application that the APB bus write operation to the LPTIM_RCR
+register has been successfully completed. REPOK flag can be cleared by writing 1 to the REPOKCF
+bit in the LPTIM_ICR register.
+Bit 7 UE: LPTIM update event occurred
+UE is set by hardware to inform application that an update event was generated. The corresponding
+interrupt or DMA request is generated if enabled. UE flag can be cleared by writing 1 to the UECF bit
+in the LPTIM_ICR register. The UE flag is automatically cleared by hardware once the LPTIM_ARR
+register is written by any bus master like CPU or DMA.
+Bit 6 DOWN: Counter direction change up to down
+In Encoder mode, DOWN bit is set by hardware to inform application that the counter direction has
+changed from up to down. DOWN flag can be cleared by writing 1 to the DOWNCF bit in the
+LPTIM_ICR register.
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 5 UP: Counter direction change down to up
+In Encoder mode, UP bit is set by hardware to inform application that the counter direction has
+changed from down to up. UP flag can be cleared by writing 1 to the UPCF bit in the LPTIM_ICR
+register.
+Note: If the LPTIM does not support encoder mode feature, this bit is reserved. Refer to Section 58.3.
+Bit 4 ARROK: Autoreload register update OK
+ARROK is set by hardware to inform application that the APB bus write operation to the LPTIM_ARR
+register has been successfully completed. ARROK flag can be cleared by writing 1 to the ARROKCF
+bit in the LPTIM_ICR register.
+Bit 3 CMP1OK: Compare register 1 update OK
+CMP1OK is set by hardware to inform application that the APB bus write operation to the
+LPTIM_CCR1 register has been successfully completed. CMP1OK flag can be cleared by writing 1
+to the CMP1OKCF bit in the LPTIM_ICR register.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

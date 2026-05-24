@@ -1,0 +1,187 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 CCK1EN: ADF_CCK1 clock enable
+This bit is set and reset by software. It is used to control the generation of the bitstream clock
+on the ADF_CCK1 pin.
+0: Bitstream clock not generated
+1: Bitstream clock generated on the ADF_CCK1 pin.
+Bit 1 CCK0EN: ADF_CCK0 clock enable
+This bit is set and reset by software. It is used to control the generation of the bitstream clock
+on the ADF_CCK0 pin.
+0: Bitstream clock not generated
+1: Bitstream clock generated on the ADF_CCK0 pin
+Bit 0 CKGDEN: CKGEN dividers enable
+This bit is set and reset by software. It is used to enable/disable the clock dividers of the
+CKGEN: PROCDIV and CCKDIV.
+0: CKGEN dividers disabled
+1: CKGEN dividers enabled
+
+40.8.3
+
+ADF serial interface control register 0 (ADF_SITF0CR)
+Address offset: 0x080
+Reset value: 0x0000 1F00
+This register is used to control the serial interface SITF0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SITFAC
+TIVE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+STH[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+SITFMOD[1:0]
+rw
+
+rw
+
+Res.
+
+SCKSRC[1:0]
+rw
+
+rw
+
+SITFE
+N
+rw
+
+Bit 31 SITFACTIVE: Serial interface active flag
+This bit is set and cleared by hardware. It is used by the application to check if the serial
+interface is effectively enabled (active) or not. The protected fields of this function can only be
+updated when SITFACTIVE is set to 0 (see Section 40.4.13: Register protection for details).
+The delay between a transition on SITFEN and a transition on SITFACTIVE is two periods of
+AHB clock and two periods of adf_proc_ck.
+0: The serial interface is not active, and can be configured if needed.
+1: The serial interface is active and protected fields cannot be configured.
+Bits 30:13 Reserved, must be kept at reset value.
+Bits 12:8 STH[4:0]: Manchester symbol threshold/SPI threshold
+This bitfield is set and cleared by software. It is used for Manchester mode to define the
+expected symbol threshold levels (see Manchester mode for details on computation).
+In addition this bitfield is used to define the timeout value for the clock absence detection in
+Normal SPI mode. STH[4:0] values lower than four are invalid.
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bits 7:6 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

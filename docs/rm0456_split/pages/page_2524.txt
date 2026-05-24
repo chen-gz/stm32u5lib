@@ -1,0 +1,176 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+63.6.17
+
+RTC alarm A subsecond register (RTC_ALRMASSR)
+This register can be written only when ALRAE is reset in RTC_CR register, or in initialization
+mode.
+This register can be protected against nonsecure access. Refer to Section 63.3.4: RTC
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 63.3.5: RTC
+privilege protection modes.
+Address offset: 0x44
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+SSCLR
+
+Res.
+
+rw
+15
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+MASKSS[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+w
+
+rw
+
+rw
+
+SS[14:0]
+rw
+
+Bit 31 SSCLR: Clear synchronous counter on alarm (Binary mode only)
+0: The synchronous binary counter (SS[31:0] in RTC_SSR) is free-running.
+1: The synchronous binary counter (SS[31:0] in RTC_SSR) is running from 0xFFFF FFFF to
+RTC_ALRABINR.SS[31:0] value and is automatically reloaded with 0xFFFF FFFF one
+ck_apre cycle after reaching RTC_ALRABINR.SS[31:0].
+Note: SSCLR must be kept to 0 when BCD or mixed mode is used (BIN = 00, 10 or 11).
+Bit 30 Reserved, must be kept at reset value.
+Bits 29:24 MASKSS[5:0]: Mask the most-significant bits starting at this bit
+0: No comparison on subseconds for Alarm A. The alarm is set when the seconds unit is
+incremented (assuming that the rest of the fields match).
+1: SS[31:1] are don’t care in Alarm A comparison. Only SS[0] is compared.
+2: SS[31:2] are don’t care in Alarm A comparison. Only SS[1:0] are compared.
+...
+31: SS[31] is don’t care in Alarm A comparison. Only SS[30:0] are compared.
+From 32 to 63: All 32 SS bits are compared and must match to activate alarm.
+Note: In BCD mode (BIN=00) the overflow bits of the synchronous counter (bits 31:15) are
+never compared. These bits can be different from 0 only after a shift operation.
+Bits 23:15 Reserved, must be kept at reset value.
+Bits 14:0 SS[14:0]: Subseconds value
+This value is compared with the contents of the synchronous prescaler counter to determine
+if alarm A is to be activated. Only bits 0 up MASKSS-1 are compared.
+This field is the mirror of SS[14:0] in the RTC_ALRABINR, and so can also be read or written
+through RTC_ALRABINR.
+Note: SS[3:0] must be 0000 when SSCLR is set with ATCKSEL[3] = 1 in TAMP_ATCR1.
+
+RM0456 Rev 6

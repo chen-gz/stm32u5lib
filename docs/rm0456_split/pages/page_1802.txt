@@ -1,0 +1,81 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Process flow to exit the ULPM
+Implement the process flow described in the following procedure to exit the ULPM on both
+clock lane and data lanes:
+1.
+
+Verify that all active lanes are in ULPM:
+–
+
+One-lane configuration: DSI_PSR[6:1] = 6'h00
+
+–
+
+Two-lanes configuration: DSI_PSR[8:1] = 8'h00
+
+2.
+
+Turn on the D-PHY PLL by setting DSI_WRPCR.PLLEN = 1'b1.
+
+3.
+
+Wait until D-PHY PLL locked
+–
+
+DSI_WISR.PLLS = 1'b1
+
+4.
+
+Without de-asserting the ULPM request bits, assert the exit ULPM bits by setting
+DSI_PUCR[3:0] = 4'hF.
+
+5.
+
+Wait until all active lanes exit ULPM:
+–
+
+One-lane configuration:
+DSI_PSR[5] = 1'b1
+DSI_PSR[3] = 1'b1
+
+–
+
+Two-lanes configuration:
+DSI_PSR[8] = 1'b1
+DSI_PSR[5] = 1'b1
+DSI_PSR[3] = 1'b1
+
+6.
+
+Wait for 1 ms.
+
+7.
+
+De-assert the ULPM requests and the ULPM exit bits by setting DSI_PUCR [3:0] =
+4'h0.
+
+8.
+
+Switch the lanbyteclock source in the RCC from system PLL to D-PHY
+
+9.
+
+The DSI Host is now in Stop state and the D-PHY PLL is locked:
+–
+
+One-lane configuration:
+DSI_PSR[6:4] = 3'h3
+DSI_PSR[1] = 1'h0
+DSI_WRPCR.PLLEN = 1'b1
+
+–
+
+Two-lanes configuration:
+DSI_PSR[8:4] = 5'h1B
+DSI_PSR[1] = 1'h0
+DSI_WRPCR.PLLEN = 1'b1

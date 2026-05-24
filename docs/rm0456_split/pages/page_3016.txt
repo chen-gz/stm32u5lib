@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+Bit 24 LS_EP: Low speed endpoint – host with HUB only
+– Host mode
+This bit is set by the software to send an LS transaction to the corresponding endpoint.
+0: Full speed endpoint
+1: Low speed endpoint
+Bit 23 NAK:
+– Host mode
+This bit is set by the hardware when a device responds with a NAK. Software can use this bit
+to monitor the number of NAKs received from a device.
+Bits 22:16 DEVADDR[6:0]:
+– Host mode
+Device address assigned to the endpoint during the enumeration process.
+Bit 15 VTRX: USB valid transaction received
+– Device mode
+This bit is set by the hardware when an OUT/SETUP transaction is successfully completed
+on this endpoint; the software can only clear this bit. If the CTRM bit in USB_CNTR register
+is set accordingly, a generic interrupt condition is generated together with the endpoint
+related interrupt condition, which is always activated. The type of occurred transaction, OUT
+or SETUP, can be determined from the SETUP bit described below.
+A transaction ended with a NAK or STALL handshake does not set this bit, since no data is
+actually transferred, as in the case of protocol errors or data toggle mismatches.
+This bit is read/write but only 0 can be written, writing 1 has no effect.
+– Host mode
+This bit is set by the hardware when an IN transaction is successfully completed on this
+channel. The software can only clear this bit. If the CTRM bit in USB_CNTR register is set a
+generic interrupt condition is generated together with the channel related flag, which is
+always activated.
+- A transaction ended with a NAK sets this bit and NAK answer is reported to application
+reading the NAK state from the STATRX field of this register. One NAKed transaction keeps
+pending and is automatically retried by the host at the next frame, or the host can
+immediately retry by resetting STATRX state to VALID.
+- A transaction ended by STALL handshake sets this bit and the STALL answer is reported
+to application reading the STALL state from the STATRX field of this register. Host
+application must consequently disable the channel and re-enumerate.
+- A transaction ended with ACK handshake sets this bit
+If double buffering is disabled, ACK answer is reported by application reading the DISABLE
+state from the STATRX field of this register. Host application must read received data from
+USBRAM and re-arm the channel by writing VALID to the STATRX field of this register.
+If double buffering is enabled, ACK answer is reported by application reading VALID state
+from the STATRX field of this register. Host application must read received data from
+USBRAM and toggle the DTOGTX bit of this register.
+- A transaction ended with error sets this bit.
+Errors can be seen via the bits ERR_RX (host mode only).
+This bit is read/write but only 0 can be written, writing 1 has no effect.
+
+RM0456 Rev 6

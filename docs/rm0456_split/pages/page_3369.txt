@@ -1,0 +1,56 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Ordered set detection
+This function detects the different ordered sets each consisting of four 5-bit K-codes.
+Once we are in the preamble we opens a sliding window detection of the ordered set (4
+words of 5 bits).
+The ordered sets detected include all SOP* codes (SOP, SOP’, and SOP’’), but also Hard
+Reset, Cable Reset, SOP’_Debug, SOP’’_Debug, and two extensions defined by registers
+UCPD_RX_ORDEXT1 and UCPD_RX_ORDEXT2.
+EOP detection and Hard Reset exception handling
+EOP is a fixed 5-bit K-code marking the end of a message.
+The way in which a transmitter is required to send a Hard Reset (if a previous message
+transmit is still in progress) is that this previous message is truncated early with an EOP.
+If Hard Reset were ignored, then the EOP detection can be done only at the expected time.
+However, due to the Hard Reset issue, the EOP detector must be active while an Rx
+message is arriving. When an “early EOP” is detected, the truncated Rx message is
+immediately discarded.
+Truncated or corrupted message exception
+Once the ordered set has been detected, depending on the message, there may be data
+bytes to be received which is completed with a CRC and EOP. If at any point during these
+phases an error condition happens:
+•
+
+the line becomes static for a time significantly longer than one “UI” period (the exact
+threshold for this condition is not critical but the exception must occur before three UIs),
+or
+
+•
+
+the message goes to the end but it is not recognized (for example EOP is corrupted).
+
+In both cases, the receiver quits the current message, raising RXMSGEND and RXERR
+flags.
+Short preamble or incomplete ordered set exception
+In the exceptional case of the receiver seeing less that half of the expected preamble, the
+frequency estimation allowing correct BMC-decode becomes impossible. Even if the full
+preamble is seen, allowing frequency estimation, but the ordered set is not fully received
+before the line becomes static, the receiver state machine does not start.
+In both of these cases, the clock-recovery/BMC decoder re-starts, checking initially for an
+IDLE condition, followed by a preamble, and then estimating frequency.
+
+74.4.6
+
+UCPD Type-C pull-ups (Rp) and pull-downs (Rd)
+UCPD offers simple control of these resistors via ANAMODE and ANASUBMODE[1:0]. In
+case only one of the CC lines is to be used, it is possible to optimize power consumption by
+disabling control on the other line, through the CCENABLE[1:0] bitfield.
+When the MCU is unpowered, it still presents the “dead battery” Rd, provided that
+UCPDx_DBCC1 and UCPDx_DBCC2 pins are each connected to UCPDx_CC1 and
+UCPDx_CC2 pins, respectively.
+If dead battery behavior is not required (for example for source only products), then
+UCPDx_DBCC1 and UCPDx_DBCC2 pins must both be tied to ground.

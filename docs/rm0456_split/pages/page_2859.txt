@@ -1,0 +1,60 @@
+3020
+
+Serial audio interface (SAI)
+
+69.4.8
+
+RM0456
+
+SAI clock generator
+Each audio block has its own clock generator. The clock generator builds the master clock
+(MCLK_x) and bit clock (SCK_x) signals from the sai_x_ker_ck. The sai_x_ker_ck clock is
+delivered by the clock controller of the product (RCC).
+
+Generation of the master clock (MCLK_x)
+The clock generator provides the master clock (MCLK_x) when the audio block is defined as
+Master or Slave. The master clock is generated as soon as the MCKEN bit is set to 1 even if
+the SAIEN bit for the corresponding block is set to 0. This feature can be useful if the
+MCLK_x clock is used as system clock for an external audio device, since it enables the
+generation of the MCLK_x before activating the audio stream.
+To generate a master clock on MCLK_x output before transferring the audio samples, the
+user application has to follow the sequence below:
+1.
+
+Check that SAIEN = 0.
+
+2.
+
+Program the MCKDIV[5:0] divider to the required value.
+
+3.
+
+Set the MCKEN bit to 1.
+
+4.
+
+Later, the application can configure other parts of the SAI, and sets the SAIEN bit to 1
+to start the transfer of audio samples.
+
+To avoid disturbances on the clock generated on MCLK_x output, the following operations
+are not recommended:
+•
+
+Changing MCKDIV when MCKEN = 1
+
+•
+
+Setting MCKEN to 0 if the SAIEN = 1
+
+The SAI makes sure that there are no spurs on MCLK_x output when the MCLK_x is
+switched ON and OFF via the MCKEN bit (with SAIEN = 0).
+Table 708 shows MCLK_x activation conditions.
+Table 708. MCLK_x activation conditions
+MCLKEN
+0
+1
+0
+1
+X
+
+Note:

@@ -1,0 +1,266 @@
+Bit number
+
+Bit name
+
+Value to set
+
+31-30
+
+DATAHLD
+
+Don’t care
+
+29:28
+
+ACCMOD
+
+0x0
+
+27-24
+
+DATLAT
+
+Data latency
+
+23-20
+
+CLKDIV
+
+0x0 to get CLK = HCLK
+0x1 to get CLK = 2 × HCLK
+
+19-16
+
+BUSTURN
+
+Time between NEx high to NEx low (BUSTURN HCLK).
+
+15-8
+
+DATAST
+
+Don’t care
+
+7-4
+
+ADDHLD
+
+Don’t care
+
+3-0
+
+ADDSET
+
+Don’t care
+
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+
+27.6.6
+
+NOR/PSRAM controller registers
+SRAM/NOR-flash chip-select control register for bank x
+(FMC_BCRx)
+Address offset: 0x00 + 0x8 * (x - 1), (x = 1 to 4)
+Reset value: 0x0000 30DB, 0x0000 30D2, 0x0000 30D2, 0x0000 30D2
+This register contains the control information of each memory bank, used for SRAMs,
+PSRAM, FRAM and NOR flash memories.
+
+31
+FMCEN
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+20
+
+19
+
+WFDIS
+
+CCLK
+EN
+
+CBURST
+RW
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ASYNC
+WAIT
+
+EXT
+MOD
+
+WAIT
+EN
+
+WREN
+
+WAIT
+CFG
+
+Res.
+
+WAIT
+POL
+
+BURST
+EN
+
+Res.
+
+FACC
+EN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+NBLSET[1:0]
+
+21
+
+rw
+
+CPSIZE[2:0]
+
+MWID[1:0]
+
+MTYP[1:0]
+
+MUX
+EN
+
+MBK
+EN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 FMCEN: FMC controller enable
+This bit enables or disables the FMC controller.
+0: Disable the FMC controller
+1: Enable the FMC controller
+Note: The FMCEN bit of the FMC_BCR2..4 registers is don’t care. It is only enabled through the
+FMC_BCR1 register.
+Bits 30:24 Reserved, must be kept at reset value.
+Bits 23:22 NBLSET[1:0]: Byte lane (NBL) setup
+These bits configure the NBL setup timing from NBLx low to chip select NEx low.
+00: NBL setup time is 0 AHB clock cycle
+01: NBL setup time is 1 AHB clock cycle
+10: NBL setup time is 2 AHB clock cycles
+11: NBL setup time is 3 AHB clock cycles
+Bit 21 WFDIS: Write FIFO disable
+This bit disables the Write FIFO used by the FMC controller.
+0: Write FIFO enabled (Default after reset)
+1: Write FIFO disabled
+Note: The WFDIS bit of the FMC_BCR2..4 registers is don’t care. It is only enabled through the
+FMC_BCR1 register.
+
+RM0456 Rev 6

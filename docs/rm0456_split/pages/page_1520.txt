@@ -1,0 +1,105 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Table 371. MDF trigger connections (continued)
+Trigger name
+
+Trigger source
+
+mdf_trgi5
+
+tim4_trgo
+
+mdf_trgi6
+
+tim16_oc1
+
+mdf_trgi7
+
+tim6_trgo
+
+mdf_trgi8
+
+tim7_trgo
+
+mdf_trgi9
+
+adf1_sad_det
+(sound activity detection signal from ADF1)
+
+mdf_trgi10
+
+exti11
+
+mdf_trgi11
+
+exti15
+
+mdf_trgi12
+
+lptim1_ch1
+
+mdf_trgi13
+
+adf1_trgo signal from ADF1
+
+The table below shows the way the break outputs of the MDF are connected.
+Table 372. MDF break connections
+Trigger name
+
+Trigger source
+
+mdf_break0
+
+tim1_brk_cmp7
+
+mdf_break1
+
+tim1_brk2_cmp7
+
+mdf_break2
+
+tim8_brk_cmp7
+
+mdf_break3
+
+tim8_brk2_cmp7
+
+The table below shows the way the ADC data are connected to the MDF.
+Table 373. MDF ADC data connections
+ADC data bus name
+
+ADC source
+
+mdf_adcitf1_dat[15:0]
+
+adc1_dat
+
+mdf_adcitf2_dat[15:0]
+
+adc2_dat(1)
+
+1. Only available in STM32U59x/5Ax/5Fx/5Gx. It is not connected in STM32U535/545/575/585.
+
+39.4.3
+
+Serial input interfaces (SITF)
+The SITFx input interfaces allow the connection of the external sensors to the digital filters,
+via the bitstream matrix (BSMX). The SITFx serial interface can be configured in the
+following modes:
+•
+
+LF_MASTER SPI mode (low-frequency)
+
+•
+
+normal SPI mode
+
+•
+
+Manchester mode
+
+The amount of SITFx instances is equal to the amount of filters.

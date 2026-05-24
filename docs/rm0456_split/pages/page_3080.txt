@@ -1,0 +1,169 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.11 OTG status read and pop registers [alternate] (OTG_GRXSTSP)
+Address offset for pop: 0x020
+Reset value: 0x0000 0000
+This description is for register OTG_GRXSTSP in Host mode.
+Similarly to OTG_GRXSTSR (receive status debug read register) where a read returns the
+contents of the top of the receive FIFO, a read to OTG_GRXSTSP (receive status read and
+pop register) additionally pops the top data entry out of the Rx FIFO.
+The core ignores the receive status pop/read when the receive FIFO is empty and returns a
+value of 0x0000 0000. The application must only pop the receive status FIFO when the
+receive FIFO non-empty bit of the core interrupt register (RXFLVL bit in OTG_GINTSTS) is
+asserted.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+DPID
+r
+
+9
+
+8
+
+7
+
+6
+
+5
+
+20
+
+19
+
+r
+
+r
+
+r
+
+r
+
+r
+
+17
+
+PKTSTS[3:0]
+
+16
+DPID
+
+r
+
+r
+
+r
+
+r
+
+r
+
+4
+
+3
+
+2
+
+1
+
+0
+
+BCNT[10:0]
+r
+
+18
+
+CHNUM[3:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bits 20:17 PKTSTS[3:0]: Packet status
+Indicates the status of the received packet
+0010: IN data packet received
+0011: IN transfer completed (triggers an interrupt)
+0101: Data toggle error (triggers an interrupt)
+0111: Channel halted (triggers an interrupt)
+Others: Reserved
+Bits 16:15 DPID[1:0]: Data PID
+Indicates the data PID of the received packet
+00: DATA0
+10: DATA1
+Bits 14:4 BCNT[10:0]: Byte count
+Indicates the byte count of the received IN data packet.
+Bits 3:0 CHNUM[3:0]: Channel number
+Indicates the channel number to which the current received packet belongs.
+
+RM0456 Rev 6

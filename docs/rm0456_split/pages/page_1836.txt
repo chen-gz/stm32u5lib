@@ -1,0 +1,185 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+44.15.52 DSI Host video mode current configuration register
+(DSI_VMCCR)
+Address offset: 0x0138
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+4
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+LPCE
+
+FBTAAE
+
+LPHFE
+
+LPHBPE
+
+LPVAE
+
+r
+
+r
+
+r
+
+r
+
+r
+
+LPVFPE LPVBPE LPVSAE
+r
+
+r
+
+r
+
+VMT[1:0]
+r
+
+r
+
+Bits 31:10 Reserved, must be kept at reset value.
+Bit 9 LPCE: Low-power command enable
+This bit returns the current command transmission state in low-power mode.
+0: Command transmission in low-power mode is disabled.
+1: Command transmission in low-power mode is enabled.
+Bit 8 FBTAAE: Frame BTA acknowledge enable
+This bit returns the current state of request for an acknowledge response at the end of a
+frame.
+0: Acknowledge response at the end of a frame is disabled.
+1: Acknowledge response at the end of a frame is enabled.
+Bit 7 LPHFE: Low-power horizontal front-porch enable
+This bit returns the current state of return to low-power inside the horizontal front-porch
+(HFP) period when timing allows.
+0: Return to low-power inside the HFP period is disabled.
+1: Return to low-power inside the HFP period is enabled.
+Bit 6 LPHBPE: Low-power horizontal back-porch enable
+This bit returns the current state of return to low-power inside the horizontal back-porch
+(HBP) period when timing allows.
+0: Return to low-power inside the HBP period is disabled.
+1: Return to low-power inside the HBP period is enabled.
+Bit 5 LPVAE: Low-power vertical active enable
+This bit returns the current state of return to low-power inside the vertical active (VACT)
+period when timing allows.
+0: Return to low-power inside the VACT is disabled.
+1: Return to low-power inside the VACT is enabled.
+Bit 4 LPVFPE: Low-power vertical front-porch enable
+This bit returns the current state of return to low-power inside the vertical front-porch (VFP)
+period when timing allows.
+0: Return to low-power inside the VFP is disabled.
+1: Return to low-power inside the VFP is enabled.
+Bit 3 LPVBPE: Low-power vertical back-porch enable
+This bit returns the current state of return to low-power inside the vertical back-porch (VBP)
+period when timing allows.
+0: Return to low-power inside the VBP is disabled.
+1: Return to low-power inside the VBP is enabled.

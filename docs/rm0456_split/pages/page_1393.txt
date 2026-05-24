@@ -1,0 +1,59 @@
+RM0456 Rev 6
+
+RM0456
+
+34.4.13
+
+Analog-to-digital converter (ADC4)
+
+Starting conversions (ADSTART)
+Software starts ADC conversions by setting ADSTART to 1.
+When ADSTART is set, the conversion:
+•
+
+Starts immediately if EXTEN = 00 (software trigger)
+
+•
+
+At the next active edge of the selected hardware trigger if EXTEN ≠ 00
+
+The ADSTART bit is also used to indicate whether an ADC operation is currently ongoing. It
+is possible to re-configure the ADC while ADSTART remains at 0, indicating that the ADC is
+idle.
+The ADSTART bit is cleared by hardware:
+•
+
+In single mode with software trigger (CONT = 0, EXTEN = 00)
+–
+
+•
+
+In discontinuous mode with software trigger (CONT = 0, DISCEN = 1, EXTEN = 00)
+–
+
+•
+
+At any end of conversion sequence (EOS = 1)
+At end of conversion (EOC = 1)
+
+In all cases (CONT = x, EXTEN = XX)
+–
+
+After execution of the ADSTP procedure invoked by software (see
+Section 34.4.15: Stopping an ongoing conversion (ADSTP)).
+
+When the ADC operates in autonomous mode (DPD bit transition from 1 to 0, see
+Autonomous mode (AUTOFF, DPD)), the ADSTART bit can be set only when the ADC is
+powered on. (both LDORDY = 1 and ADRDY = 1). In continuous mode (CONT = 1), the
+ADSTART bit is not cleared by hardware when the EOS flag is set because the sequence is
+automatically relaunched.
+Note:
+
+When hardware trigger is selected in single mode (CONT = 0 and EXTEN = 01), ADSTART
+is not cleared by hardware when the EOS flag is set. This avoids the need for software
+having to set the ADSTART bit again and ensures the next trigger event is not missed.
+It is necessary to set ADSTP to 1 and wait until ADSTP is cleared before reconfiguring or
+disabling the ADC, even if ADSTART bit is cleared to after the software triggered ADC
+conversion mode.
+
+RM0456 Rev 6

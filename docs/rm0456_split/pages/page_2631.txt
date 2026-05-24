@@ -1,0 +1,62 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+65.4.17
+
+RM0456
+
+Error conditions
+The following errors are the conditions that can cause the communication to fail.
+
+Bus error (BERR)
+A bus error is detected when a START or a STOP condition is detected and is not located
+after a multiple of nine SCL clock pulses. START or STOP condition is detected when an
+SDA edge occurs while SCL is high.
+The bus error flag is set only if the I2C peripheral is involved in the transfer as controller or
+addressed target (that is, not during the address phase in target mode).
+In case of a misplaced START or RESTART detection in target mode, the I2C peripheral
+enters address recognition state like for a correct START condition.
+When a bus error is detected, the BERR flag of the I2C_ISR register is set, and an interrupt
+is generated if the ERRIE bit of the I2C_CR1 register is set.
+
+Arbitration loss (ARLO)
+An arbitration loss is detected when a high level is sent on the SDA line, but a low level is
+sampled on the SCL rising edge.
+In controller mode, arbitration loss is detected during the address phase, data phase and
+data acknowledge phase. In this case, the SDA and SCL lines are released, the START
+control bit is cleared by hardware and the controller switches automatically to target mode.
+In target mode, arbitration loss is detected during data phase and data acknowledge phase.
+In this case, the transfer is stopped and the SCL and SDA lines are released.
+When an arbitration loss is detected, the ARLO flag of the I2C_ISR register is set and an
+interrupt is generated if the ERRIE bit of the I2C_CR1 register is set.
+
+Overrun/underrun error (OVR)
+An overrun or underrun error is detected in target mode when NOSTRETCH = 1 and:
+•
+
+In reception when a new byte is received and the RXDR register has not been read yet.
+The new received byte is lost, and a NACK is automatically sent as a response to the
+new byte.
+
+•
+
+In transmission:
+–
+
+When STOPF = 1 and the first data byte must be sent. The content of the
+I2C_TXDR register is sent if TXE = 0, 0xFF if not.
+
+–
+
+When a new byte must be sent and the I2C_TXDR register has not been written
+yet, 0xFF is sent.
+
+When an overrun or underrun error is detected, the OVR flag of the I2C_ISR register is set
+and an interrupt is generated if the ERRIE bit of the I2C_CR1 register is set.
+
+Packet error checking error (PECERR)
+A PEC error is detected when the received PEC byte does not match the I2C_PECR
+register content. A NACK is automatically sent after the wrong PEC reception.
+When a PEC error is detected, the PECERR flag of the I2C_ISR register is set and an
+interrupt is generated if the ERRIE bit of the I2C_CR1 register is set.

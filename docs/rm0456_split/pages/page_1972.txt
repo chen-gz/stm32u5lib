@@ -1,0 +1,102 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+Bits 31:3 Reserved, must be kept at reset value.
+Bit 2 KEIF: Key error interrupt flag clear
+Setting this bit clears the KEIF status bit of the AES_ISR register.
+Bit 1 RWEIF: Read or write error interrupt flag clear
+Setting this bit clears the RWEIF status bit of the AES_ISR register, and both RDERR and WRERR
+flags in the AES_SR register.
+Bit 0 CCF: Computation complete flag clear
+Setting this bit clears the CCF status bit of the AES_SR and AES_ISR registers.
+
+49.7.21
+
+AES register map
+
+0x008
+
+0x00C
+
+0x010
+
+0x014
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0
+
+0

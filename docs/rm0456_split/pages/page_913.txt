@@ -1,0 +1,339 @@
+-
+
+-
+
+RM0456 Rev 6
+
+RM0456
+
+Nested vectored interrupt controller (NVIC)
+
+Position
+
+Priority
+
+Table 187. STM32U5 series vector table(1) (continued)
+Type of
+priority
+
+12
+
+20
+
+Settable EXTI1
+
+EXTI Line1 interrupt
+
+0x0000 0070
+
+13
+
+21
+
+Settable EXTI2
+
+EXTI Line2 interrupt
+
+0x0000 0074
+
+14
+
+22
+
+Settable EXTI3
+
+EXTI Line3 interrupt
+
+0x0000 0078
+
+15
+
+23
+
+Settable EXTI4
+
+EXTI Line4 interrupt
+
+0x0000 007C
+
+16
+
+24
+
+Settable EXTI5
+
+EXTI Line5 interrupt
+
+0x0000 0080
+
+17
+
+25
+
+Settable EXTI6
+
+EXTI Line6 interrupt
+
+0x0000 0084
+
+18
+
+26
+
+Settable EXTI7
+
+EXTI Line7 interrupt
+
+0x0000 0088
+
+19
+
+27
+
+Settable EXTI8
+
+EXTI Line8 interrupt
+
+0x0000 008C
+
+20
+
+28
+
+Settable EXTI9
+
+EXTI Line9 interrupt
+
+0x0000 0090
+
+21
+
+29
+
+Settable EXTI10
+
+EXTI Line10 interrupt
+
+0x0000 0094
+
+22
+
+30
+
+Settable EXTI11
+
+EXTI Line11 interrupt
+
+0x0000 0098
+
+23
+
+31
+
+Settable EXTI12
+
+EXTI Line12 interrupt
+
+0x0000 009C
+
+24
+
+32
+
+Settable EXTI13
+
+EXTI Line13 interrupt
+
+0x0000 00A0
+
+25
+
+33
+
+Settable EXTI14
+
+EXTI Line14 interrupt
+
+0x0000 00A4
+
+26
+
+34
+
+Settable EXTI15
+
+EXTI Line15 interrupt
+
+0x0000 00A8
+
+27
+
+35
+
+Settable IWDG
+
+Independent watchdog interrupt
+
+0x0000 00AC
+
+28
+
+36
+
+Settable SAES
+
+Secure AES
+
+0x0000 00B0
+
+29
+
+37
+
+Settable GPDMA1_CH0
+
+GPDMA1 channel 0 global interrupt
+
+0x0000 00B4
+
+30
+
+38
+
+Settable GPDMA1_CH1
+
+GPDMA1 channel 1 global interrupt
+
+0x0000 00B8
+
+31
+
+39
+
+Settable GPDMA1_CH2
+
+GPDMA1 channel 2 global interrupt
+
+0x0000 00BC
+
+32
+
+40
+
+Settable GPDMA1_CH3
+
+GPDMA1 channel 3 global interrupt
+
+0x0000 00C0
+
+33
+
+41
+
+Settable GPDMA1_CH4
+
+GPDMA1 channel 4 global interrupt
+
+0x0000 00C4
+
+34
+
+42
+
+Settable GPDMA1_CH5
+
+GPDMA1 channel 5 global interrupt
+
+0x0000 00C8
+
+35
+
+43
+
+Settable GPDMA1_CH6
+
+GPDMA1 channel 6 global interrupt
+
+0x0000 00CC
+
+36
+
+44
+
+Settable GPDMA1_CH7
+
+GPDMA1 channel 7 global interrupt
+
+0x0000 00D0
+
+37
+
+45
+
+Settable ADC12
+
+ADC12 (14 bits) global interrupt
+
+0x0000 00D4
+
+38
+
+46
+
+Settable DAC1
+
+DAC1 global interrupt
+
+0x0000 00D8
+
+39
+
+47
+
+Settable FDCAN1_IT0
+
+FDCAN1 interrupt 0
+
+0x0000 00DC
+
+40
+
+48
+
+Settable FDCAN1_IT1
+
+FDCAN1 interrupt 1
+
+0x0000 00E0
+
+41
+
+49
+
+TIM1_BRK
+Settable TIM1_TERR
+TIM1_IERR
+
+TIM1 break
+TIM1 transition error
+TIM1 index error
+
+0x0000 00E4
+
+42
+
+50
+
+Settable TIM1_UP
+
+TIM1 update
+
+0x0000 00E8
+
+Acronym
+
+Description
+
+RM0456 Rev 6
+
+Address

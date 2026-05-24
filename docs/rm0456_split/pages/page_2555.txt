@@ -1,0 +1,179 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+64.7.2
+
+RM0456
+
+TAMP control register 2 (TAMP_CR2)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x04
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+TAMP8 TAMP7 TAMP6 TAMP5 TAMP4 TAMP3 TAMP2 TAMP1
+BK
+BK
+TRG
+TRG
+TRG
+TRG
+TRG
+TRG
+TRG
+TRG ERASE BLOCK
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+w
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+5
+
+4
+
+3
+
+18
+
+17
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+TAMP8 TAMP7 TAMP6 TAMP5 TAMP4 TAMP3 TAMP2 TAMP1
+NOER NOER NOER NOER NOER NOER NOER NOER
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 TAMP8TRG: Active level for tamper 8 input (active mode disabled)
+0: If TAMPFLT ≠ 00 tamper 8 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 8 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 8 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 8 input falling edge triggers a tamper detection event.
+Bit 30 TAMP7TRG: Active level for tamper 7 input (active mode disabled)
+0: If TAMPFLT ≠ 00 tamper 7 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 7 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 7 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 7 input falling edge triggers a tamper detection event.
+Bit 29 TAMP6TRG: Active level for tamper 6 input (active mode disabled)
+0: If TAMPFLT ≠ 00 tamper 6 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 6 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 6 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 6 input falling edge triggers a tamper detection event.
+Bit 28 TAMP5TRG: Active level for tamper 5 input (active mode disabled)
+0: If TAMPFLT ≠ 00 tamper 5 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 5 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 5 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 5 input falling edge triggers a tamper detection event.
+Bit 27 TAMP4TRG: Active level for tamper 4 input (active mode disabled)
+0: If TAMPFLT ≠ 00 tamper 4 input staying low triggers a tamper detection event.
+If TAMPFLT = 00 tamper 4 input rising edge triggers a tamper detection event.
+1: If TAMPFLT ≠ 00 tamper 4 input staying high triggers a tamper detection event.
+If TAMPFLT = 00 tamper 4 input falling edge triggers a tamper detection event.

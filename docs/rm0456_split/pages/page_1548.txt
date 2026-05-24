@@ -1,0 +1,116 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+5.
+
+Before setting DFLTEN to 1, wait for DFLTACTIVE = 0: it insures that the previous filter
+deactivation sequence terminated properly.
+
+6.
+
+When DFLTEN is set to 1 for the filters to enable, each selected filter provides one data
+to the RXFIFO and stops the acquisition.
+
+To trigger a new acquisition, for each filter, the application must:
+1.
+
+Check that the previous acquisition is completed, by waiting that DFLTRUN = 0.
+
+2.
+
+Set again DFLTEN to 1.
+
+This sequence can be repeated every time a new data must be converted.
+As shown in the Figure 342, every time DFLTEN is set to 1, an acquisition sequence is
+triggered. The first samples provided by the filter can be discarded if needed. At the end of
+each conversion, the decimation counters and filter taps are reset, and the filter is ready to
+start a new conversion.
+If the DFLTEN is set to 0 while an acquisition is ongoing, the ongoing conversion is stopped
+(in the example, S3 is lost). This situation can be avoided with the following steps:
+1.
+
+Wait for DFLTRUN = 0.
+
+2.
+
+Read the sample from the RXFIFO.
+
+3.
+
+Set DFLTEN to 0.
+Figure 342. Asynchronous single-shot mode (ACQMOD[2:0] = 001)
+
+MDF_DFLTxCR.DFLTEN
+
+Writing to DFLTEN
+
+‘1’
+
+1
+Discard (note)
+
+DFLTx output
+
+X
+
+...
+
+X
+
+1
+Discard (note)
+
+S1
+
+X
+
+...
+
+X OFF
+S2
+
+0
+Discard (note)
+X
+
+...
+
+X OFF
+S3
+Dropped !
+
+MDF_DFLTxCR.DFLTRUN
+MDF_DFLTxCR.DFLTACTIVE
+
+MDF_CCK/CKI
+
+Note: the discard phase is optional.
+
+Note:
+
+MSv62677V1
+
+The acquisition can be stopped by setting DFLTEN back to 0. This resets the filter and
+flushes the RXFIFO, so the samples located into the RXFIFO are lost. The ongoing DMA
+transfer is properly terminated. DFLTACTIVE goes back to 0 when the filter chain is reset
+and the RXFIFO flushed.
+
+Synchronous continuous acquisition mode
+This mode allows the application to start a continuous acquisition on one or several filters by
+using the following trigger sources:
+•
+
+one of the mdf_trg[13:0] signals
+
+•
+
+OLD event of the corresponding filter
+
+•
+
+TRGO bit
+
+The Synchronous continuous acquisition mode is selected when ACQMOD[2:0] = 010.

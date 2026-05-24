@@ -1,0 +1,194 @@
+RM0456 Rev 6
+
+ADD[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 EF: Enable function
+This bit is set by the software to enable the USB Device. The address of this device is
+contained in the following ADD[6:0] bits. If this bit is at 0 no transactions are handled,
+irrespective of the settings of USB_CHEPnR registers.
+Bits 6:0 ADD[6:0]: Device address
+– Device mode
+These bits contain the USB function address assigned by the host PC during the
+enumeration process. Both this field and the endpoint/channel address (EA) field in the
+associated USB_CHEPnR register must match with the information contained in a USB
+token in order to handle a transaction to the required endpoint.
+– Host mode
+These bits contain the address transmitted with the LPM transaction
+
+71.6.5
+
+USB LPM control and status register (USB_LPMCSR)
+Address offset: 0x54
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+LPM
+ACK
+
+LPM
+EN
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+REM
+WAKE
+
+BESL[3:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bits 7:4 BESL[3:0]: BESL value
+– Device mode
+These bits contain the BESL value received with last ACKed LPM Token
+Bit 3 REMWAKE: bRemoteWake value
+– Device mode
+This bit contains the bRemoteWake value received with last ACKed LPM Token
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 LPMACK: LPM token acknowledge enable
+– Device mode:
+0: the valid LPM token is NYET.
+1: the valid LPM token is ACK.
+The NYET/ACK is returned only on a successful LPM transaction:
+No errors in both the EXT token and the LPM token (else ERROR)
+A valid bLinkState = 0001B (L1) is received (else STALL)
+Bit 0 LPMEN: LPM support enable
+– Device mode
+This bit is set by the software to enable the LPM support within the USB Device. If this bit is
+at 0 no LPM transactions are handled.
+
+RM0456 Rev 6

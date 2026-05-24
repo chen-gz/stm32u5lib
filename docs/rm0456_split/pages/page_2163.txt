@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Available encoders are proposed with several options for index pulse conditioning, as per
+Figure 575:
+•
+
+gated with A and B: the pulsewidth is 1/4 of one channel period, aligned with both A
+and B edges
+
+•
+
+gated with A (or gated with B): the pulsewidth is 1/2 of one channel period, aligned with
+the two edges on channel A (resp. channel B)
+
+•
+
+ungated: the pulsewidth is up to one channel period, without any alignment to the
+edges
+Figure 575. Index gating options
+Channel A
+
+Channel B
+
+Gated A & B
+
+Gated A
+
+Ungated
+MSv45765V1
+
+The circuitry tolerates jitter on index signal, whatever the gating mode, as show on
+Figure 576.
+In ungated mode, the signal must be strictly below two encoder periods. If the pulsewidth is
+greater or equal to two encoder period, the counter is reset multiple times.
+Figure 576. Jittered Index signals
+Channel A
+
+Channel B
+
+Gated A & B
+
+Gated A
+
+Ungated
+Max pulsewidth ungated mode
+MSv45766V1
+
+The timer supports the three gating options identically, without any specific programming
+needed. It is only necessary to define on which encoder state (for example channel A and
+
+RM0456 Rev 6

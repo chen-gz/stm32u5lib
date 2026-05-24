@@ -1,0 +1,64 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+used to define when the calendar is incremented by 1 second, using the SSR least
+significant bits.
+
+63.3.7
+
+Real-time clock and calendar
+The RTC calendar time and date registers are accessed through shadow registers which
+are synchronized with PCLK (APB clock). They can also be accessed directly in order to
+avoid waiting for the synchronization duration.
+•
+
+RTC_SSR for the subseconds
+
+•
+
+RTC_TR for the time
+
+•
+
+RTC_DR for the date
+
+Every RTCCLK periods, the current calendar value is copied into the shadow registers, and
+the RSF bit of RTC_ICSR register is set (see Section 63.6.12: RTC shift control register
+(RTC_SHIFTR)). The copy is not performed in Stop and Standby mode. When exiting these
+modes, the shadow registers are updated after up to 4 RTCCLK periods.
+When the application reads the calendar registers, it accesses the content of the shadow
+registers. It is possible to make a direct access to the calendar registers by setting the
+BYPSHAD control bit in the RTC_CR register. By default, this bit is cleared, and the user
+accesses the shadow registers.
+When reading the RTC_SSR, RTC_TR or RTC_DR registers in BYPSHAD = 0 mode, the
+frequency of the APB clock (fAPB) must be at least 7 times the frequency of the RTC clock
+(fRTCCLK).
+The shadow registers are reset by system reset.
+
+63.3.8
+
+Calendar ultra-low power mode
+It is possible to reduce drastically the RTC power consumption by setting the LPCAL bit in
+the RTC_CALR register. In this configuration, the whole RTC is clocked by ck_apre only
+instead of both RTCCLK and ck_apre. Consequently, some flags delays are longer, and the
+calibration window is longer (refer to Section : RTC ultra-low-power mode).
+The LPCAL bit is ignored (assumed to be 0) when asynchronous prescaler division factor
+(PREDIV_A+1) is not a power of 2.
+Switching from LPCAL=0 to LPCAL=1 or from LPCAL=1 to LPCAL=0 is not immediate and
+requires a few ck_apre periods to complete.
+
+63.3.9
+
+Programmable alarms
+The RTC unit provides programmable alarm: alarm A and alarm B. The description below is
+given for alarm A, but can be translated in the same way for alarm B.
+The programmable alarm function is enabled through the ALRAE bit in the RTC_CR
+register.
+The ALRAF is set to 1 if the calendar subseconds, seconds, minutes, hours, date or day
+match the values programmed in the alarm registers RTC_ALRMASSR and
+RTC_ALRMAR. Each calendar field can be independently selected through the MSKx bits
+of the RTC_ALRMAR register, and through the MASKSSx bits of the RTC_ALRMASSR
+register.

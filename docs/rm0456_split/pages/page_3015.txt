@@ -1,0 +1,208 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+31
+
+30
+
+29
+
+Res.
+
+THREE_ERR_
+RX[1:0]
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+THREE_ERR_
+TX[1:0]
+
+ERR_
+RX
+
+ERR_
+TX
+
+LS_EP
+
+NAK
+
+22
+
+RM0456
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DEVADDR[6:0]
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rc_w0
+
+rw
+
+rc_w0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+VTRX
+
+DTOG
+RX
+
+UTYPE[1:0]
+
+EP
+KIND
+
+VTTX
+
+DTOG
+TX
+
+rc_w0
+
+t
+
+rw
+
+rw
+
+rc_w0
+
+t
+
+rw
+
+rw
+
+STATRX[1:0]
+t
+
+t
+
+SETUP
+r
+
+rw
+
+STATTX[1:0]
+t
+
+t
+
+EA[3:0]
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:29 THREE_ERR_RX[1:0]: Three errors for an IN transaction
+– Host mode
+This bit is set by the hardware when 3 consecutive transaction errors occurred on the USB
+bus for an IN transaction. THREE_ERR_RX is not generated for isochronous transactions.
+The software can only clear this bit.
+Coding of the received error:
+00: Less than 3 errors received.
+01: More than 3 errors received, last error is timeout error.
+10: More than 3 errors received, last error is data error (CRC error).
+11: More than 3 errors received, last error is protocol error (invalid PID, false EOP, bitstuffing
+error, SYNC error).
+Bits 28:27 THREE_ERR_TX[1:0]: Three errors for an OUT or SETUP transaction
+– Host mode
+This bit is set by the hardware when 3 consecutive transaction errors occurred on the USB
+bus for an OUT transaction. THREE_ERR_TX is not generated for isochronous
+transactions. The software can only clear this bit.
+Coding of the received error:
+00: Less than 3 errors received.
+01: More than 3 errors received, last error is timeout error.
+10: More than 3 errors received, last error is data error (CRC error).
+11: More than 3 errors received, last error is protocol error (invalid PID, false EOP, bitstuffing
+error, SYNC error).
+Bit 26 ERR_RX: Received error for an IN transaction
+– Host mode
+This bit is set by the hardware when an error (for example no answer by the device, CRC
+error, bit stuffing error, framing format violation, etc.) has occurred during an IN transaction
+on this channel. The software can only clear this bit. If the ERRM bit in USB_CNTR register
+is set, a generic interrupt condition is generated together with the channel related flag, which
+is always activated.
+Bit 25 ERR_TX: Received error for an OUT/SETUP transaction
+– Host mode
+This bit is set by the hardware when an error (for example no answer by the device, CRC
+error, bit stuffing error, framing format violation, etc.) has occurred during an OUT or SETUP
+transaction on this channel. The software can only clear this bit. If the ERRM bit in
+USB_CNTR register is set, a generic interrupt condition is generated together with the
+channel related flag, which is always activated.

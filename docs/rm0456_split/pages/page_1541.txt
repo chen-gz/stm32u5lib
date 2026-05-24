@@ -1,0 +1,73 @@
+D2
+
+PCM sampling rate (kHz)
+
+32
+
+3.55
+
+4
+
+8
+
+64
+
+7.1
+
+4
+
+16
+
+128
+
+14.2
+
+4
+
+32
+
+192
+
+21.3
+
+4
+
+48
+
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+The figure below shows the frequency response of the reshape filter.
+
+Magnitude (DB)
+
+Figure 338. Reshape filter frequency response normalized (FRS / 2 = 1)
+
+Magnitude (DB)
+
+1RUPDOL]HGIUHTXHQF\ [ʌUDGVDPSOH
+
+1RUPDOL]HGIUHTXHQF\ [ʌUDGVDPSOH
+
+MSv62664V1
+
+The RSFLT gain is about 9.3 dB, so the output data size is a little bit lower than 24 bits for a
+22-bit wide input signal.
+The RSFLT takes 24 clock cycles of mdf_proc_ck clock to process one sample at FRS.
+When the RSFLT is enabled, the application must insure that the mdf_proc_ck is at least 24
+times faster FRS.
+The RSFLT generates an event (rfovr_evt) and sets the RFOVRF flag, if the RSFLT
+receives a new sample while the previous one is still under processing.
+When RFOVRF is set, the samples provided by the RSFLT are invalid. The application must
+then stop the data acquisition and provide x a faster mdf_proc_ck clock to the RSFLT.
+
+High-pass filter (HPF)
+The high-pass filter suppresses the low-frequency content from the final output data stream
+in case of continuous conversion mode. The high-pass filter can be enabled or disabled via
+HPFBYP in the MDF reshape filter configuration register x (MDF_DFLTxRSFR).
+The HPF is useful when there is parasitic low-frequency noise (or DC signal) in the input
+data source and it must be removed from the final data.
+
+RM0456 Rev 6

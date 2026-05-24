@@ -1,0 +1,199 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+73.14.8
+
+OTG interrupt mask register [alternate] (OTG_GINTMSK)
+Valid for Host mode, see next section for Device mode.
+This register works with the core interrupt register to interrupt the application. When an
+interrupt bit is masked, the interrupt associated with that bit is not generated. However, the
+core interrupt (OTG_GINTSTS) register bit corresponding to that interrupt is still set.
+Address offset: 0x018
+Reset value: 0x0000 0000
+
+31
+WUIM
+
+30
+
+29
+
+28
+
+SRQIM
+
+DISC
+INT
+
+CIDSC
+HGM
+
+27
+
+26
+
+LPMIN PTXFE
+TM
+M
+
+25
+HCIM
+
+24
+PRTIM
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+IPXFR
+M
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+5
+
+NPTXF RXFLV
+EM
+LM
+rw
+
+rw
+
+SOFM
+rw
+
+OTGIN
+MMISM
+T
+rw
+
+Res.
+
+rw
+
+Bit 31 WUIM: Resume/remote wake-up detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 30 SRQIM: Session request/new session detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 29 DISCINT: Disconnect detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 28 CIDSCHGM: Connector ID status change mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 27 LPMINTM: LPM interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 26 PTXFEM: Periodic Tx FIFO empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 25 HCIM: Host channels interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 24 PRTIM: Host port interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bits 23:22 Reserved, must be kept at reset value.
+Bit 21 IPXFRM: Incomplete periodic transfer mask
+0: Masked interrupt
+1: Unmasked interrupt
+
+RM0456 Rev 6

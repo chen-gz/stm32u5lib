@@ -1,0 +1,87 @@
+90
+
+Contents
+
+RM0456
+
+74.5
+
+UCPD programming sequences . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3476
+74.5.1
+
+Initialization phase . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3476
+
+74.5.2
+
+Type-C state machine handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3476
+
+74.5.3
+
+USB PD transmit . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3478
+
+74.5.4
+
+USB PD receive . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3479
+
+74.5.5
+
+UCPD software trimming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3480
+
+74.6
+
+UCPD low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3480
+
+74.7
+
+UCPD interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3481
+
+74.8
+
+UCPD registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3482
+74.8.1
+
+UCPD configuration register 1 (UCPD_CFGR1) . . . . . . . . . . . . . . . . 3482
+
+74.8.2
+
+UCPD configuration register 2 (UCPD_CFGR2) . . . . . . . . . . . . . . . . 3484
+
+74.8.3
+
+UCPD configuration register 3 (UCPD_CFGR3) . . . . . . . . . . . . . . . . 3484
+
+74.8.4
+
+UCPD control register (UCPD_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . 3485
+
+74.8.5
+
+UCPD interrupt mask register (UCPD_IMR) . . . . . . . . . . . . . . . . . . . 3487
+
+74.8.6
+
+UCPD status register (UCPD_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . 3489
+
+74.8.7
+
+UCPD interrupt clear register (UCPD_ICR) . . . . . . . . . . . . . . . . . . . . 3492
+
+74.8.8
+
+UCPD Tx ordered set type register (UCPD_TX_ORDSETR) . . . . . . 3493
+
+74.8.9
+
+UCPD Tx payload size register (UCPD_TX_PAYSZR) . . . . . . . . . . . 3493
+
+74.8.10 UCPD Tx data register (UCPD_TXDR) . . . . . . . . . . . . . . . . . . . . . . . 3494
+74.8.11 UCPD Rx ordered set register (UCPD_RX_ORDSETR) . . . . . . . . . . 3494
+74.8.12 UCPD Rx payload size register (UCPD_RX_PAYSZR) . . . . . . . . . . . 3495
+74.8.13 UCPD receive data register (UCPD_RXDR) . . . . . . . . . . . . . . . . . . . 3496
+74.8.14 UCPD Rx ordered set extension register 1
+(UCPD_RX_ORDEXTR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3496
+74.8.15 UCPD Rx ordered set extension register 2
+(UCPD_RX_ORDEXTR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3497
+74.8.16 UCPD register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3497
+
+75

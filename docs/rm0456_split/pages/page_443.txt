@@ -1,0 +1,286 @@
+Exit
+Exit Sleep,
+Stop 3,
+Stop 0, 1, Standby,
+2 modes Shutdown
+modes
+
+Interrupt event
+
+Event flag
+
+Enable
+control bit
+
+Interrupt clear
+method
+
+wake-up
+interrupt flag
+
+WUFx
+(x = 1 to 8)
+
+WUPENx
+(x = 1 to 8)
+
+Write CWUFx = 1
+(x = 1 to 8)
+
+No
+
+Yes(2)
+
+Programmable
+voltage detector
+through EXTI
+line 16
+
+PVDO
+
+EXTI line 16
+enabled
+
+Write EXTI PIF16 = 1
+
+Yes
+
+No
+
+USB supply
+voltage monitor
+through EXTI
+line 19
+
+VDDUSBRDY
+
+EXTI line 19
+enabled
+
+Write EXTI PIF19 = 1
+
+VDDIO2 supply
+voltage monitor
+through EXTI
+line 20
+
+VDDIO2RDY
+
+EXTI line 20
+enabled
+
+Write EXTI PIF20 = 1
+
+Analog supply
+voltage monitor1
+through EXTI
+line 21
+
+Yes
+
+No
+
+VDDA1RDY
+
+EXTI line 21
+enabled
+
+Write EXTI PIF21 = 1
+
+Analog supply
+voltage monitor2
+through EXTI
+line 22
+
+VDDA2RDY
+
+EXTI line 22
+enabled
+
+Write EXTI PIF22 = 1
+
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+1. The PWR_S3WU interrupt is generated only when STOP3 mode is selected (LPMS = 011 in PWR_CR1 register, not
+applicable in Stop 0, Stop 1, and Stop 2 modes).
+2. Only an interrupt can wake up from Stop 3 mode (not possible with an event).
+
+10.10
+
+PWR registers
+
+10.10.1
+
+PWR control register 1 (PWR_CR1)
+Address offset: 0x00
+Reset value: 0x0000 0000
+The register is not affected when exiting Standby mode.
+This register is protected against nonsecure access when LPMSEC = 1
+in PWR_SECCFGR. This register is protected against unprivileged access when
+LPMSEC = 1 and SPRIV = 1 in PWR_PRIVCFGR, or when LPMSEC = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+FORCE
+_USBP
+WR
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+SRAM6 SRAM5 SRAM4 SRAM3 SRAM2 SRAM1 ULPME
+RRSB2 RRSB1
+PD
+PD
+PD
+PD
+PD
+PD
+N
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+LPMS[2:0]
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 FORCE_USBPWR: OTG_HS PHY power maintained during Stop 2, Stop 3, and Standby
+low-power modes.
+0: OTG_HS PHY power is not maintained during low-power modes.
+1: OTG_HS PHY power is maintained during low-power modes.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 14 Reserved, must be kept at reset value.
+Bit 13 SRAM6PD: SRAM6 power down
+This bit is used to reduce the consumption by powering off the SRAM6.
+0: SRAM6 powered on
+1: SRAM6 powered off
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+
+RM0456 Rev 6

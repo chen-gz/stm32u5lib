@@ -1,0 +1,81 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+ECB is the simplest mode of operation. There are no chaining operations, and no special
+initialization stage. The message is divided into blocks and each block is encrypted or
+decrypted separately.
+Note:
+
+For decryption, a special key scheduling is required before processing the first block.
+
+Cipher block chaining (CBC) mode
+Figure 461. CBC encryption and decryption principle
+Encryption
+Plaintext block 1
+
+Plaintext block 2
+
+Plaintext block 3
+
+initialization
+vector
+key
+
+Encrypt
+
+Ciphertext block 1
+
+key
+
+Encrypt
+
+Ciphertext block 2
+
+key
+
+Encrypt
+
+Ciphertext block 3
+
+Decryption
+Plaintext block 1
+
+Plaintext block 2
+
+Plaintext block 3
+
+initialization
+vector
+
+Legend
+
+key
+
+Decrypt
+
+key
+
+Decrypt
+
+key
+
+Decrypt
+
+input
+output
+key
+scheduling
+
+Ciphertext block 1
+
+Ciphertext block 2
+
+Ciphertext block 3
+MSv42141V1
+
+In CBC mode the output of each block chains with the input of the following block. To make
+each message unique, an initialization vector is used during the first block processing.
+Note:

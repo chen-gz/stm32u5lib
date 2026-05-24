@@ -1,0 +1,175 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+68.8
+
+SPI registers
+
+68.8.1
+
+SPI control register 1 (SPI_CR1)
+Address offset: 0x000
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+IOLOCK
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SPE
+
+rs
+
+TCRCINI RCRCINI CRC33_17
+rw
+
+rw
+
+rw
+
+SSI
+rw
+
+HDDIR CSUSP CSTART MASRX
+rw
+
+w
+
+rs
+
+rw
+
+rw
+
+Bits 31:17 Reserved, must be kept at reset value.
+Bit 16 IOLOCK: locking the AF configuration of associated I/Os
+This bit can be set by software only when SPI is disabled (SPE = 0). It is cleared by hardware
+exclusively whenever the SPE bit is changed from 1 to 0, either by hardware or software.
+When this bit is set, the SPI_CFG2 register content cannot be modified. This bit is writeprotected when SPI is enabled (SPE = 1).
+0: AF configuration is not locked
+1: AF configuration is locked
+Bit 15 TCRCINI: CRC calculation initialization pattern control for transmitter
+0: all zero pattern is applied
+1: all ones pattern is applied
+Bit 14 RCRCINI: CRC calculation initialization pattern control for receiver
+0: All zero pattern is applied
+1: All ones pattern is applied
+Bit 13 CRC33_17: Full size (33-bit or 17-bit) CRC polynomial configuration
+0: Full size (33-bit or 17-bit) CRC polynomial is not used
+1: Full size (33-bit or 17-bit) CRC polynomial is used
+Bit 12 SSI: internal SS signal input level
+This bit has an effect only when the SSM bit is set. The value of this bit is forced onto the
+peripheral SS input internally and the I/O value of the SS pin is ignored.
+Bit 11 HDDIR: Rx/Tx direction at half-duplex mode
+In half-duplex configuration the HDDIR bit establishes the Rx/Tx direction of the data transfer.
+This bit is ignored in Full-Duplex or any Simplex configuration.
+0: SPI is receiver
+1: SPI is transmitter

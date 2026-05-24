@@ -1,0 +1,127 @@
+Description
+
+Range
+
+ARG1
+
+Angle θ in radians, divided by π
+
+[-1, 1]
+
+ARG2
+
+Modulus m
+
+[0, 1]
+
+RES1
+
+m · cos θ
+
+[-1, 1]
+
+RM0456 Rev 6
+
+RM0456
+
+CORDIC coprocessor (CORDIC)
+Table 198. Cosine parameters (continued)
+Parameter
+
+Description
+
+RES2
+
+m · sin θ
+
+SCALE
+
+Not applicable
+
+Range
+[-1, 1]
+0
+
+This function calculates the cosine of an angle in the range -π to π. It can also be used to
+perform polar to rectangular conversion.
+The primary argument is the angle θ in radians. It must be divided by π before programming
+ARG1.
+The secondary argument is the modulus m. If m is greater than 1, a scaling must be applied
+in software to adapt it to the q1.31 range of ARG2.
+The primary result, RES1, is the cosine of the angle, multiplied by the modulus.
+The secondary result, RES2, is the sine of the angle, multiplied by the modulus.
+
+Sine
+Table 199. Sine parameters
+Parameter
+
+Description
+
+Range
+
+ARG1
+
+Angle θ in radians, divided by π
+
+[-1, 1]
+
+ARG2
+
+Modulus m
+
+[0, 1]
+
+RES1
+
+m · sin θ
+
+[-1, 1]
+
+RES2
+
+m · cos θ
+
+[-1, 1]
+
+SCALE
+
+Not applicable
+
+0
+
+This function calculates the sine of an angle in the range -π to π. It can also be used to
+perform polar to rectangular conversion.
+The primary argument is the angle θ in radians. It must be divided by π before programming
+ARG1.
+The secondary argument is the modulus m. If m is greater than 1, a scaling must be applied
+in software to adapt it to the q1.31 range of ARG2.
+The primary result, RES1, is the sine of the angle, multiplied by the modulus.
+The secondary result, RES2, is the cosine of the angle, multiplied by the modulus.
+
+Phase
+Table 200. Phase parameters
+Parameter
+
+Description
+
+Range
+
+ARG1
+
+x coordinate
+
+[-1, 1]
+
+ARG2
+
+y coordinate
+
+[-1, 1]
+
+RES1
+
+Phase angle θ in radians, divided by π
+
+[-1, 1]
+
+RM0456 Rev 6

@@ -1,0 +1,97 @@
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+To synchronize DAC and ADC, the same clock source can be used for both peripherals.
+This is done by selecting the dac_ker_ck clock instead of the dac_hclk clock (AHB clock) in
+the RCC.
+HFSEL bits of DAC_MCR must be set when dac_ker_ck clock speed is faster than 80 MHz.
+Refer to Table HFSEL description below for the limitation of the DAC_DORx update rate
+depending on HFSEL bits and dac_hclk or dac_ker_ck clock frequency.
+If the data is updated or a software/hardware trigger event occurs during the non-allowed
+period, the peripheral behavior is unpredictable.
+The above timing is only related to the limitation of the DAC interface. Refer also to the
+tSETTLING parameter value in the product datasheet.
+Table 345. HFSEL description
+HFSEL
+Clock frequency
+[1:0]
+
+Latency using
+AHB clock
+(dac_hclk)
+
+Latency using
+dac_ker_ck
+clock
+
+Function
+
+00
+
+< 80 MHz
+
+3
+
+4
+
+DAC_DOR update rate up to 3
+AHB clock cycles or 4
+dac_ker_ck cycles.
+
+01
+
+≥ 80 MHz(1)
+
+5
+
+5
+
+DAC_DOR update rate up to 5
+AHB clock or dac_ker_ck
+cycles.
+
+10
+
+≥ 160 MHz
+
+7
+
+6
+
+DAC_DOR update rate up to 7
+AHB clock cycles or 6
+dac_ker_ck cycles.
+
+11
+
+Reserved
+
+-
+
+-
+
+-
+
+1. Refer to the device datasheet for the value of the maximum dac_hclk or dac_ker_ck frequency.
+
+Figure 311. Timing diagram for conversion with trigger disabled TEN = 0
+
+Bus clock
+
+DHR
+
+DOR
+
+0x1AC
+
+0x1AC
+
+Output voltage available on
+DAC_OUT pin
+
+tSETTLING
+MSv45319V2
+
+RM0456 Rev 6

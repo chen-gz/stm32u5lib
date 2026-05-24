@@ -1,0 +1,50 @@
+RM0456 Rev 6
+
+RM0456
+
+51.4.8
+
+Hash processor (HASH)
+
+HASH suspend/resume operations
+Overview
+It is possible to interrupt a hash/HMAC operation to perform another processing with a
+higher priority. The interrupted process completes later when the higher-priority task has
+been processed, as shown in Figure 503.
+Figure 503. HASH suspend/resume mechanism
+Message 1
+
+Message 2
+
+Block 1
+
+Block 2
+New higher
+priority message
+2 to be processed
+
+HASH suspend
+sequence
+Block 3
+Block 1
+
+Block 2
+(last block)
+Block 4
+HASH resume
+sequence
+
+Block 5
+
+Block 6
+
+...
+
+MSv41985V2
+
+To do so, the context of the interrupted task must be saved from the HASH registers to
+memory, and then be restored from memory to the HASH registers.
+The procedures where the data flow is controlled by software or by DMA are described
+hereafter.
+
+RM0456 Rev 6

@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+RM0456
+
+44.6
+
+DSI Host (DSI)
+
+Functional description: adapted command mode on LTDC
+interface
+The adapted command mode, enables the system to input a stream of pixel from the LTDC
+that is conveyed by DSI Host using the command mode transmission (using the DCS
+packets). The adapted command mode also supports pixel input control rate signaling and
+tearing effect report mechanism.
+The adapted command mode makes it possible to send large amounts of data through the
+memory_write_start (WMS) and memory_write_continue (WMC) DCS commands. It helps
+in delivering a wider data bandwidth for the memory write operations sent in command
+mode to MIPI® displays and to refresh large areas of pixels in high resolution displays. If
+additional commands such as display configuration commands, read back commands, and
+tearing effect initialization must be transferred, then the APB register interface must be used
+to complement the adapted command mode functionality.
+Adapted command mode of operation supports 16 bpp, 18 bpp, and 24 bpp RGB.
+To transmit the image data in adapted command mode:
+•
+
+Set command mode (CMDM) bit of the DSI Host mode configuration register
+(DSI_MCR) to 1.
+
+•
+
+Set DSI mode (DSIM) bit in the DSI Wrapper configuration register (DSI_WCFGR) to 1.
+
+To transmit the image data, follow these steps:
+•
+
+Define the image area to be refreshed, by using the set_column_address and
+set_page_address DCS commands. The image area needs to be defined only once
+and remains effective until different values are defined.
+
+•
+
+Define the pixel color coding to be used by using the color coding (COLC) field in the
+DSI Host LTDC color coding register (DSI_LCOLCR).
+
+•
+
+Define the virtual channel ID of the LTDC interface generated packets using the virtual
+channel ID (VCID) field in the DSI Host LTDC VCID register (DSI_LVCIDR). These also
+need to be defined only once.
+
+•
+
+Start transmitting the data from the LTDC setting the LTDC enable (LTDCEN) bit of the
+DSI_WCR register.
+
+Figure 417 shows the adapted command mode usage flow.
+
+RM0456 Rev 6

@@ -1,0 +1,89 @@
+In case no internal clock signal is provided, the digital filter must be deactivated by setting
+the CKFLT, ICxF and TRGFLT bits to 0. In this case, an external analog filter can be used to
+protect the LPTIM external inputs against glitches.
+
+RM0456 Rev 6
+
+RM0456
+
+58.4.6
+
+Low-power timer (LPTIM)
+
+Prescaler
+The LPTIM 16-bit counter is preceded by a configurable power-of-2 prescaler. The prescaler
+division ratio is controlled by the PRESC[2:0] field. The table below lists all the possible
+division ratios:
+Table 611. Prescaler division ratios
+
+58.4.7
+
+Programming
+
+Dividing factor
+
+000
+
+/1
+
+001
+
+/2
+
+010
+
+/4
+
+011
+
+/8
+
+100
+
+/16
+
+101
+
+/32
+
+110
+
+/64
+
+111
+
+/128
+
+Trigger multiplexer
+The LPTIM counter can be started either by software or after the detection of an active edge
+on one of the eight trigger inputs.
+TRIGEN[1:0] is used to determine the LPTIM trigger source:
+•
+
+When TRIGEN[1:0] equals 00, the LPTIM counter is started as soon as one of the
+CNTSTRT or the SNGSTRT bits is set by software. The three remaining possible
+values for the TRIGEN[1:0] are used to configure the active edge used by the trigger
+inputs. The LPTIM counter starts as soon as an active edge is detected.
+
+•
+
+When TRIGEN[1:0] is different than 00, TRIGSEL[2:0] is used to select which of the
+eight trigger inputs is used to start the counter.
+
+The external triggers are considered asynchronous signals for the LPTIM. After a trigger
+detection, a two-counter-clock period latency is needed before the timer starts running due
+to the synchronization.
+If a new trigger event occurs when the timer is already started it is ignored (unless timeout
+function is enabled).
+Note:
+
+The timer must be enabled before setting the SNGSTRT/CNTSTRT bits. Any write on these
+bits when the timer is disabled is discarded by hardware.
+
+Note:
+
+When starting the counter by software (TRIGEN[1:0] = 00), there is a delay of 3 kernel clock
+cycles between the LPTIM_CR register update (set one of SNGSTRT or CNTSTRT bits)
+and the effective start of the counter.
+
+RM0456 Rev 6

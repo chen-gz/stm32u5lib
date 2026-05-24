@@ -1,0 +1,77 @@
+90
+
+Contents
+
+RM0456
+26.3.9
+
+Implementing IIR filters with the FMAC . . . . . . . . . . . . . . . . . . . . . . . . 975
+
+26.3.10 Examples of filter initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 977
+26.3.11 Examples of filter operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 978
+26.3.12 Filter design tips . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 980
+
+26.4
+
+27
+
+FMAC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 981
+26.4.1
+
+FMAC X1 buffer configuration register (FMAC_X1BUFCFG) . . . . . . . 981
+
+26.4.2
+
+FMAC X2 buffer configuration register (FMAC_X2BUFCFG) . . . . . . . 981
+
+26.4.3
+
+FMAC Y buffer configuration register (FMAC_YBUFCFG) . . . . . . . . . 982
+
+26.4.4
+
+FMAC parameter register (FMAC_PARAM) . . . . . . . . . . . . . . . . . . . . 983
+
+26.4.5
+
+FMAC control register (FMAC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 984
+
+26.4.6
+
+FMAC status register (FMAC_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 985
+
+26.4.7
+
+FMAC write data register (FMAC_WDATA) . . . . . . . . . . . . . . . . . . . . . 986
+
+26.4.8
+
+FMAC read data register (FMAC_RDATA) . . . . . . . . . . . . . . . . . . . . . 987
+
+26.4.9
+
+FMAC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 987
+
+Flexible static memory controller (FSMC) . . . . . . . . . . . . . . . . . . . . . 989
+27.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 989
+
+27.2
+
+FMC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 989
+
+27.3
+
+FMC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 990
+
+27.4
+
+AHB interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 991
+27.4.1
+
+27.5
+
+27.6
+
+27.7

@@ -1,0 +1,59 @@
+DAMDF[1:0] = 10, 16-bit format: A single DMA request is generated each time both
+master and slave EOC events have occurred. At that time, two data items are available
+and the 32-bit register ADC12_CDR contains the two half-words representing two
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+ADC-converted data items. The slave ADC data take the upper half-word and the
+master ADC data take the lower half-word.
+This mode is used in interleaved mode and in regular simultaneous mode when
+resolution is ranging from 10 to 16-bit. Any value above 16-bit in the master or the
+slave converter is truncated to the least 16 significant bits.
+Example:
+Interleaved dual mode: a DMA request is generated each time 2 data items are
+available:
+1st DMA request: ADC12_CDR[31:0] = SLV_ADC_DR[15:0] |
+MST_ADC_DR[15:0]
+2nd DMA request: ADC12_CDR[31:0] = SLV_ADC_DR[15:0] |
+MST_ADC_DR[15:0]
+Figure 273. DMA requests in regular simultaneous mode when DAMDF[1:0] = 10
+Trigger
+ADC Master regular
+
+Trigger
+
+Trigger
+
+Trigger
+
+CH1
+
+CH1
+
+CH1
+
+CH1
+
+CH2
+
+CH2
+
+CH2
+
+CH2
+
+ADC Master EOC
+ADC Slave regular
+ADC Slave EOC
+DMA request from
+ADC Master
+DMA request from
+ADC Slave
+
+Configuration where each sequence contains only one conversion
+MSv31033V3
+
+RM0456 Rev 6

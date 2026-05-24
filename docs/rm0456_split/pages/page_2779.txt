@@ -1,0 +1,202 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+Bits 13:12 STOP[1:0]: Stop bits
+These bits are used for programming the stop bits.
+00: 1 stop bit
+01: Reserved.
+10: 2 stop bits
+11: Reserved
+This bitfield can only be written when the LPUART is disabled (UE = 0).
+Bits 11:5 Reserved, must be kept at reset value.
+Bit 4 ADDM7:7-bit Address Detection/4-bit Address Detection
+This bit is for selection between 4-bit address detection or 7-bit address detection.
+0: 4-bit address detection
+1: 7-bit address detection (in 8-bit data mode)
+This bit can only be written when the LPUART is disabled (UE = 0)
+Note: In 7-bit and 9-bit data modes, the address detection is done on 6-bit and 8-bit address
+(ADD[5:0] and ADD[7:0]) respectively.
+Bits 3:0 Reserved, must be kept at reset value.
+
+67.7.4
+
+LPUART control register 3 (LPUART_CR3)
+Address offset: 0x08
+Reset value: 0x0000 0000
+FIFO mode enabled, FIFOEN = 1
+
+31
+
+30
+
+29
+
+28
+
+27
+
+RXFTI
+E
+
+TXFTCFG[2:0]
+
+26
+
+25
+
+RXFTCFG[2:0]
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+TXFTIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+CTSIE
+
+CTSE
+
+RTSE
+
+DMAT
+
+DMAR
+
+Res.
+
+Res.
+
+HDSEL
+
+Res.
+
+Res.
+
+EIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+DEP
+
+DEM
+
+DDRE
+
+OVRDI
+S
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:29 TXFTCFG[2:0]: TXFIFO threshold configuration
+000:TXFIFO reaches 1/8 of its depth.
+001:TXFIFO reaches 1/4 of its depth.
+110:TXFIFO reaches 1/2 of its depth.
+011:TXFIFO reaches 3/4 of its depth.
+100:TXFIFO reaches 7/8 of its depth.
+101:TXFIFO becomes empty.
+Others: Reserved, must not be used.
+This bit can only be written when the LPUART is disabled (UE = 0).
+Bit 28 RXFTIE: RXFIFO threshold interrupt enable
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: An LPUART interrupt is generated when Receive FIFO reaches the threshold
+programmed in RXFTCFG[2:0].

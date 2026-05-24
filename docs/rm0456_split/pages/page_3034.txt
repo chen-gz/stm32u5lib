@@ -1,0 +1,72 @@
+•
+
+1 bidirectional control endpoint0
+
+•
+
+5 IN endpoints (EPs) configurable to support bulk, interrupt or isochronous transfers
+
+•
+
+5 OUT endpoints configurable to support bulk, interrupt or isochronous transfers
+
+•
+
+Management of a shared Rx FIFO and a Tx-OUT FIFO for efficient usage of the USB
+data RAM
+
+•
+
+Management of up to 6 dedicated Tx-IN FIFOs (one for each active IN EP) to put less
+load on the application
+
+•
+
+Support for the soft disconnect feature.
+
+RM0456 Rev 6
+
+RM0456
+
+72.3
+
+USB on-the-go full-speed (OTG_FS)
+
+OTG_FS implementation
+Table 749. OTG_FS implementation(1)
+USB features
+
+OTG_FS for
+STM32U575/585
+
+Device bidirectional endpoints (including EP0)
+
+6
+
+Host mode channels
+
+12
+
+Size of dedicated SRAM
+
+1.2 Kbytes
+
+USB 2.0 link power management (LPM) support
+
+X
+
+OTG revision supported
+
+2.0
+
+Battery charging detection (BCD) support
+
+X
+
+Integrated PHY
+
+FS
+
+1. “X” = supported, “-” = not supported, “FS” = supported in FS mode, “HS” = supported in HS mode.
+
+RM0456 Rev 6

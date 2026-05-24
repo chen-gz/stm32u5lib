@@ -1,0 +1,80 @@
+90
+
+Contents
+
+RM0456
+
+15.2
+
+15.3
+
+SYSCFG functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 648
+15.2.1
+
+I/O compensation cell management . . . . . . . . . . . . . . . . . . . . . . . . . . 648
+
+15.2.2
+
+SYSCFG TrustZone security and privilege . . . . . . . . . . . . . . . . . . . . . 649
+
+15.2.3
+
+Configuring the OTG_HS PHY
+(only for STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . 651
+
+15.2.4
+
+Adjusting HSPI supply capacitance
+(only for STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . 651
+
+15.2.5
+
+Internal SRAMs cacheability by DCACHE2
+(only for STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . 651
+
+SYSCFG registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 652
+15.3.1
+
+SYSCFG secure configuration register (SYSCFG_SECCFGR) . . . . . 652
+
+15.3.2
+
+SYSCFG configuration register 1 (SYSCFG_CFGR1) . . . . . . . . . . . . 653
+
+15.3.3
+
+SYSCFG FPU interrupt mask register (SYSCFG_FPUIMR) . . . . . . . . 655
+
+15.3.4
+
+SYSCFG CPU nonsecure lock register (SYSCFG_CNSLCKR) . . . . . 655
+
+15.3.5
+
+SYSCFG CPU secure lock register (SYSCFG_CSLCKR) . . . . . . . . . 656
+
+15.3.6
+
+SYSCFG configuration register 2 (SYSCFG_CFGR2) . . . . . . . . . . . . 657
+
+15.3.7
+
+SYSCFG memory erase status register (SYSCFG_MESR) . . . . . . . . 658
+
+15.3.8
+
+SYSCFG compensation cell control/status register
+(SYSCFG_CCCSR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 659
+
+15.3.9
+
+SYSCFG compensation cell value register (SYSCFG_CCVR) . . . . . . 661
+
+15.3.10 SYSCFG compensation cell code register (SYSCFG_CCCR) . . . . . . 662
+15.3.11 SYSCFG RSS command register (SYSCFG_RSSCMDR) . . . . . . . . . 663
+15.3.12 SYSCFG OTG_HS PHY register (SYSCFG_OTGHSPHYCR) . . . . . . 664
+15.3.13 SYSCFG OTG_HS PHY tune register 2
+(SYSCFG_OTGHSPHYTUNER2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 665
+15.3.14 SYSCFG register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 666
+
+16

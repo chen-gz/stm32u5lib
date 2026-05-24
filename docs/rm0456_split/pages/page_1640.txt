@@ -1,0 +1,100 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+met again. In this mode, every time an interrupt occurs, the application is supposed to
+read FIFO_SIZE/2 data.
+
+RXFIFO overrun
+A RXFIFO overrun condition is detected when the RXFIFO is full, and a new sample from
+the DFLT0 must be written.
+In this case, DOVRF is set and the new sample is dropped. When the RXFIFO has at least
+one location available, the new incoming sample is written into the RXFIFO.
+Figure 384 shows an example based on a RXFIFO depth of four words and FTH set to 1, so
+that FTHF goes to 1 when the RXFIFO is half-full.
+The S7 sample is lost due to an overrun: the RXFIFO is full while S7 must be written into the
+RXFIFO. The S7 write operation is not performed. DOVRF is set to 1 at the moment where
+the write operation was expected. The overflow event remains to 1 as long as it is not
+cleared by the application.
+In this example, DOVRIE is set to 1 to have an interrupt if an overrun condition is detected.
+After the S7 sample, the application manages to read data from the RXFIFO, and the ADF
+can write the S8 sample and consecutive. Later, the application clears DOVR, allowing the
+detection of a new overrun situation.
+In the adf_hclk line, the gray boxes indicate that the ADF requested the AHB clock.
+Figure 384 shows the AHB clock available only when the ADF requests it. In real
+applications, the AHB clock may also be present if the ADF does not request it.
+Figure 384. Example of overflow and transfer to memory
+adf_ker_ck
+Data from
+DFLT0
+
+S1
+
+S2
+
+S3
+
+S4
+
+S5
+
+S6
+
+Data write into
+RXFIFO
+
+S7
+
+4
+
+S8
+
+S9
+
+S10
+
+S11
+
+S12
+
+4
+
+3
+2
+
+2
+
+1
+
+RXFIFO Level
+
+1
+
+0
+
+2
+
+2
+1
+
+1
+0
+
+0
+
+RXFIFO Full
+FTHF
+RXNEF
+adf_hclk
+S1 S2
+
+S3 S4 S5 S6 S8
+
+S9 S10
+
+read access to
+RXFIFO
+DOVRF
+Writing DOVRF to 1

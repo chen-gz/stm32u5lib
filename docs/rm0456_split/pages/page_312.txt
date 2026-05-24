@@ -1,0 +1,85 @@
+363
+
+Embedded flash memory (FLASH)
+Caution:
+
+RM0456
+
+Switching a page or memory block from secure to nonsecure does not erase the content of
+the associated block. User secure software must perform the following needed operations
+before switching a block to nonsecure attribute:
+•
+
+Erase page content,
+
+•
+
+Invalidate the instruction cache.
+
+Note:
+
+For SECyBBRx bit i access control, refer to Table 75.
+
+7.5.5
+
+Flash security attribute state
+The flash memory is secure when at least one secure area is defined either by watermarkbased option bytes or block-based security registers.
+It is possible to override the flash security state using the INV bit in the FLASH_SECCR
+register.
+The FLASHEN and FLASHSMEN bits security attributes in RCC follow the flash memory
+security attribute. It is possible to override the flash memory security attribute in RCC using
+the INV bit in the FLASH_SECCR register. A secure firmware setting this INV bit allows a
+nonsecure firmware to disable the flash memory clock when the flash memory is in power
+down or when the MCU enters low-power modes.
+Table 62. Flash security state
+Secure area
+None
+
+Yes
+
+7.5.6
+
+INV bit
+
+Flash security state
+
+0
+
+Nonsecure
+
+1
+
+Secure
+
+0
+
+Secure
+
+1
+
+Nonsecure
+
+Block-based privileged flash memory area protection
+Any page can be programmed on the fly as privileged or unprivileged using the block-based
+configuration registers. FLASH_PRIVBB1Rx (resp. FLASH_PRIVBB2Rx) registers are used
+to configure the privilege attribute for pages in bank 1 (resp. bank 2).
+When the page privilege attribute, bit i in PRIVyBBRx, is set, the page is only accessible by
+a privileged access. An unprivileged page is accessible by a privileged or unprivileged
+access.
+To modify a block-based privilege attribution, the following actions are recommended:
+•
+
+Check that no flash operation is ongoing on the related page.
+
+•
+
+Add an ISB instruction after modifying the page security attribute bit i in PRIVyBBRx.
+
+Caution:
+
+Switching a page or memory block from privileged to unprivileged does not erase the
+content of the associated block.
+
+Note:
+
+For PRIVyBBRx bit i access control, refer to Table 76 and Table 77.

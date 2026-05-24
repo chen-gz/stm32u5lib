@@ -1,0 +1,103 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Figure 623. Control circuit in external clock mode 2
+
+tim_ker_ck
+
+CEN
+tim_etr_in
+
+tim_etrp
+
+tim_etrf
+tim_cnt_ck
+tim_psc_ck
+
+Counter register
+
+34
+
+35
+
+36
+MSv62321V1
+
+55.4.6
+
+Capture/compare channels
+Each Capture/Compare channel is built around a capture/compare register (including a
+shadow register), an input stage for capture (with digital filter, multiplexing and prescaler)
+and an output stage (with comparator and output control).
+The following figure gives an overview of one Capture/Compare channel.
+The input stage samples the corresponding tim_tix input to generate a filtered signal
+tim_tixf. Then, an edge detector with polarity selection generates a signal (tim_tixfpy) which
+can be used as trigger input by the slave mode controller or as the capture command. It is
+prescaled before the capture register (ICxPS).
+Figure 624. Capture/compare channel (example: channel 1 input stage)
+TIMx_TISEL
+TI1SEL[3:0]
+tim_ti1f_ed
+
+tim_ti1_in0
+
+TIM_CH1
+
+To the slave mode controller
+
+tim_ti1_in[15:1]
+Filter
+downcounter
+fDTS
+
+tim_ti1f_rising
+tim_ti1f
+
+Edge
+detector
+
+0
+tim_ti1f_falling
+
+01
+
+1 tim_ti1_fp1
+tim_ti2fp1
+
+ICF[3:0]
+TIMx_CCMR1
+
+CC1P/CC1NP
+TIMx_CCER
+tim_ti2f_rising
+0
+(from channel 2)
+tim_ti2f_falling
+1
+(from channel 2)
+
+10
+
+tim_ic1
+
+Divider
+/1, /2, /4, /8
+
+tim_ic1f
+
+tim_trc
+11
+(from slave mode
+controller)
+CC1S[1:0]
+
+ICPS[1:0]
+
+TIMx_CCMR1
+
+CC1E
+TIMx_CCER
+MSv62322V2

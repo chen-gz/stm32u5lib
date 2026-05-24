@@ -1,0 +1,123 @@
+1696
+
+Digital camera interface (DCMI)
+
+RM0456
+
+Table 412. Positioning of captured data bytes in 32-bit words (8-bit width)
+Byte address
+
+31:24
+
+23:16
+
+15:8
+
+7:0
+
+0
+
+Dn+3[7:0]
+
+Dn+2[7:0]
+
+Dn+1[7:0]
+
+Dn[7:0]
+
+4
+
+Dn+7[7:0]
+
+Dn+6[7:0]
+
+Dn+5[7:0]
+
+Dn+4[7:0]
+
+10-bit data
+When EDM[1:0] = 01 in DCMI_CR, the camera interface captures 10-bit data at its input
+DCMI_D[9:0] and stores them as the 10 least significant bits of a 16-bit word. The remaining
+most significant bits of the DCMI_DR register (bits 11 to 15) are cleared to zero. So, in this
+case, a 32-bit data word is made up every two pixel clock cycles.
+The first captured data are placed in the LSB position in the 32-bit word and the 2nd
+captured data are placed in the MSB position in the 32-bit word as shown in the table below.
+Table 413. Positioning of captured data bytes in 32-bit words (10-bit width)
+Byte address
+
+31:26
+
+25:16
+
+15:10
+
+9:0
+
+0
+
+0
+
+Dn+1[9:0]
+
+0
+
+Dn[9:0]
+
+4
+
+0
+
+Dn+3[9:0]
+
+0
+
+Dn+2[9:0]
+
+12-bit data
+When EDM[1:0] = 10 in DCMI_CR, the camera interface captures the 12-bit data at its input
+DCMI_D[11:0] and stores them as the 12 least significant bits of a 16-bit word. The
+remaining most significant bits are cleared to zero. So, in this case a 32-bit data word is
+made up every two pixel clock cycles.
+The first captured data are placed in the LSB position in the 32-bit word and the 2nd
+captured data are placed in the MSB position in the 32-bit word as shown in the table below.
+Table 414. Positioning of captured data bytes in 32-bit words (12-bit width)
+Byte address
+
+31:28
+
+27:16
+
+15:12
+
+11:0
+
+0
+
+0
+
+Dn+1[11:0]
+
+0
+
+Dn[11:0]
+
+4
+
+0
+
+Dn+3[11:0]
+
+0
+
+Dn+2[11:0]
+
+14-bit data
+When EDM[1:0] = 11 in DCMI_CR, the camera interface captures the 14-bit data at its input
+DCMI_D[13:0] and stores them as the 14 least significant bits of a 16-bit word. The
+remaining most significant bits are cleared to zero. So, in this case a 32-bit data word is
+made up every two pixel clock cycles.
+The first captured data are placed in the LSB position in the 32-bit word and the 2nd
+captured data are placed in the MSB position in the 32-bit word as shown in the table below.
+
+<!-- pagebreak -->
+

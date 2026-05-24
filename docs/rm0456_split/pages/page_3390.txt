@@ -1,0 +1,192 @@
+RM0456 Rev 6
+
+r
+
+r
+
+RXSOP
+3OF4
+r
+
+RXORDSET[2:0]
+r
+
+r
+
+r
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Bits 6:4 RXSOPKINVALID[2:0]:
+The bitfield is for debug purposes only.
+0x0: No K-code corrupted
+0x1: First K-code corrupted
+0x2: Second K-code corrupted
+0x3: Third K-code corrupted
+0x4: Fourth K-code corrupted
+Others: Invalid
+Bit 3 RXSOP3OF4:
+The bit indicates the number of correct K-codes. For debug purposes only.
+0: 4 correct K-codes out of 4
+1: 3 correct K-codes out of 4
+Bits 2:0 RXORDSET[2:0]: Rx ordered set code detected
+0x0: SOP code detected in receiver
+0x1: SOP' code detected in receiver
+0x2: SOP'' code detected in receiver
+0x3: SOP'_Debug detected in receiver
+0x4: SOP''_Debug detected in receiver
+0x5: Cable Reset detected in receiver
+0x6: SOP extension#1 detected in receiver
+0x7: SOP extension#2 detected in receiver
+
+74.8.12
+
+UCPD Rx payload size register (UCPD_RX_PAYSZR)
+Address offset: 0x02C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RXPAYSZ[9:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:10 Reserved, must be kept at reset value.
+Bits 9:0 RXPAYSZ[9:0]: Rx payload size received
+This bitfield contains the number of bytes of a payload (including header but excluding CRC)
+received: each time a new data byte is received in the UCPD_RXDR register, the bitfield
+value increments and the RXMSGEND flag is set (and an interrupt generated if enabled).
+0x2: 2 bytes - the size of Control message from the protocol layer
+0x6: 6 bytes - the shortest Data message allowed from the protocol layer)
+0x1E: 30 bytes - the longest non-extended Data message allowed from the protocol layer
+0x106: 262 bytes - the longest possible extended message
+0x3FF: 1024 bytes - the longest possible payload (for future expansion)
+The bitfield may return a spurious value when a byte reception is ongoing (the RXMSGEND
+flag is low).
+
+RM0456 Rev 6

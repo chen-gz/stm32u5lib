@@ -1,0 +1,299 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+RM0456
+
+synchronization and back porch lines minus 1 (VSYNC height + VBP - 1).
+Refer to Figure 408 and Section 43.4 for an example of configuration.
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+AHBP[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+10
+
+9
+
+8
+
+7
+
+6
+
+15
+
+14
+
+13
+
+12
+
+11
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+AVBP[10:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bits 27:16 AHBP[11:0]: Accumulated horizontal back porch (in units of pixel clock period)
+These bits defines the accumulated horizontal back porch width that includes the horizontal
+synchronization and horizontal back porch pixels minus 1.
+The horizontal back porch is the period between horizontal synchronization going inactive
+and the start of the active display part of the next scan line.
+Bits 15:11 Reserved, must be kept at reset value.
+Bits 10:0 AVBP[10:0]: Accumulated Vertical back porch (in units of horizontal scan line)
+These bits define the accumulated vertical back porch width that includes the vertical
+synchronization and vertical back porch lines minus 1.
+The vertical back porch is the number of horizontal scan lines at a start of frame to the start of
+the first active scan line of the next frame.
+
+43.7.3
+
+LTDC active width configuration register (LTDC_AWCR)
+Address offset: 0x010
+Reset value: 0x0000 0000
+This register defines the accumulated number of horizontal synchronization, back porch and
+active pixels minus 1 (HSYNC width + HBP + active width - 1) and the accumulated number
+of vertical synchronization, back porch lines and active lines minus 1
+(VSYNC height + VBP + active height - 1). Refer to Figure 408 and Section 43.4 for an
+example of configuration.
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+AAW[11:0]
+
+AAH[10:0]
+rw
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bits 27:16 AAW[11:0]: Accumulated active width (in units of pixel clock period)
+These bits define the accumulated active width which includes the horizontal
+synchronization, horizontal back porch and active pixels minus 1.
+The active width is the number of pixels in active display area of the panel scan line.
+Refer to device datasheet for maximum active width supported following maximum pixel
+clock.

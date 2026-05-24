@@ -1,0 +1,109 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+all these bits are also cleared, all the RTC registers can be read or written in privilege and
+unprivilege modes.
+•
+
+•
+
+•
+
+•
+
+•
+
+•
+
+When INITPRIV is set:
+–
+
+RTC_TR, RTC_DR, RTC_PRER registers, plus INIT, BIN and BCDU in
+RTC_ICSR and FMT control bits in RTC_CR, plus INITSEC in the
+RTC_SECCFGR can be written only in privilege mode.
+
+–
+
+These registers and control bits can be read in privilege and unprivilege mode.
+
+When CALPRIV is set:
+–
+
+RTC_SHIFTR and RTC_CALR registers, plus ADD1H, SUB1H and REFCKON
+control bits in the RTC_CR, plus CALDSEC in the RTC_SECCFGR can be written
+only in privilege mode.
+
+–
+
+These registers and control bits can be read in privilege and unprivilege mode.
+
+When ALRAPRIV is set:
+–
+
+RTC_ALRMAR, RTC_ALRMASSR and RTC_ALRABINR registers, plus ALRAE,
+ALRAFCLR, ALRAIE and SSRUIE in the RTC_CR, and CALRAF and CSSRUF in
+the RTC_SCR, ALRAF and SSRUF in RTC_SR, and ALRAMF and SSRUMF in
+RTC_MISR and RTC_SMISR can be read and written only in privilege mode.
+
+–
+
+ALRASEC in the RTC_SECCFGR can be written only in privilege mode.
+
+When ALRBPRIV is set:
+–
+
+RTC_ALRMBR, RTC_ALRMBSSR and RTC_ALRBBINR registers, plus ALRBE,
+ALRBFCLR, ALRBIE in the RTC_CR, and CALRBF in the RTC_SCR, ALRBF in
+RTC_SR, and ALRBMF in RTC_MISR and RTC_SMISR can be read and written
+only in privilege mode.
+
+–
+
+ALRBSEC in the RTC_SECCFGR can be written only in privilege mode.
+
+When WUTPRIV is set:
+–
+
+RTC_WUTR register, plus WUTE, WUTIE and WUCKSEL control bits in the
+RTC_CR, and CWUTF in the RTC_SCR, WUTF in RTC_SR, and WUTMF in
+RTC_MISR and RTC_SMISR can be read and written only in privilege mode.
+
+–
+
+WUTSEC in the RTC_SECCFGR can be written only in privilege mode.
+
+When TSPRIV is set:
+–
+
+RTC_TSTR, RTC_TSDR and RTC_TSSSR registers, plus TAMPTS, ITSE, TSE,
+TSIE, TSEDGE control bits in the RTC_CR, CITSF, CTSOVF and CTSF bits in the
+RTC_SCR, TSF, TSOVF and ITSF in RTC_SR, and TSMF, TSOVMF and ITSMF
+in RTC_MISR and RTC_SMISR can be read and written only in privilege mode.
+
+–
+
+TSSEC in the RTC_SECCFGR can be written only in privilege mode.
+
+A unprivileged access to a privileged-protected register is denied:
+
+63.3.6
+
+•
+
+There is no bus error generated.
+
+•
+
+When write protected, the bits are not written.
+
+•
+
+When read protected they are read as 0.
+
+Clock and prescalers
+The RTC clocks must respect this ratio: frequency(PCLK) ≥ 2 × frequency(RTCCLK).
+For more information on the RTC clock (RTCCLK) source configuration, refer to “Reset and
+clock control (RCC)”.

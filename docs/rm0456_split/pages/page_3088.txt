@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bits 5:2 BESL[3:0]: Best effort service latency
+Host mode:
+The value of BESL to be sent in an LPM transaction. This value is also used to initiate
+resume for a duration TL1HubDrvResume1 for host initiated resume.
+Device mode (read-only):
+This field is updated with the received LPM token BESL bmAttribute when an ACK, NYET,
+or STALL response is sent to an LPM transaction.
+BESL[3:0]TBESL (μs)
+0000: 125
+0001: 150
+0010: 200
+0011: 300
+0100: 400
+0101: 500
+0110: 1000
+0111: 2000
+1000: 3000
+1001: 4000
+1010: 5000
+1011: 6000
+1100: 7000
+1101: 8000
+1110: 9000
+1111: 10000
+Bit 1 LPMACK: LPM token acknowledge enable
+Handshake response to LPM token preprogrammed by device application software.
+1: ACK
+Even though ACK is preprogrammed, the core device responds with ACK only on
+successful LPM transaction. The LPM transaction is successful if:
+– No PID/CRC5 errors in either EXT token or LPM token (else ERROR)
+– Valid bLinkState = 0001B (L1) received in LPM transaction (else STALL)
+– No data pending in transmit queue (else NYET).
+0: NYET
+The preprogrammed software bit is over-ridden for response to LPM token when:
+– The received bLinkState is not L1 (STALL response), or
+– An error is detected in either of the LPM token packets because of corruption (ERROR
+response).
+Note: Accessible only in device mode.
+Bit 0 LPMEN: LPM support enable
+The application uses this bit to control the OTG_FS core LPM capabilities.
+If the core operates as a non-LPM-capable host, it cannot request the connected device or
+hub to activate LPM mode.
+If the core operates as a non-LPM-capable device, it cannot respond to any LPM
+transactions.
+0: LPM capability is not enabled
+1: LPM capability is enabled
+
+RM0456 Rev 6

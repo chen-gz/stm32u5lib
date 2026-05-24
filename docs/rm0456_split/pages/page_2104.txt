@@ -1,0 +1,63 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+When an update event occurs, all the registers are updated and the update flag (UIF bit in
+TIMx_SR register) is set (depending on the URS bit):
+•
+
+The repetition counter is reloaded with the content of TIMx_RCR register,
+
+•
+
+The autoreload shadow register is updated with the preload value (TIMx_ARR),
+
+•
+
+The buffer of the prescaler is reloaded with the preload value (content of the TIMx_PSC
+register).
+
+The following figures show some examples of the counter behavior for different clock
+frequencies when TIMx_ARR = 0x36.
+Figure 512. Counter timing diagram, internal clock divided by 1
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+31
+
+32
+
+33
+
+34 35 36
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter overflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+
+MSv50997V1

@@ -1,0 +1,173 @@
+RM0456 Rev 6
+
+RM0456
+
+System security
+
+Note:
+
+Like with TrustZone, a peripheral can be made privileged-only with TZSC
+(see Section 3.6.3). In this case, if this peripheral is master on the interconnect,
+it automatically issues privileged transactions.
+
+Securing memories with TZSC and MPCBB
+The TZSC block in GTZC provides the capability to manage the security and privilege for all
+securable external memories, programming the MPCWM resources.
+The table below shows an implementation example. For all other implementations on the
+STM32U5 Series devices, refer to Section 5.3: GTZC implementation.
+Table 9. MPCWMx resources
+MPC
+resource
+
+Memory
+OCTOSPI1
+
+MPCWM1
+
+FMC_NOR bank
+
+MPCWM2
+
+FMC_NAND bank
+
+MPCWM3
+
+Backup SRAM (BKPSRAM)
+
+MPCWM4
+
+OCTOSPI2
+
+MPCWM5
+
+HSPI1
+
+MPCWM6
+
+Number of
+regions
+
+Type of filtering
+
+Default
+security
+
+On-the-fly
+decryption(1)
+Yes
+
+2
+Nonsecure
+privileged or
+unprivileged region
+(watermarks)
+
+2
+1
+
+Secure
+privileged(2)
+
+1
+
+No
+
+2
+
+Yes
+
+2
+
+No
+
+1.
+
+Using the OTFDEC.
+
+2.
+
+Assuming TrustZone is activated on the device, nonsecure unprivileged otherwise.
+
+The MPCBB resources in GTZC provide the capability to configure the security and
+privilege of embedded SRAM blocks.
+The table below shows an implementation example. For all other implementations on the
+STM32U5 Series devices, refer to Section 5.3: GTZC implementation.
+Table 10. MPCBBx resources
+Memory
+
+MPC resource
+
+SRAM1
+
+GTZC1_MPCBB1
+
+SRAM2
+
+GTZC1_MPCBB2
+
+Type of filtering
+
+Block based,
+managing security
+and privilege
+
+Memory size
+(Kbytes)
+
+Block size
+(Bytes)
+
+Number
+of superblocks
+
+768
+
+48
+
+64
+
+4
+
+SRAM3
+
+GTZC1_MPCBB3
+
+832
+
+SRAM4
+
+GTZC2_MPCBB4
+
+SRAM5
+
+GTZC1_MPCBB5
+
+832
+
+52
+
+SRAM6
+
+GTZC1_MPCBB6
+
+512
+
+32
+
+16
+
+512(1)
+
+52
+1
+
+Default
+security
+
+Secure
+privileged(2)
+
+1. Blocks are grouped in super-blocks of 32 consecutive blocks, to manage the configuration locking.
+2. Assuming TrustZone is activated on the device, nonsecure unprivileged otherwise.
+
+RM0456 Rev 6

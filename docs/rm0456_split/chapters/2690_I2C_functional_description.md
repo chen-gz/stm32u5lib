@@ -1,0 +1,69 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+Therefore, two methods are available for TS pattern recognition:
+Method 1
+The USART is programmed in standard smartcard mode/direct convention. In this case, the
+TS pattern reception generates a parity error interrupt and error signal to the card.
+•
+
+The parity error interrupt informs the software that the card did not answer correctly in
+direct convention. Software then reprograms the USART for inverse convention
+
+•
+
+In response to the error signal, the card retries the same TS character, and it is
+correctly received this time, by the reprogrammed USART
+
+Alternatively, in answer to the parity error interrupt, the software may decide to reprogram
+the USART and to also generate a new reset command to the card, then wait again for the
+TS.
+Method 2
+The USART is programmed in 9-bit/no-parity mode, no bit inversion. In this mode it receives
+any of the two TS patterns as:
+(H) LHHL LLL LLH = 0x103: inverse convention to be chosen
+(H) LHHL HHH LLH = 0x13B: direct convention to be chosen
+The software checks the received character against these two patterns and, if any of them
+match, then programs the USART accordingly for the next character reception.
+If none of the two is recognized, a card reset may be generated in order to restart the
+negotiation.
+
+66.5.19
+
+USART IrDA SIR ENDEC block
+This section is relevant only when IrDA mode is supported. Refer to Section 66.4: USART
+implementation.
+IrDA mode is selected by setting the IREN bit in the USART_CR3 register. In IrDA mode,
+the following bits must be kept cleared:
+•
+
+LINEN, STOP and CLKEN bits in the USART_CR2 register,
+
+•
+
+SCEN and HDSEL bits in the USART_CR3 register.
+
+The IrDA SIR physical layer specifies the use of a return-to-zero, inverted (RZI) modulation
+scheme that represents logic 0 as an infrared light pulse (see Figure 827).
+The encoding and decoding of data in IrDA mode is handled by hardware blocks.
+Even if IrDA is a half-duplex protocol, it requires two pins for transmission and reception
+(USART_TX and USART_RX).
+The SIR transmit encoder modulates the non return-to-zero (NRZ) transmit bit stream
+output from USART. The output pulse stream is transmitted to an external output driver and
+infrared LED. USART supports only bit rates up to 115.2 kbauds for the SIR ENDEC. In
+normal mode the transmitted pulse width is specified as 3/16 of a bit period.
+The SIR receive decoder demodulates the return-to-zero bit stream from the infrared
+detector and outputs the received NRZ serial bit stream to the USART. The decoder input is
+normally high (marking state) in the Idle state. The transmit encoder output has the opposite
+polarity to the decoder input. A start bit is detected when the decoder input is low.
+•
+
+IrDA is a half duplex communication protocol. If the Transmitter is busy (when the
+USART is sending data to the IrDA encoder), any data on the IrDA receive line is
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

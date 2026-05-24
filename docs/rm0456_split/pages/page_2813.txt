@@ -1,0 +1,62 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+If the CPHA bit is set, the second edge on the SCK pin captures the first data bit transferred
+(falling edge if the CPOL bit is reset, rising edge if the CPOL bit is set). Data are latched on
+each occurrence of this clock transition type. If the CPHA bit is reset, the first edge on the
+SCK pin captures the first data bit transferred (falling edge if the CPOL bit is set, rising edge
+if the CPOL bit is reset). Data are latched on each occurrence of this clock transition type.
+The combination of the CPOL (clock polarity) and CPHA (clock phase) bits selects the data
+capture clock edges (dotted lines in Figure 855).
+Figure 855 shows an SPI full-duplex transfer with the four combinations of the CPHA and
+CPOL bits.
+Note:
+
+Prior to changing the CPOL/CPHA bits the SPI must be disabled by resetting the SPE bit.
+The idle state of SCK must correspond to the polarity selected in the SPI_CFG2 register (by
+pulling the SCK pin up if CPOL = 1 or pulling it down if CPOL = 0).
+Figure 855. Data clock timing diagram
+CPHA =1
+CPOL = 1
+
+CPOL = 0
+
+MOSI(1)
+
+MSBit
+
+MISO(1)
+
+MSBit
+
+LSBit
+
+LSBit
+
+NSS (to slave)
+
+CPHA =0
+CPOL = 1
+
+CPOL = 0
+
+MOSI(1)
+
+MISO(1)
+
+LSBit
+
+MSBit
+
+MSBit
+
+LSBit
+
+NSS (to slave)
+
+ai17154f
+
+1. The order of data bits depends on the LSBFRST bit setting.

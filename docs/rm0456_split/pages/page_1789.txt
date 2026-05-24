@@ -1,0 +1,139 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+Table 447. Error causes and recovery (continued)
+
+DSI Host interrupt
+and status register
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1
+
+Bit
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Name
+
+Error cause
+
+Recommended method
+to handle the error
+
+An overflow occurs in the
+generic read FIFO.
+
+The read FIFO size is not correctly
+dimensioned for the maximum read-back
+packet size.
+Configure the device to return the read
+data with a suitable size for the Host
+dimensioned FIFO. Data stored in the FIFO
+is corrupted.
+Reset the DSI Host and repeat the read
+procedure.
+
+An underflow occurs in the
+generic read FIFO.
+
+System does not wait for the read
+procedure to end and starts retrieving the
+data from the FIFO. The read data is
+requested before it is fully received. Data is
+corrupted.
+Reset the DSI Host and repeat the read
+procedure. Check that the read procedure
+is completed before reading the data
+through the APB interface.
+
+An underflow occurs in the
+generic write payload FIFO.
+
+The system writes the packet header
+before the respective packet payload is
+completely loaded into the payload FIFO.
+This error is unrecoverable, the transmitted
+packet is corrupted.
+Reset the DSI Host and repeat the write
+procedure.
+
+An overflow occurs in the
+generic write payload FIFO.
+
+The payload FIFO size is not correctly
+dimensioned to store the total payload of a
+long packet. Data stored in the FIFO is
+corrupted.
+Reset the DSI Host and repeat the write
+procedure.
+
+An overflow occurs in the
+generic command FIFO.
+
+The command FIFO size is not correctly
+dimensioned to store the total headers of a
+burst of packets. Data stored in the FIFO is
+corrupted.
+Reset the DSI Host and repeat the write
+procedure.
+
+LPWRE
+
+An overflow occurs in the DPI
+pixel payload FIFO.
+
+The controller FIFO dimensions are not
+correctly set up for the operating resolution.
+Check the video mode configuration
+registers. They must be consistent with the
+LTDC video resolution. The pixel data
+sequence is corrupted.
+Reset the DSI Host and re-initiate the
+Video transmission.
+
+EOTPE
+
+This error is not critical for the data integrity
+Host receives a transmission
+of the received packets.
+that does not end with an end of
+Check if the device supports the
+transmission packet.
+transmission of EoTp packets.
+
+GPRXE
+
+GPRDE
+
+GPTXE
+
+GPWRE
+
+GCWRE
+
+RM0456 Rev 6

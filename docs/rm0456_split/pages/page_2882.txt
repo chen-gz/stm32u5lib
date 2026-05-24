@@ -1,0 +1,83 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+Figure 879. Overrun detection error
+Example: FIFO overrun on Slot 1
+Audio frame
+
+Audio frame
+
+sck
+
+data
+
+Slot 0 ON
+
+Slot 1 ON
+
+Slot 1 ON
+
+Slot 0 ON
+
+Slot 1 ON
+
+... ON
+
+Slot n ON
+
+Data stored again in FIFO
+
+FIFO full
+Received data discarded
+
+OVRUDR
+COVRUDR = 1
+
+MSv192348V2
+
+Underrun
+An underrun may occur when the audio block in the SAI is a transmitter and the FIFO is
+empty when data need to be transmitted. If an underrun is detected, the slot number for
+which the event occurs is stored and the MUTE value (00) is sent until the FIFO is ready to
+transmit the data corresponding to the slot for which the underrun was detected (refer to
+Figure 880). This avoids desynchronization between the memory pointer and the slot in the
+audio frame.
+The underrun event sets the OVRUDR flag in the SAI_xSR register and an interrupt is
+generated if the OVRUDRIE bit is set in the SAI_xIM register. To clear this flag, set the
+COVRUDR bit in the SAI_xCLRFR register.
+The underrun event can occur when the audio subblock is configured as master or slave.
+Figure 880. FIFO underrun event
+Example: FIFO underrun on Slot 1
+Audio frame
+
+Audio frame
+
+sck
+Slot size = data size
+data
+SD (output)
+
+Slot 0 ON
+
+MUTE
+
+MUTE
+
+MUTE
+
+Slot 1 ON
+
+... ON
+
+Slot 0 ON
+
+FIFO empty
+
+OVRUND
+OVRUND=1
+
+MSv192347V2
+
+RM0456 Rev 6

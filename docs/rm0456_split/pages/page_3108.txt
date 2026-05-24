@@ -1,0 +1,173 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 4 OTEPDM: OUT token received when endpoint disabled mask. Applies to control OUT
+endpoints only.
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 3 STUPM: STUPM: SETUP phase done mask. Applies to control endpoints only.
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 EPDM: Endpoint disabled interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 0 XFRCM: Transfer completed interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+
+72.15.38 OTG device all endpoints interrupt register (OTG_DAINT)
+Address offset: 0x818
+Reset value: 0x0000 0000
+When a significant event occurs on an endpoint, a OTG_DAINT register interrupts the
+application using the device OUT endpoints interrupt bit or device IN endpoints interrupt bit
+of the OTG_GINTSTS register (OEPINT or IEPINT in OTG_GINTSTS, respectively). There
+is one interrupt bit per endpoint, up to a maximum of 16 bits for OUT endpoints and 16 bits
+for IN endpoints. For a bidirectional endpoint, the corresponding IN and OUT interrupt bits
+are used. Bits in this register are set and cleared when the application sets and clears bits in
+the corresponding device endpoint-x interrupt register (OTG_DIEPINTx/OTG_DOEPINTx).
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+OEPINT[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+IEPINT[15:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:16 OEPINT[15:0]: OUT endpoint interrupt bits
+One bit per OUT endpoint:
+Bit 16 for OUT endpoint 0, bit 19 for OUT endpoint 3.
+Bits 15:0 IEPINT[15:0]: IN endpoint interrupt bits
+One bit per IN endpoint:
+Bit 0 for IN endpoint 0, bit 3 for endpoint 3.
+
+RM0456 Rev 6

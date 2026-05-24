@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+
+Bit 9 SOF: Start of frame
+This bit signals the beginning of a new USB frame and it is set when a SOF packet arrives
+through the USB bus. The interrupt service routine can monitor the SOF events to have a
+1 ms synchronization event to the USB host and to safely read the USB_FNR register which
+is updated at the SOF packet reception (this can be useful for isochronous applications). This
+bit is read/write but only 0 can be written and writing 1 has no effect.
+Bit 8 ESOF: Expected start of frame
+– Device mode
+This bit is set by the hardware when an SOF packet is expected but not received. The host
+sends an SOF packet each 1 ms, but if the device does not receive it properly, the suspend
+timer issues this interrupt. If three consecutive ESOF interrupts are generated (for example
+three SOF packets are lost) without any traffic occurring in between, a SUSP interrupt is
+generated. This bit is set even when the missing SOF packets occur while the suspend timer
+is not yet locked. This bit is read/write but only 0 can be written and writing 1 has no effect.
+Bit 7 L1REQ: LPM L1 state request
+– Device mode
+This bit is set by the hardware when LPM command to enter the L1 state is successfully
+received and acknowledged. This bit is read/write but only 0 can be written and writing 1 has
+no effect.
+Bits 6:5 Reserved, must be kept at reset value.
+Bit 4 DIR: Direction of transaction
+This bit is written by the hardware according to the direction of the successful transaction,
+which generated the interrupt request.
+If DIR bit = 0, VTTX bit is set in the USB_CHEPnR register related to the interrupting
+endpoint. The interrupting transaction is of IN type (data transmitted by the USB peripheral to
+the host PC).
+If DIR bit = 1, VTRX bit or both VTTX/VTRX are set in the USB_CHEPnR register related to
+the interrupting endpoint. The interrupting transaction is of OUT type (data received by the
+USB peripheral from the host PC) or two pending transactions are waiting to be processed.
+This information can be used by the application software to access the USB_CHEPnR bits
+related to the triggering transaction since it represents the direction having the interrupt
+pending. This bit is read-only.
+Bits 3:0 IDN[3:0]: Device Endpoint / host channel identification number
+These bits are written by the hardware according to the host channel or device endpoint
+number, which generated the interrupt request. If several endpoint/channel transactions are
+pending, the hardware writes the identification number related to the endpoint/channel
+having the highest priority defined in the following way: two levels are defined, in order of
+priority: isochronous and double-buffered bulk channels/endpoints are considered first and
+then the others are examined. If more than one endpoint/channel from the same set is
+requesting an interrupt, the IDN bits in USB_ISTR register are assigned according to the
+lowest requesting register, CHEP0R having the highest priority followed by CHEP1R and so
+on. The application software can assign a register to each endpoint/channel according to this
+priority scheme, so as to order the concurring endpoint/channel requests in a suitable way.
+These bits are read only.
+
+RM0456 Rev 6

@@ -1,0 +1,187 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.31
+
+RM0456
+
+RCC AHB2 peripheral clock enable register 2 (RCC_AHB2ENR2)
+Address offset: 0x090
+Reset value: 0x0000 0000 (for STM32U535/545/575/585)
+Reset value: 0x8000 0000 (for STM32U59x/5Ax)
+Reset value: 0xC000 0000 (for STM32U5Fx/5Gx)
+Access: no wait state; word, half-word, and byte access
+
+Note:
+
+When the peripheral clock is not active, read or write access to peripheral registers is not
+supported.
+
+31
+
+30
+
+SRAM5 SRAM6
+EN
+EN
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+HSPI1
+EN
+
+Res.
+
+Res.
+
+Res.
+
+OCTOS
+PI2EN
+
+Res.
+
+Res.
+
+Res.
+
+OCTOS
+PI1EN
+
+Res.
+
+Res.
+
+Res.
+
+FSMCE
+N
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 SRAM5EN: SRAM5 clock enable
+This bit is set and reset by software.
+0: SRAM5 clock disabled
+1: SRAM5 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 30 SRAM6EN: SRAM6 clock enable
+This bit is set and reset by software.
+0: SRAM6 clock disabled
+1: SRAM6 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 29:13 Reserved, must be kept at reset value.
+Bit 12 HSPI1EN: HSPI1 clock enable
+This bit is set and cleared by software.
+0: HSPI1 clock disabled
+1: HSPI1 clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 11:9 Reserved, must be kept at reset value.

@@ -1,0 +1,166 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+Bit 2 WUTSEC: Wake-up timer protection
+0: RTC wake-up timer configuration and interrupt clear can be written when the APB access
+is secure or nonsecure.
+1: RTC wake-up timer configuration and interrupt clear can be written only when the APB
+access is secure.
+Bit 1 ALRBSEC: Alarm B protection
+0: RTC alarm B configuration and interrupt clear can be written when the APB access is
+secure or nonsecure.
+1: RTC alarm B configuration and interrupt clear can be written only when the APB access is
+secure.
+Bit 0 ALRASEC: Alarm A and SSR underflow protection
+0: RTC alarm A and SSR underflow configuration and interrupt clear can be written when the
+APB access is secure or nonsecure.
+1: RTC alarm A and SSR underflow configuration and interrupt clear can be written only
+when the APB access is secure.
+
+Note:
+
+Refer to Section 63.3.4: RTC secure protection modes for details on the read protection.
+
+63.6.10
+
+RTC write protection register (RTC_WPR)
+Address offset: 0x24
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+KEY[7:0]
+w
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bits 7:0 KEY[7:0]: Write protection key
+This byte is written by software.
+Reading this byte always returns 0x00.
+Refer to RTC register write protection for a description of how to unlock RTC register write
+protection.

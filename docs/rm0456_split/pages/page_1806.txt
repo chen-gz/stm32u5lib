@@ -1,0 +1,290 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+LPSIZE[7:0]
+
+VLPSIZE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:16 LPSIZE[7:0]: Largest packet size
+This field is used for the transmission of commands in low-power mode. It defines the size, in
+bytes, of the largest packet that can fit in a line during VSA, VBP and VFP regions.
+Bits 15:8 Reserved, must be kept at reset value.
+Bits 7:0 VLPSIZE[7:0]: VACT largest packet size
+This field is used for the transmission of commands in low-power mode. It defines the size, in
+bytes, of the largest packet that can fit in a line during VACT regions.
+
+44.15.8
+
+DSI Host protocol configuration register (DSI_PCR)
+Address offset: 0x002C
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ETTXLPE CRCRXE ECCRXE
+rw
+
+rw
+
+Bits 31:6 Reserved, must be kept at reset value.
+Bit 5 ETTXLPE: EoTp transmission in low-power enable
+This bit enables the EoTP transmission in low-power.
+0: EoTp transmission in low-power is disabled.
+1: EoTp transmission in low-power is enabled.
+Bit 4 CRCRXE: CRC reception enable
+This bit enables the CRC reception and error reporting.
+0: CRC reception is disabled.
+1: CRC reception is enabled.
+Bit 3 ECCRXE: ECC reception enable
+This bit enables the ECC reception, error correction and reporting.
+0: ECC reception is disabled.
+1: ECC reception is enabled.
+Bit 2 BTAE: Bus-turn-around enable
+This bit enables the bus-turn-around (BTA) request.
+0: Bus-turn-around request is disabled.
+1: Bus-turn-around request is enabled.

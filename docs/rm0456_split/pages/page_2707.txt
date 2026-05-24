@@ -1,0 +1,55 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bits 25:21 DEAT[4:0]: Driver Enable assertion time
+This 5-bit value defines the time between the activation of the DE (Driver Enable) signal and
+the beginning of the start bit. It is expressed in sample time units (1/8 or 1/16 bit time,
+depending on the oversampling rate).
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at
+reset value. Refer to Section 66.4: USART implementation.
+Bits 20:16 DEDT[4:0]: Driver Enable deassertion time
+This 5-bit value defines the time between the end of the last stop bit, in a transmitted
+message, and the de-activation of the DE (Driver Enable) signal. It is expressed in sample
+time units (1/8 or 1/16 bit time, depending on the oversampling rate).
+If the USART_TDR register is written during the DEDT time, the new data is transmitted only
+when the DEDT and DEAT times have both elapsed.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at
+reset value. Refer to Section 66.4: USART implementation.
+Bit 15 OVER8: Oversampling mode
+0: Oversampling by 16
+1: Oversampling by 8
+This bit can only be written when the USART is disabled (UE = 0).
+Note: In LIN, IrDA and smartcard modes, this bit must be kept cleared.
+Bit 14 CMIE: Character match interrupt enable
+This bit is set and cleared by software.
+0: Interrupt inhibited
+1: USART interrupt generated when the CMF bit is set in the USART_ISR register.
+Bit 13 MME: Mute mode enable
+This bit enables the USART mute mode function. When set, the USART can switch between
+active and mute mode, as defined by the WAKE bit. It is set and cleared by software.
+0: Receiver in active mode permanently
+1: Receiver can switch between mute mode and active mode.
+Bit 12 M0: Word length
+This bit is used in conjunction with bit 28 (M1) to determine the word length. It is set or
+cleared by software (refer to bit 28 (M1)description).
+This bit can only be written when the USART is disabled (UE = 0).
+Bit 11 WAKE: Receiver wake-up method
+This bit determines the USART wake-up method from mute mode. It is set or cleared by
+software.
+0: Idle line
+1: Address mark
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 10 PCE: Parity control enable
+This bit selects the hardware parity control (generation and detection). When the parity
+control is enabled, the computed parity is inserted at the MSB position (9th bit if M = 1; 8th bit
+if M = 0) and the parity is checked on the received data. This bit is set and cleared by
+software. Once it is set, PCE is active after the current byte (in reception and in
+transmission).
+0: Parity control disabled
+1: Parity control enabled
+This bitfield can only be written when the USART is disabled (UE = 0).

@@ -1,0 +1,90 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Figure 290. Continuous conversions of a sequence, hardware trigger
+
+ADSTART(1)
+EOC
+EOS
+ADSTP
+TRGx(1)
+ADC state(2)
+
+RDY
+
+CH0
+
+CH1
+
+CH2
+
+CH3
+
+CH0
+
+CH1
+
+CH2
+
+CH3
+
+CH0 STOP
+
+D0
+
+D1
+
+D2
+
+D3
+
+D0
+
+D1
+
+D2
+
+D3
+
+ADC_DR
+
+by S/W
+
+by H/W
+
+triggered
+
+ignored
+
+RDY
+
+MSv30341V2
+
+1. EXTSEL = TRGx, EXTEN = 10 (falling edge), CONT = 1.
+2. CHSEL = 0xF, SCANDIR = 0, WAIT = 0, AUTOFF = 0.
+
+34.4.22
+
+Low-frequency trigger mode
+If the application has to support a time longer than the maximum tIDLE value (between one
+trigger to another for single conversion mode or between the ADC enable and the first ADC
+conversion), then the ADC internal state needs to be rearmed. This mechanism can be
+enabled by setting LFTRIG bit to 1 in ADC_CFGR2 register. By setting this bit, any trigger
+(software or hardware) sends a rearm command to ADC. The conversion is started after a
+two ADC clock cycle delay compared to LFTRIG set to 0.
+It is not necessary to use this mode when AUTOFF bit is set to 1. For wait mode, only the
+first trigger generates an internal rearm command.
+
+34.4.23
+
+Data management
+Data register and data alignment (ADC_DR, ALIGN)
+At the end of each conversion (when an EOC event occurs), the result of the converted data
+is stored in the ADC_DR data register which is 16-bit wide.
+The format of the ADC_DR depends on the configured data alignment and resolution.
+The ALIGN bit in the ADC_CFGR1 register selects the alignment of the data stored after
+conversion. Data can be right-aligned (ALIGN = 0) or left-aligned (ALIGN = 1) as shown in
+Figure 291.

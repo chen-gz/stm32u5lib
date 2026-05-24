@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bits 23:20 BK2F[3:0]: Break 2 filter
+This bitfield defines the frequency used to sample tim_brk2 input and the length of the digital
+filter applied to tim_brk2. The digital filter is made of an event counter in which N consecutive
+events are needed to validate a transition on the output:
+0000: No filter, tim_brk2 acts asynchronously
+0001: fSAMPLING = ftim_ker_ck, N = 2
+0010: fSAMPLING = ftim_ker_ck, N = 4
+0011: fSAMPLING = ftim_ker_ck, N = 8
+0100: fSAMPLING = fDTS/2, N = 6
+0101: fSAMPLING = fDTS/2, N = 8
+0110: fSAMPLING = fDTS/4, N = 6
+0111: fSAMPLING = fDTS/4, N = 8
+1000: fSAMPLING = fDTS/8, N = 6
+1001: fSAMPLING = fDTS/8, N = 8
+1010: fSAMPLING = fDTS/16, N = 5
+1011: fSAMPLING = fDTS/16, N = 6
+1100: fSAMPLING = fDTS/16, N = 8
+1101: fSAMPLING = fDTS/32, N = 5
+1110: fSAMPLING = fDTS/32, N = 6
+1111: fSAMPLING = fDTS/32, N = 8
+Note: This bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in
+TIMx_BDTR register).
+Bits 19:16 BKF[3:0]: Break filter
+This bitfield defines the frequency used to sample tim_brk input and the length of the digital
+filter applied to tim_brk. The digital filter is made of an event counter in which N consecutive
+events are needed to validate a transition on the output:
+0000: No filter, tim_brk acts asynchronously
+0001: fSAMPLING = ftim_ker_ck, N = 2
+0010: fSAMPLING = ftim_ker_ck, N = 4
+0011: fSAMPLING = ftim_ker_ck, N = 8
+0100: fSAMPLING = fDTS/2, N = 6
+0101: fSAMPLING = fDTS/2, N = 8
+0110: fSAMPLING = fDTS/4, N = 6
+0111: fSAMPLING = fDTS/4, N = 8
+1000: fSAMPLING = fDTS/8, N = 6
+1001: fSAMPLING = fDTS/8, N = 8
+1010: fSAMPLING = fDTS/16, N = 5
+1011: fSAMPLING = fDTS/16, N = 6
+1100: fSAMPLING = fDTS/16, N = 8
+1101: fSAMPLING = fDTS/32, N = 5
+1110: fSAMPLING = fDTS/32, N = 6
+1111: fSAMPLING = fDTS/32, N = 8
+Note: This bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in
+TIMx_BDTR register).
+
+RM0456 Rev 6

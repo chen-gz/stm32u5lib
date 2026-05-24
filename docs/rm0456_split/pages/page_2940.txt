@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+The application can use the FDCAN_TXBRP register instead of the put index and can place
+messages to any Tx buffer without pending transmission request.
+A Tx queue buffer allocates eighteen 32-bit words in the message RAM. The start address
+of Therefore, the next available (free) Tx queue buffer is calculated by adding 18 times the
+Tx queue put index TFQPI[1:0] (0 ... 2) to the Tx buffer start address TBSA.
+
+Transmit cancellation
+The FDCAN supports transmit cancellation. To cancel a requested transmission from a Tx
+queue buffer, the host has to write 1 to the corresponding bit position (= number of Tx buffer)
+of the FDCAN_TXBCR register. Transmit cancellation is not intended for Tx FIFO operation.
+Successful cancellation is signaled by setting the corresponding bit of the FDCAN_TXBCF
+register.
+In case a transmit cancellation is requested while a transmission from a Tx buffer is already
+ongoing, the corresponding FDCAN _TXBRP bit remains set as long as the transmission is
+in progress. If the transmission is successful, the corresponding FDCAN_TXBTO and
+FDCAN_TXBCF bits are set. If the transmission is not successful, it is not repeated and only
+the corresponding FDCAN_TXBCF bit is set.
+Note:
+
+In case a pending transmission is canceled immediately before it has been started, there is
+a short time window where no transmission is started even if another message is pending in
+the node. This can enable another node to transmit a message that can have a priority lower
+than that of the second message in the node.
+
+Tx event handling
+To support Tx event handling the FDCAN has implemented a Tx event FIFO. After the
+FDCAN has transmitted a message on the CAN bus, message ID and timestamp are stored
+in a Tx event FIFO element. To link a Tx event to a Tx event FIFO element, the message
+marker from the transmitted Tx buffer is copied into the Tx event FIFO element.
+The Tx event FIFO is configured to three elements. The Tx event FIFO element is described
+in Tx FIFO.
+The purpose of the Tx event FIFO is to decouple handling transmit status information from
+transmit message handling that is, a Tx buffer holds only the message to be transmitted,
+while the transmit status is stored separately in the Tx event FIFO. This has the advantage,
+especially when operating a dynamically managed transmit queue, that a Tx buffer can be
+used for a new message immediately after successful transmission. There is no need to
+save transmit status information from a Tx buffer before overwriting that Tx buffer.
+When a Tx event FIFO full condition is signaled by the TEFF bit of the FDCAN_IR, no
+further elements are written to the Tx event FIFO until at least one element has been read
+out and the Tx event FIFO get index has been incremented. In case a Tx event occurs while
+the Tx event FIFO is full, this event is discarded and the TEFL interrupt flag is set in the
+FDCAN_IR register.
+When reading from the Tx event FIFO, the Tx event FIFO get index (EFGI[1:0] of
+FDCAN_TXEFS) has to be added twice to the Tx event FIFO start address EFSA.
+
+RM0456 Rev 6

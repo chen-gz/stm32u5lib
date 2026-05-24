@@ -1,0 +1,72 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Figure 167. HSPI block diagram in quad configuration
+
+STM32
+AHB
+
+Registers/
+control
+
+Clock
+management
+
+Signals from
+ALT function
+
+HSPI_NCLK
+HSPI_CLK
+
+RX/TX data
+FIFO
+
+AHB
+
+hspi_nrst
+
+Shift register
+DMA signals
+
+Interrupts
+6
+
+HSPI
+
+High-speed interface
+
+hspi_ker_ck
+
+HSPI_IO0
+HSPI_IO1
+HSPI_IO2
+HSPI_IO3
+HSPI_IO4
+HSPI_IO5
+HSPI_IO6
+HSPI_IO7
+HSPI_NCS
+HSPI_DQS0
+HSPI_IO8
+HSPI_IO9
+HSPI_IO10
+HSPI_IO11
+HSPI_IO12
+HSPI_IO13
+HSPI_IO14
+HSPI_IO15
+
+CLK
+IO0
+IO1
+IO2
+IO3
+NCS
+
+HSPI_DQS1
+
+(1) The Quad-SPI memory is connected to HSPI_IO[0:3] but it can also be connected to
+HSPI_IO[4:7], HSPI_IO[8:11], or HSPI_IO[12:15].

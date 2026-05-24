@@ -1,0 +1,83 @@
+RM0456 Rev 6
+
+RM0456
+
+33.4.16
+
+Analog-to-digital converter (ADC12)
+
+Starting conversions (ADSTART, JADSTART)
+The software starts ADC regular conversions by setting ADSTART. When ADSTART is set,
+the conversion starts:
+•
+
+immediately if EXTEN[1:0] = 0x0 (software trigger) or
+
+•
+
+at the next active edge of the selected regular hardware trigger, if EXTEN[1:0] is not
+equal to 0x0
+
+The software starts ADC injected conversions by setting JADSTART. When JADSTART is
+set, the conversion starts:
+
+Note:
+
+•
+
+immediately, if JEXTEN[1:0] = 0x0 (software trigger) or
+
+•
+
+at the next active edge of the selected injected hardware trigger if JEXTEN[1:0] is not
+equal to 0x0
+
+In auto-injection mode (JAUTO = 1), use the ADSTART bit to start regular conversions
+followed by auto-injected conversions (JADSTART must be kept cleared).
+ADSTART and JADSTART also provide information on whether any ADC operation is
+ongoing. The ADC can be reconfigured while ADSTART and JADSTART are both cleared
+(the ADC is idle).
+ADSTART is cleared by hardware:
+
+Note:
+
+•
+
+In single mode with software trigger (CONT = 0, EXTEN[1:0] = 0x0): at any end of the
+conversion sequence (EOS = 1)
+
+•
+
+In discontinuous mode with software trigger (CONT = 0, DISCEN = 1,
+EXTEN[1:0] = 0x0): at end of conversion (EOC = 1)
+
+•
+
+In all other cases (CONT = x, EXTEN[1:0] = x): after executing the ADSTP assertion
+procedure by software.
+
+In continuous mode (CONT = 1), ADSTART is not cleared by hardware with the assertion of
+EOS because the sequence is automatically relaunched.
+When a hardware trigger is selected in single mode (CONT = 0 and EXTEN[1:0] ≠ 0x0),
+ADSTART is not cleared by hardware with the assertion of EOS to help the software that
+does not need to reset ADSTART again for the next hardware trigger event. This ensures
+that no further hardware triggers are missed.
+JADSTART is cleared by hardware:
+
+Note:
+
+•
+
+In single mode with software injected trigger (JEXTEN[1:0] = 0x0): at any end of the
+injected conversion sequence (JEOS assertion) or at any end of subgroup processing
+if JDISCEN = 1
+
+•
+
+In all other cases (JEXTEN[1:0]=x): after executing the JADSTP assertion procedure
+by software.
+
+When the software trigger is selected, the ADSTART bit must not be set if the EOC flag is
+still high.
+
+RM0456 Rev 6

@@ -1,0 +1,60 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+The error assertion is delayed to the transition 0 to 1 when in up-counting. This is cope with
+narrow index pulses in gated A and B mode, as shown on Figure 590.
+Figure 590. Up-counting encoder error detection
+tim_ti1
+
+tim_ti2
+
+Index
+
+IERRF
+
+Counter
+
+5
+
+6
+
+7
+
+0
+
+1
+
+Error detected
+
+Abort (index detection)
+
+6
+
+0
+
+2
+
+3
+
+2
+
+3
+
+tim_ti1
+
+tim_ti2
+
+Index
+
+IERRF
+
+Counter
+
+5
+
+7
+
+Error detected

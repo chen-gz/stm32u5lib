@@ -1,0 +1,48 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+Figure 740. LPTIM output waveform, single-counting mode configuration
+and Set-once mode activated (WAVE bit is set)
+LPTIM_ARR
+Compare
+Discarded trigger
+
+0
+PWM
+
+External trigger event
+MSv39231V2
+
+In case of software start (TRIGEN[1:0] = 00), the SNGSTRT setting starts the counter for
+one-shot counting.
+
+Continuous mode
+To enable the continuous counting, the CNTSTRT bit must be set.
+In case an external trigger is selected, an external trigger event arriving after CNTSTRT is
+set, starts the counter for continuous counting. Any subsequent external trigger event is
+discarded as shown in Figure 741.
+In case of software start (TRIGEN[1:0] = 00), setting CNTSTRT starts the counter for
+continuous counting.
+Figure 741. LPTIM output waveform, Continuous counting mode configuration
+Discarded triggers
+
+LPTIM_ARR
+Compare
+
+0
+PWM
+
+External trigger event
+MSv39229V2
+
+SNGSTRT and CNTSTRT bits can only be set when the timer is enabled (ENABLE bit set to
+1). It is possible to change “on the fly” from One-shot mode to Continuous mode.
+If the Continuous mode was previously selected, setting SNGSTRT switches the LPTIM to
+the One-shot mode. The counter (if active) stops as soon as an LPTIM update event is
+generated.
+If the One-shot mode was previously selected, setting CNTSTRT switches the LPTIM to the
+Continuous mode. The counter (if active) restarts as soon as it reaches ARR.
+
+RM0456 Rev 6

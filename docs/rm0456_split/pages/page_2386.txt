@@ -1,0 +1,41 @@
+In this mode the LPTIM must be clocked by an internal clock source, so the CKSEL bit must
+be maintained to its reset value which is equal to 0. Also, the prescaler division ratio must be
+equal to its reset value which is 1 (PRESC[2:0] bits must be 000).
+
+RM0456 Rev 6
+
+RM0456
+
+Low-power timer (LPTIM)
+Figure 743. Encoder mode counting sequence
+
+T1
+T2
+
+Counter
+
+up
+
+58.4.16
+
+down
+
+up
+
+MS32491V1
+
+Repetition counter
+The LPTIM features a repetition counter that decrements by 1 each time an LPTIM counter
+overflow event occurs. A repetition counter underflow event is generated when the repetition
+counter contains zero and the LPTIM counter overflows. Next to each repetition counter
+underflow event, the repetition counter gets loaded with the content of the REP[7:0] bitfield
+which belongs to the repetition register LPTIM_RCR.
+A repetition underflow event is generated on each and every LPTIM counter overflow when
+the REP[7:0] register is set to 0.
+When PRELOAD = 1, writing to the REP[7:0] bitfield has no effect on the content of the
+repetition counter until the next repetition underflow event occurs. The repetition counter
+continues to decrement each LPTIM counter overflow event and only when a repetition
+underflow event is generated, the new value written into REP[7:0] is loaded into the
+repetition counter. This behavior is depicted in Figure 744.
+
+RM0456 Rev 6

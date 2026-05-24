@@ -1,0 +1,239 @@
+0
+
+Res.
+Res.
+
+Res.
+
+Res.
+
+0xFFC
+
+0
+
+0
+
+0
+Res.
+
+Reset value
+DBGMCU_CIDR3
+
+0
+
+Res.
+
+Res.
+
+Res.
+Res.
+
+Res.
+Res.
+
+Res.
+
+Res.
+
+DBGMCU_CIDR2
+
+Res.
+
+Reset value
+0xFF8
+
+0
+
+Res.
+Res.
+Res.
+
+DBGMCU_CIDR1
+
+0
+
+PARTNUM
+[11:8]
+
+0
+Res.
+
+Reset value
+0xFF4
+
+0
+
+JEP106ID
+[3:0]
+
+0
+Res.
+
+DBGMCU_CIDR0
+
+0
+
+REVAND[3:0] CMOD[3:0]
+
+Reset value
+0xFF0
+
+0
+
+Res.
+
+0xFEC
+
+0
+
+REVISION
+[3:0]
+
+Reset value
+DBGMCU_PIDR3
+
+0
+
+Res.
+
+DBGMCU_PIDR2
+
+0
+
+Res.
+
+Reset value
+
+0xFE8
+
+0
+
+PARTNUM[7:0]
+0
+
+Res.
+
+Reset value
+0xFE4
+
+0
+
+Reserved
+Res.
+
+Reserved
+Res.
+
+0xFE0
+
+0
+
+Res.
+
+0xFD40xFDC
+
+JEP106CON
+[3:0]
+
+SIZE[3:0]
+
+JEDEC
+
+DBGMCU_PIDR4
+
+Res.
+
+0xFD0
+
+Res.
+
+Reserved
+Res.
+
+Reserved
+Res.
+
+X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X
+
+Res.
+
+Reset value
+0x1080xFBC
+
+Res.
+
+AUTH_ID[31:0]
+
+Res.
+
+0x104
+
+Res.
+
+X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X
+
+Res.
+
+Reset value
+DBGMCU_DBG_
+AUTH_DEVICE
+
+Res.
+
+AUTH_KEY[31:0]
+
+Res.
+
+0x100
+
+DBGMCU_DBG_
+AUTH_HOST
+
+0
+
+1
+
+1
+
+0
+
+0
+
+0
+
+1
+
+RM0456
+
+75.13
+
+Debug support (DBG)
+
+References
+1.
+
+IHI 0031C (ID080813) - Arm Debug Interface Architecture Specification ADIv5.0 to
+ADIv5.2, Issue C, 8th Aug 2013
+
+2.
+
+DDI 0480F (ID100313) - Arm CoreSight SoC-400 r3p2 Technical Reference Manual,
+Issue G, 16th March 2015DDI 0314H - Arm CoreSight Components Technical
+Reference Manual, Issue H, 10 July, 2009
+
+3.
+
+DDI 0553A (ID092917) - Arm v8-M Architecture Reference Manual, Issue A.f, 29
+September 2017
+
+4.
+
+100230_0002_00_en - Arm Cortex-M33 Processor r0p2 Technical Reference Manual,
+Issue 0002-00, 10 May 2017
+
+5.
+
+100232_0001_00_en - Arm CoreSight ETM-M33 r0p1 Technical Reference Manual,
+Issue 0001-00, 3 February 2017
+
+RM0456 Rev 6

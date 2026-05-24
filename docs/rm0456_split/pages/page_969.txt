@@ -1,0 +1,72 @@
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+
+Load X2 buffer
+This function pre-loads the X2 buffer with N + M values, starting from the address in
+X2_BASE. Successive writes to the FMAC_WDATA register load the write data into the X2
+buffer and increment the write address.
+The function can be used to pre-load the buffer with the elements of a vector, or the
+coefficients of a filter. In the case of an IIR, the N feed-forward and M feed-back coefficients
+are concatenated and loaded together into the X2 buffer. The total number of coefficients is
+equal to N + M. For an FIR, there are no feedback coefficients, so M = 0.
+Parameters
+•
+
+The parameter P contains the number of values, N, to be loaded into the X2 buffer
+starting from address X2_BASE.
+
+•
+
+The parameter Q contains the number of values, M, to be loaded into the X2 buffer
+starting from address X2_BASE + N.
+
+•
+
+The parameter R is not used.
+
+The function completes when N + M writes have been performed to the FMAC_WDATA
+register.
+
+Load Y buffer
+This function pre-loads the Y buffer with N values, starting from the address in Y_BASE.
+Successive writes to the FMAC_WDATA register load the write data into the Y buffer and
+increment the write address. The read pointer points to the address Y_BASE + N when the
+function completes.
+The function can be used to pre-load the feedback storage elements of an IIR filter.
+Parameters
+•
+
+The parameter P contains the number of values to be loaded into the Y buffer.
+
+•
+
+The parameters Q and R are not used.
+
+The function completes when N writes have been performed to the FMAC_WDATA register.
+
+26.3.6
+
+Filter functions
+The following filter functions are supported by the FMAC unit. These functions are triggered
+by writing the corresponding value in the FUNC bitfield of the FMAC_PARAM register with
+the START bit set. The P, Q and R bitfields must also contain the appropriate parameter
+values for each function as detailed below. The filter functions continue to run until the
+START bit is reset by software.
+
+Convolution (FIR filter)
+Y = B*X
+N
+R
+
+yn = 2 ⋅
+
+∑ bk xn – k
+k=0
+
+This function performs a convolution of a vector B of length N+1 and a vector X of indefinite
+length. The elements of Y for incrementing values of n are calculated as the dot product,
+
+RM0456 Rev 6

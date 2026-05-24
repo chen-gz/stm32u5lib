@@ -1,0 +1,166 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Table 400 shows the allowed values according to the frame size and the sampling rate
+of the data observed by the SAD. The recommended values when the SADMOD[1:0] =
+0 are the ones into the gray shaded cells.
+Table 400. ANSLP values versus FRSIZE and sampling rates
+ANSLP values for Fs = 8 kHz
+FRSIZE
+
+ANSLP values for Fs = 16 kHz
+
+Slow(1)
+
+typical(2)
+
+Fast(3)
+
+Slow(1)
+
+typical(2)
+
+Fast(3)
+
+0 (8 samples)
+
+0
+
+1
+
+2
+
+-
+
+0
+
+1
+
+1 (16 samples)
+
+1
+
+2
+
+3
+
+0
+
+1
+
+2
+
+2 (32 samples)
+
+2
+
+3
+
+4
+
+1
+
+2
+
+3
+
+3 (64 samples)
+
+3
+
+4
+
+5
+
+2
+
+3
+
+4
+
+4 (128 samples)
+
+4
+
+5
+
+6
+
+3
+
+4
+
+5
+
+5 (256 samples)
+
+5
+
+6
+
+7
+
+4
+
+5
+
+6
+
+6 (512 samples)
+
+6
+
+7
+
+-
+
+5
+
+6
+
+7
+
+1. The slow slope is equal to - 8.5 dB/s for the negative slope and + 2.1 dB/s for the positive slope.
+2. The typical slope is equal to - 17.1 dB/s for the negative slope and + 4.2 dB/s for the positive slope.
+3. The fast slope is equal to - 34.2 dB/s for the negative slope and + 8.5 dB/s for the positive slope.
+
+The slopes can also be computed using the following formulas:
+Fs
+( ANSLP – 12 )
+SLC UP = 20 × -------------- × log 10 ( 1 + 2
+)
+F SIZE
+Fs
+( ANSLP – 10 )
+SLC DN = 20 × -------------- × log 10 ( 1 – 2
+)
+F SIZE
+
+where FS is the sampling rate of the stream observed by the SAD and FSIZE is the
+frame size defined by FRSIZE[2:0].
+
+Threshold computation
+The way the threshold value is computed depends on SADMOD[1:0]:
+•
+
+If SADMOD[1:0] = 0, THRH is obtained by multiplying the current ANLVL value with the
+gain defined in SNTHR[3:0].
+THR H = ANLVL × 10
+
+GdB SNTHR
+---------------------------20
+
+This threshold value is then compared to the current sound level (SDLVL).
+•
+
+If SADMOD[1:0] = 01, THRH is obtained by multiplying the current ANMIN[12:0] with
+the gain defined by SNTHR[3:0].
+THR H = ANMIN × 10
+
+GdB SNTHR
+---------------------------20
+
+This threshold value is then compared to the current sound level (SDLVL).

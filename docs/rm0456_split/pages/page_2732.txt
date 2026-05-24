@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bit 17 CMF: Character match flag
+This bit is set by hardware, when a the character defined by ADD[7:0] is received. It is
+cleared by software, writing 1 to the CMCF in the USART_ICR register.
+An interrupt is generated if CMIE = 1 in the USART_CR1 register.
+0: No Character match detected
+1: Character match detected
+Bit 16 BUSY: Busy flag
+This bit is set and reset by hardware. It is active when a communication is ongoing on the
+RX line (successful start bit detected). It is reset at the end of the reception (successful or
+not).
+0: USART is idle (no reception)
+1: Reception ongoing
+Bit 15 ABRF: Auto baud rate flag
+This bit is set by hardware when the automatic baud rate has been set (RXNE is also set,
+generating an interrupt if RXNEIE = 1) or when the auto baud rate operation has completed
+without success (ABRE = 1) (ABRE, RXNE and FE are also set in this case)
+It is cleared by software, in order to request a new auto baud rate detection, by writing 1 to
+the ABRRQ in the USART_RQR register.
+Note: If the USART does not support the auto baud rate feature, this bit is reserved and kept
+at reset value.
+Bit 14 ABRE: Auto baud rate error
+This bit is set by hardware if the baud rate measurement failed (baud rate out of range or
+character comparison failed)
+It is cleared by software, by writing 1 to the ABRRQ bit in the USART_RQR register.
+Note: If the USART does not support the auto baud rate feature, this bit is reserved and kept
+at reset value.
+Bit 13 UDR: SPI slave underrun error flag
+In slave transmission mode, this flag is set when the first clock pulse for data transmission
+appears while the software has not yet loaded any value into USART_TDR. This flag is
+reset by setting UDRCF bit in the USART_ICR register.
+0: No underrun error
+1: underrun error
+Note: If the USART does not support the SPI slave mode, this bit is reserved and kept at
+reset value. Refer to Section 66.4: USART implementation.
+Bit 12 EOBF: End of block flag
+This bit is set by hardware when a complete block has been received (for example T = 1
+smartcard mode). The detection is done when the number of received bytes (from the start
+of the block, including the prologue) is equal or greater than BLEN + 4.
+An interrupt is generated if EOBIE = 1 in the USART_CR1 register.
+It is cleared by software, writing 1 to EOBCF in the USART_ICR register.
+0: End of block not reached
+1: End of block (number of characters) reached
+Note: If smartcard mode is not supported, this bit is reserved and kept at reset value. Refer to
+Section 66.4: USART implementation.
+
+RM0456 Rev 6

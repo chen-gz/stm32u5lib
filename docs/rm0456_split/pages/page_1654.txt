@@ -1,0 +1,42 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+ANMIN and SNTHR must be programmed to trigger the SAD when the input signal
+level reaches 66 LSB.
+For SADMOD[1:0] = 01, the threshold value is given by:
+THRH = ANMIN × 10
+
+GdB SNTHR
+---------------------------20
+
+where GdBSNTHR represents the decibel value selected by SNTHR[3:0].
+When SNTHR[3:0] = 6 dB for example, this formula becomes:
+THRH = 2 × A NMIN
+
+So ANMIN = THRH/2 = 66 /2 = 33 LSB.
+In Figure 389, the trigger value (THRH in red) is fixed to 66 LSB. The input signal is at
+- 65dBFS during 256 samples, then its value goes to - 55 dB for 256 samples, and
+finally it is reduced to - 60 dBFS.
+The blue curve is showing the sound level estimation (SDLVL) versus time. Fluctuation
+on the estimated value can be observed due to windowing effect of FRSIZE samples.
+The SAD DETECT state (when green signal is high) is maintained during four
+additional frames due to hangover function value.
+In this example ANSLP = FRSIZE = 3 (64 samples), LFRNB = 0 (2 frames),
+HGOVR = 0 (4 frames), SNTHR = 1 (6 dB) and ANMIN = 33.
+Figure 390. SAD example working with SADMOD = 01
+
+Threshold programming with SADMOD = 1x
+Consider the case of a sound capture where the application wants to wake up the system
+when the captured sound is bigger than 57 dBSPL.
+The sound capture can be performed with a digital microphone such as the MP45DT02. The
+sensitivity of this microphone is typically - 26 dBFS for an input signal of 94 dBSPL.
+An acoustic signal at 57 dBSPL produces a digital signal of about:
+- 26 dBFS - (94-63) = - 63 dBFS.
+•
+
+Adjust SCALE value
+For this example, the filter configuration is the following:
+–

@@ -1,0 +1,59 @@
+482
+
+Power control (PWR)
+
+10.4.7
+
+RM0456
+
+Battery backup domain (also known as RTC domain)
+To retain the content of backup registers, backup SRAM, and to supply RTC and TAMP
+functions when VDD is turned off, the VBAT pin can be connected to an optional backup
+voltage supplied by a battery or by another source.
+The Backup domain supply is VSW, which is the output of a power switch between VDD and
+VBAT. The switch between VDD and VBAT supplies is automatically controlled by
+the brownout reset circuitry. This circuitry is not functional in Shutdown mode.
+When VDD is below the lowest brownout reset threshold (VBOR0) in all modes except
+Shutdown mode, the VBAT pin powers the RTC and TAMP peripherals, the LSI and LSE
+oscillators. The backup SRAM is optionally powered by VBAT pin when BREN is set in
+PWR_BDCR1.
+The following pin functions are also powered by the VBAT pin:
+•
+
+PC13, PC14, and PC15 that can be configured by the RTC, the TAMP, or the LSE
+(see Section 63.3: RTC functional description)
+
+•
+
+PE3, PE4, PE5, PE6, PC13, PA0, PA1, and PC5 when they are configured by the
+TAMP as tamper pins
+
+•
+
+PB2 when configured by the RTC as RTC_OUT2 output
+
+When VDD is higher than VBOR0, the VDD pin powers all previous functions.
+Note:
+
+Due to the fact that the analog power switch can transfer only a limited amount of current
+(3 mA), the use of GPIO PC13 to PC15 in output mode is restricted: the speed must be
+limited (refer to datasheet for more details) and these I/Os must not be used as a current
+source (for example to drive a LED).
+
+Warning:
+
+During tRSTTEMPO (temporization at VDD startup) or after a PDR
+has been detected, the power switch between VBAT and VDD
+remains connected to VBAT.
+During the startup phase, if VDD is established in less than
+tRSTTEMPO (refer to the datasheet for the value of tRSTTEMPO)
+and VDD > VBAT + 0.6 V, a current may be injected into VBAT
+through an internal diode connected between VDD and the
+power switch (VBAT).
+If the power supply/battery connected to the VBAT pin cannot
+support this current injection, it is strongly recommended to
+connect an external low-drop diode between this power
+supply and the VBAT pin.
+
+If no external battery is used in the application, it is recommended to connect VBAT to VDD
+and add a 100 nF ceramic decoupling capacitor on VBAT pin.

@@ -1,0 +1,321 @@
+RM0456 Rev 6
+
+w
+3
+Res.
+
+2
+Res.
+
+1
+
+0
+
+Res.
+
+AFCDI
+S
+w
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+Bit 0 AFCDIS: Absolute frame counter disable
+This bit disables the absolute frame counter.
+0: No effect
+1: Absolute frame counter disabled
+
+59.5.5
+
+GFXTIM events control register (GFXTIM_EVCR)
+Address offset: 0x010
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+EV4EN EV3EN EV2EN EV1EN
+rw
+
+rw
+
+19
+
+18
+
+rw
+
+rw
+
+17
+
+16
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 EV4EN: Event 4 enable
+This bit enables the complex event 4 generation.
+0: Event 4 generation disabled
+1: Event 4 generation enabled
+Bit 2 EV3EN: Event 3 enable
+This bit enables the complex event 3 generation.
+0: Event 3 generation disabled
+1: Event 3 generation enabled
+Bit 1 EV2EN: Event 2 enable
+This bit enables the complex event 2 generation.
+0: Event 2 generation disabled
+1: Event 2 generation enabled
+Bit 0 EV1EN: Event 1 enable
+This bit enables the complex event 1 generation.
+0: Event 1 generation disabled
+1: Event 1 generation enabled
+
+59.5.6
+
+GFXTIM events selection register (GFXTIM_EVSR)
+Address offset: 0x014
+Reset value: 0x0000 0000
+
+31
+
+30
+
+Res.
+
+15
+
+29
+
+28
+
+FES4[2:0]
+rw
+
+rw
+
+rw
+
+14
+
+13
+
+12
+
+Res.
+
+FES2[2:0]
+rw
+
+rw
+
+27
+
+26
+
+Res.
+
+11
+
+24
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+LES2[2:0]
+rw
+
+rw
+
+23
+
+22
+
+Res.
+
+10
+
+Res.
+rw
+
+25
+LES4[2:0]
+
+7
+
+RM0456 Rev 6
+
+20
+
+Res.
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+Res.
+rw
+
+21
+FES3[2:0]
+
+FES1[2:0]
+rw
+
+rw
+
+3
+
+LES3[2:0]
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+Res.
+rw
+
+LES1[2:0]
+rw
+
+rw
+
+rw

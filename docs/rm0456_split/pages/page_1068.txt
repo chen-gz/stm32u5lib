@@ -1,0 +1,93 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+28.4.12
+
+RM0456
+
+OCTOSPI configuration introduction
+The OCTOSPI configuration is done in three steps:
+
+28.4.13
+
+1.
+
+OCTOSPI system configuration
+
+2.
+
+OCTOSPI device configuration
+
+3.
+
+OCTOSPI mode configuration
+
+OCTOSPI system configuration
+The OCTOSPI is configured using OCTOSPI_CR. The user must program:
+•
+
+the functional mode with FMODE[1:0]
+
+•
+
+the automatic status-polling mode behavior if needed with PMM and APMS
+
+•
+
+the FIFO level with FTHRES
+
+•
+
+the DMA use with DMAEN
+
+•
+
+the timeout counter use with TCEN
+
+•
+
+the dual-memory configuration, if needed, with DMM
+
+In case of an interrupt use, the respective enable bit can also be set during this phase.
+If the timeout counter is used, the timeout value is programmed in OCTOSPI_LPTR.
+The DMA channel must not be enabled during the OCTOSPI configuration: it must be
+enabled only when the operation is fully configured, to avoid any unexpected request
+generation.
+The DMA and OCTOSPI must be configured in a coherent manner regarding data length:
+FTHRES value must reflect the DMA burst size.
+
+28.4.14
+
+OCTOSPI device configuration
+The parameters related to the external device targeted are configured through
+OCTOSPI_DCR1 and OCTOSPI_DCR2.The user must program:
+•
+
+the device size with DEVSIZE[4:0]
+
+•
+
+the chip-select minimum high time with CSHT[5:0]
+
+•
+
+the clock mode with FRCK and CKMODE
+
+•
+
+the device frequency with PRESCALER[7:0]
+
+DEVSIZE[4:0] defines the size of external memory using the following formula:
+Number of bytes in the device = 2DEVSIZE+1
+where DEVSIZE+1 is the number of address bits required to address the external device.
+The external device capacity can go up to 4 Gbytes (addressed using 32 bits) in indirect
+mode, but the addressable space in memory-mapped mode is limited to 256 Mbytes.
+If DMM = 1, DEVSIZE[4:0] must reflect the total capacity of the two devices together
+considering the above formula (DEVSIZE[4:0] value is so equal to one of the two memory
+capacities).
+When the OCTOSPI executes two commands, one immediately after the other, it raises the
+chip-select signal (NCS) high between the two commands for only one CLK cycle by default.
+If the external device requires more time between commands, the chip-select high time
+CSHT[5:0] can be used to specify the minimum number of CLK cycles for which the NCS
+must remain high.

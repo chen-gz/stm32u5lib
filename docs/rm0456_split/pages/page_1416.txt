@@ -1,0 +1,88 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Main features
+•
+
+Linearity: ±2 °C max., precision depending on calibration
+Figure 306. Temperature sensor and VREFINT channel block diagram
+VREFEN control bit
+VREFINT
++
+-
+
+VIN[0]
+
+converted data
+VSENSESEL
+control bit
+Temperature
+sensor
+
++
+-
+
+VSENSE
+
+Address/data bus
+
+Internal power
+block
+
+VIN[13]
+
+MSv62488V5
+
+Reading the temperature
+1.
+
+Select the input channel connected to VSENSE (refer to Table ADC interconnection in
+Section 34.4.2: ADC pins and internal signals).
+
+2.
+
+Select an appropriate sampling time specified in the device datasheet (TS_temp).
+
+3.
+
+Set the VSENSESEL bit in the ADC_CCR register to wake up the temperature sensor
+from power-down mode and wait for its stabilization time (tSTART).
+
+4.
+
+Start the ADC conversion by setting the ADSTART bit in the ADC_CR register (or by
+external trigger)
+
+5.
+
+Read the resulting VSENSE data in the ADC_DR register
+
+6.
+
+Calculate the temperature using the following formula
+
+TS_CAL2_TEMP – TS_CAL1_TEMP
+Temperature ( in °C ) = --------------------------------------------------------------------------------------------------- × ( TS_DATA – TS_CAL1 ) + TS_CAL1_TEMP
+TS_CAL2 – TS_CAL1
+
+Where:
+–
+
+TS_CAL2 is the temperature sensor calibration value acquired at
+TS_CAL2_TEMP.
+
+–
+
+TS_CAL1 is the temperature sensor calibration value acquired at
+TS_CAL1_TEMP.
+
+–
+
+TS_DATA is the actual temperature sensor output value converted by the ADC.
+
+Refer to Section 34.3: ADC implementation for more information on TS_CAL1 and
+TS_CAL2 calibration points.
+Note:

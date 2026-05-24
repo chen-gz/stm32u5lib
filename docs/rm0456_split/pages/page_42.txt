@@ -1,0 +1,105 @@
+90
+
+Contents
+
+RM0456
+
+39.6
+
+MDF interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1564
+
+39.7
+
+MDF application informations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1566
+
+39.8
+
+39.7.1
+
+MDF configuration examples for audio capture . . . . . . . . . . . . . . . . . 1566
+
+39.7.2
+
+Programming examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1567
+
+39.7.3
+
+Connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1569
+
+39.7.4
+
+Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1570
+
+39.7.5
+
+Total MDF gain . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1571
+
+MDF registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1575
+39.8.1
+
+MDF global control register (MDF_GCR) . . . . . . . . . . . . . . . . . . . . . 1576
+
+39.8.2
+
+MDF clock generator control register (MDF_CKGCR) . . . . . . . . . . . 1576
+
+39.8.3
+
+MDF serial interface control register x (MDF_SITFxCR) . . . . . . . . . . 1579
+
+39.8.4
+
+MDF bitstream matrix control register x (MDF_BSMXxCR) . . . . . . . 1580
+
+39.8.5
+
+MDF digital filter control register x (MDF_DFLTxCR) . . . . . . . . . . . . 1581
+
+39.8.6
+
+MDF digital filter configuration register x (MDF_DFLTxCICR) . . . . . . 1583
+
+39.8.7
+
+MDF reshape filter configuration register x (MDF_DFLTxRSFR) . . . 1584
+
+39.8.8
+
+MDF integrator configuration register x (MDF_DFLTxINTR) . . . . . . . 1585
+
+39.8.9
+
+MDF out-of limit detector control register x (MDF_OLDxCR) . . . . . . 1586
+
+39.8.10 MDF OLDx low threshold register x (MDF_OLDxTHLR) . . . . . . . . . . 1588
+39.8.11 MDF OLDx high threshold register x (MDF_OLDxTHHR) . . . . . . . . . 1588
+39.8.12 MDF delay control register x (MDF_DLYxCR) . . . . . . . . . . . . . . . . . . 1589
+39.8.13 MDF short circuit detector control register x (MDF_SCDxCR) . . . . . 1589
+39.8.14 MDF DFLT0 interrupt enable register 0 (MDF_DFLT0IER) . . . . . . . . 1590
+39.8.15 MDF DFLTx interrupt enable register x (MDF_DFLTxIER) . . . . . . . . 1592
+39.8.16 MDF DFLT0 interrupt status register 0 (MDF_DFLT0ISR) . . . . . . . . . 1593
+39.8.17 MDF DFLTx interrupt status register x (MDF_DFLTxISR) . . . . . . . . . 1595
+39.8.18 MDF offset error compensation control register x (MDF_OECxCR) . 1596
+39.8.19 MDF snapshot data register x (MDF_SNPSxDR) . . . . . . . . . . . . . . . 1597
+39.8.20 MDF digital filter data register x (MDF_DFLTxDR) . . . . . . . . . . . . . . 1597
+39.8.21 MDF register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1598
+
+40
+
+Audio digital filter (ADF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1600
+40.1
+
+ADF introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1600
+
+40.2
+
+ADF main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1600
+
+40.3
+
+ADF implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1601
+
+40.4
+
+ADF functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+40.4.1

@@ -1,0 +1,27 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+If the tearing effect interrupt enable (TEIE) bit of the DSI Wrapper interrupt enable register
+(DSI_WIER) is set, an interrupt is generated.
+
+Tearing effect through DSI link
+When the TESRC bit of the DSI Wrapper configuration register (DSI_WCFGR) is reset, the
+tearing effect is managed through the DSI link:
+The DSI Host performs a double bus turn-around (BTA) after sending the set_tear_on
+command granting the ownership of the link to the DSI display. The display holds the
+ownership of the bus until the tear event occurs, which is indicated to the DSI Host by a DPHY trigger event. The DSI Host then decodes the trigger and reports the event setting the
+tearing effect interrupt flag (TEIF) bit of the DSI Wrapper interrupt and status register
+(DSI_WISR).
+If the tearing effect interrupt enable (TEIE) bit of the DSI Wrapper interrupt enable register
+(DSI_WIER) is set, an interrupt is generated.
+To use this function, it is necessary to issue a set_tear_on command after the update of the
+display using the WMS and WMC DCS commands. This procedure halts the DSI link until
+the display is ready to receive a new frame update.
+The DSI Host does not automatically generate the tearing effect request (double BTA) after
+a WMS/WMC sequence for flexibility purposes, so several regions of the display can be
+updated improving DSI bandwidth usage. Tearing effect request must always be triggered
+by a set_tear_on command in the DSI Host implementation.
+Configure the following registers to activate the tearing effect:

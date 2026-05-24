@@ -1,0 +1,139 @@
+•
+
+receive interrupt MDF_FLTx_RX (mdf_fltx_rx_it)
+
+•
+
+event interrupt MDF_FLTx_EVT (mdf_fltx_evt_it)
+
+•
+
+a combination of both interrupts MDF_FLTx (mdf_fltx_it)
+
+Interrupts are not always connected to the device (see Section 39.3: MDF implementation
+for more details).
+The status flags are available even if the corresponding interrupt enable flag is not enabled.
+
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+The interrupt interface is controlled via the MDF DFLTx interrupt enable register x
+(MDF_DFLTxIER) and the MDF DFLTx interrupt status register x (MDF_DFLTxISR).
+Figure 356. MDF interrupt interface
+
+FTHIE
+
+clear
+snps_evtx
+
+dovr_evtx
+
+MDF
+
+FTHF
+
+fth_evtx
+
+Edge
+detector
+clear
+
+SSDRF
+
+OR
+
+mdf_fltx_rx_it (1)
+
+SSDRIE
+
+Edge
+detector
+
+DOVRF
+DOVRIE
+
+clear
+snpsovr_evtx
+
+Edge
+detector
+
+SSOVRF
+SSOVRIE
+
+clear
+rfovr_evtx
+
+Edge
+detector
+
+mdf_fltx_it
+
+RFOVRF
+RFOVRIE
+
+clear
+
+old_thlx
+
+scd_evtx
+
+sat_evtx
+
+ckab_evtx
+
+OLDIE
+
+Edge
+detector
+
+THHF
+
+OLDF
+
+Edge
+detector
+clear
+Edge
+detector
+clear
+Edge
+detector
+clear
+
+OR
+
+THLF
+mdf_fltx_evt_it (1)
+SCDF
+
+read
+
+old_thhx
+
+Edge
+detector
+
+write
+
+old_evtx
+
+Edge
+detector
+
+MDF_DFLTxISR
+
+SCDIE
+SATF
+SATIE
+CKABF
+CKABIE
+MDF_DFLTxIER
+
+(1) Not always implemented. Refer to the vector table of the product for details.
+
+RM0456 Rev 6
+
+MSv63600V2

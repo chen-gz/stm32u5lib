@@ -1,0 +1,96 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+The flash memory is protected according to the RDP option byte value shown
+in the table below.
+Table 64. Flash memory readout protection status (TZEN = 0)
+
+•
+
+RDP byte value
+
+Readout protection level
+
+0xAA
+
+Level 0
+
+Any value except 0xAA or 0xCC
+
+Level 1
+
+0xCC
+
+Level 2
+
+Level 0: no protection
+Read, program and erase operations into the flash main memory area are possible.
+The option bytes, the SRAMs and the backup registers are also accessible by all
+operations.
+
+•
+
+Level 1: readout protection
+When the readout protection level 1 is set:
+
+•
+
+–
+
+User mode: code executing in user mode (boot flash) can access the flash main
+memory, option bytes, SRAMs and backup registers with all operations (read,
+erase, program).
+
+–
+
+Debug, boot RAM, and bootloader modes: in debug mode or when the MCU
+boots from RAM or system memory, the flash main memory, backup registers, the
+backup RAM, and the SRAM2 are totally inaccessible: any read or write access
+to the flash main memory generates a bus error and a HardFault interrupt.
+The on-the-fly decryption region (OTFDEC on OCTOSPI) is read as zero.
+
+Level 2: no debug
+When the readout protection level 2 is set:
+–
+
+The protection level 1 is guaranteed.
+
+–
+
+All debug features are disabled:
+. if OEM2 key has not been provided, JTAG and SWD are definitively disabled.
+. if OEM2 key has been provided under a lower RDP protection, JTAG and SWD
+remain enabled under reset only to interface with DBGMCU_SR,
+DBGMCU_DBG_AUTH_HOST and DBGMCU_DBG_AUTH_DEVICE registers to
+obtain device identification and provide OEM2 key to request RDP regression.
+
+Note:
+
+–
+
+The boot from SRAM (boot RAM mode) and the boot from system memory
+(bootloader mode) are no longer available.
+
+–
+
+Only boot from main flash memory is possible; all operations are allowed on the
+flash main memory. Read, erase and program accesses to the flash memory and
+SRAMs from user code are allowed.
+
+–
+
+Option bytes cannot be programmed nor erased except the SWAP_BANK option
+bit. Thus, the level 2 cannot be removed: it is an irreversible operation unless
+an OEM2 key has been provisioned (refer to OEM2 RDP lock mechanism).
+
+The debug feature is also disabled under reset.
+STMicroelectronics is not able to perform analysis on defective parts on which the level 2
+protection has been set. Regress parts to RDP level 1 before returning them for analysis
+(refer to OEM2 RDP lock mechanism).
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

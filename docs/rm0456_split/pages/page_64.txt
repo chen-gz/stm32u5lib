@@ -1,0 +1,72 @@
+90
+
+Contents
+
+RM0456
+56.7.13 TIM15 repetition counter register (TIM15_RCR) . . . . . . . . . . . . . . . . 2416
+56.7.14 TIM15 capture/compare register 1 (TIM15_CCR1) . . . . . . . . . . . . . . 2417
+56.7.15 TIM15 capture/compare register 2 (TIM15_CCR2) . . . . . . . . . . . . . . 2418
+56.7.16 TIM15 break and dead-time register (TIM15_BDTR) . . . . . . . . . . . . 2418
+56.7.17 TIM15 timer deadtime register 2 (TIM15_DTR2) . . . . . . . . . . . . . . . . 2421
+56.7.18 TIM15 input selection register (TIM15_TISEL) . . . . . . . . . . . . . . . . . 2422
+56.7.19 TIM15 alternate function register 1 (TIM15_AF1) . . . . . . . . . . . . . . . 2423
+56.7.20 TIM15 alternate function register 2 (TIM15_AF2) . . . . . . . . . . . . . . . 2425
+56.7.21 TIM15 DMA control register (TIM15_DCR) . . . . . . . . . . . . . . . . . . . . 2426
+56.7.22 TIM15 DMA address for full transfer (TIM15_DMAR) . . . . . . . . . . . . 2427
+56.7.23 TIM15 register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2427
+
+56.8
+
+TIM16/TIM17 registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2430
+56.8.1
+
+TIMx control register 1 (TIMx_CR1)(x = 16 to 17) . . . . . . . . . . . . . . . 2430
+
+56.8.2
+
+TIMx control register 2 (TIMx_CR2)(x = 16 to 17) . . . . . . . . . . . . . . . 2431
+
+56.8.3
+
+TIMx DMA/interrupt enable register (TIMx_DIER)(x = 16 to 17) . . . . 2432
+
+56.8.4
+
+TIMx status register (TIMx_SR)(x = 16 to 17) . . . . . . . . . . . . . . . . . . 2433
+
+56.8.5
+
+TIMx event generation register (TIMx_EGR)(x = 16 to 17) . . . . . . . . 2434
+
+56.8.6
+
+TIMx capture/compare mode register 1 (TIMx_CCMR1)
+(x = 16 to 17) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2435
+
+56.8.7
+
+TIMx capture/compare mode register 1 [alternate]
+(TIMx_CCMR1)(x = 16 to 17) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2436
+
+56.8.8
+
+TIMx capture/compare enable register (TIMx_CCER)(x = 16 to 17) . 2438
+
+56.8.9
+
+TIMx counter (TIMx_CNT)(x = 16 to 17) . . . . . . . . . . . . . . . . . . . . . . 2441
+
+56.8.10 TIMx prescaler (TIMx_PSC)(x = 16 to 17) . . . . . . . . . . . . . . . . . . . . . 2441
+56.8.11 TIMx auto-reautoreload register (TIMx_ARR)(x = 16 to 17) . . . . . . . 2442
+56.8.12 TIMx repetition counter register (TIMx_RCR)(x = 16 to 17) . . . . . . . . 2442
+56.8.13 TIMx capture/compare register 1 (TIMx_CCR1)(x = 16 to 17) . . . . . 2443
+56.8.14 TIMx break and dead-time register (TIMx_BDTR)(x = 16 to 17) . . . . 2444
+56.8.15 TIMx timer deadtime register 2 (TIMx_DTR2)(x = 16 to 17) . . . . . . . 2447
+56.8.16 TIMx input selection register (TIMx_TISEL)(x = 16 to 17) . . . . . . . . . 2448
+56.8.17 TIMx alternate function register 1 (TIMx_AF1)(x = 16 to 17) . . . . . . . 2448
+56.8.18 TIMx alternate function register 2 (TIMx_AF2)(x = 16 to 17) . . . . . . . 2451
+56.8.19 TIMx option register 1 (TIMx_OR1)(x = 16 to 17) . . . . . . . . . . . . . . . 2451
+56.8.20 TIMx DMA control register (TIMx_DCR)(x = 16 to 17) . . . . . . . . . . . . 2452
+56.8.21 TIM16/TIM17 DMA address for full transfer
+(TIMx_DMAR)(x = 16 to 17) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2453
+56.8.22 TIM16/TIM17 register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2454

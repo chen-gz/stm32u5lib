@@ -1,0 +1,54 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 11 MSIKRDYF: MSIK ready interrupt flag
+This bit is set by hardware when the MSIK clock becomes stable and MSIKRDYIE is set. It is
+cleared by software by setting the MSIKRDYC bit.
+0: No clock ready interrupt caused by the MSIK oscillator
+1: Clock ready interrupt caused by the MSIK oscillator
+Bit 10 CSSF: Clock security system interrupt flag
+This bit is set by hardware when a failure is detected in the HSE oscillator. It is cleared by
+software by setting the CSSC bit.
+0: No clock security interrupt caused by HSE clock failure
+1: Clock security interrupt caused by HSE clock failure
+Bit 9 Reserved, must be kept at reset value.
+Bit 8 PLL3RDYF: PLL3 ready interrupt flag
+This bit is set by hardware when the PLL3 locks and PLL3RDYIE is set. It is cleared by
+software by setting the PLL3RDYC bit.
+0: No clock ready interrupt caused by PLL3 lock
+1: Clock ready interrupt caused by PLL3 lock
+Bit 7 PLL2RDYF: PLL2 ready interrupt flag
+This bit is set by hardware when the PLL2 locks and PLL2RDYIE is set. It is cleared by
+software by setting the PLL2RDYC bit.
+0: No clock ready interrupt caused by PLL2 lock
+1: Clock ready interrupt caused by PLL2 lock
+Bit 6 PLL1RDYF: PLL1 ready interrupt flag
+This bit is set by hardware when the PLL1 locks and PLL1RDYIE is set. It is cleared by
+software by setting the PLL1RDYC bit.
+0: No clock ready interrupt caused by PLL1 lock
+1: Clock ready interrupt caused by PLL1 lock
+Bit 5 HSI48RDYF: HSI48 ready interrupt flag
+This bit is set by hardware when the HSI48 clock becomes stable and HSI48RDYIE is set.
+it is cleared by software by setting the HSI48RDYC bit.
+0: No clock ready interrupt caused by the HSI48 oscillator
+1: Clock ready interrupt caused by the HSI48 oscillator
+Bit 4 HSERDYF: HSE ready interrupt flag
+This bit is set by hardware when the HSE clock becomes stable and HSERDYIE is set. It is
+cleared by software by setting the HSERDYC bit.
+0: No clock ready interrupt caused by the HSE oscillator
+1: Clock ready interrupt caused by the HSE oscillator
+Bit 3 HSIRDYF: HSI16 ready interrupt flag
+This bit is set by hardware when the HSI16 clock becomes stable and HSIRDYIE = 1
+in response to setting the HSION (see RCC_CR). When HSION = 0 but the HSI16 oscillator
+is enabled by the peripheral through a clock request, this bit is not set and no interrupt is
+generated. This bit is cleared by software by setting the HSIRDYC bit.
+0: No clock ready interrupt caused by the HSI16 oscillator
+1: Clock ready interrupt caused by the HSI16 oscillator
+Bit 2 MSISRDYF: MSIS ready interrupt flag
+This bit is set by hardware when the MSIS clock becomes stable and MSISRDYIE is set.
+It is cleared by software by setting the MSISRDYC bit.
+0: No clock ready interrupt caused by the MSIS oscillator
+1: Clock ready interrupt caused by the MSIS oscillator

@@ -1,0 +1,73 @@
+RM0456 Rev 6
+
+RM0456
+
+Nested vectored interrupt controller (NVIC)
+
+22
+
+Nested vectored interrupt controller (NVIC)
+
+22.1
+
+NVIC main features
+•
+
+Up to 140 maskable interrupt channels (not including the 16 Cortex-M33
+with FPU interrupt lines)
+
+•
+
+16 programmable priority levels (4 bits of interrupt priority used)
+
+•
+
+Low-latency exception and interrupt handling
+
+•
+
+Power management control
+
+•
+
+Implementation of system control registers
+
+The NVIC and the processor core interface are closely coupled, enabling low-latency
+interrupt processing and efficient processing of late arriving interrupts.
+The NVIC registers are banked across secure and nonsecure states.
+All interrupts including the core exceptions are managed by the NVIC.
+
+22.2
+
+SysTick calibration value register
+The Cortex-M33 with TrustZone mainline security extension embeds two SysTick timers.
+When TrustZone is activated, the following SysTick timers are available:
+•
+
+SysTick secure instance
+
+•
+
+SysTick nonsecure instance
+
+When TrustZone is disabled, only one SysTick timer is available.
+The SysTick timer calibration value (STCALIB) is 0x3E8. It gives a reference time base of
+1 ms based on a SysTick clock frequency of 1 MHz. In order to match the 1 ms time base
+for an application running at a given frequency, the SysTick reload value must be
+programmed as follows in the SYST_RVR register:
+•
+
+When SysTick clock source is CPU clock HCLK
+reload value = (HCLK x STCALIB) - 1
+
+•
+
+When SysTick clock source is external clock (HCLK/8)
+reload value = ((HCLK/8) x STCALIB) - 1
+
+The HCLK refers to the AHB frequency value in MHz.
+Example: SysTick clock source is CPU clock HCLK of 100 MHz, to match a time base
+of 1 ms:
+SysTick reload value = (100 x STCALIB) - 1 = 0x1869F
+
+RM0456 Rev 6

@@ -1,0 +1,52 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Figure 805. Transfer sequence flow for SMBus target receiver N bytes + PEC
+SMBus target
+reception
+
+Target initialization
+
+No
+I2C_ISR.ADDR
+= 1?
+Yes
+Read ADDCODE and DIR in I2C_ISR
+I2C_CR2.NBYTES = 1, RELOAD = 1
+PECBYTE = 1
+Set I2C_ICR.ADDRCF
+
+I2C_ISR.RXNE =1?
+I2C_ISR.TCR = 1?
+
+SCL
+stretched
+
+No
+
+Yes
+Read I2C_RXDR.RXDATA
+Program I2C_CR2.NACK = 0
+I2C_CR2.NBYTES = 1
+N=N-1
+
+N = 1?
+
+No
+
+Yes
+Read I2C_RXDR.RXDATA
+Program RELOAD = 0
+NACK = 0 and NBYTES = 1
+
+No
+I2C_ISR.RXNE
+= 1?
+Yes
+Read I2C_RXDR.RXDATA
+
+End
+MSv19868V3

@@ -1,0 +1,135 @@
+Low-power universal asynchronous receiver
+transmitter (LPUART) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2846
+67.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2846
+
+67.2
+
+LPUART main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2846
+
+67.3
+
+LPUART implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2847
+
+67.4
+
+LPUART functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2849
+67.4.1
+
+LPUART block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2849
+
+67.4.2
+
+LPUART pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 2850
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+67.4.3
+
+LPUART clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2852
+
+67.4.4
+
+LPUART character description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2852
+
+67.4.5
+
+LPUART FIFOs and thresholds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2854
+
+67.4.6
+
+LPUART transmitter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2854
+
+67.4.7
+
+LPUART receiver . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2858
+
+67.4.8
+
+LPUART baud rate generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2862
+
+67.4.9
+
+Tolerance of the LPUART receiver to clock deviation . . . . . . . . . . . . 2863
+
+67.4.10 LPUART multiprocessor communication . . . . . . . . . . . . . . . . . . . . . . 2864
+67.4.11 LPUART parity control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2866
+67.4.12 LPUART single-wire half-duplex communication . . . . . . . . . . . . . . . . 2867
+67.4.13 Continuous communication using DMA and LPUART . . . . . . . . . . . . 2867
+67.4.14 RS232 hardware flow control and RS485 driver enable . . . . . . . . . . 2870
+67.4.15 LPUART autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2872
+
+67.5
+
+LPUART in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2874
+
+67.6
+
+LPUART interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2875
+
+67.7
+
+LPUART registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2876
+67.7.1
+
+LPUART control register 1 (LPUART_CR1) . . . . . . . . . . . . . . . . . . . 2876
+
+67.7.2
+
+LPUART control register 1 [alternate] (LPUART_CR1) . . . . . . . . . . . 2879
+
+67.7.3
+
+LPUART control register 2 (LPUART_CR2) . . . . . . . . . . . . . . . . . . . 2882
+
+67.7.4
+
+LPUART control register 3 (LPUART_CR3) . . . . . . . . . . . . . . . . . . . 2884
+
+67.7.5
+
+LPUART control register 3 [alternate] (LPUART_CR3) . . . . . . . . . . . 2886
+
+67.7.6
+
+LPUART baud rate register (LPUART_BRR) . . . . . . . . . . . . . . . . . . 2888
+
+67.7.7
+
+LPUART request register (LPUART_RQR) . . . . . . . . . . . . . . . . . . . . 2888
+
+67.7.8
+
+LPUART interrupt and status register (LPUART_ISR) . . . . . . . . . . . 2889
+
+67.7.9
+
+LPUART interrupt and status register [alternate] (LPUART_ISR) . . . 2894
+
+67.7.10 LPUART interrupt flag clear register (LPUART_ICR) . . . . . . . . . . . . 2897
+67.7.11 LPUART receive data register (LPUART_RDR) . . . . . . . . . . . . . . . . 2898
+67.7.12 LPUART transmit data register (LPUART_TDR) . . . . . . . . . . . . . . . . 2898
+67.7.13 LPUART prescaler register (LPUART_PRESC) . . . . . . . . . . . . . . . . 2899
+67.7.14 LPUART autonomous mode control register (LPUART_AUTOCR) . . 2900
+67.7.15 LPUART register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2900
+
+68
+
+Serial peripheral interface (SPI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2903
+68.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2903
+
+68.2
+
+SPI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2903
+
+68.3
+
+SPI implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2904
+
+RM0456 Rev 6

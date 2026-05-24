@@ -1,0 +1,215 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bit 2 TAMP3MF: TAMP3 secure interrupt masked flag
+This flag is set by hardware when the tamper 3 secure interrupt is raised.
+Bit 1 TAMP2MF: TAMP2 secure interrupt masked flag
+This flag is set by hardware when the tamper 2 secure interrupt is raised.
+Bit 0 TAMP1MF: TAMP1 secure interrupt masked flag
+This flag is set by hardware when the tamper 1 secure interrupt is raised.
+
+64.7.15
+
+TAMP status clear register (TAMP_SCR)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x3C
+System reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+C
+ITAMP
+12F
+
+C
+ITAMP
+11F
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+C
+ITAMP
+9F
+
+C
+ITAMP
+8F
+
+C
+ITAMP
+7F
+
+C
+ITAMP
+6F
+
+C
+ITAMP
+5F
+
+Res.
+
+Res.
+
+Res.
+
+C
+ITAMP
+13F
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+C
+ITAMP
+3F
+
+C
+ITAMP
+2F
+
+C
+ITAMP
+1F
+
+w
+
+w
+
+w
+
+2
+
+1
+
+0
+
+3
+
+CTAMP CTAMP CTAMP CTAMP CTAMP CTAMP CTAMP CTAMP
+8F
+7F
+6F
+5F
+4F
+3F
+2F
+1F
+w
+
+w
+
+w
+
+w
+
+w
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 Reserved, must be kept at reset value.
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 CITAMP13F: Clear ITAMP13 detection flag
+Writing 1 in this bit clears the ITAMP13F bit in the TAMP_SR register.
+Bit 27 CITAMP12F: Clear ITAMP12 detection flag
+Writing 1 in this bit clears the ITAMP12F bit in the TAMP_SR register.
+Bit 26 CITAMP11F: Clear ITAMP11 detection flag
+Writing 1 in this bit clears the ITAMP11F bit in the TAMP_SR register.
+Bit 25 Reserved, must be kept at reset value.
+Bit 24 CITAMP9F: Clear ITAMP9 detection flag
+Writing 1 in this bit clears the ITAMP9F bit in the TAMP_SR register.
+Bit 23 CITAMP8F: Clear ITAMP8 detection flag
+Writing 1 in this bit clears the ITAMP8F bit in the TAMP_SR register.
+Bit 22 CITAMP7F: Clear ITAMP7 detection flag
+Writing 1 in this bit clears the ITAMP7F bit in the TAMP_SR register.
+Bit 21 CITAMP6F: Clear ITAMP6 detection flag
+Writing 1 in this bit clears the ITAMP6F bit in the TAMP_SR register.

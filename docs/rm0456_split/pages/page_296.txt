@@ -1,0 +1,64 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+The flash memory supports a low-power read mode when setting LPM in FLASH_ACR.
+The table below shows the correspondence between wait states and CPU clock frequency
+when LPM bit is set.
+Table 55. Number of wait states according to CPU clock (HCLK) frequency (LPM = 1)
+HCLK (MHz)
+
+Wait states (WS)
+(latency)
+
+VCORE range 1/2/3
+
+VCORE range 4
+
+0 WS (1 CPU cycle)
+
+≤8
+
+1 WS (2 CPU cycles)
+
+≤ 16
+
+2 WS (3 CPU cycles)
+3 WS (4 CPU cycles)
+
+WS ≥ HCLK (MHz) / 10 -1
+Maximum HCLK frequency is given by Table 54
+
+≤ 25
+-
+
+...
+
+-
+
+15 WS (16 CPU cycles)
+
+-
+
+After reset, the CPU clock frequency is 4 MHz, 0 wait state (WS) is configured
+in FLASH_ACR and the normal read mode is selected (LPM = 0).
+
+Instruction prefetch
+The Cortex-M33 fetches instructions and literal pools (constants/data) over the C-Bus and
+through the instruction cache if it is enabled. The prefetch block aims at increasing the
+efficiency of C-Bus accesses in case the instruction cache is enabled by reducing the cache
+refill latency. Prefetch is efficient in case of sequential code; prefetch in the flash memory
+allows the next sequential instruction line to be read from the flash memory while the current
+instruction line is being filled in instruction cache and executed by the CPU.
+Prefetch is enabled by setting PRFTEN in FLASH_ACR. PRFTEN must be set only if at
+least one wait state is needed to access the flash memory.
+Note:
+
+Prefetch tends to increase the code execution performance at the cost extra flash memory
+accesses. It must be used carefully in low-power applications.
+When changing the CPU frequency, the software sequences detailed below must be applied
+in order to tune the number of wait states needed to access the flash memory.
+
+Increase the CPU frequency

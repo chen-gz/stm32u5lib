@@ -1,0 +1,129 @@
+RM0456 Rev 6
+
+RM0456
+
+44.3
+
+DSI Host (DSI)
+
+DSI Host main features
+•
+
+Compliant with MIPI® Alliance standards (see Section 44.2)
+
+•
+
+Interface with MIPI® D-PHY
+
+•
+
+Supports all commands defined in the MIPI® Alliance specification for DCS:
+–
+
+Transmission of all command mode packets through the APB interface
+
+–
+
+Transmission of commands in low-power and high-speed during video mode
+
+•
+
+Supports up to two D-PHY data lanes
+
+•
+
+Bidirectional communication and escape mode support through Data lane 0
+
+•
+
+Supports non continuous clock in D-PHY clock lane for additional power saving
+
+•
+
+Supports ultra low-power mode with PLL disabled
+
+•
+
+ECC and checksum capabilities
+
+•
+
+Support for end of transmission packet (EoTp)
+
+•
+
+Fault recovery schemes
+
+•
+
+Configurable selection of system interfaces:
+
+•
+
+–
+
+AMBA APB for control and optional support for generic and DCS commands
+
+–
+
+Video mode interface through LTDC
+
+–
+
+Adapted command mode interface through LTDC
+
+–
+
+Independently programmable virtual channel ID in video mode, adapted command
+mode, and APB register interface
+
+Video mode interfaces features:
+–
+
+LTDC interface color coding mappings into 24-bit interface:
+•16-bit RGB, configurations 1, 2, and 3
+•18-bit RGB, configurations 1 and 2
+•24-bit RGB
+
+–
+
+Extended resolutions beyond the DPI standard maximum resolution of 800x480
+pixels
+
+–
+
+Maximum resolution is limited by available DSI physical link bandwidth:
+•Number of lanes: 2
+•Maximum speed per lane: 500 Mbit/s
+•See examples in Section 44.4.3
+
+•
+
+Adapted interface features:
+–
+
+Support for sending large amounts of data through the memory_write_start (WMS)
+and memory_write_continue (WMC) DCS commands
+
+–
+
+LTDC interface color coding mappings into 24-bit interface:
+•16-bit RGB, configurations 1, 2, and 3
+•18-bit RGB, configurations 1 and 2
+•24-bit RGB
+
+•
+
+Video mode pattern generator:
+–
+
+Vertical and horizontal color bar generation without LTDC stimuli
+
+–
+
+BER pattern without LTDC stimuli
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,86 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+The main features are:
+•
+
+Each filter element can be configured as
+–
+
+Range filter (from - to)
+
+–
+
+Filter for one or two dedicated IDs
+
+–
+
+Classic bit mask filter
+
+•
+
+Each filter element is configurable for acceptance or rejection filtering.
+
+•
+
+Each filter element can be enabled/disabled individually.
+
+•
+
+Filters are checked sequentially, execution stops with the first matching filter element
+
+Related configuration registers are:
+•
+
+Global filter configuration (RXGFC)
+
+•
+
+Extended ID AND mask (XIDAM)
+
+Depending on the configuration of the filter element (SFEC[2:0]/EFEC[2:0]), a match
+triggers one of the following actions:
+•
+
+Store received frame in FIFO 0 or FIFO 1
+
+•
+
+Reject received frame
+
+•
+
+Set the high priority message interrupt flag HPM in FDCAN_IR
+
+•
+
+Set the high priority message interrupt flag HPM in FDCAN_IR, and store the received
+frame in FIFO 0 or FIFO 1.
+
+Acceptance filtering is started after the complete identifier has been received. After
+acceptance filtering has completed, and if a matching Rx FIFO has been found, the
+message handler starts writing the received message data in 32-bit portions to the matching
+Rx FIFO. If the CAN protocol controller has detected an error condition (for example, CRC
+error), this message is discarded with the following impact:
+•
+
+Rx FIFO
+The put index of the matching Rx FIFO is not updated, but the related Rx FIFO element
+is partly overwritten with the received data. For error type, see LEC[2:0] and DLEC[2:0]
+bitfields of the FDCAN_PSR register. In case the matching Rx FIFO is operated in
+overwrite mode, the boundary conditions described in Rx FIFO overwrite mode have to
+be considered.
+
+Note:
+
+When an accepted message is written to one of the two Rx FIFOs, the unmodified received
+identifier is stored independently from the used filters. The result of the acceptance filter
+process strongly depends on the sequence of configured filter elements.
+
+Range filter
+The filter matches for all received frames with message IDs in the range defined by
+SF1ID/SF2ID and EF1ID/EF2ID.
+There are two possibilities when range filtering is used together with extended frames:

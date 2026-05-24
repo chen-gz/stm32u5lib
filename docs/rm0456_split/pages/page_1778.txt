@@ -1,0 +1,8 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+Figure 439. Vertical color bar mode
+
+Figure 440. Horizontal color bar mode

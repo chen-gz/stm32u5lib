@@ -1,0 +1,76 @@
+2474
+
+Basic timers (TIM6/TIM7)
+
+57.3.7
+
+RM0456
+
+ADC triggers
+The timer can generate an ADC triggering event with various internal signals, such as reset,
+enable or compare events.
+
+Note:
+
+The clock of the slave peripherals (such as timer, ADC) receiving the tim_trgo signal must
+be enabled prior to receiving events from the master timer, and the clock frequency
+(prescaler) must not be changed on-the-fly while triggers are received from the master
+timer.
+
+57.3.8
+
+TIM6/TIM7 DMA requests
+The TIM6/TIM7 can generate a single DMA request, as shown in Table 595.
+Table 595. DMA request
+DMA acronym
+
+DMA request
+
+Enable control bit
+
+Update
+
+UDE
+
+tim_upd_dma
+
+57.3.9
+
+Debug mode
+When the microcontroller enters debug mode (Cortex®-M33 core halted), the TIMx counter
+can either continue to work normally or be stopped.
+The behavior in debug mode can be programmed with a dedicated configuration bit per
+timer in the Debug support (DBG) module.
+For more details, refer to section Debug support (DBG).
+
+57.3.10
+
+TIM6/TIM7 low-power modes
+Table 596. Effect of low-power modes on TIM6/TIM7
+Mode
+
+57.3.11
+
+Description
+
+Sleep
+
+No effect, peripheral is active. The interrupts can cause the device to exit from Sleep
+mode.
+
+Stop
+
+The timer operation is stopped and the register content is kept. No interrupt can be
+generated.
+
+Standby
+
+The timer is powered-down and must be reinitialized after exiting the Standby mode.
+
+TIM6/TIM7 interrupts
+The TIM6/TIM7 can generate a single interrupt, as shown in Table 597.
+Table 597. Interrupt request
+Interrupt
+acronym
+TIM6
+TIM7

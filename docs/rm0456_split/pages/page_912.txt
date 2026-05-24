@@ -1,0 +1,312 @@
+917
+
+Nested vectored interrupt controller (NVIC)
+
+22.3
+
+RM0456
+
+Interrupt and exception vectors
+The grey rows in the table below describe the vectors without specific position.
+
+Position
+
+Priority
+
+Table 187. STM32U5 series vector table(1)
+Type of
+priority
+
+-
+
+-
+
+-
+
+-
+
+-4
+
+Fixed
+
+-
+
+-2
+
+-
+
+Acronym
+
+-
+
+Description
+
+Address
+
+Reserved
+
+0x0000 0000
+
+Reset
+
+Reset
+
+0x0000 0004
+
+Fixed
+
+NMI
+
+Non maskable interrupt. The RCC clock security
+system (CSS) is linked to the NMI vector.
+
+0x0000 0008
+
+-3
+or
+-1
+
+Fixed
+
+Secure HardFault
+
+Secure HardFault
+
+0x0000 000C
+
+-
+
+-1
+
+Fixed
+
+Nonsecure HardFault
+
+Nonsecure HardFault, all classes of fault
+
+0x0000 000C
+
+-
+
+0
+
+Settable MemManage
+
+Memory management
+
+0x0000 0010
+
+-
+
+1
+
+Settable BusFault
+
+Pre-fetch fault, memory access fault
+
+0x0000 0014
+
+-
+
+2
+
+Settable UsageFault
+
+Undefined instruction or illegal state
+
+0x0000 0018
+
+-
+
+3
+
+Settable SecureFault
+
+Secure fault
+
+0x0000 001C
+
+-
+
+-
+
+-
+
+Reserved
+
+0x0000 0020 0x0000 0028
+
+-
+
+4
+
+-
+
+SVC
+
+System service call via SWI instruction
+
+0x0000 002C
+
+-
+
+5
+
+-
+
+Debug Monitor
+
+Debug monitor
+
+0x0000 0030
+
+-
+
+-
+
+-
+
+Reserved
+
+0x0000 0034
+
+-
+
+6
+
+Settable PendSV
+
+Pendable request for system service
+
+0x0000 0038
+
+-
+
+7
+
+Settable SysTick
+
+System tick timer
+
+0x0000 003C
+
+0
+
+8
+
+Settable WWDG
+
+Window watchdog interrupt
+
+0x0000 0040
+
+1
+
+9
+
+Settable PVD_PVM
+
+Programmable voltage detector/peripheral voltage
+monitor
+
+0x0000 0044
+
+2
+
+10
+
+Settable RTC
+
+RTC global nonsecure interrupts
+
+0x0000 0048
+
+3
+
+11
+
+Settable RTC_S
+
+RTC global secure interrupts
+
+0x0000 004C
+
+4
+
+12
+
+Settable TAMP
+
+Tamper global interrupts
+
+0x0000 0050
+
+5
+
+13
+
+Settable RAMCFG
+
+RAM configuration global interrupt
+
+0x0000 0054
+
+6
+
+14
+
+Settable FLASH
+
+Flash memory nonsecure global interrupt
+
+0x0000 0058
+
+7
+
+15
+
+Settable FLASH_S
+
+Flash memory secure global interrupt
+
+0x0000 005C
+
+8
+
+16
+
+Settable GTZC
+
+GTZC1/GTZC2 global interrupt
+
+0x0000 0060
+
+9
+
+17
+
+Settable RCC
+
+RCC nonsecure global interrupt
+
+0x0000 0064
+
+10
+
+18
+
+Settable RCC_S
+
+RCC secure global interrupt
+
+0x0000 0068
+
+11
+
+19
+
+Settable EXTI0
+
+EXTI Line0 interrupt
+
+0x0000 006C

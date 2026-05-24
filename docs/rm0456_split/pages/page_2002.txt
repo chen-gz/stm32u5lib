@@ -1,0 +1,58 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+Bits 30:28 KEYSEL[2:0]: Key selection
+The bitfield defines the source of the key information to use in the AES cryptographic core.
+000: Software key, loaded in key registers SAES_KEYx
+001: Derived hardware unique key (DHUK)
+010: Boot hardware key (BHK)
+100: XOR of DHUK and BHK
+111: Test mode key (256-bit hardware constant 0xA5A5...A5A5)
+Others: Reserved (if used, unfreeze SAES with IPRST)
+When KEYSEL is different from zero, selected key value is available in key registers when BUSY bit
+is cleared and KEYVALID is set in the SAES_SR register. Otherwise, the key error flag KEIF is set.
+Repeated writing of KEYSEL[2:0] with the same non-zero value only triggers the loading of DHUK or
+BHK if KEYVALID = 0.
+When the application software changes the key selection by writing the KEYSEL[2:0] bitfield, the
+key registers are immediately erased and the KEYVALID flag cleared.
+At the end of the decryption process, if KMOD[1:0] is other than zero, KEYSEL[2:0] is cleared.
+With the bitfield value other than zero and KEYVALID set, the application cannot transfer the
+ownership of SAES with a loaded key to an application running in another security context (such as
+secure, nonsecure). More specifically, when security of an access to any register does not match
+the information recorded by SAES, the KEIF flag is set.
+Attempts to write the bitfield are ignored when the BUSY flag of SAES_SR register is set, as well as
+when the EN bit of the SAES_CR register is set before the write access and it is not cleared by that
+write access.
+Bits 27:26 KSHAREID[1:0]: Key share identification
+This bitfield defines, at the end of a decryption process with KMOD[1:0] = 10 (shared key), which
+target can read the SAES key registers using a dedicated hardware bus.
+00: AES peripheral
+Others: Reserved
+Attempts to write the bitfield are ignored when the BUSY flag of SAES_SR register is set, as well as
+when the EN bit of the SAES_CR register is set before the write access and it is not cleared by that
+write access.
+Bits 25:24 KMOD[1:0]: Key mode selection
+The bitfield defines how the SAES key can be used by the application:
+00: Normal key
+01: Wrapped key
+10: Shared key
+Others: Reserved
+With normal key selection, the key registers are freely usable, no specific usage or protection
+applies to SAES_DIN and SAES_DOUT registers.
+With wrapped key selection, the key loaded in key registers can only be used to encrypt or decrypt
+AES keys. Hence, when a decryption is selected in Wrapped-key mode read-as-zero SAES_DOUT
+register is automatically loaded into SAES key registers after a successful decryption process.
+With shared key selection, after a successful decryption process, SAES key registers are shared
+with the peripheral described in KSHAREID(1:0] bitfield. This sharing is valid only while
+KMOD[1:0] = 10 and KEYVALID = 1. When a decryption is selected, read-as-zero SAES_DOUT
+register is automatically loaded into SAES key registers after a successful decryption process.
+With KMOD[1:0] other than zero, any attempt to configure the SAES peripheral for use by an
+application belonging to a different security domain (secure or nonsecure) results in automatic key
+erasure and setting of the KEIF flag.
+Attempts to write the bitfield are ignored when the BUSY flag of SAES_SR register is set, as well as
+when the EN bit of the SAES_CR register is set before the write access and it is not cleared by that
+write access.
+Bits 23:20 Reserved, must be kept at reset value.

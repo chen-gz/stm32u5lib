@@ -1,0 +1,75 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+In addition, the power consumption in Run mode can be reduced by one of the following
+means:
+•
+
+Slowing down the system clocks and configuring voltage scaling to lower-power
+ranges.
+
+•
+
+Gating the clocks to the APB and AHB peripherals when they are unused.
+
+•
+
+Powering off unused RAMs
+
+When a SRAM has been powered off, it can be powered on again by following the
+procedure:
+1.
+
+Reset SRAMxPD in PWR_CR1.
+
+2.
+
+Wait for 1.6 µs.
+
+3.
+
+Set SRAMxEN in RCC_AHBxENR.
+
+Debug mode
+By default, the debug connection is lost if the application puts the MCU in Stop 0, Stop 1,
+Stop 2, Stop 3, Standby, or Shutdown mode while the debug features are used. This is due
+to the fact that the Cortex-M33 core is no longer clocked.
+However, by setting some configuration bits in the DBGMCU control registers, the software
+can be debugged even when using the low-power modes extensively. For more details,
+refer to Section 75.2.5: Debug and low-power modes.
+
+10.7.2
+
+Autonomous peripherals and low-power background autonomous
+mode (LPBAM)
+Several peripherals support the autonomous mode which allows it to be functional and
+perform DMA transfers in Stop 0, Stop 1, and Stop 2 modes. In addition, the low-power
+background autonomous mode (LPBAM) is supported in Stop 2 mode, allowing to build
+more complex use cases with autonomous peripherals, without any CPU wake-up thanks to
+DMA transfers.
+
+Stop 0 and Stop 1 modes
+In Stop 0 and Stop 1 modes, the autonomous peripherals are ADC4, DAC1, LPTIMx
+(x = 1 to 4), USARTx (x = 1 to 6), LPUART1, SPIx (x = 1 to 3), I2Cx (x = 1 to 6), MDF1,
+ADF1, GPDMA1 and LPDMA1:
+•
+
+ADC4, DAC1, LPTIM1, LPTIM3, LPUART1, SPI3, I2C3 and ADF1 are autonomous
+only with LPDMA1 and SRAM4.
+
+•
+
+LPTIM2, USARTx (x = 1 to 6), SPI1, SPI2, I2C1, I2C2, I2C4, I2C5, I2C6, and MDF1
+are autonomous only with GPDMA1 and SRAM1 to SRAM6.
+
+Stop 2 mode
+In Stop 2 mode, the autonomous peripherals are ADC4, DAC1, LPTIM1, LPTIM3,
+LPUART1, SPI3, I2C3, ADF1, and LPDMA1. In this mode, the SRAM4 can be accessed
+by the LPDMA1.
+
+Autonomous peripherals and LPBAM features
+These autonomous peripherals support the following features:
+•

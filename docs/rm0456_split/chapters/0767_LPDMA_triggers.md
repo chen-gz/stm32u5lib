@@ -1,0 +1,123 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+Table 149. LPDMA1 channel with peripheral early termination
+LPDMA channel x with peripheral early termination
+x = 0 to 3
+
+Table 150. Programmed LPDMA1 request with peripheral early termination
+Programmed LPDMA channel x request with peripheral early termination
+i3c4_rx_dma
+
+18.3.5
+
+LPDMA triggers
+A LPDMA trigger can be assigned to a LPDMA channel x, via the TRIGSEL[4:0] field in the
+LPDMA channel x transfer register 2 (LPDMA_CxTR2), provided that TRIGPOL[1:0] defines
+a rising or a falling edge of the selected trigger (TRIGPOL[1:0] = 01 or TRIGPOL[1:0] = 10).
+The LPDMA triggers mapping is specified in the table below.
+Table 151. Programmed LPDMA1 trigger
+LPDMA_CxTR2.TRIGSEL[4:0]
+
+Selected LPDMA trigger
+
+0
+
+exti0
+
+1
+
+exti1
+
+2
+
+exti2
+
+3
+
+exti3
+
+4
+
+exti4
+
+5
+
+tamp_trg1
+
+6
+
+tamp_trg2
+
+7
+
+tamp_trg3
+
+8
+
+lptim1_ch1
+
+9
+
+lptim1_ch2
+
+10
+
+lptim3_ch1
+
+11
+
+lptim4_out
+
+12
+
+comp1_out
+
+13
+
+comp2_out
+
+14
+
+rtc_alra_trg
+
+15
+
+rtc_alrb_trg
+
+16
+
+rtc_wut_trg
+
+17
+
+adc4_awd1
+
+18
+
+lpdma1_ch0_tc
+
+19
+
+lpdma1_ch1_tc
+
+20
+
+lpdma1_ch2_tc
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Table 151. Programmed LPDMA1 trigger (continued)
+
+<!-- pagebreak -->
+

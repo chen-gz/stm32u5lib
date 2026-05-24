@@ -1,0 +1,104 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+If the controller addresses a 10-bit address target, transmits data to this target and then
+reads data from the same target, a controller transmission flow must be done first. Then a
+repeated START is set with the 10-bit target address configured with HEAD10R = 1. In this
+case, the controller sends this sequence:
+RESTART + Target address 10-bit header Read.
+Figure 795. 10-bit address read access with HEAD10R = 1
+
+S
+
+11110XX
+
+0
+
+Target address
+1st 7 bits
+
+R/W
+
+A
+
+Target address
+2nd byte
+
+A
+
+DATA
+
+A
+
+DATA
+
+A/A
+
+Write
+
+Sr
+
+11110XX
+
+1
+
+Target address
+1st 7 bits
+
+R/W
+
+A
+
+DATA
+
+A
+
+DATA
+
+A
+
+P
+
+Read
+MSv19823V2
+
+Controller transmitter
+In the case of a write transfer, the TXIS flag is set after each byte transmission, after the
+ninth SCL pulse when an ACK is received.
+A TXIS event generates an interrupt if the TXIE bit of the I2C_CR1 register is set. The flag is
+cleared when the I2C_TXDR register is written with the next data byte to transmit.
+The number of TXIS events during the transfer corresponds to the value programmed in
+NBYTES[7:0]. If the total number of data bytes to transmit is greater than 255, the reload
+mode must be selected by setting the RELOAD bit in the I2C_CR2 register. In this case,
+when the NBYTES[7:0] number of data bytes is transferred, the TCR flag is set and the SCL
+line is stretched low until NBYTES[7:0] is written with a non-zero value.
+When RELOAD = 0 and the number of data bytes defined in NBYTES[7:0] is transferred:
+•
+
+In automatic end mode (AUTOEND = 1), a STOP condition is automatically sent.
+
+•
+
+In software end mode (AUTOEND = 0), the TC flag is set and the SCL line is stretched
+low, to perform software actions:
+–
+
+A RESTART condition can be requested by setting the START bit of the I2C_CR2
+register with the proper target address configuration and the number of bytes to
+transfer. Setting the START bit clears the TC flag and sends the START condition
+on the bus.
+
+–
+
+A STOP condition can be requested by setting the STOP bit of the I2C_CR2
+register. This clears the TC flag and sends a STOP condition on the bus.
+
+When a NACK is received, the TXIS flag is not set and a STOP condition is automatically
+sent. The NACKF flag of the I2C_ISR register is set. An interrupt is generated if the NACKIE
+bit is set.
+
+<!-- pagebreak -->
+

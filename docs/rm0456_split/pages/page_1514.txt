@@ -1,0 +1,11 @@
+1514
+
+Operational amplifier (OPAMP)
+
+RM0456
+
+Reset value
+
+X
+
+Refer to Section 2.3 for the register boundary addresses.

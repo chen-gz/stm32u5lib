@@ -1,0 +1,86 @@
+RM0456 Rev 6
+
+RM0456
+
+68.4.12
+
+Serial peripheral interface (SPI)
+
+SPI data transmission and reception procedures
+The SPI can transfer data at a very high communication speed. Even though the data is
+FIFO buffered, handling a continuous data flow by servicing data frames individually leads
+to an enormous CPU or DMA load, in particular when the data size is small. This potentially
+leads to a significant limitation of the overall system performance, as well as communication
+errors such as data overrun or underrun that may be raised when the system latencies in
+servicing requests become comparable to single data frame transfer time.
+The SPI offers advanced hardware control features to prevent these issues from occurring:
+•
+
+Decreasing the number of events requiring service by collecting the data frames into
+larger data packets
+The number of data frames per packet (FIFO threshold) can be configured. The
+complete data packet generates a FIFO occupancy event, which is then handled within
+a single, compact, service.
+
+•
+
+Note:
+
+Decreasing the number of CPU execution cycles required for the service, by applying
+the appropriate data access:
+–
+
+The widest access to the SPI data registers must be applied. This allows
+cumulative data to be handled by a single register read or write operation (data
+packing).
+
+–
+
+The number of read/write accesses necessary to complete the data packet must
+be aligned with the data frame size and the FIFO threshold.
+
+•
+
+Concurrent read and write services to handle full-duplex data flow based on
+common FIFO occupancy events.
+
+•
+
+Embedded hardware data counters to define the exact number of data involved in
+transfers.
+
+Using these features is optional. Nothing prevents the application from handling the data
+flow frame by frame.
+The following sections give more details and describe specific cases for using these
+advanced hardware control features to handle data transfers.
+
+Data packet control
+The data frame size (number of bits in the frame) is defined through the DSIZE bitfield of the
+SPI_CFG1 register. The number of data frames per packet can be configured by selecting
+the FIFO threshold through the FTHLV bitfield of the SPI_CFG1 register. If the threshold
+value is set to zero, each completed data frame raises the FIFO occupancy event. The data
+packet occupancy must not exceed half of the FIFO size, which depends on the SPI
+instance of the product. The FIFO capacity (multiple of 8 bits) is consumed according to the
+following rules, depending on the data frame size:
+•
+
+Data frames from 4 to 8 bits occupy one byte of the FIFO.
+
+•
+
+Data frames from 9 to 16 bits occupy two bytes of the FIFO.
+
+•
+
+Data frames from 17 to 24 bits occupy three bytes of the FIFO.
+
+•
+
+Data frames from 25 to 32 bits occupy four bytes of the FIFO.
+
+For example, if the FIFO capacity is 16 bytes, it accommodates up to five 24-bit frames. In
+this case, the data packet configuration must not exceed two data frames.
+The SPI features two separate FIFOs to handle the reception and transmission data flow,
+the RxFIFO, and the TxFIFO. Their content can be handled by monitoring the occupancy
+
+RM0456 Rev 6

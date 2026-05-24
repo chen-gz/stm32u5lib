@@ -1,0 +1,83 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+The total size of the device must be configured through DEVSIZE[4:0] of OCTOSPI_DCR1.
+In case of multi-chip product (MCP), the device size is the sum of all the sizes of all the MCP
+dies.
+
+Read/write operation with initial latency
+The HyperBus read and write operations need to respect two timings:
+•
+
+tRWR: minimal read/write recovery time for the device (defined by TRWR[7:0]
+in OCTOSPI_HLCR)
+
+•
+
+tACC: access time for the device (defined by TACC[7:0] in OCTOSPI_HLCR) according
+to the memory latency
+
+During the read operation, the DQS is used by the device, in two ways (see Figure 151):
+•
+
+during the command/address phase, to request an additional latency
+
+•
+
+during the data phase, for data strobing
+
+During the write operation, the DQS is used:
+•
+
+by the device, during the command/address phase, to request an additional latency.
+
+•
+
+by the OCTOSPI, during the data phase, for write data masking.
+Figure 152. HyperBus write operation with initial latency
+NCS
+t RWR =Read Write Recovery
+
+tACC= Access
+
+CLK
+
+DQS
+
+High = 2x Latency count
+Low = 1x Latency count
+
+CLK and data are
+center aligned.
+
+Latency count
+IO[7:0]
+
+47:40 39:32 31:24 23:16
+
+15:8
+
+7:0
+
+Command-Address
+
+Dn
+A
+
+Dn
+B
+
+Dn+1
+A
+
+Dn+1
+B
+
+Host drives IO[7:0]
+and DQS
+
+Host drives IO[7:0] and memory drives DQS
+MSv71584V1

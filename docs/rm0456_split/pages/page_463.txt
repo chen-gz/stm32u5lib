@@ -1,0 +1,174 @@
+RM0456 Rev 6
+
+16
+
+RM0456
+
+Power control (PWR)
+
+Bits 17:16 ACTVOS[1:0]: VOS currently applied to VCORE(last VOS value)
+00: Range 4 (lowest power)
+01: Range 3
+10: Range 2
+11: Range 1 (highest frequency)
+Bit 15 ACTVOSRDY: Voltage level ready for currently used VOS
+0: VCORE is above or below the current voltage scaling provided by ACTVOS[1:0].
+1: VCORE is equal to the current voltage scaling provided by ACTVOS[1:0]
+Bits 14:5 Reserved, must be kept at reset value.
+Bit 4 PVDO: Programmable voltage detector output
+0: VDD is equal or above the PVD threshold selected by PVDLS[2:0].
+1: VDD is below the PVD threshold selected by PVDLS[2:0].
+Bits 3:2 Reserved, must be kept at reset value.
+Bit 1 REGS: Regulator selection
+0: LDO selected
+1: SMPS selected
+Bit 0 Reserved, must be kept at reset value.
+
+10.10.17 PWR backup domain status register (PWR_BDSR)
+Address offset: 0x40
+Backup domain reset value: 0x0000 0000
+Power-on reset: not affected
+The register is not affected when exiting Standby mode.
+System reset: not affected
+Access: 14 AHB clock cycles added compared to a standard AHB access
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TEMPH TEMPL VBATH
+r
+
+r
+
+Res.
+
+r
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 TEMPH: Temperature level monitoring versus high threshold
+0: Temperature < high threshold
+1: Temperature ≥ high threshold
+Bit 2 TEMPL: Temperature level monitoring versus low threshold
+0: Temperature > low threshold
+1: Temperature ≤ low threshold
+Bit 1 VBATH: Backup domain voltage level monitoring versus high threshold
+0: Backup domain voltage level < high threshold
+1: Backup domain voltage level ≥ high threshold
+
+RM0456 Rev 6

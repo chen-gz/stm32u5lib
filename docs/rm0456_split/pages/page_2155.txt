@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+54.3.24
+
+Advanced-control timers (TIM1/TIM8)
+
+Pulse on compare mode
+A pulse can be generated upon compare match event. A signal with a programmable
+pulsewidth generated when the counter value equals a given compare value, for debugging
+or synchronization purposes.
+This mode is available for any slave mode selection, including encoder modes, in edge and
+center aligned counting modes. It is solely available for channel 3 and channel 4. The pulse
+generator is unique and is shared by the two channels, as shown on Figure 566.
+Figure 566. Pulse generator circuitry
+Set
+Reset
+
+R/S
+tim_oc3
+
+OC3M = 1010
+
+CCR3 match
+
+Enable
+
+CCR4 match
+
+Enable
+
+Pulse generator
+
+OC4M = 1010
+
+tim_oc4
+PWPRSC PW[7:0]
+[2:0]
+Reset
+Set
+
+R/S
+MSv62346V1
+
+Figure 567 shows how the pulse is generated for edge-aligned and encoder operating
+modes.
+
+RM0456 Rev 6

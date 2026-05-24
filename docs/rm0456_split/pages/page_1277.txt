@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+The output data in differential mode is an unsigned data:
+•
+
+When VINP[i] = VREF-: VINN[i] = VREF+and output data = 0x0000 (14-bit resolution
+mode),
+
+•
+
+When VINP[i] = VREF+: VINN[i] = VREF- and output data = 0x3FFF.
+V INP – V INN
+ADC_Full_Scale
+Converted value = ------------------------------------------- × 1 + ----------------------------------2
+V
+REF+
+
+When ADC is configured as differential mode, both inputs must be biased at VREF+ / 2
+voltage.
+For a complete description of how the input channels are connected, refer to Section 33.4.4:
+ADC connectivity
+Caution:
+
+When channel “i” is configured in differential input mode, its negative input voltage is
+connected to VINN[i-1].
+
+33.4.8
+
+Calibration (ADCAL, ADCALLIN, ADC_CALFACT)
+The ADC provides an automatic calibration procedure that controls the whole calibration
+sequence including the ADC power-on/off. During the procedure, the ADC calculates an
+offset calibration factor for single-ended and differential mode. This factor includes the
+internal offset and the linearity that are applied internally to the ADC until the next ADC
+power-off. During the calibration procedure, the application must not use the ADC and must
+wait until the calibration is complete.
+The calibration is a prerequisite to any ADC operation. It removes the systematic errors that
+may vary from chip to chip and enables to compensate offset and linearity deviation.
+The offset calibration is the same for single-ended or differential channels.
+The linearity correction must be done only once, regardless of single / differential
+configuration:
+•
+
+Set ADCALLIN in ADC_CR before launching a calibration that runs the linearity
+calibration simultaneously with the offset calibration or
+
+•
+
+Clear ADCALLIN in ADC_CR before launching a calibration that does not run the
+linearity calibration but only the offset calibration.
+
+The calibration is then initiated by software by setting the ADCAL bit. The calibration can
+only be initiated when the ADC is disabled (ADEN = 0). ADCAL bit remains at 1 during all
+the calibration sequence. It is cleared by hardware as soon the calibration completes. At this
+time, the associated calibration factor is stored internally in the analog ADC.
+The internal analog calibration is kept if the ADC is disabled (ADEN = 0). However, if the
+ADC is disabled for extended periods of time, the temperature changes, or the reference
+voltage is modified of more than 10%, it is recommended that a new offset calibration cycle
+is run before enabling the ADC again.
+The internal analog calibration is lost each time the ADC power is switched off (for example,
+when the device enters Standby or VBAT mode). In this case, to avoid spending time
+recalibrating the ADC, the calibration factor can be written again to the ADC analog block
+without recalibrating, assuming that the software has previously saved the calibration factor
+generated during the previous calibration.
+RM0456 Rev 6

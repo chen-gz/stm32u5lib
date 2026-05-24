@@ -1,0 +1,101 @@
+•
+
+the Armv8-M mainline security extension of Cortex-M33, enabling a new processor
+secure state, with its associated secure interrupts
+
+•
+
+the dynamic allocation of memory and peripherals to TrustZone using eight security
+attribution unit (SAU) regions of Cortex-M33
+
+•
+
+a global TrustZone framework (GTZC), extending the TrustZone protection against
+transactions coming from other masters in the system than the Cortex-M33
+
+•
+
+TrustZone-aware embedded flash memory and peripherals
+
+The TrustZone security is activated by the TZEN option bit in the FLASH_OPTR register.
+
+RM0456 Rev 6
+
+RM0456
+
+3.5.2
+
+System security
+
+Armv8-M security extension of Cortex-M33
+The Arm security extension of the Cortex-M33 is an evolution, not a revolution. It uses the
+programmer model from earlier Cortex-M subfamilies like Cortex-M4. Indeed, Armv8-M is
+architecturally similar to Armv7-M, using the same 32-bit architecture, the same memory
+mapped resources protected with an MPU. Armv8-M also uses the nested vectored
+interrupt controller (NVIC).
+The Armv8-M TrustZone implementation in STM32U5 series devices is composed of the
+following features:
+•
+
+a new processor state, with almost no additional code/cycle overhead, as opposed to
+Armv8-A TrustZone that uses a dedicated exception routine for triggering a
+secure/nonsecure world change
+
+•
+
+two memory map views of a shared 4-Gbyte address space
+
+•
+
+a low interrupt latency for both secure and nonsecure domains, and a new interrupt
+configuration for security grouping and priority setting
+
+•
+
+separated exception vector tables for the secure and nonsecure exceptions
+
+•
+
+micro-coded context preservation
+
+•
+
+banking of specific registers across secure/nonsecure states, including stack pointers
+with stack-limit checkers
+
+•
+
+banking of the following Cortex-M33 programmable components (two separate units for
+secure and nonsecure):
+–
+
+SysTick timer
+
+–
+
+MPU configuration registers (eight MPU regions in secure, eight in nonsecure)
+
+–
+
+some of the system control block (SCB) registers
+
+•
+
+new system exception (SecureFault) for handling of security violations
+
+•
+
+configurable debug support, as defined in Section 3.11
+
+For more information, refer to STM32 Cortex-M33 MCUs programming manual (PM0264).
+
+3.5.3
+
+Memory and peripheral allocation using IDAU/SAU
+Security attributes
+As illustrated on Figure 8, the Armv8-M nonsecure memory view is similar to Armv7-M
+(that can be found in Cortex-M4), with the difference that the secure memory is hidden. The
+secure memory view shows the flash memory, SRAM, and peripherals that are only
+accessible while the Cortex processor executes in Secure state.
+
+RM0456 Rev 6

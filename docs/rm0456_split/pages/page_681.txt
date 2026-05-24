@@ -1,0 +1,80 @@
+RM0456 Rev 6
+
+RM0456
+
+Peripherals interconnect matrix
+
+Purpose
+A LP/GPDMA trigger can be assigned to a LP/GPDMA channel x. A programmed
+LP/GPDMA transfer can be triggered by a rising/falling edge of a selected input trigger
+event. The trigger mode can also be programmed to condition the LLI link transfer. More
+details are given in the sections below:
+•
+
+Section 18.3.5: LPDMA triggers and Section 17.3.5: GPDMA triggers
+
+•
+
+Section 18.4.12: LPDMA triggered transfer and Section 17.4.12: GPDMA triggered
+transfer
+
+•
+
+LPDMA channel x transfer register 2 (LPDMA_CxTR2) and GPDMA channel x transfer
+register 2 (GPDMA_CxTR2) for more details on:
+–
+
+Trigger selection TRIGSEL[5:0] field
+
+–
+
+Trigger mode (LLI) defined by TRIGM[1:0].
+
+–
+
+Trigger polarity as defined by TRIGPOL[1:0]
+
+Triggering signals
+LPDMA trigger mapping is specified in Table 151: Programmed LPDMA1 trigger, according
+to LPDMA_CxTR2.TRIGSEL[5:0].
+GPDMA trigger mapping is specified in Table 139: Programmed GPDMA1 trigger, according
+to GPDMA_CxTR2.TRIGSEL[5:0].
+
+Active power mode
+Assuming sources are active down to Stop modes, this interconnection remains functional in
+Stop 0 and Stop 1 modes for GPDMA, and Stop 0, Stop 1, and Stop 2 modes for LPDMA.
+Refer to:
+
+16.3.17
+
+•
+
+Section 18.6: LPDMA in low-power modes
+
+•
+
+Section 17.6: GPDMA in low-power modes
+
+Internal analog signals to analog peripherals
+From internal analog source to ADC (ADC1/2/4), comparators (COMP1/2) and OPAMP
+(OPAMP1/2)
+
+Purpose
+The internal reference voltage (VREFINT), the internal temperature sensor (VTS), and VBAT
+monitoring channel are connected to ADC (ADC1/2/4) input channels. In addition, the
+internal digital core voltage (VCORE) is connected /to ADC1/2/4 input channels.
+DAC channels (DAC1_OUT/DAC2_OUT) and VREFINT are connected to comparators
+(COMP1/2).
+OPAMP1/2 outputs can be connected to ADC1 or ADC4 input channels through the GPIO.
+DAC1_OUT1 can be connected to OPAMP1_VINP. DAC1_OUT2 can be connected to
+OPAMP2_VINP.
+Refer to Table 342: DAC internal input/output signals for:
+•
+
+dac_out1 analog output DAC channel1, output, for on-chip peripherals
+
+•
+
+dac_out2 analog output DAC channel2, output, for on-chip peripherals
+
+RM0456 Rev 6

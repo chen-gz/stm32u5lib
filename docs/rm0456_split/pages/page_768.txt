@@ -1,0 +1,7 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Table 151. Programmed LPDMA1 trigger (continued)

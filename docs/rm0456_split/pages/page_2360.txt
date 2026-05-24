@@ -1,0 +1,108 @@
+RM0456 Rev 6
+
+RM0456
+
+Basic timers (TIM6/TIM7)
+Figure 732 presents the dithering principle applied to four consecutive counting periods.
+Figure 732. Dithering principle
+
+Average period
+
+12
+
+12
+
+12
+
+12
+
+13
+
+12
+
+12
+
+12
+
+13
+
+12
+
+13
+
+12
+
+13
+
+13
+
+13
+
+12
+
+13
+
+13
+
+13
+
+13
+
+T = 12
+
+T = 12+¼
+
+T = 12+½
+
+T = 12+¾
+
+T = 13
+MSv47466V1
+
+When the dithering mode is enabled, the register coding is changed as follows (see
+Figure 733 for example):
+
+Note:
+
+•
+
+The four LSBs are coding for the enhanced resolution part (fractional part).
+
+•
+
+The MSBs are left-shifted to the bits 19:4 and are coding for the base value.
+
+The following sequence must be followed when resetting the DITHEN bit:
+1. CEN and ARPE bits must be reset
+2. The ARR[3:0] bits must be reset
+3. The DITHEN bit must be reset
+4. The CEN bit can be set (eventually with ARPE = 1).
+Figure 733. Data format and register coding in dithering mode
+b19
+
+Register format in
+dithering mode
+
+b0
+MSB: 16-bits, integer part
+
+LSB: 4-bits
+fractional part
+
+b19
+
+b0
+326
+
+Example
+20
+
+Base compare value is 20 during 16 periods
+
+6
+
+Additional 6 cycles are spread over the
+16 periods
+MSv45753V2
+
+RM0456 Rev 6

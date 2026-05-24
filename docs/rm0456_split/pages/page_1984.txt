@@ -1,0 +1,125 @@
+2015
+
+Secure AES coprocessor (SAES)
+
+RM0456
+
+Figure 489 illustrates the electronic codebook (ECB) encryption.
+Figure 489. ECB encryption
+
+DATATYPE[1:0]
+AES_KEYRx (KEY)
+
+Block 1
+
+Block 2
+
+AES_DINR (plaintext P1)
+
+AES_DINR (plaintext P2)
+
+Swap
+management
+I1
+
+DATATYPE[1:0]
+AES_KEYRx (KEY)
+
+Encrypt
+
+Legend
+
+DATATYPE[1:0]
+
+O1
+Swap
+management
+
+Swap
+management
+I2
+Encrypt
+
+AES core
+
+DATATYPE[1:0]
+
+O2
+Swap
+management
+
+input
+output
+
+AES_DOUTR (ciphertext C1)
+
+AES_DOUTR (ciphertext C2)
+MSv19105V2
+
+In ECB encrypt mode, the 128-bit plaintext input data block Px in the SAES_DINR register
+first goes through bit/byte/half-word swapping. The swap result Ix is processed with the AES
+core set in encrypt mode, using a 128- or 256-bit key. The encryption result Ox goes through
+bit/byte/half-word swapping, then is stored in the SAES_DOUTR register as 128-bit
+ciphertext output data block Cx. The ECB encryption continues in this way until the last
+complete plaintext block is encrypted.
+Figure 490 illustrates the electronic codebook (ECB) decryption.
+Figure 490. ECB decryption
+
+DATATYPE[1:0]
+
+Block 1
+
+Block 2
+
+AES_DINR (ciphertext C1)
+
+AES_DINR (ciphertext C2)
+
+Swap
+management
+I1
+
+AES_KEYRx (KEY)
+
+DATATYPE[1:0]
+AES_KEYRx (KEY)
+
+Decrypt
+
+Legend
+DATATYPE[1:0]
+input
+output
+
+Swap
+management
+I2
+
+O1
+Swap
+management
+
+AES_DOUTR (plaintext P1)
+
+Decrypt
+
+DATATYPE[1:0]
+
+O2
+Swap
+management
+
+AES_DOUTR (plaintext P2)
+MSv19106V2
+
+To perform an AES decryption in the ECB mode, the secret key has to be prepared by
+collecting the last-round encryption key (which requires to first execute the complete key
+schedule for encryption), and using it as the first-round key for the decryption of the
+ciphertext. This preparation is supported by the AES core.
+In ECB decrypt mode, the 128-bit ciphertext input data block C1 in the SAES_DINR register
+first goes through bit/byte/half-word swapping. The keying sequence is reversed compared
+to that of the ECB encryption. The swap result I1 is processed with the AES core set in
+decrypt mode, using the formerly prepared decryption key. The decryption result goes
+through bit/byte/half-word swapping, then is stored in the SAES_DOUTR register as 128-bit
+plaintext output data block P1. The ECB decryption continues in this way until the last
+complete ciphertext block is decrypted.

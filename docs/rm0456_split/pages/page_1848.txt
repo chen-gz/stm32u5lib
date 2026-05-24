@@ -1,0 +1,180 @@
+1861
+
+DSI Host (DSI)
+
+44.16.7
+
+RM0456
+
+DSI Wrapper regulator and PLL control register (DSI_WRPCR)
+Address offset: 0x0430
+Reset value: 0x0000 0000
+
+31
+
+30
+
+Res.
+
+29
+
+28
+
+27
+
+26
+
+25
+
+BC[1:0]
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+ODF[8:0]
+
+17
+
+16
+
+IDF[8:5]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+PLLEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+IDF[4:0]
+rw
+
+NDIV[8:0]
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:29 BC[1:0]: Band control
+This field selects the VCO frequency band.
+00: 500 to 800 MHz
+01: 800 to 1000 MHz
+Others: Reserved
+Bits 28:20 ODF[8:0]: PLL output division factor
+This field configures the PLL output division factor.
+0: PLL output divided by 1
+1: PLL output divided by 1
+2: PLL output divided by 2
+...
+511: PLL output divided by 511
+Bits 19:11 IDF[8:0]: PLL input division factor
+This field configures the PLL input division factor.
+0: PLL input divided by 1
+1: PLL input divided by 1
+2: PLL input divided by 2
+...
+511: PLL input divided by 511
+Bits 10:2 NDIV[8:0]: PLL loop division factor
+This field configures the PLL loop division factor.
+0: PLL loop divided by 1x2
+1: PLL loop divided by 1x2
+2: PLL loop divided by 2x2
+...
+511: PLL loop divided by 511x2
+Bit 1 Reserved, must be kept at reset value.
+Bit 0 PLLEN: PLL enable
+This bit enables the D-PHY PLL.
+0: PLL disabled
+1: PLL enabled

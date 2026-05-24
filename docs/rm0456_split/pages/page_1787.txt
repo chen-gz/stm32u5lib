@@ -1,0 +1,265 @@
+Bit
+
+18
+
+17
+
+16
+
+15
+
+14
+
+13
+
+12
+
+11
+
+Name
+
+Error cause
+
+Recommended method
+to handle the error
+
+PE2
+
+The D-PHY reports the false
+control error.
+The D-PHY detects an incorrect
+line state sequence in lane 0
+lines.
+
+Device does not behave as expected,
+communication with the device is not
+properly established. This is an
+unrecoverable error.
+Reset the DSI Host and the D-PHY. If this
+error is recurrent, analyze the behavior of
+the device.
+
+PE1
+
+The D-PHY reports the LPDT
+error.
+The D-PHY detects that the
+LDPT did not match a multiple
+of 8 bits.
+
+The data reception is not reliable. The DPHY recovers but the received data from
+the device might not be reliable.
+It is recommended to reset the DSI Host
+and repeat the RX transmission.
+
+PE0
+
+The D-PHY reports the escape
+entry error.
+The D-PHY does not recognize
+the received escape entry code.
+
+The D-PHY Host does not recognize the
+escape entry code. The transmission is
+ignored. The D-PHY Host recovers but the
+system must repeat the RX reception.
+
+AE15
+
+This error is directly retrieved
+from acknowledge with error
+packet.
+The device detected a protocol
+violation in the reception.
+
+Refer to the display documentation. When
+this error is active, the device must have
+another read-back command that reports
+additional information about this error.
+Read the additional information and take
+appropriate actions.
+
+AE14
+
+The acknowledge with error
+packet contains this error.
+The device chooses to use this
+bit for error report.
+
+Refer to the device documentation
+regarding possible reasons for this error
+and take appropriate actions.
+
+The acknowledge with error
+packet contains this error.
+The device reports that the
+transmission length does not
+match the packet length.
+
+Possible reason for this is multiple errors
+present in the packet header (more than 2),
+so the error detection fails and the device
+does not discard the packet. In this case,
+the packet header is corrupt and can cause
+decoding mismatches.
+Transmit the packets again. If this error is
+recurrent, carefully analyze the connectivity
+between the Host and the device.
+
+AE12
+
+The acknowledge with error
+packet contains this error.
+The device does not recognize
+the VC ID in at least one of the
+received packets.
+
+Possible reason for this is multiple errors
+present in the packet header (more than 2),
+so the error detection fails and the device
+does not discard the packet. In this case,
+the packet header is corrupt and can cause
+decoding mismatches.
+Transmit the packets again. If this error is
+recurrent, carefully analyze the connectivity
+between the Host and the device.
+
+AE11
+
+The acknowledge with error
+packet contains this error.
+The device does not recognize
+the data type of at least one of
+the received packets.
+
+Check the device capabilities. It is possible
+that there are some packets not supported
+by the device.
+Repeat the transmission.
+
+AE13
+
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+Table 447. Error causes and recovery (continued)
+
+DSI Host interrupt
+and status register
+
+0
+
+0
+
+0
+
+0
+
+0
+
+Bit
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Name
+
+Error cause
+
+Recommended method
+to handle the error
+
+The acknowledge with error
+packet contains this error.
+The device detects the CRC
+errors in at least one of the
+received packets.
+
+Some of the long packets, transmitted after
+the last acknowledge request, might
+contain the CRC errors in the payload.
+If the payload content is critical, transmit
+the packets again.
+If this error is recurrent, carefully analyze
+the connectivity between the Host and the
+device.
+
+AE9
+
+The acknowledge with error
+packet contains this error.
+The device detects multi-bit
+ECC errors in at least one of
+the received packets.
+
+The device does not interpret the packets
+transmitted after the last acknowledge
+request.
+If the packets are critical, transmit the
+packets again.
+If this error is recurrent, carefully analyze
+the connectivity between the Host and the
+device.
+
+AE8
+
+The acknowledge with error
+packet contains this error.
+The device detects and corrects
+the 1 bit ECC error in at least
+one of the received packets.
+
+No action is required.
+The device acknowledges the packet.
+If this error is recurrent, analyze the signal
+integrity or the noise conditions of the link.
+
+The acknowledge with error
+packet contains this error.
+The device detects the line
+Contention through LP0/LP1
+detection.
+
+This error might corrupt the low-power data
+reception and transmission.
+Ignore the packets and transmit them
+again. The device recovers automatically.
+If this error is recurrent, check the device
+capabilities and the connectivity between
+the Host and device.
+Refer to.section 7.2.1 of the DSI
+Specification 1.1.
+
+The acknowledge with error
+packet contains this error.
+The device detects the false
+control error.
+
+The device detects one of the following:
+– The LP-10 (LP request) is not followed
+by the remainder of a valid escape or
+turnaround sequence.
+– The LP-01 (HS request) is not followed
+by a bridge state (LP-00).
+The D-PHY communications are corrupted.
+This error is unrecoverable.
+Reset the DSI Host and the D-PHY.
+Refer to the section 7.1.6 of the DSI
+Specification 1.1.
+
+AE10
+
+AE7
+
+AE6
+
+RM0456 Rev 6

@@ -1,0 +1,179 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+72.15.49 OTG device control OUT endpoint 0 control register
+(OTG_DOEPCTL0)
+Address offset: 0xB00
+Reset value: 0x0000 8000
+This section describes the OTG_DOEPCTL0 register. Nonzero control endpoints use
+registers for endpoints 1–3.
+31
+
+30
+
+EPENA EPDIS
+
+29
+Res.
+
+28
+Res.
+
+27
+
+26
+
+SNAK
+
+CNAK
+
+w
+
+w
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+EPTYP[1:0]
+
+NAK
+STS
+
+Res.
+
+STALL
+
+SNPM
+
+rs
+
+rw
+
+r
+
+r
+
+r
+1
+
+w
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+USBA
+EP
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+0
+
+MPSIZ[1:0]
+r
+
+r
+
+Bit 31 EPENA: Endpoint enable
+The application sets this bit to start transmitting data on endpoint 0.
+The core clears this bit before setting any of the following interrupts on this endpoint:
+– SETUP phase done
+– Endpoint disabled
+– Transfer completed
+Bit 30 EPDIS: Endpoint disable
+The application cannot disable control OUT endpoint 0.
+Bits 29:28 Reserved, must be kept at reset value.
+Bit 27 SNAK: Set NAK
+A write to this bit sets the NAK bit for the endpoint.
+Using this bit, the application can control the transmission of NAK handshakes on an
+endpoint. The core can also set this bit on a transfer completed interrupt, or after a SETUP
+is received on the endpoint.
+Bit 26 CNAK: Clear NAK
+A write to this bit clears the NAK bit for the endpoint.
+Bits 25:22 Reserved, must be kept at reset value.
+Bit 21 STALL: STALL handshake
+The application can only set this bit, and the core clears it, when a SETUP token is received
+for this endpoint. If a NAK bit or Global OUT NAK is set along with this bit, the STALL bit
+takes priority. Irrespective of this bit’s setting, the core always responds to SETUP data
+packets with an ACK handshake.
+Bit 20 SNPM: Snoop mode
+This bit configures the endpoint to Snoop mode. In Snoop mode, the core does not check
+the correctness of OUT packets before transferring them to application memory.
+Bits 19:18 EPTYP[1:0]: Endpoint type
+Hardcoded to 2’b00 for control.

@@ -1,0 +1,76 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+The BIST test data packet frame format is shown in the following figure.
+Figure 952. BIST test data frame
+Preamble
+(training for receiver)
+
+SOP*
+(start of packet)
+
+Header
+Data objects = 7
+
+BIST Test Data
+BDO
+
+...
+
+CRC
+
+BIST test data
+(192 bits)
+
+...
+
+EOP
+(end of packet)
+
+Legend:
+Provided by the physical layer, not 4b5b-encoded
+Provided by the physical layer, 4b5b-encoded
+Provided by the protocol layer, 4b5b-encoded
+MSv45542V2
+
+This is a fixed length test data pattern. In reality the only aspect that marks its difference
+from the general packet format already shown in Figure 949: Packet format is the contents
+of the Header. As UCPD receives the Tx Header contents via programming (it is simply
+viewed as part of the payload), it is only this programming (and not the block’s behavior) that
+differentiates the general packet from the BIST Test Data packet.
+BIST Carrier Mode 2
+When required, this BIST test mode sends an alternating pattern of 1010 that is continually
+repeated. As this mode is intended for signal analysis it is stable condition with (in V1.0 of
+the USB PD specification) no defined length. Starting from V1.1 of the USB PD
+specification, the protocol layer defines a counter that indicates when to exit this mode.
+The way to quit the infinite 1010 sequence (according to requirements of the USB PD
+specification) is to disable the UCPD peripheral via the UCPDEN bit.
+Figure 953. BIST Carrier Mode 2 frame
+
+Preamble
+(training for receiver)
+
+SOP*
+(start of packet)
+
+10101010101010101010……
+(repeated until UCPD is disabled)
+
+UCPDEN = 0
+
+Legend:
+Provided by the physical layer, not 4b5b-encoded
+Provided by the physical layer, 4b5b-encoded
+
+MSv45543V2
+
+74.4.4
+
+UCPD BMC transmitter
+The BMC transmitter comprises 4b5b encoding, CRC generation, and BMC encode, as
+shown in the following figure. Its output goes to the analog PHY through a channel switch.
+
+RM0456 Rev 6

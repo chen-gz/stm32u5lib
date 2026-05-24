@@ -1,0 +1,79 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Extended message ID filtering
+Figure 890 shows the flow for extended message ID (29-bit identifier) filtering. The extended
+message ID filter element is described in Section 70.3.12.
+The extended message filtering is controlled by the FDCAN_RXGFC register. The extended
+message ID, the remote transmission request bit (RTR), and the identifier extension bit
+(IDE) of the received frames are compared against the list of configured filter elements.
+Figure 890. Extended message ID filter path
+Valid frame received
+
+29-bit
+
+Remote frame
+
+11-bit
+
+Bit identifier
+
+Yes
+
+No
+
+Reject remote frame
+RXGFC[RRFE] = 0
+
+RXGFC[RRFE] = 1
+
+Receive filter list enabled
+
+RXGFC[LSE[3:0]] = 0
+
+RXGFC[LSE[3:0]] > 0
+Match filter
+element #0
+
+Yes
+
+No
+Yes
+No
+Match filter
+element #RXGFC.LSE
+
+Yes
+
+Acceptance
+or Rejection
+Accept
+
+No
+Accept
+non-matching
+frames
+
+Reject
+
+RXGFC[ANFE[1]] = 1
+
+Discard frame
+
+RXGFC[ANFE[1]] = 0
+
+Target FIFO full
+
+Yes
+
+No
+Append to target FIFO
+MS47280V1
+
+The extended ID AND mask (XIDAM) is AND-ed with the received identifier before the filter
+list is executed.
+
+RM0456 Rev 6

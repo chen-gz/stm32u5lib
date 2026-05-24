@@ -1,0 +1,111 @@
+•
+
+DSI Host command mode configuration register (DSI_CMCR): TEARE
+
+•
+
+DSI Host protocol configuration register (DSI_PCR): BTAE.
+
+RM0456 Rev 6
+
+RM0456
+
+44.7
+
+DSI Host (DSI)
+
+Functional description: APB register interface
+The APB register interface allows the transmission of generic information in command
+mode, and follows a proprietary register interface. Commands sent through this interface
+are not constrained to comply with the DCS specification, and can include generic
+commands described in the DSI specification as manufacturer-specific.
+The DSI Host supports the transmission of write and read command mode packets as
+described in the DSI specification. These packets are built using the APB register access.
+The DSI Host generic payload data register (DSI_GPDR) has two distinct functions based
+on the operation. Writing to this register sends the data as payload when sending a
+command mode packet. Reading this register returns the payload of a read back operation.
+The DSI Host generic header configuration register (DSI_GHCR) contains the command
+mode packet header type and header data. Writing to this register triggers the transmission
+of the packet implying that for a long command mode packet, the packet payload needs to
+be written in advance in the DSI Host generic payload data register (DSI_GPDR).
+The valid packets that can be transmitted through the generic interface are the following:
+•
+
+Generic write short packet 0 parameters
+
+•
+
+Generic write short packet 1 parameters
+
+•
+
+Generic write short packet 2 parameters
+
+•
+
+Generic read short packet 0 parameters
+
+•
+
+Generic read short packet 1 parameters
+
+•
+
+Generic read short packet 2 parameters
+
+•
+
+Maximum read packet configuration
+
+•
+
+Generic long write packet
+
+•
+
+DCS write short packet 0 parameters
+
+•
+
+DCS write short packet 1 parameters
+
+•
+
+DCS read short packet 0 parameters
+
+•
+
+DCS write long packet.
+
+A set of bits in the DSI Host generic packet status register (DSI_GPSR) reports the status of
+the FIFO associated with APB interface support.
+Generic interface packets are always transported using one of the DSI transmission modes,
+that is, video mode or command mode. If neither of these modes is selected, the packets
+are not transmitted through the link, and the related FIFO eventually becomes overflown.
+
+44.7.1
+
+Packet transmission using the generic interface
+The transfer of packets through the APB bus is based on the following conditions:
+•
+
+The APB protocol defines that the write and read procedure takes two clock cycles
+each to be executed. This means that the maximum input data rate through the APB
+interface is always half the speed of the APB clock.
+
+•
+
+The data input bus has a maximum width of 32 bits. This allows for a relation to be
+defined between the input APB clock frequency and the maximum bit rate achievable
+by the APB interface.
+
+•
+
+The DSI link pixel bit rate when using solely APB is (APB clock frequency) * 16 Mbit/s.
+
+•
+
+When using only the APB interface, the theoretical DSI link maximum bit rate can be
+expressed as DSI link maximum bit rate = APB clock frequency (in MHz) * 32 / 2 Mbit/s.
+
+RM0456 Rev 6

@@ -1,0 +1,184 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+Figure 145. OCTOSPI block diagram in quad configuration
+(for STM32U535/545 devices)
+STM32
+Registers/
+control
+
+AHB
+
+Clock
+management
+
+Quad-SPI
+memory
+
+Delay
+block
+OCTOSPI_CLK
+
+Data
+FIFO
+
+AHB
+octospi_ker_ck
+
+Shift
+register
+
+OCTOSPI_IO0
+
+CLK
+Q0/SI
+
+OCTOSPI_IO1
+
+Q1/SO
+
+OCTOSPI_IO2
+
+Q2/WP
+
+OCTOSPI_IO3
+
+Q3/HOLD
+
+OCTOSPI_NCS
+
+NCS
+
+DMA signals
+OCTOSPI_NCS
+
+5
+
+OCTOSPI
+
+Interrupts
+5
+
+MSv69105V2
+
+Figure 146. OCTOSPI block diagram in dual-quad configuration
+(for STM32U535/545 devices)
+STM32
+Registers/
+control
+
+AHB
+
+Clock
+management
+
+Data
+FIFO
+
+AHB
+
+Quad-SPI
+memory 1
+
+Delay
+block
+OCTOSPI_CLK
+
+CLK
+
+OCTOSPI_IO0
+
+Q0/SI
+
+OCTOSPI_IO1
+
+Q1/SO
+
+OCTOSPI_IO2
+
+Q2/WP
+
+OCTOSPI_IO3
+
+octospi_ker_ck
+
+Q3/HOLD
+NCS
+
+Quad-SPI
+memory 2
+
+Shift
+register
+
+DMA signals
+5
+
+CLK
+
+Interrupts
+
+OCTOSPI_IO4
+5
+
+OCTOSPI
+OCTOSPI_NCS
+
+Q0/SI
+
+OCTOSPI_IO5
+
+Q1/SO
+
+OCTOSPI_IO6
+
+Q2/WP
+
+OCTOSPI_IO7
+
+Q3/HOLD
+
+OCTOSPI_NCS
+
+NCS
+MSv69106V2
+
+28.4.2
+
+OCTOSPI pins and internal signals
+Table 252. OCTOSPI input/output pins(1)
+(for STM32U5 Series except STM32U535/545 devices)
+Pin name
+
+OCTOSPIM_Px_NCLK
+OCTOSPIM_Px_CLK
+
+Type
+Output
+
+OCTOSPIM_Px_IOn (n = 0 to 7)
+
+Input/output
+
+OCTOSPIM_Px_NCS
+
+Output
+
+OCTOSPIM_Px_DQS
+
+Input/output
+
+Description
+OCTOSPI inverted clock to support 1.8 V HyperBus protocol
+OCTOSPI clock
+OCTOSPI data pins
+Chip select for the memory
+Data strobe/write mask signal from/to the memory
+
+1. x = 1 to 2.
+
+<!-- pagebreak -->
+

@@ -1,0 +1,5330 @@
+RM0456
+Reference manual
+STM32U5 series Arm®-based 32-bit MCUs
+
+Introduction
+This reference manual targets application developers. It provides complete information on
+how to use memory and peripherals of the STM32U5 series microcontrollers.
+For ordering information, mechanical and electrical device characteristics, refer to the
+corresponding datasheets.
+For information on the Arm® Cortex®-Mx cores, refer to the corresponding Arm® Technical
+Reference Manuals available on http://infocenter.arm.com.
+STM32U5 series microcontrollers include ST state-of-the-art patented technology.
+
+Related documents
+• STM32U535xx datasheet (DS14217)
+• STM32U545xx datasheet (DS14216)
+• STM32U535xx and STM32U545xx device errata sheet (ES0587)
+• STM32U575xx datasheet (DS13737)
+• STM32U585xx datasheet (DS13086)
+• STM32U575xx and STM32U585xx device errata sheet (ES0499)
+• STM32U59xxx datasheet (DS13633)
+• STM32U5Axxx datasheet (DS13543)
+• STM32U59xxx and STM32U5Axxx device errata sheet (ES0553)
+• STM32U5Fxxx datasheet (DS14395)
+• STM32U5Gxxx datasheet (DS14102)
+• STM32U5Fxxx and STM32U5Gxxx device errata sheet (ES0595)
+• STM32 Cortex®-M33 MCUs programming manual (PM0264)
+
+January 2025
+
+RM0456 Rev 6
+
+1/3653
+www.st.com
+
+1
+
+Contents
+
+RM0456
+
+Contents
+1
+
+2
+
+Documentation conventions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 127
+1.1
+
+General information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 127
+
+1.2
+
+List of abbreviations for registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 127
+
+1.3
+
+Register reset value . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 127
+
+1.4
+
+Glossary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 128
+
+1.5
+
+Availability of peripherals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 128
+
+Memory and bus architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 129
+2.1
+
+2.2
+
+2.3
+
+3
+
+2.1.1
+
+Fast C-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 131
+
+2.1.2
+
+Slow C-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 131
+
+2.1.3
+
+S-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132
+
+2.1.4
+
+DCACHE S-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132
+
+2.1.5
+
+GPDMA-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132
+
+2.1.6
+
+OTG_HS-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132
+
+2.1.7
+
+LTDC-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132
+
+2.1.8
+
+GPU2D-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132
+
+2.1.9
+
+GFXMMU-bus . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 133
+
+2.1.10
+
+SDMMC1 and SDMMC2 controllers DMA buses . . . . . . . . . . . . . . . . . 133
+
+2.1.11
+
+Bus matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 133
+
+2.1.12
+
+AHB/APB bridges . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 133
+
+2.1.13
+
+SmartRun domain (SRD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 133
+
+Arm TrustZone security architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . 134
+2.2.1
+
+Default Arm TrustZone security state . . . . . . . . . . . . . . . . . . . . . . . . . . 135
+
+2.2.2
+
+Arm TrustZone peripheral classification . . . . . . . . . . . . . . . . . . . . . . . . 136
+
+Memory organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 140
+2.3.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 140
+
+2.3.2
+
+Memory map and register boundary addresses . . . . . . . . . . . . . . . . . 141
+
+2.3.3
+
+Embedded SRAMs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 149
+
+2.3.4
+
+Flash memory overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 150
+
+System security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 151
+3.1
+
+2/3653
+
+System architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 129
+
+Key security features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 151
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+3.2
+
+Secure install . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 152
+
+3.3
+
+Secure boot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 152
+3.3.1
+
+Unique boot entry and BOOT_LOCK . . . . . . . . . . . . . . . . . . . . . . . . . 153
+
+3.3.2
+
+Immutable root of trust in system flash memory . . . . . . . . . . . . . . . . . 153
+
+3.4
+
+Secure update . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 153
+
+3.5
+
+Resource isolation using TrustZone . . . . . . . . . . . . . . . . . . . . . . . . . . . . 154
+
+3.6
+
+3.7
+
+3.8
+
+3.9
+
+3.10
+
+3.11
+
+3.5.1
+
+TrustZone security architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 154
+
+3.5.2
+
+Armv8-M security extension of Cortex-M33 . . . . . . . . . . . . . . . . . . . . . 155
+
+3.5.3
+
+Memory and peripheral allocation using IDAU/SAU . . . . . . . . . . . . . . 155
+
+3.5.4
+
+Memory and peripheral allocation using GTZC . . . . . . . . . . . . . . . . . . 157
+
+3.5.5
+
+Managing security in TrustZone-aware peripherals . . . . . . . . . . . . . . . 161
+
+3.5.6
+
+Activating TrustZone security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 168
+
+3.5.7
+
+Deactivating TrustZone security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169
+
+Other resource isolations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169
+3.6.1
+
+Temporal isolation using secure hide protection (HDP) . . . . . . . . . . . . 169
+
+3.6.2
+
+RSSLIB functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170
+
+3.6.3
+
+Resource isolation using Cortex privileged mode . . . . . . . . . . . . . . . . 171
+
+Secure execution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175
+3.7.1
+
+Memory protection unit (MPU) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175
+
+3.7.2
+
+Embedded flash memory write protection . . . . . . . . . . . . . . . . . . . . . . 176
+
+3.7.3
+
+Tamper detection and response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 176
+
+Secure storage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178
+3.8.1
+
+Hardware secret key management . . . . . . . . . . . . . . . . . . . . . . . . . . . 179
+
+3.8.2
+
+Unique ID . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180
+
+Cryptographic engines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180
+3.9.1
+
+Cryptographic engines features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180
+
+3.9.2
+
+Secure AES co-processor (SAES) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 181
+
+3.9.3
+
+On-the-fly decryption engine (OTFDEC) . . . . . . . . . . . . . . . . . . . . . . . 182
+
+Product life-cycle . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 182
+3.10.1
+
+Life-cycle management with readout protection (RDP) . . . . . . . . . . . . 184
+
+3.10.2
+
+Recommended option-byte settings . . . . . . . . . . . . . . . . . . . . . . . . . . 187
+
+Access controlled debug . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 187
+3.11.1
+
+3.12
+
+Debug protection with readout protection (RDP) . . . . . . . . . . . . . . . . . 187
+
+Software intellectual property protection and collaborative development 188
+3.12.1
+
+Software intellectual property protection with RDP . . . . . . . . . . . . . . . 189
+
+3.12.2
+
+Software intellectual property protection with OTFDEC . . . . . . . . . . . 189
+
+RM0456 Rev 6
+
+3/3653
+90
+
+Contents
+
+RM0456
+3.12.3
+
+Other software intellectual property protections . . . . . . . . . . . . . . . . . 191
+
+4
+
+Boot modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192
+
+5
+
+Global TrustZone controller (GTZC) . . . . . . . . . . . . . . . . . . . . . . . . . . 195
+5.1
+
+GTZC introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195
+
+5.2
+
+GTZC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195
+
+5.3
+
+GTZC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 197
+
+5.4
+
+GTZC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 200
+5.4.1
+
+GTZC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 200
+
+5.4.2
+
+Illegal access definition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 201
+
+5.4.3
+
+TrustZone security controller (TZSC) . . . . . . . . . . . . . . . . . . . . . . . . . . 201
+
+5.4.4
+
+Memory protection controller - block based (MPCBB) . . . . . . . . . . . . . 203
+
+5.4.5
+
+TrustZone illegal access controller (TZIC) . . . . . . . . . . . . . . . . . . . . . . 203
+
+5.4.6
+
+Power-on/reset state . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 203
+
+5.5
+
+GTZC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 204
+
+5.6
+
+GTZC1 TZSC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 204
+
+5.7
+
+5.6.1
+
+GTZC1 TZSC control register (GTZC1_TZSC_CR) . . . . . . . . . . . . . . 204
+
+5.6.2
+
+GTZC1 TZSC secure configuration register 1
+(GTZC1_TZSC_SECCFGR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 205
+
+5.6.3
+
+GTZC1 TZSC secure configuration register 2
+(GTZC1_TZSC_SECCFGR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 207
+
+5.6.4
+
+GTZC1 TZSC secure configuration register 3
+(GTZC1_TZSC_SECCFGR3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 209
+
+5.6.5
+
+GTZC1 TZSC privilege configuration register 1
+(GTZC1_TZSC_PRIVCFGR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 212
+
+5.6.6
+
+GTZC1 TZSC privilege configuration register 2
+(GTZC1_TZSC_PRIVCFGR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 215
+
+5.6.7
+
+GTZC1 TZSC privilege configuration register 3
+(GTZC1_TZSC_PRIVCFGR3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 216
+
+5.6.8
+
+GTZC1 TZSC memory x sub-region z watermark configuration
+register (GTZC1_TZSC_MPCWMxzCFGR) (z = A to B) . . . . . . . . . . . 220
+
+5.6.9
+
+GTZC1 TZSC memory x sub-region A watermark register
+(GTZC1_TZSC_MPCWMxAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 221
+
+5.6.10
+
+GTZC1 TZSC memory x sub-region B watermark register
+(GTZC1_TZSC_MPCWMxBR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 222
+
+5.6.11
+
+GTZC1 TZSC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 222
+
+GTZC1 TZIC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 225
+5.7.1
+
+4/3653
+
+GTZC1 TZIC interrupt enable register 1 (GTZC1_TZIC_IER1) . . . . . . 225
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+5.8
+
+5.9
+
+5.10
+
+5.7.2
+
+GTZC1 TZIC interrupt enable register 2 (GTZC1_TZIC_IER2) . . . . . . 227
+
+5.7.3
+
+GTZC1 TZIC interrupt enable register 3 (GTZC1_TZIC_IER3) . . . . . . 229
+
+5.7.4
+
+GTZC1 TZIC interrupt enable register 4 (GTZC1_TZIC_IER4) . . . . . . 232
+
+5.7.5
+
+GTZC1 TZIC status register 1 (GTZC1_TZIC_SR1) . . . . . . . . . . . . . . 235
+
+5.7.6
+
+GTZC1 TZIC status register 2 (GTZC1_TZIC_SR2) . . . . . . . . . . . . . . 237
+
+5.7.7
+
+GTZC1 TZIC status register 3 (GTZC1_TZIC_SR3) . . . . . . . . . . . . . . 239
+
+5.7.8
+
+GTZC1 TZIC status register 4 (GTZC1_TZIC_SR4) . . . . . . . . . . . . . . 242
+
+5.7.9
+
+GTZC1 TZIC flag clear register 1 (GTZC1_TZIC_FCR1) . . . . . . . . . . 245
+
+5.7.10
+
+GTZC1 TZIC flag clear register 2 (GTZC1_TZIC_FCR2) . . . . . . . . . . 247
+
+5.7.11
+
+GTZC1 TZIC flag clear register 3 (GTZC1_TZIC_FCR3) . . . . . . . . . . 248
+
+5.7.12
+
+GTZC1 TZIC flag clear register 4 (GTZC1_TZIC_FCR4) . . . . . . . . . . 252
+
+5.7.13
+
+GTZC1 TZIC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 254
+
+GTZC1 MPCBBz registers (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . . . . . . . . 256
+5.8.1
+
+GTZC1 SRAMz MPCBB control register
+(GTZC1_MPCBBz_CR) (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . . . . . . . . . 256
+
+5.8.2
+
+GTZC1 SRAMz MPCBB configuration lock register 1
+(GTZC1_MPCBBz_CFGLOCKR1) (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . 257
+
+5.8.3
+
+GTZC1 SRAMz MPCBB configuration lock register 2
+(GTZC1_MPCBBz_CFGLOCKR2) (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . 257
+
+5.8.4
+
+GTZC1 SRAMz MPCBB security configuration for super-block x
+register (GTZC1_MPCBBz_SECCFGRx) (z = 1, 2, 3, 5, 6) . . . . . . . . 258
+
+5.8.5
+
+GTZC1 SRAMz MPCBB privileged configuration for super-block x
+register (GTZC1_MPCBBz_PRIVCFGRx) (z = 1, 2, 3, 5, 6) . . . . . . . . 258
+
+5.8.6
+
+GTZC1 MPCBBz register map (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . . . . 259
+
+GTZC2 TZSC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 260
+5.9.1
+
+GTZC2 TZSC control register (GTZC2_TZSC_CR) . . . . . . . . . . . . . . 260
+
+5.9.2
+
+GTZC2 TZSC secure configuration register 1
+(GTZC2_TZSC_SECCFGR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 260
+
+5.9.3
+
+GTZC2 TZSC privilege configuration register 1
+(GTZC2_TZSC_PRIVCFGR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 262
+
+5.9.4
+
+GTZC2 TZSC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 263
+
+GTZC2 TZIC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 264
+5.10.1
+
+GTZC2 TZIC interrupt enable register 1 (GTZC2_TZIC_IER1) . . . . . . 264
+
+5.10.2
+
+GTZC2 TZIC interrupt enable register 2 (GTZC2_TZIC_IER2) . . . . . . 265
+
+5.10.3
+
+GTZC2 TZIC status register 1 (GTZC2_TZIC_SR1) . . . . . . . . . . . . . . 266
+
+5.10.4
+
+GTZC2 TZIC status register 2 (GTZC2_TZIC_SR2) . . . . . . . . . . . . . . 267
+
+5.10.5
+
+GTZC2 TZIC flag clear register 1 (GTZC2_TZIC_FCR1) . . . . . . . . . . 269
+
+5.10.6
+
+GTZC2 TZIC flag clear register 2 (GTZC2_TZIC_FCR2) . . . . . . . . . . 270
+
+5.10.7
+
+GTZC2 TZIC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 271
+
+RM0456 Rev 6
+
+5/3653
+90
+
+Contents
+
+RM0456
+
+5.11
+
+6
+
+7
+6/3653
+
+GTZC2 MPCBB4 registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 272
+5.11.1
+
+GTZC2 SRAM4 MPCBB control register (GTZC2_MPCBB4_CR) . . . 272
+
+5.11.2
+
+GTZC2 SRAM4 MPCBB configuration lock register 1
+(GTZC2_MPCBB4_CFGLOCKR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . 273
+
+5.11.3
+
+GTZC2 SRAM4 MPCBB security configuration for super-block 0
+register (GTZC2_MPCBB4_SECCFGR0) . . . . . . . . . . . . . . . . . . . . . . 273
+
+5.11.4
+
+GTZC2 SRAM4 MPCBB privileged configuration for super-block 0
+register (GTZC2_MPCBB4_PRIVCFGR0) . . . . . . . . . . . . . . . . . . . . . 274
+
+5.11.5
+
+GTZC2 MPCBB4 register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 274
+
+RAM configuration controller (RAMCFG) . . . . . . . . . . . . . . . . . . . . . . 276
+6.1
+
+RAMCFG introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+
+6.2
+
+RAMCFG main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+
+6.3
+
+RAMCFG functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+6.3.1
+
+Internal SRAMs features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 276
+
+6.3.2
+
+Error code correction (SRAM2, SRAM3, BKPSRAM) . . . . . . . . . . . . . 277
+
+6.3.3
+
+Write protection (SRAM2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 280
+
+6.3.4
+
+Read access latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 280
+
+6.3.5
+
+Software erase . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 280
+
+6.4
+
+RAMCFG low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281
+
+6.5
+
+RAMCFG interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281
+
+6.6
+
+RAMCFG registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 282
+6.6.1
+
+RAMCFG memory x control register (RAMCFG_MxCR) . . . . . . . . . . . 282
+
+6.6.2
+
+RAMCFG memory x interrupt enable register (RAMCFG_MxIER) . . . 283
+
+6.6.3
+
+RAMCFG memory interrupt status register (RAMCFG_MxISR) . . . . . 283
+
+6.6.4
+
+RAMCFG memory x ECC single error address register
+(RAMCFG_MxSEAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 284
+
+6.6.5
+
+RAMCFG memory x ECC double error address register
+(RAMCFG_MxDEAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 285
+
+6.6.6
+
+RAMCFG memory x interrupt clear register x (RAMCFG_MxICR) . . . 285
+
+6.6.7
+
+RAMCFG memory 2 write protection register 1
+(RAMCFG_M2WPR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 286
+
+6.6.8
+
+RAMCFG memory 2 write protection register 2
+(RAMCFG_M2WPR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 286
+
+6.6.9
+
+RAMCFG memory x ECC key register (RAMCFG_MxECCKEYR) . . . 286
+
+6.6.10
+
+RAMCFG memory x erase key register (RAMCFG_MxERKEYR) . . . 287
+
+6.6.11
+
+RAMCFG register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 287
+
+Embedded flash memory (FLASH) . . . . . . . . . . . . . . . . . . . . . . . . . . . 291
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+7.1
+
+FLASH introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 291
+
+7.2
+
+FLASH main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 291
+
+7.3
+
+FLASH functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 292
+
+7.4
+
+7.5
+
+7.6
+
+7.3.1
+
+Flash memory organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 292
+
+7.3.2
+
+Error code correction (ECC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 294
+
+7.3.3
+
+Read access latency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 295
+
+7.3.4
+
+Bank power-down mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 297
+
+7.3.5
+
+Flash memory program and erase operations . . . . . . . . . . . . . . . . . . . 298
+
+7.3.6
+
+Flash main memory erase sequences . . . . . . . . . . . . . . . . . . . . . . . . . 299
+
+7.3.7
+
+Flash main memory programming sequences . . . . . . . . . . . . . . . . . . . 300
+
+7.3.8
+
+Flash memory endurance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 302
+
+7.3.9
+
+Flash memory errors flags . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 302
+
+7.3.10
+
+Read-while-write (RWW) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 304
+
+7.3.11
+
+Power-down during FLASH programming or erase operation . . . . . . . 304
+
+7.3.12
+
+Reset during FLASH programming or erase operation . . . . . . . . . . . . 304
+
+FLASH option bytes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 305
+7.4.1
+
+Option bytes description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 305
+
+7.4.2
+
+Option-byte programming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 307
+
+FLASH TrustZone security and privilege protections . . . . . . . . . . . . . . . 308
+7.5.1
+
+TrustZone security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 308
+
+7.5.2
+
+Watermark-based secure flash memory area protection . . . . . . . . . . . 309
+
+7.5.3
+
+Secure hide protection (HDP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 310
+
+7.5.4
+
+Block-based secure flash memory area protection . . . . . . . . . . . . . . . 311
+
+7.5.5
+
+Flash security attribute state . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 312
+
+7.5.6
+
+Block-based privileged flash memory area protection . . . . . . . . . . . . . 312
+
+7.5.7
+
+Flash memory registers privileged and unprivileged modes . . . . . . . . 313
+
+7.5.8
+
+Flash memory bank attributes in case of bank swap . . . . . . . . . . . . . . 313
+
+FLASH memory protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 314
+7.6.1
+
+Write protection (WRP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 315
+
+7.6.2
+
+Readout protection (RDP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 316
+
+7.7
+
+Flash memory and FLASH registers access control . . . . . . . . . . . . . . . 325
+
+7.8
+
+FLASH interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 329
+
+7.9
+
+FLASH registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 329
+7.9.1
+
+FLASH access control register (FLASH_ACR) . . . . . . . . . . . . . . . . . . 329
+
+7.9.2
+
+FLASH nonsecure key register (FLASH_NSKEYR) . . . . . . . . . . . . . . 331
+
+7.9.3
+
+FLASH secure key register (FLASH_SECKEYR) . . . . . . . . . . . . . . . . 331
+
+RM0456 Rev 6
+
+7/3653
+90
+
+Contents
+
+8
+
+8/3653
+
+RM0456
+7.9.4
+
+FLASH option key register (FLASH_OPTKEYR) . . . . . . . . . . . . . . . . . 332
+
+7.9.5
+
+FLASH bank 1 power-down key register (FLASH_PDKEY1R) . . . . . . 332
+
+7.9.6
+
+FLASH bank 2 power-down key register (FLASH_PDKEY2R) . . . . . . 333
+
+7.9.7
+
+FLASH nonsecure status register (FLASH_NSSR) . . . . . . . . . . . . . . . 333
+
+7.9.8
+
+FLASH secure status register (FLASH_SECSR) . . . . . . . . . . . . . . . . 335
+
+7.9.9
+
+FLASH nonsecure control register (FLASH_NSCR) . . . . . . . . . . . . . . 336
+
+7.9.10
+
+FLASH secure control register (FLASH_SECCR) . . . . . . . . . . . . . . . . 338
+
+7.9.11
+
+FLASH ECC register (FLASH_ECCR) . . . . . . . . . . . . . . . . . . . . . . . . 340
+
+7.9.12
+
+FLASH operation status register (FLASH_OPSR) . . . . . . . . . . . . . . . 341
+
+7.9.13
+
+FLASH option register (FLASH_OPTR) . . . . . . . . . . . . . . . . . . . . . . . 342
+
+7.9.14
+
+FLASH nonsecure boot address 0 register
+(FLASH_NSBOOTADD0R) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 344
+
+7.9.15
+
+FLASH nonsecure boot address 1 register
+(FLASH_NSBOOTADD1R) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 345
+
+7.9.16
+
+FLASH secure boot address 0 register (FLASH_SECBOOTADD0R) . 346
+
+7.9.17
+
+FLASH secure watermark1 register 1 (FLASH_SECWM1R1) . . . . . . 347
+
+7.9.18
+
+FLASH secure watermark1 register 2 (FLASH_SECWM1R2) . . . . . . 348
+
+7.9.19
+
+FLASH WRP1 area A address register (FLASH_WRP1AR) . . . . . . . . 349
+
+7.9.20
+
+FLASH WRP1 area B address register (FLASH_WRP1BR) . . . . . . . . 350
+
+7.9.21
+
+FLASH secure watermark2 register 1 (FLASH_SECWM2R1) . . . . . . 351
+
+7.9.22
+
+FLASH secure watermark2 register 2 (FLASH_SECWM2R2) . . . . . . 352
+
+7.9.23
+
+FLASH WPR2 area A address register (FLASH_WRP2AR) . . . . . . . . 353
+
+7.9.24
+
+FLASH WPR2 area B address register (FLASH_WRP2BR) . . . . . . . . 354
+
+7.9.25
+
+FLASH OEM1 key register 1 (FLASH_OEM1KEYR1) . . . . . . . . . . . . 355
+
+7.9.26
+
+FLASH OEM1 key register 2 (FLASH_OEM1KEYR2) . . . . . . . . . . . . 355
+
+7.9.27
+
+FLASH OEM2 key register 1 (FLASH_OEM2KEYR1) . . . . . . . . . . . . 356
+
+7.9.28
+
+FLASH OEM2 key register 2 (FLASH_OEM2KEYR2) . . . . . . . . . . . . 356
+
+7.9.29
+
+FLASH secure block based bank 1 register x (FLASH_SECBB1Rx) . 357
+
+7.9.30
+
+FLASH secure block based bank 2 register x (FLASH_SECBB2Rx) . 357
+
+7.9.31
+
+FLASH secure HDP control register (FLASH_SECHDPCR) . . . . . . . . 358
+
+7.9.32
+
+FLASH privilege configuration register (FLASH_PRIVCFGR) . . . . . . . 358
+
+7.9.33
+
+FLASH privilege block based bank 1 register x
+(FLASH_PRIVBB1Rx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 359
+
+7.9.34
+
+FLASH privilege block based bank 2 register x
+(FLASH_PRIVBB2Rx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 360
+
+7.9.35
+
+FLASH register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 360
+
+Instruction cache (ICACHE) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 364
+
+RM0456 Rev 6
+
+RM0456
+
+9
+
+Contents
+
+8.1
+
+ICACHE introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 364
+
+8.2
+
+ICACHE main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 364
+
+8.3
+
+ICACHE implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 365
+
+8.4
+
+ICACHE functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 366
+8.4.1
+
+ICACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 366
+
+8.4.2
+
+ICACHE reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 367
+
+8.4.3
+
+ICACHE TAG memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 367
+
+8.4.4
+
+Direct-mapped ICACHE (1-way cache) . . . . . . . . . . . . . . . . . . . . . . . . 368
+
+8.4.5
+
+ICACHE enable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 369
+
+8.4.6
+
+Cacheable and noncacheable traffic . . . . . . . . . . . . . . . . . . . . . . . . . . 370
+
+8.4.7
+
+Address remapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 371
+
+8.4.8
+
+Cacheable accesses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 373
+
+8.4.9
+
+Dual-master cache . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 374
+
+8.4.10
+
+ICACHE security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 374
+
+8.4.11
+
+ICACHE maintenance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 374
+
+8.4.12
+
+ICACHE performance monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . . 375
+
+8.4.13
+
+ICACHE boot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 375
+
+8.5
+
+ICACHE low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 375
+
+8.6
+
+ICACHE error management and interrupts . . . . . . . . . . . . . . . . . . . . . . 376
+
+8.7
+
+ICACHE registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 376
+8.7.1
+
+ICACHE control register (ICACHE_CR) . . . . . . . . . . . . . . . . . . . . . . . 376
+
+8.7.2
+
+ICACHE status register (ICACHE_SR) . . . . . . . . . . . . . . . . . . . . . . . . 377
+
+8.7.3
+
+ICACHE interrupt enable register (ICACHE_IER) . . . . . . . . . . . . . . . . 378
+
+8.7.4
+
+ICACHE flag clear register (ICACHE_FCR) . . . . . . . . . . . . . . . . . . . . 378
+
+8.7.5
+
+ICACHE hit monitor register (ICACHE_HMONR) . . . . . . . . . . . . . . . . 379
+
+8.7.6
+
+ICACHE miss monitor register (ICACHE_MMONR) . . . . . . . . . . . . . . 379
+
+8.7.7
+
+ICACHE region x configuration register (ICACHE_CRRx) . . . . . . . . . 379
+
+8.7.8
+
+ICACHE register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 381
+
+Data cache (DCACHE) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 382
+9.1
+
+DCACHE introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 382
+
+9.2
+
+DCACHE main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 382
+
+9.3
+
+DCACHE implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 383
+
+9.4
+
+DCACHE functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 384
+9.4.1
+
+DCACHE block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 384
+
+9.4.2
+
+DCACHE reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 385
+
+RM0456 Rev 6
+
+9/3653
+90
+
+Contents
+
+10
+
+10/3653
+
+RM0456
+9.4.3
+
+DCACHE TAG memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 385
+
+9.4.4
+
+DCACHE enable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 387
+
+9.4.5
+
+Cacheable and noncacheable traffic . . . . . . . . . . . . . . . . . . . . . . . . . . 387
+
+9.4.6
+
+Cacheable accesses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 388
+
+9.4.7
+
+DCACHE security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 390
+
+9.4.8
+
+DCACHE maintenance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 390
+
+9.4.9
+
+DCACHE performance monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . 392
+
+9.4.10
+
+DCACHE boot . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 392
+
+9.5
+
+DCACHE low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 393
+
+9.6
+
+DCACHE error management and interrupts . . . . . . . . . . . . . . . . . . . . . . 393
+
+9.7
+
+DCACHE registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 394
+9.7.1
+
+DCACHE control register (DCACHE_CR) . . . . . . . . . . . . . . . . . . . . . . 394
+
+9.7.2
+
+DCACHE status register (DCACHE_SR) . . . . . . . . . . . . . . . . . . . . . . 395
+
+9.7.3
+
+DCACHE interrupt enable register (DCACHE_IER) . . . . . . . . . . . . . . 396
+
+9.7.4
+
+DCACHE flag clear register (DCACHE_FCR) . . . . . . . . . . . . . . . . . . . 397
+
+9.7.5
+
+DCACHE read-hit monitor register (DCACHE_RHMONR) . . . . . . . . . 397
+
+9.7.6
+
+DCACHE read-miss monitor register (DCACHE_RMMONR) . . . . . . . 398
+
+9.7.7
+
+DCACHE write-hit monitor register (DCACHE_WHMONR) . . . . . . . . 398
+
+9.7.8
+
+DCACHE write-miss monitor register (DCACHE_WMMONR) . . . . . . 398
+
+9.7.9
+
+DCACHE command range start address register
+(DCACHE_CMDRSADDRR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+
+9.7.10
+
+DCACHE command range end address register
+(DCACHE_CMDREADDRR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+
+9.7.11
+
+DCACHE register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+
+Power control (PWR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+10.1
+
+PWR introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+
+10.2
+
+PWR main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+
+10.3
+
+PWR pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 401
+
+10.4
+
+PWR power supplies and supply domains . . . . . . . . . . . . . . . . . . . . . . . 404
+10.4.1
+
+External power supplies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 404
+
+10.4.2
+
+Internal regulators . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 406
+
+10.4.3
+
+Power-up and power-down power sequences . . . . . . . . . . . . . . . . . . . 406
+
+10.4.4
+
+Independent analog peripherals supply . . . . . . . . . . . . . . . . . . . . . . . . 406
+
+10.4.5
+
+Independent I/O supply rail . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 407
+
+10.4.6
+
+Independent USB transceivers supply . . . . . . . . . . . . . . . . . . . . . . . . . 407
+
+10.4.7
+
+Battery backup domain (also known as RTC domain) . . . . . . . . . . . . . 408
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+10.5
+
+10.6
+
+10.7
+
+PWR system supply voltage regulation . . . . . . . . . . . . . . . . . . . . . . . . . 409
+10.5.1
+
+SMPS and LDO embedded regulators . . . . . . . . . . . . . . . . . . . . . . . . 409
+
+10.5.2
+
+LDO and SMPS versus reset, voltage scaling, and low-power modes 409
+
+10.5.3
+
+LDO and SMPS step down converter fast startup . . . . . . . . . . . . . . . . 410
+
+10.5.4
+
+Dynamic voltage scaling management . . . . . . . . . . . . . . . . . . . . . . . . 410
+
+PWR power-supply supervision . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 412
+10.6.1
+
+Brownout reset (BOR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 412
+
+10.6.2
+
+Programmable voltage detector (PVD) . . . . . . . . . . . . . . . . . . . . . . . . 412
+
+10.6.3
+
+Peripheral voltage monitoring (PVM) . . . . . . . . . . . . . . . . . . . . . . . . . . 413
+
+10.6.4
+
+Backup domain voltage and temperature monitoring . . . . . . . . . . . . . 415
+
+PWR power management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 415
+10.7.1
+
+Power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 415
+
+10.7.2
+
+Autonomous peripherals and low-power background autonomous mode
+(LPBAM) 422
+
+10.7.3
+
+Run mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 424
+
+10.7.4
+
+Low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 424
+
+10.7.5
+
+Sleep mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 425
+
+10.7.6
+
+Stop 0 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 426
+
+10.7.7
+
+Stop 1 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 429
+
+10.7.8
+
+Stop 2 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 429
+
+10.7.9
+
+Stop 3 mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 431
+
+10.7.10 Standby mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 434
+10.7.11 Shutdown mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 436
+10.7.12 USB power management in low-power modes
+(STM32U59x/5Ax/5Fx/5Gx only) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 438
+10.7.13 Power modes output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 439
+
+10.8
+
+10.9
+
+PWR security and privileged protection . . . . . . . . . . . . . . . . . . . . . . . . . 440
+10.8.1
+
+PWR security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 440
+
+10.8.2
+
+WR privileged protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 441
+
+PWR interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 442
+
+10.10 PWR registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 443
+10.10.1 PWR control register 1 (PWR_CR1) . . . . . . . . . . . . . . . . . . . . . . . . . . 443
+10.10.2 PWR control register 2 (PWR_CR2) . . . . . . . . . . . . . . . . . . . . . . . . . . 445
+10.10.3 PWR control register 3 (PWR_CR3) . . . . . . . . . . . . . . . . . . . . . . . . . . 449
+10.10.4 PWR voltage scaling register (PWR_VOSR) . . . . . . . . . . . . . . . . . . . . 449
+10.10.5 PWR supply voltage monitoring control register (PWR_SVMCR) . . . . 451
+10.10.6 PWR wake-up control register 1 (PWR_WUCR1) . . . . . . . . . . . . . . . . 452
+
+RM0456 Rev 6
+
+11/3653
+90
+
+Contents
+
+RM0456
+10.10.7 PWR wake-up control register 2 (PWR_WUCR2) . . . . . . . . . . . . . . . . 453
+10.10.8 PWR wake-up control register 3 (PWR_WUCR3) . . . . . . . . . . . . . . . . 455
+10.10.9 PWR backup domain control register 1 (PWR_BDCR1) . . . . . . . . . . . 456
+10.10.10 PWR backup domain control register 2 (PWR_BDCR2) . . . . . . . . . . . 457
+10.10.11 PWR disable backup domain register (PWR_DBPR) . . . . . . . . . . . . . 458
+10.10.12 PWR UCPD register (PWR_UCPDR) . . . . . . . . . . . . . . . . . . . . . . . . . 458
+10.10.13 PWR security configuration register (PWR_SECCFGR) . . . . . . . . . . . 459
+10.10.14 PWR privilege control register (PWR_PRIVCFGR) . . . . . . . . . . . . . . . 461
+10.10.15 PWR status register (PWR_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 461
+10.10.16 PWR supply voltage monitoring status register (PWR_SVMSR) . . . . 462
+10.10.17 PWR backup domain status register (PWR_BDSR) . . . . . . . . . . . . . . 463
+10.10.18 PWR wake-up status register (PWR_WUSR) . . . . . . . . . . . . . . . . . . . 464
+10.10.19 PWR wake-up status clear register (PWR_WUSCR) . . . . . . . . . . . . . 465
+10.10.20 PWR apply pull configuration register (PWR_APCR) . . . . . . . . . . . . . 466
+10.10.21 PWR port A pull-up control register (PWR_PUCRA) . . . . . . . . . . . . . . 466
+10.10.22 PWR port A pull-down control register (PWR_PDCRA) . . . . . . . . . . . . 467
+10.10.23 PWR port B pull-up control register (PWR_PUCRB) . . . . . . . . . . . . . . 468
+10.10.24 PWR port B pull-down control register (PWR_PDCRB) . . . . . . . . . . . 468
+10.10.25 PWR port C pull-up control register (PWR_PUCRC) . . . . . . . . . . . . . 469
+10.10.26 PWR port C pull-down control register (PWR_PDCRC) . . . . . . . . . . . 469
+10.10.27 PWR port D pull-up control register (PWR_PUCRD) . . . . . . . . . . . . . 470
+10.10.28 PWR port D pull-down control register (PWR_PDCRD) . . . . . . . . . . . 470
+10.10.29 PWR port E pull-up control register (PWR_PUCRE) . . . . . . . . . . . . . . 471
+10.10.30 PWR port E pull-down control register (PWR_PDCRE) . . . . . . . . . . . 471
+10.10.31 PWR port F pull-up control register (PWR_PUCRF) . . . . . . . . . . . . . . 472
+10.10.32 PWR port F pull-down control register (PWR_PDCRF) . . . . . . . . . . . . 472
+10.10.33 PWR port G pull-up control register (PWR_PUCRG) . . . . . . . . . . . . . 473
+10.10.34 PWR port G pull-down control register (PWR_PDCRG) . . . . . . . . . . . 473
+10.10.35 PWR port H pull-up control register (PWR_PUCRH) . . . . . . . . . . . . . 474
+10.10.36 PWR port H pull-down control register (PWR_PDCRH) . . . . . . . . . . . 474
+10.10.37 PWR port I pull-up control register (PWR_PUCRI) . . . . . . . . . . . . . . . 475
+10.10.38 PWR port I pull-down control register (PWR_PDCRI) . . . . . . . . . . . . . 475
+10.10.39 PWR port J pull-up control register (PWR_PUCRJ) . . . . . . . . . . . . . . 476
+10.10.40 PWR port J pull-down control register (PWR_PDCRJ) . . . . . . . . . . . . 477
+10.10.41 PWR control register 4 (PWR_CR4) . . . . . . . . . . . . . . . . . . . . . . . . . . 477
+10.10.42 PWR control register 5 (PWR_CR5) . . . . . . . . . . . . . . . . . . . . . . . . . . 478
+10.10.43 PWR register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 479
+
+12/3653
+
+RM0456 Rev 6
+
+RM0456
+
+11
+
+Contents
+
+Reset and clock control (RCC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 483
+11.1
+
+RCC introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 483
+
+11.2
+
+RCC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 483
+
+11.3
+
+RCC reset functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 483
+
+11.4
+
+11.3.1
+
+Power reset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 483
+
+11.3.2
+
+System reset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 484
+
+11.3.3
+
+Backup domain reset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 485
+
+RCC clock functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 485
+11.4.1
+
+HSE clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 488
+
+11.4.2
+
+HSI16 clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 489
+
+11.4.3
+
+MSI (MSIS and MSIK) clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 489
+
+11.4.4
+
+HSI48 clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 492
+
+11.4.5
+
+SHSI clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 492
+
+11.4.6
+
+PLL . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 493
+
+11.4.7
+
+LSE clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 496
+
+11.4.8
+
+LSI clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 497
+
+11.4.9
+
+System clock (SYSCLK) selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . 497
+
+11.4.10 Clock source frequency versus voltage scaling . . . . . . . . . . . . . . . . . . 498
+11.4.11
+
+Clock security system (CSS) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 498
+
+11.4.12 Clock security system on LSE . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 499
+11.4.13 ADC and DAC clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 499
+11.4.14 RTC and TAMP clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 500
+11.4.15 Timer clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 500
+11.4.16 Watchdog clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 500
+11.4.17 OCTOSPI clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 500
+11.4.18 HSPI1 clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 501
+11.4.19 OTG_HS clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 501
+11.4.20 DSI clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 501
+11.4.21 LTDC clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 501
+11.4.22 Clock-out capability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 501
+11.4.23 Internal/external clock measurement with TIM15/TIM16/TIM17 . . . . . 502
+11.4.24 Peripherals clock gating and autonomous mode . . . . . . . . . . . . . . . . . 502
+
+11.5
+
+11.6
+
+RCC security and privilege functional description . . . . . . . . . . . . . . . . . 505
+11.5.1
+
+RCC TrustZone security protection modes . . . . . . . . . . . . . . . . . . . . . 505
+
+11.5.2
+
+RCC privilege protection modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 508
+
+RCC low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 509
+
+RM0456 Rev 6
+
+13/3653
+90
+
+Contents
+
+RM0456
+
+11.7
+
+RCC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 510
+
+11.8
+
+RCC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 512
+11.8.1
+
+RCC clock control register (RCC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . 512
+
+11.8.2
+
+RCC internal clock sources calibration register 1 (RCC_ICSCR1) . . . 516
+
+11.8.3
+
+RCC internal clock sources calibration register 2 (RCC_ICSCR2) . . . 518
+
+11.8.4
+
+RCC internal clock sources calibration register 3 (RCC_ICSCR3) . . . 519
+
+11.8.5
+
+RCC clock recovery RC register (RCC_CRRCR) . . . . . . . . . . . . . . . . 520
+
+11.8.6
+
+RCC clock configuration register 1 (RCC_CFGR1) . . . . . . . . . . . . . . . 520
+
+11.8.7
+
+RCC clock configuration register 2 (RCC_CFGR2) . . . . . . . . . . . . . . . 522
+
+11.8.8
+
+RCC clock configuration register 3 (RCC_CFGR3) . . . . . . . . . . . . . . . 524
+
+11.8.9
+
+RCC PLL1 configuration register (RCC_PLL1CFGR) . . . . . . . . . . . . . 525
+
+11.8.10 RCC PLL2 configuration register (RCC_PLL2CFGR) . . . . . . . . . . . . . 527
+11.8.11
+
+RCC PLL3 configuration register (RCC_PLL3CFGR) . . . . . . . . . . . . . 528
+
+11.8.12 RCC PLL1 dividers register (RCC_PLL1DIVR) . . . . . . . . . . . . . . . . . . 530
+11.8.13 RCC PLL1 fractional divider register (RCC_PLL1FRACR) . . . . . . . . . 531
+11.8.14 RCC PLL2 dividers configuration register (RCC_PLL2DIVR) . . . . . . . 532
+11.8.15 RCC PLL2 fractional divider register (RCC_PLL2FRACR) . . . . . . . . . 533
+11.8.16 RCC PLL3 dividers configuration register (RCC_PLL3DIVR) . . . . . . . 534
+11.8.17 RCC PLL3 fractional divider register (RCC_PLL3FRACR) . . . . . . . . . 535
+11.8.18 RCC clock interrupt enable register (RCC_CIER) . . . . . . . . . . . . . . . . 536
+11.8.19 RCC clock interrupt flag register (RCC_CIFR) . . . . . . . . . . . . . . . . . . 537
+11.8.20 RCC clock interrupt clear register (RCC_CICR) . . . . . . . . . . . . . . . . . 539
+11.8.21 RCC AHB1 peripheral reset register (RCC_AHB1RSTR) . . . . . . . . . . 540
+11.8.22 RCC AHB2 peripheral reset register 1 (RCC_AHB2RSTR1) . . . . . . . 542
+11.8.23 RCC AHB2 peripheral reset register 2 (RCC_AHB2RSTR2) . . . . . . . 545
+11.8.24 RCC AHB3 peripheral reset register (RCC_AHB3RSTR) . . . . . . . . . . 546
+11.8.25 RCC APB1 peripheral reset register 1 (RCC_APB1RSTR1) . . . . . . . . 547
+11.8.26 RCC APB1 peripheral reset register 2 (RCC_APB1RSTR2) . . . . . . . . 549
+11.8.27 RCC APB2 peripheral reset register (RCC_APB2RSTR) . . . . . . . . . . 550
+11.8.28 RCC APB3 peripheral reset register (RCC_APB3RSTR) . . . . . . . . . . 552
+11.8.29 RCC AHB1 peripheral clock enable register (RCC_AHB1ENR) . . . . . 553
+11.8.30 RCC AHB2 peripheral clock enable register 1 (RCC_AHB2ENR1) . . . 556
+11.8.31 RCC AHB2 peripheral clock enable register 2 (RCC_AHB2ENR2) . . . 560
+11.8.32 RCC AHB3 peripheral clock enable register (RCC_AHB3ENR) . . . . . 561
+11.8.33 RCC APB1 peripheral clock enable register 1 (RCC_APB1ENR1) . . . 562
+11.8.34 RCC APB1 peripheral clock enable register 2 (RCC_APB1ENR2) . . . 564
+11.8.35 RCC APB2 peripheral clock enable register (RCC_APB2ENR) . . . . . 566
+
+14/3653
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+11.8.36 RCC APB3 peripheral clock enable register (RCC_APB3ENR) . . . . . 568
+11.8.37 RCC AHB1 peripheral clock enable in Sleep and Stop modes register
+(RCC_AHB1SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 569
+11.8.38 RCC AHB2 peripheral clock enable in Sleep and
+Stop modes register 1 (RCC_AHB2SMENR1) . . . . . . . . . . . . . . . . . . 572
+11.8.39 RCC AHB2 peripheral clock enable in Sleep and
+Stop modes register 2 (RCC_AHB2SMENR2) . . . . . . . . . . . . . . . . . . 576
+11.8.40 RCC AHB3 peripheral clock enable in Sleep and Stop modes register
+(RCC_AHB3SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 577
+11.8.41 RCC APB1 peripheral clock enable in Sleep and Stop modes
+register 1 (RCC_APB1SMENR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 579
+11.8.42 RCC APB1 peripheral clocks enable in Sleep and
+Stop modes register 2 (RCC_APB1SMENR2) . . . . . . . . . . . . . . . . . . 581
+11.8.43 RCC APB2 peripheral clocks enable in Sleep and Stop modes register
+(RCC_APB2SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 583
+11.8.44 RCC APB3 peripheral clock enable in Sleep and Stop modes register
+(RCC_APB3SMENR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 585
+11.8.45 RCC SmartRun domain peripheral autonomous mode register
+(RCC_SRDAMR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 587
+11.8.46 RCC peripherals independent clock configuration register 1
+(RCC_CCIPR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 589
+11.8.47 RCC peripherals independent clock configuration register 2
+(RCC_CCIPR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 592
+11.8.48 RCC peripherals independent clock configuration register 3
+(RCC_CCIPR3) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 595
+11.8.49 RCC backup domain control register (RCC_BDCR) . . . . . . . . . . . . . . 597
+11.8.50 RCC control/status register (RCC_CSR) . . . . . . . . . . . . . . . . . . . . . . . 600
+11.8.51 RCC secure configuration register (RCC_SECCFGR) . . . . . . . . . . . . 602
+11.8.52 RCC privilege configuration register (RCC_PRIVCFGR) . . . . . . . . . . 603
+11.8.53 RCC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 604
+
+12
+
+Clock recovery system (CRS) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+12.1
+
+CRS introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+
+12.2
+
+CRS main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+
+12.3
+
+CRS implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 610
+
+12.4
+
+CRS functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .611
+12.4.1
+
+CRS block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 611
+
+12.4.2
+
+CRS internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 611
+
+12.4.3
+
+Synchronization input . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 612
+
+12.4.4
+
+Frequency error measurement . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 613
+
+RM0456 Rev 6
+
+15/3653
+90
+
+Contents
+
+13
+
+RM0456
+12.4.5
+
+Frequency error evaluation and automatic trimming . . . . . . . . . . . . . . 613
+
+12.4.6
+
+CRS initialization and configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . 614
+
+12.5
+
+CRS in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
+
+12.6
+
+CRS interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 615
+
+12.7
+
+CRS registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 616
+12.7.1
+
+CRS control register (CRS_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 616
+
+12.7.2
+
+CRS configuration register (CRS_CFGR) . . . . . . . . . . . . . . . . . . . . . . 617
+
+12.7.3
+
+CRS interrupt and status register (CRS_ISR) . . . . . . . . . . . . . . . . . . . 618
+
+12.7.4
+
+CRS interrupt flag clear register (CRS_ICR) . . . . . . . . . . . . . . . . . . . . 620
+
+12.7.5
+
+CRS register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 620
+
+General-purpose I/Os (GPIO) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+13.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+
+13.2
+
+GPIO main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+
+13.3
+
+GPIO functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 622
+13.3.1
+
+General-purpose I/O (GPIO) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 624
+
+13.3.2
+
+I/O pin alternate function multiplexer and mapping . . . . . . . . . . . . . . . 625
+
+13.3.3
+
+I/O port control registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 625
+
+13.3.4
+
+I/O port data registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.5
+
+I/O data bitwise handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.6
+
+GPIO locking mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.7
+
+I/O alternate function input/output . . . . . . . . . . . . . . . . . . . . . . . . . . . . 626
+
+13.3.8
+
+External interrupt/wake-up lines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+
+13.3.9
+
+Input configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+
+13.3.10 Output configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 627
+13.3.11 Alternate function configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 628
+13.3.12 Analog configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 629
+13.3.13 Using the HSE or LSE oscillator pins as GPIOs . . . . . . . . . . . . . . . . . 629
+13.3.14 Using the GPIO pins in the RTC supply domain . . . . . . . . . . . . . . . . . 629
+13.3.15 Using PH3 as GPIO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 630
+13.3.16 Using PA11 and PA12 as GPIOs (STM32U59x/5Ax/5Fx/5Gx only) . . 630
+13.3.17 OPAMPx_VINM dedicated pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 630
+13.3.18 TrustZone security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 630
+13.3.19 Privileged and unprivileged modes . . . . . . . . . . . . . . . . . . . . . . . . . . . 631
+13.3.20 High-speed low-voltage mode (HSLV) . . . . . . . . . . . . . . . . . . . . . . . . . 631
+13.3.21 I/O compensation cell . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 632
+
+16/3653
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+13.4
+
+GPIO registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 633
+13.4.1
+
+GPIO port mode register (GPIOx_MODER) (x = A to J) . . . . . . . . . . . 633
+
+13.4.2
+
+GPIO port output type register (GPIOx_OTYPER) (x = A to J) . . . . . . 634
+
+13.4.3
+
+GPIO port output speed register (GPIOx_OSPEEDR) (x = A to J) . . . 634
+
+13.4.4
+
+GPIO port pull-up/pull-down register (GPIOx_PUPDR) (x = A to J) . . . 635
+
+13.4.5
+
+GPIO port input data register (GPIOx_IDR) (x = A to J) . . . . . . . . . . . 635
+
+13.4.6
+
+GPIO port output data register (GPIOx_ODR) (x = A to J) . . . . . . . . . 636
+
+13.4.7
+
+GPIO port bit set/reset register (GPIOx_BSRR) (x = A to J) . . . . . . . . 636
+
+13.4.8
+
+GPIO port configuration lock register (GPIOx_LCKR) (x = A to J) . . . . 637
+
+13.4.9
+
+GPIO alternate function low register (GPIOx_AFRL) (x = A to J) . . . . 638
+
+13.4.10 GPIO alternate function high register (GPIOx_AFRH) (x = A to J) . . . 638
+13.4.11 GPIO port bit reset register (GPIOx_BRR) (x = A to J) . . . . . . . . . . . . 639
+13.4.12 GPIO high-speed low-voltage register (GPIOx_HSLVR) (x = A to J) . . 640
+13.4.13 GPIO secure configuration register (GPIOx_SECCFGR) (x = A to J) . 641
+13.4.14 GPIO register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 641
+
+14
+
+Low-power general-purpose I/Os (LPGPIO) . . . . . . . . . . . . . . . . . . . . 643
+14.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.2
+
+LPGPIO main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3
+
+LPGPIO functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.4
+
+15
+
+14.3.1
+
+LPGPIO and GPIO configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.2
+
+LPGPIO control registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.3
+
+LPGPIO I/O data registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.4
+
+LPGPIO I/O data bitwise handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . 643
+
+14.3.5
+
+Security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 644
+
+14.3.6
+
+Secure clock and reset management . . . . . . . . . . . . . . . . . . . . . . . . . 644
+
+LPGPIO registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 644
+14.4.1
+
+LPGPIO port mode register (LPGPIO_MODER) . . . . . . . . . . . . . . . . . 644
+
+14.4.2
+
+LPGPIO port input data register (LPGPIO_IDR) . . . . . . . . . . . . . . . . . 645
+
+14.4.3
+
+LPGPIO port output data register (LPGPIO_ODR) . . . . . . . . . . . . . . . 645
+
+14.4.4
+
+LPGPIO port bit set/reset register (LPGPIO_BSRR) . . . . . . . . . . . . . . 646
+
+14.4.5
+
+LPGPIO port bit reset register (LPGPIO_BRR) . . . . . . . . . . . . . . . . . . 646
+
+14.4.6
+
+LPGPIO register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 647
+
+System configuration controller (SYSCFG) . . . . . . . . . . . . . . . . . . . . 648
+15.1
+
+SYSCFG main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 648
+
+RM0456 Rev 6
+
+17/3653
+90
+
+Contents
+
+RM0456
+
+15.2
+
+15.3
+
+SYSCFG functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 648
+15.2.1
+
+I/O compensation cell management . . . . . . . . . . . . . . . . . . . . . . . . . . 648
+
+15.2.2
+
+SYSCFG TrustZone security and privilege . . . . . . . . . . . . . . . . . . . . . 649
+
+15.2.3
+
+Configuring the OTG_HS PHY
+(only for STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . 651
+
+15.2.4
+
+Adjusting HSPI supply capacitance
+(only for STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . 651
+
+15.2.5
+
+Internal SRAMs cacheability by DCACHE2
+(only for STM32U59x/5Ax/5Fx/5Gx) . . . . . . . . . . . . . . . . . . . . . . . . . . 651
+
+SYSCFG registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 652
+15.3.1
+
+SYSCFG secure configuration register (SYSCFG_SECCFGR) . . . . . 652
+
+15.3.2
+
+SYSCFG configuration register 1 (SYSCFG_CFGR1) . . . . . . . . . . . . 653
+
+15.3.3
+
+SYSCFG FPU interrupt mask register (SYSCFG_FPUIMR) . . . . . . . . 655
+
+15.3.4
+
+SYSCFG CPU nonsecure lock register (SYSCFG_CNSLCKR) . . . . . 655
+
+15.3.5
+
+SYSCFG CPU secure lock register (SYSCFG_CSLCKR) . . . . . . . . . 656
+
+15.3.6
+
+SYSCFG configuration register 2 (SYSCFG_CFGR2) . . . . . . . . . . . . 657
+
+15.3.7
+
+SYSCFG memory erase status register (SYSCFG_MESR) . . . . . . . . 658
+
+15.3.8
+
+SYSCFG compensation cell control/status register
+(SYSCFG_CCCSR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 659
+
+15.3.9
+
+SYSCFG compensation cell value register (SYSCFG_CCVR) . . . . . . 661
+
+15.3.10 SYSCFG compensation cell code register (SYSCFG_CCCR) . . . . . . 662
+15.3.11 SYSCFG RSS command register (SYSCFG_RSSCMDR) . . . . . . . . . 663
+15.3.12 SYSCFG OTG_HS PHY register (SYSCFG_OTGHSPHYCR) . . . . . . 664
+15.3.13 SYSCFG OTG_HS PHY tune register 2
+(SYSCFG_OTGHSPHYTUNER2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 665
+15.3.14 SYSCFG register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 666
+
+16
+
+18/3653
+
+Peripherals interconnect matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 668
+16.1
+
+Interconnect matrix introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 668
+
+16.2
+
+Connection summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 669
+
+16.3
+
+Interconnection details . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 671
+16.3.1
+
+Master to slave interconnection for timers . . . . . . . . . . . . . . . . . . . . . . 671
+
+16.3.2
+
+Triggers to ADCs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 671
+
+16.3.3
+
+ADC analog watchdogs as triggers to timers . . . . . . . . . . . . . . . . . . . . 673
+
+16.3.4
+
+Triggers to DAC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 673
+
+16.3.5
+
+Triggers on MDF1 or ADF1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 674
+
+16.3.6
+
+Timer break from MDF1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 674
+
+16.3.7
+
+Clock sources to timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 675
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+16.3.8
+
+Triggers to low-power timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 676
+
+16.3.9
+
+Blanking sources to comparators . . . . . . . . . . . . . . . . . . . . . . . . . . . . 677
+
+16.3.10 RTC wake-up as inputs to timers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 677
+16.3.11 OTG_FS/OTG_HS SOF as trigger to timers . . . . . . . . . . . . . . . . . . . . 678
+16.3.12 Comparators as inputs, trigger or break signals to timers . . . . . . . . . . 678
+16.3.13 System errors as break signals to timers . . . . . . . . . . . . . . . . . . . . . . . 679
+16.3.14 Timers generating IRTIM signal . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 679
+16.3.15 Triggers for communication peripherals . . . . . . . . . . . . . . . . . . . . . . . . 680
+16.3.16 Triggers to GPDMA/LPDMA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 680
+16.3.17 Internal analog signals to analog peripherals . . . . . . . . . . . . . . . . . . . 681
+16.3.18 ADC data filtering by the MDF1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 682
+16.3.19 Clock source for the DAC sample and hold mode . . . . . . . . . . . . . . . . 682
+16.3.20 Triggers from graphic interfaces to timers . . . . . . . . . . . . . . . . . . . . . . 683
+16.3.21 Internal tamper sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 683
+16.3.22 Output from tamper to RTC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 683
+16.3.23 Encryption keys to AES/SAES . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 684
+
+17
+
+General purpose direct memory access controller (GPDMA) . . . . . . 685
+17.1
+
+GPDMA introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 685
+
+17.2
+
+GPDMA main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 685
+
+17.3
+
+GPDMA implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 686
+
+17.4
+
+17.3.1
+
+GPDMA channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 686
+
+17.3.2
+
+GPDMA autonomous mode in low-power modes . . . . . . . . . . . . . . . . 687
+
+17.3.3
+
+GPDMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 687
+
+17.3.4
+
+GPDMA block requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 691
+
+17.3.5
+
+GPDMA triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 691
+
+GPDMA functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 694
+17.4.1
+
+GPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 694
+
+17.4.2
+
+GPDMA channel state and direct programming without any linked-list 694
+
+17.4.3
+
+GPDMA channel suspend and resume . . . . . . . . . . . . . . . . . . . . . . . . 695
+
+17.4.4
+
+GPDMA channel abort and restart . . . . . . . . . . . . . . . . . . . . . . . . . . . . 696
+
+17.4.5
+
+GPDMA linked-list data structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 697
+
+17.4.6
+
+Linked-list item transfer execution . . . . . . . . . . . . . . . . . . . . . . . . . . . . 700
+
+17.4.7
+
+GPDMA channel state and linked-list programming
+in run-to-completion mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 701
+
+17.4.8
+
+GPDMA channel state and linked-list programming in link step mode 704
+
+17.4.9
+
+GPDMA channel state and linked-list programming . . . . . . . . . . . . . . 711
+
+RM0456 Rev 6
+
+19/3653
+90
+
+Contents
+
+RM0456
+17.4.10 GPDMA FIFO-based transfers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 713
+17.4.11 GPDMA transfer request and arbitration . . . . . . . . . . . . . . . . . . . . . . . 720
+17.4.12 GPDMA triggered transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 724
+17.4.13 GPDMA circular buffering with linked-list programming . . . . . . . . . . . . 725
+17.4.14
+
+GPDMA secure/nonsecure channel . . . . . . . . . . . . . . . . . . . . . . . . . . 727
+
+17.4.15 GPDMA privileged/unprivileged channel . . . . . . . . . . . . . . . . . . . . . . . 728
+17.4.16 GPDMA error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 728
+17.4.17 GPDMA autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 730
+
+17.5
+
+GPDMA in debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 731
+
+17.6
+
+GPDMA in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 731
+
+17.7
+
+GPDMA interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 732
+
+17.8
+
+GPDMA registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 734
+17.8.1
+
+GPDMA secure configuration register (GPDMA_SECCFGR) . . . . . . . 734
+
+17.8.2
+
+GPDMA privileged configuration register (GPDMA_PRIVCFGR) . . . . 735
+
+17.8.3
+
+GPDMA configuration lock register (GPDMA_RCFGLOCKR) . . . . . . . 735
+
+17.8.4
+
+GPDMA nonsecure masked interrupt status register
+(GPDMA_MISR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 736
+
+17.8.5
+
+GPDMA secure masked interrupt status register (GPDMA_SMISR) . . 737
+
+17.8.6
+
+GPDMA channel x linked-list base address register
+(GPDMA_CxLBAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 737
+
+17.8.7
+
+GPDMA channel x flag clear register (GPDMA_CxFCR) . . . . . . . . . . 738
+
+17.8.8
+
+GPDMA channel x status register (GPDMA_CxSR) . . . . . . . . . . . . . . 739
+
+17.8.9
+
+GPDMA channel x control register (GPDMA_CxCR) . . . . . . . . . . . . . 740
+
+17.8.10 GPDMA channel x transfer register 1 (GPDMA_CxTR1) . . . . . . . . . . 742
+17.8.11 GPDMA channel x transfer register 2 (GPDMA_CxTR2) . . . . . . . . . . 746
+17.8.12 GPDMA channel x block register 1 (GPDMA_CxBR1) . . . . . . . . . . . . 750
+17.8.13 GPDMA channel x alternate block register 1 (GPDMA_CxBR1) . . . . . 751
+17.8.14 GPDMA channel x source address register (GPDMA_CxSAR) . . . . . 754
+17.8.15 GPDMA channel x destination address register (GPDMA_CxDAR) . . 756
+17.8.16 GPDMA channel x transfer register 3 (GPDMA_CxTR3) . . . . . . . . . . 757
+17.8.17 GPDMA channel x block register 2 (GPDMA_CxBR2) . . . . . . . . . . . . 758
+17.8.18 GPDMA channel x linked-list address register (GPDMA_CxLLR) . . . . 759
+17.8.19 GPDMA channel x alternate linked-list address register
+(GPDMA_CxLLR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 761
+17.8.20 GPDMA register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 762
+
+18
+
+20/3653
+
+Low-power direct memory access controller (LPDMA) . . . . . . . . . . . 764
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+18.1
+
+LPDMA introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 764
+
+18.2
+
+LPDMA main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 764
+
+18.3
+
+LPDMA implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 765
+
+18.4
+
+18.3.1
+
+LPDMA channels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 765
+
+18.3.2
+
+LPDMA autonomous mode in low-power modes . . . . . . . . . . . . . . . . . 765
+
+18.3.3
+
+LPDMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 766
+
+18.3.4
+
+LPDMA block requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 766
+
+18.3.5
+
+LPDMA triggers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 767
+
+LPDMA functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+18.4.1
+
+LPDMA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+
+18.4.2
+
+LPDMA channel state and direct programming without
+any linked-list . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+
+18.4.3
+
+LPDMA channel suspend and resume . . . . . . . . . . . . . . . . . . . . . . . . 770
+
+18.4.4
+
+LPDMA channel abort and restart . . . . . . . . . . . . . . . . . . . . . . . . . . . . 771
+
+18.4.5
+
+LPDMA linked-list data structure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 772
+
+18.4.6
+
+Linked-list item transfer execution . . . . . . . . . . . . . . . . . . . . . . . . . . . . 774
+
+18.4.7
+
+LPDMA channel state and linked-list programming
+in run-to-completion mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 774
+
+18.4.8
+
+LPDMA channel state and linked-list programming in link step mode . 779
+
+18.4.9
+
+LPDMA channel state and linked-list programming . . . . . . . . . . . . . . . 785
+
+18.4.10 LPDMA direct transfers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 787
+18.4.11 LPDMA transfer request and arbitration . . . . . . . . . . . . . . . . . . . . . . . 789
+18.4.12 LPDMA triggered transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 793
+18.4.13 LPDMA circular buffering with linked-list programming . . . . . . . . . . . . 794
+18.4.14 LPDMA secure/nonsecure channel . . . . . . . . . . . . . . . . . . . . . . . . . . . 796
+18.4.15 LPDMA privileged/unprivileged channel . . . . . . . . . . . . . . . . . . . . . . . 797
+18.4.16 LPDMA error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 798
+18.4.17 LPDMA autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 799
+
+18.5
+
+LPDMA in debug mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 800
+
+18.6
+
+LPDMA in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 800
+
+18.7
+
+LPDMA interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 801
+
+18.8
+
+LPDMA registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 802
+18.8.1
+
+LPDMA secure configuration register (LPDMA_SECCFGR) . . . . . . . . 802
+
+18.8.2
+
+LPDMA privileged configuration register (LPDMA_PRIVCFGR) . . . . . 803
+
+18.8.3
+
+LPDMA configuration lock register (LPDMA_RCFGLOCKR) . . . . . . . 804
+
+18.8.4
+
+LPDMA nonsecure masked interrupt status register
+(LPDMA_MISR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 804
+
+RM0456 Rev 6
+
+21/3653
+90
+
+Contents
+
+RM0456
+18.8.5
+
+LPDMA secure masked interrupt status register (LPDMA_SMISR) . . 805
+
+18.8.6
+
+LPDMA channel x linked-list base address register
+(LPDMA_CxLBAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 806
+
+18.8.7
+
+LPDMA channel x flag clear register (LPDMA_CxFCR) . . . . . . . . . . . 806
+
+18.8.8
+
+LPDMA channel x status register (LPDMA_CxSR) . . . . . . . . . . . . . . . 807
+
+18.8.9
+
+LPDMA channel x control register (LPDMA_CxCR) . . . . . . . . . . . . . . 809
+
+18.8.10 LPDMA channel x transfer register 1 (LPDMA_CxTR1) . . . . . . . . . . . 811
+18.8.11 LPDMA channel x transfer register 2 (LPDMA_CxTR2) . . . . . . . . . . . 813
+18.8.12 LPDMA channel x block register 1 (LPDMA_CxBR1) . . . . . . . . . . . . . 816
+18.8.13 LPDMA channel x source address register (LPDMA_CxSAR) . . . . . . 817
+18.8.14 LPDMA channel x destination address register (LPDMA_CxDAR) . . . 818
+18.8.15 LPDMA channel x linked-list address register (LPDMA_CxLLR) . . . . . 819
+18.8.16 LPDMA register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 820
+
+19
+
+Chrom-ART Accelerator controller (DMA2D) . . . . . . . . . . . . . . . . . . . 822
+19.1
+
+DMA2D introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 822
+
+19.2
+
+DMA2D main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 822
+
+19.3
+
+DMA2D functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 823
+19.3.1
+
+DMA2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 823
+
+19.3.2
+
+DMA2D internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 824
+
+19.3.3
+
+DMA2D control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 825
+
+19.3.4
+
+DMA2D foreground and background FIFOs . . . . . . . . . . . . . . . . . . . . 825
+
+19.3.5
+
+DMA2D foreground and background pixel format converter (PFC) . . . 825
+
+19.3.6
+
+DMA2D foreground and background CLUT interface . . . . . . . . . . . . . 827
+
+19.3.7
+
+DMA2D blender . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 829
+
+19.3.8
+
+DMA2D output PFC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 829
+
+19.3.9
+
+DMA2D output FIFO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 829
+
+19.3.10 DMA2D output FIFO byte reordering . . . . . . . . . . . . . . . . . . . . . . . . . . 830
+19.3.11 DMA2D AHB master port timer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 832
+19.3.12 DMA2D transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 832
+19.3.13 DMA2D configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 832
+19.3.14 DMA2D transfer control (start, suspend, abort and completion) . . . . . 836
+19.3.15 Watermark . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 836
+19.3.16 Error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 836
+19.3.17 AHB dead time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 837
+
+22/3653
+
+19.4
+
+DMA2D interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 837
+
+19.5
+
+DMA2D registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 838
+RM0456 Rev 6
+
+RM0456
+
+Contents
+19.5.1
+
+DMA2D control register (DMA2D_CR) . . . . . . . . . . . . . . . . . . . . . . . . 838
+
+19.5.2
+
+DMA2D interrupt status register (DMA2D_ISR) . . . . . . . . . . . . . . . . . 839
+
+19.5.3
+
+DMA2D interrupt flag clear register (DMA2D_IFCR) . . . . . . . . . . . . . . 840
+
+19.5.4
+
+DMA2D foreground memory address register (DMA2D_FGMAR) . . . 841
+
+19.5.5
+
+DMA2D foreground offset register (DMA2D_FGOR) . . . . . . . . . . . . . . 841
+
+19.5.6
+
+DMA2D background memory address register (DMA2D_BGMAR) . . 842
+
+19.5.7
+
+DMA2D background offset register (DMA2D_BGOR) . . . . . . . . . . . . . 842
+
+19.5.8
+
+DMA2D foreground PFC control register (DMA2D_FGPFCCR) . . . . . 843
+
+19.5.9
+
+DMA2D foreground color register (DMA2D_FGCOLR) . . . . . . . . . . . . 844
+
+19.5.10 DMA2D background PFC control register (DMA2D_BGPFCCR) . . . . 845
+19.5.11 DMA2D background color register (DMA2D_BGCOLR) . . . . . . . . . . . 847
+19.5.12 DMA2D foreground CLUT memory address register
+(DMA2D_FGCMAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 847
+19.5.13 DMA2D background CLUT memory address register
+(DMA2D_BGCMAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 848
+19.5.14 DMA2D output PFC control register (DMA2D_OPFCCR) . . . . . . . . . . 848
+19.5.15 DMA2D output color register (DMA2D_OCOLR) . . . . . . . . . . . . . . . . . 849
+19.5.16 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 850
+19.5.17 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 850
+19.5.18 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 851
+19.5.19 DMA2D output memory address register (DMA2D_OMAR) . . . . . . . . 851
+19.5.20 DMA2D output offset register (DMA2D_OOR) . . . . . . . . . . . . . . . . . . 852
+19.5.21 DMA2D number of line register (DMA2D_NLR) . . . . . . . . . . . . . . . . . 852
+19.5.22 DMA2D line watermark register (DMA2D_LWR) . . . . . . . . . . . . . . . . . 853
+19.5.23 DMA2D AHB master timer configuration register (DMA2D_AMTCR) . 853
+19.5.24 DMA2D foreground CLUT (DMA2D_FGCLUTx) . . . . . . . . . . . . . . . . . 854
+19.5.25 DMA2D background CLUT (DMA2D_BGCLUTx) . . . . . . . . . . . . . . . . 854
+19.5.26 DMA2D register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 855
+
+20
+
+Chrom-ART Accelerator controller (DMA2D) . . . . . . . . . . . . . . . . . . . 857
+20.1
+
+DMA2D introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 857
+
+20.2
+
+DMA2D main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 857
+
+20.3
+
+DMA2D functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 858
+20.3.1
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 858
+
+20.3.2
+
+DMA2D internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 859
+
+20.3.3
+
+DMA2D control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 860
+
+20.3.4
+
+DMA2D foreground and background FIFOs . . . . . . . . . . . . . . . . . . . . 860
+
+RM0456 Rev 6
+
+23/3653
+90
+
+Contents
+
+RM0456
+20.3.5
+
+DMA2D foreground and background PFC . . . . . . . . . . . . . . . . . . . . . . 860
+
+20.3.6
+
+DMA2D foreground and background CLUT interface . . . . . . . . . . . . . 862
+
+20.3.7
+
+DMA2D blender . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 864
+
+20.3.8
+
+DMA2D output PFC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 864
+
+20.3.9
+
+DMA2D output FIFO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 864
+
+20.3.10 DMA2D output FIFO byte reordering . . . . . . . . . . . . . . . . . . . . . . . . . . 865
+20.3.11 DMA2D AHB master port timer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 867
+20.3.12 DMA2D transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 867
+20.3.13 DMA2D configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 867
+20.3.14 YCbCr support . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 871
+20.3.15 DMA2D transfer control (start, suspend, abort, and completion) . . . . . 871
+20.3.16 Watermark . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+20.3.17 Error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+20.3.18 AHB dead time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+
+20.4
+
+DMA2D interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 872
+
+20.5
+
+DMA2D registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 873
+20.5.1
+
+DMA2D control register (DMA2D_CR) . . . . . . . . . . . . . . . . . . . . . . . . 873
+
+20.5.2
+
+DMA2D interrupt status register (DMA2D_ISR) . . . . . . . . . . . . . . . . . 875
+
+20.5.3
+
+DMA2D interrupt flag clear register (DMA2D_IFCR) . . . . . . . . . . . . . . 875
+
+20.5.4
+
+DMA2D foreground memory address register (DMA2D_FGMAR) . . . 876
+
+20.5.5
+
+DMA2D foreground offset register (DMA2D_FGOR) . . . . . . . . . . . . . . 876
+
+20.5.6
+
+DMA2D background memory address register (DMA2D_BGMAR) . . 877
+
+20.5.7
+
+DMA2D background offset register (DMA2D_BGOR) . . . . . . . . . . . . . 877
+
+20.5.8
+
+DMA2D foreground PFC control register (DMA2D_FGPFCCR) . . . . . 878
+
+20.5.9
+
+DMA2D foreground color register (DMA2D_FGCOLR) . . . . . . . . . . . . 880
+
+20.5.10 DMA2D background PFC control register (DMA2D_BGPFCCR) . . . . 880
+20.5.11 DMA2D background color register (DMA2D_BGCOLR) . . . . . . . . . . . 882
+20.5.12 DMA2D foreground CLUT memory address register
+(DMA2D_FGCMAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 882
+20.5.13 DMA2D background CLUT memory address register
+(DMA2D_BGCMAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 883
+20.5.14 DMA2D output PFC control register (DMA2D_OPFCCR) . . . . . . . . . . 883
+20.5.15 DMA2D output color register (DMA2D_OCOLR) . . . . . . . . . . . . . . . . . 884
+20.5.16 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 885
+20.5.17 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 885
+20.5.18 DMA2D output color register [alternate] (DMA2D_OCOLR) . . . . . . . . 886
+20.5.19 DMA2D output memory address register (DMA2D_OMAR) . . . . . . . . 886
+
+24/3653
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+20.5.20 DMA2D output offset register (DMA2D_OOR) . . . . . . . . . . . . . . . . . . 887
+20.5.21 DMA2D number of line register (DMA2D_NLR) . . . . . . . . . . . . . . . . . 887
+20.5.22 DMA2D line watermark register (DMA2D_LWR) . . . . . . . . . . . . . . . . . 888
+20.5.23 DMA2D AHB master timer configuration register (DMA2D_AMTCR) . 888
+20.5.24 DMA2D foreground CLUT (DMA2D_FGCLUTx) . . . . . . . . . . . . . . . . . 889
+20.5.25 DMA2D background CLUT (DMA2D_BGCLUTx) . . . . . . . . . . . . . . . . 889
+20.5.26 DMA2D register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 890
+
+21
+
+Chrom-GRC (GFXMMU) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+21.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+
+21.2
+
+GFXMMU main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+
+21.3
+
+GFXMMU implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
+
+21.4
+
+GFXMMU functional and architectural description . . . . . . . . . . . . . . . . . 893
+21.4.1
+
+Virtual memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 893
+
+21.4.2
+
+MMU architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 895
+
+21.4.3
+
+Cache and prefetch mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 898
+
+21.4.4
+
+Address cache . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 900
+
+21.5
+
+GFXMMU interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 901
+
+21.6
+
+GFXMMU registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 902
+21.6.1
+
+GFXMMU configuration register (GFXMMU_CR) . . . . . . . . . . . . . . . . 902
+
+21.6.2
+
+GFXMMU status register (GFXMMU_SR) . . . . . . . . . . . . . . . . . . . . . . 904
+
+21.6.3
+
+GFXMMU flag clear register (GFXMMU_FCR) . . . . . . . . . . . . . . . . . . 904
+
+21.6.4
+
+GFXMMU cache control register (GFXMMU_CCR) . . . . . . . . . . . . . . 905
+
+21.6.5
+
+GFXMMU default value register (GFXMMU_DVR) . . . . . . . . . . . . . . . 905
+
+21.6.6
+
+GFXMMU buffer 0 configuration register (GFXMMU_B0CR) . . . . . . . 906
+
+21.6.7
+
+GFXMMU buffer 1 configuration register (GFXMMU_B1CR) . . . . . . . 906
+
+21.6.8
+
+GFXMMU buffer 2 configuration register (GFXMMU_B2CR) . . . . . . . 907
+
+21.6.9
+
+GFXMMU buffer 3 configuration register (GFXMMU_B3CR) . . . . . . . 907
+
+21.6.10 GFXMMU LUT entry x low (GFXMMU_LUTxL) . . . . . . . . . . . . . . . . . . 908
+21.6.11 GFXMMU LUT entry x high (GFXMMU_LUTxH) . . . . . . . . . . . . . . . . . 908
+21.6.12 GFXMMU register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 909
+
+22
+
+Nested vectored interrupt controller (NVIC) . . . . . . . . . . . . . . . . . . . . 911
+22.1
+
+NVIC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .911
+
+22.2
+
+SysTick calibration value register . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .911
+
+22.3
+
+Interrupt and exception vectors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 912
+
+RM0456 Rev 6
+
+25/3653
+90
+
+Contents
+
+23
+
+RM0456
+
+Extended interrupts and event controller (EXTI) . . . . . . . . . . . . . . . . 918
+23.1
+
+EXTI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 918
+
+23.2
+
+EXTI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 918
+
+23.3
+
+23.2.1
+
+EXTI connections between peripherals and CPU . . . . . . . . . . . . . . . . 920
+
+23.2.2
+
+EXTI interrupt/event mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 920
+
+EXTI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 921
+23.3.1
+
+EXTI configurable event input wake-up . . . . . . . . . . . . . . . . . . . . . . . . 921
+
+23.3.2
+
+EXTI mux selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 922
+
+23.4
+
+EXTI functional behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 922
+
+23.5
+
+EXTI event protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 923
+
+23.6
+
+23.5.1
+
+EXTI security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 924
+
+23.5.2
+
+EXTI privilege protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 924
+
+EXTI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 925
+23.6.1
+
+EXTI rising trigger selection register (EXTI_RTSR1) . . . . . . . . . . . . . . 925
+
+23.6.2
+
+EXTI falling trigger selection register (EXTI_FTSR1) . . . . . . . . . . . . . 926
+
+23.6.3
+
+EXTI software interrupt event register (EXTI_SWIER1) . . . . . . . . . . . 926
+
+23.6.4
+
+EXTI rising edge pending register (EXTI_RPR1) . . . . . . . . . . . . . . . . 927
+
+23.6.5
+
+EXTI falling edge pending register (EXTI_FPR1) . . . . . . . . . . . . . . . . 928
+
+23.6.6
+
+EXTI security configuration register (EXTI_SECCFGR1) . . . . . . . . . . 928
+
+23.6.7
+
+EXTI privilege configuration register (EXTI_PRIVCFGR1) . . . . . . . . . 929
+
+23.6.8
+
+EXTI external interrupt selection register (EXTI_EXTICRm) . . . . . . . . 930
+
+23.6.9
+
+EXTI lock register (EXTI_LOCKR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 932
+
+23.6.10 EXTI CPU wake-up with interrupt mask register (EXTI_IMR1) . . . . . . 933
+23.6.11 EXTI CPU wake-up with event mask register (EXTI_EMR1) . . . . . . . 933
+23.6.12 EXTI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 934
+
+24
+
+Cyclic redundancy check calculation unit (CRC) . . . . . . . . . . . . . . . . 936
+24.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 936
+
+24.2
+
+CRC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 936
+
+24.3
+
+CRC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+
+24.4
+
+26/3653
+
+24.3.1
+
+CRC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+
+24.3.2
+
+CRC internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+
+24.3.3
+
+CRC operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+
+CRC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 939
+24.4.1
+
+CRC data register (CRC_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 939
+
+24.4.2
+
+CRC independent data register (CRC_IDR) . . . . . . . . . . . . . . . . . . . . 939
+
+RM0456 Rev 6
+
+RM0456
+
+25
+
+Contents
+CRC control register (CRC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 940
+
+24.4.4
+
+CRC initial value (CRC_INIT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 941
+
+24.4.5
+
+CRC polynomial (CRC_POL) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 941
+
+24.4.6
+
+CRC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 942
+
+CORDIC coprocessor (CORDIC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 943
+25.1
+
+CORDIC introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 943
+
+25.2
+
+CORDIC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 943
+
+25.3
+
+CORDIC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 943
+
+25.4
+
+26
+
+24.4.3
+
+25.3.1
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 943
+
+25.3.2
+
+CORDIC functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 943
+
+25.3.3
+
+Fixed point representation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 950
+
+25.3.4
+
+Scaling factor . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 950
+
+25.3.5
+
+Precision . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 951
+
+25.3.6
+
+Zero-overhead mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 954
+
+25.3.7
+
+Polling mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 955
+
+25.3.8
+
+Interrupt mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 956
+
+25.3.9
+
+DMA mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 956
+
+CORDIC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 957
+25.4.1
+
+CORDIC control/status register (CORDIC_CSR) . . . . . . . . . . . . . . . . 957
+
+25.4.2
+
+CORDIC argument register (CORDIC_WDATA) . . . . . . . . . . . . . . . . . 959
+
+25.4.3
+
+CORDIC result register (CORDIC_RDATA) . . . . . . . . . . . . . . . . . . . . . 960
+
+25.4.4
+
+CORDIC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 960
+
+Filter math accelerator (FMAC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 961
+26.1
+
+FMAC introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 961
+
+26.2
+
+FMAC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 961
+
+26.3
+
+FMAC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 962
+26.3.1
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 962
+
+26.3.2
+
+Local memory and buffers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 963
+
+26.3.3
+
+Input buffers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 963
+
+26.3.4
+
+Output buffer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 966
+
+26.3.5
+
+Initialization functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 968
+
+26.3.6
+
+Filter functions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 969
+
+26.3.7
+
+Fixed point representation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 973
+
+26.3.8
+
+Implementing FIR filters with the FMAC . . . . . . . . . . . . . . . . . . . . . . . 973
+
+RM0456 Rev 6
+
+27/3653
+90
+
+Contents
+
+RM0456
+26.3.9
+
+Implementing IIR filters with the FMAC . . . . . . . . . . . . . . . . . . . . . . . . 975
+
+26.3.10 Examples of filter initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 977
+26.3.11 Examples of filter operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 978
+26.3.12 Filter design tips . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 980
+
+26.4
+
+27
+
+FMAC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 981
+26.4.1
+
+FMAC X1 buffer configuration register (FMAC_X1BUFCFG) . . . . . . . 981
+
+26.4.2
+
+FMAC X2 buffer configuration register (FMAC_X2BUFCFG) . . . . . . . 981
+
+26.4.3
+
+FMAC Y buffer configuration register (FMAC_YBUFCFG) . . . . . . . . . 982
+
+26.4.4
+
+FMAC parameter register (FMAC_PARAM) . . . . . . . . . . . . . . . . . . . . 983
+
+26.4.5
+
+FMAC control register (FMAC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 984
+
+26.4.6
+
+FMAC status register (FMAC_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 985
+
+26.4.7
+
+FMAC write data register (FMAC_WDATA) . . . . . . . . . . . . . . . . . . . . . 986
+
+26.4.8
+
+FMAC read data register (FMAC_RDATA) . . . . . . . . . . . . . . . . . . . . . 987
+
+26.4.9
+
+FMAC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 987
+
+Flexible static memory controller (FSMC) . . . . . . . . . . . . . . . . . . . . . 989
+27.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 989
+
+27.2
+
+FMC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 989
+
+27.3
+
+FMC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 990
+
+27.4
+
+AHB interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 991
+27.4.1
+
+27.5
+
+27.6
+
+27.7
+
+28/3653
+
+Supported memories and transactions . . . . . . . . . . . . . . . . . . . . . . . . 991
+
+External device address mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 992
+27.5.1
+
+NOR/PSRAM address mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
+
+27.5.2
+
+NAND flash memory address mapping . . . . . . . . . . . . . . . . . . . . . . . . 994
+
+NOR flash/PSRAM controller . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 994
+27.6.1
+
+External memory interface signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . 996
+
+27.6.2
+
+Supported memories and transactions . . . . . . . . . . . . . . . . . . . . . . . . 998
+
+27.6.3
+
+General timing rules . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 999
+
+27.6.4
+
+NOR flash/PSRAM controller asynchronous transactions . . . . . . . . . . 999
+
+27.6.5
+
+Synchronous transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1018
+
+27.6.6
+
+NOR/PSRAM controller registers . . . . . . . . . . . . . . . . . . . . . . . . . . . 1025
+
+NAND flash controller . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1033
+27.7.1
+
+External memory interface signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 1033
+
+27.7.2
+
+NAND flash supported memories and transactions . . . . . . . . . . . . . . 1034
+
+27.7.3
+
+Timing diagrams for NAND flash memory . . . . . . . . . . . . . . . . . . . . . 1035
+
+27.7.4
+
+NAND flash operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1036
+
+RM0456 Rev 6
+
+RM0456
+
+28
+
+Contents
+27.7.5
+
+NAND flash prewait functionality . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1036
+
+27.7.6
+
+Computation of the error correction code (ECC)
+in NAND flash memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1037
+
+27.7.7
+
+NAND flash controller registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1038
+
+27.7.8
+
+FMC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1044
+
+Octo-SPI interface (OCTOSPI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1046
+28.1
+
+OCTOSPI introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1046
+
+28.2
+
+OCTOSPI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1046
+
+28.3
+
+OCTOSPI implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1047
+
+28.4
+
+OCTOSPI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1048
+28.4.1
+
+OCTOSPI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1048
+
+28.4.2
+
+OCTOSPI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . 1050
+
+28.4.3
+
+OCTOSPI interface to memory modes . . . . . . . . . . . . . . . . . . . . . . . 1051
+
+28.4.4
+
+OCTOSPI regular-command protocol . . . . . . . . . . . . . . . . . . . . . . . . 1052
+
+28.4.5
+
+OCTOSPI regular-command protocol signal interface . . . . . . . . . . . . 1055
+
+28.4.6
+
+HyperBus protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1058
+
+28.4.7
+
+Specific features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1062
+
+28.4.8
+
+OCTOSPI operating mode introduction . . . . . . . . . . . . . . . . . . . . . . . 1064
+
+28.4.9
+
+OCTOSPI indirect mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1064
+
+28.4.10 OCTOSPI automatic status-polling mode . . . . . . . . . . . . . . . . . . . . . 1066
+28.4.11 OCTOSPI memory-mapped mode . . . . . . . . . . . . . . . . . . . . . . . . . . . 1067
+28.4.12 OCTOSPI configuration introduction . . . . . . . . . . . . . . . . . . . . . . . . . 1068
+28.4.13 OCTOSPI system configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1068
+28.4.14 OCTOSPI device configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1068
+28.4.15 OCTOSPI regular-command mode configuration . . . . . . . . . . . . . . . 1071
+28.4.16 OCTOSPI HyperBus protocol configuration . . . . . . . . . . . . . . . . . . . . 1073
+28.4.17 OCTOSPI error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1074
+28.4.18 OCTOSPI BUSY and ABORT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1075
+28.4.19 OCTOSPI reconfiguration or deactivation . . . . . . . . . . . . . . . . . . . . . 1075
+28.4.20 NCS behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1075
+
+28.5
+
+Address alignment and data number . . . . . . . . . . . . . . . . . . . . . . . . . . 1077
+
+28.6
+
+OCTOSPI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1078
+
+28.7
+
+OCTOSPI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1078
+28.7.1
+
+OCTOSPI control register (OCTOSPI_CR) . . . . . . . . . . . . . . . . . . . . 1078
+
+28.7.2
+
+OCTOSPI device configuration register 1 (OCTOSPI_DCR1) . . . . . 1081
+
+28.7.3
+
+OCTOSPI device configuration register 2 (OCTOSPI_DCR2) . . . . . 1083
+RM0456 Rev 6
+
+29/3653
+90
+
+Contents
+
+RM0456
+28.7.4
+
+OCTOSPI device configuration register 3 (OCTOSPI_DCR3) . . . . . 1084
+
+28.7.5
+
+OCTOSPI device configuration register 4 (OCTOSPI_DCR4) . . . . . 1084
+
+28.7.6
+
+OCTOSPI status register (OCTOSPI_SR) . . . . . . . . . . . . . . . . . . . . . 1085
+
+28.7.7
+
+OCTOSPI flag clear register (OCTOSPI_FCR) . . . . . . . . . . . . . . . . . 1086
+
+28.7.8
+
+OCTOSPI data length register (OCTOSPI_DLR) . . . . . . . . . . . . . . . 1086
+
+28.7.9
+
+OCTOSPI address register (OCTOSPI_AR) . . . . . . . . . . . . . . . . . . . 1087
+
+28.7.10 OCTOSPI data register (OCTOSPI_DR) . . . . . . . . . . . . . . . . . . . . . . 1087
+28.7.11 OCTOSPI polling status mask register (OCTOSPI_PSMKR) . . . . . . 1088
+28.7.12 OCTOSPI polling status match register (OCTOSPI_PSMAR) . . . . . . 1089
+28.7.13 OCTOSPI polling interval register (OCTOSPI_PIR) . . . . . . . . . . . . . 1089
+28.7.14 OCTOSPI communication configuration register (OCTOSPI_CCR) . 1089
+28.7.15 OCTOSPI timing configuration register (OCTOSPI_TCR) . . . . . . . . . 1092
+28.7.16 OCTOSPI instruction register (OCTOSPI_IR) . . . . . . . . . . . . . . . . . . 1092
+28.7.17 OCTOSPI alternate bytes register (OCTOSPI_ABR) . . . . . . . . . . . . 1093
+28.7.18 OCTOSPI low-power timeout register (OCTOSPI_LPTR) . . . . . . . . . 1093
+28.7.19 OCTOSPI wrap communication configuration register
+(OCTOSPI_WPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1094
+28.7.20 OCTOSPI wrap timing configuration register (OCTOSPI_WPTCR) . 1096
+28.7.21 OCTOSPI wrap instruction register (OCTOSPI_WPIR) . . . . . . . . . . . 1096
+28.7.22 OCTOSPI wrap alternate bytes register (OCTOSPI_WPABR) . . . . . 1097
+28.7.23 OCTOSPI write communication configuration register
+(OCTOSPI_WCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1097
+28.7.24 OCTOSPI write timing configuration register (OCTOSPI_WTCR) . . . 1099
+28.7.25 OCTOSPI write instruction register (OCTOSPI_WIR) . . . . . . . . . . . . 1100
+28.7.26 OCTOSPI write alternate bytes register (OCTOSPI_WABR) . . . . . . 1100
+28.7.27 OCTOSPI HyperBus latency configuration register
+(OCTOSPI_HLCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1101
+28.7.28 OCTOSPI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1101
+
+29
+
+30/3653
+
+Octo-SPI I/O manager (OCTOSPIM) . . . . . . . . . . . . . . . . . . . . . . . . . . 1105
+29.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+
+29.2
+
+OCTOSPIM main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+
+29.3
+
+OCTOSPIM implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+
+29.4
+
+OCTOSPIM functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1105
+29.4.1
+
+OCTOSPIM block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1105
+
+29.4.2
+
+OCTOSPIM input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1106
+
+29.4.3
+
+OCTOSPIM matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1107
+
+29.4.4
+
+OCTOSPIM multiplexed mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1107
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+29.5
+
+30
+
+OCTOSPIM registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1109
+29.5.1
+
+OCTOSPIM control register (OCTOSPIM_CR) . . . . . . . . . . . . . . . . . 1109
+
+29.5.2
+
+OCTOSPIM Port n configuration register
+(OCTOSPIM_PnCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1109
+
+29.5.3
+
+OCTOSPIM register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+
+Hexadeca-SPI interface (HSPI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1112
+30.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1112
+
+30.2
+
+HSPI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1112
+
+30.3
+
+HSPI implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1113
+
+30.4
+
+HSPI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1114
+30.4.1
+
+HSPI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1114
+
+30.4.2
+
+HSPI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1117
+
+30.4.3
+
+HSPI interface to memory modes . . . . . . . . . . . . . . . . . . . . . . . . . . . 1118
+
+30.4.4
+
+HSPI regular-command protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1118
+
+30.4.5
+
+HSPI regular-command protocol signal interface . . . . . . . . . . . . . . . 1122
+
+30.4.6
+
+HyperBus protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1127
+
+30.4.7
+
+Specific features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1132
+
+30.4.8
+
+HSPI operating modes introduction . . . . . . . . . . . . . . . . . . . . . . . . . . 1133
+
+30.4.9
+
+HSPI indirect mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1133
+
+30.4.10 HSPI automatic status-polling mode . . . . . . . . . . . . . . . . . . . . . . . . . 1135
+30.4.11 HSPI memory-mapped mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1136
+30.4.12 HSPI configuration introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1137
+30.4.13 HSPI system configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1137
+30.4.14 HSPI device configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1137
+30.4.15 HSPI regular-command mode configuration . . . . . . . . . . . . . . . . . . . 1140
+30.4.16 HSPI HyperBus protocol configuration . . . . . . . . . . . . . . . . . . . . . . . 1142
+30.4.17 HSPI error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1143
+30.4.18 HSPI high-speed interface and calibration . . . . . . . . . . . . . . . . . . . . 1143
+30.4.19 HSPI BUSY and ABORT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1144
+30.4.20 HSPI reconfiguration or deactivation . . . . . . . . . . . . . . . . . . . . . . . . . 1145
+30.4.21 NCS behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1145
+
+30.5
+
+Address alignment and data number . . . . . . . . . . . . . . . . . . . . . . . . . . .1147
+
+30.6
+
+HSPI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1148
+
+30.7
+
+HSPI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1149
+30.7.1
+
+HSPI control register (HSPI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1149
+
+30.7.2
+
+HSPI device configuration register 1 (HSPI_DCR1) . . . . . . . . . . . . . 1152
+RM0456 Rev 6
+
+31/3653
+90
+
+Contents
+
+RM0456
+30.7.3
+
+HSPI device configuration register 2 (HSPI_DCR2) . . . . . . . . . . . . . 1153
+
+30.7.4
+
+HSPI device configuration register 3 (HSPI_DCR3) . . . . . . . . . . . . . 1154
+
+30.7.5
+
+HSPI device configuration register 4 (HSPI_DCR4) . . . . . . . . . . . . . 1155
+
+30.7.6
+
+HSPI status register (HSPI_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1155
+
+30.7.7
+
+HSPI flag clear register (HSPI_FCR) . . . . . . . . . . . . . . . . . . . . . . . . . 1156
+
+30.7.8
+
+HSPI data length register (HSPI_DLR) . . . . . . . . . . . . . . . . . . . . . . . 1157
+
+30.7.9
+
+HSPI address register (HSPI_AR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1157
+
+30.7.10 HSPI data register (HSPI_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1158
+30.7.11 HSPI polling status mask register (HSPI_PSMKR) . . . . . . . . . . . . . . 1159
+30.7.12 HSPI polling status match register (HSPI_PSMAR) . . . . . . . . . . . . . 1159
+30.7.13 HSPI polling interval register (HSPI_PIR) . . . . . . . . . . . . . . . . . . . . . 1160
+30.7.14 HSPI communication configuration register (HSPI_CCR) . . . . . . . . . 1160
+30.7.15 HSPI timing configuration register (HSPI_TCR) . . . . . . . . . . . . . . . . 1162
+30.7.16 HSPI instruction register (HSPI_IR) . . . . . . . . . . . . . . . . . . . . . . . . . . 1163
+30.7.17 HSPI alternate bytes register (HSPI_ABR) . . . . . . . . . . . . . . . . . . . . 1163
+30.7.18 HSPI low-power timeout register (HSPI_LPTR) . . . . . . . . . . . . . . . . 1163
+30.7.19 HSPI wrap communication configuration register
+(HSPI_WPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1164
+30.7.20 HSPI wrap timing configuration register (HSPI_WPTCR) . . . . . . . . . 1166
+30.7.21 HSPI wrap instruction register (HSPI_WPIR) . . . . . . . . . . . . . . . . . . 1167
+30.7.22 HSPI wrap alternate byte register (HSPI_WPABR) . . . . . . . . . . . . . . 1167
+30.7.23 HSPI write communication configuration register
+(HSPI_WCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1167
+30.7.24 HSPI write timing configuration register (HSPI_WTCR) . . . . . . . . . . 1169
+30.7.25 HSPI write instruction register (HSPI_WIR) . . . . . . . . . . . . . . . . . . . . 1170
+30.7.26 HSPI write alternate byte register (HSPI_WABR) . . . . . . . . . . . . . . . 1170
+30.7.27 HSPI HyperBus latency configuration register (HSPI_HLCR) . . . . . . 1171
+30.7.28 HSPI full-cycle calibration configuration (HSPI_CALFCR) . . . . . . . . 1171
+30.7.29 HSPI DLL master calibration configuration (HSPI_CALMR) . . . . . . . 1172
+30.7.30 HSPI DLL slave output calibration configuration
+(HSPI_CALSOR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1173
+30.7.31 HSPI DLL slave input calibration configuration (HSPI_CALSIR) . . . . 1174
+30.7.32 HSPI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1174
+
+31
+
+32/3653
+
+Secure digital input/output MultiMediaCard interface (SDMMC) . . 1178
+31.1
+
+SDMMC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1178
+
+31.2
+
+SDMMC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1178
+
+31.3
+
+SDMMC bus topology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1179
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+31.4
+
+SDMMC operation modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1181
+
+31.5
+
+SDMMC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1182
+
+31.6
+
+31.5.1
+
+SDMMC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1182
+
+31.5.2
+
+SDMMC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 1182
+
+31.5.3
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1183
+
+31.5.4
+
+SDMMC adapter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1185
+
+31.5.5
+
+SDMMC AHB slave interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1207
+
+31.5.6
+
+SDMMC AHB master interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1208
+
+31.5.7
+
+AHB and SDMMC_CK clock relation . . . . . . . . . . . . . . . . . . . . . . . . . 1211
+
+Card functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1211
+31.6.1
+
+SD I/O mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1211
+
+31.6.2
+
+CMD12 send timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1219
+
+31.6.3
+
+Sleep (CMD5) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1223
+
+31.6.4
+
+Interrupt mode (Wait-IRQ) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1224
+
+31.6.5
+
+Boot operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1225
+
+31.6.6
+
+Response R1b handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1228
+
+31.6.7
+
+Reset and card cycle power . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1229
+
+31.7
+
+Hardware flow control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1230
+
+31.8
+
+Ultra-high-speed phase I (UHS-I) voltage switch . . . . . . . . . . . . . . . . . 1230
+
+31.9
+
+SDMMC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1233
+
+31.10 SDMMC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1235
+31.10.1 SDMMC power control register (SDMMC_POWER) . . . . . . . . . . . . . 1235
+31.10.2 SDMMC clock control register (SDMMC_CLKCR) . . . . . . . . . . . . . . 1236
+31.10.3 SDMMC argument register (SDMMC_ARGR) . . . . . . . . . . . . . . . . . . 1238
+31.10.4 SDMMC command register (SDMMC_CMDR) . . . . . . . . . . . . . . . . . 1238
+31.10.5 SDMMC command response register (SDMMC_RESPCMDR) . . . . 1240
+31.10.6 SDMMC response x register (SDMMC_RESPxR) . . . . . . . . . . . . . . 1241
+31.10.7 SDMMC data timer register (SDMMC_DTIMER) . . . . . . . . . . . . . . . 1241
+31.10.8 SDMMC data length register (SDMMC_DLENR) . . . . . . . . . . . . . . . 1242
+31.10.9 SDMMC data control register (SDMMC_DCTRL) . . . . . . . . . . . . . . . 1243
+31.10.10 SDMMC data counter register (SDMMC_DCNTR) . . . . . . . . . . . . . . 1244
+31.10.11 SDMMC status register (SDMMC_STAR) . . . . . . . . . . . . . . . . . . . . . 1245
+31.10.12 SDMMC interrupt clear register (SDMMC_ICR) . . . . . . . . . . . . . . . . 1248
+31.10.13 SDMMC mask register (SDMMC_MASKR) . . . . . . . . . . . . . . . . . . . . 1250
+31.10.14 SDMMC acknowledgment timer register (SDMMC_ACKTIMER) . . . 1253
+31.10.15 SDMMC DMA control register (SDMMC_IDMACTRLR) . . . . . . . . . . 1253
+
+RM0456 Rev 6
+
+33/3653
+90
+
+Contents
+
+RM0456
+31.10.16 SDMMC IDMA buffer size register (SDMMC_IDMABSIZER) . . . . . . 1254
+31.10.17 SDMMC IDMA buffer base address register
+(SDMMC_IDMABASER) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1255
+31.10.18 SDMMC IDMA linked list address register (SDMMC_IDMALAR) . . . 1255
+31.10.19 SDMMC IDMA linked list memory base register
+(SDMMC_IDMABAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1256
+31.10.20 SDMMC data FIFO registers x (SDMMC_FIFORx) . . . . . . . . . . . . . . 1257
+31.10.21 SDMMC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1257
+
+32
+
+Delay block (DLYB) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+32.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.2
+
+DLYB main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.3
+
+DLYB implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.4
+
+DLYB functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.5
+
+33
+
+34/3653
+
+32.4.1
+
+DLYB diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1260
+
+32.4.2
+
+DLYB pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1261
+
+32.4.3
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1261
+
+32.4.4
+
+Delay line length configuration procedure . . . . . . . . . . . . . . . . . . . . . 1262
+
+32.4.5
+
+Output clock phase configuration procedure . . . . . . . . . . . . . . . . . . . 1263
+
+DLYB registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1263
+32.5.1
+
+DLYB control register (DLYB_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1263
+
+32.5.2
+
+DLYB configuration register (DLYB_CFGR) . . . . . . . . . . . . . . . . . . . 1264
+
+32.5.3
+
+DLYB register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1264
+
+Analog-to-digital converter (ADC12) . . . . . . . . . . . . . . . . . . . . . . . . . 1265
+33.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1265
+
+33.2
+
+ADC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1265
+
+33.3
+
+ADC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1267
+
+33.4
+
+ADC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1269
+33.4.1
+
+ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1269
+
+33.4.2
+
+ADC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1270
+
+33.4.3
+
+ADC clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1272
+
+33.4.4
+
+ADC connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1274
+
+33.4.5
+
+Slave AHB interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1276
+
+33.4.6
+
+ADC Deep-power-down mode (DEEPPWD) and ADC voltage regulator
+(ADVREGEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1276
+
+33.4.7
+
+Single-ended and differential input channels . . . . . . . . . . . . . . . . . . . 1276
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+33.4.8
+
+Calibration (ADCAL, ADCALLIN, ADC_CALFACT) . . . . . . . . . . . . . . 1277
+
+33.4.9
+
+ADC on-off control (ADEN, ADDIS, ADRDY) . . . . . . . . . . . . . . . . . . . 1281
+
+33.4.10 Constraints when writing the ADC control bits . . . . . . . . . . . . . . . . . . 1282
+33.4.11 Channel selection (SQRx, JSQRx) . . . . . . . . . . . . . . . . . . . . . . . . . . 1283
+33.4.12 Channel preselection register (ADC_PCSEL) . . . . . . . . . . . . . . . . . . 1283
+33.4.13 Channel-wise programmable sampling time (SMPR1, SMPR2) . . . . 1283
+33.4.14 Single conversion mode (CONT = 0) . . . . . . . . . . . . . . . . . . . . . . . . . 1285
+33.4.15 Continuous conversion mode (CONT = 1) . . . . . . . . . . . . . . . . . . . . . 1286
+33.4.16 Starting conversions (ADSTART, JADSTART) . . . . . . . . . . . . . . . . . . 1287
+33.4.17 Timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1288
+33.4.18 Stopping an ongoing conversion (ADSTP, JADSTP) . . . . . . . . . . . . . 1288
+33.4.19 Conversion on external trigger and trigger polarity (EXTSEL,
+EXTEN[1:0], JEXTSEL, JEXTEN[1:0]) . . . . . . . . . . . . . . . . . . . . . . . 1290
+33.4.20 Injected channel management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1291
+33.4.21 Discontinuous mode (DISCEN, DISCNUM, JDISCEN) . . . . . . . . . . . 1293
+33.4.22 Programmable resolution (RES) - fast conversion mode . . . . . . . . . 1294
+33.4.23 End of conversion and end of sampling phase
+(EOC, JEOC, EOSMP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1294
+33.4.24 End of conversion sequence (EOS, JEOS) . . . . . . . . . . . . . . . . . . . . 1295
+33.4.25 Timing diagrams example (single/continuous modes,
+hardware/software triggers) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1295
+33.4.26 Low-frequency trigger mode (LFTRIG) . . . . . . . . . . . . . . . . . . . . . . . 1297
+33.4.27 Data management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1297
+33.4.28 Managing conversions using the MDF . . . . . . . . . . . . . . . . . . . . . . . 1305
+33.4.29 Dynamic low-power features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1305
+33.4.30 Analog window watchdog (AWD1EN, JAWD1EN, AWD1SGL,
+AWD1CH, AWD2CH, AWD3CH, AWD_HTRy, AWD_LTRy, AWDy) . 1310
+33.4.31 Oversampler . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1314
+33.4.32 Dual ADC modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1320
+33.4.33 Temperature sensor . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1335
+33.4.34 VBAT supply monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1337
+33.4.35 Monitoring the internal voltage reference . . . . . . . . . . . . . . . . . . . . . 1337
+
+33.5
+
+ADC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1339
+
+33.6
+
+ADC registers (for each ADC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1340
+33.6.1
+
+ADC interrupt and status register (ADC_ISR) . . . . . . . . . . . . . . . . . . 1340
+
+33.6.2
+
+ADC interrupt enable register (ADC_IER) . . . . . . . . . . . . . . . . . . . . . 1342
+
+33.6.3
+
+ADC control register (ADC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1344
+
+33.6.4
+
+ADC configuration register (ADC_CFGR1) . . . . . . . . . . . . . . . . . . . . 1347
+
+RM0456 Rev 6
+
+35/3653
+90
+
+Contents
+
+RM0456
+33.6.5
+
+ADC configuration register 2 (ADC_CFGR2) . . . . . . . . . . . . . . . . . . 1350
+
+33.6.6
+
+ADC sample time register 1 (ADC_SMPR1) . . . . . . . . . . . . . . . . . . . 1353
+
+33.6.7
+
+ADC sample time register 2 (ADC_SMPR2) . . . . . . . . . . . . . . . . . . . 1354
+
+33.6.8
+
+ADC channel preselection register (ADC_PCSEL) . . . . . . . . . . . . . . 1354
+
+33.6.9
+
+ADC regular sequence register 1 (ADC_SQR1) . . . . . . . . . . . . . . . . 1355
+
+33.6.10 ADC regular sequence register 2 (ADC_SQR2) . . . . . . . . . . . . . . . . 1356
+33.6.11 ADC regular sequence register 3 (ADC_SQR3) . . . . . . . . . . . . . . . . 1357
+33.6.12 ADC regular sequence register 4 (ADC_SQR4) . . . . . . . . . . . . . . . . 1358
+33.6.13 ADC regular data register (ADC_DR) . . . . . . . . . . . . . . . . . . . . . . . . 1358
+33.6.14 ADC injected sequence register (ADC_JSQR) . . . . . . . . . . . . . . . . . 1359
+33.6.15 ADC offset y register (ADC_OFRy) . . . . . . . . . . . . . . . . . . . . . . . . . . 1360
+33.6.16 ADC gain compensation register (ADC_GCOMP) . . . . . . . . . . . . . . 1361
+33.6.17 ADC injected data register (ADC_JDRy) . . . . . . . . . . . . . . . . . . . . . . 1362
+33.6.18 ADC analog watchdog 2 configuration register
+(ADC_AWD2CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1362
+33.6.19 ADC analog watchdog 3 configuration register
+(ADC_AWD3CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1363
+33.6.20 ADC watchdog threshold register 1 (ADC_LTR1) . . . . . . . . . . . . . . . 1363
+33.6.21 ADC watchdog threshold register 1 (ADC_HTR1) . . . . . . . . . . . . . . . 1364
+33.6.22 ADC watchdog lower threshold register 2 (ADC_LTR2) . . . . . . . . . . 1364
+33.6.23 ADC watchdog higher threshold register 2 (ADC_HTR2) . . . . . . . . . 1365
+33.6.24 ADC watchdog lower threshold register 3 (ADC_LTR3) . . . . . . . . . . 1365
+33.6.25 ADC watchdog higher threshold register 3 (ADC_HTR3) . . . . . . . . . 1366
+33.6.26 ADC differential mode selection register (ADC_DIFSEL) . . . . . . . . . 1366
+33.6.27 ADC user control register (ADC_CALFACT) . . . . . . . . . . . . . . . . . . . 1367
+33.6.28 ADC calibration factor register (ADC_CALFACT2) . . . . . . . . . . . . . . 1367
+
+33.7
+
+33.8
+
+34
+
+36/3653
+
+ADC common registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1368
+33.7.1
+
+ADC common status register (ADC12_CSR) . . . . . . . . . . . . . . . . . . 1368
+
+33.7.2
+
+ADC system control register (ADC12_CCR) . . . . . . . . . . . . . . . . . . . 1370
+
+33.7.3
+
+ADC common regular data register for dual mode (ADC12_CDR) . . 1373
+
+33.7.4
+
+ADC common regular data register for 32-bit dual mode
+(ADC12_CDR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1373
+
+ADC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1374
+
+Analog-to-digital converter (ADC4) . . . . . . . . . . . . . . . . . . . . . . . . . . 1378
+34.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1378
+
+34.2
+
+ADC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1378
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+34.3
+
+ADC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1379
+
+34.4
+
+ADC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1381
+34.4.1
+
+ADC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1381
+
+34.4.2
+
+ADC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1382
+
+34.4.3
+
+ADC voltage regulator (ADVREGEN) . . . . . . . . . . . . . . . . . . . . . . . . 1383
+
+34.4.4
+
+Calibration (ADCAL) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1383
+
+34.4.5
+
+ADC on-off control (ADEN, ADDIS, ADRDY) . . . . . . . . . . . . . . . . . . . 1385
+
+34.4.6
+
+ADC clock (PRESC[3:0]) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1387
+
+34.4.7
+
+ADC connectivity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1389
+
+34.4.8
+
+Configuring the ADC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1390
+
+34.4.9
+
+Channel selection (CHSEL, SCANDIR, CHSELRMOD) . . . . . . . . . . 1390
+
+34.4.10 Programmable sampling time (SMPx[2:0]) . . . . . . . . . . . . . . . . . . . . 1391
+34.4.11 Single conversion mode (CONT = 0) . . . . . . . . . . . . . . . . . . . . . . . . . 1392
+34.4.12 Continuous conversion mode (CONT = 1) . . . . . . . . . . . . . . . . . . . . . 1392
+34.4.13 Starting conversions (ADSTART) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1393
+34.4.14 Timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1394
+34.4.15 Stopping an ongoing conversion (ADSTP) . . . . . . . . . . . . . . . . . . . . 1395
+34.4.16 Conversion on external trigger and trigger polarity
+(EXTSEL, EXTEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1395
+34.4.17 Discontinuous mode (DISCEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1396
+34.4.18 Programmable resolution (RES) - fast conversion mode . . . . . . . . . 1396
+34.4.19 End of conversion, end of sampling phase (EOC, EOSMP flags) . . . 1397
+34.4.20 End of conversion sequence (EOS flag) . . . . . . . . . . . . . . . . . . . . . . 1398
+34.4.21 Example timing diagrams (single/continuous modes . . . . . . . . . . . . . . . . .
+hardware/software triggers) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1398
+34.4.22 Low-frequency trigger mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1400
+34.4.23 Data management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1400
+34.4.24 Low-power features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1404
+34.4.25 Analog window watchdog . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1408
+34.4.26 Oversampler . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1412
+34.4.27 Temperature sensor and internal reference voltage . . . . . . . . . . . . . 1415
+34.4.28 Battery voltage monitoring . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1417
+34.4.29 Concurrent operation with another ADC . . . . . . . . . . . . . . . . . . . . . . 1418
+
+34.5
+
+ADC low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1418
+
+34.6
+
+ADC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1419
+
+34.7
+
+ADC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1421
+34.7.1
+
+ADC interrupt and status register (ADC_ISR) . . . . . . . . . . . . . . . . . . 1421
+
+RM0456 Rev 6
+
+37/3653
+90
+
+Contents
+
+RM0456
+34.7.2
+
+ADC interrupt enable register (ADC_IER) . . . . . . . . . . . . . . . . . . . . . 1422
+
+34.7.3
+
+ADC control register (ADC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1425
+
+34.7.4
+
+ADC configuration register 1 (ADC_CFGR1) . . . . . . . . . . . . . . . . . . 1427
+
+34.7.5
+
+ADC configuration register 2 (ADC_CFGR2) . . . . . . . . . . . . . . . . . . 1430
+
+34.7.6
+
+ADC sampling time register (ADC_SMPR) . . . . . . . . . . . . . . . . . . . . 1431
+
+34.7.7
+
+ADC watchdog threshold register (ADC_AWD1TR) . . . . . . . . . . . . . 1432
+
+34.7.8
+
+ADC watchdog threshold register (ADC_AWD2TR) . . . . . . . . . . . . . 1433
+
+34.7.9
+
+ADC channel selection register [alternate] (ADC_CHSELR) . . . . . . . 1434
+
+34.7.10 ADC channel selection register [alternate] (ADC_CHSELR) . . . . . . . 1434
+34.7.11 ADC watchdog threshold register (ADC_AWD3TR) . . . . . . . . . . . . . 1436
+34.7.12 ADC data register (ADC_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1437
+34.7.13 ADC power register (ADC_PWRR) . . . . . . . . . . . . . . . . . . . . . . . . . . 1437
+34.7.14 ADC Analog Watchdog 2 Configuration register (ADC_AWD2CR) . . 1438
+34.7.15 ADC Analog Watchdog 3 Configuration register (ADC_AWD3CR) . . 1439
+34.7.16 ADC Calibration factor (ADC_CALFACT) . . . . . . . . . . . . . . . . . . . . . 1439
+34.7.17 ADC option register (ADC_OR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1440
+34.7.18 ADC common configuration register (ADC_CCR) . . . . . . . . . . . . . . . 1440
+34.7.19 ADC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1441
+
+35
+
+Digital-to-analog converter (DAC) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1444
+35.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1444
+
+35.2
+
+DAC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1444
+
+35.3
+
+DAC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1445
+
+35.4
+
+DAC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1446
+35.4.1
+
+DAC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1446
+
+35.4.2
+
+DAC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1447
+
+35.4.3
+
+DAC clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1448
+
+35.4.4
+
+DAC channel enable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1448
+
+35.4.5
+
+DAC data format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1449
+
+35.4.6
+
+DAC conversion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1450
+
+35.4.7
+
+DAC output voltage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1452
+
+35.4.8
+
+DAC trigger selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1452
+
+35.4.9
+
+DMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1452
+
+35.4.10 Noise generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1453
+35.4.11 Triangle-wave generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1455
+35.4.12
+
+DAC channel modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1456
+
+35.4.13 DAC channel buffer calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1459
+38/3653
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+35.4.14 DAC channel conversion modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1460
+35.4.15 Dual DAC channel conversion modes (if dual channels are
+available) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1461
+35.4.16 DAC autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1465
+
+35.5
+
+DAC in low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1466
+
+35.6
+
+DAC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1467
+
+35.7
+
+DAC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1467
+35.7.1
+
+DAC control register (DAC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1467
+
+35.7.2
+
+DAC software trigger register (DAC_SWTRGR) . . . . . . . . . . . . . . . . 1470
+
+35.7.3
+
+DAC channel1 12-bit right-aligned data holding register
+(DAC_DHR12R1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1471
+
+35.7.4
+
+DAC channel1 12-bit left aligned data holding register
+(DAC_DHR12L1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1472
+
+35.7.5
+
+DAC channel1 8-bit right aligned data holding register
+(DAC_DHR8R1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1472
+
+35.7.6
+
+DAC channel2 12-bit right aligned data holding register
+(DAC_DHR12R2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1473
+
+35.7.7
+
+DAC channel2 12-bit left aligned data holding register
+(DAC_DHR12L2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1473
+
+35.7.8
+
+DAC channel2 8-bit right-aligned data holding register
+(DAC_DHR8R2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1474
+
+35.7.9
+
+Dual DAC 12-bit right-aligned data holding register
+(DAC_DHR12RD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1474
+
+35.7.10 Dual DAC 12-bit left aligned data holding register
+(DAC_DHR12LD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1475
+35.7.11 Dual DAC 8-bit right aligned data holding register
+(DAC_DHR8RD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1475
+35.7.12 DAC channel1 data output register (DAC_DOR1) . . . . . . . . . . . . . . . 1476
+35.7.13 DAC channel2 data output register (DAC_DOR2) . . . . . . . . . . . . . . . 1476
+35.7.14 DAC status register (DAC_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1477
+35.7.15 DAC calibration control register (DAC_CCR) . . . . . . . . . . . . . . . . . . 1478
+35.7.16 DAC mode control register (DAC_MCR) . . . . . . . . . . . . . . . . . . . . . . 1479
+35.7.17 DAC channel1 sample and hold sample time register
+(DAC_SHSR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1480
+35.7.18 DAC channel2 sample and hold sample time register
+(DAC_SHSR2) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1481
+35.7.19 DAC sample and hold time register (DAC_SHHR) . . . . . . . . . . . . . . 1481
+35.7.20 DAC sample and hold refresh time register (DAC_SHRR) . . . . . . . . 1482
+35.7.21 DAC autonomous mode control register (DAC_AUTOCR) . . . . . . . . 1483
+35.7.22 DAC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1483
+
+RM0456 Rev 6
+
+39/3653
+90
+
+Contents
+
+36
+
+37
+
+38
+
+RM0456
+
+Voltage reference buffer (VREFBUF) . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+36.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+
+36.2
+
+VREFBUF implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+
+36.3
+
+VREFBUF functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1486
+
+36.4
+
+VREFBUF trimming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1487
+
+36.5
+
+VREFBUF registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1488
+36.5.1
+
+VREFBUF control and status register (VREFBUF_CSR) . . . . . . . . . 1488
+
+36.5.2
+
+VREFBUF calibration control register (VREFBUF_CCR) . . . . . . . . . 1489
+
+36.5.3
+
+VREFBUF register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1489
+
+Comparator (COMP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+37.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+
+37.2
+
+COMP main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+
+37.3
+
+COMP implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+
+37.4
+
+COMP functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+37.4.1
+
+COMP block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+
+37.4.2
+
+COMP pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+
+37.4.3
+
+Comparator LOCK mechanism . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1493
+
+37.4.4
+
+Window comparator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1493
+
+37.4.5
+
+Hysteresis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+
+37.4.6
+
+Comparator output-blanking function . . . . . . . . . . . . . . . . . . . . . . . . . 1494
+
+37.4.7
+
+COMP power and speed modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1495
+
+37.4.8
+
+Scaler function . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1495
+
+37.5
+
+COMP low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1496
+
+37.6
+
+COMP interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1496
+
+37.7
+
+COMP registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1497
+37.7.1
+
+COMP1 control and status register (COMP1_CSR) . . . . . . . . . . . . . 1497
+
+37.7.2
+
+COMP2 control and status register (COMP2_CSR) . . . . . . . . . . . . . 1498
+
+37.7.3
+
+COMP register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1500
+
+Operational amplifier (OPAMP) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+38.1
+
+OPAMP introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+
+38.2
+
+OPAMP main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+
+38.3
+
+OPAMP functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+38.3.1
+
+40/3653
+
+OPAMP reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1501
+
+RM0456 Rev 6
+
+RM0456
+
+39
+
+Contents
+38.3.2
+
+Initial configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1502
+
+38.3.3
+
+Signal routing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1502
+
+38.3.4
+
+OPAMP modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1503
+
+38.3.5
+
+Calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1506
+
+38.4
+
+OPAMP low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1508
+
+38.5
+
+OPAMP registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1508
+38.5.1
+
+OPAMP1 control/status register (OPAMP1_CSR) . . . . . . . . . . . . . . . 1508
+
+38.5.2
+
+OPAMP1 offset trimming register in normal mode (OPAMP1_OTR) . 1510
+
+38.5.3
+
+OPAMP1 offset trimming register in low-power mode
+(OPAMP1_LPOTR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1510
+
+38.5.4
+
+OPAMP2 control/status register (OPAMP2_CRS) . . . . . . . . . . . . . . . 1511
+
+38.5.5
+
+OPAMP2 offset trimming register in normal mode (OPAMP2_OTR) . 1512
+
+38.5.6
+
+OPAMP2 offset trimming register in low-power mode
+(OPAMP2_LPOTR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1513
+
+38.5.7
+
+OPAMP register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1513
+
+Multi-function digital filter (MDF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1515
+39.1
+
+MDF introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1515
+
+39.2
+
+MDF main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1516
+
+39.3
+
+MDF implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1516
+
+39.4
+
+MDF functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1518
+39.4.1
+
+MDF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1518
+
+39.4.2
+
+MDF pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1519
+
+39.4.3
+
+Serial input interfaces (SITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1520
+
+39.4.4
+
+ADC slave interface (ADCITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1526
+
+39.4.5
+
+Clock generator (CKGEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1527
+
+39.4.6
+
+Bitstream matrix (BSMX) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1529
+
+39.4.7
+
+Short-circuit detectors (SCD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1530
+
+39.4.8
+
+Digital filter processing (DFLT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1532
+
+39.4.9
+
+Out-of-limit detector (OLD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1542
+
+39.4.10 Digital filter acquisition modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1545
+39.4.11 Start-up sequence examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1555
+39.4.12 Break interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1556
+39.4.13 Data transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1557
+39.4.14 Autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1562
+39.4.15 Register protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1563
+
+39.5
+
+MDF low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1564
+
+RM0456 Rev 6
+
+41/3653
+90
+
+Contents
+
+RM0456
+
+39.6
+
+MDF interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1564
+
+39.7
+
+MDF application informations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1566
+
+39.8
+
+39.7.1
+
+MDF configuration examples for audio capture . . . . . . . . . . . . . . . . . 1566
+
+39.7.2
+
+Programming examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1567
+
+39.7.3
+
+Connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1569
+
+39.7.4
+
+Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1570
+
+39.7.5
+
+Total MDF gain . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1571
+
+MDF registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1575
+39.8.1
+
+MDF global control register (MDF_GCR) . . . . . . . . . . . . . . . . . . . . . 1576
+
+39.8.2
+
+MDF clock generator control register (MDF_CKGCR) . . . . . . . . . . . 1576
+
+39.8.3
+
+MDF serial interface control register x (MDF_SITFxCR) . . . . . . . . . . 1579
+
+39.8.4
+
+MDF bitstream matrix control register x (MDF_BSMXxCR) . . . . . . . 1580
+
+39.8.5
+
+MDF digital filter control register x (MDF_DFLTxCR) . . . . . . . . . . . . 1581
+
+39.8.6
+
+MDF digital filter configuration register x (MDF_DFLTxCICR) . . . . . . 1583
+
+39.8.7
+
+MDF reshape filter configuration register x (MDF_DFLTxRSFR) . . . 1584
+
+39.8.8
+
+MDF integrator configuration register x (MDF_DFLTxINTR) . . . . . . . 1585
+
+39.8.9
+
+MDF out-of limit detector control register x (MDF_OLDxCR) . . . . . . 1586
+
+39.8.10 MDF OLDx low threshold register x (MDF_OLDxTHLR) . . . . . . . . . . 1588
+39.8.11 MDF OLDx high threshold register x (MDF_OLDxTHHR) . . . . . . . . . 1588
+39.8.12 MDF delay control register x (MDF_DLYxCR) . . . . . . . . . . . . . . . . . . 1589
+39.8.13 MDF short circuit detector control register x (MDF_SCDxCR) . . . . . 1589
+39.8.14 MDF DFLT0 interrupt enable register 0 (MDF_DFLT0IER) . . . . . . . . 1590
+39.8.15 MDF DFLTx interrupt enable register x (MDF_DFLTxIER) . . . . . . . . 1592
+39.8.16 MDF DFLT0 interrupt status register 0 (MDF_DFLT0ISR) . . . . . . . . . 1593
+39.8.17 MDF DFLTx interrupt status register x (MDF_DFLTxISR) . . . . . . . . . 1595
+39.8.18 MDF offset error compensation control register x (MDF_OECxCR) . 1596
+39.8.19 MDF snapshot data register x (MDF_SNPSxDR) . . . . . . . . . . . . . . . 1597
+39.8.20 MDF digital filter data register x (MDF_DFLTxDR) . . . . . . . . . . . . . . 1597
+39.8.21 MDF register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1598
+
+40
+
+Audio digital filter (ADF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1600
+40.1
+
+ADF introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1600
+
+40.2
+
+ADF main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1600
+
+40.3
+
+ADF implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1601
+
+40.4
+
+ADF functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+40.4.1
+
+42/3653
+
+ADF block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+40.4.2
+
+ADF pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+
+40.4.3
+
+Serial input interface (SITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1603
+
+40.4.4
+
+ADC slave interface (ADCITF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1607
+
+40.4.5
+
+Clock generator (CKGEN) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1608
+
+40.4.6
+
+Bitstream matrix (BSMX) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1610
+
+40.4.7
+
+Digital filter processing (DFLT) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1611
+
+40.4.8
+
+Digital filter acquisition modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1621
+
+40.4.9
+
+Start-up sequence examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1629
+
+40.4.10 Sound activity detection (SAD) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1630
+40.4.11 Data transfer to memory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1638
+40.4.12 Autonomous mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1641
+40.4.13 Register protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1641
+
+40.5
+
+ADF low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1642
+
+40.6
+
+ADF interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1642
+
+40.7
+
+ADF application information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1644
+
+40.8
+
+40.7.1
+
+ADF configuration examples for audio capture . . . . . . . . . . . . . . . . . 1644
+
+40.7.2
+
+Programming examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1645
+
+40.7.3
+
+Connection examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1647
+
+40.7.4
+
+Global frequency response . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1648
+
+40.7.5
+
+Total ADF gain . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1649
+
+40.7.6
+
+How to compute SAD thresholds . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1652
+
+ADF registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1656
+40.8.1
+
+ADF global control register (ADF_GCR) . . . . . . . . . . . . . . . . . . . . . . 1656
+
+40.8.2
+
+ADF clock generator control register (ADF_CKGCR) . . . . . . . . . . . . 1657
+
+40.8.3
+
+ADF serial interface control register 0 (ADF_SITF0CR) . . . . . . . . . . 1659
+
+40.8.4
+
+ADF bitstream matrix control register 0 (ADF_BSMX0CR) . . . . . . . . 1660
+
+40.8.5
+
+ADF digital filter control register 0 (ADF_DFLT0CR) . . . . . . . . . . . . . 1661
+
+40.8.6
+
+ADF digital filer configuration register 0 (ADF_DFLT0CICR) . . . . . . . 1663
+
+40.8.7
+
+ADF reshape filter configuration register 0 (ADF_DFLT0RSFR) . . . . 1664
+
+40.8.8
+
+ADF delay control register 0 (ADF_DLY0CR) . . . . . . . . . . . . . . . . . . 1665
+
+40.8.9
+
+ADF DFLT0 interrupt enable register (ADF_DFLT0IER) . . . . . . . . . . 1666
+
+40.8.10 ADF DFLT0 interrupt status register 0 (ADF_DFLT0ISR) . . . . . . . . . 1667
+40.8.11 ADF SAD control register (ADF_SADCR) . . . . . . . . . . . . . . . . . . . . . 1668
+40.8.12 ADF SAD configuration register (ADF_SADCFGR) . . . . . . . . . . . . . 1670
+40.8.13 ADF SAD sound level register (ADF_SADSDLVR) . . . . . . . . . . . . . . 1671
+40.8.14 ADF SAD ambient noise level register (ADF_SADANLVR) . . . . . . . . 1672
+40.8.15 ADF digital filter data register 0 (ADF_DFLT0DR) . . . . . . . . . . . . . . . 1672
+RM0456 Rev 6
+
+43/3653
+90
+
+Contents
+
+RM0456
+40.8.16 ADF register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1672
+
+41
+
+Digital camera interface (DCMI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+41.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+
+41.2
+
+DCMI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+
+41.3
+
+DCMI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1675
+41.3.1
+
+DCMI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+
+41.3.2
+
+DCMI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+
+41.3.3
+
+DCMI clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+
+41.3.4
+
+DCMI DMA interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+
+41.3.5
+
+DCMI physical interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+
+41.3.6
+
+DCMI synchronization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1679
+
+41.3.7
+
+DCMI capture modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1681
+
+41.3.8
+
+DCMI crop feature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1682
+
+41.3.9
+
+DCMI JPEG format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1683
+
+41.3.10 DCMI FIFO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1683
+41.3.11 DCMI data format description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1684
+
+41.4
+
+DCMI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1686
+
+41.5
+
+DCMI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1686
+41.5.1
+
+DCMI control register (DCMI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1686
+
+41.5.2
+
+DCMI status register (DCMI_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1689
+
+41.5.3
+
+DCMI raw interrupt status register (DCMI_RIS) . . . . . . . . . . . . . . . . 1689
+
+41.5.4
+
+DCMI interrupt enable register (DCMI_IER) . . . . . . . . . . . . . . . . . . . 1690
+
+41.5.5
+
+DCMI masked interrupt status register (DCMI_MIS) . . . . . . . . . . . . . 1691
+
+41.5.6
+
+DCMI interrupt clear register (DCMI_ICR) . . . . . . . . . . . . . . . . . . . . . 1692
+
+41.5.7
+
+DCMI embedded synchronization code register (DCMI_ESCR) . . . . 1693
+
+41.5.8
+
+DCMI embedded synchronization unmask register (DCMI_ESUR) . 1693
+
+41.5.9
+
+DCMI crop window start (DCMI_CWSTRT) . . . . . . . . . . . . . . . . . . . . 1694
+
+41.5.10 DCMI crop window size (DCMI_CWSIZE) . . . . . . . . . . . . . . . . . . . . . 1695
+41.5.11 DCMI data register (DCMI_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1695
+41.5.12 DCMI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1696
+
+42
+
+44/3653
+
+Parallel synchronous slave interface (PSSI) . . . . . . . . . . . . . . . . . . 1697
+42.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1697
+
+42.2
+
+PSSI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1697
+
+42.3
+
+PSSI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1697
+
+RM0456 Rev 6
+
+RM0456
+
+43
+
+Contents
+42.3.1
+
+PSSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+
+42.3.2
+
+PSSI pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+
+42.3.3
+
+PSSI clock . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1699
+
+42.3.4
+
+PSSI data management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1699
+
+42.3.5
+
+PSSI optional control signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1701
+
+42.4
+
+PSSI interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1704
+
+42.5
+
+PSSI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1705
+42.5.1
+
+PSSI control register (PSSI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1705
+
+42.5.2
+
+PSSI status register (PSSI_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1706
+
+42.5.3
+
+PSSI raw interrupt status register (PSSI_RIS) . . . . . . . . . . . . . . . . . 1707
+
+42.5.4
+
+PSSI interrupt enable register (PSSI_IER) . . . . . . . . . . . . . . . . . . . . 1708
+
+42.5.5
+
+PSSI masked interrupt status register (PSSI_MIS) . . . . . . . . . . . . . . 1708
+
+42.5.6
+
+PSSI interrupt clear register (PSSI_ICR) . . . . . . . . . . . . . . . . . . . . . . 1709
+
+42.5.7
+
+PSSI data register (PSSI_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1709
+
+42.5.8
+
+PSSI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1710
+
+LCD-TFT display controller (LTDC) . . . . . . . . . . . . . . . . . . . . . . . . . . 1711
+43.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1711
+
+43.2
+
+LTDC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1711
+
+43.3
+
+LTDC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+
+43.4
+
+43.3.1
+
+LTDC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+
+43.3.2
+
+LTDC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+
+43.3.3
+
+LTDC reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1713
+
+LTDC programmable parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1715
+43.4.1
+
+LTDC global configuration parameters . . . . . . . . . . . . . . . . . . . . . . . 1715
+
+43.4.2
+
+Layer programmable parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . 1717
+
+43.5
+
+LTDC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1721
+
+43.6
+
+LTDC programming procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1722
+
+43.7
+
+LTDC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1723
+43.7.1
+
+LTDC synchronization size configuration register (LTDC_SSCR) . . . 1723
+
+43.7.2
+
+LTDC back porch configuration register (LTDC_BPCR) . . . . . . . . . . 1723
+
+43.7.3
+
+LTDC active width configuration register (LTDC_AWCR) . . . . . . . . . 1724
+
+43.7.4
+
+LTDC total width configuration register (LTDC_TWCR) . . . . . . . . . . . 1725
+
+43.7.5
+
+LTDC global control register (LTDC_GCR) . . . . . . . . . . . . . . . . . . . . 1725
+
+43.7.6
+
+LTDC shadow reload configuration register (LTDC_SRCR) . . . . . . . 1727
+
+43.7.7
+
+LTDC background color configuration register (LTDC_BCCR) . . . . . 1727
+
+RM0456 Rev 6
+
+45/3653
+90
+
+Contents
+
+RM0456
+43.7.8
+
+LTDC interrupt enable register (LTDC_IER) . . . . . . . . . . . . . . . . . . . 1728
+
+43.7.9
+
+LTDC interrupt status register (LTDC_ISR) . . . . . . . . . . . . . . . . . . . . 1729
+
+43.7.10 LTDC interrupt clear register (LTDC_ICR) . . . . . . . . . . . . . . . . . . . . . 1729
+43.7.11 LTDC line interrupt position configuration register (LTDC_LIPCR) . . 1730
+43.7.12 LTDC current position status register (LTDC_CPSR) . . . . . . . . . . . . 1730
+43.7.13 LTDC current display status register (LTDC_CDSR) . . . . . . . . . . . . . 1731
+43.7.14 LTDC layer x control register (LTDC_LxCR) . . . . . . . . . . . . . . . . . . . 1731
+43.7.15 LTDC layer x window horizontal position configuration register
+(LTDC_LxWHPCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1732
+43.7.16 LTDC layer x window vertical position configuration register
+(LTDC_LxWVPCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1733
+43.7.17 LTDC layer x color keying configuration register
+(LTDC_LxCKCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1734
+43.7.18 LTDC layer x pixel format configuration register
+(LTDC_LxPFCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1734
+43.7.19 LTDC layer x constant alpha configuration register
+(LTDC_LxCACR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1735
+43.7.20 LTDC layer x default color configuration register
+(LTDC_LxDCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1735
+43.7.21 LTDC layer x blending factors configuration register
+(LTDC_LxBFCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1736
+43.7.22 LTDC layer x color frame buffer address register
+(LTDC_LxCFBAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1737
+43.7.23 LTDC layer x color frame buffer length register
+(LTDC_LxCFBLR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1737
+43.7.24 LTDC layer x color frame buffer line number register
+(LTDC_LxCFBLNR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1738
+43.7.25 LTDC layer x CLUT write register (LTDC_LxCLUTWR) . . . . . . . . . . 1738
+43.7.26 LTDC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1739
+
+44
+
+46/3653
+
+DSI Host (DSI) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1742
+44.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1742
+
+44.2
+
+Standard and references . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1742
+
+44.3
+
+DSI Host main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1743
+
+44.4
+
+DSI Host functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+44.4.1
+
+General description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+
+44.4.2
+
+DSI Host pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+
+44.4.3
+
+Supported resolutions and frame rates . . . . . . . . . . . . . . . . . . . . . . . 1745
+
+44.4.4
+
+System level architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1745
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+44.5
+
+Functional description: video mode on LTDC interface . . . . . . . . . . . . 1748
+44.5.1
+
+Video transmission mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1750
+
+44.5.2
+
+Updating the LTDC interface configuration in video mode . . . . . . . . . 1751
+
+44.6
+
+Functional description: adapted command mode on LTDC interface . . 1753
+
+44.7
+
+Functional description: APB register interface . . . . . . . . . . . . . . . . . . . 1757
+44.7.1
+
+44.8
+
+44.9
+
+Packet transmission using the generic interface . . . . . . . . . . . . . . . . 1757
+
+Functional description: timeout counters . . . . . . . . . . . . . . . . . . . . . . . 1761
+44.8.1
+
+Contention error detection timeout counters . . . . . . . . . . . . . . . . . . . 1761
+
+44.8.2
+
+Peripheral response timeout counters . . . . . . . . . . . . . . . . . . . . . . . . 1762
+
+Functional description: transmission of commands . . . . . . . . . . . . . . . 1767
+44.9.1
+
+Transmission of commands in video mode . . . . . . . . . . . . . . . . . . . . 1767
+
+44.9.2
+
+Transmission of commands in low-power mode . . . . . . . . . . . . . . . . 1769
+
+44.9.3
+
+Transmission of commands in high-speed . . . . . . . . . . . . . . . . . . . . 1773
+
+44.9.4
+
+Read command transmission . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1773
+
+44.9.5
+
+Clock lane in low-power mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1774
+
+44.10 Functional description: virtual channels . . . . . . . . . . . . . . . . . . . . . . . . 1776
+44.11 Functional description: video mode pattern generator . . . . . . . . . . . . . 1777
+44.11.1 Color bar pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1777
+44.11.2 Color coding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1779
+44.11.3 BER testing pattern . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1779
+44.11.4 Video mode pattern generator resolution . . . . . . . . . . . . . . . . . . . . . 1780
+
+44.12 Functional description: D-PHY management . . . . . . . . . . . . . . . . . . . . 1781
+44.12.1 D-PHY configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1781
+44.12.2 D-PHY HS2LP and LP2HS durations . . . . . . . . . . . . . . . . . . . . . . . . 1781
+44.12.3 Special D-PHY operations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1782
+44.12.4 DSI PLL control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1782
+44.12.5 D-PHY bias control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1783
+
+44.13 Functional description: interrupts and errors . . . . . . . . . . . . . . . . . . . . 1783
+44.13.1 DSI Wrapper interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1783
+44.13.2 DSI Host interrupts and errors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1784
+
+44.14 Programing procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1791
+44.14.1 Programing procedure overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1792
+44.14.2 Configuring the D-PHY parameters . . . . . . . . . . . . . . . . . . . . . . . . . . 1793
+44.14.3 Configuring the DSI Host timing . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1793
+44.14.4 Configuring flow control and DBI interface . . . . . . . . . . . . . . . . . . . . 1794
+44.14.5 Configuring the DSI Host LTDC interface . . . . . . . . . . . . . . . . . . . . . 1794
+
+RM0456 Rev 6
+
+47/3653
+90
+
+Contents
+
+RM0456
+44.14.6 Configuring the video mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1795
+44.14.7 Configuring the adapted command mode . . . . . . . . . . . . . . . . . . . . . 1799
+44.14.8 Configuring the video mode pattern generator . . . . . . . . . . . . . . . . . 1799
+44.14.9 Managing ULPM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1800
+
+44.15 DSI Host registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1803
+44.15.1 DSI Host version register (DSI_VR) . . . . . . . . . . . . . . . . . . . . . . . . . 1803
+44.15.2 DSI Host control register (DSI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . 1803
+44.15.3 DSI Host clock control register (DSI_CCR) . . . . . . . . . . . . . . . . . . . . 1803
+44.15.4 DSI Host LTDC VCID register (DSI_LVCIDR) . . . . . . . . . . . . . . . . . . 1804
+44.15.5 DSI Host LTDC color coding register (DSI_LCOLCR) . . . . . . . . . . . . 1804
+44.15.6 DSI Host LTDC polarity configuration register (DSI_LPCR) . . . . . . . 1805
+44.15.7 DSI Host low-power mode configuration register (DSI_LPMCR) . . . 1805
+44.15.8 DSI Host protocol configuration register (DSI_PCR) . . . . . . . . . . . . . 1806
+44.15.9 DSI Host generic VCID register (DSI_GVCIDR) . . . . . . . . . . . . . . . . 1807
+44.15.10 DSI Host mode configuration register (DSI_MCR) . . . . . . . . . . . . . . 1807
+44.15.11 DSI Host video mode configuration register (DSI_VMCR) . . . . . . . . 1808
+44.15.12 DSI Host video packet configuration register (DSI_VPCR) . . . . . . . . 1809
+44.15.13 DSI Host video chunks configuration register (DSI_VCCR) . . . . . . . 1809
+44.15.14 DSI Host video null packet configuration register (DSI_VNPCR) . . . 1810
+44.15.15 DSI Host video HSA configuration register (DSI_VHSACR) . . . . . . . 1810
+44.15.16 DSI Host video HBP configuration register (DSI_VHBPCR) . . . . . . . 1811
+44.15.17 DSI Host video line configuration register (DSI_VLCR) . . . . . . . . . . . 1811
+44.15.18 DSI Host video VSA configuration register (DSI_VVSACR) . . . . . . . 1811
+44.15.19 DSI Host video VBP configuration register (DSI_VVBPCR) . . . . . . . 1812
+44.15.20 DSI Host video VFP configuration register (DSI_VVFPCR) . . . . . . . 1812
+44.15.21 DSI Host video VA configuration register (DSI_VVACR) . . . . . . . . . . 1812
+44.15.22 DSI Host LTDC command configuration register (DSI_LCCR) . . . . . 1813
+44.15.23 DSI Host command mode configuration register (DSI_CMCR) . . . . . 1813
+44.15.24 DSI Host generic header configuration register (DSI_GHCR) . . . . . . 1815
+44.15.25 DSI Host generic payload data register (DSI_GPDR) . . . . . . . . . . . . 1815
+44.15.26 DSI Host generic packet status register (DSI_GPSR) . . . . . . . . . . . . 1816
+44.15.27 DSI Host timeout counter configuration register 0 (DSI_TCCR0) . . . 1817
+44.15.28 DSI Host timeout counter configuration register 1 (DSI_TCCR1) . . . 1818
+44.15.29 DSI Host timeout counter configuration register 2 (DSI_TCCR2) . . . 1818
+44.15.30 DSI Host timeout counter configuration register 3 (DSI_TCCR3) . . . 1819
+44.15.31 DSI Host timeout counter configuration register 4 (DSI_TCCR4) . . . 1819
+44.15.32 DSI Host timeout counter configuration register 5 (DSI_TCCR5) . . . 1820
+
+48/3653
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+44.15.33 DSI Host clock lane configuration register (DSI_CLCR) . . . . . . . . . . 1820
+44.15.34 DSI Host clock lane timer configuration register (DSI_CLTCR) . . . . . 1821
+44.15.35 DSI Host data lane timer configuration register (DSI_DLTCR) . . . . . 1821
+44.15.36 DSI Host PHY control register (DSI_PCTLR) . . . . . . . . . . . . . . . . . . 1821
+44.15.37 DSI Host PHY configuration register (DSI_PCONFR) . . . . . . . . . . . . 1822
+44.15.38 DSI Host PHY ULPS control register (DSI_PUCR) . . . . . . . . . . . . . . 1823
+44.15.39 DSI Host PHY TX triggers configuration register (DSI_PTTCR) . . . . 1823
+44.15.40 DSI Host PHY status register (DSI_PSR) . . . . . . . . . . . . . . . . . . . . . 1824
+44.15.41 DSI Host interrupt and status register 0 (DSI_ISR0) . . . . . . . . . . . . . 1824
+44.15.42 DSI Host interrupt and status register 1 (DSI_ISR1) . . . . . . . . . . . . . 1826
+44.15.43 DSI Host interrupt enable register 0 (DSI_IER0) . . . . . . . . . . . . . . . . 1827
+44.15.44 DSI Host interrupt enable register 1 (DSI_IER1) . . . . . . . . . . . . . . . . 1829
+44.15.45 DSI Host force interrupt register 0 (DSI_FIR0) . . . . . . . . . . . . . . . . . 1831
+44.15.46 DSI Host force interrupt register 1 (DSI_FIR1) . . . . . . . . . . . . . . . . . 1832
+44.15.47 DSI Host data lane timer read configuration register
+(DSI_DLTRCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1833
+44.15.48 DSI Host video shadow control register (DSI_VSCR) . . . . . . . . . . . . 1834
+44.15.49 DSI Host LTDC current VCID register (DSI_LCVCIDR) . . . . . . . . . . 1834
+44.15.50 DSI Host LTDC current color coding register (DSI_LCCCR) . . . . . . . 1834
+44.15.51 DSI Host low-power mode current configuration register
+(DSI_LPMCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1835
+44.15.52 DSI Host video mode current configuration register
+(DSI_VMCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1836
+44.15.53 DSI Host video packet current configuration register
+(DSI_VPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1837
+44.15.54 DSI Host video chunks current configuration register
+(DSI_VCCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1837
+44.15.55 DSI Host video null packet current configuration register
+(DSI_VNPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1838
+44.15.56 DSI Host video HSA current configuration register
+(DSI_VHSACCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1838
+44.15.57 DSI Host video HBP current configuration register
+(DSI_VHBPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1838
+44.15.58 DSI Host video line current configuration register (DSI_VLCCR) . . . 1839
+44.15.59 DSI Host video VSA current configuration register
+(DSI_VVSACCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1839
+44.15.60 DSI Host video VBP current configuration register
+(DSI_VVBPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1839
+44.15.61 DSI Host video VFP current configuration register
+(DSI_VVFPCCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1840
+
+RM0456 Rev 6
+
+49/3653
+90
+
+Contents
+
+RM0456
+44.15.62 DSI Host video VA current configuration register
+(DSI_VVACCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1840
+44.15.63 DSI Host FIFO and buffer status register (DSI_FBSR) . . . . . . . . . . . 1841
+
+44.16 DSI Wrapper registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1843
+44.16.1 DSI Wrapper configuration register (DSI_WCFGR) . . . . . . . . . . . . . . 1843
+44.16.2 DSI Wrapper control register (DSI_WCR) . . . . . . . . . . . . . . . . . . . . . 1844
+44.16.3 DSI Wrapper interrupt enable register (DSI_WIER) . . . . . . . . . . . . . 1844
+44.16.4 DSI Wrapper interrupt and status register (DSI_WISR) . . . . . . . . . . . 1845
+44.16.5 DSI Wrapper interrupt flag clear register (DSI_WIFCR) . . . . . . . . . . 1846
+44.16.6 DSI Wrapper PHY configuration register 0 (DSI_WPCR0) . . . . . . . . 1847
+44.16.7 DSI Wrapper regulator and PLL control register (DSI_WRPCR) . . . . 1848
+44.16.8 DSI Wrapper PLL tuning register (DSI_WPTR) . . . . . . . . . . . . . . . . . 1849
+
+44.17 DSI bias registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1849
+44.17.1 DSI bias configuration register (DSI_BCFGR) . . . . . . . . . . . . . . . . . . 1849
+
+44.18 D-PHY registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1850
+44.18.1 DSI D-PHY clock band control register (DSI_DPCBCR) . . . . . . . . . . 1850
+44.18.2 DSI D-PHY clock skew rate control register (DSI_DPCSRCR) . . . . . 1850
+44.18.3 DSI D-PHY data lane 0 HS offset control register
+(DSI_DPDL0HSOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1851
+44.18.4 DSI D-PHY data lane 0 HS LPX offset control register
+(DSI_DPDL0LPXOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1851
+44.18.5 DSI D-PHY data lane 0 band control register
+(DSI_DPDL0BCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1852
+44.18.6 DSI D-PHY data lane 0 skew rate control register
+(DSI_DPDL0SRCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1853
+44.18.7 DSI D-PHY data lane 1 HS offset control register
+(DSI_DPDL1HSOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1853
+44.18.8 DSI D-PHY data lane 1 HS LPX offset control register
+(DSI_DPDL1LPXOCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1854
+44.18.9 DSI D-PHY data lane 1 band control register (DSI_DPDL1BCR) . . . 1854
+44.18.10 DSI D-PHY data lane 1 skew rate control register
+(DSI_DPDL1SRCR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1855
+44.18.11 DSI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1856
+
+45
+
+50/3653
+
+Neo-Chrom graphic processor (GPU2D) . . . . . . . . . . . . . . . . . . . . . . 1862
+45.1
+
+GPU2D introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1862
+
+45.2
+
+GPU2D main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1862
+
+45.3
+
+GPU2D implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1863
+
+45.4
+
+GPU2D general description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+RM0456 Rev 6
+
+

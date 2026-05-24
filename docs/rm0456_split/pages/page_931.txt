@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Extended interrupts and event controller (EXTI)
+
+Bits 23:16 EXTI{4*(m-1)+2}[7:0]: EXTI{4*(m-1)+2} GPIO port selection
+These bits are written by software to select the source input for the EXTI{4*(m-1)+2} external
+interrupt.
+When EXTI_SECCFGR.SEC{4*(m-1)+2} is disabled, this field can be accessed with
+non-secure and secure access.
+When EXTI_SECCFGR.SEC{4*(m-1)+2} is enabled, this field can only be accessed with
+secure access. Nonsecure write is discarded, and nonsecure read returns 0.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+2} is disabled, this field can be accessed with
+privileged and unprivileged access.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+2} is enabled, this field can only be accessed with
+privileged access. Unprivileged write to this bit is discarded.
+0x00: PA[{4*(m-1)+2}] pin
+0x01: PB[{4*(m-1)+2}] pin
+0x02: PC[{4*(m-1)+2}] pin
+0x03: PD[{4*(m-1)+2}] pin
+0x04: PE[{4*(m-1)+2}] pin
+0x05: PF[{4*(m-1)+2}] pin
+0x06: PG[{4*(m-1)+2}] pin
+0x07: PH[{4*(m-1)+2}] pin
+0x08: PI[{4*(m-1)+2}] pin
+0x09: PJ[{4*(m-1)+2}] pin
+Others: reserved
+Bits 15:8 EXTI{4*(m-1)+1}[7:0]: EXTI{4*(m-1)+1} GPIO port selection
+These bits are written by software to select the source input for EXTI{4*(m-1)+1} external
+interrupt.
+When EXTI_SECCFGR.SEC{4*(m-1)+1} is disabled, this field can be accessed with
+nonsecure and secure access.
+When EXTI_SECCFGR.SEC{4*(m-1)+1} is enabled, this field can only be accessed with
+secure access. Nonsecure write is discarded and nonsecure read returns 0.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+1} is disabled, this field can be accessed with
+privileged and unprivileged access.
+When EXTI_PRIVCFGR.PRIV{4*(m-1)+1} is enabled, this field can only be accessed with
+privileged access. Unprivileged write to this bit is discarded.
+0x00: PA[{4*(m-1)+1] pin
+0x01: PB[{4*(m-1)+1] pin
+0x02: PC[{4*(m-1)+1] pin
+0x03: PD[{4*(m-1)+1] pin
+0x04: PE[{4*(m-1)+1] pin
+0x05: PF[{4*(m-1)+1] pin
+0x06: PG[{4*(m-1)+1] pin
+0x07: PH[{4*(m-1)+1] pin
+0x08: PI[{4*(m-1)+1] pin
+0x09: PJ[{4*(m-1)+1] pin
+Others: reserved
+
+RM0456 Rev 6

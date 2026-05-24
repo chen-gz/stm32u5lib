@@ -1,0 +1,90 @@
+RM0456 Rev 6
+
+RM0456
+
+53.3.5
+
+Public key accelerator (PKA)
+
+Typical applications for PKA
+Introduction
+The PKA can be used to accelerate a number of public key cryptographic functions. In
+particular:
+•
+
+RSA encryption and decryption
+
+•
+
+RSA key finalization
+
+•
+
+CRT-RSA decryption
+
+•
+
+DSA and ECDSA signature generation and verification
+
+•
+
+DH and ECDH key agreement
+
+Specifications of the above functions are given in following publications:
+•
+
+FIPS PUB 186-4, Digital Signature Standard (DSS), July 2013 by NIST
+
+•
+
+PKCS #1, RSA Cryptography Standard, v1.5, v2.1 and v2.2. by RSA Laboratories
+
+•
+
+IEEE1363-2000, IEEE Standard Specifications for Public-Key Cryptography, January
+2000
+
+•
+
+ANSI X9.62-2005, Public Key Cryptography for the Financial Services Industry, The
+Elliptic Curve Digital Signature Algorithm (ECDSA), November 2005
+
+The principles of the main functions are described in this section, for a more detailed
+description refer to the above cited documents.
+
+RSA key pair
+For the following RSA operations a public key and a private key information are defined as
+below:
+•
+
+Alice transmits her public key (n, e) to Bob. Numbers n and e are very large positive
+integers.
+
+•
+
+Alice keeps secret her private key d, also a very large positive integer. Alternatively this
+private key can also be represented by a quintuple (p, q, dp, dq, qInv).
+
+For more information on the above representations refer to the RSA specification.
+
+RSA encryption/decryption principle
+As recommended by the PKCS#1 specification, Bob, to encrypt message M using Alice’s
+public key (n, e) must go through the following steps:
+1.
+
+Compute the encoded message EM = ENCODE(M), where ENCODE is an encoding
+method.
+
+2.
+
+Turn EM into an integer m, with 0 ≤ m < n and (m, n) being coprimes.
+
+3.
+
+Compute ciphertext c = me mod n.
+
+4.
+
+Convert the integer c into a string ciphertext C.
+
+RM0456 Rev 6

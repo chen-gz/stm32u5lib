@@ -1,0 +1,58 @@
+The sensor has a startup time after waking from power-down mode and before it can output
+at the correct level. The ADC also has a startup time after power-on. As a result, to minimize
+the delay, the ADEN and VSENSESEL bits must be set simultaneously.
+
+RM0456 Rev 6
+
+RM0456
+
+33.4.34
+
+Analog-to-digital converter (ADC12)
+
+VBAT supply monitoring
+The VBATEN bit in the ADC12_CCR register is used to switch to the battery voltage. As the
+VBAT voltage can be higher than VDDA, the VBAT pin is internally connected to a bridge
+divider by 4 to ensure the correct operation of the ADC. This bridge is automatically enabled
+when VBATEN is set, to connect VBAT/4 to the corresponding ADC input channels (see
+Section 33.4.4: ADC connectivity for more details). As a consequence, the converted digital
+value is one fourth of the VBAT voltage. To prevent any unwanted consumption on the
+battery, it is recommended to enable the bridge divider only when needed, for ADC
+conversion.
+Refer to the electrical characteristics of the device datasheet for the sampling time value to
+be applied when converting the VBAT/4 voltage.
+Figure 276 shows the block diagram of the VBAT sensing feature.
+Figure 276. VBAT channel block diagram
+
+VBAT
+
+ADCx
+
+VBAT/4
+
+Address/data bus
+
+VBATEN control bit
+
+ADC input
+
+MSv41032V5
+
+Note:
+
+The VBATEN bit of the ADC12_CCR register must be set to enable the conversion of the
+ADC internal channels to which VBAT is connected (see Section 33.4.4: ADC connectivity
+for more details).
+
+33.4.35
+
+Monitoring the internal voltage reference
+The internal voltage reference can be monitored to have a reference point for evaluating the
+ADC VREF+ voltage level.
+Refer to Section 33.4.4: ADC connectivity for details on the ADC input channels to which the
+internal voltage reference is internally connected.
+The sampling time for this channel must be greater than the stabilization time specified in
+the device datasheet.
+Figure 276 shows the block diagram of the VREFINT sensing feature.
+
+RM0456 Rev 6

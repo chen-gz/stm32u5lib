@@ -1,0 +1,97 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+2.
+
+Specify the comparison value in OCTOSPI_PSMAR.
+
+3.
+
+Specify the read period in OCTOSPI_PIR.
+
+4.
+
+Specify a number of data bytes to read in OCTOSPI_DLR.
+
+5.
+
+Specify the frame timing in OCTOSPI_TCR.
+
+6.
+
+Specify the frame format in OCTOSPI_CCR.
+
+7.
+
+Specify the instruction in OCTOSPI_IR.
+
+8.
+
+Specify the optional alternate byte to be sent right after the address phase in
+OCTOSPI_ABR.
+
+9.
+
+Specify the optional targeted address in OCTOSPI_AR.
+
+If the address register (OCTOSPI_AR) does not need to be updated for a particular
+command, then the command sequence starts as soon as OCTOSPI_CCR is written. This
+is the case when ADMODE[2:0] = 000.
+When an address is required (ADMODE[2:0] ≠ 000), the command sequence starts as soon
+as the address is updated with a write to OCTOSPI_AR.
+
+Memory-mapped mode configuration
+In memory-mapped mode, the external device is seen as an internal memory but with some
+latency during accesses. Read and write operations are allowed to the external device in
+this mode.
+It is not recommended to program the flash memory using memory-mapped writes, as the
+internal flags for erase or programming status have to be polled. The indirect-write mode
+fulfills this operation, possibly in conjunction with the automatic status-polling mode.
+The memory-mapped mode is entered by setting FMODE[1:0] = 11 in OCTOSPI_CR.
+The programmed instruction and frame are sent when an AHB master accesses the
+memory-mapped space.
+The FIFO is used as a prefetch buffer to anticipate any linear reads. Any access to
+OCTOSPI_DR in this mode returns zero.
+The data length register (OCTOSPI_DLR) has no meaning in memory-mapped mode.
+When the OCTOSPI is used in memory-mapped mode, the frames are constructed
+in the following way:
+1.
+
+Specify the frame timing in OCTOSPI_TCR for read operation.
+
+2.
+
+Specify the frame format in OCTOSPI_CCR for read operation.
+
+3.
+
+Specify the instruction in OCTOSPI_IR.
+
+4.
+
+Specify the optional alternate byte to be sent right after the address phase in
+OCTOSPI_ABR for read operation.
+
+5.
+
+Specify the frame timing in OCTOSPI_WTCR for write operation.
+
+6.
+
+Specify the frame format in OCTOSPI_WCCR for write operation.
+
+7.
+
+Specify the instruction in OCTOSPI_WIR.
+
+8.
+
+Specify the optional alternate byte to be sent right after the address phase in
+OCTOSPI_WABR for write operation.
+
+All configuration operations must be completed (ensured by checking BUSY = 0) before the
+first access to the memory area: any register write operation when BUSY = 1 has no effect
+and is not signaled with an error response. On the first access, the OCTOSPI becomes

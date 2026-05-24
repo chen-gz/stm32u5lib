@@ -1,0 +1,169 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+Bits 31:0 CRCPOLY[31:0]: CRC polynomial register
+This register contains the polynomial for the CRC calculation.
+The default 9-bit polynomial setting 0x107 corresponds to default 8-bit setting of DSIZE. It is
+compatible with setting 0x07 used in other ST products with fixed length of the polynomial
+string, where the most significant bit of the string is always kept hidden.
+Length of the polynomial is given by the most significant bit of the value stored in this
+register. It must be set greater than DSIZE. CRC33_17 bit must be set additionally with
+CRCPOLY register when DSIZE is configured to maximum data size and CRC is enabled (to
+keep polynomial length grater than data size).
+Note: CRCPOLY[31:16] bits are reserved for instances with data size limited to 16 bits. There
+is no constrain when 32-bit access is applied at these addresses. Reserved bits 31-16
+are always read zero while any write to them is ignored.
+
+68.8.12
+
+SPI transmitter CRC register (SPI_TXCRC)
+Address offset: 0x044
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+TXCRC[31:16]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+TXCRC[15:0]
+r
+
+r
+
+Bits 31:0 TXCRC[31:0]: CRC register for transmitter
+When CRC calculation is enabled, the TXCRC[31:0] bits contain the computed CRC value
+of the subsequently transmitted bytes. CRC calculation is initialized when the CRCEN bit of
+the SPI_CR1 register is set or when a data block is transferred completely. The CRC is
+calculated serially using the polynomial programmed in the SPI_CRCPOLY register.
+The number of bits considered at calculation depends on the SPI_CRCPOLY register and
+CRCSIZE bits settings in the SPI_CFG1 register.
+Note: A read to this register when the communication is ongoing may return an incorrect
+value.
+Note: TXCRC[31-16] bits are reserved for instances with data size limited to 16 bits. There is
+no constrain when 32-bit access is applied at these addresses. Reserved bits 31-16
+are always read zero while any write to them is ignored.
+Note: The configuration of the CRCSIZE bitfield is not taken into account when the content of
+this register is read by software. No masking is applied for unused bits in this case.

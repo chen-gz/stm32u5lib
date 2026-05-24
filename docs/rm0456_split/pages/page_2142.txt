@@ -1,0 +1,63 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Redirecting tim_ocxref to tim_ocx or tim_ocxn
+In output mode (forced, output compare or PWM), tim_ocxref can be redirected to the
+tim_ocx output or to tim_ocxn output by configuring the CCxE and CCxNE bits in the
+TIMx_CCER register.
+This is used to send a specific waveform (such as PWM or static active level) on one output
+while the complementary remains at its inactive level. Other alternative possibilities are to
+have both outputs at inactive level or both outputs active and complementary with deadtime.
+Note:
+
+When only tim_ocxn is enabled (CCxE = 0, CCxNE = 1), it is not complemented and
+becomes active as soon as tim_ocxref is high. For example, if CCxNP = 0 then tim_ocxn =
+tim_ocxref. On the other hand, when both tim_ocx and tim_ocxn are enabled
+(CCxE = CCxNE = 1) tim_ocx becomes active when tim_ocxref is high whereas tim_ocxn is
+complemented and becomes active when tim_ocxref is low.
+
+54.3.18
+
+Using the break function
+The purpose of the break function is to protect power switches driven by PWM signals
+generated with the timers. The two break inputs are usually connected to fault outputs of
+power stages and 3-phase inverters. When activated, the break circuitry shuts down the
+PWM outputs and forces them to a predefined safe state. A number of internal MCU events
+can also be selected to trigger an output shut-down.
+The break features two channels. A break channel which gathers both system-level fault
+(clock failure, ECC/parity errors,...) and application fault (from input pins and built-in
+comparator), and can force the outputs to a predefined level (either active or inactive) after a
+deadtime duration. A break2 channel which only includes application faults and is able to
+force the outputs to an inactive state.
+The output enable signal and output levels during break are depending on several control
+bits:
+•
+
+The MOE bit in TIMx_BDTR register is used to enable/disable the outputs by software
+and is reset in case of break or break2 event.
+
+•
+
+The OSSI bit in the TIMx_BDTR register defines whether the timer controls the output
+in inactive state or releases the control to the GPIO controller (typically to have it in HiZ mode)
+
+•
+
+The OISx and OISxN bits in the TIMx_CR2 register which are setting the output shutdown level, either active or inactive. The tim_ocx and tim_ocxn outputs cannot be set
+both to active level at a given time, whatever the OISx and OISxN values. Refer to
+Table 554: Output control bits for complementary tim_ocx and tim_ocxn channels with
+break feature for more details.
+
+When exiting from reset, the break circuit is disabled and the MOE bit is low. The break
+functions can be enabled by setting the BKE and BK2E bits in the TIMx_BDTR register. The
+break input polarities can be selected by configuring the BKP and BK2P bits in the same
+register. BKEx and BKPx can be modified at the same time. When the BKEx and BKPx bits
+are written, a delay of one APB clock cycle is applied before the writing is effective.
+Consequently, it is necessary to wait one APB clock period to correctly read back the bit
+after the write operation.
+Because MOE falling edge can be asynchronous, a resynchronization circuit has been
+inserted between the actual signal (acting on the outputs) and the synchronous control bit
+(accessed in the TIMx_BDTR register). It results in some delays between the asynchronous

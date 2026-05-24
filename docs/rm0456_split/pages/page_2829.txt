@@ -1,0 +1,65 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+In transmission, the CRC computation is frozen during the CRC transfer and the TXCRC is
+transmitted, in a frame of length equal to the CRCSIZE field value.
+In reception, the RXCRC is also frozen when the desired number of data is transferred.
+Information to be compared with the RXCRC register content is then received in a frame of
+length equal to the CRCSIZE value.
+Once the CRC frame is complete, an automatic check is performed comparing the received
+CRC value and the value calculated in the SPI_RXCRC register. The software has to check
+the CRCE flag of the SPI_SR register to determine if the data transfers were corrupted or
+not. Software clears the CRCE flag by writing 1 to the CRCEC.
+The user takes no care about any flushing redundant CRC information, it is done
+automatically.
+
+Resetting the SPI_TXCRC and SPI_RXCRC values
+The SPI_TXCRC and SPI_RXCRC values are initialized automatically when new data is
+sampled after a CRC phase. This allows the use of DMA circular mode to transfer data
+without any interruption (several data blocks covered by intermediate CRC checking
+phases). Initialization patterns for receiver and transmitter can be configured either to zero
+or to all ones in dependency on setting bits TCRCINI and RCRCINI of the SPI_CR1 register.
+The CRC values are reset when the SPI is disabled.
+
+68.6
+
+SPI in low-power modes
+The SPI supports autonomous operation down to Stop mode, refer to Section 68.4.15:
+Autonomous mode.
+Table 701. Effect of low-power modes on the SPI
+Mode
+
+Description
+
+Sleep
+
+No effect. SPI interrupts cause the device to exit Sleep mode.
+
+Stop(1)
+
+The SPI registers content is kept.
+If the autonomous mode is enabled at RCC configuration, and SPI is clocked by an
+internal oscillator available in Stop mode, transfers are functional. The DMA
+requests are functional, and the interrupts in this mode cause the device to exit
+Stop mode.
+
+Standby
+
+The SPI instance is not functional in this mode. It is powered down, and must be
+reinitialized after exiting Standby mode.
+
+1. Refer to Section 68.3: SPI implementation for information about wake-up from Stop mode support per
+instance as well as Standby mode availability. If an instance is not functional in a Stop mode, it must be
+disabled before entering this Stop mode.
+
+68.7
+
+SPI interrupts
+Table 702 gives an overview of the SPI events capable of generating interrupts if enabled.
+Some of them feature wake-up from low-power mode capability, additionally. Most of them
+can be enabled and disabled independently while using specific interrupt enable control bits.
+The flags associated with the events are cleared by specific methods. Refer to the
+description of SPI registers for more details about the event flags. When SPI is disabled, all

@@ -1,0 +1,197 @@
+RM0456 Rev 6
+
+16
+
+rw
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bits 11:8 TI2SEL[3:0]: Selects tim_ti2[15:0] input
+0000: tim_ti2_in0: TIMx_CH2
+0001: tim_ti2_in1
+...
+1111: tim_ti2_in15
+Refer to Section 54.3.2: TIM1/TIM8 pins and internal signals for interconnects list.
+Bits 7:4 Reserved, must be kept at reset value.
+Bits 3:0 TI1SEL[3:0]: Selects tim_ti1[15:0] input
+0000: tim_ti1_in0: TIMx_CH1
+0001: tim_ti1_in1
+...
+1111: tim_ti1_in15
+Refer to Section 54.3.2: TIM1/TIM8 pins and internal signals for interconnects list.
+
+54.6.27
+
+TIMx alternate function option register 1 (TIMx_AF1)(x = 1, 8)
+Address offset: 0x060
+Reset value: 0x0000 0001
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ETRSEL[3:2]
+
+15
+
+14
+
+ETRSEL[1:0]
+rw
+
+rw
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+16
+
+rw
+
+rw
+
+1
+
+0
+
+BK
+BK
+BK
+BK
+BK
+BK
+BK
+BK
+BK
+BK
+BK
+BK
+BKINP
+BKINE
+CMP4P CMP3P CMP2P CMP1P
+CMP8E CMP7E CMP6E CMP5E CMP4E CMP3E CMP2E CMP1E
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:18 Reserved, must be kept at reset value.
+Bits 17:14 ETRSEL[3:0]: etr_in source selection
+These bits select the etr_in input source.
+0000: tim_etr0: TIMx_ETR input
+0001: tim_etr1
+...
+1111: tim_etr15
+Refer to Section 54.3.2: TIM1/TIM8 pins and internal signals for product specific
+implementation.
+Note: These bits can not be modified as long as LOCK level 1 has been programmed (LOCK
+bits in TIMx_BDTR register).
+Bit 13 BKCMP4P: tim_brk_cmp4 input polarity
+This bit selects the tim_brk_cmp4 input sensitivity. It must be programmed together with the
+BKP polarity bit.
+0: tim_brk_cmp4 input polarity is not inverted (active low if BKP = 0, active high if BKP = 1)
+1: tim_brk_cmp4 input polarity is inverted (active high if BKP = 0, active low if BKP = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+
+RM0456 Rev 6

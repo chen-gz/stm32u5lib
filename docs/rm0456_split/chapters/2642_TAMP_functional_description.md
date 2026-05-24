@@ -1,0 +1,212 @@
+rw
+
+20
+
+19
+
+SCLDEL[3:0]
+
+18
+
+17
+
+16
+
+SDADEL[3:0]
+
+SCLL[7:0]
+
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+Bits 31:28 PRESC[3:0]: Timing prescaler
+This field is used to prescale i2c_ker_ck to generate the clock period tPRESC used for data
+setup and hold counters (refer to section I2C timings), and for SCL high and low level
+counters (refer to section I2C controller initialization).
+tPRESC = (PRESC + 1) x tI2CCLK
+Bits 27:24 Reserved, must be kept at reset value.
+Bits 23:20 SCLDEL[3:0]: Data setup time
+This field is used to generate a delay tSCLDEL = (SCLDEL + 1) x tPRESC between SDA edge
+and SCL rising edge. In controller and in target modes with NOSTRETCH = 0, the SCL line is
+stretched low during tSCLDEL.
+Note: tSCLDEL is used to generate tSU:DAT timing.
+Bits 19:16 SDADEL[3:0]: Data hold time
+This field is used to generate the delay tSDADEL between SCL falling edge and SDA edge. In
+controller and in target modes with NOSTRETCH = 0, the SCL line is stretched low during
+tSDADEL.
+tSDADEL= SDADEL x tPRESC
+Note: SDADEL is used to generate tHD:DAT timing.
+Bits 15:8 SCLH[7:0]: SCL high period (controller mode)
+This field is used to generate the SCL high period in controller mode.
+tSCLH = (SCLH + 1) x tPRESC
+Note: SCLH is also used to generate tSU:STO and tHD:STA timing.
+Bits 7:0 SCLL[7:0]: SCL low period (controller mode)
+This field is used to generate the SCL low period in controller mode.
+tSCLL = (SCLL + 1) x tPRESC
+Note: SCLL is also used to generate tBUF and tSU:STA timings.
+
+Note:
+
+This register must be configured when the I2C peripheral is disabled (PE = 0).
+
+Note:
+
+The STM32CubeMX tool calculates and provides the I2C_TIMINGR content in the I2C
+Configuration window.
+
+65.9.6
+
+I2C timeout register (I2C_TIMEOUTR)
+Address offset: 0x14
+Reset value: 0x0000 0000
+Access: no wait states, except if a write access occurs while a write access is ongoing. In
+this case, wait states are inserted in the second write access until the previous one is
+completed. The latency of the second write access can be up to 2 x i2c_pclk + 6 x
+i2c_ker_ck.
+
+31
+
+30
+
+29
+
+28
+
+TEXTE
+N
+
+Res.
+
+Res.
+
+Res.
+
+rw
+15
+
+14
+
+13
+
+12
+
+TIMOU
+TEN
+
+Res.
+
+Res.
+
+TIDLE
+
+rw
+
+rw
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+TIMEOUTB[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+TIMEOUTA[11:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+<!-- pagebreak -->
+

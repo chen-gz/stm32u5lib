@@ -1,0 +1,165 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.20 Host-mode registers
+Bit values in the register descriptions are expressed in binary unless otherwise specified.
+Host-mode registers affect the operation of the core in the host mode. Host mode registers
+must not be accessed in device mode, as the results are undefined. Host mode registers
+can be categorized as follows:
+
+72.15.21 OTG host configuration register (OTG_HCFG)
+Address offset: 0x400
+Reset value: 0x0000 0000
+This register configures the core after power-on. Do not make changes to this register after
+initializing the host.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FSLSS
+
+Res.
+
+r
+
+FSLSPCS[1:0]
+rw
+
+rw
+
+Bits 31:3 Reserved, must be kept at reset value.
+Bit 2 FSLSS: FS- and LS-only support
+The application uses this bit to control the core’s enumeration speed. Using this bit, the
+application can make the core enumerate as an FS host, even if the connected device
+supports HS traffic. Do not make changes to this field after initial programming.
+1: FS/LS-only, even if the connected device can support HS (read-only).
+Bits 1:0 FSLSPCS[1:0]: FS/LS PHY clock select
+When the core is in FS host mode
+01: PHY clock is running at 48 MHz
+Others: Reserved
+When the core is in LS host mode
+00: Reserved
+01: Select 48 MHz PHY clock frequency
+10: Select 6 MHz PHY clock frequency
+11: Reserved
+Note: The FSLSPCS must be set on a connection event according to the speed of the
+connected device (after changing this bit, a software reset must be performed).
+
+RM0456 Rev 6

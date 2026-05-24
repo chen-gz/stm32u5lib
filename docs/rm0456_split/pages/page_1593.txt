@@ -1,0 +1,197 @@
+RM0456 Rev 6
+
+Res.
+
+OLDIE
+rw
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+Bit 1 DOVRIE: Data overflow interrupt enable
+This bit is set and cleared by software.
+0: Data overflow interrupt disabled
+1: Data overflow interrupt enabled
+Bit 0 FTHIE: RXFIFO threshold interrupt enable
+This bit is set and cleared by software.
+0: RXFIFO threshold interrupt disabled
+1: RXFIFO threshold interrupt enabled
+
+39.8.16
+
+MDF DFLT0 interrupt status register 0 (MDF_DFLT0ISR)
+Address offset: 0x0B0
+Reset value: 0x0000 0000
+This register contains the status flags for each digital filter path.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RFOVR
+CKABF
+F
+
+SATF
+
+SCDF
+
+SSOVR
+F
+
+THHF
+
+THLF
+
+OLDF
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+r
+
+r
+
+rc_w1
+
+rc_w1
+
+RXNEF SSDRF DOVRF
+r
+
+rc_w1
+
+rc_w1
+
+FTHF
+r
+
+Bits 31:12 Reserved, must be kept at reset value.
+Bit 11 RFOVRF: Reshape filter overrun detection flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no reshape filter overrun is detected. Write 0 has no effect.
+1: Read 1 means that reshape filter overrun is detected. Write 1 clears this flag.
+Bit 10 CKABF: Clock absence detection flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no clock absence is detected. Write 0 has no effect.
+1: Read 1 means that a clock absence is detected. Write 1 clears this flag.
+Bit 9 SATF: Saturation detection flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no saturation is detected. Write 0 has no effect.
+1: Read 1 means that a saturation is detected. Write 1 clears this flag.
+Bit 8 SCDF: Short-circuit detector flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no SCD0 event is detected. Write 0 has no effect.
+1: Read 1 means that a SCD0 event is detected. Write 1 clears this flag.
+Bit 7 SSOVRF: Snapshot overrun flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no snapshot overrun event is detected. Write 0 has no effect.
+1: Read 1 means that a snapshot overrun event is detected. Write 1 clears this flag.
+
+RM0456 Rev 6

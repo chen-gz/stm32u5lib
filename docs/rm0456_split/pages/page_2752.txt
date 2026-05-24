@@ -1,0 +1,91 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+LPUART_TDR register stores the data in the TXFIFO. Data are copied from the
+TXFIFO to the shift register at the end of the current transmission.
+When the TXFIFO is not full, the TXFNF flag stays at 1 even after a write in
+LPUART_TDR. It is cleared when the TXFIFO is full. This flag generates an interrupt if
+the TXFNEIE bit is set.
+Alternatively, interrupts can be generated and data can be written to the TXFIFO when
+the TXFIFO threshold is reached. In this case, the CPU can write a block of data
+defined by the programmed threshold.
+If a frame is transmitted (after the stop bit) and the TXE flag (TXFE in case of FIFO
+mode) is set, the TC bit goes high. An interrupt is generated if the TCIE bit is set in the
+LPUART_CR1 register.
+After writing the last data in the LPUART_TDR register, it is mandatory to wait for
+TC = 1 before disabling the LPUART or causing the microcontroller to enter the lowpower mode (see Figure 837: TC/TXE behavior when transmitting).
+Figure 837. TC/TXE behavior when transmitting
+Idle preamble
+
+Frame 1
+
+Frame 2
+
+Set by hardware
+cleared by software
+
+Set by hardware
+cleared by software
+
+F2
+
+F3
+
+Frame 3
+
+TX line
+TXE flag
+
+LPUART_DR
+
+F1
+
+Set by hardware
+
+Set by hardware
+TC flag
+Software
+enables the
+LPUART
+
+Software waits until TXE=1
+and writes F2 into DR
+
+Software waits until TXE=1
+and writes F1 into DR
+
+TC is not set
+because TXE=0
+
+Software waits until
+TXE=1 and writes
+F3 into DR
+
+TC is not set
+because TXE=0
+
+TC is set
+because TXE=1
+
+Software waits until TC=1
+
+MSv31889V1
+
+Note:
+
+When FIFO management is enabled, the TXFNF flag is used for data transmission.
+
+Break characters
+Setting the SBKRQ bit transmits a break character. The break frame length depends on the
+M bits (see Figure 835).
+If a 1 is written to the SBKRQ bit, a break character is sent on the TX line after completing
+the current character transmission. The SBKF bit is set by the write operation and it is reset
+by hardware when the break character is complete (during the stop bits after the break
+character). The LPUART inserts a logic 1 signal (STOP) for the duration of 2 bits at the end
+of the break frame to guarantee the recognition of the start bit of the next frame.
+When the SBKRQ bit is set, the break character is sent at the end of the current
+transmission.
+
+RM0456 Rev 6

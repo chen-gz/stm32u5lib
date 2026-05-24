@@ -1,0 +1,252 @@
+rw
+
+RM0456 Rev 6
+
+RM0456
+
+Basic timers (TIM6/TIM7)
+
+Bit 31 UIFCPY: UIF copy
+This bit is a read-only copy of the UIF bit of the TIMx_ISR register. If the UIFREMAP bit in
+TIMx_CR1 is reset, bit 31 is reserved and read as 0.
+Bits 30:16 Reserved, must be kept at reset value.
+Bits 15:0 CNT[15:0]: Counter value
+Non-dithering mode (DITHEN = 0)
+The register holds the counter value.
+Dithering mode (DITHEN = 1)
+The register only holds the non-dithered part in CNT[15:0]. The fractional part is not
+available.
+
+57.4.7
+
+TIMx prescaler (TIMx_PSC)(x = 6 to 7)
+Address offset: 0x28
+Reset value: 0x0000
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+PSC[15:0]
+rw
+
+Bits 15:0 PSC[15:0]: Prescaler value
+The counter clock frequency ftim_cnt_ck is equal to ftim_psc_ck / (PSC[15:0] + 1).
+PSC contains the value to be loaded into the active prescaler register at each update event.
+(including when the counter is cleared through UG bit of TIMx_EGR register.
+
+57.4.8
+
+TIMx autoreload register (TIMx_ARR)(x = 6 to 7)
+Address offset: 0x2C
+Reset value: 0x0000 FFFF
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+19
+
+18
+
+17
+
+16
+
+ARR[19:16]
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+ARR[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bits 19:0 ARR[19:0]: Auto-reload value
+ARR is the value to be loaded into the actual auto-reload register.
+Refer to Section 57.3.4: Time-base unit for more details about ARR update and behavior.
+The counter is blocked while the auto-reload value is null.
+Non-dithering mode (DITHEN = 0)
+The register holds the auto-reload value in ARR[15:0]. The ARR[19:16] bits are reserved.
+Dithering mode (DITHEN = 1)
+The register holds the integer part in ARR[19:4]. The ARR[3:0] bitfield contains the dithered
+part.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+2474
+
+0x2C
+
+<!-- pagebreak -->
+

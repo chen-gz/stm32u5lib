@@ -1,0 +1,10 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Table 304. Memory location of the internal reference voltage sensor
+calibration value
+Name
+VREFINT_CAL

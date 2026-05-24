@@ -1,0 +1,36 @@
+RM0456 Rev 6
+
+OC3M[2:0]
+rw
+
+rw
+
+OC3PE OC3FE
+rw
+
+rw
+
+rw
+
+0
+
+CC3S[1:0]
+rw
+
+rw
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+Bits 9:8 CC4S[1:0]: Capture/Compare 4 selection
+This bitfield defines the direction of the channel (input/output) as well as the used input.
+00: CC4 channel is configured as output
+01: CC4 channel is configured as input, tim_ic4 is mapped on tim_ti4
+10: CC4 channel is configured as input, tim_ic4 is mapped on tim_ti3
+11: CC4 channel is configured as input, tim_ic4 is mapped on tim_trc. This mode is working
+only if an internal trigger input is selected through TS bit (TIMx_SMCR register)
+Note: CC4S bits are writable only when the channel is OFF (CC4E = 0 in TIMx_CCER).
+Bit 7 OC3CE: Output compare 3 clear enable
+
+RM0456 Rev 6

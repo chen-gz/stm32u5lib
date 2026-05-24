@@ -1,0 +1,103 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Figure 954. UCPD BMC transmitter architecture
+ucpd_clk
+clock domain
+
+ucpd_pclk
+clock domain
+
+UCPD_TXDR
+
+Message
+data
+
+CRC
+
+Registers
+Tx message
+contents
+
+UCPD_TX_ORDSET
+
+UCPD_TX_PAYSZ
+Tx message
+control
+
+UCPD_CR
+
+Configuration of
+the peripheral
+
+UCPD_CFG1
+UCPD_CFG2
+UCPD_CFG3
+
+hbit_clk
+clock domain
+
+Message
+data
+
+Fixed
+framing
+
+4b5b
+encode
+
+BMC
+encode
+
+To analog
+PHY
+
+Message
+parameters
+Message
+control
+
+USB PD
+transmitter
+state machine
+
+General
+configuration
+
+MSv45544V2
+
+BMC encoder
+The bi-phase mark coding method is defined in the IEC 60958-1 Digital Audio Interface
+Part:1 General Edition 3.0 2008-09 www.iec.ch specification.
+The half-bit clock hbit_clk is derived from ucpd_clk through a simple divider controlled by the
+HBITCLKDIV[5:0] bitfield of the UCPD_CFGR1 register. This ensures the same duration of
+high and low half-bit periods (if neglecting a small difference due to different rising and
+falling edge duration and due to jitter), and the same bit duration (if neglecting jitter).
+Transmitter timing and collision avoidance
+Hardware support of collision avoidance is made as a function of the half bit time for the
+transmitter. Two counters are implemented:
+–
+
+tInterFrameGap: via IFRGAP (pre-defined value, can be altered)
+
+–
+
+tTransitionWindow: via TRANSWIN (pre-defined value, can be altered)
+
+These two counters once set correctly generates the interframe gap.
+Hard Reset in transmitter
+In order to facilitate generation of a Hard Reset, a special code of TXMODE field is used. No
+other fields need to be written.
+On writing the correct code, the hardware forces Hard Reset Tx under the correct (optimal)
+timings with respect to an ongoing Tx message, which (if still in progress) is cleanly
+terminated by truncating the current sequence and directly appending an EOP K-code
+sequence. No specific interrupt is generated relating to this truncation event.
+Transmitter behavior in the case of errors
+The under-run condition (TXUND interrupt) may happen by accident and in this case, the
+UCPD is starved of (the correct) Tx payload and is not able to complete the Tx message
+correctly. This is a serious error (for this to happen the software fails to respond in time). As
+a result the hardware ensures the CRC is incorrect at the end of the message, thus
+guaranteeing the message to be discarded at the receiver.

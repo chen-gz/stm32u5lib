@@ -1,0 +1,143 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+Figure 737. LPTIM4 block diagram(1)
+
+LPTIM
+Kernel clock domain
+Edge
+detector
+Up/down
+
+Edge
+detector
+LPTIM
+register
+interface
+
+APB clock
+
+LPTIM
+interrupt
+
+Encoder
+Glitch
+filter
+
+Glitch
+filter
+
+Synchronzation
+
+32-bit APB bus
+
+APB clock
+domain
+
+Glitch
+filter
+
+CNTSTRT/
+SNGSTRT
+
+16-bit ARR
+
+LPTIM_IN2
+lptim_in1_mux1
+lptim_in1_mux2
+lptim_in1_mux3
+LPTIM_IN1
+lptim_ext_trigx
+LPTIM_ETR
+
+LPTIM_RCR
+
+Mux trigger
+
+IRQ
+interface
+
+lptim_in2_mux1
+lptim_in2_mux2
+lptim_in2_mux3
+
+Repetition
+counter
+1
+
+1
+
+0
+
+16-bit counter
+
+LPTIM_OUT
+
+Count mode
+1
+
+lptim_ker_ck
+
+clkmux
+
+lptim_out
+
+Prescaler clkpresc
+
+0
+
+16-bit compare
+Wake-up
+MSv63063V2
+
+1. Some I/Os may not be available, refer to Section 58.4.2: LPTIM pins and internal signals.
+
+58.4.2
+
+LPTIM pins and internal signals
+The following tables provide the list of LPTIM pins and internal signals, respectively.
+Table 600. LPTIM1/2/3 input/output pins
+Pin name
+
+Pin type
+
+Description
+
+LPTIM_IN1
+
+Digital input
+
+LPTIM input 1 from LPTIMx_IN1 pin on mux input 0
+
+LPTIM_IN2(1)
+
+Digital input
+
+LPTIM input 2 from LPTIMx_IN2 pin on mux input 0
+
+LPTIM_ETR
+
+Digital input
+
+LPTIM external trigger LPTIMx_ETR pin
+
+LPTIM_CH1
+
+Digital
+input/output
+
+LPTIM channel 1 input/output LPTIMx_IN1 pin
+
+LPTIM_CH2
+
+Digital
+input/output
+
+LPTIM channel 2 input/output LPTIMx_IN2 pin
+
+1. LPTIM3 has only the input 1 (no input 2).
+
+Table 601. LPTIM4 input/output pins
+Pin name

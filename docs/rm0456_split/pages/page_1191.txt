@@ -1,0 +1,186 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+coding schemes, depending on their content. The general formats for the response tokens
+for SD-Memory cards, SDIO cards, and e•MMC cards are shown in Table 279, Table 280
+and Table 281.
+A response always starts with a start bit (always 0), followed by the bit indicating the
+direction of transmission (card = 0). A value denoted by x in the tables below indicates a
+variable entry. Most responses, except some, are protected by a CRC. Every command
+code word is terminated by the end bit (always 1).
+The response token data is stored in five registers, four containing the 32-bits card status,
+OCR register, argument or 127-bits CID or CSD register including internal CRC, and one
+register containing the 6-bits command index.
+Table 279. Short response with CRC token format
+Bit position
+
+Width
+
+Value
+
+Description
+
+47
+
+1
+
+0
+
+Start bit
+
+46
+
+1
+
+0
+
+Transmission bit
+
+[45:40]
+
+6
+
+x
+
+Command index (or reserved 111111)
+
+[39:8]
+
+32
+
+x
+
+Argument
+
+[7:1]
+
+7
+
+x
+
+CRC7
+
+0
+
+1
+
+1
+
+End bit
+
+Table 280. Short response without CRC token format
+Bit position
+
+Width
+
+Value
+
+Description
+
+47
+
+1
+
+0
+
+Start bit
+
+46
+
+1
+
+0
+
+Transmission bit
+
+[45:40]
+
+6
+
+x
+
+Command index (or reserved 111111)
+
+[39:8]
+
+32
+
+x
+
+Argument
+
+[7:1]
+
+7
+
+1111111
+
+0
+
+1
+
+1
+
+(reserved 1111111)
+End bit
+
+Table 281. Long response with CRC token format
+Bit position
+
+Width
+
+Value
+
+135
+
+1
+
+0
+
+Start bit
+
+134
+
+1
+
+0
+
+Transmission bit
+
+[133:128]
+
+6
+
+111111
+
+127:8
+
+x
+
+CID or CSD slices
+
+7:1
+
+x
+
+CRC7 (included in CID or CSD)
+
+1
+
+1
+
+End bit
+
+[127:1]
+0
+
+Description
+
+Reserved
+
+The command/response path operates in a half-duplex mode, so that either commands can
+be sent or responses can be received. If the CPSM is not in the Send state, the
+
+RM0456 Rev 6

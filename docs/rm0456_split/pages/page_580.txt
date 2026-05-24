@@ -1,0 +1,50 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 20 UART5SMEN: UART5 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: UART5 clocks disabled by the clock gating during Sleep and Stop modes
+1: UART5 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 19 UART4SMEN: UART4 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: UART4 clocks disabled by the clock gating during Sleep and Stop modes
+1: UART4 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 18 USART3SMEN: USART3 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: USART3 clocks disabled by the clock gating during Sleep and Stop modes
+1: USART3 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 17 USART2SMEN: USART2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: USART2 clocks disabled by the clock gating during Sleep and Stop modes
+1: USART2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 16:15 Reserved, must be kept at reset value.
+Bit 14 SPI2SMEN: SPI2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SPI2 clocks disabled by the clock gating during Sleep and Stop modes
+1: SPI2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 13:12 Reserved, must be kept at reset value.
+Bit 11 WWDGSMEN: Window watchdog clock enable during Sleep and Stop modes
+This bit is set and cleared by software. It is forced to one by hardware when the hardware
+WWDG option is activated.
+0: Window watchdog clocks disabled by the clock gating during Sleep and Stop modes
+1: Window watchdog clocks enabled by the clock gating during Sleep and Stop modes
+Bits 10:6 Reserved, must be kept at reset value.
+Bit 5 TIM7SMEN: TIM7 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM7 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM7 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 4 TIM6SMEN: TIM6 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM6 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM6 clocks enabled by the clock gating during Sleep and Stop modes

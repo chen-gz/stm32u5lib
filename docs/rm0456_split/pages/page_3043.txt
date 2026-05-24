@@ -1,0 +1,70 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+the 5 V VBUS line. The external charge pump can be driven by any GPIO output. This is
+required for the OTG A-host, A-device and host-only configurations.
+Figure 896. OTG_FS host-only connection
+VDD
+5V
+
+GPIO + IRQ
+
+STMPS2141STR
+5 V Pwr
+Current-limited
+Overcurrent power distribution
+switch(2)
+VBUS
+DM
+
+OSC_IN
+
+DP
+VSS
+
+OSC_OUT
+
+USB Std-A connector
+
+GPIO
+
+EN
+
+MSv36915V2
+
+1. VDD range is between 2 V and 3.6 V.
+
+72.7.1
+
+SRP-capable host
+SRP support is available through the SRP capable bit in the global USB configuration
+register (SRPCAP bit in OTG_GUSBCFG). With the SRP feature enabled, the host can
+save power by switching off the VBUS power while the USB session is suspended.
+The SRP host mode program model is described in detail in the A-device session request
+protocol) section.
+
+72.7.2
+
+USB host states
+Host port power
+On-chip 5 V VBUS generation is not supported. For this reason, a charge pump or, if 5 V are
+available on the application board, a basic power switch, must be added externally to drive
+the 5 V VBUS line. The external charge pump can be driven by any GPIO output or via an
+I2C interface connected to an external PMIC (power management IC). When the application
+decides to power on VBUS, it must also set the port power bit in the host port control and
+status register (PPWR bit in OTG_HPRT).
+
+VBUS valid
+When HNP or SRP is enabled the VBUS sensing pin must be connected to VBUS. The VBUS
+input ensures that valid VBUS levels are supplied by the charge pump during USB
+operations. Any unforeseen VBUS voltage drop below the VBUS valid threshold (4.4 V) leads
+to an OTG interrupt triggered by the session end detected bit (SEDET bit in
+OTG_GOTGINT). The application is then required to remove the VBUS power and clear the
+port power bit.
+When HNP and SRP are both disabled, the VBUS sensing pin does not need to be
+connected to VBUS.
+The charge pump overcurrent flag can also be used to prevent electrical damage. Connect
+the overcurrent flag output from the charge pump to any GPIO input and configure it to

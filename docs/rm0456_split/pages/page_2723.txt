@@ -1,0 +1,164 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bits 31:24 BLEN[7:0]: Block Length
+This bitfield gives the block length in smartcard T = 1 reception. Its value equals the number
+of information characters + the length of the Epilogue Field (1 – LEC / 2 – CRC) – 1.
+Examples:
+BLEN = 0 -> 0 information characters + LEC
+BLEN = 1 -> 0 information characters + CRC
+BLEN = 255 -> 254 information characters + CRC (total 256 characters))
+In smartcard mode, the block length counter is reset when TXE = 0 (TXFE = 0 in case FIFO
+mode is enabled).
+This bitfield can be used also in other modes. In this case, the block length counter is reset
+when RE = 0 (receiver disabled) and/or when the EOBCF bit is written to 1.
+Note: This value can be programmed after the start of the block reception (using the data
+from the LEN character in the Prologue Field). It must be programmed only once per
+received block.
+Bits 23:0 RTO[23:0]: Receiver timeout value
+This bitfield gives the Receiver timeout value in terms of number of bit duration.
+In Standard mode, the RTOF flag is set if, after the last received character, no new start bit is
+detected for more than the RTO value.
+In smartcard mode, this value is used to implement the CWT and BWT. See smartcard
+chapter for more details. In the standard, the CWT/BWT measurement is done starting from
+the start bit of the last received character.
+Note: This value must only be programmed once per received character.
+
+Note:
+
+RTOR can be written on-the-fly. If the new value is lower than or equal to the counter, the
+RTOF flag is set.
+This register is reserved and forced by hardware to “0x00000000” when the receiver timeout
+feature is not supported. Refer to Section 66.4: USART implementation.
+
+66.8.9
+
+USART request register (USART_RQR)
+Address offset: 0x18
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TXFRQ RXFRQ MMRQ SBKRQ ABRRQ
+w
+
+Bits 31:5 Reserved, must be kept at reset value.

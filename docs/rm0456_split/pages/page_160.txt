@@ -1,0 +1,95 @@
+191
+
+System security
+
+RM0456
+
+Applying GTZC configurations
+The TZSC and MPCBB blocks can be used in one of the following ways:
+•
+
+statically programmed during the secure boot, locked and not changed afterwards
+
+•
+
+dynamically reprogrammed using a specific application code or real-time kernel
+
+When the dynamic option is selected and the configuration is not locked:
+•
+
+MPCBB secure blocks or MPCWM nonsecure region size can be changed by a secure
+software. This software must be privileged for MPCWM, can be unprivileged if the
+particular block is not privileged-only.
+
+•
+
+The secure (respectively privilege) state of each peripheral can be changed writing to
+GTZC_TZSC_SECCFRGx (respectively GTZC_TZSC_PRIVCFGRx) registers.
+
+Securing peripherals with TZSC
+The TZSC block in GTZC provides the capability to manage the security and the privilege
+for all securable peripherals. The list of these peripherals can be found in Section 5: Global
+TrustZone controller (GTZC).
+Note:
+
+When the TrustZone is deactivated, the resource isolation hardware GTZC can still be used
+to isolate peripherals to privileged code only (see Section 3.6.3).
+When the TrustZone is activated, peripherals are set as nonsecure and unprivileged
+after reset.
+
+TrustZone-aware peripherals
+The devices include the following TrustZone-aware peripherals:
+•
+
+GPIOA to GPIOJ, configured in LPGPIO alternate function or not
+
+•
+
+GTZCx_MPCBB, GTZCx_TZIC and GTZCx_TZSC (GTZC blocks)
+
+•
+
+OTFDEC1/2, writable only in secure if TZEN = 1
+
+•
+
+EXTI
+
+•
+
+Flash memory
+
+•
+
+RCC and PWR
+
+•
+
+GPDMA and LPDMA
+
+•
+
+SYSCFG registers
+
+•
+
+RTC and TAMP
+
+•
+
+MCU debug unit DBGMCU
+
+•
+
+ICACHE and DCACHE1
+
+The way illegal accesses to these peripherals are monitored through the TZIC registers is
+described in Section 5: Global TrustZone controller (GTZC).
+For more details, refer to Section 3.5.5.
+
+TrustZone illegal access controller (TZIC)
+The TZIC block in GTZC gathers all illegal access events originated from sources either
+protected by GTZC or TrustZone-aware peripherals, generating one global secure interrupt
+towards the NVIC.
+TZIC is available only when the system is TrustZone enabled (TZEN = 1). All accesses to
+TZIC registers must be secured and privileged.

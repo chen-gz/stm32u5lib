@@ -1,0 +1,49 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Bit 16 DISCEN: Discontinuous mode for regular channels
+This bit is set and cleared by software to enable/disable discontinuous mode for regular channels.
+0: Discontinuous mode for regular channels disabled
+1: Discontinuous mode for regular channels enabled
+Note: It is not possible to have both discontinuous mode and continuous mode enabled: it is forbidden
+to set both DISCEN = 1 and CONT = 1.
+It is not possible to use both auto-injected mode and discontinuous mode simultaneously: the
+bits DISCEN and JDISCEN must be kept cleared by software when JAUTO is set.
+The software is allowed to write this bit only when ADSTART = 0 (which ensures that no regular
+conversion is ongoing).
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 AUTDLY: Delayed conversion mode
+This bit is set and cleared by software to enable/disable the auto-delayed conversion mode..
+0: Auto-delayed conversion mode off
+1: Auto-delayed conversion mode on
+Note: The software is allowed to write this bit only when ADSTART = 0 and JADSTART = 0 (which
+ensures that no conversion is ongoing).
+Bit 13 CONT: Single / continuous conversion mode for regular conversions
+This bit is set and cleared by software. If it is set, regular conversion takes place continuously until it
+is cleared.
+0: Single conversion mode
+1: Continuous conversion mode
+Note: It is not possible to have both discontinuous mode and continuous mode enabled: it is forbidden
+to set both DISCEN = 1 and CONT = 1.
+The software is allowed to write this bit only when ADSTART = 0 (which ensures that no regular
+conversion is ongoing).
+Bit 12 OVRMOD: Overrun Mode
+This bit is set and cleared by software and configure the way data overrun is managed.
+0: ADC_DR register is preserved with the old data when an overrun is detected.
+1: ADC_DR register is overwritten with the last conversion result when an overrun is detected.
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no regular
+conversion is ongoing).
+Bits 11:10 EXTEN[1:0]: External trigger enable and polarity selection for regular channels
+These bits are set and cleared by software to select the external trigger polarity and enable the
+trigger of a regular group.
+00: Hardware trigger detection disabled (conversions can be launched by software)
+01: Hardware trigger detection on the rising edge
+10: Hardware trigger detection on the falling edge
+11: Hardware trigger detection on both the rising and falling edges
+Note: The software is allowed to write these bits only when ADSTART = 0 (which ensures that no
+regular conversion is ongoing).
+
+RM0456 Rev 6

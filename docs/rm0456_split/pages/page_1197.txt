@@ -1,0 +1,78 @@
+RM0456 Rev 6
+
+RM0456
+Note:
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+DTEN must not be used to start data transfer with SD, SDIO and e•MMC cards.
+•
+
+•
+
+Wait_Ack state: the data path waits for the boot acknowledgment token.
+–
+
+The DPSM moves to the Wait_R state if it receives an error free acknowledgment
+before a timeout.
+
+–
+
+When a pattern different from the acknowledgment is received an
+acknowledgment status error is generated, and the ack fail status flag (ACKFAIL)
+is set. The DPSM stays in Wait_Ack.
+
+–
+
+If it reaches a timeout (ACKTIME) before it detects a start bit, it sets the timeout
+status flag (ACKTIMEOUT). The DPSM stays in Wait_Ack.
+
+–
+
+When the CPSM Abort signal is set it moves to the Idle state and sets the
+DABORT flag.
+
+Wait_R state: the data path, if the data counter is not zero and data is not hold, waits
+for a start bit on SDMMC_D[n:0]. If the data counter is zero or data is hold, wait for the
+FIFO to be empty.
+–
+
+In block mode, if a start bit is received before a timeout the DPSM moves to the
+Receive state and loads the data block counter with DBLOCKSIZE.
+
+–
+
+In SDIO multibyte mode, if a start bit is received before a timeout the DPSM
+moves to the Receive state and loads the data block counter with DATALENGTH.
+
+–
+
+In stream mode, if a start bit is received before a timeout the DPSM moves to the
+Receive state and loads the data counter with DATALENGTH.
+
+–
+
+if the data counter (DATACOUNT) equals zero (end of data) the DPSM moves to
+the Idle state when the receive FIFO is empty and the DATAEND flag is set.
+
+–
+
+If it reaches a timeout (DATATIME) before it detects a start bit, it sets the timeout
+status flag (DTIMEOUT) and the DPSM stays in the Wait_R state.
+
+–
+
+If the CPSM Abort signal is set:
+If DATACOUNT > 0, the DPSM moves to the Idle state when the FIFO is empty
+and when IDMAEN = 0 reset with FIFORST, and sets the DABORT flag.
+If DATACOUNT is zero normal operation is continued, there is no DABORT flag
+since the transfer has completed normally.
+
+–
+
+if the DTHOLD bit is set:
+- When DATACOUNT > 0, the DPSM moves to the Idle state when the receive
+FIFO is empty and when IDMAEN = 0 reset with FIFORST, and issues the DHOLD
+flag. When holding the timeout is disabled. When an CPSM Abort signal is
+received during holding, the transfer is aborted.
+
+RM0456 Rev 6

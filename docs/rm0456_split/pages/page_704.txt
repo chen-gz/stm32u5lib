@@ -1,0 +1,53 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Figure 60. Inserting a LLIn with an auxiliary GPDMA channel y
+
+LLIn-1 transfer
+
+DMA primary channel x
+
+DMA auxiliary channel y
+
+CPU
+
+Executing LLIn-2 data transfer
+Loading LLIn-1
+(with DMA_CxTR2: TRIGM[1:0] = 10
+TRIGPOL[1:0] = 01
+TRIGSEL= dma_chy_tc
+and TCEM[1:0] = 01)
+
+Executing LLIn-1 data transfer
+Transfer complete interrupt
+
+LLIn transfer
+
+Build new LLIn
+Configure channel Y
+
+Executing data transfer
+(Memcopy of new LLIn)
+dma_chy_tc
+
+LLIn+1
+transfer
+
+Loading new LLIn
+
+Executing LLIn data transfer
+Loading LLIn+1
+MSv62632V2
+
+17.4.8
+
+GPDMA channel state and linked-list programming in link step mode
+When GPDMA_CxCR.LSM = 1 (in link step execution mode, single execution of one LLI), a
+channel transfer is executed and completed after each single execution of a LLI, including
+its (conditional) data transfer and its (conditional) link transfer.
+A GPDMA channel transfer can be programmed at LLI level, started by writing 1 into
+GPDMA_CxCR.EN, and after completed at LLI level:
+•

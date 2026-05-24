@@ -1,0 +1,59 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+At each update event, the APB clock is requested by the peripheral and a DMA request is
+generated. DMA direction must be configured as memory-to-peripheral which enables
+updating LPTIM registers, at each DMA request, with values stored in SRAM.
+The UE flag is automatically cleared by hardware once the LPTIM_ARR register is written
+by any bus master like CPU or DMA. Thus, to enable automatic hardware clearing of UE
+flag, the application must configure the LPTIM_ARR register to be the last one to be written
+(at the end of list). For instance, if LPTIM_CCR1 and LPTIM_RCR registers need to be
+updated in Stop mode by DMA, the update sequence must be: LPTIM_CCR1, LPTIM_RCR
+then LPTIM_ARR.
+The UE flag can also be cleared over its corresponding clear bit UECF in the LPTIM_ICR
+register, this can be done by configuring the DMA to write the LPTIM_ICR register at the end
+of register update.
+
+58.4.21
+
+DMA requests
+The LPTIM can generate two categories of DMA requests:
+•
+
+DMA requests used to retrieve the input-capture counter values
+
+•
+
+DMA update requests used to re-program part of the LPTIM, multiple times, at regular
+intervals, without software overhead
+
+Input capture DMA request
+Each LPTIM channel has its dedicated input capture DMA request. A DMA request is
+generated (if CCxDE bit is set in LPTIM_DIER) and CCxIF is set each time a capture is
+ready in the LPTIM_CCRx register. The captured values in LPTIM_CCRx can then be
+transferred regularly by DMA to the desired memory destination. The CCxIF is automatically
+cleared by hardware when the captured value in LPTIM_CCRx register is read.
+Note:
+
+The ICx DMA request signal lptim_icx_dma is reset in the following conditions:
+- if the corresponding DMA request is disabled (clear CCxDE bit in the LPTIM_DIER
+register)
+- or if the channel x is disabled (clear CCxE bit)
+- or if the LPTIM is disabled (clear the ENABLE bit in the LPTIM_CR register)
+
+Update event DMA request
+A DMA request is generated (if UEDE is set in LPTIM_DIER) and the UE flag is set at each
+update event. DMA request can be used to regularly update the LPTIM_ARR, the
+LPTIM_RCR or the LPTIM_CCRx registers permitting to generate custom PWM waveforms.
+The UE is automatically cleared by hardware upon any bus master (like CPU or DMA) write
+access to the LPTIM_ARR register.
+Note:
+
+The UE DMA request signal lptim_ue_dma is reset in the following conditions:
+- if the corresponding DMA request is disabled (clear UEDE bit in the LPTIM_DIER register)
+- or if the LPTIM is disabled (clear the ENABLE bit in the LPTIM_CR register)
+- or if the channel x is disabled (clear CCxE bit) and all the other channels are already
+disabled

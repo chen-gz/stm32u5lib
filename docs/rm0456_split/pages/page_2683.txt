@@ -1,0 +1,117 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Figure 823. USART data clock timing diagram in synchronous master mode
+(M bits = 01)
+Idle or
+preceding Start
+transmission
+
+M bits =01 (9 data bits)
+
+Stop
+
+Clock (CPOL=0,
+CPHA=0)
+
+*
+
+Clock (CPOL=0,
+CPHA=1)
+
+*
+
+Clock (CPOL=1,
+CPHA=0)
+
+*
+
+Clock (CPOL=1,
+CPHA=1)
+Data on TX
+(from master)
+
+*
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+Start LSB
+Data on RX
+(from slave)
+
+Idle or next
+transmission
+
+0
+
+8
+MSB
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+LSB
+Capture
+strobe
+
+Stop
+
+8
+MSB
+*
+
+*LBCL bit controls last data pulse
+MSv34710V1
+
+Slave mode
+The synchronous slave mode is selected by programming the SLVEN bit in the
+USART_CR2 register to 1. In synchronous slave mode, the following bits must be kept
+cleared:
+•
+
+LINEN and CLKEN bits in the USART_CR2 register,
+
+•
+
+SCEN, HDSEL and IREN bits in the USART_CR3 register.
+
+In this mode, the USART can be used to control bidirectional synchronous serial
+communications in slave mode. The CK pin is the input of the USART in slave mode.
+Note:
+
+When the peripheral is used in SPI slave mode, the frequency of peripheral clock source
+(usart_ker_ck_pres) must be greater than 3 times the CK input frequency.
+The CPOL bit and the CPHA bit in the USART_CR2 register are used to select the clock
+polarity and the phase of the external clock, respectively (see Figure 824).
+An underrun error flag is available in slave transmission mode. This flag is set when the first
+clock pulse for data transmission appears while the software has not yet loaded any value to
+USART_TDR.
+The slave supports the hardware and software NSS management.

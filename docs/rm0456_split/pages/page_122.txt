@@ -1,0 +1,59 @@
+126
+
+List of figures
+
+RM0456
+
+Figure 745. Capture/compare input stage (channel 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2493
+Figure 746. Capture/compare output stage (channel 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2493
+Figure 747. Edge-aligned PWM mode (PRELOAD = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2495
+Figure 748. Edge-aligned PWM waveforms (ARR=8 and CCxP = 0) . . . . . . . . . . . . . . . . . . . . . . . . 2496
+Figure 749. PWM mode with immediate update versus preloaded update . . . . . . . . . . . . . . . . . . . . 2497
+Figure 750. GFXTIM block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2528
+Figure 751. Clock generator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2530
+Figure 752. Waveforms in standalone . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2532
+Figure 753. Active counters and signals in standalone . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2532
+Figure 754. Waveforms with external HSYNC and VSYNC. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2532
+Figure 755. Waveforms with external HSYNC only . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2533
+Figure 756. Active counters and signals with external HSYNC only . . . . . . . . . . . . . . . . . . . . . . . . . 2533
+Figure 757. Waveforms with external VSYNC only . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2533
+Figure 758. Active counters with external VSYNC only . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2534
+Figure 759. Prescaling when external VSYNC only. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2534
+Figure 760. Waveforms with external CSYNC only . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2534
+Figure 761. Active counters and signals with external CSYNC only . . . . . . . . . . . . . . . . . . . . . . . . . 2535
+Figure 762. Prescaling when external CSYNC only . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2535
+Figure 763. Tearing-effect configurations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2537
+Figure 764. Watchdog timer. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2538
+Figure 765. IRTIM internal hardware connections with TIM16 and TIM17
+. . . . . . . . . . . . . . . . . . 2563
+Figure 766. Independent watchdog block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2565
+Figure 767. Reset timing due to timeout . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2567
+Figure 768. Reset timing due to refresh in the not allowed area . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2568
+Figure 769. Changing PR, RL, and performing a refresh(1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2569
+Figure 770. Independent watchdog interrupt timing diagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2571
+Figure 771. Watchdog block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2579
+Figure 772. Window watchdog timing diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2581
+Figure 773. RTC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2587
+Figure 774. TAMP block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2642
+Figure 775. Backup registers protection zones . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2647
+Figure 776. Tamper sampling with precharge pulse . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2652
+Figure 777. Low level detection with precharge and filtering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2652
+Figure 778. Active tamper filtering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2654
+Figure 779. Block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2691
+Figure 780. I²C-bus protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2694
+Figure 781. Setup and hold timings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2696
+Figure 782. I2C initialization flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2698
+Figure 783. Data reception . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2699
+Figure 784. Data transmission . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2700
+Figure 785. Target initialization flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2703
+Figure 786. Transfer sequence flow for I2C target transmitter, NOSTRETCH = 0 . . . . . . . . . . . . . . 2705
+Figure 787. Transfer sequence flow for I2C target transmitter, NOSTRETCH = 1 . . . . . . . . . . . . . . 2706
+Figure 788. Transfer bus diagrams for I2C target transmitter (mandatory events only) . . . . . . . . . . 2707
+Figure 789. Transfer sequence flow for I2C target receiver, NOSTRETCH = 0 . . . . . . . . . . . . . . . . 2708
+Figure 790. Transfer sequence flow for I2C target receiver, NOSTRETCH = 1 . . . . . . . . . . . . . . . . 2709
+Figure 791. Transfer bus diagrams for I2C target receiver
+(mandatory events only) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2709
+Figure 792. Controller clock generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2711
+Figure 793. Controller initialization flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2713
+Figure 794. 10-bit address read access with HEAD10R = 0 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2713
+Figure 795. 10-bit address read access with HEAD10R = 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2714

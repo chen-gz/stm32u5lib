@@ -1,0 +1,106 @@
+RM0456 Rev 6
+
+RM0456
+
+30.4.6
+
+Hexadeca-SPI interface (HSPI)
+
+HyperBus protocol
+The HSPI can communicate with the external device using the HyperBus protocol.
+The HyperBus uses 11 to 12 pins in 8-bit data mode, or 19 to 20 pins in 16-bit data mode
+depending on the operating voltage:
+•
+
+IO[7:0] as bidirectional data bus for 8-bit data mode and IO[15:0] as bidirectional data
+bus for 16-bit data mode
+
+•
+
+DQS for read and write data strobe and latency insertion
+
+•
+
+NCS
+
+•
+
+CLK
+
+•
+
+NCLK for 1.8 V operations (to support this mode, the device must be powered
+with 1.8 V)
+
+The HyperBus does not require any command specification nor any alternate bytes. As a
+consequence, a separate register set is used to define the timing of the transaction.
+The HyperBus frame is composed of the following phases:
+•
+
+command/address phase
+
+•
+
+data phase
+
+The NCS falls before the start of a transaction and rises again after each transaction
+finishes.
+Figure 173. Example of HyperBus read operation (8-bit data mode)
+NCS
+t RWR =Read write recovery
+
+t ACC = Initial access
+
+CLK
+
+DQS0
+
+High = 2x Latency count
+Low = 1x Latency count
+
+DQS0 and data
+are edge aligned.
+
+Latency count
+
+IO[7:0]
+
+47:40
+
+39:32
+
+31:24
+
+23:16
+
+15:8
+
+7:0
+
+Command-Address
+Host drives IO[7:0] and memory drives DQS0
+
+Dn
+A
+
+Dn
+B
+
+Dn+1
+A
+
+Dn+1
+B
+
+Memory drives IO[7:0]
+and DQS0
+MSv43492V2
+
+The specific HyperBus features are configured through the registers in the 0x0200-0x02FC
+offset range.
+
+Command/address phase
+During this initial phase, the HSPI sends 48 bits over IO[7:0] to specify the operations to be
+performed with the external device.
+
+RM0456 Rev 6

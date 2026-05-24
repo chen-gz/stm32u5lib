@@ -1,0 +1,118 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+1.
+
+Enable all OUT endpoints by setting
+–
+
+2.
+
+EPENA = 1 in all OTG_DOEPCTLx registers.
+
+Flush the RxFIFO as follows
+–
+
+Poll OTG_GRSTCTL.AHBIDL until it is 1. This indicates that AHB master is idle.
+
+–
+
+Perform read modify write operation on OTG_GRSTCTL.RXFFLSH =1
+
+–
+
+Poll OTG_GRSTCTL.RXFFLSH until it is 0, but also using a timeout of less than
+10 milli-seconds (corresponds to minimum reset signaling duration). If 0 is seen
+before the timeout, then the RxFIFO flush is successful. If at the moment the
+timeout occurs, there is still a 1, (this may be due to a packet on EP0 coming from
+the host) then go back (once only) to the previous step (“Perform read modify write
+operation”).
+
+3.
+
+Before disabling any OUT endpoint, the application must enable Global OUT NAK
+mode in the core, according to the instructions in “Setting the global OUT NAK”. This
+ensures that data in the RxFIFO is sent to the application successfully. Set SGONAK =
+1 in OTG_DCTL
+
+4.
+
+Wait for the GONAKEFF interrupt (OTG_GINTSTS)
+
+5.
+
+Disable all active OUT endpoints by programming the following register bits:
+
+6.
+
+•
+
+–
+
+EPDIS = 1 in registers OTG_DOEPCTLx
+
+–
+
+SNAK = 1 in registers OTG_DOEPCTLx
+
+Wait for the EPDIS interrupt in OTG_DOEPINTx for each OUT endpoint programmed
+in the previous step. The EPDIS interrupt in OTG_DOEPINTx indicates that the
+corresponding OUT endpoint is completely disabled. When the EPDIS interrupt is
+asserted, the following bits are cleared:
+–
+
+EPENA = 0 in registers OTG_DOEPCTLx
+
+–
+
+EPDIS = 0 in registers OTG_DOEPCTLx
+
+–
+
+SNAK = 0 in registers OTG_DOEPCTLx
+
+Generic non-isochronous OUT data transfers
+
+This section describes a regular non-isochronous OUT data transfer (control, bulk, or
+interrupt).
+Application requirements:
+1.
+
+Before setting up an OUT transfer, the application must allocate a buffer in the memory
+to accommodate all data to be received as part of the OUT transfer.
+
+2.
+
+For OUT transfers, the transfer size field in the endpoint’s transfer size register must be
+a multiple of the maximum packet size of the endpoint, adjusted to the word boundary.
+
+3.
+
+–
+
+transfer size[EPNUM] = n × (MPSIZ[EPNUM] + 4 – (MPSIZ[EPNUM] mod 4))
+
+–
+
+packet count[EPNUM] = n
+
+–
+
+n>0
+
+On any OUT endpoint interrupt, the application must read the endpoint’s transfer size
+register to calculate the size of the payload in the memory. The received payload size
+can be less than the programmed transfer size.
+–
+
+Payload size in memory = application programmed initial transfer size – core
+updated final transfer size
+
+–
+
+Number of USB packets in which this payload was received = application
+programmed initial packet count – core updated final packet count
+
+RM0456 Rev 6

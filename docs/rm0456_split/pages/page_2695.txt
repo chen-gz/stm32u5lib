@@ -1,0 +1,106 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Figure 830. Reception using DMA
+Frame 2
+
+Frame 1
+
+Frame 3
+
+RX line
+Set by hardware
+Cleared by DMA read
+
+RXNE flag
+DMA request
+
+F3
+
+F2
+
+F1
+
+USART_RDR
+DMA reads
+USART_RDR
+DMA transfer
+complete flag
+The software configures
+the DMA to receive 3
+data blocks and enables
+the USART
+
+Cleared
+by
+software
+
+Set by hardware
+
+The DMA reads F1
+from USART_RDR
+
+The DMA reads F2
+from USART_RDR
+
+The DMA reads
+F3 from
+USART_RDR
+
+The DMA transfer
+is complete
+
+ai17193e
+
+Note:
+
+When FIFO management is enabled, the DMA request is triggered by receive FIFO not
+empty (that is, RXFNE = 1).
+
+Error flagging and interrupt generation in multibuffer communication
+If any error occurs during a transaction in multibuffer communication mode, the error flag is
+asserted after the current byte. An interrupt is generated if the interrupt enable flag is set.
+For framing error, overrun error and noise flag, which are asserted with RXNE (RXFNE in
+case FIFO mode is enabled) in single byte reception, there is a separate error flag interrupt
+enable bit (EIE bit in the USART_CR3 register), which, if set, enables an interrupt after the
+current byte if any of these errors occur.
+
+66.5.21
+
+RS232 hardware flow control and RS485 driver enable
+It is possible to control the serial data flow between two devices by using the CTS input and
+the RTS output. The Figure 831 shows how to connect two devices in this mode:
+Figure 831. Hardware flow control between two USARTs
+
+USART 2
+
+USART 1
+
+TX circuit
+
+TX
+
+RX
+
+CTS
+
+RTS
+
+RX
+
+TX
+
+RTS
+
+CTS
+
+RX circuit
+
+RX circuit
+
+TX circuit
+
+MSv31169V2

@@ -1,0 +1,195 @@
+RM0456 Rev 6
+
+RM0456
+
+Flexible static memory controller (FSMC)
+Table 229. FMC_BCRx bitfields (mode 2/B)
+Bit number
+
+Bit name
+
+Value to set
+
+31
+
+FMCEN
+
+0x1
+
+30:24
+
+Reserved
+
+0x000
+
+23:22
+
+NBLSET[1:0]
+
+Don’t care
+
+20
+
+CCLKEN
+
+As needed
+
+19
+
+CBURSTRW
+
+0x0 (no effect in Asynchronous mode)
+
+18:16
+
+CPSIZE
+
+0x0 (no effect in Asynchronous mode)
+
+15
+
+ASYNCWAIT
+
+14
+
+EXTMOD
+
+0x1 for mode B, 0x0 for mode 2
+
+13
+
+WAITEN
+
+0x0 (no effect in Asynchronous mode)
+
+12
+
+WREN
+
+As needed
+
+11
+
+WAITCFG
+
+Don’t care
+
+10
+
+Reserved
+
+0x0
+
+9
+
+WAITPOL
+
+Meaningful only if bit 15 is 1
+
+8
+
+BURSTEN
+
+0x0
+
+7
+
+Reserved
+
+0x1
+
+6
+
+FACCEN
+
+0x1
+
+5:4
+
+MWID
+
+As needed
+
+3:2
+
+MTYP
+
+0x2 (NOR flash memory)
+
+1
+
+MUXEN
+
+0x0
+
+0
+
+MBKEN
+
+0x1
+
+Set to 1 if the memory supports this feature. Otherwise keep at 0.
+
+Table 230. FMC_BTRx bitfields (mode 2/B)
+Bit number
+
+Bit name
+
+Value to set
+
+31:30
+
+DATAHLD
+
+Duration of the data hold phase (DATAHLD HCLK cycles for read
+accesses and DATAHLD+1 HCLK cycles for write accesses when
+Extended mode is disabled).
+
+29:28
+
+ACCMOD
+
+0x1 if Extended mode is set
+
+27:24
+
+DATLAT
+
+Don’t care
+
+23:20
+
+CLKDIV
+
+Don’t care
+
+19:16
+
+BUSTURN
+
+Time between NEx high to NEx low (BUSTURN HCLK).
+
+15:8
+
+DATAST
+
+Duration of the access second phase (DATAST HCLK cycles) for
+read accesses.
+
+7:4
+
+ADDHLD
+
+Don’t care
+
+3:0
+
+ADDSET
+
+Duration of the access first phase (ADDSET HCLK cycles) for read
+accesses. Minimum value for ADDSET is 0.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

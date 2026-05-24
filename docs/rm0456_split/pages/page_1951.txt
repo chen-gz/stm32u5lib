@@ -1,0 +1,94 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+CCM payload phase (encryption or decryption)
+This phase, identical for encryption and decryption, is executed after the CCM header
+phase. During this phase, the encrypted/decrypted payload is stored in the AES_DOUTR
+register. The sequence to execute is:
+
+Note:
+
+1.
+
+Indicate the payload phase, by setting to 10 the GCMPH[1:0] bitfield of the AES_CR
+register. Do not modify the MODE[1:0] bitfield as set in the Init phase.
+
+2.
+
+If the header phase was skipped, enable the AES peripheral by setting the EN bit of the
+AES_CR register.
+
+3.
+
+If it is the last data block to encrypt and the plaintext size in the block is inferior to 128
+bits, pad the remainder of the block with zeros.
+
+4.
+
+Append the data block into AES in one of ways described in Section 49.4.4: AES
+procedure to perform a cipher operation on page 1929, and read the result.
+
+5.
+
+Repeat the previous step till the second-last plaintext block is encrypted or till the last
+block of ciphertext is decrypted. For the last block of plaintext (encryption only), apply
+the two previous steps. For the last block, discard the data that is not part of the
+payload when the last block size is less than 16 bytes.
+
+The payload phase can be skipped if there is no payload data, that is, Len(P) = 0 or
+Len(C) = Len(T).
+Remove LSBLen(T)(C) encrypted tag information when decrypting ciphertext C.
+CCM final phase
+In this last phase, the AES peripheral generates the GCM authentication tag and stores it in
+the AES_DOUTR register. The sequence to execute is:
+1.
+
+Note:
+
+Indicate the final phase, by setting to 11 the GCMPH[1:0] bitfield of the AES_CR
+register.
+
+2.
+
+Wait until the end-of-computation flag CCF of the AES_SR register is set.
+
+3.
+
+Read four times the AES_DOUTR register: the output corresponds to the CCM
+authentication tag.
+
+4.
+
+Clear the CCF flag of the AES_SR register by setting the CCF bit of the AES_ICR
+register.
+
+5.
+
+Disable the AES peripheral, by clearing the EN bit of the AES_CR register.
+
+6.
+
+For authenticated decryption, compare the generated encrypted tag with the encrypted
+tag padded in the ciphertext.
+
+In this final phase, swapping is applied to tag data read from AES_DOUTR register.
+When transiting from the header phase to the final phase, the AES peripheral must not be
+disabled, otherwise the result is wrong.
+Application must mask the authentication tag output with tag length to obtain a valid tag.
+
+Suspend/resume operations in CCM mode
+To suspend the processing of a message in header or payload phase, proceed as
+follows:
+1.
+
+If DMA is used, stop the AES DMA transfers to the IN FIFO by clearing the DMAINEN
+bit of the AES_CR register. If DMA is not used, make sure that the current computation
+is completed, which is indicated by the CCF flag of the AES_SR register set to 1.
+
+2.
+
+In the payload phase, if DMA is not used, read four times the AES_DOUTR register to
+save the last-processed block. If DMA is used, wait until the CCF flag is set in the
+RM0456 Rev 6

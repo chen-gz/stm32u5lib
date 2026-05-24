@@ -1,0 +1,93 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+Figure 824. USART data clock timing diagram in synchronous slave mode
+(M bits = 00)
+M bits = 00 (8 data bits)
+NSS (from Master)
+Clock (CPOL=0, CPHA=0)
+Clock (CPOL=0, CPHA=1)
+
+Clock (CPOL=1, CPHA=0)
+Clock (CPOL=1, CPHA=1)
+Data on TX
+(from slave)
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+LSB
+Data on RX
+(from master)
+
+0
+
+7
+MSB
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+MSB
+
+LSB
+Capture strobe
+
+MSv45359V1
+
+Slave Select (NSS) pin management
+The hardware or software slave select management can be set through the DIS_NSS bit in
+the USART_CR2 register:
+•
+
+Software NSS management (DIS_NSS = 1)
+SPI slave is always selected and NSS input pin is ignored.
+The external NSS pin remains free for other application uses.
+
+•
+
+Hardware NSS management (DIS_NSS = 0)
+The SPI slave selection depends on NSS input pin. The slave is selected when NSS is
+low and deselected when NSS is high.
+
+Note:
+
+The LBCL (used only on SPI master mode), CPOL and CPHA bits have to be selected when
+the USART is disabled (UE = 0) to ensure that the clock pulses function correctly.
+In SPI slave mode, the USART must be enabled before starting the master communications
+(or between frames while the clock is stable). Otherwise, if the USART slave is enabled
+while the master is in the middle of a frame, it becomes desynchronized with the master.
+The data register of the slave needs to be ready before the first edge of the communication
+clock or before the end of the ongoing communication, otherwise the SPI slave transmits
+zeros.
+SPI slave underrun error
+When an underrun error occurs, the UDR flag is set in the USART_ISR register, and the SPI
+slave goes on sending the last data until the underrrun error flag is cleared by software.
+The underrun flag is set at the beginning of the frame. An underrun error interrupt is
+triggered if EIE bit is set in the USART_CR3 register.
+The underrun error flag is cleared by setting bit UDRCF in the USART_ICR register.
+
+RM0456 Rev 6

@@ -1,0 +1,53 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Bit 20 CCLKEN: Continuous clock enable
+This bit enables the FMC_CLK clock output to external memory devices.
+0: The FMC_CLK is only generated during the synchronous memory access (read/write
+transaction). The FMC_CLK clock ratio is specified by the programmed CLKDIV value in the
+FMC_BCRx register (default after reset).
+1: The FMC_CLK is generated continuously during asynchronous and synchronous access. The
+FMC_CLK clock is activated when the CCLKEN is set.
+Note: The CCLKEN bit of the FMC_BCR2..4 registers is don’t care. It is only enabled through the
+FMC_BCR1 register. Bank 1 must be configured in Synchronous mode to generate the
+FMC_CLK continuous clock.
+Note: If CCLKEN bit is set, the FMC_CLK clock ratio is specified by CLKDIV value in the FMC_BTR1
+register. CLKDIV in FMC_BWTR1 is don’t care.
+Note: If the Synchronous mode is used and CCLKEN bit is set, the synchronous memories
+connected to other banks than Bank 1 are clocked by the same clock (the CLKDIV value in the
+FMC_BTR2..4 and FMC_BWTR2..4 registers for other banks has no effect.)
+Bit 19 CBURSTRW: Write burst enable
+For PSRAM (CRAM) operating in Burst mode, the bit enables synchronous accesses during write
+operations. The enable bit for synchronous read accesses is the BURSTEN bit in the FMC_BCRx
+register.
+0: Write operations are always performed in Asynchronous mode.
+1: Write operations are performed in Synchronous mode.
+Bits 18:16 CPSIZE[2:0]: CRAM page size
+These are used for CellularRAM™ 1.5 which does not allow burst access to cross the address
+boundaries between pages. When these bits are configured, the FMC controller splits automatically
+the burst access when the memory page size is reached (refer to memory datasheet for page size).
+000: No burst split when crossing page boundary (default after reset)
+001: 128 bytes
+010: 256 bytes
+011: 512 bytes
+100: 1024 bytes
+Others: Reserved, must not be used
+Bit 15 ASYNCWAIT: Wait signal during asynchronous transfers
+This bit enables/disables the FMC to use the wait signal even during an asynchronous protocol.
+0: NWAIT signal is not taken in to account when running an asynchronous protocol (default after
+reset).
+1: NWAIT signal is taken in to account when running an asynchronous protocol.
+Bit 14 EXTMOD: Extended mode enable
+This bit enables the FMC to program the write timings for non multiplexed asynchronous accesses
+inside the FMC_BWTR register, thus resulting in different timings for read and write operations.
+0: values inside FMC_BWTR register are not taken into account (default after reset)
+1: values inside FMC_BWTR register are taken into account
+Note: When the Extended mode is disabled, the FMC can operate in mode 1 or mode 2 as follows:
+–
+Mode 1 is the default mode when the SRAM/PSRAM memory type is selected
+(MTYP = 0x0 or 0x01)
+–
+Mode 2 is the default mode when the NOR memory type is selected (MTYP = 0x10).

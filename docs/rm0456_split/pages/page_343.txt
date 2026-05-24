@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+Bit 23 SRAM3_ECC: SRAM3 ECC detection and correction enable
+0: SRAM3 ECC check enabled
+1: SRAM3 ECC check disabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 22 BKPRAM_ECC: Backup RAM ECC detection and correction enable
+0: Backup RAM ECC check enabled
+1: Backup RAM ECC check disabled
+Bit 21 DUALBANK: Dual-bank configuration
+– 2-Mbyte flash memory devices for STM32U59x/5Ax/5Fx/5Gx
+– 1-Mbyte flash memory devices for STM32U575/585
+– 256-Kbyte and 128-Kbyte flash memory devices for STM32U535/545
+0: Single-bank flash memory with contiguous address in bank 1
+1: Dual-bank flash memory with contiguous addresses
+Bit 20 SWAP_BANK: Swap banks
+0: Bank 1 and bank 2 addresses not swapped
+1: Bank 1 and bank 2 addresses swapped
+Bit 19 WWDG_SW: Window watchdog selection
+0: Hardware window watchdog selected
+1: Software window watchdog selected
+Bit 18 IWDG_STDBY: Independent watchdog counter freeze in Standby mode
+0: Independent watchdog counter frozen in Standby mode
+1: Independent watchdog counter running in Standby mode
+Bit 17 IWDG_STOP: Independent watchdog counter freeze in Stop mode
+0: Independent watchdog counter frozen in Stop mode
+1: Independent watchdog counter running in Stop mode
+Bit 16 IWDG_SW: Independent watchdog selection
+0: Hardware independent watchdog selected
+1: Software independent watchdog selected
+Bit 15 SRAM_RST: All SRAMs (except SRAM2 and BKPSRAM) erase upon system reset
+0: All SRAMs (except SRAM2 and BKPSRAM) erased when a system reset occurs
+1: All SRAMs (except SRAM2 and BKPSRAM) not erased when a system reset occurs
+Bit 14 NRST_SHDW: Reset generation in Shutdown mode
+0: Reset generated when entering the Shutdown mode
+1: No reset generated when entering the Shutdown mode
+Bit 13 NRST_STDBY: Reset generation in Standby mode
+0: Reset generated when entering the Standby mode
+1: No reset generate when entering the Standby mode
+Bit 12 NRST_STOP: Reset generation in Stop mode
+0: Reset generated when entering the Stop mode
+1: No reset generated when entering the Stop mode
+Bit 11 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,12 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+The core does not generate a separate interrupt when NAK or NYET is received by the
+host functionality.
+•
+
+Bulk and control IN transactions in DMA mode
+The sequence of operations is as follows:

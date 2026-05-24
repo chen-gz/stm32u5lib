@@ -1,0 +1,161 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+Figure 835. LPUART word length programming
+9-bit word length (M = 01 ), 1 Stop bit
+Possible
+Parity
+bit
+
+Data frame
+Start
+bit
+
+Bit0
+
+Bit1
+
+Bit2
+
+Bit3
+
+Bit4
+
+Bit5
+
+Bit6
+
+Bit7
+
+Clock
+
+Bit8
+
+Stop
+bit
+
+Next
+Start
+bit
+
+**
+Start
+bit
+
+Idle frame
+
+Stop
+bit
+
+Stop
+bit
+
+Stop
+bit
+
+Stop
+bit
+
+Start
+bit
+
+Stop
+bit
+
+Start
+bit
+
+Break frame
+
+Start
+bit
+
+8-bit word length (M = 00 ), 1 Stop bit
+Possible
+Parity
+bit
+
+Data frame
+Start
+bit
+
+Bit0
+
+Bit1
+
+Bit2
+
+Bit3
+
+Bit4
+
+Bit5
+
+Bit6
+
+Bit7
+
+Clock
+
+Stop
+bit
+
+Next
+Start
+bit
+
+**
+Start
+bit
+
+Idle frame
+Break frame
+
+7-bit word length (M = 10 ), 1 Stop bit
+Possible
+Parity
+bit
+
+Data frame
+Start
+bit
+
+Bit0
+
+Bit1
+
+Bit2
+
+Bit3
+
+Bit4
+
+Bit5
+
+Bit6
+
+Stop
+bit
+
+Next
+Start
+bit
+
+**
+
+Clock
+
+Idle frame
+Break frame
+
+Start
+bit
+Stop
+bit
+
+** LBCL bit controls last data clock pulse
+MS33194V2
+
+RM0456 Rev 6

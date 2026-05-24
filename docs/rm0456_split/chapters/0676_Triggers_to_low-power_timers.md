@@ -1,0 +1,78 @@
+684
+
+Peripherals interconnect matrix
+
+RM0456
+
+an external clock source in mode1 (tim_ti1 or tim_ti2 signals). Inputs assignment and
+clock selection description are detailed in:
+
+•
+
+–
+
+Table 56.4.6: Clock selection for TIM15/16/17. External clock mode1: external
+input pin (tim_ti1 or tim_ti2, if available)
+
+–
+
+Table 578: Interconnect to the tim_ti1 input multiplexer, tim_ti1_in1 (LSE-TIM15),
+tim_ti1_in5(LSE-TIM16/17), tim_ti1_in6 (LSI- TIM16/17), tim_ti1_in7/_8
+(MSI-TIM16/17), and tim_ti1_in9 (HSI-TIM16/17)
+
+Microcontroller output clock (MCO) is connected as external input to general-purpose
+timers TIM16/17. This allows the calibration of the HSI16/MSI system clocks (with
+TIM15/16 and LSE) or LSI (with TIM16 and HSE). This is also used to precisely
+measure LSI (with TIM16 and HSI16) or MSI (with TIM17 and HSI16) oscillator
+frequency. When the low-speed external (LSE) oscillator is used, no additional
+hardware connections are required. This feature is given in:
+–
+
+Section 11.4.23: Internal/external clock measurement with TIM15/TIM16/TIM17
+
+–
+
+Table 578: Interconnect to the tim_ti1 input multiplexer for TIM15/TIM16/TIM17
+
+•
+
+LSI and LSE can be selected as input capture 2 to LPTIM1 as described inTable 608:
+LPTIM1 input capture 2 connections.
+
+•
+
+HSI/256 can be selected as input capture 2 to LPTIM2 as described in Table 609:
+LPTIM2 input capture 2 connections.
+
+•
+
+MSI/1024 and MSI/4 can be selected as input capture 2 to LPTIM3 as described
+inTable 610: LPTIM3 input capture 2 connections.
+
+Triggering signals
+lptim_ic2_mux1 LPTIM input capture selection can be set in the LPTIM configuration
+register 2 (LPTIM_CFGR2). For timers, the internal clock signal can be selected as counter
+clock provided by an external clock source in mode1 (tim_ti1_in) and mode2 (external
+trigger input tim_etr_in).
+
+Active power mode
+This feature is available under Run and Sleep modes.
+
+16.3.8
+
+Triggers to low-power timers
+From comparators (COMP1/2), EXTI, TAMP and RTC alarm to LP timers (LPTIM1/2/3/4)
+
+Purpose
+LPTIM1/2/3/4 counters may be started either by software or after the detection of an active
+edge on one of the eight trigger inputs (see Section 58.4.7: Trigger multiplexer).
+GPIO can also be selected as LPTIM input capture selection or LPTIM input selection,
+according to the LPTIM configuration register 2 (LPTIM_CFGR2).
+
+Triggering signals
+This trigger feature is described in Section 58.4.7: Trigger multiplexer and the following
+sections. The input selection is described in Table 604: LPTIM1/2/3/4 external trigger
+connections.
+
+<!-- pagebreak -->
+

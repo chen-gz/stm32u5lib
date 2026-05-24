@@ -1,0 +1,85 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+the USB clock switching activity is cut even if the system clock is kept running by the
+application for other purposes.
+•
+
+USB system stop
+When the OTG_FS is in the USB suspended state, the application may decide to
+drastically reduce the overall power consumption by a complete shut down of all the
+clock sources in the system. USB System Stop is activated by first setting the Stop
+PHY clock bit and then configuring the system deep sleep mode in the power control
+system module (PWR).
+The OTG_FS core automatically reactivates both system and USB clocks by
+asynchronous detection of remote wake-up (as an host) or resume (as a device)
+signaling on the USB.
+
+To save dynamic power, the USB data FIFO is clocked only when accessed by the OTG_FS
+core.
+
+72.10
+
+OTG_FS Dynamic update of the OTG_HFIR register
+The USB core embeds a dynamic trimming capability of SOF framing period in host mode
+allowing to synchronize an external device with the SOF frames.
+When the OTG_HFIR register is changed within a current SOF frame, the SOF period
+correction is applied in the next frame as described in Figure 898.
+For a dynamic update, it is required to set RLDCTRL=1.
+Figure 898. Updating OTG_HFIR dynamically (RLDCTRL = 1)
+SOF reload
+
+OTG_HFIR write
+
+...
+
+1
+0
+450
+449
+
+...
+
+450
+
+1
+0
+400
+399
+
+1
+0
+400
+399
+
+Frame timer
+
+400
+
+...
+
+1
+0
+450
+449
+
+OTG_HFIR value
+
+...
+
+ai18440b
+
+72.11
+
+OTG_FS data FIFOs
+The USB system features 1.25 Kbytes of dedicated RAM with a sophisticated FIFO control
+mechanism. The packet FIFO controller module in the OTG_FS core organizes RAM space
+into Tx FIFOs into which the application pushes the data to be temporarily stored before the
+USB transmission, and into a single Rx FIFO where the data received from the USB are
+temporarily stored before retrieval (popped) by the application. The number of instructed
+FIFOs and how these are organized inside the RAM depends on the device’s role. In
+peripheral mode an additional Tx FIFO is instructed for each active IN endpoint. Any FIFO
+size is software configured to better meet the application requirements.

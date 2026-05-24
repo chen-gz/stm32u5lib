@@ -1,0 +1,106 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+1.
+
+RM0456
+
+To stop receiving any kind of data in the receive FIFO, the application must set the
+Global OUT NAK bit by programming the following field:
+–
+
+SGONAK = 1 in OTG_DCTL
+
+2.
+
+Wait for the assertion of the GONAKEFF interrupt in OTG_GINTSTS. When asserted,
+this interrupt indicates that the core has stopped receiving any type of data except
+SETUP packets.
+
+3.
+
+The application can receive valid OUT packets after it has set SGONAK in OTG_DCTL
+and before the core asserts the GONAKEFF interrupt (OTG_GINTSTS).
+
+4.
+
+The application can temporarily mask this interrupt by writing to the GONAKEFFM bit in
+the OTG_GINTMSK register.
+–
+
+5.
+
+Whenever the application is ready to exit the Global OUT NAK mode, it must clear the
+SGONAK bit in OTG_DCTL. This also clears the GONAKEFF interrupt
+(OTG_GINTSTS).
+–
+
+6.
+
+CGONAK = 1 in OTG_DCTL
+
+If the application has masked this interrupt earlier, it must be unmasked as follows:
+–
+
+•
+
+GONAKEFFM = 0 in the OTG_GINTMSK register
+
+GONAKEFFM = 1 in OTG_GINTMSK
+
+Disabling an OUT endpoint
+
+The application must use this sequence to disable an OUT endpoint that it has enabled.
+Application programming sequence:
+1.
+
+Before disabling any OUT endpoint, the application must enable Global OUT NAK
+mode in the core.
+–
+
+SGONAK = 1 in OTG_DCTL
+
+2.
+
+Wait for the GONAKEFF interrupt (OTG_GINTSTS)
+
+3.
+
+Disable the required OUT endpoint by programming the following fields:
+
+4.
+
+5.
+
+–
+
+EPDIS = 1 in OTG_DOEPCTLx
+
+–
+
+SNAK = 1 in OTG_DOEPCTLx
+
+Wait for the EPDISD interrupt (OTG_DOEPINTx), which indicates that the OUT
+endpoint is completely disabled. When the EPDISD interrupt is asserted, the core also
+clears the following bits:
+–
+
+EPDIS = 0 in OTG_DOEPCTLx
+
+–
+
+EPENA = 0 in OTG_DOEPCTLx
+
+The application must clear the Global OUT NAK bit to start receiving data from other
+non-disabled OUT endpoints.
+–
+
+•
+
+SGONAK = 0 in OTG_DCTL
+
+Transfer Stop Programming for OUT endpoints
+
+The application must use the following programing sequence to stop any transfers (because
+of an interrupt from the host, typically a reset).
+Sequence of operations:

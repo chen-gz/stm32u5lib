@@ -1,0 +1,106 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+
+Figure 300. ADC_AWDx_OUT signal generation (AWDx flag not cleared by software)
+
+ADC STATE RDY
+
+Conversion1
+
+Conversion2
+
+Conversion3
+
+inside
+
+outside
+
+inside
+
+Conversion4
+
+Conversion5
+
+Conversion6
+
+Conversion7
+
+outside
+
+outside
+
+outside
+
+inside
+
+EOC FLAG
+not cleared by SW
+AWDx FLAG
+
+ADC_AWDx_OUT
+
+- Converted channels: 1,2,3,4,5,6,7
+- Guarded converted channels: 1,2,3,4,5,6,7
+MSv45363V1
+
+Figure 301. ADC_AWDx_OUT signal generation (on a single channel)
+
+ADC STATE
+
+Conversion1
+
+Conversion2
+
+outside
+
+Conversion1
+
+Conversion2
+
+inside
+
+Conversion1
+
+Conversion2
+
+outside
+
+Conversion1
+
+Conversion2
+
+outside
+
+EOC FLAG
+
+EOS FLAG
+AWDx FLAG
+
+Cleared
+by SW
+
+Cleared
+by SW
+
+ADCy_AWDx_OUT
+- Converted channels: 1 and 2
+- Only channel 1 is guarded
+MSv45364V1
+
+Analog watchdog threshold control
+LTx[11:0] and HTx[11:0] can be changed during an analog-to-digital conversion (that is
+between the start of the conversion and the end of conversion of the ADC internal state). If
+HTx and LTx bits are programmed during the ADC guarded channel conversion, the
+watchdog function is masked for this conversion. This mask is cleared when starting a new
+conversion, and the resulting new AWD threshold is applied starting the next ADC
+conversion result. AWD comparison is performed at each end of conversion. If the current
+ADC data are out of the new threshold interval, this does not generated any interrupt or an
+ADC_AWDx_OUT signal. The Interrupt and the ADC_AWDx_OUT generation only occurs
+at the end of the ADC conversion that started after the threshold update. If
+ADC_AWDx_OUT is already asserted, programming the new threshold does not deassert
+the ADC_AWDx_OUT signal.
+
+RM0456 Rev 6

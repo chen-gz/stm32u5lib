@@ -1,0 +1,62 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+Figure 839. Mute mode using Idle line detection
+RXNE
+
+Data 1 Data 2 Data 3 Data 4
+
+RX
+
+RWU
+MMRQ written to 1
+
+IDLE
+
+Mute mode
+
+RXNE
+
+Data 5 Data 6
+
+Normal mode
+Idle frame detected
+
+MSv31154V1
+
+Note:
+
+If the MMRQ is set while the IDLE character has already elapsed, mute mode is not entered
+(RWU is not set).
+If the LPUART is activated while the line is IDLE, the idle state is detected after the duration
+of one IDLE frame (not only after the reception of one character frame).
+
+4-bit/7-bit address mark detection (WAKE = 1)
+In this mode, bytes are recognized as addresses if their MSB is a 1 otherwise they are
+considered as data. In an address byte, the address of the targeted receiver is put in the 4
+or 7 LSBs. The choice of 7- or 4-bit address detection is done using the ADDM7 bit. This 4bit/7-bit word is compared by the receiver with its own address, which is programmed in the
+ADD bits in the LPUART_CR2 register.
+Note:
+
+In 7-bit and 9-bit data modes, address detection is done on 6-bit and 8-bit addresses
+(ADD[5:0] and ADD[7:0]) respectively.
+The LPUART enters mute mode when an address character is received which does not
+match its programmed address. In this case, the RWU bit is set by hardware. The RXNE
+flag is not set for this address byte and no interrupt or DMA request is issued when the
+LPUART enters mute mode.
+The LPUART also enters mute mode when the MMRQ bit is written to 1. The RWU bit is
+also automatically set in this case.
+The LPUART exits from mute mode when an address character is received which matches
+the programmed address. Then the RWU bit is cleared and subsequent bytes are received
+normally. The RXNE/RXFNE bit is set for the address character since the RWU bit has been
+cleared.
+
+Note:
+
+When FIFO management is enabled, when MMRQ bit is set while the receiver is sampling
+the last bit of a data, this data may be received before effectively entering in mute mode.
+An example of mute mode behavior using address mark detection is given in Figure 840.
+
+RM0456 Rev 6

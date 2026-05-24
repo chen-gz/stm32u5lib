@@ -1,0 +1,43 @@
+3631
+
+Debug support (DBG)
+Note:
+
+RM0456
+
+Security features are only relevant when the option bit TZEN = 1. If security features are
+disabled, the authentication signals are still set according to the RDP level, but since the
+processor and all memories are nonsecure, spniden and spiden are redundant.
+The state of the authentication signals can be read from DAUTHSTATUS register in the
+system control space (SCS) of the Cortex-M33.
+The debugger access to secure memory (when permitted) must be performed using secure
+transactions on the debug AHB, that is, with PROT[6] set in AP_CSWR.
+The debugger access is disabled while the processor is booting from system flash memory
+(RSS), whatever the RDP level, if security features are enabled (TZEN = 1).
+
+75.3
+
+Serial-wire and JTAG debug port (SWJ-DP)
+The SWJ-DP is a CoreSight component that implements an external access port
+for connecting debugging equipment.
+Two types of interface can be configured:
+•
+
+a 5-pin standard JTAG interface (JTAG-DP)
+
+•
+
+a 2-pin (clock + data) serial-wire debug port (SW-DP)
+
+These two modes are mutually exclusive, since they share the same IO pins.
+By default, the JTAG-DP is selected after a system or a power-on reset. The five IO pins are
+configured by hardware in debug alternative function mode. The SWJ-DP incorporates
+pull-up resistors on JTDI, JTMS/SWDIO, and nJTRST, as well as a pull-down resistor on
+JTCK/SWCLK.
+A debugger can select the SW-DP by transmitting the following serial data sequence on
+JTMS/SWDIO:
+... (50 or more ones) ..., 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, ... (50 or more ones) ...
+JTCK/SWCLK must be cycled for each data bit.
+In SW-DP mode, the unused JTAG pins JTDI, JTDO and nJTRST can be used for other
+functions.
+Note:

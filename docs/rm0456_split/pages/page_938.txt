@@ -1,0 +1,49 @@
+942
+
+Cyclic redundancy check calculation unit (CRC)
+
+RM0456
+
+The data size can be dynamically adjusted to minimize the number of write accesses for a
+given number of bytes. For instance, a CRC for 5 bytes can be computed with a word write
+followed by a byte write.
+The input data can be reversed to manage the various endianness schemes. The reversing
+operation can be performed on 8 bits, 16 bits and 32 bits depending on the REV_IN[1:0] bits
+in the CRC_CR register.
+For example, 0x1A2B3C4D input data are used for CRC calculation as:
+•
+
+0x58D43CB2 with bit-reversal done by byte
+
+•
+
+0xD458B23C with bit-reversal done by half-word
+
+•
+
+0xB23CD458 with bit-reversal done on the full word
+
+The output data can also be reversed by setting the REV_OUT bit in the CRC_CR register.
+The operation is done at bit level. For example, 0x11223344 output data are converted to
+0x22CC4488.
+The CRC calculator can be initialized to a programmable value using the RESET control bit
+in the CRC_CR register (the default value is 0xFFFFFFFF).
+The initial CRC value can be programmed with the CRC_INIT register. The CRC_DR
+register is automatically initialized upon CRC_INIT register write access.
+The CRC_IDR register can be used to hold a temporary value related to CRC calculation. It
+is not affected by the RESET bit in the CRC_CR register.
+
+Polynomial programmability
+The polynomial coefficients are fully programmable through the CRC_POL register, and the
+polynomial size can be configured to be 7, 8, 16 or 32 bits by programming the
+POLYSIZE[1:0] bits in the CRC_CR register. Even polynomials are not supported.
+Note:
+
+The type of an even polynomial is X+X2+..+Xn, while the type of an odd polynomial is
+1+X+X2+..+Xn.
+If the CRC data is less than 32-bit, its value can be read from the least significant bits of the
+CRC_DR register.
+To obtain a reliable CRC calculation, the change on-fly of the polynomial value or size can
+not be performed during a CRC calculation. As a result, if a CRC calculation is ongoing, the
+application must either reset it or perform a CRC_DR read before changing the polynomial.
+The default polynomial value is the CRC-32 (Ethernet) polynomial: 0x4C11DB7.

@@ -1,0 +1,127 @@
+1.
+
+Calculate e = HASH(m), where HASH is a cryptographic hash function.
+
+2.
+
+Let z be the Ln leftmost bits of e, where Ln is the bit length of the group order n.
+
+3.
+
+Select a cryptographically secure random integer k where 0 < k < n.
+
+4.
+
+Calculate the curve point (x1, y1) = k x G.
+
+5.
+
+Calculate r = x1 mod n. If r = 0 go back to step 3.
+
+6.
+
+Calculate s = k-1 (z + rdA) mod n. If s = 0 go back to step 3.
+
+7.
+
+The signature is the pair (r, s).
+
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+Steps 4 to 7 are accelerated by PKA using:
+•
+
+ECDSA sign or
+
+•
+
+All of the operations below:
+–
+
+ECC Fp scalar multiplication k x P
+
+–
+
+Modular reduction A mod n
+
+–
+
+Modular inversion A-1 mod n
+
+–
+
+Modular addition and Modular and Montgomery multiplication
+
+ECDSA signature verification
+ECDSA (elliptic curve digital signature algorithm) signature verification function principle is
+the following: Bob, to authenticate Alice's signature, must have a copy of her public key
+curve point QA.
+Bob can verify that QA is a valid curve point going through the following steps:
+1.
+
+check that QA is not equal to the identity element O
+
+2.
+
+check that QA is on the agreed curve
+
+3.
+
+check that n x QA = O.
+
+Then Bob follows the procedure detailed below:
+1.
+
+verify that r and s are integer in [1, n-1]
+
+2.
+
+calculate e = HASH(m), where HASH is the agreed cryptographic hash function
+
+3.
+
+let z be the Ln leftmost bits of e
+
+4.
+
+calculate w = s-1 mod n
+
+5.
+
+calculate u1 = zw mod n and u2 = rw mod n
+
+6.
+
+calculate the curve point (x1, y1) = u1 x G + u2 x QA
+
+7.
+
+the signature is valid if r = x1 (mod n), it is invalid otherwise.
+
+Steps 4 to 7 are accelerated by PKA using ECDSA verification.
+
+53.3.6
+
+PKA procedure to perform an operation
+Enabling/disabling PKA
+Setting the EN bit to 1 in PKA_CR register enables the PKA peripheral. The PKA becomes
+available when INITOK bit is set in PKA_SR. When EN = 0, the PKA peripheral is kept
+under reset, with PKA memory still accessible by the application through the AHB interface.
+
+Note:
+
+When PKA is in the process of clearing its memory EN bit cannot be set.
+When setting EN bit in PKA_CR make sure that the value of MODE bitfield corresponds to
+an authorized PKA operation (see OPERRF in Section 53.3.7).
+Clearing EN bit to 0 while a calculation is in progress causes the operation to be aborted. In
+this case, the content of the PKA memory is not guaranteed, with the exception of the PKA
+modes 0x03, 0x20 and 0x24. For these operations, the PKA memory is cleared after abort,
+making the memory unavailable for 667 cycles. During this clearing time only PKA registers
+can be accessed, with writes to EN bits ignored.
+If INITOK bit stays at 0, make sure that the RNG peripheral is clocked and properly
+initialized, then try to enable PKA again.
+
+RM0456 Rev 6

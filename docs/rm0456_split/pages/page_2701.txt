@@ -1,0 +1,210 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Table 683. USART interrupt requests (continued)
+Interrupt
+vector
+
+USART or
+UART
+
+Interrupt event
+
+Event
+flag
+
+Enable
+Control
+bit
+
+Interrupt clear
+method
+
+Receive data
+register not empty
+(data ready to be
+read)
+
+RXNE
+
+RXNEIE
+
+Read RDR or write
+1 in RXFRQ
+
+Yes
+
+Receive FIFO not
+empty
+
+RXFNE
+
+Read RDR until
+RXFNEIE RXFIFO empty or
+write 1 in RXFRQ
+
+Yes
+
+Receive FIFO full
+
+RXFF(3)
+
+RXFFIE
+
+Read RDR
+
+Yes
+
+Receive FIFO
+threshold reached
+
+RXFT
+
+RXFTIE
+
+Read RDR
+
+Yes
+
+Overrun error
+detected
+
+ORE
+
+RXNEIE/RX
+FNEIE
+
+Write 1 in ORECF
+
+Yes
+
+Idle line detected
+
+IDLE
+
+IDLEIE
+
+Write 1 in IDLECF
+
+No
+
+Parity error
+
+PE
+
+PEIE
+
+Write 1 in PECF
+
+Yes(4)
+
+LIN break
+
+LBDF
+
+LBDIE
+
+Write 1 in LBDCF
+
+Noise error in
+multibuffer
+communication.
+
+NE
+
+Overrun error in
+multibuffer
+communication.
+
+ORE(5)
+
+Framing error in
+multibuffer
+communication.
+
+FE
+
+Character match
+
+CMF
+
+Receiver timeout
+
+Exit from Exit from
+Sleep
+Stop(1)
+modes
+mode
+
+Yes
+
+No
+
+Write 1 in NFCF
+
+Yes(4)
+
+Write 1 in ORECF
+
+Yes
+
+Write 1 in FECF
+
+Yes(4)
+
+CMIE
+
+Write 1 in CMCF
+
+Yes(6)
+
+RTOF
+
+RTOFIE
+
+Write 1 in RTOCCF
+
+No
+
+End of Block
+
+EOBF
+
+EOBIE
+
+Write 1 in EOBCF
+
+No
+
+SPI slave underrun
+error
+
+UDR
+
+EIE
+
+Write 1 in UDRCF
+
+No
+
+EIE
+
+Exit from
+Standby
+mode
+
+No
+
+1. The USART can wake up the device from Stop mode only if the peripheral instance supports the wake-up from Stop mode
+feature. Refer to Section 66.4: USART implementation for the list of supported Stop modes.
+2. Writing to TDR clears the TXFT flag only if the number of empty locations is less than the value programmed in
+TXFTCFG[2:0].
+3. RXFF flag is asserted if the USART receives n+1 data (n being the RXFIFO size): n data in the RXFIFO and 1 data in
+USART_RDR. In Stop mode, USART_RDR is not clocked. As a result, this register is not written and once n data are
+received and written in the RXFIFO, the RXFF interrupt is asserted (RXFF flag is not set).
+4. Parity/Noise/Framing error interrupts enable waking up from Stop modes when the DMA is used.
+5. When OVRDIS = 0.
+6. The DMA must be used when the FIFO mode is enabled.

@@ -1,0 +1,68 @@
+RM0456 Rev 6
+
+RM0456
+
+True random number generator (RNG)
+Within its boundary RNG integrates all the required NIST components depicted on
+Figure 457. Those components are an analog noise source, a digitization stage, a
+conditioning algorithm, a health monitoring block and two interfaces that are used to interact
+with the entropy source: GetEntropy and HealthTest.
+Figure 457. NIST SP800-90B entropy source model
+
+Error message
+
+Output
+
+(HealthTest)
+
+(GetEntropy)
+
+Heath
+tests
+
+Conditioning
+(optional)
+Raw data
+
+Post-processing
+(optional)
+Digitization
+
+Noise source
+
+Entropy source
+MSv44200V3
+
+The components pictured above are detailed hereafter.
+
+Noise source
+The noise source is the component that contains the non-deterministic, entropy-providing
+activity that is ultimately responsible for the uncertainty associated with the bitstring output
+by the entropy source. This noise source provides 1-bit samples. It is composed of:
+•
+
+Multiple analog noise sources (x6), each based on three XORed free-running ring
+oscillator outputs. It is possible to disable those analog oscillators to save power, as
+described in Section 48.3.8. Multiple oscillators are also disabled for the configuration
+A (see Table 465: RNG configurations).
+
+•
+
+The XORing of all the noise sources into a single analog output.
+
+•
+
+A sampling stage of this output clocked by a dedicated clock input (rng_clk with
+integrated divider), delivering a 1-bit raw data output.
+
+This noise source sampling is independent to the AHB interface clock frequency (rng_hclk),
+with a possibility for the software to decrease the sampling frequency by using the
+integrated divider.
+Note:
+
+In Section 48.6 the recommended RNG clock frequencies and associated divider value are
+given.
+
+Post processing
+In the NIST configuration no post-processing is applied to the sampled noise source. In nonNIST configuration B (as defined in Section 48.6.2) a normalization debiasing is applied,
+RM0456 Rev 6

@@ -1,0 +1,263 @@
+RM0456 Rev 6
+
+21
+
+20
+
+RTCAP VREFE
+BEN
+N
+rw
+
+rw
+
+5
+
+4
+
+SPI3E
+N
+rw
+
+Res.
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SYSCF
+GEN
+
+Res.
+
+Res.
+
+rw
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 7 I2C3EN: I2C3 clock enable
+This bit is set and cleared by software.
+0: I2C3 clock disabled
+1: I2C3 clock enabled
+Bit 6 LPUART1EN: LPUART1 clock enable
+This bit is set and cleared by software.
+0: LPUART1 clock disabled
+1: LPUART1 clock enabled
+Bit 5 SPI3EN: SPI3 clock enable
+This bit is set and cleared by software.
+0: SPI3 clock disabled
+1: SPI3 clock enabled
+Bits 4:2 Reserved, must be kept at reset value.
+Bit 1 SYSCFGEN: SYSCFG clock enable
+This bit is set and cleared by software.
+0: SYSCFG clock disabled
+1: SYSCFG clock enabled
+Bit 0 Reserved, must be kept at reset value.
+
+11.8.37
+
+RCC AHB1 peripheral clock enable in Sleep and Stop modes register
+(RCC_AHB1SMENR)
+Address offset: 0x0B0
+Reset value: 0xFFFF FFFF
+Access: no wait state, word, half-word, and byte access
+This register only configures the clock gating, not the clock source itself. When a bit is set
+in Stop mode, the corresponding peripheral clock is enabled only when a peripheral (this
+one or another) requests the AHB or APB clock (refer to Section 11.4.24).
+
+31
+
+30
+
+29
+
+28
+
+DCAC ICACH BKPSR
+SRAM1
+HE1SM ESME AMSM
+SMEN
+EN
+N
+EN
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+JPEGS
+MEN
+rw
+
+Res.
+
+Res.
+
+CRCS
+MEN
+rw
+
+27
+
+26
+
+25
+
+Res.
+
+Res.
+
+Res.
+
+11
+
+10
+
+9
+
+24
+GTZC1
+SMEN
+
+23
+
+22
+
+Res.
+
+Res.
+
+7
+
+6
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+8
+FLASH
+SMEN
+
+Res.
+
+rw
+
+Res.
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DCAC
+GFXM
+RAMC
+GPU2D
+DMA2D
+TSCSM
+HE2SM
+MUSM
+FGSM
+SMEN
+SMEN
+EN
+EN
+EN
+EN
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+CORDI GPDM
+MDF1S FMACS
+CSME A1SME
+MEN
+MEN
+N
+N
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 SRAM1SMEN: SRAM1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SRAM1 clocks disabled by the clock gating during Sleep and Stop modes
+1: SRAM1 clocks enabled by the clock gating during Sleep and Stop modes
+
+RM0456 Rev 6

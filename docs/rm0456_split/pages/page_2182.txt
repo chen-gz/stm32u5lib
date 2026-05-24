@@ -1,0 +1,59 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+54.3.31
+
+RM0456
+
+ADC triggers
+The timer can generate an ADC triggering event with various internal signals, such as reset,
+enable or compare events. It is also possible to generate a pulse issued by internal edge
+detectors, such as:
+•
+
+Rising and falling edges of OC4ref
+
+•
+
+Rising edge on OC5ref or falling edge on OC6ref
+
+The triggers are issued on the tim_trgo2 internal line which is redirected to the ADC. There
+is a total of 16 possible events, which can be selected using the MMS2[3:0] bits in the
+TIMx_CR2 register.
+An example of an application for 3-phase motor drives is given in Figure 551.
+Note:
+
+The clock of the slave peripherals (timer, ADC, ...) receiving the tim_trgo or the tim_trgo2
+signals must be enabled prior to receive events from the master timer, and the clock
+frequency (prescaler) must not be changed on-the-fly while triggers are received from the
+master timer.
+The clock of the ADC must be enabled prior to receive events from the master timer, and
+must not be changed on-the-fly while triggers are received from the timer.
+
+54.3.32
+
+DMA burst mode
+The TIMx timers have the capability to generate multiple DMA requests upon a single event.
+The main purpose is to be able to reprogram part of the timer multiple times without
+software overhead, but it can also be used to read several registers in a row, at regular
+intervals.
+The DMA controller destination is unique and must point to the virtual register TIMx_DMAR.
+On a given timer event, the timer launches a sequence of DMA requests (burst). Each write
+into the TIMx_DMAR register is actually redirected to one of the timer registers.
+The DBL[4:0] bits in the TIMx_DCR register set the DMA burst length. The timer recognizes
+a burst transfer when a read or a write access is done to the TIMx_DMAR address), i.e. the
+number of transfers (either in half-words or in bytes).
+The DBA[4:0] bits in the TIMx_DCR register define the DMA base address for DMA
+transfers (when read/write access are done through the TIMx_DMAR address). DBA is
+defined as an offset starting from the address of the TIMx_CR1 register:
+Example:
+00000: TIMx_CR1
+00001: TIMx_CR2
+00010: TIMx_SMCR
+The DBSS[3:0] bits in the TIMx_DCR register defines the interrupt source that triggers the
+DMA burst transfers (see Section 54.6.29: TIMx DMA control register (TIMx_DCR)(x = 1, 8)
+for details).
+As an example, the timer DMA burst feature is used to update the contents of the CCRx
+registers (x = 2, 3, 4) upon an update event, with the DMA transferring half words into the
+CCRx registers.

@@ -1,0 +1,98 @@
+1.
+
+Set the DAC channel trigger enable bit, TENx.
+
+2.
+
+Configure the trigger sources by setting different values in the TSELx[3:0] bits.
+
+3.
+
+Configure the DAC channel WAVEx[1:0] bits as 01 and the same LFSR mask value in
+the MAMPx[3:0] bits.
+
+4.
+
+Load the DAC channel data into the desired DHR register (DAC_DHR12R1,
+DAC_DHR12L1 or DAC_DHR8R1).
+
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+When a DAC channel trigger arrives, the LFSR1 counter, with the same mask, is added to
+the DHR1 register and the sum is transferred into DAC_DOR1 (three dac_hclk clock cycles
+later). Then the LFSR1 counter is updated.
+
+Independent trigger with single triangle generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Set the DAC channel trigger enable bits, TENx.
+
+2.
+
+Configure the trigger sources by setting different values in the TSELx[3:0] bits.
+
+3.
+
+Configure the DAC channel WAVEx[1:0] bits as 1x and the same maximum amplitude
+value in the MAMPx[3:0] bits.
+
+4.
+
+Load the DAC channel data into the desired DHR register (DAC_DHR12R1,
+DAC_DHR12L1 or DAC_DHR8R1).
+
+When a DAC channel trigger arrives, the DAC channel triangle counter, with the same
+triangle amplitude, is added to the DHRx register and the sum is transferred into
+DAC_DOR1 (three dac_hclk clock cycles later). The DAC channel triangle counter is then
+updated.
+
+Independent trigger with single sawtooth generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Configure the trigger sources by setting different values in STRSTTRIGSELx[3:0] and
+STINCTRIGSELx[3:0] bits.
+
+2.
+
+Configure the DAC channel WAVEx[1:0] bits to 11 and set the same
+STRSTDATAx[11:0], STINCDATAx[15:0] and STDIRx values for each register.
+
+When a DAC channel trigger arrives, the DAC channel sawtooth counter updates the DHRx
+register and transfers it into DAC_DOR1 (three AHB clock cycles later).
+
+35.4.15
+
+Dual DAC channel conversion modes (if dual channels are
+available)
+To efficiently use the bus bandwidth in applications that require the two DAC channels at the
+same time, three dual registers are implemented: DHR8RD, DHR12RD and DHR12LD. A
+unique register access is then required to drive both DAC channels at the same time. For
+the wave generation, no accesses to DHRxxxD registers are required. As a result, two
+output channels can be used either independently or simultaneously.
+15 conversion modes are possible using the two DAC channels and these dual registers. All
+the conversion modes can nevertheless be obtained using separate DAC_DHRx registers if
+needed.
+All modes are described in the paragraphs below.
+
+Independent trigger without wave generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2.
+
+2.
+
+Configure different trigger sources by setting different values in the TSEL1 and TSEL2
+bitfields.
+
+3.
+
+Load the dual DAC channel data into the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+RM0456 Rev 6

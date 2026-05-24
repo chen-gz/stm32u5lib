@@ -1,0 +1,86 @@
+RM0456 Rev 6
+
+RM0456
+
+CORDIC coprocessor (CORDIC)
+Figure 107. CORDIC convergence for square root
+
+Note:
+
+The convergence rate decreases as the quantization error starts to become significant.
+The CORDIC can perform four iterations per clock cycle. For each function, the maximum
+error remaining after every four iterations is shown in Table 210, together with the number of
+clock cycles required to reach that precision. From this table, the desired number of cycles
+can be determined and programmed in the PRECISION field of the CORDIC_CR register.
+The coprocessor stops as soon as the programmed number of iterations is completed, and
+the result can be read immediately.
+Table 210. Precision vs. number of iterations
+Function
+
+Sin, Cos,
+Phase(2), Mod,
+Atan(4)
+
+Number of
+iterations
+
+Number of
+cycles
+
+4
+
+Max residual error(1)
+q1.31 format
+
+q1.15 format
+
+1
+
+2-3
+
+2-3
+
+8
+
+2
+
+2-7
+
+2-7
+
+12
+
+3
+
+2-11
+
+2-11
+
+16
+
+4
+
+2-15
+
+2-15
+
+20
+
+5
+
+2-18
+
+2-16
+
+24
+
+6
+
+2-19
+
+2-16
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

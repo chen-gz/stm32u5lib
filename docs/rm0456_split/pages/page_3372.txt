@@ -1,0 +1,59 @@
+The Type-C state machine depends not only on CC line levels, but also on VBUS presence
+detection (sink mode) and, when in source mode, determines VCONN generation and
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+VBUS state (ON/OFF/+voltage level); discharge). UCPD does not directly control VBUS
+generation circuitry nor VCONN load switch (enabling VCONN supply generator to be
+connected to the CC line), but the application needs these inputs and controls, to function
+correctly.
+General programming sequence (with UCPD configured then enabled)
+1.
+
+Set ANAMODE and ANASUBMODE[1:0] based on the current position in USB Type-C
+state machine (and also the current advertisement in the case of a source). This turns
+on the appropriate pull-ups/pull-downs on the CC lines, and defines the voltage levels
+that the TYPEC_VSTATE fields represent. Note that before programming, the PHY is
+effectively off.
+
+2.
+
+Read TYPEC_VSTATE_CC1/2 to determine the initial Type-C state (for example
+whether the local source is connected to a remote sink).
+
+3.
+
+In the case of no connection, wait for a connection event.
+
+4.
+
+Assuming a connection is detected and assuming a local Power Delivery functionality
+is implemented, start sending/receiving Power Delivery messages.
+
+5.
+
+When a new interrupt/event occurs on PHYEVT1/2 indicating a change in stable
+voltage, re-evaluate the implications and give this input to the Type-C state machine.
+
+Case of a source that needs to change between one of the three possible Rp values
+(Default-USB / 1.5A / 3.0A) and the sink connected to it:
+•
+
+[Source] Simply reprogram ANASUBMODE[1:0]
+
+•
+
+[Sink behavior from that time] PHYEVT1/2 occurs and the TYPEC_VSTATE1/2
+changes accordingly
+
+Programming for a dual-role port (DRP) toggling from source to sink:
+•
+
+Simply re-program ANAMODE and ANASUBMODE[1:0] to start the new behavior
+
+Detailed programming sequence (example):
+
+RM0456 Rev 6

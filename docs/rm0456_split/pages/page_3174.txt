@@ -1,0 +1,83 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+1.
+
+Before setting up an IN transfer, the application must ensure that all data to be
+transmitted as part of the IN transfer are part of a single buffer.
+
+2.
+
+For IN transfers, the transfer size field in the endpoint transfer size register denotes a
+payload that constitutes multiple maximum-packet-size packets and a single short
+packet. This short packet is transmitted at the end of the transfer.
+–
+
+To transmit a few maximum-packet-size packets and a short packet at the end of
+the transfer:
+Transfer size[EPNUM] = x × MPSIZ[EPNUM] + sp
+If (sp > 0), then packet count[EPNUM] = x + 1.
+Otherwise, packet count[EPNUM] = x
+
+–
+
+To transmit a single zero-length data packet:
+Transfer size[EPNUM] = 0
+Packet count[EPNUM] = 1
+
+–
+
+To transmit a few maximum-packet-size packets and a zero-length data packet at
+the end of the transfer, the application must split the transfer into two parts. The
+first sends maximum-packet-size data packets and the second sends the zerolength data packet alone.
+First transfer: transfer size[EPNUM] = x × MPSIZ[epnum]; packet count = n;
+Second transfer: transfer size[EPNUM] = 0; packet count = 1;
+
+3.
+
+Once an endpoint is enabled for data transfers, the core updates the transfer size
+register. At the end of the IN transfer, the application must read the transfer size
+register to determine how much data posted in the transmit FIFO have already been
+sent on the USB.
+
+4.
+
+Data fetched into transmit FIFO = Application-programmed initial transfer size – coreupdated final transfer size
+–
+
+Data transmitted on USB = (application-programmed initial packet count – core
+updated final packet count) × MPSIZ[EPNUM]
+
+–
+
+Data yet to be transmitted on USB = (Application-programmed initial transfer size
+– data transmitted on USB)
+
+Internal data flow:
+1.
+
+The application must set the transfer size and packet count fields in the endpointspecific registers and enable the endpoint to transmit the data.
+
+2.
+
+The application must also write the required data to the transmit FIFO for the endpoint.
+
+3.
+
+Every time a packet is written into the transmit FIFO by the application, the transfer size
+for that endpoint is decremented by the packet size. The data is fetched from the
+memory by the application, until the transfer size for the endpoint becomes 0. After
+writing the data into the FIFO, the “number of packets in FIFO” count is incremented
+(this is a 3-bit count, internally maintained by the core for each IN endpoint transmit
+FIFO. The maximum number of packets maintained by the core at any time in an IN
+endpoint FIFO is eight). For zero-length packets, a separate flag is set for each FIFO,
+without any data in the FIFO.
+
+4.
+
+Once the data are written to the transmit FIFO, the core reads them out upon receiving
+an IN token. For every non-isochronous IN data packet transmitted with an ACK
+
+RM0456 Rev 6

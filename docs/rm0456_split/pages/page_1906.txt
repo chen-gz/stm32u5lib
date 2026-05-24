@@ -1,0 +1,119 @@
+1921
+
+True random number generator (RNG)
+
+RM0456
+
+48.3
+
+RNG functional description
+
+48.3.1
+
+RNG block diagram
+Figure 456 shows the RNG block diagram.
+Figure 456. RNG block diagram
+
+True RNG
+
+rng_hclk
+rng_clk
+
+Banked Registers
+
+Conditioning logic
+128-bit data output
+
+CONDRST
+
+4x32-bit
+FIFO
+
+RNG_CR
+RNG_DR
+AHB
+interface
+
+Alarms
+
+RNG_SR
+
+Fault detection
+Clock checker
+Health tests
+
+AHB clock domain
+
+1-bit
+
+Post-processing (optional)
+
+DIV
+
+32-bit AHB bus
+
+rng_it
+
+Sampling (x N) + XOR
+
+RNG clock domain
+
+rng_itamp_out
+
+en_osc
+
+Analog
+Analog ... Analog
+noise
+noise
+noise
+source 1 source 2
+source N
+Analog noise source
+
+MSv42098V3
+
+48.3.2
+
+RNG internal signals
+Table 462 describes a list of useful-to-know internal signals available at the RNG level, not
+at the STM32 product level (on pads).
+Table 462. RNG internal input/output signals
+Signal name
+
+Signal type
+
+rng_it
+
+Digital output
+
+RNG global interrupt request
+
+rng_hclk
+
+Digital input
+
+AHB clock
+
+rng_clk
+
+Digital input
+
+RNG dedicated clock, asynchronous to rng_hclk
+
+digital output
+
+RNG internal tamper event signal to TAMP (XORed), triggered
+when an unexpected hardware fault occurs. When this signal is
+triggered, RNG stops delivering random samples, requiring a
+reset and a new initialization to be usable again.
+
+rng_itamp_out
+
+48.3.3
+
+Description
+
+Random number generation
+The true random number generator (RNG) delivers truly random data through its AHB
+interface at deterministic intervals.

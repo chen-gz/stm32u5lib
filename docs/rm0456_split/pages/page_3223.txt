@@ -1,0 +1,42 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 10:6 TXFNUM[4:0]: Tx FIFO number
+This is the FIFO number that must be flushed using the Tx FIFO Flush bit. This field must not
+be changed until the core clears the Tx FIFO Flush bit.
+Condition: host mode
+00000: Non-periodic Tx FIFO flush
+00001: Periodic Tx FIFO flush
+10000: Flush all the transmit FIFOs
+Condition: device mode
+00000: Tx FIFO 0 flush
+00001: Tx FIFO 1 flush
+00010: Tx FIFO 2 flush
+...
+01111: Tx FIFO 15 flush
+10000: Flush all the transmit FIFOs
+Note: Accessible in both device and host modes.
+Bit 5 TXFFLSH: Tx FIFO flush
+This bit selectively flushes a single or all transmit FIFOs, but cannot do so if the core is in the
+midst of a transaction.
+The application must write this bit only after checking that the core is neither writing to the Tx
+FIFO nor reading from the Tx FIFO. Verify using these registers:
+Read—NAK Effective interrupt ensures the core is not reading from the FIFO
+Write—AHBIDL bit in OTG_GRSTCTL ensures the core is not writing anything to the FIFO.
+Flushing is normally recommended when FIFOs are reconfigured. FIFO flushing is also
+recommended during device endpoint disable. The application must wait until the core clears
+this bit before performing any operations. This bit takes eight clocks to clear, using the slower
+clock of phy_clk or hclk.
+Note: Accessible in both device and host modes.
+Bit 4 RXFFLSH: Rx FIFO flush
+The application can flush the entire Rx FIFO using this bit, but must first ensure that the core
+is not in the middle of a transaction.
+The application must only write to this bit after checking that the core is neither reading from
+the Rx FIFO nor writing to the Rx FIFO.
+The application must wait until the bit is cleared before performing any other operations. This
+bit requires 8 clocks (slowest of PHY or AHB clock) to clear.
+Note: Accessible in both device and host modes.
+Bit 3 Reserved, must be kept at reset value.

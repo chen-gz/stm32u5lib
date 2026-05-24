@@ -1,0 +1,72 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+64.4.8
+
+RM0456
+
+Boot hardware key (BHK)
+The eight first backup registers from TAMP_BKP0R to TAMP_BKP7R can be used to store
+a boot hardware key for the secure AES.
+For this purpose, these registers must belong to the Protection Zone 1: BKPRWSEC must
+be greater or equal to 8.
+Once the backup registers are written with the boot hardware key, the BHKLOCK bit must
+be set in the TAMP_SECCFGR register. Once BHKLOCK is set, the 8 backup registers
+cannot be accessed anymore by software: they are read as 0 and write to these registers is
+ignored. BHKLOCK cannot be cleared by software, and is cleared by hardware following a
+tamper event or when the readout protection (RDP) is disabled. It is also cleared with
+BKERASE command (in all cases the backup registers are also erased).
+Refer to section secure AES co-processor (SAES) for details on procedure to download the
+boot hardware key in the SAES.
+
+64.4.9
+
+Tamper detection
+The tamper detection main purpose is to protect the device secrets from device external
+attacks. The detection is made on events on TAMP_INx (x = pin index) I/Os, or on internal
+monitors detecting out-of-range device conditions.
+The tamper detection can be configured for the following purposes:
+•
+
+erase the backup registers and other device secrets stored in SRAMs or peripherals
+listed in Table 644: TAMP interconnection
+
+•
+
+block the read/write access to the backup registers and other device secrets stored in
+SRAMs or peripherals listed in Table 644: TAMP interconnection
+
+•
+
+generate an interrupt, capable to wake-up from low-power modes
+
+•
+
+generate a hardware trigger for the low-power timers, or a RTC timestamp event
+
+The external I/Os tamper detection supports 2 main configurations:
+•
+
+Passive mode: TAMP_INx I/Os are monitored and a tamper is detected either on edge
+or on level.
+
+•
+
+Active mode: TAMP_INx (x = pin index) is continuously compared with TAMP_OUTy
+(y = pin index) allowing open-short detection.
+
+A digital filter can be applied on external tamper detection to avoid false detection. In
+addition, it is possible to configure each tamper source in potential mode, so that the secrets
+erase is not launched by hardware on tamper detection. The secrets erase can then be
+launched by software after software checks.
+
+64.4.10
+
+TAMP backup registers and other device secrets erase
+The backup registers (TAMP_BKPxR) are not reset by system reset or when the device
+wakes up from Standby mode.
+The backup registers and the other device secrets are not reset when the corresponding
+mask is set (TAMPxMSK=1 in the TAMP_CR2 register).
+
+Note:

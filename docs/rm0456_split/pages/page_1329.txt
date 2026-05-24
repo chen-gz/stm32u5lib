@@ -1,0 +1,76 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+Figure 266. Alternate trigger: Four injected channels (each ADC) in discontinuous mode
+1st trigger
+
+3rd trigger
+JEOC on
+master ADC
+
+5th trigger
+7th trigger
+JEOC on
+JEOC on
+master ADC
+master ADC
+
+JEOC, JEOS on
+master ADC
+
+MASTER ADC
+SLAVE ADC
+
+Sampling
+Conversion
+
+JEOC on slave
+JEOC on slave
+JEOC on slave
+ADC
+ADC
+ADC
+2nd trigger
+4th trigger
+6th trigger
+
+JEOC, JEOS on
+slave ADC
+8th trigger
+ai16060V3
+
+Combined regular/injected simultaneous mode
+This mode is selected by programming bits DUAL[4:0] = 00001.
+It is possible to interrupt the simultaneous conversion of a regular group to start the
+simultaneous conversion of an injected group.
+Note:
+
+The sequences must be converted with the same length, the N-th conversion in master and
+slave mode must be configured with the same sampling time inside a given sequence, or
+the interval between triggers has to be longer than the long conversion time of the two
+sequences. If the above conditions are not respected, the ADC with the shortest sequence
+may restart while the ADC with the longest sequence is completing the previous
+conversions.
+
+Combined regular simultaneous + alternate trigger mode
+This mode is selected by programming bits DUAL[4:0] = 00010.
+It is possible to interrupt the simultaneous conversion of a regular group to start the alternate
+trigger conversion of an injected group. Figure 267 shows the behavior of an alternate
+trigger interrupting a simultaneous regular conversion.
+The injected alternate conversion is immediately started after the injected event. If a regular
+conversion is already running, in order to ensure synchronization after the injected
+conversion, the regular conversion of all (master/slave) ADCs is stopped and resumed
+synchronously at the end of the injected conversion.
+Note:
+
+The sequences must be converted with the same length, the N-th conversion in master and
+slave mode must be configured with the same sampling time inside a given sequence, or
+the interval between triggers has to be longer than the long conversion time of the two
+sequences. If the above conditions are not respected, the ADC with the shortest sequence
+may restart while the ADC with the longest sequence is completing the previous
+conversions.
+
+RM0456 Rev 6

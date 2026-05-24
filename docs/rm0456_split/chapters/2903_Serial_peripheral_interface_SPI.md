@@ -1,0 +1,183 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Bit 4 TRIS: Tristate management on data line.
+This bit is set and cleared by software. It is meaningful only if the audio block is configured as a
+transmitter. This bit is not used when the audio block is configured in SPDIF mode. It must be
+configured when SAI is disabled.
+Refer to Section : Output data line management on an inactive slot for more details.
+0: SD output line is still driven by the SAI when a slot is inactive.
+1: SD output line is released (HI-Z) at the end of the last data bit of the last active slot if the next one
+is inactive.
+Bit 3 FFLUSH: FIFO flush.
+This bit is set by software. It is always read as 0. This bit must be configured when the SAI is
+disabled.
+0: No FIFO flush.
+1: FIFO flush. Programming this bit to 1 triggers the FIFO Flush. All the internal FIFO pointers (read
+and write) are cleared. In this case data still present in the FIFO are lost (no more transmission or
+received data lost). Before flushing, SAI DMA stream/interrupt must be disabled
+Bits 2:0 FTH[2:0]: FIFO threshold.
+This bit is set and cleared by software.
+000: FIFO empty
+001: ¼ FIFO
+010: ½ FIFO
+011: ¾ FIFO
+100: FIFO full
+101: Reserved
+110: Reserved
+111: Reserved
+
+69.6.12
+
+SAI frame configuration register (SAI_BFRCR)
+Address offset: 0x2C
+Reset value: 0x0000 0007
+
+Note:
+
+This register has no meaning in AC’97 and SPDIF audio protocol
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+FSALL[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+18
+
+17
+
+16
+
+FSOFF FSPOL FSDEF
+
+FRL[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bit 18 FSOFF: Frame synchronization offset.
+This bit is set and cleared by software. It is meaningless and is not used in AC’97 or SPDIF audio
+block configuration. This bit must be configured when the audio block is disabled.
+0: FS is asserted on the first bit of the slot 0.
+1: FS is asserted one bit before the first bit of the slot 0.
+
+<!-- pagebreak -->
+

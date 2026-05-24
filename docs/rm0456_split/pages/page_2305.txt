@@ -1,0 +1,69 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 671. Control circuit in gated mode
+tim_ti1
+CEN
+tim_cnt_ck, tim_psc_ck
+
+Counter register
+
+30 31 32 33
+
+34
+
+35
+
+36
+
+37 38
+
+TIF
+
+Write TIF = 0
+MSv62362V1
+
+Note:
+
+The configuration “CCxP = CCxNP = 1” (detection of both rising and falling edges) does not
+have any effect in gated mode because gated mode acts on a level and not on an edge.
+
+Slave mode: Trigger mode
+The counter can start in response to an event on a selected input.
+In the following example, the upcounter starts in response to a rising edge on tim_ti2 input:
+1.
+
+Configure the channel 2 to detect rising edges on tim_ti2. Configure the input filter
+duration (in this example, we do not need any filter, so we keep IC2F = 0000). The
+capture prescaler is not used for triggering, so it does not need to be configured. CC2S
+bits are selecting the input capture source only, CC2S = 01 in TIMx_CCMR1 register.
+Write CC2P = 1 and CC2NP = 0 in TIMx_CCER register to validate the polarity (and
+detect low level only).
+
+2.
+
+Configure the timer in trigger mode by writing SMS = 110 in TIMx_SMCR register.
+Select tim_ti2 as the input source by writing TS = 00110 in TIMx_SMCR register.
+
+When a rising edge occurs on tim_ti2, the counter starts counting on the internal clock and
+the TIF flag is set.
+The delay between the rising edge on tim_ti2 and the actual start of the counter is due to the
+resynchronization circuit on tim_ti2 input.
+Figure 672. Control circuit in trigger mode
+tim_ti2
+CEN
+tim_cnt_ck, tim_psc_ck
+Counter register
+
+34
+
+35
+
+36 37 38
+
+TIF
+MSv62363V1
+
+RM0456 Rev 6

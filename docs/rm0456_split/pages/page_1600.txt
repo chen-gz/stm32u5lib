@@ -1,0 +1,57 @@
+1599
+
+Audio digital filter (ADF)
+
+RM0456
+
+40
+
+Audio digital filter (ADF)
+
+40.1
+
+ADF introduction
+The audio digital filter (ADF) is a high-performance module dedicated to the connection of
+external sigma-delta (Σ∆) modulators. It is mainly targeted for the following applications:
+•
+
+audio capture signals
+
+•
+
+metering
+
+The ADF features one digital serial interface (SITF0) and one digital filter (DFLT0) with
+flexible digital processing options in order to offer up to 24-bit final resolution.
+The ADF serial interface supports several standards allowing the connection of various Σ∆
+modulator sensors:
+•
+
+SPI interface
+
+•
+
+Manchester coded 1-wire interface
+
+•
+
+PDM interface
+
+The ADF converts an input data stream into clean decimated digital data words. This
+conversion is done thanks to low-pass digital filters and decimation blocks. In addition, it is
+possible to insert a high-pass filter.
+The conversion speed and resolution are adjustable according to configurable parameters
+for digital processing: filter bypass, filter order, decimation ratio. The maximum output data
+resolution is up to 24 bits. There are two conversion modes: single conversion and
+continuous modes. The data can be automatically stored in a system RAM buffer through
+DMA, thus reducing the software overhead.
+A sound activity detector (SAD) is available for the detection of sounds or voice signals. The
+SAD is connected at the output of the DFLT0. Several parameters can be programmed in
+order to adjust properly the SAD to the sound environment. The SAD strongly reduces the
+power consumption by preventing the storage of samples into the system memory, as long
+as the observed signal does not match the programmed criteria.
+The digital processing is performed using only the kernel clock. The ADF requests the bus
+interface clock (AHB clock) only when data must be transfered or when a specific event
+requests the attention of the system processor.
+
+40.2

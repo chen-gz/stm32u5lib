@@ -1,0 +1,189 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+Bit 14 TOF: trigger overrun flag clear
+0: no effect
+1: clears the corresponding TOF flag
+Bit 13 SUSPF: completed suspension flag clear
+0: no effect
+1: corresponding SUSPF flag cleared
+Bit 12 USEF: user setting error flag clear
+0: no effect
+1: corresponding USEF flag cleared
+Bit 11 ULEF: update link transfer error flag clear
+0: no effect
+1: corresponding ULEF flag cleared
+Bit 10 DTEF: data transfer error flag clear
+0: no effect
+1: corresponding DTEF flag cleared
+Bit 9 HTF: half transfer flag clear
+0: no effect
+1: corresponding HTF flag cleared
+Bit 8 TCF: transfer complete flag clear
+0: no effect
+1: corresponding TCF flag cleared
+Bits 7:0 Reserved, must be kept at reset value.
+
+18.8.8
+
+LPDMA channel x status register (LPDMA_CxSR)
+Address offset: 0x060 + 0x80 * x (x = 0 to 3)
+Reset value: 0x0000 0001
+This is a read register, reporting the channel status.
+This register is secure or nonsecure, depending on the secure state of channel x
+(LPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of the channel (LPDMA_PRIVCFGR.PRIVx).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TOF
+
+SUSPF
+
+USEF
+
+ULEF
+
+DTEF
+
+HTF
+
+TCF
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+IDLEF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bit 14 TOF: trigger overrun flag clear
+0: no effect
+1: clears the corresponding TOF flag
+
+RM0456 Rev 6

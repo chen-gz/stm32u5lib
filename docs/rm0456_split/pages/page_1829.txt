@@ -1,0 +1,207 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 5 AE5IE: Acknowledge error 5 interrupt enable
+This bit enables the interrupt generation on acknowledge error 5.
+0: Interrupt on acknowledge error 5 disabled
+1: Interrupt on acknowledge error 5 enabled
+Bit 4 AE4IE: Acknowledge error 4 interrupt enable
+This bit enables the interrupt generation on acknowledge error 4.
+0: Interrupt on acknowledge error 4 disabled
+1: Interrupt on acknowledge error 4 enabled
+Bit 3 AE3IE: Acknowledge error 3 interrupt enable
+This bit enables the interrupt generation on acknowledge error 3.
+0: Interrupt on acknowledge error 3 disabled
+1: Interrupt on acknowledge error 3 enabled
+Bit 2 AE2IE: Acknowledge error 2 interrupt enable
+This bit enables the interrupt generation on acknowledge error 2.
+0: Interrupt on acknowledge error 2 disabled
+1: Interrupt on acknowledge error 2 enabled
+Bit 1 AE1IE: Acknowledge error 1 interrupt enable
+This bit enables the interrupt generation on acknowledge error 1.
+0: Interrupt on acknowledge error 1 disabled
+1: Interrupt on acknowledge error 1 enabled
+Bit 0 AE0IE: Acknowledge error 0 interrupt enable
+This bit enables the interrupt generation on acknowledge error 0.
+0: Interrupt on acknowledge error 0 disabled
+1: Interrupt on acknowledge error 0 enabled
+
+44.15.44 DSI Host interrupt enable register 1 (DSI_IER1)
+Address offset: 0x00C8
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+PBU
+EIE
+
+Res.
+
+Res.
+
+Res.
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+Res.
+
+GPRX
+EIE
+
+GPRD
+EIE
+
+GPTX
+EIE
+
+GPWR
+EIE
+
+GCWR
+EIE
+
+LPWR
+EIE
+
+EOTP
+EIE
+
+PS
+EIE
+
+CRC
+EIE
+
+ECCM
+EIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+ECCS TOLPRX TOHSTX
+EIE
+IE
+IE
+rw
+
+rw
+
+rw
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bit 19 PBUEIE: Payload buffer underflow error interrupt enable
+This bit enables the interrupt generation on payload buffer underflow error.
+0: Interrupt on payload buffer underflow error disabled
+1: Interrupt on payload buffer underflow error enabled
+Bits 18:13 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

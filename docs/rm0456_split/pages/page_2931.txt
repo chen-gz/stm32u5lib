@@ -1,0 +1,47 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+When the counter reaches 0, the TOO interrupt flag is set in the FDCAN_IR register. In
+continuous mode, the counter is immediately restarted at TOP[15:0].
+Note:
+
+The clock signal for the timeout counter is derived from the CAN core sample point signal.
+Therefore, the point in time where the timeout counter is decremented may vary due to the
+synchronization/resynchronization mechanism of the CAN core. If the baud rate switch
+feature in FDCAN is used, the timeout counter is clocked differently in the arbitration and
+data fields.
+
+70.3.5
+
+Error management
+As described in the CAN protocol, the error management is handled entirely by hardware
+using the transmit error counter (the TEC[7:0] bitfield of the FDCAN error counter register
+(FDCAN_ECR)) and the receive error counter (the REC[6:0] bitfield of the FDCAN error
+counter register (FDCAN_ECR)). These values are incremented or decremented according
+to the error condition. For detailed information on TEC[7:0] and REC[6:0] management,
+refer to the CAN standard. Both values can be read by software to determine the stability of
+the network.
+The bus-off state is reached when TEC[7:0] is greater than 255. This state is also indicated
+by the BO flag of the FDCAN protocol status register (FDCAN_PSR). In bus-off state, the
+CAN is no longer able to transmit and receive messages. It has to wait at least for the
+duration of the recovery sequence specified in the CAN standard (128 occurrences of 11
+consecutive recessive bits monitored on FDCAN_RX input).
+Figure 887. CAN error state diagram
+When TEC or REC > 127
+
+ERROR PASSIVE
+
+ERROR ACTIVE
+
+When TEC and REC < 128
+When 128x11 recessive bits occur:
+
+When TEC > 255
+BUS OFF
+
+ai15903
+
+Note:

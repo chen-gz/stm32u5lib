@@ -1,0 +1,114 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+This behavior can detect short-circuit or open-circuit errors (such as over current or over
+voltage). An interrupt event or/and a break signal can be generated.
+Figure 333. SCD functional view
+
+MDF
+
+SCD
+scd_brkx
+(to break interface)
+
+MDF_SCDxCR.SCDT[7:0]
+
+Comparator
+scd_evtx
+(to interrupts interface)
+
+scd_cnt[7:0]
+Transition
+detector
+
+mdf_ker_ck
+
+reset
+
+Counter
+
+bs_fltx_dat
+bs_fltx
+(from BSMX)
+
+bs_fltx_ck
+
+MSv62659V1
+
+The SCDx is counting consecutive zeros or consecutive ones received from the serial
+interface (SITFx). A counter is restarted if there is a change in the data stream received. If
+this counter reaches a short-circuit threshold value (SCDT[7:0] in the MDF short circuit
+detector control register x (MDF_SCDxCR)), then a short-circuit event is invoked. Each
+BSMX output has its own short-circuit detector. Any BSMX output can be continuously
+monitored by setting the corresponding SCDEN bit to 1 in MDF_SCDxCR. Each SCD has
+its own threshold settings (SCDT) and its own status bit (SCDF).
+The figure below shows an example where SCDT[7:0] is set to six. The break signal
+remains high as long as the short circuit condition is present.
+No overrun event is generated when the interrupt event is pending while a new short-circuit
+condition is detected.
+Figure 334. SCD timing example
+bs_fltx_dat
+
+bs_fltx_ck
+
+scd_cnt[7:0]
+
+...
+
+2
+
+3
+
+4
+
+1
+
+2
+
+3
+
+4
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+1
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+1
+
+2 1
+
+mdf_ker_ck
+
+scd_brkx
+
+mdf_evt_itx/mdf_itx
+(due to scd_evtx)
+
+Writing 1 to SCDF
+MSv62660V1
+
+RM0456 Rev 6

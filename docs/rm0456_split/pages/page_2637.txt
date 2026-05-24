@@ -1,0 +1,50 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Bit 12 ANFOFF: Analog noise filter OFF
+0: Analog noise filter enabled
+1: Analog noise filter disabled
+Note: This bit can be programmed only when the I2C peripheral is disabled (PE = 0).
+Bits 11:8 DNF[3:0]: Digital noise filter
+These bits are used to configure the digital noise filter on SDA and SCL input. The digital
+filter, filters spikes with a length of up to DNF[3:0] * tI2CCLK
+0000: Digital filter disabled
+0001: Digital filter enabled and filtering capability up to one tI2CCLK
+...
+1111: digital filter enabled and filtering capability up to fifteen tI2CCLK
+Note: If the analog filter is enabled, the digital filter is added to it. This filter can be
+programmed only when the I2C peripheral is disabled (PE = 0).
+Bit 7 ERRIE: Error interrupts enable
+0: Error detection interrupts disabled
+1: Error detection interrupts enabled
+Note: Any of these errors generates an interrupt:
+- arbitration loss (ARLO)
+- bus error detection (BERR)
+- overrun/underrun (OVR)
+- timeout detection (TIMEOUT)
+- PEC error detection (PECERR)
+- alert pin event detection (ALERT)
+Bit 6 TCIE: Transfer complete interrupt enable
+0: Transfer complete interrupt disabled
+1: Transfer complete interrupt enabled
+Note: Any of these events generates an interrupt:
+Transfer complete (TC)
+Transfer complete reload (TCR)
+Bit 5 STOPIE: STOP detection interrupt enable
+0: STOP detection (STOPF) interrupt disabled
+1: STOP detection (STOPF) interrupt enabled
+Bit 4 NACKIE: Not acknowledge received interrupt enable
+0: Not acknowledge (NACKF) received interrupts disabled
+1: Not acknowledge (NACKF) received interrupts enabled
+Bit 3 ADDRIE: Address match interrupt enable (target only)
+0: Address match (ADDR) interrupts disabled
+1: Address match (ADDR) interrupts enabled
+Bit 2 RXIE: RX interrupt enable
+0: Receive (RXNE) interrupt disabled
+1: Receive (RXNE) interrupt enabled
+Bit 1 TXIE: TX interrupt enable
+0: Transmit (TXIS) interrupt disabled
+1: Transmit (TXIS) interrupt enabled

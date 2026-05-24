@@ -1,0 +1,65 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+LPUART reception mode
+•
+
+If the FIFO mode is enabled, the APB clock is requested when
+–
+
+The RxFIFIO is full (RXFF = 1) and the corresponding interrupt is enabled
+(RXFFIE = 1)
+
+–
+
+The RxFIFO threshold is reached (RXFT = 1) and the corresponding interrupt is
+enabled (RXFTIE = 1)
+
+–
+•
+
+Note:
+
+The RxFIFO is not empty (RXFNE = 1) and the corresponding interrupt or DMA is
+enabled (RXFNEIE= 1)
+If the FIFO mode is disabled, the APB clock is requested when the LPUART finishes
+sampling data and it is ready to be written in the LPUART_RDR. The DMA or the
+associated interrupt must be enabled.
+
+The APB clock is requested in reception mode when an overrun error occurs (ORE = 1).
+The EIE bit must be set to enable the generation an interrupt and waking up the MCU, and
+the OVRDIS bit must remain cleared. The APB clock request is kept until the interrupt flag is
+cleared.
+In reception mode, the APB clock is requested when a Parity/Noise/Framing error occurs
+and the DMA is used for reception. The APB clock request is kept until the interrupt flag is
+cleared.
+
+Determining the maximum LPUART baud rate that enables to correctly wake
+up the MCU from low-power mode
+The maximum baud rate that enables to correctly wake up the MCU from low-power mode
+depends on the wake-up time parameter (refer to the device datasheet) and on the LPUART
+receiver tolerance (see Section 67.4.9: Tolerance of the LPUART receiver to clock
+deviation).
+Let us take the example of OVER8 = 0, M bits = 01, ONEBIT = 0 and BRR [3:0] = 0000.
+In these conditions, according to Table 691: Tolerance of the LPUART receiver, the
+LPUART receiver tolerance equals 3.41%.
+DTRA + DQUANT + DREC + DTCL + DWU < LPUART receiver tolerance
+DWUmax = tWULPUART/ (11 x Tbit Min)
+Tbit Min = tWULPUART/ (11 x DWUmax)
+where tWULPUART is the wake-up time from low-power mode.
+If we consider the ideal case where DTRA, DQUANT, DREC, and DTCL parameters are at
+0%, the maximum value of DWU is 3.41%. In fact, we need to consider at least the
+lpuart_ker_ck inaccuracy.
+For example, if HSI is used as lpuart_ker_ck, and the HSI inaccuracy is of 1%, then we
+obtain:
+tWULPUART = 3 µs (values provided only as examples; for correct values, refer to the
+device datasheet).
+DWUmax = 3.41% – 1% = 2.41%
+Tbit min = 3 µs/ (11 x 2.41%) = 11.32 µs.
+As a result, the maximum baud rate that enables to wake up correctly from low-power
+mode is: 1/11.32 µs = 88.36 kbauds.
+
+RM0456 Rev 6

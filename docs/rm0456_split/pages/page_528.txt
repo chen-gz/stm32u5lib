@@ -1,0 +1,174 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bits 11:8 PLL2M[3:0]: Prescaler for PLL2
+This bitfield is set and cleared by software to configure the prescaler of the PLL2. The VCO2
+input frequency is PLL2 input clock frequency/PLL2M.
+This bit can be written only when the PLL2 is disabled (PLL2ON = 0 and PLL2RDY = 0).
+0000: division by 1 (bypass)
+0001: division by 2
+0010: division by 3
+...
+1111: division by 16
+Bits 7:5 Reserved, must be kept at reset value.
+Bit 4 PLL2FRACEN: PLL2 fractional latch enable
+This bit is set and reset by software to latch the content of PLL2FRACN in the Σ∆ modulator.
+In order to latch the PLL2FRACN value into the Σ∆ modulator, PLL2FRACEN must be
+set to 0, then set to 1: the transition 0 to 1 transfers the content of PLL2FRACN into the
+modulator (see PLL initialization phase for details).
+Bits 3:2 PLL2RGE[1:0]: PLL2 input frequency range
+This bitfield is set and reset by software to select the proper reference frequency range used
+for PLL2. It must be written before enabling the PLL2.
+00-01-10: PLL2 input (ref2_ck) clock range frequency between 4 and 8 MHz
+11: PLL2 input (ref2_ck) clock range frequency between 8 and 16 MHz
+Bits 1:0 PLL2SRC[1:0]: PLL2 entry clock source
+This bitfield is set and cleared by software to select PLL2 clock source. It can be written only
+when the PLL2 is disabled. To save power, when no PLL2 is used, this bitfield value must
+be zero.
+00: No clock sent to PLL2
+01: MSIS clock selected as PLL2 clock entry
+10: HSI16 clock selected as PLL2 clock entry
+11: HSE clock selected as PLL2 clock entry
+
+11.8.11
+
+RCC PLL3 configuration register (RCC_PLL3CFGR)
+Address offset: 0x030
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+PLL3R
+EN
+
+PLL3Q
+EN
+
+PLL3P
+EN
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PLL3F
+RACEN
+
+PLL3M[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.

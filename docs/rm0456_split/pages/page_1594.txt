@@ -1,0 +1,41 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Bit 6 THHF: High-threshold status flag
+This bit is set by hardware and cleared by software by writing this bit to 1. It indicates the
+status of the high-threshold comparator when the last OLD0 event occurred. This bit gives
+additional information on the conditions triggering the last OLD0 event. It can be cleared by
+writing OLDF flag to 1.
+0: The signal was lower than OLDTHH when the last OLD0 event occurred.
+1: The signal was higher than OLDTHH when the last OLD0 event occurred.
+Bit 5 THLF: Low-threshold status flag
+This bit is set by hardware and cleared by software by writing this bit to 1. It indicates the
+status of the low-threshold comparator when the last OLD0 event occurred. This bit gives
+additional information on the conditions triggering the last OLD0 event. It can be cleared by
+writing OLDF flag to 1.
+0: The signal was higher than OLDTHL when the last OLD0 event occurred.
+1: The signal was lower than OLDTHL when the last OLD0 event occurred.
+Bit 4 OLDF: OLD0 flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no OLD0 event is detected. Write 0 has no effect.
+1: Read 1 means that an OLD0 event is detected Write 1 clears THHF, THLF and OLDF.
+Bit 3 RXNEF: RXFIFO not-empty flag
+this bit is set and cleared by hardware according to the RXFIFO level.
+0: RXFIFO empty
+1: RXFIFO not empty
+Bit 2 SSDRF: Snapshot data ready flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no data is available. Write 0 has no effect.
+1: Read 1 means that a new data is available. Write 1 clears this flag.
+Bit 1 DOVRF: Data overflow flag
+This bit is set by hardware and cleared by software by writing this bit to 1.
+0: Read 0 means that no overflow is detected. Write 0 has no effect.
+1: Read 1 means that an overflow is detected; Write 1 clears this flag.
+Bit 0 FTHF: RXFIFO threshold flag
+This bit is set by hardware and cleared by hardware when the RXFIFO level is lower than the
+threshold.
+0: RXFIFO threshold not reached
+1: RXFIFO threshold reached

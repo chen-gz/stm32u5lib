@@ -1,0 +1,138 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Table 533. TIM internal input/output signals (continued)
+Internal signal name
+
+Signal type
+
+Description
+
+tim_ocref_clr[7:0]
+
+Input
+
+Timer tim_ocref_clr input bus. These inputs
+can be used to clear the tim ocxref signals,
+typically for hardware cycle-by-cycle
+pulsewidth control.
+
+tim_brk_cmp[8:1]
+
+Input
+
+Break input for internal signals
+
+tim_brk2_cmp[8:1]
+
+Input
+
+Break2 input for internal signals
+
+tim_sys_brk[n:0]
+
+Input
+
+System break input. This input gathers the
+MCU’s system level errors.
+
+tim_pclk
+
+Input
+
+Timer APB clock
+
+tim_ker_ck
+
+Input
+
+Timer kernel clock
+
+tim_cc_it
+
+Output
+
+Timer capture/compare interrupt
+
+tim_upd_it
+
+Output
+
+Timer update event interrupt
+
+tim_brk_terr_ierr_it
+
+Output
+
+Timer break, break2, transition error and
+index error interrupt
+
+tim_trgi_com_dir_idx_it
+
+Output
+
+Timer trigger, commutation, direction and
+index interrupt
+
+tim_cc1_dma
+tim_cc2_dma
+tim_cc3_dma
+tim_cc4_dma
+
+Output
+
+Timer capture / compare 1..4 dma requests
+
+tim_upd_dma
+
+Output
+
+Timer update dma request
+
+tim_trgi_dma
+
+Output
+
+Timer trigger dma request
+
+tim_com_dma
+
+Output
+
+Timer commutation dma request
+
+Tables below list the sources connected to the tim_ti[4:1] input multiplexers.
+Table 534. Interconnect to the tim_ti1 input multiplexer
+Sources
+tim_ti1 inputs
+TIM1
+
+TIM8
+
+tim_ti1_in0
+
+TIM1_CH1
+
+TIM8_CH1
+
+tim_ti1_in1
+
+comp1_out
+
+comp1_out
+
+tim_ti1_in2
+
+comp2_out(1)
+
+comp2_out(1)
+
+tim_ti1_in[15:3]
+
+Reserved
+
+1. This connection is not present in STM32U535/545 as COMP2 is not available.
+
+RM0456 Rev 6

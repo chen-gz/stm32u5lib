@@ -1,0 +1,307 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+30.7.27
+
+HSPI HyperBus latency configuration register (HSPI_HLCR)
+Address offset: 0x200
+Reset value: 0x0000 0000
+This register can be modified only when BUSY = 0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+TACC[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+rw
+
+TRWR[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+WZL
+
+LM
+
+rw
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:16 TRWR[7:0]: Read-write minimum recovery time
+Device Read-to-write/write-to-read minimum recovery time expressed in number of
+communication clock cycles
+Bits 15:8 TACC[7:0]: Access time
+Device access time according to the memory latency, expressed in number of
+communication clock cycles
+Bits 7:2 Reserved, must be kept at reset value.
+Bit 1 WZL: Write zero latency
+This bit enables zero latency on write operations.
+0: Latency on write accesses
+1: No latency on write accesses
+Bit 0 LM: Latency mode
+This bit selects the latency mode.
+0: Variable initial latency
+1: Fixed latency
+Note: This bit must be set when using the dual-octal HyperBus configuration.
+
+30.7.28
+
+HSPI full-cycle calibration configuration (HSPI_CALFCR)
+Address offset: 0x210
+Reset value: 0x0000 0000
+This read-only register gives the calibration code needed by the DLL master so that its delay
+is equivalent to a full memory-clock cycle. The value of this register is updated every time
+that auto-calibration finishes.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+CALMA
+X
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RM0456 Rev 6
+
+20
+
+19
+
+18
+
+17
+
+16
+
+COARSE[4:0]
+
+FINE[6:0]
+r

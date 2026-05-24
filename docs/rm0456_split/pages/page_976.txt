@@ -1,0 +1,77 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+
+The buffer base addresses can be allocated anywhere, but must not overlap. An example
+configuration is given below:
+
+Note:
+
+•
+
+X2_BASE = 0;
+
+•
+
+X1_BASE = N + M;
+
+•
+
+Y_BASE = 2N + M + d1;
+
+The FULL_WM bitfield of X1 buffer configuration register must be programmed with a value
+less than or equal to log2(d1), otherwise the buffer is flagged full before N input samples
+have been written, and no more samples are requested. Similarly, the EMPTY_WM bitfield
+of the Y buffer configuration register must be less than or equal to log2(d2).
+The filter coefficients (N feed-forward followed by M feedback) must be pre-loaded into the
+X2 buffer, using the Load X2 Buffer function. The X1 buffer can optionally be pre-loaded with
+any number of samples up to a maximum of N. The Y buffer can optionally be pre-loaded
+with any number of values up to a maximum of M. This has the effect of initializing the
+feedback delay line.
+After configuring the buffers, the FMAC_CR register must be programmed in the same way
+as for the FIR filter (see Section 26.3.8: Implementing FIR filters with the FMAC).
+The filter is started by writing to the FMAC_PARAM register with the following bitfield values:
+•
+
+FUNC = 9 (IIR filter);
+
+•
+
+P = N (number of feed-forward coefficients);
+
+•
+
+Q = M (number of feed-back coefficients);
+
+•
+
+R = Gain;
+
+•
+
+START = 1;
+
+If less than N + d - 2FULL_WM values have been pre-loaded in the X1 buffer, the X1FULL flag
+remains low. If the WIEN bit is set in the FMAC_CR register, then the interrupt request is
+asserted immediately to request the processor to write 2FULL_WM additional samples into the
+buffer, via the FMAC_WDATA register. It remains asserted until the X1FULL flag goes high
+in the FMAC_SR register. The interrupt service routine must check the X1FULL flag after
+every 2FULL_WM writes to the FMAC_WDATA register, and repeat the transfer until the flag
+goes high. Similarly, if the DMAWEN bit is set in the FMAC_CR register, DMA write channel
+requests are generated until the X1FULL flag goes high.
+The filter calculates the first output sample when at least N samples have been written into
+the X1 buffer (including any pre-loaded samples). The first sample is calculated using the
+first N samples in the X1 buffer, and the first M samples in the Y buffer (whether or not they
+are preloaded. The first output sample is written into the Y buffer at Y_BASE + M.
+When 2EMPTY_WM new output samples have been written into the Y buffer, the YEMPTY flag
+in the FMAC_SR register goes low. If the RIEN bit is set in the FMAC_CR register, the
+interrupt request is asserted to request the processor to read 2EMPTY_WM samples from the
+buffer, via the FMAC_RDATA register. It remains asserted until the YEMPTY flag goes high.
+The interrupt service routine must check the YEMPTY flag after every 2EMPTY_WM reads from
+the FMAC_RDATA register, and repeat the transfer until the flag goes high. If the DMAREN
+bit is set in the FMAC_CR, DMA read channel requests are generated until the YEMPTY
+flag goes high
+The filter continues to operate in this fashion until it is stopped by the software resetting the
+START bit.

@@ -1,0 +1,324 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+Figure 482. 128-bit block construction with respect to data swap
+increasing memory address
+byte 3
+D63
+
+DATATYPE[1:0] = 00: no swapping
+
+byte 2
+
+D56 D55
+
+byte 1
+
+D48 D47
+
+byte 0
+
+D40 D39
+
+D32
+
+MSB
+
+LSB
+
+Word 3
+
+Word 2
+
+D127
+
+D96
+
+Word 1
+
+D95
+
+1
+
+D63
+
+D64
+
+2
+
+D127
+
+D96
+
+Word 0
+D32
+
+D31
+
+3
+
+D95
+P95
+
+4
+
+D63
+
+D64
+
+D0
+
+D32
+
+D31
+
+D0
+LSB
+
+MSB
+
+DATATYPE[1:0] = 01: 16-bit (half-word) swapping
+MSB
+
+LSB
+
+Word 3
+D127
+
+D112
+
+Word 2
+
+D111
+
+D96
+
+D95
+
+1
+
+D80 D79
+
+D64
+
+D63
+
+2
+
+D111
+
+D96
+
+D127
+
+D112
+
+Word 0
+
+Word 1
+D48 D47
+
+D32
+
+D31
+
+3
+
+D79
+
+D64 D95
+
+D80
+
+D16 D15
+
+D0
+
+D0 D31
+
+D16
+LSB
+
+4
+
+D47
+
+D32 D63
+
+D48
+
+D15
+
+MSB
+
+DATATYPE[1:0] = 10: 8-bit (byte) swapping
+MSB
+
+LSB
+
+Word 3
+
+Word 2
+
+D127..120 D119..112 D111.104
+
+D103..96
+
+D95..88
+
+1
+D103..96
+
+D87..80
+
+Word 1
+
+D79..72
+
+D71...64
+
+D63...56
+
+2
+D111.104
+
+D119..112 D127..120
+
+D55...48
+
+Word 0
+
+D47...40
+
+D39...32
+
+D31...24
+
+3
+
+D71...64
+
+D79..72
+
+D87..80
+
+D95..88
+
+D39...32
+
+D23...16
+
+D15...8
+
+D7...0
+
+D15...8
+
+D23...16
+
+D31...24
+LSB
+
+4
+D47...40
+
+D55...48
+
+D63...56
+
+D7...0
+
+MSB
+
+DATATYPE[1:0] = 11: bit swapping
+LSB
+
+MSB
+
+Word 2
+
+Word 3
+
+D98 D97 D96 D95 D94 D93
+
+D127 D126 D125
+
+1
+
+Word 1
+D66 D65 D64 D63 D62 D61
+
+2
+
+D96 D97 D98
+
+D125 D126 D127 D64 D65 D66
+
+Word 0
+D34 D33 D32 D31 D30 D29
+
+3
+D93 D94 D95 D32 D33 D34
+
+D2
+
+D1
+
+D61 D62 D63
+
+D0
+
+D1
+
+D2
+
+D29 D30 D31
+LSB
+
+MSB
+
+Legend:
+
+AES input/output data block in memory
+
+MSB
+
+most significant bit (127) of memory data block / AEC core buffer
+
+AES core input/output buffer data
+
+LSB
+
+least significant bit (0) of memory data block / AEC core buffer
+
+Zero padding (example)
+
+1
+
+Order of write to AES_DINR / read from AES_DOUTR
+
+Data swap
+
+Note:
+
+D0
+
+4
+
+4
+Dx
+
+input/output data bit ‘x’
+
+MSv42153V2
+
+The data in AES key registers (AES_KEYRx) and initialization registers (AES_IVRx) are not
+sensitive to the swap mode selection.
+
+Data padding
+Figure 482 also gives an example of memory data block padding with zeros such that the
+zeroed bits after the data swap form a contiguous zone at the MSB end of the AES core
+input buffer. The example shows the padding of an input data block containing:

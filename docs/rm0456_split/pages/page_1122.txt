@@ -1,0 +1,94 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+The DQS management can be enabled by setting DQSE of HSPI_CCR.
+Figure 170. DTR read in octal-SPI mode with DQS (Macronix mode) example
+§
+
+NCS
+
+DQS
+IO[7:0]
+
+EEh
+
+11h
+
+A[31:24] A[23:16]
+
+A[15:8]
+
+A[7:0]
+
+§
+
+§
+
+§
+
+CLK
+
+Address
+
+D1
+
+Dummy
+
+D0
+
+Word
+unit
+
+D3
+
+D2
+
+Word
+unit
+MSv43489V1
+
+30.4.5
+
+HSPI regular-command protocol signal interface
+Single-SPI mode
+The legacy SPI mode allows just a single bit to be sent/received serially. In this mode, the
+data is sent to the external device over the SO signal (Single-SPI Output) (whose I/Os are
+shared with IO0). The data received from the external device arrives via SI (Single-SPI
+Input) (whose I/Os are shared with IO1).
+Compared to the SPI legacy mode, I0/SO and I1/SI are respectively equivalent to MOSI and
+MISO, having the HSPI generating the clock.
+The different phases can each be configured separately to use this single-bit mode by
+setting to 001 the IMODE, ADMODE, ABMODE, and DMODE fields in HSPI_CCR and
+HSPI_WCCR.
+In each phase configured in single-SPI mode:
+•
+
+IO0 (SO) is in output mode.
+
+•
+
+IO1 (SI) is in input mode (high impedance).
+
+•
+
+IO2 is in output mode and forced to 0 (to deactivate the “write protect” function).
+
+•
+
+IO3 is in output mode and forced to 1 (to deactivate the “hold” function).
+
+•
+
+IO4 to IO15 are in output mode and forced to 0.
+
+This is the case even for the dummy phase if DMODE[2:0] = 001.
+
+Dual-SPI mode
+In dual-SPI mode, two bits are sent/received simultaneously over the IO0/IO1 signals.
+The different phases can each be configured separately to use dual-SPI mode by setting
+to 010 the IMODE, ADMODE, ABMODE, and DMODE fields in HSPI_CCR and
+HSPI_WCCR.
+In each phase configured in dual-SPI mode:

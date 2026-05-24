@@ -1,0 +1,302 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+10.10.3
+
+PWR control register 3 (PWR_CR3)
+Address offset: 0x08
+Power-on reset value: 0x0000 0000
+Exit from Standby modes: not affected
+System reset: not affected, except REGSEL that is cleared to 0
+This register is protected against nonsecure access when VDMSEC = 1
+in PWR_SECCFGR. This register is protected against unprivileged access when
+VDMSEC = 1 and SPRIV = 1 in PWR_PRIVCFGR, or when VDMSEC = 0 and NSPRIV = 1.
+Access: 14 AHB clock cycles added compared to a standard AHB access.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+REGSE
+FSTEN
+L
+rw
+
+Res.
+
+rw
+
+Bits 31:3 Reserved, must be kept at reset value.
+Bit 2 FSTEN: Fast soft start
+0: LDO/SMPS fast startup disabled (limited inrush current)
+1: LDO/SMPS fast startup enabled
+Bit 1 REGSEL: Regulator selection
+0: LDO selected
+1: SMPS selected
+Note: REGSEL is reserved and must be kept at reset value in packages without SMPS.
+Bit 0 Reserved, must be kept at reset value.
+
+10.10.4
+
+PWR voltage scaling register (PWR_VOSR)
+Address offset: 0x0C
+Reset value: 0x0000 8000
+Some register fields are protected against nonsecure access depending
+on RCC_SECCFGR. These fields can be protected against unprivileged access depending
+on PWR_PRIVCFGR.
+
+31
+Res.
+
+15
+
+30
+Res.
+
+14
+
+29
+Res.
+
+13
+
+USBBO
+VOSR BOOST
+OSTRD
+DY
+RDY
+Y
+r
+
+r
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+
+20
+
+19
+
+18
+
+VDD11
+USBBO USBP BOOST
+USBDI
+OSTEN WREN
+EN
+S
+
+17
+
+16
+
+VOS[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+r
+
+RM0456 Rev 6

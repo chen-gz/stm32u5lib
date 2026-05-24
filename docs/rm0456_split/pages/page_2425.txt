@@ -1,0 +1,111 @@
+2562
+
+Graphic timer (GFXTIM)
+
+RM0456
+Figure 751. Clock generator
+FCCUF
+VSYNC
+HSYNC
+
+Line clock counter
+LCCReload
+
+Auto-reload
+
+TE
+SYSCK
+
+22-bit Counter
+
+SWReload
+LCCUF
+FCCUF
+VSYNC
+LCCUF HSYNC
+
+Line clock
+
+TE
+
+FCCUF
+VSYNC
+HSYNC
+TE
+
+Frame clock counter
+FCCReload
+Auto-reload
+LCCUF
+VSYNC
+HSYNC
+
+12-bit Counter
+
+SWReload
+LCCUF
+FCCUF
+VSYNC
+FCCUF HSYNC
+
+Frame clock
+
+TE
+
+TE
+MSv66909V1
+
+Line clock counter
+The line clock counter is a 22-bit auto-reload down-counter on the system clock.
+The line clock counter is enabled selecting its clock source with LCCCS (line clock counter
+clock source) in GFXTIM_CGCR (clock generator control register).
+The line clock counter can be reloaded automatically when one of the following event
+occurs:
+•
+
+frame clock counter underflows
+
+•
+
+VSYNC edge (with control of polarity)
+
+•
+
+HSYNC edge (with control of polarity)
+
+•
+
+TE edge (with control of polarity)
+
+The hardware reload function and source can be selected with LCCHRS (line clock counter
+hardware reload source) in GFXTIM_CGCR (clock generator control register).
+The line clock counter can be reloaded by software, setting LCCFR (line clock counter force
+reload) in GFXTIM_CGCR (clock generator control register).
+The reload value is programmed in GFXTIM_LCCRR (line clock counter reload register).
+
+Frame clock counter
+The frame clock counter if an 12-bit auto-reload down-counter clocked by either, TE,
+HYSNC, VSYNC or a line clock counter underflow.
+The frame clock counter is enabled selecting its clock source with FCCCS in
+GFXTIM_CGCR.
+The frame clock counter can be reloaded automatically when one of the following event
+occurs:
+•
+
+line clock counter underflow
+
+•
+
+VSYNC edge (with control of polarity)
+
+•
+
+HSYNC edge (with control of polarity)
+
+•
+
+TE edge (with control of polarity)
+
+The hardware reload function and source can be selected with FCCHRS in
+GFXTIM_CGCR.
+The frame clock counter can be reloaded by software, setting FCCFR in GFXTIM_CGCR.

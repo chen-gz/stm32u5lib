@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+then the software must wait until RSF is set before reading again the RTC_SSR, RTC_TR
+and RTC_DR registers.
+After waking up from low-power mode (Stop or Standby), RSF must be cleared by software.
+The software must then wait until it is set again before reading the RTC_SSR, RTC_TR and
+RTC_DR registers.
+The RSF bit must be cleared after wake-up and not before entering low-power mode.
+After a system reset, the software must wait until RSF is set before reading the RTC_SSR,
+RTC_TR and RTC_DR registers. Indeed, a system reset resets the shadow registers to
+their default values.
+After an initialization (refer to Calendar initialization and configuration on page 2599): the
+software must wait until RSF is set before reading the RTC_SSR, RTC_TR and RTC_DR
+registers.
+After synchronization (refer to Section 63.3.14: RTC synchronization): the software must
+wait until RSF is set before reading the RTC_SSR, RTC_TR and RTC_DR registers.
+
+When the BYPSHAD control bit is set in the RTC_CR register (bypass shadow
+registers)
+Reading the calendar registers gives the values from the calendar counters directly, thus
+eliminating the need to wait for the RSF bit to be set. This is especially useful after exiting
+from low-power modes (Stop or Standby), since the shadow registers are not updated
+during these modes.
+When the BYPSHAD bit is set to 1, the results of the different registers might not be
+coherent with each other if an RTCCLK edge occurs between two read accesses to the
+registers. Additionally, the value of one of the registers may be incorrect if an RTCCLK edge
+occurs during the read operation. The software must read all the registers twice, and then
+compare the results to confirm that the data is coherent and correct. Alternatively, the
+software can just compare the two results of the least-significant calendar register.
+Note:
+
+While BYPSHAD = 1, instructions which read the calendar registers require one extra APB
+cycle to complete.
+
+63.3.13
+
+Resetting the RTC
+The calendar shadow registers (RTC_SSR, RTC_TR and RTC_DR) and some bits of the
+RTC status register (RTC_ICSR) are reset to their default values by all available system
+reset sources.
+On the contrary, the following registers are reset to their default values by a Backup domain
+reset and are not affected by a system reset: the RTC current calendar registers, the RTC
+control register (RTC_CR), the prescaler register (RTC_PRER), the RTC calibration register
+(RTC_CALR), the RTC shift register (RTC_SHIFTR), the RTC timestamp registers
+(RTC_TSSSR, RTC_TSTR and RTC_TSDR), the wake-up timer register (RTC_WUTR), the
+alarm A and alarm B registers (RTC_ALRMASSR/RTC_ALRMAR/RTC_ALRABINR and
+RTC_ALRMBSSR/RTC_ALRMBR/RTC_ALRBBINR).
+In addition, when clocked by LSE, the RTC keeps on running under system reset if the reset
+source is different from the Backup domain reset one (refer to RCC for details about RTC
+clock sources not affected by system reset). When a Backup domain reset occurs, the RTC
+is stopped and all the RTC registers are set to their reset values.
+
+RM0456 Rev 6

@@ -1,0 +1,133 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Table 768. Device-mode control and status registers (continued)
+
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_DIEPMSK
+
+0x810
+
+Section 73.14.41: OTG device IN endpoint common interrupt mask
+register (OTG_DIEPMSK)
+
+OTG_DOEPMSK
+
+0x814
+
+Section 73.14.42: OTG device OUT endpoint common interrupt mask
+register (OTG_DOEPMSK)
+
+OTG_DAINT
+
+0x818
+
+Section 73.14.43: OTG device all endpoints interrupt register
+(OTG_DAINT)
+
+OTG_DAINTMSK
+
+0x81C
+
+Section 73.14.44: OTG all endpoints interrupt mask register
+(OTG_DAINTMSK)
+
+OTG_DTHRCTL
+
+0x830
+
+Section 73.14.45: OTG device threshold control register
+(OTG_DTHRCTL)
+
+OTG_DIEPEMPMSK
+
+0x834
+
+Section 73.14.46: OTG device IN endpoint FIFO empty interrupt mask
+register (OTG_DIEPEMPMSK)
+
+OTG_DIEPCTLx
+
+0x900
+0x920
+...
+0xA00
+
+Section 73.14.47: OTG device IN endpoint x control register [alternate]
+(OTG_DIEPCTLx)
+Section 73.14.48: OTG device IN endpoint x control register [alternate]
+(OTG_DIEPCTLx)
+
+OTG_DIEPINTx
+
+0x908
+0x928
+...
+0x9E8
+
+Section 73.14.49: OTG device IN endpoint x interrupt register
+(OTG_DIEPINTx)
+
+OTG_DIEPTSIZ0
+
+0x910
+
+Section 73.14.50: OTG device IN endpoint 0 transfer size register
+(OTG_DIEPTSIZ0)
+
+OTG_DIEPDMAx
+
+0x914
+0x934
+...
+0x9F4
+
+Section 73.14.51: OTG device IN endpoint x DMA address register
+(OTG_DIEPDMAx)
+
+OTG_DTXFSTSx
+
+0x918
+0x938
+.....
+0x9F8
+
+Section 73.14.52: OTG device IN endpoint transmit FIFO status register
+(OTG_DTXFSTSx)
+
+OTG_DIEPTSIZx
+
+0x930
+0x950
+...
+0x9F0
+
+Section 73.14.53: OTG device IN endpoint x transfer size register
+(OTG_DIEPTSIZx)
+
+OTG_DOEPCTL0
+
+0xB00
+
+Section 73.14.54: OTG device control OUT endpoint 0 control register
+(OTG_DOEPCTL0)
+
+OTG_DOEPINTx
+
+0xB08
+0XB28
+...
+0xC08
+
+Section 73.14.55: OTG device OUT endpoint x interrupt register
+(OTG_DOEPINTx)
+
+RM0456 Rev 6

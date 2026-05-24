@@ -1,0 +1,158 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Follow the sequence below to configure the SAI interface in DMA mode:
+
+69.5
+
+1.
+
+Configure the SAI and FIFO threshold levels to specify when the DMA request is
+launched.
+
+2.
+
+Configure the SAI DMA channel.
+
+3.
+
+Enable the DMA.
+
+4.
+
+Enable the SAI interface.
+
+SAI interrupts
+The SAI supports 7 interrupt sources, as shown in Table 715.
+Table 715. SAI interrupt sources
+
+Interrupt
+acronym
+
+Interrupt
+source
+
+Interrupt
+group
+
+Interrupt
+enable
+
+Audio block mode
+
+Interrupt clear
+
+Depends on:
+
+FREQ
+
+FREQ
+
+Master or slave
+Receiver or
+transmitter
+
+FREQIE in
+SAI_xIM
+register
+
+– FIFO threshold setting (FLVL bits
+in SAI_xCR2)
+– Communication direction
+(transmitter or receiver)
+
+For more details refer to
+Section 69.4.9: Internal FIFOs
+ERROR
+
+Master or slave
+Receiver or
+transmitter
+
+OVRUDRIE in
+SAI_xIM
+register
+
+COVRUDR = 1 in SAI_xCLRFR
+register
+
+ERROR
+
+Slave
+(not used in AC’97
+mode and SPDIF
+mode)
+
+AFSDETIE in
+SAI_xIM
+register
+
+CAFSDET = 1 in SAI_xCLRFR
+register
+
+LFSDET
+
+ERROR
+
+Slave
+(not used in AC’97
+mode and SPDIF
+mode)
+
+LFSDETIE in
+SAI_xIM
+register
+
+CLFSDET = 1 in SAI_xCLRFR
+register
+
+CNRDY
+
+ERROR
+
+Slave
+(only in AC’97 mode)
+
+CNRDYIE in
+SAI_xIM
+register
+
+CCNRDY = 1 in SAI_xCLRFR
+register
+
+MUTEDET
+
+MUTE
+
+Master or slave
+Receiver mode only
+
+MUTEDETIE in
+SAI_xIM
+register
+
+CMUTEDET = 1 in SAI_xCLRFR
+register
+
+WCKCFG
+
+ERROR
+
+Master with NODIV =
+0 in SAI_xCR1
+register
+
+WCKCFGIE in
+SAI_xIM
+register
+
+CWCKCFG = 1 in SAI_xCLRFR
+register
+
+OVRUDR
+
+AFSDET
+SAI

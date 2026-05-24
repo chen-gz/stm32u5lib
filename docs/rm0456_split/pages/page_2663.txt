@@ -1,0 +1,94 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+After writing the last data to the USART_TDR register, it is mandatory to wait until TC is set
+before disabling the USART or causing the microcontroller to enter the low-power mode
+(see Figure 812).
+Figure 812. TC/TXE behavior when transmitting
+Idle preamble
+
+Frame 1
+
+Frame 2
+
+Set by hardware
+cleared by software
+
+Set by hardware
+cleared by software
+
+F2
+
+F3
+
+Frame 3
+
+TX line
+TXE flag
+
+USART_DR
+
+F1
+
+Set by hardware
+
+Set by hardware
+TC flag
+Software
+enables the
+USART
+
+Software waits until TXE=1
+and writes F2 into DR
+
+Software waits until TXE=1
+and writes F1 into DR
+
+TC is not set
+because TXE=0
+
+Software waits until
+TXE=1 and writes
+F3 into DR
+
+TC is not set
+because TXE=0
+
+TC is set
+because TXE=1
+
+Software waits until TC=1
+
+ai17121b
+
+Note:
+
+When FIFO management is enabled, the TXFNF flag is used for data transmission.
+
+Break characters
+Setting the SBKRQ bit transmits a break character. The break frame length depends on the
+M bit (see Figure 810).
+If a 1 is written to the SBKRQ bit, a break character is sent on the TX line after completing
+the current character transmission. The SBKF bit is set by the write operation and it is reset
+by hardware when the break character is complete (during the stop bits after the break
+character). The USART inserts a logic 1 signal (stop) for the duration of 2 bits at the end of
+the break frame to guarantee the recognition of the start bit of the next frame.
+When the SBKRQ bit is set, the break character is sent at the end of the current
+transmission.
+When FIFO mode is enabled, sending the break character has priority on sending data even
+if the TXFIFO is full.
+
+Idle characters
+Setting the TE bit drives the USART to send an idle frame before the first data frame.
+
+66.5.7
+
+USART receiver
+The USART can receive data words of either 7 or 8 or 9 bits depending on the M bits in the
+USART_CR1 register.
+
+Start bit detection
+The start bit detection sequence is the same when oversampling by 16 or by 8.

@@ -1,0 +1,39 @@
+1861
+
+DSI Host (DSI)
+
+44.10
+
+RM0456
+
+Functional description: virtual channels
+The DSI Host supports choosing the virtual channel (VC) for use for each interface. Using
+multiple virtual channels, the system can address multiples displays at the same time, when
+each display has a different virtual channel identifier.
+When the LTDC interface is configured for a particular virtual channel, it is possible to use
+the APB register interface to issue the commands while the video stream is being
+transmitted. With this, it is possible to send the commands through the ongoing video
+stream, addressing different virtual channels and thus enable the interface with multiple
+displays. During the video mode, the video stream transmission has the maximum priority.
+Therefore, the transmission of sideband packets such as the ones from the generic interface
+are only transported when there is time available within the video stream transmission. The
+DSI Host identifies the available time periods and uses them to transport the generic
+interface packets. Figure 438 illustrates where the DSI Host inserts the packets from the
+APB generic interface within the video stream transmitted by the LTDC interface.
+
+Short packets transmitted through the DPI interface
+Payload transmitted through the DPI interface
+Commands transmitted through the APB register interface (different VC)
+Areas where the controller can transmit commands when there is enough time
+
+MS35885V2
+
+Figure 438. Command transmission by the generic interface
+
+It is also possible to address the multiple displays with only the generic interface, using
+different virtual channels. Because the generic interface is not restricted to any particular
+virtual channel through configuration, it is possible to issue the packets with different virtual
+channels. This enables the interface to time multiplex the packets to be provided to the
+displays with different virtual channels.
+You can use the following configuration registers to select the virtual channel ID associated
+with transmissions over the LTDC and APB register interfaces:

@@ -1,0 +1,168 @@
+363
+
+Embedded flash memory (FLASH)
+
+7.9.16
+
+RM0456
+
+FLASH secure boot address 0 register (FLASH_SECBOOTADD0R)
+Address offset: 0x4C
+Reset value: 0xXXXX XXXX
+ST production value: 0x0C00 007C
+(option bytes loaded with values from the flash memory at reset release)
+Access: no wait state when no option bytes modification is ongoing; word, half-word, and
+byte access.
+This register can not be written if OPTLOCK bit is set.This register is secure. It can be read
+and written only by secure access. A nonsecure read/write access is RAZ/WI. This register
+can be protected against unprivileged access when SPRIV = 1 in FLASH_PRIVCFGR.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SECBOOTADD0[24:9]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+BOOT_
+LOCK
+
+SECBOOTADD0[8:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:7 SECBOOTADD0[24:0]: Secure boot base address 0
+The secure boot memory address can be programmed to any address in the valid address
+range with a granularity of 128 bytes. This bits correspond to address [31:7].
+SECBOOTADD0 option bytes are selected following the BOOT0 pin or NSWBOOT0 state.
+Examples:
+SECBOOTADD0[24:0] = 0x018 0000: Boot from secure flash memory (0x0C00 0000)
+SECBOOTADD0[24:0] = 0x01F F000: Boot from RSS (0x0FF8 0000)
+SECBOOTADD0[24:0] = 0x060 0000: Boot from secure SRAM1 on S-Bus (0x3000 0000)
+Bits 6:1 Reserved, must be kept at reset value.
+Bit 0 BOOT_LOCK: Boot lock
+When set, the boot is always forced to base address value programmed in
+SECBOOTADD0[24:0] option bytes whatever the boot selection option. This bit can only be
+cleared when RDP is at Level 0.
+
+<!-- pagebreak -->
+

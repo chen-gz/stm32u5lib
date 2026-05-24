@@ -1,0 +1,226 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+
+50.6
+
+SAES processing latency
+The tables below summarize the latency to process a 128-bit block for each mode of
+operation.
+Table 483. Processing latency for ECB, CBC
+Algorithm
+
+Clock
+cycles(1)
+
+ECB, CBC
+
+528
+
+-
+
+200
+
+Mode 3: Decryption
+
+ECB, CBC
+
+528
+
+Mode 1: Encryption
+
+ECB, CBC
+
+743
+
+-
+
+324
+
+ECB, CBC
+
+743
+
+Key size
+
+Mode of operation
+Mode 1: Encryption
+
+128-bit
+
+256-bit
+
+Mode 2: Key derivation
+
+Mode 2: Key derivation
+Mode 3: Decryption
+
+1. SHSI clock from RCC (48 MHz with +/-15% jitter)
+
+50.7
+
+SAES registers
+
+50.7.1
+
+SAES control register (SAES_CR)
+Address offset: 0x00
+
+28
+
+26
+
+KSHAREID[1:0]
+
+25
+
+24
+
+23
+
+22
+
+KMOD[1:0]
+
+21
+
+20
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+Res.
+
+Res.
+
+Res.
+
+DMAINEN
+
+KEYSEL[2:0]
+
+27
+
+DMAOUTEN
+
+IPRST
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+KEYSIZE
+
+30
+
+KEYPROT
+
+31
+
+CHMOD[2]
+
+Reset value: 0x0000 0000
+
+rw
+
+rw
+
+3
+
+2
+
+CHMOD[1:0]
+
+MODE[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+1
+
+DATATYPE[1:0]
+
+rw
+
+rw
+
+0
+
+EN
+
+rw
+
+Bit 31 IPRST: SAES peripheral software reset
+Setting the bit resets the SAES peripheral, putting all registers to their default values, except the
+IPRST bit itself and the SAES_DPACFG register. Hence, any key-relative data is lost. For this
+reason, it is recommended to set the bit before handing over the SAES to a less secure application.
+The bit must be low while writing any configuration registers.
+
+RM0456 Rev 6

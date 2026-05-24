@@ -1,0 +1,58 @@
+191
+
+System security
+
+3.5
+
+RM0456
+
+Resource isolation using TrustZone
+In the STM32U5 series devices, the hardware and software resources can be partitioned so
+that they exist either in the secure world or in the nonsecure world, as shown in the figure
+below.
+Figure 7. Secure/nonsecure partitioning using TrustZone technology
+Init
+
+Nonsecure world
+
+Secure world
+
+Applications
+
+Application RoT
+
+Privileged system
+services
+
+Root of trust
+services
+
+Peripherals and I/Os
+Memory (internal, external)
+Nonsecure world
+Secure world
+
+Note:
+
+CPU time
+MSv64438V1
+
+The initial partitioning of the platform is under the responsibility of the secure firmware
+executed after the reset of the device.
+Thanks to this resource isolation technology, the secure world can be used to protect critical
+code against intentional or unintentional tampering from the more exposed code running in
+the nonsecure world.
+
+Note:
+
+The secure code is typically small and rarely modified, while nonsecure code is more
+exposed, and prone to firmware updates.
+
+3.5.1
+
+TrustZone security architecture
+The Armv8-M TrustZone technology is a comprehensive hardware architecture that
+proposes to developers a comprehensive, holistic protection across the entire processor
+and system. The device TrustZone hardware features include:
+
+Note:

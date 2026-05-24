@@ -1,0 +1,190 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+Bit 14 BOOSTRDY: EPOD booster ready
+This bit is set to one by hardware when the power booster startup time is reached.
+The system clock frequency can be switched higher than 55 MHz only after this bit is set.
+0: Power booster not ready
+1: Power booster ready
+Bit 13 USBBOOSTRDY: OTG_HS EPOD booster ready
+This bit is set to one by hardware when the power booster startup time is reached.
+The OTG_HS clock can be provided only after this bit is set.
+0: OTG_HS power booster not ready
+1: OTG_HS power booster ready
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bits 12:0 Reserved, must be kept at reset value.
+
+10.10.5
+
+PWR supply voltage monitoring control register (PWR_SVMCR)
+Address offset: 0x10
+Reset value: 0x0000 0000
+This register is protected against nonsecure access when VDMSEC = 1
+in PWR_SECCFGR. This register is protected against unprivileged access when
+VDMSEC = 1 and SPRIV = 1 in PWR_PRIVCFGR, or when VDMSEC = 0 and NSPRIV = 1.
+
+31
+Res.
+
+30
+
+29
+
+28
+
+ASV
+
+IO2SV
+
+USV
+
+rw
+
+rw
+
+rw
+
+27
+
+26
+
+25
+
+AVM2E AVM1E IO2VM
+N
+N
+EN
+rw
+
+rw
+
+rw
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+UVME
+N
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+6
+
+5
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+PVDLS[2:0]
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+PVDE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 ASV: VDDA independent analog supply valid
+This bit is used to validate the VDDA supply for electrical and logical isolation purpose.
+Setting this bit is mandatory to use the analog peripherals. If VDDA is not always present in
+the application, the VDDA voltage monitor can be used to determine whether this supply is
+ready or not.
+0: VDDA not present: logical and electrical isolation is applied to ignore this supply.
+1: VDDA valid
+Bit 29 IO2SV: VDDIO2 independent I/Os supply valid
+This bit is used to validate the VDDIO2 supply for electrical and logical isolation purpose.
+Setting this bit is mandatory to use PG[15:2]. If VDDIO2 is not always present in the
+application, the VDDIO2 voltage monitor can be used to determine whether this supply is
+ready or not.
+0: VDDIO2 not present: logical and electrical isolation is applied to ignore this supply.
+1: VDDIO2 valid
+
+RM0456 Rev 6

@@ -1,0 +1,302 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Debug support (DBG)
+
+Bits 3:0 PC[3:0]: processor comparator inputs selection for single-shot control
+0xXXX0: processor comparator input 0 not selected
+0xXXX1: processor comparator input 0 selected
+0xXX0X: Processor comparator input 1 not selected
+0xXX1X: processor comparator input 1 selected
+0xX0XX: processor comparator input 2 not selected
+0xX1XX: processor comparator input 2 selected
+0x0XXX: processor comparator input 3 not selected
+0x1XXX: processor comparator input 3 selected
+
+ETM power-down control register (ETM_PDCR)
+Address offset: 0x310
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PU
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 PU: power-up request
+0: power-up not requested
+1: power-up requested
+Bits 2:0 Reserved, must be kept at reset value.
+
+ETM power-down status register (ETM_PDSR)
+Address offset: 0x314
+Reset value: 0x0000 0003
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+STICK
+YPD
+
+POWE
+R
+
+r
+
+r
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:2 Reserved, must be kept at reset value.
+Bit 1 STICKYPD: sticky power-down state
+0: Trace register power has not been removed since the ETM_PDSR was last read.
+1: Trace register power has been removed since the ETM_PDSR was last read.
+Bit 0 POWER: ETM power-up status
+1: ETM powered up
+
+RM0456 Rev 6

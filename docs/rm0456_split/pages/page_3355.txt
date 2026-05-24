@@ -1,0 +1,11 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+73.15.8
+
+RM0456
+
+OTG programming model
+The OTG_HS controller is an OTG device. When the core is connected to an “A” plug, it is
+referred to as an A-device. When the core is connected to a “B” plug it is referred to as a Bdevice.

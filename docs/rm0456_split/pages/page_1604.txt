@@ -1,0 +1,75 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+Figure 362. SITF overview
+
+ADF
+
+To BSMX
+
+SITF0
+ADF_SDI0
+
+bs0_r
+
+bs0_f
+
+Serial
+RX
+
+SCKSRC
+1
+0
+
+SITFMOD
+
+adf_proc_ck
+adf_ker_ck
+
+CCK1EN
+ADF_CCK1
+
+CKGEN
+
+ADF_CCK0
+(1)
+
+(2)
+
+CCK0EN
+adf_ker_ck clock domain
+
+(1) SITF0 in SPI mode
+(2) SITF0 in LF_MASTER SPI mode
+
+MSv63651V1
+
+LF_MASTER and normal SPI modes
+The LF_MASTER SPI mode is a special mode allowing the use of an adf_proc_ck clock
+frequency, only two times bigger than the sensor clock. This mode is dedicated to low-power
+use-cases, using low-speed sensors.
+In LF_MASTER SPI mode, the ADF must provide the bitstream clock to the external
+sensors via ADF_CCK0 and ADF_CCK1 pins. The ADF receives the bitstream data via the
+serial data input ADF_SDI0.
+For the SITF0, the application must select the same clock than the one provided to the
+external sensor (ADF_CCK0 or ADF_CCK1), in order to guarantee optimal timing
+performances. This selection is done via SCKSRC[1:0].
+The normal SPI interface is a more flexible interface than the LF_MASTER SPI, but the
+adf_proc_ck frequency must be at least four times higher than the sensor clock.
+The application can select ADF_CCK0 or ADF_CCK1 clock for the capture of the data
+received via the ADF_SDI0 pin.
+The ADF can generate a clock to the sensors via ADF_CCK0 or ADF_CCK1 if needed.
+For all SPI modes, the serial data is captured using the rising and the falling edge of the
+selected clock. The SITF0 always provides the following bitstreams:
+•
+
+bitstream received using the bitstream clock falling edge (bs0_f)
+
+•
+
+bitstream received using the bitstream clock rising edge (bs0_r)
+
+According to the sensors connected, one of the two bitstreams may not be available.
+The application can select the wanted stream via the BSMX matrix.

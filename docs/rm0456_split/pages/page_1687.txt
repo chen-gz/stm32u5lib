@@ -1,0 +1,86 @@
+6
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+17
+
+16
+
+BSM[1:0]
+rw
+
+ESS
+
+JPEG
+
+CROP
+
+CM
+
+CAPTU
+RE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Digital camera interface (DCMI)
+
+Bit 20 OELS: Odd/Even Line Select (Line Select Start)
+This bit works in conjunction with the LSM field (LSM = 1).
+0: Interface captures first line after the frame start, second one being dropped.
+1: Interface captures second line from the frame start, first one being dropped.
+Bit 19 LSM: Line Select mode
+0: Interface captures all received lines.
+1: Interface captures one line out of two.
+Bit 18 OEBS: Odd/Even Byte Select (Byte Select Start)
+This bit works in conjunction with BSM field (BSM ≠ 00).
+0: Interface captures first data (byte or double byte) from the frame/line start, second one
+being dropped.
+1: Interface captures second data (byte or double byte) from the frame/line start, first one
+being dropped.
+Bits 17:16 BSM[1:0]: Byte Select mode
+00: Interface captures all received data.
+01: Interface captures every other byte from the received data.
+10: Interface captures one byte out of four.
+11: Interface captures two bytes out of four.
+Note: This mode only works for EDM[1:0] = 00. For all other EDM values, this field must be
+programmed to the reset value.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 ENABLE: DCMI enable
+0: DCMI disabled
+1: DCMI enabled
+Note: The DCMI configuration registers must be programmed correctly before enabling this
+bit.
+Bits 13:12 Reserved, must be kept at reset value.
+Bits 11:10 EDM[1:0]: Extended data mode
+00: Interface captures 8-bit data on every pixel clock.
+01: Interface captures 10-bit data on every pixel clock.
+10: Interface captures 12-bit data on every pixel clock.
+11: Interface captures 14-bit data on every pixel clock.
+Bits 9:8 FCRC[1:0]: Frame capture rate control
+These bits define the frequency of frame capture. They are meaningful only in Continuous
+grab mode. They are ignored in snapshot mode.
+00: All frames are captured.
+01: Every alternate frame captured (50% bandwidth reduction)
+10: One frame out of four captured (75% bandwidth reduction)
+11: reserved
+Bit 7 VSPOL: Vertical synchronization polarity
+This bit indicates the level on the DCMI_VSYNC pin when the data are not valid on the
+parallel interface.
+0: DCMI_VSYNC active low
+1: DCMI_VSYNC active high
+
+RM0456 Rev 6

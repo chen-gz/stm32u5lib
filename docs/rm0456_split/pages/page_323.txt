@@ -1,0 +1,98 @@
+RM0456 Rev 6
+
+MSv62609V3
+
+RM0456
+
+Embedded flash memory (FLASH)
+Figure 26. RDP level transition scheme when TrustZone is enabled (TZEN = 1)
+Write
+RDP ;$$DQG
+RDP [DQG
+RDP [&&
+2(0
+
+Level 1
+RDP 0xAA
+RDP 0x
+RDP 0xCC
+
+2(0
+Write
+RDP = 0xAA
+Mass erase
+
+2(0
+Level 0.5
+RDP = 0x
+
+Level 2
+RDP = 0xCC
+
+Level 0
+RDP = 0xAA
+Write
+RDP = 0xCC
+
+5'3LQFUHDVHRSWLRQE\WHVPRGLILFDWLRQ
+5'3UHJUHVVLRQ±FDQRQO\EHGRQHE\GHEXJLQWHUIDFHRUE\
+ERRWORDGHU)XOOPDVVHUDVH VHFXUHDQGQRQVHFXUH 
+5HJUHVVLRQFDQEHEORFNHGE\2(0NH\
+5'3UHJUHVVLRQFDQEHGRQHE\GHEXJLQWHUIDFHE\ERRWORDGHU
+RUE\VHFXUHILUPZDUH3DUWLDOPDVVHUDVH QRQVHFXUHRQO\ 
+5HJUHVVLRQFDQEHEORFNHGE\2(0NH\
+
+Write
+RDP = 0xAA
+5HJUHVVLRQQRWSRVVLEOHE\GHIDXOW±FDQEH
+DOORZHGE\GHEXJLQWHUIDFHZLWK2(0NH\LI
+SUHYLRXVO\SURYLVLRQHGLQORZHU5'3OHYHOV
+5'3XQFKDQJHG2QO\6:$3B%$1.RSWLRQELW
+FDQEHPRGLILHG
+5'3XQFKDQJHGRSWLRQE\WHVPRGLILFDWLRQ
+MSv62610V3
+
+OEM1/OEM2 lock activation
+Two 64-bit keys (OEM1KEY and OEM2KEY) can be defined in order to lock the RDP
+regression. Each 64-bit key is coded on two registers: FLASH_OEM1KEYR1 (resp.
+FLASH_OEM2KEYR1), and FLASH_OEM1KEYR2 (resp. FLASH_OEM2KEYR2).
+OEM1KEY and OEM2KEY cannot be read through these registers. They are read as zero.
+OEM1KEYcan be modified:
+•
+
+in readout protection level 0
+
+•
+
+in readout protection level 0.5 or 1 if OEM1LOCK = 0 in FLASH_NSSR
+
+OEM2KEYcan be modified:
+•
+
+in readout protection level 0 or 0.5
+
+•
+
+in readout protection level 1 if OEM2LOCK = 0 in FLASH_NSSR
+
+When attempting to modify FLASH_OEM1KEYR1, FLASH_OEM1KEYR2 (or
+FLASH_OEM2KEYR1, FLASH_OEM2KEYR2) without following these rules, the user option
+modification is not done, and the OPTWERR bit is set.
+In order to activate OEM1 lock mechanism, the following steps are needed:
+•
+
+Check that the OEM1LOCK bit is not set or that the readout protection is at level 0.
+
+•
+
+Write a 64-bit key in FLASH_OEM1KEYR1 and FLASH_OEM1KEYR2.
+
+•
+
+Launch option modification by setting the OPTSTRT bit in FLASH_NSCR.
+
+•
+
+Wait for the BSY bit to be cleared and check that OPTWERR is not set.
+
+RM0456 Rev 6

@@ -1,0 +1,190 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 574. Directional clock encoder mode (CC1P = CC2P = 1)
+tim_ti1
+
+tim_ti2
+
+DIR bit
+
+Counter x2 mode
+
+6
+
+7
+
+7
+
+Counter x1 mode
+
+8
+
+9
+
+10
+
+8
+
+11
+
+10
+
+9
+
+9
+
+8
+
+8
+
+7
+
+7
+
+6
+
+5
+
+6
+MSv62354V1
+
+Table 550 here-below details how the directional clock mode operates, for any input
+transition.
+Table 550. Counting direction versus encoder signals and polarity settings
+
+Directional
+clock mode
+
+SMS[3:0]
+
+x2 mode
+CCxP = 0
+
+1100
+
+x2 mode
+CCxP = 1
+
+1100
+
+x1 mode
+CCxP = 0
+
+1101
+
+x1 mode
+CCxP = 1
+
+1101
+
+Level on
+opposite
+signal
+(tim_ti1fp1 for
+tim_ti2,
+tim_ti2fp2 for
+tim_ti1)
+
+tim_ti1fp1 signal
+
+tim_ti2fp2 signal
+
+Rising
+
+Falling
+
+Rising
+
+Falling
+
+High
+
+Down
+
+Down
+
+Up
+
+Up
+
+Low
+
+No count
+
+No count
+
+No count
+
+No count
+
+High
+
+No count
+
+No count
+
+No count
+
+No count
+
+Low
+
+Down
+
+Down
+
+Up
+
+Up
+
+High
+
+No count
+
+Down
+
+No count
+
+Up
+
+Low
+
+No count
+
+No count
+
+No count
+
+No count
+
+High
+
+No count
+
+No count
+
+No count
+
+No count
+
+Low
+
+Down
+
+No count
+
+Up
+
+No count
+
+Index input
+The counter can be reset by an index signal coming from the encoder, indicating an
+absolute reference position. The index signal must be connected to the tim_etr_in input. It
+can be filtered using the digital input filter.
+The index functionality is enabled with the IE bit in the TIMX_ECR register. The IE bit must
+be set only in encoder mode, when the SMS[3:0] bitfield has the following values: 0001,
+0010, 011, 1010, 1011, 1100, 1101, 1110, 1111.

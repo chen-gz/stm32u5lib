@@ -1,0 +1,165 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 6 TIM17PRIV: privileged access mode for TIM17
+0: unprivileged
+1: privileged
+Bit 5 TIM16PRIV: privileged access mode for TIM16
+0: unprivileged
+1: privileged
+Bit 4 TIM15PRIV: privileged access mode for TIM15
+0: unprivileged
+1: privileged
+Bit 3 USART1PRIV: privileged access mode for USART1
+0: unprivileged
+1: privileged
+Bit 2 TIM8PRIV: privileged access mode for TIM8
+0: unprivileged
+1: privileged
+Bit 1 SPI1PRIV: privileged access mode for SPI1PRIV
+0: unprivileged
+1: privileged
+Bit 0 TIM1PRIV: privileged access mode for TIM1
+0: unprivileged
+1: privileged
+
+5.6.7
+
+GTZC1 TZSC privilege configuration register 3
+(GTZC1_TZSC_PRIVCFGR3)
+Address offset: 0x028
+Reset value: 0x0000 0000
+Write-privileged access only.
+This register can be read or written only by secure privileged transaction when
+corresponding GTZC1_TZSC_SECCFGR register signal is set to1. If a given SEC bit is not
+set, the equivalent PRIV bit can be read/written by nonsecure privileged transaction.
+Read accesses are authorized for any type of transactions, secure or not, privileged or not.
+
+31
+
+30
+
+29
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+28
+
+27
+
+rw
+
+rw
+
+25
+
+24
+
+23
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SDMM OCTOS
+C1PRI PIMPRI
+V
+V
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+OTGP
+RIV
+rw
+
+DCAC
+ICACH
+DCMIP ADC12 HE1_R
+DMA2D TSCPR
+E_REG
+RIV
+PRIV EGPRI
+PRIV
+IV
+PRIV
+V
+rw
+
+rw
+
+rw
+
+Bits 31:29 Reserved, must be kept at reset value.

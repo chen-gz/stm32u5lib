@@ -1,0 +1,101 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+30.4.3
+
+RM0456
+
+HSPI interface to memory modes
+The HSPI supports the following protocols:
+•
+
+regular-command protocol
+
+•
+
+HyperBus protocol
+
+The HSPI uses from 6 to 21 signals to interface with a memory, depending
+on the functional mode:
+•
+
+NCS: chip-select.
+
+•
+
+CLK: communication clock
+
+•
+
+NCLK: inverted clock used only in the 1.8 V HyperBus protocol
+
+•
+
+DQS0, DQS1: data strobe used only in regular-command protocol
+
+•
+
+IO[3:0]: data bus LSB
+
+•
+
+IO[7:4]:
+
+•
+
+30.4.4
+
+–
+
+data bus MSB used in dual-quad and octal configurations
+
+–
+
+data bus used as possible remap for quad-SPI mode
+
+IO[15:8]:
+–
+
+data bus MSB used in dual-quad, dual-octal and 16-bit configurations
+
+–
+
+data bus used as possible remap for octal-SPI mode
+
+–
+
+IO[15:12] and IO[11:8] can also be used as possible remap for quad-SPI mode
+
+HSPI regular-command protocol
+When in regular-command protocol, the HSPI communicates with the external device using
+commands. Each command can include the following phases:
+•
+
+instruction phase
+
+•
+
+address phase
+
+•
+
+alternate-byte phase
+
+•
+
+dummy-cycle phase
+
+•
+
+data phase
+
+Only the data phase uses 16 bits. Instruction, address, and alternate phases use only the
+eight LSB of the bus as for octal configuration.
+Any of these phases can be configured to be skipped, but single-phase commands
+supported are only those with instruction phase.
+The NCS falls before the start of each command and rises again after each command
+finishes.
+In memory-mapped mode, both read and write operation are supported: as a consequence,
+some of the configuration registers are duplicated to specify write operations (read
+operations are configured using regular registers).

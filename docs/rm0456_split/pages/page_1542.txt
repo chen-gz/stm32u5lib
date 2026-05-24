@@ -1,0 +1,95 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+The HPF is a first order IIR filter and the cut-off frequency can be selected via HPFC[1:0] in
+the MDF reshape filter configuration register x (MDF_DFLTxRSFR), among the following
+values:
+•
+
+0.000625 x FPCM
+
+•
+
+0.00125 x FPCM
+
+•
+
+0.00250 x FPCM
+
+•
+
+0.00950 x FPCM
+Table 381. HPF 3 dB cut-off frequencies examples
+HPFC
+
+3 dB cut-off frequency for common FPCM frequencies (Hz)
+FPCM = 8 kHz
+
+FPCM = 16 kHz
+
+FPCM = 48 kHz
+
+0
+
+5
+
+10
+
+30
+
+1
+
+10
+
+20
+
+60
+
+2
+
+20
+
+40
+
+120
+
+3
+
+76
+
+152
+
+456
+
+The HPF output is saturated at 24 bits. The SATF flag is set if a sample is saturated.
+
+Offset error compensation (OEC)
+Each digital filter has its own OEC. The offset correction is performed by subtracting to the
+signal provided by the CIC, the OFFSET[25:0] in the MDF offset error compensation control
+register x (MDF_OECxCR).
+Due to the internal resynchronization, there is a delay of some cycles of mdf_proc_ck clock
+between the moment where the application writes the new offset, and the moment where
+the new offset value is effectively applied to the samples. If the application attempts to write
+a new offset value while the previous one is not yet applied, this new offset value is ignored.
+Reading back OFFSET[25:0] informs the application on the current offset value.
+
+Integrator (INT)
+The INT performs additional decimation and a resolution increase of data coming from the
+digital filter. The INT simply performs the sum of data from a digital filter for a given number
+of data samples from a filter.
+The INT is enabled by setting INTVAL[6:0] to a value different from 0.
+The amount of integrated values can be defined by INTVAL[6:0] in the range of 2 to 128.
+In order to control the data width at the integrator output, the resulting data can be divided
+by 1, 4, 32 or 128. This feature is controlled by INTDIV[1:0].
+
+39.4.9
+
+Out-of-limit detector (OLD)
+The OLD triggers an event when a signal reaches or crosses given maximum and minimum
+threshold values. The generated event can drive an interrupt or break signals
+(mdf_break[3:0]) when conditions are met.
+The OLD can be used only if the CIC filter is configured in motor and sensing mode
+(CICMOD[2:0] = 0xx).

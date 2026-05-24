@@ -1,0 +1,51 @@
+2952
+
+Serial peripheral interface (SPI)
+
+68.5.2
+
+RM0456
+
+SPI error flags
+An SPI interrupt is generated if one of the following error flags is set and the interrupt is
+enabled by setting the corresponding interrupt enable bit.
+
+Overrun flag (OVR)
+An overrun condition occurs when data are received by a master or slave and the RxFIFO
+has not enough space to store these received data. This can happen if the software or the
+DMA did not have enough time to read the previously received data (stored in the RxFIFO).
+When an overrun condition occurs, the OVR flag is set and the newly received value does
+not overwrite the previous one in the RxFIFO. The newly received value is discarded and all
+data transmitted subsequently are lost. The OVR flag triggers an interrupt if the OVRIE bit is
+set. Clearing the OVR bit is done by setting the OVRC bit of the SPI_IFCR register. Clearing
+the RxFIFO content by performing software reads before the OVR bit is cleared reduces the
+risk of any immediate repetition of its next overrun. It is suggested to release the RxFIFO
+space as much as possible, this means to read out all the available data packets based on
+RXP flag indication.
+In master mode, the user can prevent the RxFIFO overrun by automatic communication
+suspend (MASRX bit).
+
+Underrun flag (UDR)
+In a slave-transmitting mode, the underrun condition is captured internally by hardware if no
+data is available for transmission in the slave TxFIFO commonly. The UDR flag setting is
+then propagated into the status register by hardware (see note below). UDR triggers an
+interrupt if the UDRIE bit is set.
+Underrun detection logic and system behavior depend on the UDRCFG bit. When an
+underrun is detected by the slave, it can provide out either a constant pattern stored by the
+user at the UDRDR register or the data received previously from the master. When the first
+configuration (UDRCFG = 0) is applied, the underrun condition is evaluated whenever the
+master starts to communicate a new data frame while TxFIFO is empty. Then single
+additional dummy (accidental) data is always inserted between the last valid data and the
+constant pattern defined at the UDRDR register (see Figure 858). Assuming that TxFIFO is
+not empty when the master starts the communication, the underrun condition is evaluated
+just once the FIFO becomes empty during the next data flow. Valid data from TxFIFO is then
+upended by the lastly received data immediately.
+The standard transmission is reenabled once the software clears the UDR flag and this
+clearing is propagated into SPI logic by hardware. Writing some data to the TxFIFO before
+the UVR bit is cleared reduces the risk of any immediate repetition of its next underrun.
+The data transferred by the slave is unpredictable especially when the transfer starts or
+continues while TxFIFO is empty and the underrun condition is either not yet captured or
+just cleared. Typically, this is the case when SPI is just enabled or when a transfer with a
+defined size just starts. First bits can be corrupted in this case, as well, when the slave
+software writes the first data into the empty TxFIFO too close prior to starting the data
+transfer (propagation of the data into TxFIFO takes a few APB clock cycles).

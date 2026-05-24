@@ -1,0 +1,72 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+Latency on page-crossing during the read operations
+An additional latency can be needed by some devices for the read operation when crossing
+pages.
+The initial latency must be respected for any page access, as a consequence, when the first
+access is close to the page boundary, a latency is automatically added at the page crossing
+to respect the tACC time.
+Figure 178. HyperBus read operation page crossing with latency (8-bit data mode)
+12 clock
+initial latency
+
+NCS
+
+9 words
+data
+
+CLK
+3 clock initial page
+crossing latency
+
+DQS0
+IO[7:0]
+
+A0 02
+
+46 8A 80
+
+07
+
+Read from Address = 123457h
+
+dd
+
+dd dd dd
+
+dd dd dd dd dd dd
+
+dd dd dd dd
+
+Address Address
+123457 123458
+
+Address Address Address
+12345D 12345E 12345F
+
+Address Address
+123460 123461
+
+MSv43498V3
+
+16-bit data transfer using HyperBus
+In HyperBus protocol, the HSPI supports a dual-octal configuration (16-bit data transfers)
+when DMM = 1 in HSPI_CR: one octal HyperBus memory is connected to IO0-IO7 and
+another is connected to IO8-IO15. These memories share all signals except DQS that are
+dedicated.
+For 16-bit data transfers, DMODE[2:0] must be to equal to 101. Any other value in
+DMODE[2:0] correspond to 8-bit data transfer (quad-, dual-, and single-bit data transfer do
+not exist in HyperBus protocol). Command-address phase is always using 8 bits in
+HyperBus protocol (from IO8-IO15). Only the data is on 16-bit for write or read operations
+accessing the memory space (from IO0-IO15) as shown for instance in Figure 179. For the
+memory register accesses, the data is on 8-bit (from IO0 to IO7, IO8 to IO15 being not used
+but driven by the controller) as shown in Figure 177.
+The behavior of the interface at protocol-level is exactly the same as for HyperBus octal
+configuration, as described above, except that the variable latency is not supported
+in dual-octal HyperBus configuration. LM in HSPI_HLCR must be set.
+
+RM0456 Rev 6

@@ -1,0 +1,139 @@
+End of CMD
+and
+WAITRESP = not 00
+
+MSv40161V1
+
+Idle: The command path is inactive. When the command control register is written and
+the enable bit (CPSMEN) is set, the CPSM activates the SDMMC_CK clock (when
+stopped due to power save PWRSAV bit) and moves
+–
+
+to the Send state when WAITPEND = 0 and BOOTEN = 0.
+
+–
+
+to the Pending state when WAITPEND = 1.
+
+–
+
+to the Boot state when BOOTEN = 1.
+
+Send: The command is sent and the CRC is appended.
+–
+
+When CMDTRANS bit is set or when BOOTEN bit is set and BOOTMODE is
+alternative boot, and the DTDIR = receive, the CPSM DataEnable signal is issued
+to the DPSM at the end of the command.
+
+–
+
+When the CMDTRANS bit is set and the CMDSUSPEND bit is 0 the interrupt
+period is terminated at the end of the command.
+
+–
+
+When CMDSTOP bit is set the CPSM Abort signal is issued to the DPSM at the
+end of the command.
+
+–
+
+If no response is expected (WAITRESP = 00) the CPSM moves to the Idle state
+and the CMDSENT flag is set. When BOOTMODE = 1 and BOOTEN = 0 the
+CMDSENT flag is delayed 56 cycles after the command end bit, otherwise the
+
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+CMDSENT flag is generated immediately after the command end bit.
+The RESPCMDR and RESPxR registers are not modified.
+–
+•
+
+•
+
+•
+
+If a command response is expected (WAITRESP = not 00) the CPSM moves to
+the Wait state and start the response timeout.
+
+Wait: The command path waits for a response.
+–
+
+When WAITINT bit is 0 the command timer starts running and the CPSM waits for
+a start bit.
+
+a)
+
+If a start bit is detected before the timeout the CPSM moves to the Receive state.
+
+b)
+
+If the timeout is reached before the CPSM detect a response start bit, the timeout
+flag (CTIMEOUT) is set and the CPSM moves to the Idle state.
+The RESPCMDR and RESPxR registers are not modified.
+
+–
+
+When WAITINT bit is 1, the timer is disabled and the CPSM waits for an interrupt
+request (response start bit) from one of the cards.
+
+a)
+
+When a start bit is detected the CPSM moves to the Receive state.
+
+b)
+
+When writing WAITINT to 0 (interrupt mode abort), the host sends a response by
+its self and on detecting the start bit the CPSM move to the Receive state.
+
+Receive: The command response is received. Depending the response mode bits
+WAITRESP in the command control register, the response can be either short or long,
+with CRC or without CRC. The received CRC code when present is verified against the
+internally generated CRC code.
+–
+
+When the CMDSUSPEND bit is set and the SDIO Response bit BS = 0 (response
+bit [39]), the interrupt period is started after the response.
+When the CMDSUSPEND bit is cleared, or the CMDSUSPEND bit is 1 and the
+SDIO Response bit BS = 1 (response bit [39]), there is no interrupt period started.
+
+–
+
+When the CMDTRANS bit is set and the CMDSUSPEND bit is set and the SDIO
+Response bit DF= 1 (response bit [32]) the interrupt period is terminated after the
+response.
+
+–
+
+When the CRC status passes or no CRC is present the CMDREND flag is set, the
+CPSM moves to the Idle state.
+The RESPCMDR and RESPxR registers are updated with received response.
+- When BOOTMODE = 1 and BOOTEN = 0 the CMDREND flag is delayed 56
+cycles after the response end bit, otherwise the CMDREND flag is generated
+immediately after the response end bit.
+- When CMDTRANS bit is set and the DTDIR = transmit, the CPSM DataEnable
+signal is issued to the DPSM at the end of the command response.
+
+–
+
+When the CRC status fails the CCRCFAIL flag is set and the CPSM moves to the
+Idle state.
+The RESPCMDR and RESPxR registers are updated with received response.
+
+Pending: According the pending WAITPEND bit in the command register, the CPSM
+enters the pending state.
+–
+
+When DATALENGTH ≤ 5 bytes the CPSM moves to the Sent state and generates
+the DataEnable signal to start the data transfer aligned with the CMD12 Stop
+Transmission command.
+
+–
+
+When DATALENGTH > 5 bytes, the CPSM DataEnable signal is issued to the
+DPSM to start the data transfer. The CPSM waits for a send CMD signal from the
+
+RM0456 Rev 6

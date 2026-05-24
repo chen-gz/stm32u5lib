@@ -1,0 +1,174 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+Bits 9:8 TSPRESCALE[1:0]: local timestamp prescaler, used with the trace packet reference clock
+0x0: no prescaling
+0x1: Divide by 4.
+0x2: Divide by 16.
+0x3: Divide by 64.
+Bits 7:6 Reserved, must be kept at reset value.
+Bit 5 STALLENA: stall enable
+0: Drop hardware source packets and generate an overflow if the ITM output is stalled.
+1: Stall the processor to guarantee delivery of data trace packets.
+Bit 4 SWOENA: SWO enable
+Enables asynchronous clocking of the timestamp counter (read only).
+0: Timestamp counter uses processor clock.
+Bit 3 TXENA: transmit enable
+Enables forwarding of hardware event packets from the DWT unit to the trace port.
+0: disabled
+1: enabled
+Bit 2 SYNCENA: synchronization packet transmission enable
+The debugger setting this bit must also configure the DWT_CTRLR.SYNCTAP field for the
+correct synchronization speed.
+0: disabled
+1: enabled
+Bit 1 TSENA: local timestamp generation enable
+0: disabled
+1: enabled
+Bit 0 ITMENA: ITM enable
+0: disabled
+1: enabled
+
+ITM device type architecture register (ITM_DEVARCHR)
+Address offset: 0xFBC
+Reset value: 0x4770 1A01
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+ARCHITECT[10:0]
+r
+15
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+ARCHVER[3:0]
+r
+
+r
+
+r
+
+20
+
+19
+
+PRESE
+NT
+
+18
+
+16
+
+REVISION[3:0]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+ARCHPART[11:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:21 ARCHITECT[10:0]: architect JEP106 code
+0x23B: JEP106 continuation code 0x4, JEP106 ID code 0x3B. Arm limited.
+Bit 20 PRESENT: DEVARCH register presence
+0x1: present

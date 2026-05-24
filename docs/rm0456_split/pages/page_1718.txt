@@ -1,0 +1,111 @@
+1741
+
+LCD-TFT display controller (LTDC)
+
+RM0456
+
+Figure 409. Layer window programmable parameters
+WVSTPOS bits in
+LTDC_LxWVPCR
+
+Active data area
+
+WHSTPOS bits in
+LTDC_LxWHPCR
+
+WVSPPOS bits in
+LTDC_LxWVPCR
+
+Window
+
+WHSPPOS bits in LTDC_LxWHPCR
+MSv19676V4
+
+Pixel input format
+The programmable pixel format is used for the data stored in the frame buffer of a layer.
+Up to eight input pixel formats can be configured for every layer through the LTDC_LxPFCR
+register
+The pixel data is read from the frame buffer and then transformed to the internal 8888
+(ARGB) format as follows: components having a width of less than 8 bits get expanded to
+8 bits by bit replication. The selected bit range is concatenated multiple times until it is
+longer than 8 bits. Of the resulting vector, the 8 MSB bits are chosen. Example: 5 bits of an
+RGB565 red channel become (bit positions) 43210432 (the three LSBs are filled with the
+three MSBs of the five bits)
+The table below describes the pixel data mapping depending on the selected format.
+Table 432. Pixel data mapping versus color format
+ARGB8888
+@+3
+Ax[7:0]
+
+@+2
+Rx[7:0]
+
+@+1
+Gx[7:0]
+
+@
+Bx[7:0]
+
+@+7
+Ax+1[7:0]
+
+@+6
+Rx+1[7:0]
+
+@+5
+Gx+1[7:0]
+
+@+4
+Bx+1[7:0]
+
+RGB888
+@+3
+Bx+1[7:0]
+
+@+2
+Rx[7:0]
+
+@+1
+Gx[7:0]
+
+@
+Bx[7:0]
+
+@+7
+Gx+2[7:0]
+
+@+6
+Bx+2[7:0]
+
+@+5
+Rx+1[7:0]
+
+@+4
+Gx+1[7:0]
+
+RGB565
+@+3
+Rx+1[4:0] Gx+1[5:3]
+
+@+2
+Gx+1[2:0] Bx+1[4:0]
+
+@+1
+Rx[4:0] Gx[5:3]
+
+@
+Gx[2:0] Bx[4:0]
+
+@+7
+Rx+3[4:0] Gx+3[5:3]
+
+@+6
+Gx+3[2:0] Bx+3[4:0]
+
+@+5
+Rx+2[4:0] Gx+2[5:3]
+
+@+4
+Gx+2[2:0] Bx+2[4:0]
+
+ARGB1555

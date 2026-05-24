@@ -1,0 +1,526 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.2
+
+GPDMA privileged configuration register (GPDMA_PRIVCFGR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+A write access to this register must be privileged. A read access can be privileged or
+unprivileged, secure or nonsecure.
+This register can mix secure and nonsecure information. If a channel x is configured as
+secure (GPDMA_SECCFGR.SECx = 1), the PRIVx bit can be written only by a secure (and
+privileged) agent.
+A write access is ignored at bit level if the corresponding channel x is locked
+(GPDMA_RCFGLOCKR.LOCKx = 1).
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN =1.
+This register must be programmed at a bit level, at the initialization/closure of a GPDMA
+channel (GPDMA_CxCR.EN = 0), to individually allocate any channel x to the privileged or
+unprivileged world.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+PRIV8
+
+PRIV7
+
+PRIV6
+
+PRIV5
+
+PRIV4
+
+PRIV3
+
+PRIV2
+
+PRIV1
+
+PRIV0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+PRIV15 PRIV14 PRIV13 PRIV12 PRIV11 PRIV10 PRIV9
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 PRIVx: privileged state of channel x (x = 15 to 0)
+0: unprivileged
+1: privileged
+
+17.8.3
+
+GPDMA configuration lock register (GPDMA_RCFGLOCKR)
+Address offset: 0x08
+Reset value: 0x0000 0000
+This register can be written by a software agent with secure privileged attributes in order to
+individually lock, for example at boot time, the secure privileged attributes of any GPDMA
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+channel/resource (to lock the setting of GPDMA_CxSECCFGR and GPDMA_CxPRIVCFGR
+for any channel x, for example at boot time).
+A read access may be privileged or unprivileged, secure or nonsecure.
+Note:
+
+If TZEN = 0, this register cannot be written.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+LOCK1 LOCK1 LOCK1 LOCK1 LOCK1 LOCK1
+LOCK9 LOCK8 LOCK7 LOCK6 LOCK5 LOCK4 LOCK3 LOCK2 LOCK1 LOCK0
+5
+4
+3
+2
+1
+0
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+rs
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 LOCKx: lock the configuration of GPDMA_SECCFGR.SECx and GPDMA_PRIVCFGR.PRIVx,
+until a global GPDMA reset (x = 15 to 0)
+This bit is cleared after reset and, once set, it cannot be reset until a global GPDMA reset.
+0: secure privilege configuration of the channel x is writable.
+1: secure privilege configuration of the channel x is not writable.
+
+17.8.4
+
+GPDMA nonsecure masked interrupt status register
+(GPDMA_MISR)
+Address offset: 0x0C
+Reset value: 0x0000 0000
+This register is a read register.
+This is a nonsecure register, containing the masked interrupt status bit MISx for each
+nonsecure channel x (channel x configured with GPDMA_SECCFGR.SECx = 0). It is a
+logical OR of all the flags of GPDMA_CxSR, each source flag being enabled by the
+corresponding interrupt enable bit of GPDMA_CxCR.
+Every bit is deasserted by hardware when writing 1 to the corresponding flag clear bit in
+GPDMA_CxFCR.
+If a channel x is in secure state (GPDMA_SECCFGR.SECx = 1), a read access to the
+masked interrupt status bit MISx of this channel x returns zero.
+This register may mix privileged and unprivileged information, depending on the privileged
+state of each channel GPDMA_PRIVCFGR.PRIVx. A privileged software can read the full
+nonsecure interrupt status. An unprivileged software is restricted to read the status of
+unprivileged (and nonsecure) channels, other privileged bit fields returning zero.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+MIS15
+
+MIS14
+
+MIS13
+
+MIS12
+
+MIS11
+
+MIS10
+
+MIS9
+
+MIS8
+
+MIS7
+
+MIS6
+
+MIS5
+
+MIS4
+
+MIS3
+
+MIS2
+
+MIS1
+
+MIS0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+<!-- pagebreak -->
+

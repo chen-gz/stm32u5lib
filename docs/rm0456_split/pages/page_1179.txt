@@ -1,0 +1,85 @@
+RM0456 Rev 6
+
+RM0456
+
+31.3
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+SDMMC bus topology
+Communication over the bus is based on command/response and data transfers.
+The basic transaction on the SD/SDIO/e•MMC bus is the command/response transaction.
+These types of bus transaction transfer their information directly within the command or
+response structure. In addition, some operations have a data token.
+Data transfers are done in the following ways:
+•
+
+Block mode: data block(s) with block size 2N bytes with N in the range 0-14
+
+•
+
+SDIO multibyte mode: single data block with block size range 1-512 bytes
+
+•
+
+e•MMC Stream mode: continuous data stream
+
+Data transfers to/from e•MMC cards are done in data blocks or streams.
+Figure 186. SDMMC “no response” and “no data” operations
+SDMMC_CMD
+
+CMD
+
+CMD
+
+Response
+
+SDMMC_D
+Operation no response and no data
+
+Operation response no data
+
+From host to card
+From card to host
+
+MSv40124V1
+
+Figure 187. SDMMC (multiple) block read operation
+Data stop operation
+SDMMC_CMD
+
+SDMMC_D
+
+CMD
+
+Response
+
+CMD
+
+Data block
+
+CRC
+
+Data block
+
+CRC
+
+Data block
+
+Response
+
+CRC
+
+Block read operation
+Multiple block read operation
+From host to card
+From card to host
+
+Note:
+
+MSv40155V1
+
+The Stop Transmission command is not required at the end of a e•MMC multiple block read
+with predefined block count.
+
+RM0456 Rev 6

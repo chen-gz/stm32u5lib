@@ -1,0 +1,48 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 24 PRTIM: Host port interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in host mode.
+Bit 23 RSTDETM: Reset detected interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 22 Reserved, must be kept at reset value.
+Bit 21 IPXFRM: Incomplete periodic transfer mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in host mode.
+IISOOXFRM: Incomplete isochronous OUT transfer mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 20 IISOIXFRM: Incomplete isochronous IN transfer mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 19 OEPINT: OUT endpoints interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 18 IEPINT: IN endpoints interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bits 17:16 Reserved, must be kept at reset value.
+Bit 15 EOPFM: End of periodic frame interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 14 ISOODRPM: Isochronous OUT packet dropped interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 13 ENUMDNEM: Enumeration done mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.

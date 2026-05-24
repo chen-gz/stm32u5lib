@@ -1,0 +1,109 @@
+For decryption, a special key scheduling is required before processing the first block.
+
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+
+Counter (CTR) mode
+Figure 462. CTR encryption and decryption principle
+Encryption
+Counter
+
+Counter
+
++1
+
+value
+
+key
+
+value + 1
+
+key
+
+Encrypt
+
+Plaintext block 1
+
+Counter
+
++1
+
+key
+
+Encrypt
+
+Plaintext block 2
+
+Ciphertext block 1
+
+value + 2
+
+Encrypt
+
+Plaintext block 3
+
+Ciphertext block 2
+
+Ciphertext block 3
+
+Decryption
+Counter
+
+Counter
+
++1
+
+value
+
+Legend
+
+key
+
+value + 1
+
+key
+
+Decrypt
+
+Counter
+
++1
+
+value + 2
+
+key
+
+Decrypt
+
+Decrypt
+
+input
+output
+XOR
+
+Plaintext block 1
+
+Plaintext block 2
+
+Ciphertext block 1
+
+Plaintext block 3
+
+Ciphertext block 2
+
+Ciphertext block 3
+MSv42142V1
+
+The CTR mode uses the AES core to generate a key stream. The keys are then XOR-ed
+with the plaintext to obtain the ciphertext as specified in NIST Special Publication 800-38A,
+Recommendation for Block Cipher Modes of Operation.
+Note:
+
+Unlike with ECB and CBC modes, no key scheduling is required for the CTR decryption,
+since in this chaining scheme the AES core is always used in encryption mode for producing
+the key stream, or counter blocks.
+
+RM0456 Rev 6

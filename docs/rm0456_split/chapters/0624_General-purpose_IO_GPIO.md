@@ -1,0 +1,246 @@
+642
+
+General-purpose I/Os (GPIO)
+
+RM0456
+
+Table 127. Port bit configuration(1) (continued)
+MODE(i)[1:0]
+
+OTYPE(i)
+
+11
+
+I/O configuration
+
+0
+
+0
+
+AF
+
+PP
+
+0
+
+0
+
+1
+
+AF
+
+PP + PU
+
+0
+
+1
+
+0
+
+AF
+
+PP + PD
+
+1
+
+1
+
+0
+
+0
+
+AF
+
+OD
+
+1
+
+0
+
+1
+
+AF
+
+OD + PU
+
+1
+
+1
+
+0
+
+AF
+
+OD + PD
+
+1
+
+1
+
+1
+
+1
+
+00
+
+PUPD(i)[1:0]
+
+0
+
+0
+
+10
+
+OSPEED(i)[1:0]
+
+SPEED[1:0]
+
+Reserved
+
+Reserved
+
+x
+
+x
+
+x
+
+0
+
+0
+
+Input
+
+Floating
+
+x
+
+x
+
+x
+
+0
+
+1
+
+Input
+
+PU
+
+x
+
+x
+
+x
+
+1
+
+0
+
+Input
+
+PD
+
+x
+
+x
+
+x
+
+1
+
+1
+
+Reserved (input floating)
+
+x
+
+x
+
+x
+
+0
+
+0
+
+x
+
+x
+
+x
+
+0
+
+1
+
+Reserved
+
+x
+
+x
+
+x
+
+1
+
+0
+
+Input/Output
+
+x
+
+x
+
+x
+
+1
+
+1
+
+Input/output
+
+Analog
+
+Analog
+Reserved
+
+1. GP = general-purpose, PP = push-pull, PU = pull-up, PD = pull-down, OD = open-drain, AF = alternate function.
+
+13.3.1
+
+General-purpose I/O (GPIO)
+During and just after reset, the alternate functions are not active and most of the I/O ports
+are configured in analog mode.
+The debug pins are in AF pull-up/pull-down after reset:
+•
+
+PA15: JTDI in pull-up
+
+•
+
+PA14: JTCK/SWCLK in pull-down
+
+•
+
+PA13: JTMS/SWDIO in pull-up
+
+•
+
+PB4: NJTRST in pull-up
+
+•
+
+PB3: JTDO/TRACESWO in floating state no pull-up/pull-down
+
+PH3/BOOT0 is in input mode during the reset until at least the end of the option byte loading
+phase (see Section 13.3.15).
+When the pin is configured as output, the value written to the output data register
+(GPIOx_ODR) is output on the I/O pin. It is possible to use the output driver in push-pull
+mode or open-drain mode (only the low level is driven, the high level is high-Z).
+The input data register (GPIOx_IDR) captures the data present on the I/O pin at every AHB
+clock cycle.
+All GPIO pins have weak internal pull-up and pull-down resistors, that can be activated or
+not depending on the value in the GPIOx_PUPDR register.
+
+<!-- pagebreak -->
+

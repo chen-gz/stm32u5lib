@@ -1,0 +1,87 @@
+935
+
+Extended interrupts and event controller (EXTI)
+
+RM0456
+
+When a CPU wake-up (interrupt) or CPU event is enabled, the asynchronous edge
+detection circuit is reset by the clocked delay and rising edge detect pulse generator. This
+guarantees that the EXTI hclk clock is woken up before the asynchronous edge detection
+circuit is reset.
+Note:
+
+A detected configurable event interrupt pending request can be cleared by the CPU with the
+correct access permission. The system is not able to enter into low-power modes as long as
+an interrupt pending request is active.
+
+23.3.2
+
+EXTI mux selection
+The EXTI mux allows the selection of GPIOs as interrupts and wake-up. GPIOs are
+connected via 16 EXTI mux lines to the first 16 EXTI events as configurable event.
+The selection of GPIO port as EXTI mux output is controlled in EXTI_EXTICRm.
+Figure 103. EXTI mux GPIO selection
+EXTI_EXTICR1.EXTI1
+
+EXTI_EXTICR1.EXTI0
+
+EXTI_EXTICR1.EXTI15
+
+PA0
+
+PA1
+
+PA15
+
+PB0
+
+PB1
+
+PB15
+
+………....
+
+PC1
+
+………....
+
+EXTI0
+
+Px0
+
+Px1
+
+EXTI1
+
+………....
+
+PC15
+
+EXTI15
+
+………....
+
+PC0
+
+Px15
+MS44726V1
+
+The EXTI mux outputs are available as output signals from the EXTI to trigger other
+peripherals, whatever the masking in EXTI_IMR and EXTI_EMR registers.
+
+23.4
+
+EXTI functional behavior
+The configurable events are enabled by enabling at least one of the trigger edges.
+Once an event input is enabled, the CPU wake-up generation is conditioned by the CPU
+interrupt mask and CPU event mask.
+Table 191. Masking functionality
+
+CPU interrupt
+enable (in
+EXTI_IMR.IMn)
+
+0
+
+<!-- pagebreak -->
+

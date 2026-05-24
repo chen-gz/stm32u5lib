@@ -1,0 +1,80 @@
+Table 134. Peripherals interconnect matrix(1) (2) (continued)
+
+RM0456
+
+Peripherals interconnect matrix
+
+16.3
+
+Interconnection details
+
+16.3.1
+
+Master to slave interconnection for timers
+From timer (TIM1/2/3/4/5/8/15/16/17) to timer (TIM1/2/3/4/5/8/15).
+
+Purpose
+Some of the TIMx timers are linked together internally for timer synchronization or chaining.
+When one timer is configured in master mode, it can reset, start, stop, or clock the counter
+of another timer configured in slave mode.
+A description of the feature is provided in Section 55.4.23: Timer synchronization.
+The synchronization modes are detailed in:
+•
+
+Section 54.3.30 for advanced-control timers TIM1/TIM8
+
+•
+
+Section 55.4.22 for general-purpose timers TIM2/TIM3/TIM4/TIM5
+
+•
+
+Section 56.4.23 for the general-purpose timer TIM15
+
+Triggering signals
+The output (from master) is on signal TIMx_TRGO (and TIMx_TRGO2 for TIM1/8) following
+a configurable timer event. It can be also from signals tim16_oc1 and tim17_oc1 in case of
+TIM16/17. The input (to slave) is on signals TIMx_ITR0/1/2/3.
+The possible master/slave connections are given in:
+•
+
+Table 538 for advanced-control timers TIM1/8
+
+•
+
+Table 563 for general-purpose timers TIM2/3/4/5
+
+•
+
+Table 580 for the general-purpose timers TIM15
+
+Active power mode
+Timers are optionally active in Run and Sleep modes. The effects of low-power modes on
+TIMx are given in:
+
+16.3.2
+
+•
+
+Table 552: Effect of low-power modes on TIM1/TIM8
+
+•
+
+Table 572: Effect of low-power modes on TIM2/TIM3/TIM4/TIM5
+
+•
+
+Table 587: Effect of low-power modes on TIM15/TIM16/TIM17
+
+Triggers to ADCs
+From EXTI, timers (TIM1/2/3/4/5/6/8/15/16/17) and LP timers (LPTIM1/ 2/3/4) to
+ADC1/ADC2
+From EXTI, timers (TIM1/2/6/15) and LP timers (LPTIM1/3) to ADC4
+
+Purpose
+A conversion, or a sequence of conversions, can be triggered either by software or by
+an external event (such as timer capture or input pins). For ADC12, if the EXTEN[1:0]
+control bits (for a regular conversion) or JEXTEN[1:0] bits (for an injected conversion) are
+different from 0b00, then external events can trigger a conversion with the selected polarity.
+
+RM0456 Rev 6

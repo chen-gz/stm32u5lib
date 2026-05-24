@@ -1,0 +1,88 @@
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+It is not recommended to program the flash memory using the memory-mapped writes:
+the indirect-write mode fulfills this operation.
+The memory-mapped mode is entered by setting FMODE[1:0] = 11. The programmed
+instruction and frame is sent when an AHB master is accessing the memory mapped space.
+The FIFO is used as a prefetch buffer to anticipate any linear reads. Any access to
+HSPI_DR in this mode returns zero.
+The data length register (HSPI_DLR) has no meaning in memory-mapped mode.
+All the configuration operation must be completed before the first access to the memory
+area. On the first access, the HSPI becomes busy, and no configuration is allowed.
+Then, the only way to get BUSY low is to clear the ENABLE bit or to abort by setting
+the ABORT bit.
+
+30.4.17
+
+HSPI error management
+The following errors set the TEF flag in HSPI_SR and generates an interrupt if enabled
+(TEIE = 1 in HSPI_CR):
+•
+
+in indirect or automatic status-polling mode, when a wrong address has been
+programmed in HSPI_AR (according to the device size defined by DEVSIZE[4:0]).
+
+•
+
+in indirect mode, if the address plus the data length exceed the device size. TEF is set
+as soon as the access is triggered.
+
+In memory-mapped mode, the HSPI generates an AHB slave error in the following
+situations:
+
+30.4.18
+
+•
+
+The memory-mapped mode is disabled and an AHB read or write request occurs.
+
+•
+
+Read or write address exceeds the size of the external memory.
+
+•
+
+Abort is received while a read or write burst is ongoing when the abort condition is
+present at the moment of transfer phases preceding the data phase (In incremental or
+wrap burst type modes). To avoid the error, refer to Section 30.4.19: HSPI BUSY and
+ABORT.
+
+•
+
+The HSPI is disabled while a read or write burst is requested.
+
+•
+
+A write wrap burst is received.
+
+•
+
+A write request is received while DQSE = 0 in HSPI_WCCR in octal DTR mode, in
+dual-memory configuration, in hyperbus mode or 16-bit mode.
+
+•
+
+A read or write request is received while DMODE[2:0] = 000 (no data phase), except
+when MTYP[2:0] is HyperBus.
+
+•
+
+Illegal access size when wrap read burst. This means AHB Bus transfer size (HSIZE) is
+different from 4 bytes (only for memory-mapped mode).
+
+•
+
+Bit DMM is set in HSPI_CR (dual-memory configuration) and 16-bit mode is set.
+
+HSPI high-speed interface and calibration
+To reach higher frequencies, a dedicated high-speed interface is inserted between the HSPI
+(or the I/O manager in case the product embeds one), and the I/O pads.
+The following is valid for all data bus sizes 1, 2, 4, 8 or 16 bits.
+The high-speed interface block embeds resynchronization registers that are clocked by a
+delayed clock created from a DLL (delay locked loop) also located in the high-speed
+interface. The high-speed interface features are controlled by registers located in the HSPI.
+
+RM0456 Rev 6

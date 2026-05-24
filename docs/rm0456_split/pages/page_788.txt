@@ -1,0 +1,166 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+LPDMA data handling: byte-based padding/truncation, sign extension and
+left/right alignment
+The user can configure some data manipulation between a transferred data from the source
+and its transfer to the destination. Data handling is controlled by the LPDMA_CxTR1
+register:
+•
+
+If destination data width = source data width (DDW_LOG2[1:0] = SDW_LOG2[1:0]), the
+source data is copied as is and transferred to the destination.
+
+•
+
+Else, depending on PAM:
+–
+
+If destination data width > source data width, the source data can be either rightaligned and padded with 0 s, or sign extended up to the destination data width.
+
+–
+
+If destination data width < source data width, the source data can be either rightaligned and left-truncated down to the destination data width, or left-aligned and
+right-truncated down to the destination data width.
+
+There is no data manipulation between two distinct transferred data from the source, before
+the generation of the destination transfer.
+The table below lists possible data handling from the source to the destination.
+Table 153. Programmed data handling
+SDW_
+LOG2[1:0]
+
+00
+
+01
+
+10
+
+Source
+data
+
+Byte
+
+Half-word
+
+Word
+
+Source
+data
+stream(1)
+
+B7,B6,B5,B4,
+B3,B2,B1,B0
+
+B7B6,B5B4,
+B3B2,B1B0
+
+B7B6B5B4,
+B3B2B1B0
+
+DDW_
+LOG2[1:0]
+
+Destination
+data
+
+PAM[0]
+
+Destination data
+stream(1)
+
+00
+
+Byte
+
+x
+
+B7,B6,B5,B4,B3,B2,B1,B0
+
+01
+
+Half-word
+
+10
+
+Word
+
+00
+
+Byte
+
+01
+
+Half-word
+
+10
+
+Word
+
+00
+
+Byte
+Half-word
+
+01
+
+Word
+
+10
+
+0 (RA, 0P)(2)(3)
+
+0B3,0B2,0B1,0B0
+
+1 (RA, SE)(2)(4)
+
+SB3,SB2,SB1,SB0
+
+0 (RA, 0P)
+
+000B1,000B0
+
+1 (RA, SE)
+
+SSSB1,SSSB0
+
+0 (RA, LT)(2)
+
+B6,B4,B2,B0
+
+1 (LA, RT)(2)
+
+B7,B5,B3,B1
+
+xx
+0 (RA, 0P)
+
+00B3B2,00B1B0
+
+1 (RA, SE)
+
+SSB3B2,SSB1B0
+
+0 (RA, LT)
+
+B12,B8,B4,B0
+
+1 (LA, RT)
+
+B15,B11,B7,B3
+
+0 (RA, LT)
+
+B5B4,B1B0
+
+1 (LA, RT)
+
+B7B6,B3B2
+
+1. Data stream is timely ordered starting from the byte with the lowest index a.k.a B0.
+2. RA = right aligned. LA = left aligned. RT= right truncated. LT = left truncated.
+3. 0P = zero bit padding up to the destination data width.
+4. SE = sign bit extended up to the destination data width.

@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:22 PRIO[1:0]: priority level of the channel x GPDMA transfer versus others
+00: low priority, low weight
+01: low priority, mid weight
+10: low priority, high weight
+11: high priority
+Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.
+Bits 21:18 Reserved, must be kept at reset value.
+Bit 17 LAP: linked-list allocated port
+This bit is used to allocate the master port for the update of the GPDMA linked-list registers
+from the memory.
+0: port 0 (AHB) allocated
+1: port 1 (AHB) allocated
+Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.
+Bit 16 LSM: Link step mode
+0: channel executed for the full linked-list and completed at the end of the last LLI
+(GPDMA_CxLLR = 0). The 16 low-significant bits of the link address are null (LA[15:0] = 0)
+and all the update bits are null (UT1 = UB1 = UT2 = USA = UDA = ULL = 0 and
+UT3 = UB2 = 0). Then GPDMA_CxBR1.BNDT[15:0] = 0 and GPDMA_CxBR1.BRC[10:0] = 0.
+1: channel executed once for the current LLI
+First the (possible 1D/repeated) block transfer is executed as defined by the current internal
+register file until GPDMA_CxBR1.BNDT[15:0] = 0 and GPDMA_CxBR1.BRC[10:0] = 0.
+Secondly the next linked-list data structure is conditionally uploaded from memory as defined
+by GPDMA_CxLLR. Then channel execution is completed.
+Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 TOIE: trigger overrun interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 13 SUSPIE: completed suspension interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 12 USEIE: user setting error interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 11 ULEIE: update link transfer error interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 10 DTEIE: data transfer error interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 9 HTIE: half transfer complete interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+
+RM0456 Rev 6

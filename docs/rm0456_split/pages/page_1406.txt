@@ -1,0 +1,87 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Figure 294. Auto-off mode state diagram
+
+Consecutive
+SW or HW
+trigger
+
+Voltage
+regulator ON
+ADC disabled
+
+ADVREGEN = 1
+and LDORDY = 1
+
+ADEN = 1
+
+SCAN
+conversion
+
+1st SW or
+HW
+trigger
+
+Calibration
+ADC
+enable
+
+Conversion
+
+ADDIS = 1
+
+ADC in DeepPower-Down
+
+ADVREGEN=0
+
+EOS and
+AUTOFF = 1
+
+MSv62486V2
+
+Figure 295. ADC behavior with WAIT = 0 and AUTOFF = 1
+
+TRGx
+
+EOC
+EOS
+ADC_DR Read
+access
+ADC state
+
+RDY Startup
+
+ADC_DR
+by S/W
+
+CH1
+
+CH2
+
+CH3
+
+CH4
+
+D1
+
+D2
+
+D3
+
+OFF
+
+Startup
+
+D4
+
+by H/W
+
+triggered
+MSv30345V2
+
+1. EXTSEL = TRGx, EXTEN = 01 (rising edge), CONT = x, ADSTART = 1, CHSEL = 0xF, SCANDIR = 0, WAIT = 0,
+AUTOFF = 1.

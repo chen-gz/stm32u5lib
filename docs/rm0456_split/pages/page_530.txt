@@ -1,0 +1,176 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.12
+
+RM0456
+
+RCC PLL1 dividers register (RCC_PLL1DIVR)
+Address offset: 0x034
+Reset value: 0x0101 0280
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+Res.
+
+27
+
+26
+
+25
+
+24
+
+PLL1R[6:0]
+
+15
+
+23
+
+22
+
+21
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+17
+
+16
+
+PLL1Q[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+PLL1P[6:0]
+rw
+
+20
+
+Res.
+
+PLL1N[8:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bits 30:24 PLL1R[6:0]: PLL1 DIVR division factor
+This bitfield is set and reset by software to control frequency of the pll1_r_ck clock. It can be written
+only when the PLL1 is disabled (PLL1ON = 0 and PLL1RDY = 0). Only division by one and even
+division factors are allowed.
+0000000: pll1_r_ck = vco1_ck
+0000001: pll1_r_ck = vco1_ck / 2 (default after reset)
+0000010: reserved
+0000011: pll1_r_ck = vco1_ck / 4
+...
+1111111: pll1_r_ck = vco1_ck / 128
+Bit 23 Reserved, must be kept at reset value.
+Bits 22:16 PLL1Q[6:0]: PLL1 DIVQ division factor
+This bitfield is set and reset by software to control the frequency of the pll1_q_ck clock. It can be
+written only when the PLL1 is disabled (PLL1ON = 0 and PLL1RDY = 0).
+0000000: pll1_q_ck = vco1_ck
+0000001: pll1_q_ck = vco1_ck / 2 (default after reset)
+0000010: pll1_q_ck = vco1_ck / 3
+0000011: pll1_q_ck = vco1_ck / 4
+...
+1111111: pll1_q_ck = vco1_ck / 128
+Bits 15:9 PLL1P[6:0]: PLL1 DIVP division factor
+This bitfield is set and reset by software to control the frequency of the pll1_p_ck clock. It can be
+written only when the PLL1 is disabled (PLL1ON = 0 and PLL1RDY = 0).
+0000000: pll1_p_ck = vco1_ck
+0000001: pll1_p_ck = vco1_ck / 2 (default after reset)
+0000010: pll1_p_ck = vco1_ck / 3
+0000011: pll1_p_ck = vco1_ck / 4
+...
+1111111: pll1_p_ck = vco1_ck / 128

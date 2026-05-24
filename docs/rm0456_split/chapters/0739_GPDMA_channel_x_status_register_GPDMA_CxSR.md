@@ -1,0 +1,195 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+Bit 10 DTEF: data transfer error flag clear
+0: no effect
+1: corresponding DTEF flag cleared
+Bit 9 HTF: half transfer flag clear
+0: no effect
+1: corresponding HTF flag cleared
+Bit 8 TCF: transfer complete flag clear
+0: no effect
+1: corresponding TCF flag cleared
+Bits 7:0 Reserved, must be kept at reset value.
+
+17.8.8
+
+GPDMA channel x status register (GPDMA_CxSR)
+Address offset: 0x60 + 0x80 * x (x = 0 to 15)
+Reset value: 0x0000 0001
+This is a read register, reporting the channel status.
+This register is secure or nonsecure, depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of the channel (GPDMA_PRIVCFGR.PRIVx).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+r
+
+r
+
+r
+
+FIFOL[7:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TOF
+
+SUSPF
+
+USEF
+
+ULEF
+
+DTEF
+
+HTF
+
+TCF
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+IDLEF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:16 FIFOL[7:0]: monitored FIFO level
+Number of available write beats in the FIFO, in units of the programmed destination data
+width (see GPDMA_CxTR1.DDW_LOG2[1:0], in units of bytes, half-words, or words).
+Note: After having suspended an active transfer, the user may need to read FIFOL[7:0],
+additionally to GPDMA_CxBR1.BDNT[15:0] and GPDMA_CxBR1.BRC[10:0], to know
+how many data have been transferred to the destination. Before reading, the user may
+wait for the transfer to be suspended (GPDMA_CxSR.SUSPF = 1).
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 TOF: trigger overrun flag
+0: no trigger overrun event
+1: a trigger overrun event occurred
+Bit 13 SUSPF: completed suspension flag
+0: no completed suspension event
+1: a completed suspension event occurred
+Bit 12 USEF: user setting error flag
+0: no user setting error event
+1: a user setting error event occurred
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

@@ -1,0 +1,41 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Auto-injection mode
+If the JAUTO bit is set in the ADC_CFGR1 register, the channels in the injected group are
+automatically converted after the regular group of channels. This can be used to convert a
+sequence of up to 20 conversions programmed in the ADC_SQRy and ADC_JSQR
+registers.
+In this mode, the ADSTART bit in the ADC_CR register must be set to start regular
+conversions, followed by injected conversions (JADSTART must be kept cleared). Setting
+the ADSTP bit aborts both regular and injected conversions (JADSTP bit must not be used).
+In this mode, the external trigger on injected channels must be disabled.
+If the CONT bit is also set in addition to the JAUTO bit, regular channels followed by injected
+channels are continuously converted.
+Note:
+
+It is not possible to use both the auto-injected and discontinuous modes simultaneously.
+When the DMA is used for exporting the regular sequencer’s data in JAUTO mode, it is
+necessary to program it in circular mode (CIRC bit set in the DMA_CCRx register). If the
+CIRC bit is reset (single-shot mode), the JAUTO sequence is stopped upon a DMA Transfer
+Complete event.
+Figure 232. Injected conversion latency
+
+adc_ker_ck
+
+Injection event
+
+Reset ADC
+
+max. latency
+
+(1)
+
+SOC
+
+MSv43771V1
+
+1. The maximum latency value can be found in the electrical characteristics of the device datasheet.

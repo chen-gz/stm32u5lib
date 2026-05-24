@@ -1,0 +1,92 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+GMAC is similar to GCM, except that it is applied on a message composed only by plaintext
+authenticated data (that is, only header, no payload).
+
+Counter with CBC-MAC (CCM) principle
+Figure 465. CCM encryption and authentication principle
+B0
+
+key
+
+Init
+(Encrypt)
+
+key
+
+Plaintext block 1
+Initialization
+vector
+
+Legend
+input
+
++1
+
+Count 1
+
+key
+
+key
+
+Encrypt
+
+Plaintext block 2
+
+Ciphertext block 1
+
+Encrypt
+
++1
+
+Count 2
+
+Count 3
+
+key
+
+Encrypt
+
+Encrypt
+
+Plaintext block 3
+
+Ciphertext block 2
+
+Encrypt
+
+Ciphertext block 3
+
+Encrypt
+
+output
+XOR
+
+Final
+
+TAG
+MSv42145V1
+
+In Counter with cipher block chaining-message authentication code (CCM) mode, the
+plaintext message is encrypted while a message authentication code (MAC) is computed in
+parallel, thus generating the corresponding ciphertext and the corresponding MAC (also
+known as tag). It is described by NIST in Special Publication 800-38C, Recommendation for
+Block Cipher Modes of Operation - The CCM Mode for Authentication and Confidentiality.
+CCM mode is based on AES in counter mode for confidentiality and it uses CBC for
+computing the message authentication code. It requires an initial value.
+Like GCM, the CCM chaining mode can be applied on a message composed only by
+plaintext authenticated data (that is, only header, no payload). Note that this way of using
+CCM is not called CMAC (it is not similar to GCM/GMAC), and its use is not recommended
+by NIST.
+
+49.4.4
+
+AES procedure to perform a cipher operation
+Introduction
+A typical cipher operation is explained below. Detailed information is provided in sections
+starting from Section 49.4.8: AES basic chaining modes (ECB, CBC).
+
+RM0456 Rev 6

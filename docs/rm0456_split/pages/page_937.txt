@@ -1,0 +1,122 @@
+•
+
+Alternatively, uses fully programmable polynomial with programmable size (7, 8, 16, 32
+bits)
+
+•
+
+Handles 8-,16-, 32-bit data size
+
+•
+
+Programmable CRC initial value
+
+•
+
+Single input/output 32-bit data register
+
+•
+
+Input buffer to avoid bus stall during calculation
+
+•
+
+CRC computation done in 4 AHB clock cycles (HCLK) for the 32-bit data size
+
+•
+
+General-purpose 8-bit register (can be used for temporary storage)
+
+•
+
+Reversibility option on I/O data
+
+•
+
+Accessed through AHB slave peripheral by 32-bit words only, with the exception of
+CRC_DR register that can be accessed by words, right-aligned half-words and
+right-aligned bytes
+
+RM0456 Rev 6
+
+RM0456
+
+Cyclic redundancy check calculation unit (CRC)
+
+24.3
+
+CRC functional description
+
+24.3.1
+
+CRC block diagram
+Figure 104. CRC calculation unit block diagram
+
+32-bit AHB bus
+read access
+
+write access
+
+Data register
+(output)
+
+crc_hclk
+
+32-bit accesses
+
+Data register
+(input)
+
+CRC_INIT
+CRC_CR
+
+CRC computation
+CRC_POL
+CRC_IDR
+
+MS19882V3
+
+24.3.2
+
+CRC internal signals
+Table 195. CRC internal input/output signals
+
+24.3.3
+
+Signal name
+
+Signal type
+
+crc_hclk
+
+Digital input
+
+Description
+AHB clock
+
+CRC operation
+The CRC calculation unit has a single 32-bit read/write data register (CRC_DR). It is used to
+input new data (write access), and holds the result of the previous CRC calculation (read
+access).
+Each write operation to the data register creates a combination of the previous CRC value
+(stored in CRC_DR) and the new one. CRC computation is done on the whole 32-bit data
+word or byte by byte depending on the format of the data being written.
+The CRC_DR register can be accessed by word, right-aligned half-word and right-aligned
+byte. For the other registers only 32-bit accesses are allowed.
+The duration of the computation depends on data width:
+•
+
+4 AHB clock cycles for 32 bits
+
+•
+
+2 AHB clock cycles for 16 bits
+
+•
+
+1 AHB clock cycles for 8 bits
+
+An input buffer allows a second data to be immediately written without waiting for any
+wait-states due to the previous CRC calculation.
+
+RM0456 Rev 6

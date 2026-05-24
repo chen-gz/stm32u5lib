@@ -1,0 +1,139 @@
+RM0456 Rev 6
+
+RM0456
+
+35.4.2
+
+Digital-to-analog converter (DAC)
+
+DAC pins and internal signals
+The DAC includes:
+•
+
+Up to two output channels
+
+•
+
+The DACx_OUTy can be disconnected from the output pin and used as an ordinary
+GPIO
+
+•
+
+The dac_outx can use an internal pin connection to on-chip peripherals such as
+comparator, operational amplifier and ADC (if available).
+
+•
+
+DAC output channel buffered or non buffered
+
+•
+
+Sample and hold block and registers operational in Stop mode, using the LSI/LSE clock
+source (dac_hold_ck) for static conversion.
+
+The DAC includes up to two separate output channels. Each output channel can be
+connected to on-chip peripherals such as comparator, operational amplifier and ADC (if
+available). In this case, the DAC output channel can be disconnected from the DACx_OUTy
+output pin and the corresponding GPIO can be used for another purpose.
+The DAC output can be buffered or not. The sample and hold block and its associated
+registers can run in Stop mode using the LSI/LSE clock source (dac_hold_ck).
+Table 341. DAC input/output pins
+Pin name
+
+Signal type
+
+Remarks
+
+VREF+
+
+Input, analog positive
+reference
+
+The higher/positive reference voltage for the DAC,
+VREF+ ≤ VDDAmax (refer to datasheet)
+
+VDDA
+
+Input, analog supply
+
+Analog power supply
+
+VSSA
+
+Input, analog supply ground
+
+Ground for analog power supply
+
+DACx_OUTy Analog output signal
+
+DACx channely analog output
+
+Table 342. DAC internal input/output signals
+Internal signal name
+
+Signal type
+
+Description
+
+dac_ch1_dma
+
+Bidirectional DAC channel1 DMA request/acknowledge
+
+dac_ch2_dma
+
+Bidirectional DAC channel2 DMA request/acknowledge
+
+dac_ch1_trgx (x = 1 to 15)
+
+Inputs
+
+DAC channel1 trigger inputs
+
+dac_ch2_trgx (x = 1 to 15)
+
+Inputs
+
+DAC channel2 trigger inputs
+
+dac_unr_it
+
+Output
+
+DAC underrun interrupt
+
+dac_hclk
+
+Input
+
+DAC peripheral clock
+
+dac_ker_ck
+
+Input
+
+DAC kernel clock
+
+dac_hold_ck
+
+Input
+
+DAC low-power clock used in sample and hold mode
+
+dac_out1
+
+Analog
+output
+
+DAC channel1 output for on-chip peripherals
+
+dac_out2
+
+Analog
+output
+
+DAC channel2 output for on-chip peripherals
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

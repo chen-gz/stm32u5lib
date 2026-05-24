@@ -1,0 +1,52 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+mode for high-speed write operation timeout. When set to 1, this bit allows the PRESP_TO
+from HSWR_TOCNT to be used only once, when both of the following conditions are met:
+•
+
+the LTDC VSYNC signal rises and falls
+
+•
+
+the packets originated from the LTDC interface in adapted command mode are
+transmitted and its FIFO is empty again.
+
+In this scenario, non-adapted command mode requests are not sent to the D-PHY, even if
+there is traffic from the generic interface ready to be sent, returning them to the Stop state.
+When it happens, the PRESP_TO counter is activated and only when it is completed, the
+DSI Host sends any other traffic that is ready, as illustrated in Figure 426.
+Figure 426. Effect of prep mode at 1
+dpivsync_edpiwms
+dpidataen
+dpidata[29:0]
+
+A10
+
+A20
+
+A30
+
+edpi_fifo_empty
+gen_wr_en
+gen_data[31:0]
+link_state[1:0]
+
+B3
+
+LP
+
+HS
+
+LP
+
+HS
+
+LP
+
+link_data[31:0]
+PRESP_TO_active
+MSv35880V1

@@ -1,0 +1,218 @@
+Event
+
+Event flag
+
+Enable control bit
+
+Clear method
+
+Unsupported operation
+
+OPERRF
+
+OPERRIE
+
+Set OPERRFC bit
+
+Access to unmapped address error
+
+ADDRERRF
+
+ADDRERRIE
+
+Set ADDRERRFC bit
+
+PKA RAM access error
+
+RAMERRF
+
+RAMERRIE
+
+Set RAMERRFC bit
+
+PKA end of operation
+
+PROCENDF
+
+PROCENDIE
+
+Set PROCENDFC bit
+
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+
+53.7
+
+PKA registers
+
+53.7.1
+
+PKA control register (PKA_CR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+OP
+ERRIE
+
+ADDR
+ERRIE
+
+RAM
+ERRIE
+
+18
+
+17
+
+16
+
+Res.
+
+PROC
+ENDIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+START
+
+EN
+
+rw
+
+rw
+
+MODE[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 OPERRIE: Operation error interrupt enable
+0: No interrupt is generated when OPERRF flag is set in PKA_SR.
+1: An interrupt is generated when OPERRF flag is set in PKA_SR.
+Bit 20 ADDRERRIE: Address error interrupt enable
+0: No interrupt is generated when ADDRERRF flag is set in PKA_SR.
+1: An interrupt is generated when ADDRERRF flag is set in PKA_SR.
+Bit 19 RAMERRIE: RAM error interrupt enable
+0: No interrupt is generated when RAMERRF flag is set in PKA_SR.
+1: An interrupt is generated when RAMERRF flag is set in PKA_SR.
+Bit 18 Reserved, must be kept at reset value.
+Bit 17 PROCENDIE: End of operation interrupt enable
+0: No interrupt is generated when PROCENDF flag is set in PKA_SR.
+1: An interrupt is generated when PROCENDF flag is set in PKA_SR.
+Bits 16:14 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

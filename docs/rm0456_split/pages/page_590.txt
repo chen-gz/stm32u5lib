@@ -1,0 +1,53 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bits 25:24 FDCAN1SEL[1:0]: FDCAN1 kernel clock source selection
+These bits are used to select the FDCAN1 kernel clock source.
+00: HSE clock selected
+01: PLL1“Q” (pll1_q_ck) selected
+10: PLL2 “P” (pll2_p_ck) selected
+11: reserved
+Bits 23:22 SYSTICKSEL[1:0]: SysTick clock source selection
+These bits are used to select the SysTick clock source.
+00: HCLK/8 selected
+01: LSI selected
+10: LSE selected
+11: reserved
+Note: When LSE or LSI is selected, the AHB frequency must be at least four times higher than
+the LSI or LSE frequency. In addition, a jitter up to one HCLK cycle is introduced, due to
+the LSE or LSI sampling with HCLK in the SysTick circuitry.
+Bits 21:20 SPI1SEL[1:0]: SPI1 kernel clock source selection
+These bits are used to select the SPI1 kernel clock source.
+00: PCLK2 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The SPI1 is functional in Stop 0 and Stop 1 mode only when the kernel clock is HSI16 or
+MSIK.
+Bits 19:18 LPTIM2SEL[1:0]: Low-power timer 2 kernel clock source selection
+These bits are used to select the LPTIM2 kernel clock source.
+00: PCLK1 selected
+01: LSI selected
+10: HSI16 selected
+11: LSE selected
+Note: The LPTIM2 is functional in Stop 0 and Stop 1 mode only when the kernel clock is LSI,
+LSE or HSI16 if HSIKERON = 1.
+Bits 17:16 SPI2SEL[1:0]: SPI2 kernel clock source selection
+These bits are used to select the SPI2 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The SPI2 is functional in Stop 0 and Stop 1 mode only when the kernel clock is HSI16 or
+MSIK.
+Bits 15:14 I2C4SEL[1:0]: I2C4 kernel clock source selection
+These bits are used to select the I2C4 kernel clock source.
+00: PCLK1 selected
+01: SYSCLK selected
+10: HSI16 selected
+11: MSIK selected
+Note: The I2C4 is functional in Stop 0 and Stop 1 modes only when the kernel clock is
+HSI16 or MSIK.

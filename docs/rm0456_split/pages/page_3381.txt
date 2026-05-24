@@ -1,0 +1,50 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Bit 18 RDCH: Rdch condition drive
+The bit drives Rdch condition on the CC line selected through the PHYCCSEL bit (thus
+associated with VCONN), by remaining set during the source-only UnattachedWait.SRC
+state, to respect the Type-C state. Refer to "USB Type-C ECN for Source VCONN
+Discharge". The CCENABLE[1:0] bitfield must be set accordingly, too.
+0: No effect
+1: Rdch condition drive
+Bit 17 FRSTX: FRS Tx signaling enable.
+Setting the bit enables FRS Tx signaling.
+0: No effect
+1: Enable
+The bit is cleared by hardware after a delay respecting the USB Power Delivery specification
+Revision 3.1.
+Bit 16 FRSRXEN: FRS event detection enable
+Setting the bit enables FRS Rx event (FRSEVT) detection on the CC line selected through
+the PHYCCSEL bit. 0: Disable
+1: Enable
+Clear the bit when the device is attached to an FRS-incapable source/sink.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 Reserved, must be kept at reset value.
+Bit 13 Reserved, must be kept at reset value.
+Bit 12 Reserved, must be kept at reset value.
+Bits 11:10 CCENABLE[1:0]: CC line enable
+This bitfield enables CC1 and CC2 line analog PHYs (pull-ups and pull-downs) according to
+ANAMODE and ANASUBMODE[1:0] setting.
+0x0: Disable both PHYs
+0x1: Enable CC1 PHY
+0x2: Enable CC2 PHY
+0x3: Enable CC1 and CC2 PHY
+A single line PHY can be enabled when, for example, the other line is driven by VCONN via
+an external VCONN switch. Enabling both PHYs is the normal usage for sink/source.
+Bit 9 ANAMODE: Analog PHY operating mode
+0: Source
+1: Sink
+The use of CC1 and CC2 depends on CCENABLE. Refer to Table 782: Coding for
+ANAMODE, ANASUBMODE and link with TYPEC_VSTATE_CCx for the effect of this bitfield
+in conjunction with ANASUBMODE[1:0].
+Bits 8:7 ANASUBMODE[1:0]: Analog PHY sub-mode
+Refer to Table 782: Coding for ANAMODE, ANASUBMODE and link with
+TYPEC_VSTATE_CCx for the effect of this bitfield.
+Bit 6 PHYCCSEL: CC1/CC2 line selector for USB Power Delivery signaling
+0: Use CC1 IO for Power Delivery communication
+1: Use CC2 IO for Power Delivery communication
+The selection depends on the cable orientation as discovered at attach.

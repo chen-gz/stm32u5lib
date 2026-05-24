@@ -1,0 +1,59 @@
+1886
+
+JPEG codec (JPEG)
+
+RM0456
+
+The JPEG codec is started setting the START bit of the JPEG_CONFR0 register.
+Once the JPEG codec has been started, it requests data for its input FIFO generating one
+of:
+•
+
+DMA request
+
+•
+
+DMA trigger
+
+•
+
+Interrupts
+
+DMA generation for input FIFO
+A DMA request is generated when the 32-byte input FIFO becomes at least half-empty, that
+is, when there is free room for writing 16 bytes of data.
+The DMA request generation is independent of the START bit of the JPEG_CONFR0
+register. If the input FIFO can accept 16 bytes and the DMA for the input FIFO is enabled
+(setting the IDMAEN bit of the JPEG_CR register), a DMA request is generated regardless
+of the state of the JPEG codec kernel.
+A burst transfer is launched by the DMA to write 16 bytes of data.
+Writes are ignored if the input FIFO is full.
+At the end of the encoding process, extra bytes may remain in the input FIFO and/or a DMA
+request may be pending. The FIFO can be flushed by setting the IFF bit (input FIFO flush) of
+the JPEG_CR register.
+Prior to flushing the FIFO, the DMA for the input FIFO must be disabled to prevent
+unwanted DMA request upon flushing the FIFO.
+The consequence of not flushing the FIFO at the end of the encoding process is that any
+remaining data is taken into the next JPEG encoding.
+The DMA requests are no more generated once the EOCF flag of the JPEG_SR register is
+set.
+
+Interrupt or DMA trigger generation for input FIFO
+Input FIFO can be managed using interrupts or DMA triggers through two flags according to
+the FIFO state:
+•
+
+Input FIFO not full flag: a 32-bit value can be written in.
+
+•
+
+Input FIFO threshold flag: 8 words (32 bytes) can be written in.
+
+The interrupt or DMA trigger generation is independent of the START bit of the
+JPEG_CONFR0 register. The input FIFO flags are generated regardless of the state of the
+JPEG codec kernel.
+Writes are ignored if the input FIFO is full.
+At the end of the encoding process, extra bytes may remain in the input FIFO and/or an
+interrupt request / DMA trigger may be pending. The FIFO can be flushed by setting the IFF
+bit (input FIFO flush) of the JPEG_CR register.
+Prior to flushing the FIFO:

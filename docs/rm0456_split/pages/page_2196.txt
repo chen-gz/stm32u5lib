@@ -1,0 +1,48 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 TERRF: Transition error interrupt flag
+This flag is set by hardware when a transition error is detected in encoder mode. It is
+cleared by software by writing it to 0.
+0: No encoder transition error has been detected.
+1: An encoder transition error has been detected
+Bit 22 IERRF: Index error interrupt flag
+This flag is set by hardware when an index error is detected. It is cleared by software by
+writing it to 0.
+0: No index error has been detected.
+1: An index error has been detected
+Bit 21 DIRF: Direction change interrupt flag
+This flag is set by hardware when the direction changes in encoder mode (DIR bit value in
+TIMx_CR is changing). It is cleared by software by writing it to 0.
+0: No direction change
+1: Direction change
+Bit 20 IDXF: Index interrupt flag
+This flag is set by hardware when an index event is detected. It is cleared by software by
+writing it to 0.
+0: No index event occurred.
+1: An index event has occurred
+Bits 19:18 Reserved, must be kept at reset value.
+Bit 17 CC6IF: Compare 6 interrupt flag
+Refer to CC1IF description
+Note: Channel 6 can only be configured as output.
+Bit 16 CC5IF: Compare 5 interrupt flag
+Refer to CC1IF description
+Note: Channel 5 can only be configured as output.
+Bits 15:14 Reserved, must be kept at reset value.
+Bit 13 SBIF: System break interrupt flag
+This flag is set by hardware as soon as the system break input goes active. It can be
+cleared by software if the system break input is not active.
+This flag must be reset to re-start PWM operation.
+0: No break event occurred.
+1: An active level has been detected on the system break input. An interrupt is generated if
+BIE = 1 in the TIMx_DIER register.
+Bit 12 CC4OF: Capture/compare 4 overcapture flag
+Refer to CC1OF description
+Bit 11 CC3OF: Capture/compare 3 overcapture flag
+Refer to CC1OF description
+Bit 10 CC2OF: Capture/compare 2 overcapture flag
+Refer to CC1OF description

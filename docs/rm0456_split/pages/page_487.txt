@@ -1,0 +1,364 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+Figure 38. Clock tree for STM32U5 series
+LSI RC
+32 kHz or 250 Hz
+
+LSCO
+
+To IWDG
+
+LSI
+HSI16
+
+LSE OSC
+32.768 kHz
+
+OSC32_OUT
+
+Clock
+detector
+
+OSC32_IN
+
+MCO
+
+LSE
+LSI
+MSIS
+HSI16
+HSE
+SYSCLK
+pll1_r_ck
+HSI48
+MSIK
+
+ĺ
+
+OSC_OUT
+
+HSE OSC
+4-50 MHz
+
+OSC_IN
+
+To RTC
+
+LSI
+LSE
+MSIK
+HSI16
+
+/32
+
+To UCPD1
+
+x2
+
+To LPTIM1, LPTIM3, LPTIM4
+
+To AHB bus, core, memory and DMA
+AHB
+PRESC
+/ 1,2,..512
+
+HCLK
+
+FCLK Cortex free running clock
+LSE
+LSI
+
+To Cortex system timer
+
+/8
+
+Clock
+source
+control
+
+APB1
+PRESC
+/ 1,2,4,8,16
+
+HSE
+
+Clock
+detector
+
+PCLK1
+To APB1 peripherals
+x1 or x2
+To TIMx
+(x = 2 to 7)
+
+SYSCLK
+HSI RC 16 MHz
+
+HSI16
+
+MSI RC
+MSIS 100 kHz – 48 MHz
+
+MSIS
+
+MSIK 100 kHz – 48 MHz
+
+MSIK
+
+LSE
+HSI16
+SYSCLK
+
+PLL1
+
+/M
+
+pll1_r_ck
+
+/R
+
+PLL2
+
+MSIS
+HSI16
+HSE
+
+/M
+pll2_p_ck
+
+/P
+
+VCO
+
+pll2_q_ck
+
+/Q
+
+To OCTOSPIx
+(x = 1, 2)
+
+CRS clock
+
+To SAES
+
+To APB2 peripherals
+x1 or x2
+
+To TIMx
+(x = 1,8,15,16,17)
+
+pll3_q_ck
+
+/Q
+
+pll3_r_ck
+
+/R
+
+/N
+
+SYSCLK
+MSIK
+pll1_q_ck
+pll2_q_ck
+
+MSIS
+HSI16
+HSE
+
+/M
+
+VCO
+
+To LPTIM2
+
+PCLK2
+
+pll3_p_ck
+
+/P
+
+To I2Cx
+(x = 1,2,4,5,6)
+
+To FDCAN1
+
+APB2
+PRESC
+/ 1,2,4,8,16
+
+PLL3
+
+x5
+
+HSE
+pll1_q_ck
+pll2_p_ck
+
+pll2_r_ck
+
+/R
+
+/N
+
+To SPI2
+
+LSI
+LSE
+HSI16
+
+pll1_q_ck
+
+/Q
+/N
+
+HSI16
+SYSCLK
+MSIK
+
+MSIS
+HSI16
+HSE
+
+pll1_p_ck
+
+/P
+
+VCO
+
+To USARTx
+(x = 2 to 6)
+
+MSIK
+HSI16
+SYSCLK
+
+HSI48
+
+HSI48 RC 48 MHz
+
+x5
+
+SHSI RC
+
+/2
+pll1_p_ck
+pll3_q_ck
+MSIK
+
+LSE
+HSI16
+SYSCLK
+
+To USART1
+
+MSIK
+HSI16
+SYSCLK
+
+To SPI1
+
+x2
+To ADF1 and MDF1
+
+AUDIOCLK
+
+pll1_p_ck
+MSIK
+HSI48
+pll1_q_ck
+pll2_q_ck
+
+pll1_p_ck
+pll2_p_ck
+pll3_p_ck
+HSI16
+
+x2
+
+To SAIx
+(x = 1, 2)
+To SDMMCx
+(x = 1,2)
+
+ICLK
+
+To 48 MHz OTG_FS or USB
+HSI16
+/2
+
+SYSCLK
+pll1_q_ck
+pll2_q_ck
+pll3_r_ck
+
+To HSPI
+
+pll2_r_ck
+pll3_r_ck
+
+To RNG
+APB3
+PRESC
+/ 1,2,4,8,16
+
+HSE
+pll1_p_ck
+HSE / 2
+pll1_p_ck / 2
+
+To APB3 peripherals
+
+MSIK
+HSI16
+
+To I2C3
+
+MSIK
+HSI16
+
+To SPI3
+
+MSIK
+HSI16
+LSE
+
+To LPUART1
+
+To LTDC
+
+pll3_p_ck
+HSE
+
+PCLK3
+
+To DSI
+
+DSI PHY
+PLL
+
+OTG_HS
+PHY PLL
+
+To OTG_HS
+
+pll2_r_ck
+HSE
+HSI16
+MSIK
+
+LSI
+LSE
+
+Highlighted connections or peripheral may not be present in all devices of the STM32U5 Series.
+Refer to the device datasheet for more information.
+
+RM0456 Rev 6
+
+To ADC1, ADC2,
+ADC4 and DAC1
+DAC1 sample and hold clock
+MSv71110V2

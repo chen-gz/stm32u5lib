@@ -1,0 +1,63 @@
+482
+
+Power control (PWR)
+
+RM0456
+Table 105. Stop 3 mode
+
+Stop 3 mode
+
+Description
+WFI (wait for interrupt) or WFE (wait for event) while:
+– SLEEPDEEP bit is set in Cortex-M33 system control register
+– No interrupt (for WFI) or event (for WFE) pending
+– LPMS =“011 in PWR_CR1
+– WUFx bits cleared in PWR_WUSR
+
+Mode entry
+
+On Return from ISR while:
+– SLEEPDEEP bit is set in Cortex-M33 system control register
+– SLEEPONEXIT = 1
+– No interrupt pending
+– LPMS = 011 in PWR_CR1
+– WUFx bits cleared in PWR_WUSR
+– RTC/TAMP flags corresponding to the chosen wake-up source, cleared
+Note: To enter Stop 3 mode, all WUFx, and the RTC/TAMP flags generating wake-up interrupts
+must be cleared. Otherwise, the Stop 3 mode entry procedure is completed but the Stop
+3 is exited immediately after entry.
+
+Mode exit
+
+WKUPx pin edge, RTC/TAMP event/interrupt, NRST pin external reset, IWDG reset, BOR reset
+
+wake-up latency
+
+Longest wake-up time between: MSIS or HSI16 wake-up time and regulator wake-up time from
+low-power mode + FLASH wake-up time from Stop 3 mode.
+
+10.7.10
+
+Standby mode
+The lowest power mode in which the BOR is active is the Standby mode. It is based on the
+Cortex-M33 Deepsleep mode, with the voltage regulators disabled (except when SRAM2
+content is preserved). The PLL, HSI16, MSIS, MSIK and HSE oscillators are also
+switched off.
+The SRAMs and register contents are lost except for registers in the backup domain and
+Standby circuitry (see Figure 32). SRAM2 content can be partially or fully preserved
+depending on RRSB1 and RRSB2 bits configuration in PWR_CR1. In this case,
+the low-power regulator is ON and provides the supply to SRAM2 only.
+The BOR is always available in Standby mode. ULPMEN in PWR_CR1 must be configured
+to 1 to reach the lowest power consumption by forcing the BOR in ultra-low-power mode
+(only available when BOR level 0 is selected).
+
+I/O states in Standby mode
+In the Standby mode, the I/Os are by default in floating state. If APC bit is set
+in PWR_APCR, the I/Os can be configured either with a pull-up (see PWR_PUCRx), or with
+a pull-down (see PWR_PDCRx), or can be kept in analog state if none of the PWR_PUCRx
+or PWR_PDCRx register is set. The pull-down configuration has highest priority over pull-up
+configuration in case both PWR_PUCRx and PWR_PDCRx are set for the same I/O. After
+wake-up from Standby mode, the pull-up/pull-down I/O configuration remains retained
+based on PWR_PUCRx/PWR_PDCRx registers as long as the APC bit is set.
+Some I/Os (listed in Section 13: General-purpose I/Os (GPIO)) are used for JTAG/SW
+debug and can only be configured to their respective reset pull-up or pull-down state during

@@ -1,0 +1,48 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Bit 9 DHOLDIE: Data hold interrupt enable
+Set and cleared by software to enable/disable the interrupt generated when sending new
+data is hold in the DPSM Wait_S state.
+0: Data hold interrupt disabled
+1: Data hold interrupt enabled
+Bit 8 DATAENDIE: Data end interrupt enable
+Set and cleared by software to enable/disable interrupt caused by data end.
+0: Data end interrupt disabled
+1: Data end interrupt enabled
+Bit 7 CMDSENTIE: Command sent interrupt enable
+Set and cleared by software to enable/disable interrupt caused by sending command.
+0: Command sent interrupt disabled
+1: Command sent interrupt enabled
+Bit 6 CMDRENDIE: Command response received interrupt enable
+Set and cleared by software to enable/disable interrupt caused by receiving command
+response.
+0: Command response received interrupt disabled
+1: command Response received interrupt enabled
+Bit 5 RXOVERRIE: Rx FIFO overrun error interrupt enable
+Set and cleared by software to enable/disable interrupt caused by Rx FIFO overrun error.
+0: Rx FIFO overrun error interrupt disabled
+1: Rx FIFO overrun error interrupt enabled
+Bit 4 TXUNDERRIE: Tx FIFO underrun error interrupt enable
+Set and cleared by software to enable/disable interrupt caused by Tx FIFO underrun error.
+0: Tx FIFO underrun error interrupt disabled
+1: Tx FIFO underrun error interrupt enabled
+Bit 3 DTIMEOUTIE: Data timeout interrupt enable
+Set and cleared by software to enable/disable interrupt caused by data timeout.
+0: Data timeout interrupt disabled
+1: Data timeout interrupt enabled
+Bit 2 CTIMEOUTIE: Command timeout interrupt enable
+Set and cleared by software to enable/disable interrupt caused by command timeout.
+0: Command timeout interrupt disabled
+1: Command timeout interrupt enabled
+Bit 1 DCRCFAILIE: Data CRC fail interrupt enable
+Set and cleared by software to enable/disable interrupt caused by data CRC failure.
+0: Data CRC fail interrupt disabled
+1: Data CRC fail interrupt enabled
+Bit 0 CCRCFAILIE: Command CRC fail interrupt enable
+Set and cleared by software to enable/disable interrupt caused by command CRC failure.
+0: Command CRC fail interrupt disabled
+1: Command CRC fail interrupt enabled

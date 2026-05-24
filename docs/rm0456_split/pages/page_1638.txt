@@ -1,0 +1,82 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+memory and the application can clean up the receive buffer for the next detection
+(see 4 in Figure 380).
+Figure 381. SAD timing diagram example
+
+Threshold
+Signal provided
+by DFLT0
+
+SADST
+
+LEARN
+
+MONITOR
+
+DETECT
+
+MONITOR
+
+adf_sad_det
+
+adf_bus_ckreq
+
+adf_hclk
+
+SDDETF flag cleared !
+
+adf_flt0_it
+
+Sample transfer
+to memory
+adf_ker_ck
+
+1 2
+
+40.4.11
+
+3
+
+4
+
+MSv63624V2
+
+Data transfer to memory
+Data format
+The samples processed by DFLT0 are stored into a RXFIFO. The application can read the
+samples stored into these FIFOs via the ADF digital filter data register 0 (ADF_DFLT0DR).
+The samples inside this register are signed and left aligned. The bit 31 always represents
+the sign.
+The ADF provides 24-bit left-aligned data. Performing a 16-bit access to ADF_DFLT0DR
+allows the application to get the 16 most significant bits. Performing a 32-bit access to
+ADF_DFLT0DR allows the application to get a 24-bit data size.
+Figure 382. ADF_DFLTxDR data format
+
+23
+
+RXFIFO width
+
+0
+
+1
+...
+FIFO_DEPTH
+
+16 15
+
+31
+
+ADF_DFLT0DR
+
+PCM[23:0]
+
+7
+
+0
+zero’s
+MSv63665V1

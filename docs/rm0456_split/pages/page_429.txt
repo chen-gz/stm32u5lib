@@ -1,0 +1,72 @@
+Longest wake-up time between: MSIS or HSI16 wake-up time and FLASH wake-up time from
+Stop 0 mode.
+
+RM0456 Rev 6
+
+RM0456
+
+10.7.7
+
+Power control (PWR)
+
+Stop 1 mode
+The Stop 1 mode is the same as Stop 0 mode except that the regulator is in low-power
+mode (see the table below for details on how to enter and exit Stop 1 mode).
+Table 103. Stop 1 mode
+
+Stop 1 mode
+
+Description
+WFI (wait for interrupt) or WFE (wait for event) while:
+– SLEEPDEEP bit is set in Cortex-M33 system control register
+– No interrupt (for WFI) or event (for WFE) pending
+– LPMS = 001 in PWR_CR1
+
+Mode entry
+
+On Return from ISR while:
+– SLEEPDEEP bit is set in Cortex-M33 system control register
+– SLEEPONEXIT = 1
+– No interrupt pending
+– LPMS = 001 in PWR_CR1
+Note: To enter Stop 1 mode, all EXTI line pending bits (in EXTI_RPR1), and the peripheral flags
+generating wake-up interrupts must be cleared. Otherwise, the Stop 1 mode entry
+procedure is ignored and the program execution continues.
+If WFI or Return from ISR was used for entry
+- any EXTI line configured in interrupt mode (the corresponding EXTI interrupt vector must be
+enabled in the NVIC). The interrupt source can be external interrupts or peripherals with
+wake-up capability (see Table 187: STM32U5 series vector table).
+- RTC, TAMP, IWDG interrupts, or any other peripheral interrupt occurring when the AHB/APB
+clocks are present due to an autonomous peripheral clock request (the peripheral vector must
+be enabled in the NVIC)
+If WFE was used for entry and SEVONPEND = 0:
+- any EXTI line configured in event mode (see Section 23.3: EXTI functional description)
+
+Mode exit
+
+If WFE was used for entry and SEVONPEND = 1:
+- any EXTI line configured in interrupt mode (even if the corresponding EXTI interrupt vector is
+disabled in the NVIC). The interrupt source can be external interrupts or peripherals with
+wake-up capability (see Table 187: STM32U5 series vector table).
+- any EXTI line configured in event mode (see Section 23.3: EXTI functional description)
+- RTC, TAMP, IWDG interrupts, or any other peripheral interrupt occurring when the AHB/APB
+clocks are present due to an autonomous peripheral clock request
+Note: All peripheral clocks must be enabled to allow this peripheral to generate a wake-up from
+Stop interrupt ([PERIPH]EN, [PERIPH]SMEN and [PERIPH]AMEN bits must be set in the
+RCC, and a functional independent clock must be selected).
+
+wake-up latency
+
+10.7.8
+
+Longest wake-up time between: MSIS or HSI16 wake-up time and regulator wake-up time from
+low-power mode + FLASH wake-up time from Stop 1 mode.
+
+Stop 2 mode
+The Stop 2 mode is similar to Stop 1 except that most of the core domain is put in a lower
+leakage mode. Only the part of the core domain embedding AHB3 and APB3 peripherals
+remains fully powered, allowing those peripherals to be functional.
+The AHB3 and APB3 peripherals with the autonomous mode capability can switch on
+HSI16, or MSIS, or MSIK for transferring data (see Section 10.7.2 for more details).
+
+RM0456 Rev 6

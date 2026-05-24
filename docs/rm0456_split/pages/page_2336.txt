@@ -1,0 +1,38 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Bit 3 CC1NP: Capture/Compare 1 output Polarity.
+CC1 channel configured as output: CC1NP must be kept cleared in this case.
+CC1 channel configured as input: This bit is used in conjunction with CC1P to define
+tim_ti1fp1/tim_ti2fp1 polarity. refer to CC1P description.
+Bit 2 Reserved, must be kept at reset value.
+Bit 1 CC1P: Capture/Compare 1 output Polarity.
+0: OC1 active high (output mode) / Edge sensitivity selection (input mode, see below)
+1: OC1 active low (output mode) / Edge sensitivity selection (input mode, see below)
+When CC1 channel is configured as input, both CC1NP/CC1P bits select the active polarity
+of TI1FP1 and TI2FP1 for trigger or capture operations.
+CC1NP = 0, CC1P = 0:non-inverted/rising edge. The circuit is sensitive to TIxFP1 rising
+edge (capture or trigger operations in reset, external clock or trigger
+mode), TIxFP1 is not inverted (trigger operation in gated mode or
+encoder mode).
+CC1NP = 0, CC1P = 1:inverted/falling edge. The circuit is sensitive to TIxFP1 falling edge
+(capture or trigger operations in reset, external clock or trigger
+mode), TIxFP1 is inverted (trigger operation in gated mode or
+encoder mode).
+CC1NP = 1, CC1P = 1:non-inverted/both edges. The circuit is sensitive to both TIxFP1
+rising and falling edges (capture or trigger operations in reset,
+external clock or trigger mode), TIxFP1is not inverted (trigger
+operation in gated mode). This configuration must not be used in
+encoder mode.
+CC1NP = 1, CC1P = 0:this configuration is reserved, it must not be used.
+Bit 0 CC1E: Capture/Compare 1 output enable.
+0: Capture mode disabled / OC1 is not active
+1: Capture mode enabled / OC1 signal is output on the corresponding output pin
+
+Table 574. Output control bit for standard tim_ocx channels
+CCxE bit
+
+Note:

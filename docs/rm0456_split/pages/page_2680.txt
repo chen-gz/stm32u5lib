@@ -1,0 +1,129 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+Figure 819. Break detection in LIN mode (11-bit break length - LBDL bit is set)
+
+Case 1: break signal not long enough => break discarded, LBDF is not set
+Break frame
+
+RX line
+Capture strobe
+Break state
+machine
+
+Idle
+
+Bit0 Bit1 Bit2 Bit3
+0
+
+Read samples
+
+0
+
+0
+
+0
+
+Bit4 Bit5 Bit6
+0
+
+0
+
+0
+
+Bit7 Bit8 Bit9 Bit10
+0
+
+0
+
+0
+
+Idle
+
+1
+
+Case 2: break signal just long enough => break detected, LBDF is set
+Break frame
+
+RX line
+
+Delimiter is immediate
+Capture strobe
+Break state
+machine
+
+Idle
+
+Bit0 Bit1 Bit2 Bit3
+0
+
+Read samples
+
+0
+
+0
+
+0
+
+Bit4 Bit5 Bit6
+0
+
+0
+
+0
+
+Bit7 Bit8 Bit9 B10
+0
+
+0
+
+0
+
+Idle
+
+0
+
+LBDF
+
+Case 3: break signal long enough => break detected, LBDF is set
+Break frame
+
+RX line
+Capture strobe
+Break state
+Idle
+machine
+Read samples
+
+Bit0 Bit1 Bit2 Bit3
+0
+
+0
+
+0
+
+0
+
+Bit4 Bit5 Bit6
+0
+
+0
+
+0
+
+Bit7 Bit8 Bit9 Bit10 wait delimiter Idle
+0
+
+0
+
+0
+
+0
+
+LBDF
+
+MSv31156V1
+
+RM0456 Rev 6

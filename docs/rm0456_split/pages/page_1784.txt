@@ -1,0 +1,24 @@
+1861
+
+DSI Host (DSI)
+
+44.13.2
+
+RM0456
+
+DSI Host interrupts and errors
+The DSI_ISR0 and DSI_ISR1 registers are associated with error condition reporting. These
+registers can trigger an interrupt to inform the system about the occurrence of errors.
+The DSI Host has one interrupt line that is set high when an error occurs in either the
+DSI_ISR0 or the DSI_ISR1 register.
+The triggering of the interrupt can be masked by programming the mask registers DSI_IER0
+and DSI_IER1. By default all errors are masked. When any bit of these registers is set to 1,
+it enables the interrupt for a specific error. The error bit is always set in the respective
+DSI_ISR register. The DSI_ISR0 and DSI_ISR1 registers are always cleared after a read
+operation. The interrupt line is cleared if all registers that caused the interrupt are read.
+The interrupt force registers (DSI_FIR0 and DSI_FIR1) are used for test purposes: they
+allow triggering the interrupt events individually without the need to activate the conditions
+that trigger the interrupt sources (it is extremely complex to generate the stimuli for that
+purpose). This feature also facilitates the development and testing of the software
+associated with the interrupt events. Setting any bit of these registers to 1 triggers the
+corresponding interrupt.

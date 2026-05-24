@@ -1,0 +1,191 @@
+1696
+
+Digital camera interface (DCMI)
+
+RM0456
+
+Bit 3 VSYNC_MIS: VSYNC masked interrupt status
+This bit gives the status of the masked VSYNC interrupt.
+0: No interrupt is generated on DCMI_VSYNC transitions.
+1: An interrupt is generated on each DCMI_VSYNC transition from the inactive to the active
+state and the VSYNC_IE bit is set in DCMI_IER.
+The active state of the DCMI_VSYNC signal is defined by the VSPOL bit.
+Bit 2 ERR_MIS: Synchronization error masked interrupt status
+This bit gives the status of the masked synchronization error interrupt.
+0: No interrupt is generated on a synchronization error.
+1: An interrupt is generated if the embedded synchronization codes are not received in the
+correct order and the ERR_IE bit in DCMI_IER is set.
+Note: This bit is available only in embedded synchronization mode.
+Bit 1 OVR_MIS: Overrun masked interrupt status
+This bit gives the status of the masked overflow interrupt.
+0: No interrupt is generated on overrun.
+1: An interrupt is generated if the DMA was not able to transfer the last data before new
+data (32-bit) are received and the OVR_IE bit is set in DCMI_IER.
+Bit 0 FRAME_MIS: Capture complete masked interrupt status
+This bit gives the status of the masked capture complete interrupt
+0: No interrupt is generated after a complete capture.
+1: An interrupt is generated at the end of each received frame/crop window (in crop mode)
+and the FRAME_IE bit is set in DCMI_IER.
+
+41.5.6
+
+DCMI interrupt clear register (DCMI_ICR)
+The DCMI_ICR register is write-only. Setting a bit of this register clears the corresponding
+flag in the DCMI_RIS and DCMI_MIS registers. Writing 0 has no effect.
+Address offset: 0x14
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+LINE
+_ISC
+
+VSYNC
+_ISC
+
+ERR
+_ISC
+
+OVR
+_ISC
+
+FRAME
+_ISC
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:5 Reserved, must be kept at reset value.
+Bit 4 LINE_ISC: line interrupt status clear
+Setting this bit clears the LINE_RIS flag in the DCMI_RIS register.
+Bit 3 VSYNC_ISC: Vertical Synchronization interrupt status clear
+Setting this bit clears the VSYNC_RIS flag in the DCMI_RIS register.
+Bit 2 ERR_ISC: Synchronization error interrupt status clear
+Setting this bit clears the ERR_RIS flag in the DCMI_RIS register.
+Note: This bit is available only in embedded synchronization mode.
+
+<!-- pagebreak -->
+

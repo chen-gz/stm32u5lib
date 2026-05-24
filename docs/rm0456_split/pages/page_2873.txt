@@ -1,0 +1,99 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Figure 873. Example of typical AC’97 configuration on devices featuring at least
+two embedded SAIs (three external AC’97 decoders)
+
+AC’97 Link Controller
+(Bit clock provider)
+Audio block A
+
+Primary codec 1
+
+Master
+SDA
+FIFO
+Block B
+synchronous with
+block A
+
+Transmitter
+
+FSA
+SCLKA
+
+Clock
+generator
+
+Sdata_out
+Sync
+Bit_clk
+Sdata_in
+
+Slave
+SDB
+FIFO
+
+Receiver
+
+FSB
+SCLKB
+
+Secondary codec 1
+
+Audio block B
+Sdata_out
+Sync
+Bit_clk
+
+SAI1
+Audio block A
+Slave
+
+Sdata_in
+SDA
+
+FIFO
+Synchronous with
+other SAI clocks
+
+Receiver
+
+FSA
+SCLKA
+Secondary codec 2
+
+Clock
+generator
+
+Slave
+SDB
+FIFO
+
+Receiver
+
+FSB
+SCLKB
+
+Sdata_out
+Sync
+Bit_clk
+Sdata_in
+
+Audio block B
+SAI2
+
+MSv31173V1
+
+In receiver mode, the SAI acting as an AC’97 link controller requires no FIFO request and so
+no data storage in the FIFO when the codec-ready bit in slot 0 is decoded low. If bit
+CNRDYIE is enabled in the SAI_xIM register, flag CNRDY is set in the SAI_xSR register
+and an interrupt is generated. This flag is dedicated to the AC’97 protocol.
+
+Clock generator programming in AC’97 mode
+In AC’97 mode, the frame length is fixed at 256 bits, and its frequency must be set to
+48 kHz. The formulas given in Section 69.4.8: SAI clock generator must be used with
+FRL = 255, to generate the proper frame rate (FFS_x).

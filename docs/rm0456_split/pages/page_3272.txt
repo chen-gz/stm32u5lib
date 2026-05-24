@@ -1,0 +1,195 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+73.14.47 OTG device IN endpoint x control register [alternate]
+(OTG_DIEPCTLx)
+Valid for INT/BULK endpoints, see next section for ISO endpoints.
+The application uses this register to control the behavior of each logical endpoint other than
+endpoint 0.
+Address offset: 0x900 + 0x20 * x, (x = 0 to 8)
+Reset value: 0x0000 0000
+31
+
+30
+
+EPENA EPDIS
+
+29
+
+28
+
+SD1
+PID
+
+SD0
+PID
+
+27
+SNAK
+
+26
+
+25
+
+CNAK
+
+24
+
+23
+
+22
+
+TXFNUM[3:0]
+
+21
+STALL
+
+rs
+
+rs
+
+w
+
+w
+
+w
+
+w
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+USBA
+EP
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+20
+Res.
+
+19
+
+18
+
+17
+
+16
+
+EPTYP[1:0]
+
+NAK
+STS
+
+DPID
+
+rw
+
+rw
+
+r
+
+r
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+MPSIZ[10:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 EPENA: Endpoint enable
+The application sets this bit to start transmitting data on an endpoint.
+The core clears this bit before setting any of the following interrupts on this endpoint:
+– SETUP phase done
+– Endpoint disabled
+– Transfer completed
+Bit 30 EPDIS: Endpoint disable
+The application sets this bit to stop transmitting/receiving data on an endpoint, even before
+the transfer for that endpoint is complete. The application must wait for the endpoint
+disabled interrupt before treating the endpoint as disabled. The core clears this bit before
+setting the endpoint disabled interrupt. The application must set this bit only if endpoint
+enable is already set for this endpoint.
+Bit 29 SD1PID: Set DATA1 PID
+Writing to this field sets the endpoint data PID (DPID) field in this register to DATA1.
+Bit 28 SD0PID: Set DATA0 PID
+Applies to interrupt/bulk IN endpoints only.
+Writing to this field sets the endpoint data PID (DPID) field in this register to DATA0.
+Bit 27 SNAK: Set NAK
+A write to this bit sets the NAK bit for the endpoint.
+Using this bit, the application can control the transmission of NAK handshakes on an
+endpoint. The core can also set this bit for OUT endpoints on a transfer completed interrupt,
+or after a SETUP is received on the endpoint.
+Bit 26 CNAK: Clear NAK
+A write to this bit clears the NAK bit for the endpoint.
+Bits 25:22 TXFNUM[3:0]: Tx FIFO number
+These bits specify the FIFO number associated with this endpoint. Each active IN endpoint
+must be programmed to a separate FIFO number.
+This field is valid only for IN endpoints.
+
+RM0456 Rev 6

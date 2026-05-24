@@ -1,0 +1,77 @@
+3499
+
+Debug support (DBG)
+
+RM0456
+
+75
+
+Debug support (DBG)
+
+75.1
+
+DBG introduction
+A comprehensive set of debug features is provided to support software development and
+system integration:
+•
+
+Breakpoint debugging of the CPU core
+
+•
+
+Code execution tracing
+
+•
+
+Software instrumentation
+
+•
+
+Cross-triggering
+
+The debug features can be controlled via a JTAG/Serial-wire debug access port, using
+industry standard debugging tools. A trace port allows data to be captured for logging and
+analysis.
+The debug features are based on Arm CoreSight components.
+•
+
+SWJ-DP: JTAG/Serial-wire debug port
+
+•
+
+AHB-AP: AHB access port
+
+•
+
+ROM table
+
+•
+
+System control space (SCS)
+
+•
+
+Breakpoint unit (BPU)
+
+•
+
+Data watchpoint and trace unit (DWT)
+
+•
+
+Instrumentation trace macrocell (ITM)
+
+•
+
+Embedded Trace Macrocell™ (ETM)
+
+•
+
+Cross trigger interface (CTI)
+
+•
+
+Trace port interface unit (TPU)
+
+The debug features are accessible by the debugger via the AHB-AP.
+Additional information can be found in the Arm documents referenced in Section 75.13.

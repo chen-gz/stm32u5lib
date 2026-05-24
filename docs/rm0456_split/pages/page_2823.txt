@@ -1,0 +1,57 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+and clock controller (RCC) to ensure clocking of those SPI domains just necessary for
+handling the data flow between the memory and the peripheral interface at dependency in
+the SPI mode.
+In Stop mode, the APB clock is requested by the peripheral each time the SPI registers
+need to be updated based on specific traffic events (mainly TXP and RXP). The required
+clock is provided by RCC if SPI autonomous mode is enabled at the RCC configuration and
+the SPI is clocked by an internal oscillator available in Stop mode.
+Interrupts or DMA requests are then generated, depending on the SPI configuration. If no
+interrupt is enabled, the device remains in Stop mode. If DMA requests are enabled, the
+data are directly transferred to/from the SRAM thanks to the DMA while the device remains
+in Stop mode. If an enabled interrupt occurs, the device wakes up from Stop mode.
+Note:
+
+The peripheral clock request stays pending until the flag with enabled interrupt is set. This is
+why it is important to service these pending requests and clear their flag as soon as possible
+at system sensitive to the low-power consumption especially, and the application must
+acknowledge all pending interrupts events before switching the SPI to low-power mode.
+
+Slave mode
+When the SPI is configured as a standard slave and the device is at Stop mode, the SPI
+kernel clock and the SPI APB clock are not provided permanently. All the data flow between
+the SPI interface and associated FIFOs is handled by an external SCK clock provided by
+the outer master device within the serial interface clock domain. APB clock temporal
+requests are then based upon specific traffic events at dependency on the SPI
+configuration. As the slave never initializes a transfer, there is no need to synchronize any
+transfer start in this mode.
+Note:
+
+The peripheral clock request stays pending until the flag with enabled interrupt stays set.
+This is why it is important to service these pending requests and clear their flag as soon as
+possible to achieve the lowest power consumption, and the application must acknowledge
+all pending interrupt events before switching the SPI to low-power mode.
+
+Master mode
+The SPI operating in master mode provides the SCK signal for outer slaves until the transfer
+is complete. The SCK signal is derived from the SPI clock generator running within the
+kernel clock domain fed from the RCC upon kernel clock request provided by the SPI when
+the device is in Stop mode. Temporal requests for the APB clock are then based upon
+specific traffic events, depending on the SPI configuration. The SPI master always initializes
+a transfer.
+To minimize consumption in Stop mode, it is suggested to combine communication starts
+triggered by hardware (the TRIGEN bit is set in the SPI_AUTOCR register) and transfers of
+predefined data size (TSIZE > 0 in the SPI_CR2 register). This ensures that any APB clock
+request is suppressed between EOT handling and the next trigger event.
+A transfer starts once the CSTART bit is set. In the case of master transmitter, the TxFIFO
+must be filled by data, too. The CSTART bit can be written either by software or by hardware
+when a synchronous trigger is detected at Run, Sleep, or Stop mode. The trigger source is
+selected by the TRIGSEL bits and enabled by the TRIGEN bit of the SPI_AUTOCR register.
+When the enabled trigger is detected, the transfer starts and continues by handling data
+until the EOT event or the transfer suspension. When the TRIGEN bit is changed, the user
+must prevent any trigger event occurrence. If the user cannot prevent that, the TRIGEN bit

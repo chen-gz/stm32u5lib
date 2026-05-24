@@ -1,0 +1,56 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Bit 7 TEST: Test mode enable
+0: Normal operation, FDCAN_TEST holds reset values
+1: Test mode, write access to FDCAN_TEST enabled
+Bit 6 DAR: Disable automatic retransmission
+0: Automatic retransmission of messages not transmitted successfully enabled
+1: Automatic retransmission disabled
+Bit 5 MON: Bus monitoring mode
+This bit can only be set by software when both CCE and INIT are set. The bit can be cleared
+by the host at any time.
+0: Bus monitoring mode disabled
+1: Bus monitoring mode enabled
+Bit 4 CSR: Clock stop request
+0: No clock stop requested
+1: Clock stop requested. When clock stop is requested, first INIT and then CSA is set after all
+pending transfer requests have been completed and the CAN bus is idle.
+Bit 3 CSA: Clock stop acknowledge
+0: No clock stop acknowledged
+1: FDCAN can be set in power-down by stopping APB clock and kernel clock.
+Bit 2 ASM: ASM restricted operation mode
+The restricted operation mode is intended for applications that adapt themselves to different
+CAN bit rates. The application tests different bit rates and leaves the restricted operation
+mode after it has received a valid frame. In the optional restricted operation mode the node is
+able to transmit and receive data and remote frames and it gives acknowledge to valid
+frames, but it does not send active error frames or over.load frames. In case of an error
+condition or overload condition, it does not send dominant bits, instead it waits for the
+occurrence of bus-idle condition to resynchronize itself to the CAN communication. The error
+counters are not incremented. Bit ASM can only be set by software when both CCE and INIT
+are set. The bit can be cleared by the software at any time.
+0: Normal CAN operation
+1: Restricted operation mode active
+Bit 1 CCE: Configuration change enable
+0: The CPU has no write access to the protected configuration registers.
+1: The CPU has write access to the protected configuration registers (while INIT set in
+FDCAN_CCCR).
+Bit 0 INIT: Initialization
+0: Normal operation
+1: Initialization started
+
+Note:
+
+Due to the synchronization mechanism between the two clock domains, there can be a
+delay until the value written to INIT can be read back. Therefore, the programmer has to
+assure that the previous value written to INIT has been accepted by reading INIT before
+setting INIT to a new value.
+
+70.4.7
+
+FDCAN nominal bit timing and prescaler register (FDCAN_NBTP)
+Address offset: 0x001C
+Reset value: 0x0600 0A03

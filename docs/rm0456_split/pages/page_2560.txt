@@ -1,0 +1,185 @@
+This register concerns only the tamper inputs in passive mode.
+
+RM0456 Rev 6
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+64.7.5
+
+TAMP active tamper control register 1 (TAMP_ATCR1)
+This register can be protected against nonsecure access. Refer to Section 64.4.5: TAMP
+secure protection modes.
+This register can be protected against unprivileged access. Refer to Section 64.4.7: TAMP
+privilege protection modes.
+Address offset: 0x10
+Backup domain reset value: 0x0007 0000
+System reset: not affected
+
+31
+
+30
+
+ATO
+FLTEN
+SHARE
+rw
+
+rw
+
+15
+
+14
+
+29
+
+28
+
+27
+
+Res.
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+26
+
+25
+
+24
+
+ATPER[2:0]
+rw
+
+rw
+
+rw
+
+10
+
+9
+
+8
+
+ATOSEL4[1:0]
+
+ATOSEL3[1:0]
+
+ATOSEL2[1:0]
+
+ATOSEL1[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+19
+
+18
+
+17
+
+16
+
+ATCKSEL[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+3
+
+2
+
+1
+
+0
+
+TAMP8 TAMP7 TAMP6 TAMP5 TAMP4 TAMP3 TAMP2 TAMP1
+AM
+AM
+AM
+AM
+AM
+AM
+AM
+AM
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 FLTEN: Active tamper filter enable
+0: Active tamper filtering disable
+1: Active tamper filtering enable: a tamper event is detected when 2 comparison mismatches
+occur out of 4 consecutive samples.
+Bit 30 ATOSHARE: Active tamper output sharing
+0: Each active tamper input TAMP_INi is compared with its dedicated output TAMP_OUTi
+1: Each active tamper input TAMP_INi is compared with TAMPOUTSELi defined by ATOSELi
+bits.
+Bits 29:27 Reserved, must be kept at reset value.
+Bits 26:24 ATPER[2:0]: Active tamper output change period
+The tamper output is changed every CK_ATPER = (2ATPER x CK_ATPRE) cycles. Refer to
+Table 647: Minimum ATPER value.
+Bits 23:20 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,76 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+moment. When the clocks are not aligned, the reload shifts future 1 Hz clock edges a little
+for them to be aligned with the reference clock.
+If the reference clock halts (no reference clock edge occurred during the 3 ck_apre window),
+the calendar is updated continuously based solely on the LSE clock. The RTC then waits for
+the reference clock using a large 7 ck_apre period detection window centered on the
+ck_spre edge.
+When the RTC_REFIN detection is enabled, PREDIV_A and PREDIV_S must be set to their
+default values:
+•
+
+PREDIV_A = 0x007F
+
+•
+
+PREVID_S = 0x00FF
+
+Note:
+
+RTC_REFIN clock detection is not available in Standby mode.
+
+63.3.16
+
+RTC smooth digital calibration
+The RTC frequency can be digitally calibrated with a resolution of about 0.954 ppm with a
+range from -487.1 ppm to +488.5 ppm. The correction of the frequency is performed using
+series of small adjustments (adding and/or subtracting individual ck_cal pulses).
+If LPCAL=0: ck_cal = RTCCLK
+If LPCAL=1: ck_cal = ck_apre
+These adjustments are fairly well distributed so that the RTC is well calibrated even when
+observed over short durations of time.
+
+RTC ultra-low-power mode
+The RTC consumption can be reduced by setting the LPCAL bit in the RTC calibration
+register (RTC_CALR). In this case, the calibration mechanism is applied on ck_apre instead
+of RTCCLK. The resulting accuracy is the same, but the calibration is performed during a
+calibration cycle of about 220 x PREDIV_A x RTCCLK pulses instead of 220 RTCCLK pulses
+when LPCAL=0.
+
+Smooth calibration mechanism
+The smooth calibration register (RTC_CALR) specifies the number of ck_cal clock cycles to
+be masked during the calibration cycle:
+
+Note:
+
+•
+
+Setting the bit CALM[0] to 1 causes exactly one pulse to be masked during the
+calibration cycle.
+
+•
+
+Setting CALM[1] to 1 causes two additional cycles to be masked
+
+•
+
+Setting CALM[2] to 1 causes four additional cycles to be masked
+
+•
+
+and so on up to CALM[8] set to 1 which causes 256 clocks to be masked.
+
+CALM[8:0] (RTC_CALR) specifies the number of ck_cal pulses to be masked during the
+calibration cycle. Setting the bit CALM[0] to 1 causes exactly one pulse to be masked during
+the calibration cycle at the moment when cal_cnt[19:0] is 0x80000; CALM[1] = 1 causes two
+other cycles to be masked (when cal_cnt is 0x40000 and 0xC0000); CALM[2] = 1 causes
+four other cycles to be masked (cal_cnt = 0x20000/0x60000/0xA0000/ 0xE0000); and so on
+up to CALM[8] = 1 which causes 256 clocks to be masked (cal_cnt = 0xXX800).
+While CALM permits the RTC frequency to be reduced by up to 487.1 ppm with fine
+resolution, the bit CALP can be used to increase the frequency by 488.5 ppm. Setting CALP
+
+RM0456 Rev 6

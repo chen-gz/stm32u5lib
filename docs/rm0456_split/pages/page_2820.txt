@@ -1,0 +1,63 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+MASRX operation, the user can interleave and so extend the transfer time by inserting
+additional dummy clock cycles so that the period for a single data frame is higher or equal to
+eight SCK duration. This is done by setting the MIDI[3:0] bitfield of the SPI_CFG2 register.
+
+Caution:
+
+If the SPE bit is cleared in master mode while the transfer is ongoing without any
+suspension, the clock is stopped even if the current frame transmission is not complete, and
+the content of the FIFOs is flushed and lost.
+
+68.4.13
+
+Disabling the SPI
+To disable the SPI, it is mandatory to follow the disable procedures described in this
+paragraph.
+In the master mode, it is important to do this before the system enters a low-power mode
+when the peripheral clock is stopped, otherwise, ongoing transfers may be corrupted.
+In slave mode, the SPI communication can continue when the spi_pclk and spi_ker_ck
+clocks are stopped, without interruption, until any end of communication or data service
+request condition is reached. The spi_pclk can generally be stopped by setting the system
+into Stop mode. Refer to the RCC section for further information.
+The master in full-duplex or transmit-only mode can finish any transfers when it stops
+providing data for transmission. In this case, the clock stops after the last data transfer. TXC
+flag can be polled (or interrupt enabled with EOTIE = 1) in order to wait for the last data
+frame to be sent.
+When the master is in any receive-only mode, to stop the peripheral, the SPI communication
+must first be suspended, by setting the CSUSP bit.
+The data received but not read remain stored in RxFIFO when the SPI is suspended.
+After such a software suspension, SPI must always be disabled to restart the internal state
+machine properly.
+When SPI is disabled, RxFIFO is flushed. To prevent losing unread data, the user must
+ensure that RxFIFO is empty when disabling the SPI, by reading all remaining data (as
+indicated by the RXP, RXWNE, and RXPLVL fields in the SPI_SR register).
+The standard disable procedure is based on polling EOT and/or TXC status to check if a
+transmission session is (fully) completed. This check can be done in specific cases, too,
+when it is necessary to identify the end of ongoing transfers, for example:
+•
+
+When the master handles the SS signal by a GPIO not related to SPI (for example at
+case of multislave star topology) and it has to provide a proper end-of-SS pulse for the
+slave, or
+
+•
+
+When transfers from DMA or FIFO are completed while the last data frame or CRC
+frame transfer is still ongoing in the peripheral bus.
+
+When TSIZE > 0, EOT and TXC signals are equal so polling of EOT is reliable at whatever
+SPI communication mode to check the end of the bus activity. When TSIZE = 0, the user
+has to check TXC, SUSP, or FIFO occupancy flags according to the applied SPI mode and
+the way of the data flow termination.
+The correct disable procedure in master mode, except when receive-only mode is used, is:
+1.
+
+Wait until TXC = 1 and/or EOT = 1 (no more data to transmit and last data frame sent).
+When CRC is used, it is sent automatically after the last data in the block is processed.
+
+RM0456 Rev 6

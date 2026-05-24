@@ -1,0 +1,27 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Bits 4:0 DUAL[4:0]: Dual ADC mode selection
+These bits are written by software to select the operating mode.
+All the ADCs are independent:
+00000: Independent mode
+The configurations 00001 to 01001 correspond to the following operating modes: dual mode,
+master and slave ADCs working together:
+00001: Combined regular simultaneous + injected simultaneous mode
+00010: Combined regular simultaneous + alternate trigger mode
+00011: Combined interleaved mode + injected simultaneous mode
+00100: Reserved.
+00101: Injected simultaneous mode only
+00110: Regular simultaneous mode only
+00111: Interleaved mode only
+01001: Alternate trigger mode only
+All other combinations are reserved and must not be programmed
+Note: This register is available only the devices that support dual mode (see Section 33.3:
+ADC implementation).
+The software is allowed to write these bits only when the ADCs are disabled
+(ADCAL = 0, JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+
+Table 321. DELAY bits versus ADC resolution

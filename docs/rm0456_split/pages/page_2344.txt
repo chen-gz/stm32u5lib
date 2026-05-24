@@ -1,0 +1,174 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Bits 27:24 TI4SEL[3:0]: Selects tim_ti4[15:0] input
+0000: tim_ti4_in0: TIMx_CH4
+0001: tim_ti4_in1
+...
+1111: tim_ti4_in15
+Refer to Section 55.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific
+implementation.
+Bits 23:20 Reserved, must be kept at reset value.
+Bits 19:16 TI3SEL[3:0]: Selects tim_ti3[15:0] input
+0000: tim_ti3_in0: TIMx_CH3
+0001: tim_ti3_in1
+...
+1111: tim_ti3_in15
+Refer to Section 55.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific
+implementation.
+Bits 15:12 Reserved, must be kept at reset value.
+Bits 11:8 TI2SEL[3:0]: Selects tim_ti2[15:0] input
+0000: tim_ti2_in0: TIMx_CH2
+0001: tim_ti2_in1
+...
+1111: tim_ti2_in15
+Refer to Section 55.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific
+implementation.
+Bits 7:4 Reserved, must be kept at reset value.
+Bits 3:0 TI1SEL[3:0]: Selects tim_ti1[15:0] input
+0000: tim_ti1_in0: TIMx_CH1
+0001: tim_ti1_in1
+...
+1111: tim_ti1_in15
+Refer to Section 55.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific
+implementation.
+
+55.5.21
+
+TIMx alternate function register 1 (TIMx_AF1)(x = 2 to 5)
+Address offset: 0x060
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ETRSEL[3:2]
+rw
+
+15
+
+16
+
+rw
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ETRSEL[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw

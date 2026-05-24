@@ -1,0 +1,42 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+In indirect-write mode, the communication start is triggered by a write in the FIFO through
+OCTOSPI_DR.
+
+Memory-mapped mode configuration (HyperBus)
+In memory-mapped mode, the external device is seen as an internal memory but with some
+latency during the accesses. Read and write operations are allowed to the external device in
+this mode.
+It is not recommended to program the flash memory using the memory-mapped writes:
+the indirect-write mode fulfills this operation.
+The memory-mapped mode is entered by setting FMODE[1:0] = 11. The programmed
+instruction and frame is sent when an AHB master accesses the memory-mapped space.
+The FIFO is used as a prefetch buffer to anticipate any linear reads. Any access to
+OCTOSPI_DR in this mode returns zero.
+The data length register (OCTOSPI_DLR) has no meaning in memory-mapped mode.
+All the configuration operation must be completed before the first access to the memory
+area. On the first access, the OCTOSPI becomes busy, and no configuration is allowed.
+Then, the only way to get BUSY low is to clear the ENABLE bit, or to abort by setting the
+ABORT bit.
+
+28.4.17
+
+OCTOSPI error management
+The following errors set the TEF flag in OCTOSPI_SR and generates an interrupt if enabled
+(TEIE = 1 in OCTOSPI_CR):
+•
+
+in indirect or automatic status-polling mode, when a wrong address has been
+programmed in OCTOSPI_AR (according to the device size defined by DEVSIZE[4:0]).
+
+•
+
+in indirect mode, if the address plus the data length exceed the device size: TEF is set
+as soon as the access is triggered.
+
+In memory-mapped mode, the OCTOSPI generates an AHB slave error in the following
+situations,:

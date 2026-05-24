@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 17 RAMCFGEN: RAMCFG clock enable
+This bit is set and cleared by software.
+0: RAMCFG clock disabled
+1: RAMCFG clock enabled
+Bit 16 TSCEN: Touch sensing controller clock enable
+This bit is set and cleared by software.
+0: TSC clock disabled
+1: TSC clock enabled
+Bit 15 JPEGEN: JPEG clock enable
+This bit is set and cleared by software.
+0: JPEG clock disabled
+1: JPEG clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bits 14:13 Reserved, must be kept at reset value.
+Bit 12 CRCEN: CRC clock enable
+This bit is set and cleared by software.
+0: CRC clock disabled
+1: CRC clock enabled
+Bits 11:9 Reserved, must be kept at reset value.
+Bit 8 FLASHEN: FLASH clock enable
+This bit is set and cleared by software. This bit can be disabled only when the flash memory
+is in power-down mode.
+0: FLASH clock disabled
+1: FLASH clock enabled
+Bits 7:4 Reserved, must be kept at reset value.
+Bit 3 MDF1EN: MDF1 clock enable
+This bit is set and reset by software.
+0: MDF1 clock disabled
+1: MDF1 clock enabled
+Bit 2 FMACEN: FMAC clock enable
+This bit is set and reset by software.
+0: FMAC clock disabled
+1: FMAC clock enabled
+Bit 1 CORDICEN: CORDIC clock enable
+This bit is set and cleared by software.
+0: CORDIC clock disabled
+1: CORDIC clock enabled
+Bit 0 GPDMA1EN: GPDMA1 clock enable
+This bit is set and cleared by software.
+0: GPDMA1 clock disabled
+1: GPDMA1 clock enabled
+
+RM0456 Rev 6

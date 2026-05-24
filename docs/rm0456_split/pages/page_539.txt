@@ -1,0 +1,196 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 1 LSERDYF: LSE ready interrupt flag
+This bit is set by hardware when the LSE clock becomes stable and LSERDYIE is set. It is
+cleared by software by setting the LSERDYC bit.
+0: No clock ready interrupt caused by the LSE oscillator
+1: Clock ready interrupt caused by the LSE oscillator
+Bit 0 LSIRDYF: LSI ready interrupt flag
+This bit is set by hardware when the LSI clock becomes stable and LSIRDYIE is set. It is
+cleared by software by setting the LSIRDYC bit.
+0: No clock ready interrupt caused by the LSI oscillator
+1: Clock ready interrupt caused by the LSI oscillator
+
+11.8.20
+
+RCC clock interrupt clear register (RCC_CICR)
+Address offset: 0x058
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SHSIR
+DYC
+
+MSIKR
+DYC
+
+CSSC
+
+Res.
+
+PLL3R
+DYC
+
+PLL2R
+DYC
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Res.
+
+Res.
+
+PLL1R HSI48R HSERD HSIRD MSISR LSERD LSIRD
+DYC
+DYC
+YC
+YC
+DYC
+YC
+YC
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bit 12 SHSIRDYC: SHSI oscillator ready interrupt clear
+Writing this bit to 1 clears the SHSIRDYF flag. Writing 0 has no effect.
+Bit 11 MSIKRDYC: MSIK oscillator ready interrupt clear
+Writing this bit to 1 clears the MSIKRDYF flag. Writing 0 has no effect.
+Bit 10 CSSC: Clock security system interrupt clear
+Writing this bit to 1 clears the CSSF flag. Writing 0 has no effect.
+Bit 9 Reserved, must be kept at reset value.
+Bit 8 PLL3RDYC: PLL3 ready interrupt clear
+Writing this bit to 1 clears the PLL3RDYF flag. Writing 0 has no effect.
+Bit 7 PLL2RDYC: PLL2 ready interrupt clear
+Writing this bit to 1 clears the PLL2RDYF flag. Writing 0 has no effect.
+Bit 6 PLL1RDYC: PLL1 ready interrupt clear
+Writing this bit to 1 clears the PLL1RDYF flag. Writing 0 has no effect.
+Bit 5 HSI48RDYC: HSI48 ready interrupt clear
+Writing this bit to 1 clears the HSI48RDYF flag. Writing 0 has no effect.
+Bit 4 HSERDYC: HSE ready interrupt clear
+Writing this bit to 1 clears the HSERDYF flag. Writing 0 has no effect.
+Bit 3 HSIRDYC: HSI16 ready interrupt clear
+Writing this bit to 1 clears the HSIRDYF flag. Writing 0 has no effect.
+
+RM0456 Rev 6

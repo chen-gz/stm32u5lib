@@ -1,0 +1,42 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 MPCBB4_REGF: illegal access flag for MPCBB4 registers
+0: no illegal access event
+1: illegal access event
+Bit 24 SRAM4F: illegal access flag for SRAM4
+0: no illegal access event
+1: illegal access event
+Bits 23:16 Reserved, must be kept at reset value.
+Bit 15 TZIC2F: illegal access flag for GTZC2 TZIC registers
+0: no illegal access event
+1: illegal access event
+Bit 14 TZSC2F: illegal access flag for GTZC2 TZSC registers
+0: no illegal access event
+1: illegal access event
+Bits 13:7 Reserved, must be kept at reset value.
+Bit 6 EXTIF: illegal access flag for EXTI
+0: no illegal access event
+1: illegal access event
+Bit 5 LPDMA1F: illegal access flag for LPDMA
+0: no illegal access event
+1: illegal access event
+Bit 4 RCCF: illegal access flag for RCC
+0: no illegal access event
+1: illegal access event
+Bit 3 PWRF: illegal access flag for PWR
+0: no illegal access event
+1: illegal access event
+Bit 2 TAMPF: illegal access flag for TAMP
+0: no illegal access event
+1: illegal access event
+Bit 1 RTCF: illegal access flag for RTC
+0: no illegal access event
+1: illegal access event
+Bit 0 SYSCFGF: illegal access flag for SYSCFG
+0: no illegal access event
+1: illegal access event

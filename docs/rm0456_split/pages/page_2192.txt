@@ -1,0 +1,38 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bits 6:4 TS[2:0]: Trigger selection
+This bitfield is combined with TS[4:3] bits.
+This bitfield selects the trigger input to be used to synchronize the counter.
+00000: Internal Trigger 0 (tim_itr0)
+00001: Internal Trigger 1 (tim_itr1)
+00010: Internal Trigger 2 (tim_itr2)
+00011: Internal Trigger 3 (tim_itr3)
+00100: tim_ti1 Edge Detector (tim_ti1f_ed)
+00101: Filtered Timer Input 1 (tim_ti1fp1)
+00110: Filtered Timer Input 2 (tim_ti2fp2)
+00111: External Trigger input (tim_etrf)
+01000: Internal Trigger 4 (tim_itr4)
+01001: Internal Trigger 5 (tim_itr5)
+01010: Internal Trigger 6 (tim_itr6)
+01011: Internal Trigger 7 (tim_itr7)
+01100: Internal Trigger 8 (tim_itr8)
+01101: Internal Trigger 9 (tim_itr9)
+01110: Internal Trigger 10 (tim_itr10)
+01111: Internal trigger 11 (tim_itr11)
+10000: Internal trigger 12 (tim_itr12)
+10001: Internal trigger 13 (tim_itr13)
+10010: Internal trigger 14 (tim_itr14)
+10011: Internal trigger 15 (tim_itr15)
+Others: Reserved
+See Table 538: Internal trigger connection for more details on tim_itrx meaning for each
+Timer.
+Note: These bits must be changed only when they are not used (for example when
+SMS = 000) to avoid wrong edge detections at the transition.
+Bit 3 OCCS: OCREF clear selection
+This bit is used to select the OCREF clear source.
+0: tim_ocref_clr_int is connected to the tim_ocref_clr input
+1: tim_ocref_clr_int is connected to tim_etrf

@@ -1,0 +1,174 @@
+16
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+
+Note:
+
+17
+
+YU[3:0]
+
+The calendar is frozen when reaching the maximum value, and can’t roll over.
+
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+63.6.3
+
+RTC subsecond register (RTC_SSR)
+Address offset: 0x08
+Backup domain reset value: 0x0000 0000
+System reset value: 0x0000 0000 (when BYPSHAD = 0, not affected when BYPSHAD = 1)
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SS[31:16]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+SS[15:0]
+r
+
+Bits 31:0 SS[31:0]: Synchronous binary counter
+SS[31:16]: Synchronous binary counter MSB values
+When Binary or Mixed mode is selected (BIN = 01 or 10 or 11):
+SS[31:16] are the 16 MSB of the SS[31:0] free-running down-counter.
+When BCD mode is selected (BIN=00):
+SS[31:16] are forced by hardware to 0x0000.
+SS[15:0]: Subsecond value/synchronous binary counter LSB values
+When Binary mode is selected (BIN = 01 or 10 or 11):
+SS[15:0] are the 16 LSB of the SS[31:0] free-running down-counter.
+When BCD mode is selected (BIN=00):
+SS[15:0] is the value in the synchronous prescaler counter. The fraction of a second is given
+by the formula below:
+Second fraction = (PREDIV_S - SS) / (PREDIV_S + 1)
+SS can be larger than PREDIV_S only after a shift operation. In that case, the correct
+time/date is one second less than as indicated by RTC_TR/RTC_DR.
+
+RM0456 Rev 6

@@ -1,0 +1,46 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 18 DATAINV: Binary data inversion
+This bit is set and cleared by software.
+0: Logical data from the data register are send/received in positive/direct logic. (1 = H, 0 = L)
+1: Logical data from the data register are send/received in negative/inverse logic. (1 = L, 0 = H).
+The parity bit is also inverted.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 17 TXINV: TX pin active level inversion
+This bit is set and cleared by software.
+0: TX pin signal works using the standard logic levels (VDD = 1 / idle, Gnd = 0 / mark)
+1: TX pin signal values are inverted. ((VDD = 0 / mark, Gnd = 1 / idle).
+This enables the use of an external inverter on the TX line.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 16 RXINV: RX pin active level inversion
+This bit is set and cleared by software.
+0: RX pin signal works using the standard logic levels (VDD = 1 / idle, Gnd = 0 / mark)
+1: RX pin signal values are inverted. ((VDD = 0 / mark, Gnd = 1 / idle).
+This enables the use of an external inverter on the RX line.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 15 SWAP: Swap TX/RX pins
+This bit is set and cleared by software.
+0: TX/RX pins are used as defined in standard pinout
+1: The TX and RX pins functions are swapped. This enables to work in the case of a cross-wired
+connection to another UART.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Bit 14 LINEN: LIN mode enable
+This bit is set and cleared by software.
+0: LIN mode disabled
+1: LIN mode enabled
+The LIN mode enables the capability to send LIN synchronous breaks (13 low bits) using the
+SBKRQ bit in the USART_CR1 register, and to detect LIN Sync breaks.
+This bitfield can only be written when the USART is disabled (UE = 0).
+Note: If the USART does not support LIN mode, this bit is reserved and must be kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bits 13:12 STOP[1:0]: Stop bits
+These bits are used for programming the stop bits.
+00: 1 stop bit
+01: 0.5 stop bit.
+10: 2 stop bits
+11: 1.5 stop bits
+This bitfield can only be written when the USART is disabled (UE = 0).

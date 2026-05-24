@@ -1,0 +1,68 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+when the last pixel of the image is received, falls, or command size (CMDSIZE) limit is
+reached.
+
+Synchronization with the LTDC
+The DSI Wrapper performs the synchronization of the transfer process by:
+•
+
+controlling the start/halt of the LTDC
+
+•
+
+making the data flow control between LTDC and DSI Host.
+
+The transfer to refresh the display frame buffer can be triggered
+•
+
+manually, setting the LTDC enable (LTDCEN) bit of the DSI Wrapper control register
+(DSI_WCR)
+
+•
+
+automatically when a tearing effect (TEIF) event occurs, and automatic refresh (AR) is
+enabled.
+
+The selection between manual and automatic mode is done through the automatic refresh
+(AR) bit of the DSI Wrapper configuration register (DSI_WCFGR).
+Once the transfer of one frame is done whatever in manual or automatic refresh mode, the
+DSI Wrapper halts the TFT display controller (LTDC), resetting the LTDC enable (LTDCEN)
+bit of the DSI Wrapper control register (DSI_WCR), and setting the end of refresh interrupt
+flag (ERIF) flag of the DSI Wrapper status register (DSI_WSR). If the end of refresh interrupt
+enable (ERIE) bit of the DSI Wrapper configuration register (DSI_WCFGR) is set, an
+interrupt is generated.
+The end of refresh interrupt flag (ERIF) flag of the DSI Wrapper status register (DSI_WSR)
+can be reset setting the clear end of refresh interrupt flag (CERIF) bit of the DSI Wrapper
+clear interrupt flag register (DSI_WCIFR).
+The halting of the TFT display controller (LTDC) by the DSI Wrapper is done synchronously
+on a rising edge or a falling edge of VSync according to the VSync polarity (VSPOL) bit of
+the DSI Wrapper configuration register (DSI_WCFGR). It is recommended to keep the
+default polarity to guarantee a correct behavior.
+
+Support of tearing effect
+The DSI specification supports tearing effect function in command mode displays. It enables
+the Host processor to receive timing accurate information about where the display
+peripheral is in the process of reading the content of its frame buffer.
+The tearing effect can be managed through:
+•
+
+a separate pin, which is not covered in the DSI specification
+
+•
+
+the DSI tearing effect functionality: a set_tear_on DCS command must be issued
+through the APB interface using the generic interface registers.
+
+Tearing effect through a GPIO
+When the tearing effect source (TESRC) bit of the DSI Wrapper configuration register
+(DSI_WCFGR) is set, the tearing effect is signaled through a GPIO.
+The polarity of the input signal can be configured by the tearing effect polarity (TEPOL) bit of
+the DSI Wrapper configuration register (DSI_WCFGR).
+When the programmed edge is detected, the tearing effect interrupt flag (TEIF) bit of the
+DSI Wrapper interrupt and status register (DSI_WISR) is set.
+
+RM0456 Rev 6

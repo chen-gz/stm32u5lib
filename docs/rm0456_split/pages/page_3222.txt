@@ -1,0 +1,187 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 4 Reserved, must be kept at reset value.
+Bit 3 Reserved, must be kept at reset value.
+Bits 2:0 TOCAL[2:0]: FS timeout calibration
+The number of PHY clocks that the application programs in this field is added to the fullspeed interpacket timeout duration in the core to account for any additional delays
+introduced by the PHY. This can be required, because the delay introduced by the PHY in
+generating the line state condition can vary from one PHY to another.
+The USB standard timeout value for full-speed operation is 16 to 18 (inclusive) bit times. The
+application must program this field based on the speed of enumeration. The number of bit
+times added per PHY clock is 0.25 bit times.
+
+Table 771. TRDT values
+AHB frequency range (MHz)
+TRDT minimum value
+
+73.14.5
+
+Min
+
+Max
+
+30
+
+-
+
+0x9
+
+OTG reset register (OTG_GRSTCTL)
+The application uses this register to reset various hardware features inside the core.
+Address offset: 0x010
+Reset value: 0x8000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+AHB
+IDL
+
+DMAR
+EQ
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+2
+
+1
+
+0
+
+r
+
+r
+
+15
+
+14
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TXFNUM[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+TXF
+FLSH
+
+RXF
+FLSH
+
+Res.
+
+rs
+
+rs
+
+FCRST PSRST CSRST
+rs
+
+rs
+
+rs
+
+Bit 31 AHBIDL: AHB master idle
+Indicates that the AHB master state machine is in the Idle condition.
+Note: Accessible in both device and host modes.
+Bit 30 DMAREQ: DMA request signal enabled
+This bit indicates that the DMA request is in progress. Used for debug.
+Bits 29:11 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,49 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bits 14:13 LPMRSP[1:0]: LPM response
+Device mode:
+The response of the core to LPM transaction received is reflected in these two bits.
+Host mode:
+Handshake response received from local device for LPM transaction
+11: ACK
+10: NYET
+01: STALL
+00: ERROR (No handshake response)
+Bit 12 L1DSEN: L1 deep sleep enable
+Enables suspending the PHY in L1 Sleep mode. For maximum power saving during L1
+Sleep mode, this bit must be set to '1' by application SW in all the cases.
+Bits 11:8 BESLTHRS[3:0]: BESL threshold
+Device mode:
+The core puts the PHY into deep low power mode in L1 when BESL value is greater than or
+equal to the value defined in this field BESL_Thres[3:0].
+Host mode:
+The core puts the PHY into deep low power mode in L1. BESLTHRS[3:0] specifies the time
+for which resume signaling is to be reflected by host (TL1HubDrvResume2) on the USB bus
+when it detects device initiated resume.
+BESLTHRS must not be programmed with a value greater than 1100b in host mode,
+because this exceeds maximum TL1HubDrvResume2.
+Thres[3:0] host mode resume signaling time (μs):
+0000: 75
+0001: 100
+0010: 150
+0011: 250
+0100: 350
+0101: 450
+0110: 950
+All other values: reserved
+Bit 7 L1SSEN: L1 Shallow Sleep enable
+Enables suspending the PHY in L1 Sleep mode. For maximum power saving during L1
+Sleep mode, this bit must be set to '1' by application SW in all the cases.
+Bit 6 REMWAKE: bRemoteWake value
+Host mode:
+The value of remote wake up to be sent in the wIndex field of LPM transaction.
+Device mode (read-only):
+This field is updated with the received LPM token bRemoteWake bmAttribute when an ACK,
+NYET, or STALL response is sent to an LPM transaction.
+
+<!-- pagebreak -->
+

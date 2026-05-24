@@ -1,0 +1,91 @@
+910
+
+Chrom-GRC (GFXMMU)
+
+RM0456
+
+Example of calculation
+Consider the following configuration for virtual buffer 0:
+•
+
+First visible block of line 0: block 7
+
+•
+
+Number of visible block in line 0: 10
+
+•
+
+First visible block of line 1: block 6
+
+•
+
+Number of visible block in line 1: 12
+
+•
+
+Address of the physical buffer: 0xC020:0000
+
+The configuration must be:
+•
+
+The base address of the physical buffer 0: 0xC000:0000
+
+•
+
+The offset of buffer 0: 0x20:0000
+
+•
+
+First visible block of line 0: block 7
+
+•
+
+Last visible block of line 0: block 16
+
+•
+
+Block 0 offset of line 0: (0 - 7) x 0x10 = -0x70 = 0x3F:FF90
+
+•
+
+First visible block of line 1: block 6
+
+•
+
+Last visible block of line 1: block 17
+
+•
+
+Block 0 offset of line 1: (10 - 6) x 0x10 = (0xA - 0x6) x 0x10 = 0x40
+
+As a consequence:
+•
+
+the physical address of block 7 of line 0 is:
+
+0xC000:0000 + 0x20:0000 + (0x3F:FF90 + 0x70 without carry) = 0xC020:0000
+•
+
+the physical address of block 16 of line 0 is:
+
+0xC000:0000 + 0x20:0000 + (0x3F:FF90 + 0x100 without carry) = 0xC020:0090
+•
+
+the physical address of block 6 of line 1 is:
+
+0xC000:0000 + 0x20:0000 + (0x40 + 0x60 without carry) = 0xC020:00A0
+•
+
+the physical address of block 17 of line 1 is:
+
+0xC000:0000 + 0x20:0000 + (0x40 + 0x110 without carry) = 0xC020:0150
+
+21.4.3
+
+Cache and prefetch mechanism
+The GFXMMU integrated cache targets internal or external RAM devices storing the
+graphical frame buffer.
+
+Master accessing the GFXMMU
+Several masters are supposed to access memories through the GFXMMU:

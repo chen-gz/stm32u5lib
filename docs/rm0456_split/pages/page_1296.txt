@@ -1,0 +1,119 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 234. Continuous conversion of a sequence, software trigger
+
+ADCSTART(1)
+EOC
+EOS
+ADSTP
+ADC state(2) READY
+
+CH1
+
+ADC_DR
+
+by SW
+
+CH9
+
+CH10
+
+CH17
+
+CH1
+
+CH9
+
+D1
+
+D9
+
+D10
+
+D17
+
+D1
+
+CH10
+
+STP
+
+CH1
+
+READY
+
+CH9
+
+D9
+
+D1
+Indicative timings
+
+by HW
+
+MS30550V1
+
+1. EXTEN[1:0] = 0x0, CONT = 1
+2. Channels selected = 1,9, 10, 17; AUTDLY = 0.
+
+Figure 235. Single conversions of a sequence, hardware trigger
+ADSTART
+EOC
+EOS
+TRGX(1)
+ADC state(2)
+
+RDY
+
+CH1
+
+ADC_DR
+by s/w
+
+by h/w
+
+CH2
+
+CH3
+
+CH4
+
+READY CH1
+
+CH2
+
+CH3
+
+CH4
+
+RDY
+
+D1
+
+D2
+
+D3
+
+D4
+
+D1
+
+D2
+
+D3
+
+D4
+
+triggered
+
+ignored
+
+Indicative timings
+MS31013V2
+
+1. TRGx (over-frequency) is selected as trigger source, EXTEN[1:0] = 01, CONT = 0
+2. Channels selected = 1, 2, 3, 4; AUTDLY = 0.

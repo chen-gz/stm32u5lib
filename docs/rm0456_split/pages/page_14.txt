@@ -1,0 +1,78 @@
+90
+
+Contents
+
+RM0456
+
+11.7
+
+RCC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 510
+
+11.8
+
+RCC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 512
+11.8.1
+
+RCC clock control register (RCC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . 512
+
+11.8.2
+
+RCC internal clock sources calibration register 1 (RCC_ICSCR1) . . . 516
+
+11.8.3
+
+RCC internal clock sources calibration register 2 (RCC_ICSCR2) . . . 518
+
+11.8.4
+
+RCC internal clock sources calibration register 3 (RCC_ICSCR3) . . . 519
+
+11.8.5
+
+RCC clock recovery RC register (RCC_CRRCR) . . . . . . . . . . . . . . . . 520
+
+11.8.6
+
+RCC clock configuration register 1 (RCC_CFGR1) . . . . . . . . . . . . . . . 520
+
+11.8.7
+
+RCC clock configuration register 2 (RCC_CFGR2) . . . . . . . . . . . . . . . 522
+
+11.8.8
+
+RCC clock configuration register 3 (RCC_CFGR3) . . . . . . . . . . . . . . . 524
+
+11.8.9
+
+RCC PLL1 configuration register (RCC_PLL1CFGR) . . . . . . . . . . . . . 525
+
+11.8.10 RCC PLL2 configuration register (RCC_PLL2CFGR) . . . . . . . . . . . . . 527
+11.8.11
+
+RCC PLL3 configuration register (RCC_PLL3CFGR) . . . . . . . . . . . . . 528
+
+11.8.12 RCC PLL1 dividers register (RCC_PLL1DIVR) . . . . . . . . . . . . . . . . . . 530
+11.8.13 RCC PLL1 fractional divider register (RCC_PLL1FRACR) . . . . . . . . . 531
+11.8.14 RCC PLL2 dividers configuration register (RCC_PLL2DIVR) . . . . . . . 532
+11.8.15 RCC PLL2 fractional divider register (RCC_PLL2FRACR) . . . . . . . . . 533
+11.8.16 RCC PLL3 dividers configuration register (RCC_PLL3DIVR) . . . . . . . 534
+11.8.17 RCC PLL3 fractional divider register (RCC_PLL3FRACR) . . . . . . . . . 535
+11.8.18 RCC clock interrupt enable register (RCC_CIER) . . . . . . . . . . . . . . . . 536
+11.8.19 RCC clock interrupt flag register (RCC_CIFR) . . . . . . . . . . . . . . . . . . 537
+11.8.20 RCC clock interrupt clear register (RCC_CICR) . . . . . . . . . . . . . . . . . 539
+11.8.21 RCC AHB1 peripheral reset register (RCC_AHB1RSTR) . . . . . . . . . . 540
+11.8.22 RCC AHB2 peripheral reset register 1 (RCC_AHB2RSTR1) . . . . . . . 542
+11.8.23 RCC AHB2 peripheral reset register 2 (RCC_AHB2RSTR2) . . . . . . . 545
+11.8.24 RCC AHB3 peripheral reset register (RCC_AHB3RSTR) . . . . . . . . . . 546
+11.8.25 RCC APB1 peripheral reset register 1 (RCC_APB1RSTR1) . . . . . . . . 547
+11.8.26 RCC APB1 peripheral reset register 2 (RCC_APB1RSTR2) . . . . . . . . 549
+11.8.27 RCC APB2 peripheral reset register (RCC_APB2RSTR) . . . . . . . . . . 550
+11.8.28 RCC APB3 peripheral reset register (RCC_APB3RSTR) . . . . . . . . . . 552
+11.8.29 RCC AHB1 peripheral clock enable register (RCC_AHB1ENR) . . . . . 553
+11.8.30 RCC AHB2 peripheral clock enable register 1 (RCC_AHB2ENR1) . . . 556
+11.8.31 RCC AHB2 peripheral clock enable register 2 (RCC_AHB2ENR2) . . . 560
+11.8.32 RCC AHB3 peripheral clock enable register (RCC_AHB3ENR) . . . . . 561
+11.8.33 RCC APB1 peripheral clock enable register 1 (RCC_APB1ENR1) . . . 562
+11.8.34 RCC APB1 peripheral clock enable register 2 (RCC_APB1ENR2) . . . 564
+11.8.35 RCC APB2 peripheral clock enable register (RCC_APB2ENR) . . . . . 566

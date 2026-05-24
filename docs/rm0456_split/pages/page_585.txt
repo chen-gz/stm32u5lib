@@ -1,0 +1,191 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+11.8.44
+
+RCC APB3 peripheral clock enable in Sleep and Stop modes register
+(RCC_APB3SMENR)
+Address offset: 0x0D0
+Reset value: 0xFFFF FFFF
+Access: no wait state; word, half-word, and byte access
+This register only configures the clock gating, not the clock source itself. When a bit is set
+in Stop mode, the corresponding peripheral clock is enabled only when a peripheral
+(this one or another) requests the AHB or APB clock (refer to Section 11.4.24).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+I2C3S
+MEN
+
+LPUAR
+T1SME
+N
+
+SPI3S
+MEN
+
+rw
+
+rw
+
+rw
+
+COMP OPAMP LPTIM4 LPTIM3 LPTIM1
+SMEN SMEN SMEN SMEN SMEN
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+20
+
+RTCAP
+VREFS
+BSME
+MEN
+N
+rw
+
+rw
+
+5
+
+4
+Res.
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SYSCF
+GSME
+N
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 RTCAPBSMEN: RTC and TAMP APB clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: RTC and TAMP APB clock disabled by the clock gating during Sleep and Stop modes
+1: RTC and TAMP APB clock enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 20 VREFSMEN: VREFBUF clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: VREFBUF clocks disabled by the clock gating during Sleep and Stop modes
+1: VREFBUF clocks enabled by the clock gating during Sleep and Stop modes
+Bits 19:16 Reserved, must be kept at reset value.
+Bit 15 COMPSMEN: COMP clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: COMP clocks disabled by the clock gating during Sleep and Stop modes
+1: COMP clocks enabled by the clock gating during Sleep and Stop modes
+Bit 14 OPAMPSMEN: OPAMP clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: OPAMP clocks disabled by the clock gating during Sleep and Stop modes
+1: OPAMP clocks enabled by the clock gating during Sleep and Stop modes
+Bit 13 LPTIM4SMEN: LPTIM4 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: LPTIM4 clocks disabled by the clock gating during Sleep and Stop modes
+1: LPTIM4 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+
+RM0456 Rev 6

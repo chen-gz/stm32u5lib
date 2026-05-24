@@ -1,0 +1,83 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Table 240. FMC_BCRx bitfields (Synchronous multiplexed read mode) (continued)
+Bit number
+
+Bit name
+
+Value to set
+
+12
+
+WREN
+
+No effect on synchronous read
+
+11
+
+WAITCFG
+
+To be set according to memory
+
+10
+
+Reserved
+
+0x0
+
+9
+
+WAITPOL
+
+To be set according to memory
+
+8
+
+BURSTEN
+
+0x1
+
+7
+
+Reserved
+
+0x1
+
+6
+
+FACCEN
+
+Set according to memory support (NOR flash memory)
+
+5-4
+
+MWID
+
+As needed
+
+3-2
+
+MTYP
+
+0x1 or 0x2
+
+1
+
+MUXEN
+
+As needed
+
+0
+
+MBKEN
+
+0x1
+
+Table 241. FMC_BTRx bitfields (Synchronous multiplexed read mode)
+
+<!-- pagebreak -->
+

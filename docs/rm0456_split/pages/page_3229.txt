@@ -1,0 +1,241 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 2 OTGINT: OTG interrupt
+The core sets this bit to indicate an OTG protocol event. The application must read the OTG
+interrupt status (OTG_GOTGINT) register to determine the exact event that caused this
+interrupt. The application must clear the appropriate status bit in the OTG_GOTGINT register
+to clear this bit.
+Note: Accessible in both host and device modes.
+Bit 1 MMIS: Mode mismatch interrupt
+The core sets this bit when the application is trying to access:
+– A host mode register, when the core is operating in device mode
+– A device mode register, when the core is operating in host mode
+The register access is completed on the AHB with an OKAY response, but is ignored by the
+core internally and does not affect the operation of the core.
+Note: Accessible in both host and device modes.
+Bit 0 CMOD: Current mode of operation
+Indicates the current mode.
+0: Device mode
+1: Host mode
+Note: Accessible in both host and device modes.
+
+73.14.7
+
+OTG core interrupt register [alternate] (OTG_GINTSTS)
+Valid for Device mode, see previous section for Host mode.
+This register also indicates the current mode. To clear the interrupt status bits of the rc_w1
+type, the application must write 1 into the bit.
+This register interrupts the application for system-level events in the current mode (device
+mode or host mode).
+The FIFO status interrupts are read-only; once software reads from or writes to the FIFO
+while servicing these interrupts, FIFO interrupt conditions are cleared automatically.
+The application must clear the OTG_GINTSTS register at initialization before unmasking
+the interrupt bit to avoid any interrupts generated prior to initialization.
+Address offset: 0x014
+Reset value: 0x0400 0020
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+IISOI
+XFR
+
+OEP
+INT
+
+IEPINT
+
+Res.
+
+Res.
+
+HPRT
+INT
+
+RST
+DET
+
+DATAF
+SUSP
+
+IN
+COMP
+ISO
+OUT
+
+r
+
+r
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+r
+
+r
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+GO
+NAK
+EFF
+
+GI
+NAK
+EFF
+
+NPTXF
+E
+
+RXF
+LVL
+
+SOF
+
+OTG
+INT
+
+MMIS
+
+CMOD
+
+r
+
+r
+
+r
+
+r
+
+rc_w1
+
+r
+
+rc_w1
+
+r
+
+WKUP
+INT
+
+SRQ
+INT
+
+DISC
+INT
+
+CIDS
+CHG
+
+LPM
+INT
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+EOPF
+
+ISOO
+DRP
+
+ENUM
+DNE
+
+USB
+RST
+
+USB
+SUSP
+
+ESUSP
+
+Res.
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+rc_w1

@@ -1,0 +1,45 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+RM0456
+
+Bit 3 TE: Transmitter enable
+This bit enables the transmitter. When the autonomous mode is not used, TE bit is set and
+cleared by software. When the autonomous mode is used, TE bit becomes a status bit, which
+is set and cleared by hardware.
+0: Transmitter is disabled
+1: Transmitter is enabled
+Note: When the USART acts as a transmitter, a low pulse on the TE bit (0 followed by 1)
+sends a preamble (idle line) after the current word, except in smartcard mode. In order
+to generate an idle character, the TE must not be immediately written to 1. To ensure the
+required duration, the software can poll the TEACK bit in the USART_ISR register.
+In smartcard mode, when TE is set, there is a 1 bit-time delay before the transmission
+starts.
+Bit 2 RE: Receiver enable
+This bit enables the receiver. It is set and cleared by software.
+0: Receiver is disabled
+1: Receiver is enabled and begins searching for a start bit
+Bit 1 UESM: USART enable in low-power mode
+When this bit is cleared, the USART cannot request its kernel clock and is not functional in
+low-power mode.
+When this bit is set, the USART can wake up the MCU from low-power mode.
+This bit is set and cleared by software.
+0: USART not functional in low-power mode.
+1: USART functional in low-power mode.
+Note: The UESM bit must be set at the initialization phase.
+If the USART does not support the wake-up from low-power mode, this bit is reserved
+and must be kept at reset value. Refer to Section 66.4: USART implementation.
+Bit 0 UE: USART enable
+When this bit is cleared, the USART prescalers and outputs are stopped immediately, and all
+current operations are discarded. The USART configuration is kept, but all the USART_ISR
+status flags are reset. This bit is set and cleared by software.
+0: USART prescaler and outputs disabled, low-power mode
+1: USART enabled
+Note: To enter low-power mode without generating errors on the line, the TE bit must be
+previously reset and the software must wait for the TC bit in the USART_ISR to be set
+before resetting the UE bit.
+The DMA requests are also reset when UE = 0 so the DMA channel must be disabled
+before resetting the UE bit.
+In smartcard mode, (SCEN = 1), the CK is always available when CLKEN = 1,
+regardless of the UE bit value.

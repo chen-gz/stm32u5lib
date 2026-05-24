@@ -1,0 +1,167 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.17
+
+RM0456
+
+GPDMA channel x block register 2 (GPDMA_CxBR2)
+Address offset: 0xA8 + 0x80 * x (x = 12 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (GPDMA_PRIVCFGR.PRIVx).
+This register controls the transfer of a channel x at a 2D/repeated block level.
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed (then the hardware has
+deasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block, 2D/repeated block, LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by the
+GPDMA from the memory if GPDMA_CxLLR.UB2 = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+BRDAO[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+BRSAO[15:0]
+rw
+
+rw
+
+Bits 31:16 BRDAO[15:0]: Block repeated destination address offset
+For a channel with 2D addressing capability, this field is used to update (by addition or
+subtraction depending on GPDMA_CxBR1.BRDDEC) the current destination address
+(GPDMA_CxDAR) at the end of a block transfer.
+Note: A block repeated destination address offset must be aligned with the programmed data
+width of a destination burst (BRDAO[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0]).
+Else a user setting error is reported and no transfer is issued.
+Bits 15:0 BRSAO[15:0]: Block repeated source address offset
+For a channel with 2D addressing capability, this field is used to update (by addition or
+subtraction depending on GPDMA_CxBR1.BRSDEC) the current source address
+(GPDMA_CxSAR) at the end of a block transfer.
+Note: A block repeated source address offset must be aligned with the programmed data
+width of a source burst (BRSAO[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0]).
+Else a user setting error is reported and no transfer is issued.

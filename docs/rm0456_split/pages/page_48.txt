@@ -1,0 +1,43 @@
+90
+
+Contents
+
+RM0456
+44.14.6 Configuring the video mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1795
+44.14.7 Configuring the adapted command mode . . . . . . . . . . . . . . . . . . . . . 1799
+44.14.8 Configuring the video mode pattern generator . . . . . . . . . . . . . . . . . 1799
+44.14.9 Managing ULPM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1800
+
+44.15 DSI Host registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1803
+44.15.1 DSI Host version register (DSI_VR) . . . . . . . . . . . . . . . . . . . . . . . . . 1803
+44.15.2 DSI Host control register (DSI_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . 1803
+44.15.3 DSI Host clock control register (DSI_CCR) . . . . . . . . . . . . . . . . . . . . 1803
+44.15.4 DSI Host LTDC VCID register (DSI_LVCIDR) . . . . . . . . . . . . . . . . . . 1804
+44.15.5 DSI Host LTDC color coding register (DSI_LCOLCR) . . . . . . . . . . . . 1804
+44.15.6 DSI Host LTDC polarity configuration register (DSI_LPCR) . . . . . . . 1805
+44.15.7 DSI Host low-power mode configuration register (DSI_LPMCR) . . . 1805
+44.15.8 DSI Host protocol configuration register (DSI_PCR) . . . . . . . . . . . . . 1806
+44.15.9 DSI Host generic VCID register (DSI_GVCIDR) . . . . . . . . . . . . . . . . 1807
+44.15.10 DSI Host mode configuration register (DSI_MCR) . . . . . . . . . . . . . . 1807
+44.15.11 DSI Host video mode configuration register (DSI_VMCR) . . . . . . . . 1808
+44.15.12 DSI Host video packet configuration register (DSI_VPCR) . . . . . . . . 1809
+44.15.13 DSI Host video chunks configuration register (DSI_VCCR) . . . . . . . 1809
+44.15.14 DSI Host video null packet configuration register (DSI_VNPCR) . . . 1810
+44.15.15 DSI Host video HSA configuration register (DSI_VHSACR) . . . . . . . 1810
+44.15.16 DSI Host video HBP configuration register (DSI_VHBPCR) . . . . . . . 1811
+44.15.17 DSI Host video line configuration register (DSI_VLCR) . . . . . . . . . . . 1811
+44.15.18 DSI Host video VSA configuration register (DSI_VVSACR) . . . . . . . 1811
+44.15.19 DSI Host video VBP configuration register (DSI_VVBPCR) . . . . . . . 1812
+44.15.20 DSI Host video VFP configuration register (DSI_VVFPCR) . . . . . . . 1812
+44.15.21 DSI Host video VA configuration register (DSI_VVACR) . . . . . . . . . . 1812
+44.15.22 DSI Host LTDC command configuration register (DSI_LCCR) . . . . . 1813
+44.15.23 DSI Host command mode configuration register (DSI_CMCR) . . . . . 1813
+44.15.24 DSI Host generic header configuration register (DSI_GHCR) . . . . . . 1815
+44.15.25 DSI Host generic payload data register (DSI_GPDR) . . . . . . . . . . . . 1815
+44.15.26 DSI Host generic packet status register (DSI_GPSR) . . . . . . . . . . . . 1816
+44.15.27 DSI Host timeout counter configuration register 0 (DSI_TCCR0) . . . 1817
+44.15.28 DSI Host timeout counter configuration register 1 (DSI_TCCR1) . . . 1818
+44.15.29 DSI Host timeout counter configuration register 2 (DSI_TCCR2) . . . 1818
+44.15.30 DSI Host timeout counter configuration register 3 (DSI_TCCR3) . . . 1819
+44.15.31 DSI Host timeout counter configuration register 4 (DSI_TCCR4) . . . 1819
+44.15.32 DSI Host timeout counter configuration register 5 (DSI_TCCR5) . . . 1820

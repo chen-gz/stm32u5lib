@@ -1,0 +1,56 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Bit 14 SWTRIG: Software trigger bit for sampling time control trigger mode
+This bit is set and cleared by software to enable the bulb sampling mode.
+0: Software trigger starts the conversion for sampling time control trigger mode
+1: Software trigger starts the sampling for sampling time control trigger mode.
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+Bit 13 BULB: Bulb sampling mode
+This bit is set and cleared by software to select the bulb sampling mode.
+0: Bulb sampling mode disabled
+1: Bulb sampling mode enabled. The sampling period starts just after the previous end of the
+conversion.
+SMPTRIG bit must not be set when the BULB bit is set.
+The very first ADC conversion is performed with the sampling time specified in SMPx bits.
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+Bits 12:11 Reserved, must be kept at reset value.
+Bit 10 ROVSM: Regular oversampling mode
+This bit is set and cleared by software to select the regular oversampling mode.
+0: Continued mode: When injected conversions are triggered, the oversampling is temporary
+stopped and continued after the injection sequence (oversampling buffer is maintained during
+injected sequence)
+1: Resumed mode: When injected conversions are triggered, the current oversampling is aborted
+and resumed from start after the injection sequence (oversampling buffer is zeroed by injected
+sequence start)
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+Bit 9 TROVS: Triggered regular oversampling
+This bit is set and cleared by software to enable triggered oversampling
+0: All oversampled conversions for a channel are done consecutively following a trigger
+1: Each oversampled conversion for a channel needs a new trigger
+Note: The software is allowed to write this bit only when ADSTART = 0 (which ensures that no
+conversion is ongoing).
+Bits 8:5 OVSS[3:0]: Oversampling right shift
+This bitfield is set and cleared by software to define the right shifting applied to the raw oversampling
+result.
+0000: No right shift
+0001: 1-bit right shift
+0010: 2-bit right shift
+0011: 3-bit right shift
+0100: 4-bit right shift
+0101: 5-bit right shift
+0110: 6-bit right shift
+0111: 7-bit right shift
+1000: 8-bit right shift
+1001: 9-bit right shift
+1010: 10-bit right shift
+1011: 11-bit right shift
+Others: Reserved, must not be used.
+Note: The software is allowed to write these bits only when ADSTART = 0 (which ensures that no
+conversion is ongoing).

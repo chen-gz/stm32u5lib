@@ -1,0 +1,156 @@
+RM0456 Rev 6
+
+RM0456
+
+System security
+Table 19. Accelerated-cryptographic operations
+
+Operations
+Get entropy
+
+Algorith
+m
+RNG
+
+Encryption, decryption
+Authenticated encryption
+or decryption
+
+AES
+
+Cipher-based message
+authentication code
+MD5
+
+Checksum
+
+SHA-1
+
+Specification
+
+Key lengths
+(in bit)
+
+Modes
+
+N/A
+
+Software and hardware(2) modes running
+in parallel
+
+NIST SP80090B(1)
+FIPS PUB 197
+NIST SP800-38A
+
+128, 256
+
+ECB, CBC, CTR(3)
+
+NIST SP800-38C
+NIST SP800-38D
+
+128, 256
+
+GCM, CCM
+
+NIST SP800-38D
+
+128, 256
+
+GMAC
+
+IETF RFC 1321
+
+Digest 128-bit
+N/A
+
+FIPS PUB 180-4
+
+Digest 160-bit
+
+Cryptographic hash
+
+SHA-2
+
+Keyed-hashing for
+message authentication
+
+HMAC
+
+FIPS PUB 198-1
+IETF RFC 2104
+
+Short, long
+(> 64 bytes)
+
+Encryption/decryption
+key-pair generation(4)
+
+RSA
+
+IETF RFC 8017
+NIST SP800-56B
+
+Up to 4160
+
+RSAES-OAEP
+
+RSA
+
+IETF RFC 8017
+FIPS PUB 186-4
+
+Up to 4160
+
+PKCS1-v1_5, PSS
+
+ECDSA
+
+ANSI X9.62
+IETF RFC 7027
+FIPS PUB 186-4
+
+Signature(4) with hashing
+Signature verification
+
+Key agreement
+
+ECDH
+
+SHA-224, SHA-256
+
+Up to 640
+
+ANSI X9.42
+
+-
+
+Refer to the table ‘Family of supported
+curves for ECC operations’ in
+
+Section 53: Public key accelerator
+(PKA) for details.
+
+1. Certifiable using STMicroelectronics reviewed documents.
+2. Random numbers distribution to SAES and PKA using a dedicated hardware bus.
+3. ECB and CBC chaining modes protected against side-channel and timing attacks in SAES (see Section 3.9.2).
+4. Private key cryptography protected against side-channel and timing attacks.
+
+Note:
+
+Binary curves, Edwards curves, and Curve25519 are not supported by the PKA.
+
+3.9.2
+
+Secure AES co-processor (SAES)
+The devices provide an additional on-chip hardware AES encryption and decryption engine,
+that implements counter-measures and mitigations against power and electromagnetic
+side-channel attacks.
+With a dedicated 48 MHz SHSI clock, SAES is also slower than the AES, in order to provide
+best-in-class side-channel protections. The SAES engine supports 128-bit or 256-bit key in
+electronic code book (ECB) or cipher block chaining (CBC) mode.
+As shown in Section 3.8, the SAES can be used for extra-secure on-chip storage for
+sensitive information. It can also be made secure-only.
+For more information, refer to Section 50: Secure AES coprocessor (SAES).
+
+RM0456 Rev 6

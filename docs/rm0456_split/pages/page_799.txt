@@ -1,0 +1,94 @@
+•
+
+The programmed channel transfer is disabled (LPDMA_CxCR.EN forced and cleared
+by the LPDMA hardware) preventing the next unauthorized programmed data transfer
+from being executed. The channel status register reports an idle state
+(LPDMA_CxSR.IDLEF = 1) and a user setting error (LPDMA_CxSR.USEF = 1).
+
+•
+
+After a LPDMA user setting error, the user must perform a debug session, taking care
+of the LPDMA channel programming. A user setting error can be caused by one of the
+following:
+–
+
+a programmed null source block size without a programmed update of this value
+from the next LLI1 (LPDMA_CxBR1.BNDT[15:0] = 0 and
+LPDMA_CxLLR.UB1 = 0)
+
+–
+
+a programmed non-null source block size being not a multiple of the programmed
+data width of a source single transfer (LPDMA_CxBR1.BNDT[2:0] versus
+LPDMA_CxTR1.SDW_LOG2[1:0])
+
+RM0456 Rev 6
+
+RM0456
+
+18.4.17
+
+Low-power direct memory access controller (LPDMA)
+–
+
+a programmed unaligned source start address, being not a multiple of the
+programmed data width of a source single transfer (LPDMA_CxSAR[2:0] versus
+LPDMA_CxTR1.SDW_LOG2[1:0])
+
+–
+
+a programmed unaligned destination start address, being not a multiple of the
+programmed data width of a destination single transfer (LPDMA_CxDAR[2:0]
+versus LPDMA_CxTR1.DDW_LOG2[1:0])
+
+–
+
+a programmed double-word source data width
+(LPDMA_CxTR1.SDW_LOG2[1:0] = 0b11)
+
+–
+
+a programmed double-word destination data width
+(LPDMA_CxTR1.DDW_LOG2[1:0] = 0b11
+
+–
+
+a programmed linked-list item LLIn+1 with a null data transfer
+(LPDMA_CxLLR.UB1 = 1 and LPDMA_CxBR1. BNDT = 0)
+
+LPDMA autonomous mode
+To save dynamic power consumption while LPDMA executes the programmed linked-list
+transfers, LPDMA hardware automatically manages its own clock gating and generates a
+clock request output signal to the RCC, whenever the device is in Run, Sleep or Stop mode,
+provided that the RCC is programmed with the corresponding LPDMA enable control bits.
+For more details about the RCC programming, refer to the RCC section of the reference
+manual.
+For mode details about the availability of the LPDMA autonomous feature vs the device lowpower modes, refer to Section 18.3.2.
+
+Note:
+
+design/firmware: In low power modes, DMA clock request is asserted upon a DMA
+request/trigger from an autonomous peripheral or upon a DMA trigger from an EXTI line.
+The user can program and schedule the execution of a given LPDMA transfer at a LLIn level
+of a LPDMA channel x, with LPDMA_CxTR2 as follows:
+•
+
+The software controls and conditions the input of a transfer with TRIGM[1:0],
+TRIGPOL[1:0], TRIGSEL[y(a):0], SWREQ, and REQSEL[z(a):0] for the input trigger and
+request.
+
+•
+
+The software controls and signals the output of a transfer with TCEM[1:0] for
+generating or not a transfer complete event, and generating or not an associated half
+data transfer event).
+
+See LPDMA channel x transfer register 2 (LPDMA_CxTR2) for more details.
+The output channel x transfer complete event, lpdma_chx_tc, can be programmed as a
+selected input trigger for a channel if this event is looped-back and connected at the LPDMA
+level (see Section 18.3.5), allowing autonomous and fine DMA inter-channel transfer
+scheduling, without needing a cleared transfer complete flag (TCF).
+
+a. Refer to LPDMA channel x transfer register 2 (LPDMA_CxTR2) for y and z values.
+
+RM0456 Rev 6

@@ -1,0 +1,98 @@
+RM0456 Rev 6
+
+RM0456
+
+58.4.22
+
+Low-power timer (LPTIM)
+
+Debug mode
+When the microcontroller enters debug mode (core halted), the LPTIM counter either
+continues to work normally or stops, depending on the timer dedicated bit configuration in
+the debug support (DBG) peripheral.
+For further details, refer to section debug support (DBG).
+
+58.5
+
+LPTIM low-power modes
+Table 614. Effect of low-power modes on the LPTIM
+Mode
+
+Description
+
+Sleep
+
+No effect. LPTIM interrupts cause the device to exit Sleep mode.
+
+Stop(1)
+
+If the LPTIM is clocked by an oscillator available in Stop mode, LPTIM is
+functional and the interrupts cause the device to exit the Stop mode. The
+DMA requests are functional if the instance supports the autonomous
+mode (refer to Section 58.3: LPTIM implementation).
+
+Standby
+
+The LPTIM peripheral is powered down and must be reinitialized after
+exiting Standby mode.
+
+1. Only LPTIM1 and LPTIM3 support autonomous mode with wake-up capability in Stop 2 mode.
+LPTIM4 does not support autonomous mode but has wake-up capability in stop 2 mode.
+LPTIM2 must be disabled before entering Stop 2 mode.
+
+58.6
+
+LPTIM interrupts
+The following events generate an interrupt/wake-up event, if they are enabled through the
+LPTIM_DIER register:
+
+Note:
+
+•
+
+Compare match
+
+•
+
+Auto-reload match (whatever the direction if encoder mode)
+
+•
+
+External trigger event
+
+•
+
+Autoreload register write completed
+
+•
+
+Compare register write completed
+
+•
+
+Direction change (encoder mode), programmable (up / down / both).
+
+•
+
+Update Event
+
+•
+
+Repetition register update OK
+
+•
+
+Input capture occurred
+
+•
+
+Over-capture occurred
+
+•
+
+Interrupt enable register update OK
+
+If any bit in the LPTIM_DIER register is set after that its corresponding flag in the
+LPTIM_ISR register (status register) is set, the interrupt is not asserted.
+
+RM0456 Rev 6

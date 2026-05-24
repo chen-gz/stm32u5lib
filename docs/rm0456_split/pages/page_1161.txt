@@ -1,0 +1,110 @@
+RM0456 Rev 6
+
+20
+
+19
+
+18
+
+ABDTR
+
+17
+
+16
+
+ABMODE[2:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ISIZE[1:0]
+
+IDTR
+
+rw
+
+rw
+
+rw
+
+IMODE[2:0]
+rw
+
+rw
+
+rw
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+
+Bits 26:24 DMODE[2:0]: Data mode
+This bitfield defines the data phase mode of operation.
+000: No data
+001: Data on a single line
+010: Data on two lines
+011: Data on four lines
+100: Data on eight lines
+101: Data on 16 lines
+Others: Reserved
+Bits 23:22 Reserved, must be kept at reset value.
+Bits 21:20 ABSIZE[1:0]: Alternate-byte size
+This bitfield defines the alternate-byte size.
+00: 8-bit alternate bytes
+01: 16-bit alternate bytes
+10: 24-bit alternate bytes
+11: 32-bit alternate bytes
+Bit 19 ABDTR: Alternate-byte double transfer rate
+This bit sets the DTR mode for the alternate-byte phase.
+0: DTR mode disabled for the alternate-byte phase
+1: DTR mode enabled for the alternate-byte phase
+Bits 18:16 ABMODE[2:0]: Alternate-byte mode
+This bitfield defines the alternate-byte phase mode of operation.
+000: No alternate bytes
+001: Alternate bytes on a single line
+010: Alternate bytes on two lines
+011: Alternate bytes on four lines
+100: Alternate bytes on eight lines
+Others: Reserved
+Bits 15:14 Reserved, must be kept at reset value.
+Bits 13:12 ADSIZE[1:0]: Address size
+This bitfield defines the address size.
+00: 8-bit address
+01: 16-bit address
+10: 24-bit address
+11: 32-bit address
+Bit 11 ADDTR: Address double transfer rate
+This bit sets the DTR mode for the address phase.
+0: DTR mode disabled for the address phase
+1: DTR mode enabled for the address phase
+Bits 10:8 ADMODE[2:0]: Address mode
+This bitfield defines the address phase mode of operation.
+000: No address
+001: Address on a single line
+010: Address on two lines
+011: Address on four lines
+100: Address on eight lines
+Others: Reserved
+
+RM0456 Rev 6

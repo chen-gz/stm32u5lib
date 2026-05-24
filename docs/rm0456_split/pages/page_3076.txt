@@ -1,0 +1,50 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bit 12 USBRST: USB reset mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 11 USBSUSPM: USB suspend mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 10 ESUSPM: Early suspend mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bits 9:8 Reserved, must be kept at reset value.
+Bit 7 GONAKEFFM: Global OUT NAK effective mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 6 GINAKEFFM: Global non-periodic IN NAK effective mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in device mode.
+Bit 5 NPTXFEM: Non-periodic Tx FIFO empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Only accessible in host mode.
+Bit 4 RXFLVLM: Receive FIFO non-empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both device and host modes.
+Bit 3 SOFM: Start of frame mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both device and host modes.
+Bit 2 OTGINT: OTG interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both device and host modes.
+Bit 1 MMISM: Mode mismatch interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Note: Accessible in both device and host modes.
+Bit 0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

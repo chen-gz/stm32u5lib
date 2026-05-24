@@ -1,0 +1,38 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Bits 31:30 TCEM[1:0]: transfer complete event mode
+These bits define the transfer granularity for the transfer complete and half transfer complete
+events generation.
+00: at block level (when LPDMA_CxBR1.BNDT[15:0] = 0): the complete (and the half)
+transfer event is generated at the (respectively half of the) end of a block.
+Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register
+file with LPDMA_CxBR1.BNDT[15:0] = 0), then neither the complete transfer event nor
+the half transfer event is generated.
+01: same as 00
+10: at LLI level: the complete transfer event is generated at the end of the LLI transfer,
+including the update of the LLI if any. The half transfer event is generated at the half of the
+LLI data transfer (the LLI data transfer being a block transfer), if any data transfer.
+Note: If the initial LLI0 data transfer is null/void (i.e. directly programmed by the internal
+register file with LPDMA_CxBR1.BNDT[15:0] = 0), then the half transfer event is not
+generated, and the transfer complete event is generated when is completed the loading
+of the LLI1.
+11: at channel level: the complete transfer event is generated at the end of the last LLI
+transfer. The half transfer event is generated at the half of the data transfer of the last LLI.
+The last LLI updates the link address LPDMA_CxLLR.LA[15:2] to zero and clears all the
+LPDMA_CxLLR update bits (UT1, UT2, UB1, USA, UDA and ULL). If the channel transfer is
+continuous/infinite, no event is generated.
+Bits 29:26 Reserved, must be kept at reset value.
+Bits 25:24 TRIGPOL[1:0]: trigger event polarity
+These bits define the polarity of the selected trigger event input defined by TRIGSEL[4:0].
+00: no trigger (masked trigger event)
+01: trigger on the rising edge
+10: trigger on the falling edge
+11: same as 00
+Bits 23:21 Reserved, must be kept at reset value.
+Bits 20:16 TRIGSEL[4:0]: trigger event input selection
+These bits select the trigger event input of the LPDMA transfer (as per Section 18.3.5), with
+an active trigger event if TRIGPOL[1:0] = 00.

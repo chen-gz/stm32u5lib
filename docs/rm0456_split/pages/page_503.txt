@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+When the peripheral clock is not active, read or write accesses to the peripheral registers
+are not supported.
+The enable bit has a synchronization mechanism to create a glitch-free clock for the
+peripheral. After the enable bit is set, there the clock is active after 2 cycles of the peripheral
+bus clock.
+
+Caution:
+
+Just after enabling the clock for a peripheral, the software must wait for these two clock
+cycles before accessing the peripheral registers.
+
+Peripherals clock gating in Sleep and Stop modes
+When a peripheral is enabled, its clock can be automatically gated off when the device is in
+Sleep mode, by clearing the peripheral SMEN bit in RCC_AHBxSMENR and
+RCC_APBxSMENR. Both EN and SMEN of the peripheral must be set to keep the clock on
+in Sleep mode.
+The SMEN bit of the peripheral is also used to allow peripheral clocking in Stop 0 and Stop 1
+modes, upon peripheral request.
+When the clock is requested by a peripheral, this clock is distributed to all enabled
+peripherals. Therefore, the SMEN bit must be cleared before entering Stop mode, if the
+peripheral is not used in Stop mode.
+Caution:
+
+The SMEN bit of the peripheral must be set to allow the generation of an interrupt capable to
+wake up the device from Stop mode. This is not necessary when the peripheral wake-up
+interrupt is generated though the EXTI.
+
+Peripherals clock gating and autonomous mode in Stop 0/1/2 modes
+Some peripherals support autonomous mode (refer to Table 116). These peripherals are
+able to generate a kernel clock request and a AHB/APB bus clock request when they need,
+in order to operate and update their status register even in Stop mode. Depending on the
+peripheral configuration, either a DMA request or an interrupt can be associated to the
+peripheral event.
+Upon an AHB or APB bus clock request from an autonomous peripheral, either MSI or
+HSI16 oscillator is woken up, depending on the oscillator selected by STOPWUCK
+in RCC_CFGR1.
+If the autonomous peripheral is configured with DMA requests enabled, a data transfer is
+performed thanks to the AHB/APB clock. The bus clocks as well as the oscillator (HSI16 or
+MSI) are automatically switched off as soon as the transfer is finished, if no other peripheral
+requests it. The device automatically goes back in Stop mode.
+If the autonomous peripheral is configured with interrupt enabled, the interrupt wakes up
+the device into Run mode.
+The autonomous peripherals mapped on AHB3 or APB3 belong to the SmartRun domain
+and are autonomous in Stop 0, Stop 1, and Stop 2 with the LPDMA1 and SRAM4.
+The autonomous peripherals mapped on AHB1, AHB2, APB1, and APB2, belong to
+the CPU domain, and are autonomous in Stop 0 and Stop 1 mode, only with GPDMA1
+and SRAM1/2/3/4/5/6.
+
+RM0456 Rev 6

@@ -1,0 +1,51 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+depending on the state of bit TRIS in the SAI_xCR2 register (refer to FS signal role). In
+reception mode, the remaining bit is ignored.
+If bit NODIV is cleared, (FRL+1) must be equal to a power of 2, from 8 to 256, to ensure
+that an audio frame contains an integer number of MCLK pulses per bit clock cycle.
+If bit NODIV is set, the (FRL+1) field can take any value from 8 to 256. Refer to
+Section 69.4.8: SAI clock generator”
+•
+
+Slave mode
+The audio frame length is mainly used to specify to the slave the number of bit clock
+cycles per audio frame sent by the external master. It is used mainly to detect from the
+master any anticipated or late occurrence of the frame synchronization signal during an
+ongoing audio frame. In this case, an error is generated. For more details, refer to
+Section 69.4.14: Error flags.
+In slave mode, there are no constraints on the FRL[7:0] configuration in the
+SAI_xFRCR register.
+
+The number of bits in the frame is equal to FRL[7:0] + 1.
+The minimum number of bits to transfer in an audio frame is 8.
+
+Frame synchronization polarity
+The FSPOL bit in the SAI_xFRCR register sets the active polarity of the FS pin from which a
+frame is started. The start of the frame is edge sensitive.
+In slave mode, the audio block waits for a valid frame to start transmitting or receiving. The
+start of the frame is synchronized to this signal. It is effective only if the start of the frame is
+not detected during an ongoing communication and assimilated to an anticipated start of
+frame (refer to Section 69.4.14: Error flags).
+In master mode, the frame synchronization is sent continuously each time an audio frame is
+complete until the SAIEN bit in the SAI_xCR1 register is cleared. If no data are present in
+the FIFO at the end of the previous audio frame, an underrun condition is managed as
+described in Section 69.4.14: Error flags), but the audio communication flow is not
+interrupted.
+
+Frame synchronization active level length
+The FSALL[6:0] bits of the SAI_xFRCR register enable the configuration of the length of the
+active level of the frame synchronization signal. The length can be set from 1- to 128-bit
+clock cycles.
+As an example, the active length can be half of the frame length in I2S, LSB or MSB-justified
+modes, or one-bit wide for PCM/DSP or TDM.
+
+Frame synchronization offset
+Depending on the audio protocol targeted in the application, the frame synchronization
+signal can be asserted when transmitting the last bit or the first bit of the audio frame (this is
+the case in I2S standard protocol and in MSB-justified protocol, respectively). The FSOFF
+bit in the SAI_xFRCR register enables the possibility to choose between two configurations.

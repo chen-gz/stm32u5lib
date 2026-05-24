@@ -1,0 +1,164 @@
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+Bits 31:18 Reserved, must be kept at reset value.
+Bits 17:14 ETRSEL[3:0]: etr_in source selection
+These bits select the etr_in input source.
+0000: tim_etr0: TIMx_ETR input
+0001: tim_etr1
+...
+1111: tim_etr15
+Refer to Section 55.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific
+implementation.
+Bits 13:0 Reserved, must be kept at reset value.
+
+55.5.22
+
+TIMx alternate function register 2 (TIMx_AF2)(x = 2 to 5)
+Address offset: 0x064
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+18
+
+17
+
+16
+
+OCRSEL[2:0]
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:16 OCRSEL[2:0]: ocref_clr source selection
+These bits select the ocref_clr input source.
+000: tim_ocref_clr0
+001: tim_ocref_clr1
+...
+111: tim_ocref_clr7
+Refer to Section 55.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific
+implementation.
+Bits 15:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+Independent watchdog (IWDG)
+Figure 767. Reset timing due to timeout
+
+IWDCNT value
+
+Refresh not allowed(1)
+
+Refresh allowed
+
+0xFFF
+RL[11:0]
+WIN[11:0]+1
+WIN[11:0]
+
+Tpresc_ck
+
+Time
+2
+1
+0
+
+Tpresc_ck
+
+Tpresc_ck
+
+Writing 0xAAAA
+into IWDG_KR
+iwdg_out_rst
+iwdg_in_rst
+MS49974V2
+
+1. If window option activated.
+
+If the IWDG is not refreshed before the IWDCNT reaches 1, the IWDG generates a reset
+(iwdg_out_rst is asserted). In return, the RCC resets the IWDG (assertion of iwdg_in_rst) to
+clear the reset source.
+
+61.4.4
+
+Window option
+The IWDG can also work as a window watchdog, by setting the appropriate window in the
+IWDG window register (IWDG_WINR).
+If the reload operation is performed while the counter is greater than WIN[11:0] + 1, a reset
+is generated. WIN[11:0] is located in the IWDG window register (IWDG_WINR). As shown in
+Figure 768, the reset is generated one period of presc_ck after the unexpected refresh
+command.
+The default value of the IWDG window register (IWDG_WINR) is 0x0000 0FFF, so, if not
+updated, the window option is disabled.
+As soon as the window value changes, the down-counter (IWDCNT) is reloaded with the
+RL[11:0] value, to ease the estimation for where the next refresh must take place.
+
+RM0456 Rev 6

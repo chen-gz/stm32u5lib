@@ -1,0 +1,32 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 567. Pulse generation on compare event, for edge-aligned and encoder modes
+Counter
+CMP3
+
+Triggers
+tim_ocx
+Extended pulsewidth
+due to re-trigger
+
+Counter
+CMP3
+
+Triggers
+tim_ocx
+MSv62347V1
+
+This output compare mode is selected using the OC3M[3:0] and OC4M[3:0] bitfields in
+TIMx_CCMR2 register.
+The pulsewidth is programmed using the PW[7:0] bitfield in the register, using a specific
+clock prescaled according to PWPRSC[2:0] bits, as follows:
+tPW = PW[7:0] x tPWG
+where tPWG = (2(PWPRSC[2:0])) x ttim_ker_ck
+gives the resolution and maximum values depending on the prescaler value.
+The pulse is retriggerable: a new trigger while the pulse is ongoing, causes the pulse to be
+extended.
+Note:

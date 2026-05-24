@@ -1,0 +1,115 @@
+2526
+
+Low-power timer (LPTIM)
+
+58.4.3
+
+RM0456
+
+LPTIM input and trigger mapping
+The LPTIM external trigger and input connections are detailed hereafter.
+Table 604. LPTIM1/2/3/4 external trigger connections
+External trigger
+TRIGSEL
+LPTIM1
+
+LPTIM2
+
+LPTIM3
+
+lptim_ext_trig0
+
+GPIO
+
+lptim_ext_trig1
+
+rtc_alra_trg
+
+lptim_ext_trig2
+
+rtc_alrb_trg
+
+lptim_ext_trig3
+
+tamp_trg1
+
+LPTIM4
+
+lpdma_ch0_tc
+
+lptim_ext_trig4
+
+tamp_trg2
+
+gpdma_ch0_tc
+
+lpdma_ch1_tc
+
+tamp_trg2
+
+lptim_ext_trig5
+
+lpdma_ch2_tc
+
+gpdma_ch4_tc
+
+tamp_trg3
+
+tamp_trg3
+
+lptim_ext_trig6
+
+comp1_out
+
+lptim_ext_trig7
+
+comp2_out(1)
+
+1. This connection is not present in STM32U535/545 as COMP2 is not available.
+
+Table 605. LPTIM1/2/3/4 input 1 connections
+lptim_in1_mux
+
+LPTIM1/2/3/4 input 1 connected to
+
+lptim_in1_mux0
+
+GPIO
+
+lptim_in1_mux1
+
+comp1_out
+
+lptim_in1_mux2
+
+Reserved
+
+lptim_in1_mux3
+
+Reserved
+
+Table 606. LPTIM1/2 input 2 connections
+lptim_in2_mux
+
+LPTIM1/2 input 2 connected to
+
+lptim_in2_mux0
+
+GPIO
+
+lptim_in2_mux1
+
+comp2_out(1)
+
+lptim_in2_mux2
+
+Reserved
+
+lptim_in2_mux3
+
+Reserved
+
+1. This connection is not present in STM32U535/545 as COMP2 is not available.
+
+Table 607. LPTIM1/2/3 input capture 1 connections
+lptim_ic1_mux

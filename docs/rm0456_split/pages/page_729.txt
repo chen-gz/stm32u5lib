@@ -1,0 +1,99 @@
+•
+
+The source or destination target reports an AHB error.
+
+•
+
+The programmed channel transfer is stopped (GPDMA_CxCR.EN cleared by the
+GPDMA hardware). The channel status register reports an idle state
+(GPDMA_CxSR.IDLEF = 1) and the data error (GPDMA_CxSR.DTEF = 1).
+
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+•
+
+After a GPDMA data transfer error, the user must perform a debug session, taking care
+of the product-defined memory mapping of the source and destination, including the
+protection attributes.
+
+•
+
+After a GPDMA data transfer error, the user must issue a channel reset (set
+GPDMA_CxCR.RESET) to reset the hardware GPDMA channel data path and the
+content of the FIFO, before the user enables again the same channel for a next
+transfer.
+
+Link transfer error
+On a tentative update of a GPDMA channel register from the programmed LLI in the
+memory:
+•
+
+The linked-list memory reports an AHB error.
+
+•
+
+The programmed channel transfer is stopped (GPDMA_CxCR.EN cleared by the
+GPDMA hardware), the channel status register reports an idle state
+(GPDMA_CxSR.IDLEF = 1) and the link error (GPDMA_CxSR.ULEF = 1).
+
+•
+
+After a GPDMA link error, the user must perform a debug session, taking care of the
+product-defined memory mapping of the linked-list data structure (GPDMA_CxLBAR
+and GPDMA_CxLLR), including the protection attributes.
+
+•
+
+After a GPDMA link error, the user must explicitly write the linked-list register file
+(GPDMA_CxTR1, GPDMA_CxTR2, GPDMA_CxBR1, GPDMA_CxSAR,
+GPDMA_CxDAR and GPDMA_CxLLR, plus GPDMA_CxTR3 and GPDMA_CxBR2),
+before the user enables again the same channel for a next transfer.
+
+User setting error
+On a tentative execution of a GPDMA transfer with an unauthorized user setting:
+•
+
+The programmed channel transfer is disabled (GPDMA_CxCR.EN forced and cleared
+by the GPDMA hardware) preventing the next unauthorized programmed data transfer
+from being executed. The channel status register reports an idle state
+(GPDMA_CxSR.IDLEF = 1) and a user setting error (GPDMA_CxSR.USEF = 1).
+
+•
+
+After a GPDMA user setting error, the user must perform a debug session, taking care
+of the GPDMA channel programming. A user setting error can be caused by one of the
+following:
+–
+
+a programmed null source block size without a programmed update of this value
+from the next LLI1 (GPDMA_CxBR1.BNDT[15:0] = 0 and
+GPDMA_CxLLR.UB1 = 0)
+
+–
+
+a programmed non-null source block size being not a multiple of the programmed
+data width of a source burst transfer (GPDMA_CxBR1.BNDT[2:0] versus
+GPDMA_CxTR1.SDW_LOG2[1:0])
+
+–
+
+when in packing/unpacking mode (if PAM[1] = 1), a programmed non-null source
+block size being not a multiple of the programmed data width of a destination burst
+transfer (GPDMA_CxBR1.BNDT[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0])
+
+–
+
+a programmed unaligned source start address, being not a multiple of the
+programmed data width of a source burst transfer (GPDMA_CxSAR[2:0] versus
+GPDMA_CxTR1.SDW_LOG2[1:0])
+
+–
+
+for channel x (x = 12 to 15): a programmed unaligned source address offset being
+not a multiple of the programmed data width of a source burst transfer
+(GPDMA_CxTR3.SAO[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0])
+
+RM0456 Rev 6

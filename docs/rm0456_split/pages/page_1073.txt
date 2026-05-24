@@ -1,0 +1,65 @@
+RM0456 Rev 6
+
+RM0456
+
+Octo-SPI interface (OCTOSPI)
+busy, and no further configuration is allowed. Then, the only way to get BUSY low is to clear
+the ENABLE bit or to abort by setting the ABORT bit.
+
+OCTOSPI delayed data sampling when no DQS is used
+By default, when no DQS is used, the OCTOSPI samples the data driven by the external
+device one half of a CLK cycle after the external device drives the signal.
+In case of any external signal delays, it may be useful to sample the data later. Using
+SSHIFT in OCTOSPI_TCR, the sampling of the data can be shifted by half of a CLK cycle.
+The firmware must clear SSHIFT when the data phase is configured in DTR mode
+(DDTR = 1).
+
+OCTOSPI delayed data sampling when DQS is used
+When external DQS is used as a sampling clock, it can be shifted in time to compensate the
+data propagation delay. This shift is performed by an external delay block located outside
+the OCTOSPI. The control of this feature depends on the device implementation (see the
+product reference manual for more details).
+In configurations where delay does not need to be compensated, the external delay block
+can be bypassed by setting DLYBYP in OCTOSPI_DCR1.
+
+Sending the instruction only once (SIOO)
+A flash memory can provide a mode where an instruction must be sent only with the first
+command sequence, while subsequent commands start directly with the address. The user
+can take advantage of this type of features using SIOO in OCTOSPI_CCR.
+SIOO is valid for memory-mapped mode only. If this bit is set, the instruction is sent only for
+the first command following a write to OCTOSPI_CCR.
+Subsequent command sequences skip the instruction phase, until there is a write to
+OCTOSPI_CCR. SIOO has no effect when IMODE[1:0] = 00 (no instruction).
+The SIOO mode is not supported when any of the communication regulations, NCS
+boundary, or refresh features are used.
+
+28.4.16
+
+OCTOSPI HyperBus protocol configuration
+Indirect mode configuration (HyperBus)
+When FMODE[1:0] = 00, the indirect-write mode is selected and data can be sent to the
+external device. When FMODE[1:0] = 01, the indirect-read mode is selected where data can
+be read from the external device. ADMODE must be configured with a value different from
+000 (for instance ADMODE = 100).
+When the OCTOSPI is used in indirect mode, the frames are constructed in the following
+way:
+1.
+
+Specify a number of data bytes to read or write in OCTOSPI_DLR.
+
+2.
+
+Specify the targeted address in OCTOSPI_AR.
+
+3.
+
+Enable the DMA channel if needed.
+
+4.
+
+Read/write the data from/to the FIFO through OCTOSPI_DR (if no DMA usage).
+
+In indirect-read mode, the command sequence starts as soon as the address is updated
+with a write to OCTOSPI_AR.
+
+RM0456 Rev 6

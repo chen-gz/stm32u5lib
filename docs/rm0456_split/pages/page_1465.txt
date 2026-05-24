@@ -1,0 +1,77 @@
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+1.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2
+
+2.
+
+Configure the same trigger source for both DAC channels by setting the same value in
+the TSEL1 and TSEL2 bitfields.
+
+3.
+
+Configure the two DAC channel WAVEx[1:0] bits as 1x and the same maximum
+amplitude value using the MAMPx[3:0] bits.
+
+4.
+
+Load the dual DAC channel data into the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+When a trigger arrives, the DAC channel1 triangle counter, with the same triangle
+amplitude, is added to the DHR1 register and the sum is transferred into DAC_DOR1 (three
+dac_hclk clock cycles later). The DAC channel1 triangle counter is then updated.
+At the same time, the DAC channel2 triangle counter, with the same triangle amplitude, is
+added to the DHR2 register and the sum is transferred into DAC_DOR2 (three dac_hclk
+clock cycles later). The DAC channel2 triangle counter is then updated.
+
+Simultaneous trigger with different triangle generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2
+
+2.
+
+Configure the same trigger source for both DAC channels by setting the same value in
+the TSEL1 and TSEL2 bitfields.
+
+3.
+
+Configure the two DAC channel WAVEx[1:0] bits as 1x and set different maximum
+amplitude values in the MAMP1[3:0] and MAMP2[3:0] bits.
+
+4.
+
+Load the dual DAC channel data into the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+When a trigger arrives, the DAC channel1 triangle counter, with a triangle amplitude
+configured by MAMP1[3:0], is added to the DHR1 register and the sum is transferred into
+DAC_DOR1 (three AHB clock cycles later). Then the DAC channel1 triangle counter is
+updated.
+At the same time, the DAC channel2 triangle counter, with a triangle amplitude configured
+by MAMP2[3:0], is added to the DHR2 register and the sum is transferred into DAC_DOR2
+(three dac_hclk clock cycles later). Then the DAC channel2 triangle counter is updated.
+
+35.4.16
+
+DAC autonomous mode
+The autonomous mode can be used to update the DAC output voltage in Stop mode. This
+allows DMA transfers to be performed when the device operates in Run, Sleep or Stop
+mode. The autonomous mode is supported AUTOMODE only when the DAC is in sample
+and hold mode. It is enabled by setting the bit in the DAC_AUTOCR register. DMA requests
+must also be enabled (DMAEN = 1).
+When the AUTOMODE bit is set, each hardware trigger signal generates an AHB clock
+request to the RCC. Once the peripheral receives the AHB clock, the content of the
+DAC_DHRx register is loaded into DAC_DOR register and a DMA request is generated.
+When the DMA transaction is complete, the DAC deasserts the AHB clock request and
+waits for a new trigger event.
+When the sample and hold mode is selected, the dac_ker_ck low-power clock must be
+enabled by the RCC.
+
+RM0456 Rev 6

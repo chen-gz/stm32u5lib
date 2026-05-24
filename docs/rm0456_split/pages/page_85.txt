@@ -1,0 +1,48 @@
+RM0456 Rev 6
+
+RM0456
+
+Contents
+73.11.2 Host FIFO architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3311
+73.11.3 FIFO RAM allocation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3312
+
+73.12 OTG_HS interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3314
+73.13 OTG_HS control and status registers . . . . . . . . . . . . . . . . . . . . . . . . . 3316
+73.13.1 CSR memory map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3316
+
+73.14 OTG_HS registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3321
+73.14.1 OTG control and status register (OTG_GOTGCTL) . . . . . . . . . . . . . 3321
+73.14.2 OTG interrupt register (OTG_GOTGINT) . . . . . . . . . . . . . . . . . . . . . 3323
+73.14.3 OTG AHB configuration register (OTG_GAHBCFG) . . . . . . . . . . . . . 3324
+73.14.4 OTG USB configuration register (OTG_GUSBCFG) . . . . . . . . . . . . . 3325
+73.14.5 OTG reset register (OTG_GRSTCTL) . . . . . . . . . . . . . . . . . . . . . . . . 3327
+73.14.6 OTG core interrupt register [alternate] (OTG_GINTSTS) . . . . . . . . . 3330
+73.14.7 OTG core interrupt register [alternate] (OTG_GINTSTS) . . . . . . . . . 3334
+73.14.8 OTG interrupt mask register [alternate] (OTG_GINTMSK) . . . . . . . . 3339
+73.14.9 OTG interrupt mask register [alternate] (OTG_GINTMSK) . . . . . . . . 3340
+73.14.10 OTG receive status debug read register [alternate]
+(OTG_GRXSTSR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3342
+73.14.11 OTG receive status debug read register [alternate]
+(OTG_GRXSTSR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3343
+73.14.12 OTG status read and pop registers (OTG_GRXSTSP) . . . . . . . . . . . 3344
+73.14.13 OTG status read and pop registers [alternate] (OTG_GRXSTSP) . . 3345
+73.14.14 OTG receive FIFO size register (OTG_GRXFSIZ) . . . . . . . . . . . . . . 3346
+73.14.15 OTG host non-periodic transmit FIFO size register [alternate]
+(OTG_HNPTXFSIZ) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3347
+73.14.16 Endpoint 0 transmit FIFO size [alternate] (OTG_DIEPTXF0) . . . . . . 3347
+73.14.17 OTG non-periodic transmit FIFO/queue status register
+(OTG_HNPTXSTS) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3348
+73.14.18 OTG general core configuration register (OTG_GCCFG) . . . . . . . . . 3349
+73.14.19 OTG core ID register (OTG_CID) . . . . . . . . . . . . . . . . . . . . . . . . . . . 3350
+73.14.20 OTG core LPM configuration register (OTG_GLPMCFG) . . . . . . . . . 3351
+73.14.21 OTG host periodic transmit FIFO size register
+(OTG_HPTXFSIZ) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3355
+73.14.22 OTG device IN endpoint transmit FIFO x size register
+(OTG_DIEPTXFx) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3355
+73.14.23 Host-mode registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3355
+73.14.24 OTG host configuration register (OTG_HCFG) . . . . . . . . . . . . . . . . . 3356
+73.14.25 OTG host frame interval register (OTG_HFIR) . . . . . . . . . . . . . . . . . 3356
+73.14.26 OTG host frame number/frame time remaining register
+(OTG_HFNUM) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3357
+
+RM0456 Rev 6

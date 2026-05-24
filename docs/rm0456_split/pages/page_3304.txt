@@ -1,0 +1,69 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Figure 928. Receive FIFO read task
+
+•
+
+Bulk and control OUT/SETUP transactions
+A typical bulk or control OUT/SETUP pipelined transaction-level operation is shown in
+Figure 929. See channel 1 (ch_1). Two bulk OUT packets are transmitted. A control
+SETUP transaction operates in the same way but has only one packet. The
+assumptions are:
+
+•
+
+–
+
+The application is attempting to send two maximum-packet-size packets (transfer
+size = 1, 024 bytes).
+
+–
+
+The non-periodic transmit FIFO can hold two packets (1 Kbyte for HS).
+
+–
+
+The non-periodic request queue depth = 4.
+
+Normal bulk and control OUT/SETUP operations
+The sequence of operations in (channel 1) is as follows:
+
+1.
+
+Initialize channel 1
+
+2.
+
+Write the first packet for channel 1
+
+3.
+
+Along with the last word write, the core writes an entry to the non-periodic request
+queue
+
+4.
+
+As soon as the non-periodic queue becomes non-empty, the core attempts to send an
+OUT token in the current frame
+
+5.
+
+Write the second (last) packet for channel 1
+
+6.
+
+The core generates the XFRC interrupt as soon as the last transaction is completed
+successfully
+
+7.
+
+In response to the XFRC interrupt, de-allocate the channel for other transfers
+
+8.
+
+Handling non-ACK responses
+
+RM0456 Rev 6

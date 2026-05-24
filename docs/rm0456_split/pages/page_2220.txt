@@ -1,0 +1,49 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bit 15 MOE: Main output enable
+This bit is cleared asynchronously by hardware as soon as one of the break inputs is active
+(tim_brk or tim_brk2). It is set by software or automatically depending on the AOE bit. It is
+acting only on the channels which are configured in output.
+0: In response to a break 2 event. OC and OCN outputs are disabled
+In response to a break event or if MOE is written to 0: OC and OCN outputs are disabled or
+forced to idle state depending on the OSSI bit.
+1: OC and OCN outputs are enabled if their respective enable bits are set (CCxE, CCxNE in
+TIMx_CCER register).
+See OC/OCN enable description for more details (Section 54.6.11: TIMx capture/compare
+enable register (TIMx_CCER)(x = 1, 8)).
+Bit 14 AOE: Automatic output enable
+0: MOE can be set only by software
+1: MOE can be set by software or automatically at the next update event (if none of the break
+inputs tim_brk and tim_brk2 is active)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 13 BKP: Break polarity
+0: Break input tim_brk is active low
+1: Break input tim_brk is active high
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.
+Bit 12 BKE: Break enable
+This bit enables the complete break protection (including all sources connected to
+tim_sys_brk and BKIN sources, as per Figure 556: Break and Break2 circuitry overview).
+0: Break function disabled
+1: Break function enabled
+Note: This bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in
+TIMx_BDTR register).
+Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.
+Bit 11 OSSR: Off-state selection for Run mode
+This bit is used when MOE = 1 on channels having a complementary output which are
+configured as outputs. OSSR is not implemented if no complementary output is implemented
+in the timer.
+See OC/OCN enable description for more details (Section 54.6.11: TIMx capture/compare
+enable register (TIMx_CCER)(x = 1, 8)).
+0: When inactive, OC/OCN outputs are disabled (the timer releases the output control which
+is taken over by the GPIO logic, which forces a Hi-Z state).
+1: When inactive, OC/OCN outputs are enabled with their inactive level as soon as CCxE = 1
+or CCxNE = 1 (the output is still controlled by the timer).
+Note: This bit can not be modified as soon as the LOCK level 2 has been programmed (LOCK
+bits in TIMx_BDTR register).

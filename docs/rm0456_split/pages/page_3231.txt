@@ -1,0 +1,58 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 23 RSTDET: Reset detected interrupt
+In device mode, this interrupt is asserted when a reset is detected on the USB in partial
+power-down mode when the device is in suspend.
+Note: Only accessible in device mode.
+Bit 22 DATAFSUSP: Data fetch suspended
+This interrupt is valid only in DMA mode. This interrupt indicates that the core has stopped
+fetching data for IN endpoints due to the unavailability of TxFIFO space or request queue
+space. This interrupt is used by the application for an endpoint mismatch algorithm. For
+example, after detecting an endpoint mismatch, the application:
+–
+Sets a global nonperiodic IN NAK handshake
+–
+Disables IN endpoints
+–
+Flushes the FIFO
+–
+Determines the token sequence from the IN token sequence learning queue
+–
+Re-enables the endpoints
+Clears the global nonperiodic IN NAK handshake If the global nonperiodic IN NAK is cleared,
+the core has not yet fetched data for the IN endpoint, and the IN token is received: the core
+generates an “IN token received when FIFO empty” interrupt. The OTG then sends a NAK
+response to the host. To avoid this scenario, the application can check the FetSusp interrupt
+in OTG_GINTSTS, which ensures that the FIFO is full before clearing a global NAK
+handshake. Alternatively, the application can mask the “IN token received when FIFO empty”
+interrupt when clearing a global IN NAK handshake.
+Bit 21 INCOMPISOOUT: Incomplete isochronous OUT transfer
+In device mode, the core sets this interrupt to indicate that there is at least one isochronous
+OUT endpoint on which the transfer is not completed in the current frame. This interrupt is
+asserted along with the End of periodic frame interrupt (EOPF) bit in this register.
+Bit 20 IISOIXFR: Incomplete isochronous IN transfer
+The core sets this interrupt to indicate that there is at least one isochronous IN endpoint on
+which the transfer is not completed in the current frame. This interrupt is asserted along with
+the End of periodic frame interrupt (EOPF) bit in this register.
+Note: Only accessible in device mode.
+Bit 19 OEPINT: OUT endpoint interrupt
+The core sets this bit to indicate that an interrupt is pending on one of the OUT endpoints of
+the core (in device mode). The application must read the OTG_DAINT register to determine
+the exact number of the OUT endpoint on which the interrupt occurred, and then read the
+corresponding OTG_DOEPINTx register to determine the exact cause of the interrupt. The
+application must clear the appropriate status bit in the corresponding OTG_DOEPINTx
+register to clear this bit.
+Note: Only accessible in device mode.
+Bit 18 IEPINT: IN endpoint interrupt
+The core sets this bit to indicate that an interrupt is pending on one of the IN endpoints of the
+core (in device mode). The application must read the OTG_DAINT register to determine the
+exact number of the IN endpoint on which the interrupt occurred, and then read the
+corresponding OTG_DIEPINTx register to determine the exact cause of the interrupt. The
+application must clear the appropriate status bit in the corresponding OTG_DIEPINTx
+register to clear this bit.
+Note: Only accessible in device mode.
+Bits 17:16 Reserved, must be kept at reset value.

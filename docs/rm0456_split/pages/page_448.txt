@@ -1,0 +1,45 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Bit 10 DMA2DRAMPDS: DMA2D SRAM power-down in all Stop modes
+0: DMA2D SRAM content retained in Stop modes
+1: DMA2D SRAM content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 9 DC1RAMPDS: DCACHE1 SRAM power-down in all Stop modes
+0: DCACHE1 SRAM content retained in Stop modes
+1: DCACHE1 SRAM content lost in Stop modes
+Bit 8 ICRAMPDS: ICACHE SRAM power-down in all Stop modes
+0: ICACHE SRAM content retained in Stop modes
+1: ICACHE SRAM content lost in Stop modes
+Bit 7 DC2RAMPDS: DCACHE2 SRAM power-down in all Stop modes
+0: DCACHE2 SRAM content retained in Stop modes
+1: DCACHE2 SRAM content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 6 SRAM4PDS: SRAM4 power-down in all Stop modes
+0: SRAM4 content retained in Stop modes
+1: SRAM4 content lost in Stop modes
+Bit 5 SRAM2PDS2: SRAM2 page 2 (56 Kbytes) power-down in Stop 0/1/2 modes
+0: SRAM2 page 2 content retained in Stop modes
+1: SRAM2 page 2 content lost in Stop modes
+Note: The SRAM2 page 2 retention in Stop 3 is controlled by RRSB2 bit in PWR_CR1.
+Bit 4 SRAM2PDS1: SRAM2 page 1 (8 Kbytes) power-down in Stop 0/1/2 modes
+0: SRAM2 page 1 content retained in Stop modes
+1: SRAM2 page 1 content lost in Stop modes
+Note: The SRAM2 page 1 retention in Stop 3 is controlled by RRSB1 bit in PWR_CR1.
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 SRAM1PDS3: SRAM1 page 3 (64 Kbytes) power-down in all Stop modes
+0: SRAM1 page 3 content retained in Stop modes
+1: SRAM1 page 3 content lost in Stop modes
+Bit 1 SRAM1PDS2: SRAM1 page 2 (64 Kbytes) power-down in all Stop modes
+0: SRAM1 page 2 content retained in Stop modes
+1: SRAM1 page 2 content lost in Stop modes
+Bit 0 SRAM1PDS1: SRAM1 page 1 (64 Kbytes) power-down in all Stop modes
+0: SRAM1 page 1 content retained in Stop modes
+1: SRAM1 page 1 content lost in Stop modes

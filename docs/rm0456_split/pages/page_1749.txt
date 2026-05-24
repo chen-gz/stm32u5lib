@@ -1,0 +1,418 @@
+24-bit
+Config 1
+
+Config 2
+
+Config 3
+
+Config 1
+
+Config 2
+
+D23
+
+-
+
+-
+
+-
+
+-
+
+-
+
+R[7]
+
+D22
+
+-
+
+-
+
+-
+
+-
+
+-
+
+R[6]
+
+D21
+
+-
+
+-
+
+R[4]
+
+-
+
+R[5]
+
+R[5]
+
+D20
+
+-
+
+R[4]
+
+R[3]
+
+-
+
+R[4]
+
+R[4]
+
+D19
+
+-
+
+R[3]
+
+R[2]
+
+-
+
+R[3]
+
+R[3]
+
+D18
+
+-
+
+R[2]
+
+R[1]
+
+-
+
+R[2]
+
+R[2]
+
+D17
+
+-
+
+R[1]
+
+R[0]
+
+R[5]
+
+R[1]
+
+R[1]
+
+D16
+
+-
+
+R[0]
+
+-
+
+R[4]
+
+R[0]
+
+R[0]
+
+D15
+
+R[4]
+
+-
+
+-
+
+R[3]
+
+-
+
+G[7]
+
+D14
+
+R[3]
+
+-
+
+-
+
+R[2]
+
+-
+
+G[6]
+
+D13
+
+R[2]
+
+G[5]
+
+G[5]
+
+R[1]
+
+G[5]
+
+G[5]
+
+D12
+
+R[1]
+
+G[4]
+
+G[4]
+
+R[0]
+
+G[4]
+
+G[4]
+
+D11
+
+R[0]
+
+G[3]
+
+G[3]
+
+G[5]
+
+G[3]
+
+G[3]
+
+D10
+
+G[5]
+
+G[2]
+
+G[2]
+
+G[4]
+
+G[2]
+
+G[2]
+
+D9
+
+G[4]
+
+G[1]
+
+G[1]
+
+G[3]
+
+G[1]
+
+G[1]
+
+D8
+
+G[3]
+
+G[0]
+
+G[0]
+
+G[2]
+
+G[0]
+
+G[0]
+
+D7
+
+G[2]
+
+-
+
+-
+
+G[1]
+
+-
+
+B[7]
+
+D6
+
+G[1]
+
+-
+
+-
+
+G[0]
+
+-
+
+B[6]
+
+D5
+
+G[0]
+
+-
+
+B[4]
+
+B[5]
+
+B[5]
+
+B[5]
+
+D4
+
+B[4]
+
+B[4]
+
+B[3]
+
+B[4]
+
+B[4]
+
+B[4]
+
+D3
+
+B[3]
+
+B[3]
+
+B[2]
+
+B[3]
+
+B[3]
+
+B[3]
+
+D2
+
+B[2]
+
+B[2]
+
+B[1]
+
+B[2]
+
+B[2]
+
+B[2]
+
+D1
+
+B[1]
+
+B[1]
+
+B[0]
+
+B[1]
+
+B[1]
+
+B[1]
+
+D0
+
+B[0]
+
+B[0]
+
+-
+
+B[0]
+
+B[0]
+
+B[0]
+
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+The LTDC interface can be configured to increase flexibility and promote its correct use for
+several systems. The following configuration options are available:
+•
+
+Polarity control: all the control signals are programmable to change the polarity
+depending on the LTDC configuration. It is recommended to keep the default polarity
+configuration in both LTDC, DSI Host and DSI Wrapper, to guarantee a correct
+behavior.
+
+•
+
+After the core reset, DSI Host waits for the first VSYNC active transition to start signal
+sampling, including pixel data, thus avoiding starting the transmission of the image data
+in the middle of a frame.
+
+•
+
+If interface pixel color coding is 18 bits and the 18-bit loosely packed stream is
+disabled, the number of pixels programmed in the VPSIZE field must be a multiple of
+four. This means that in this mode, the two LSBs in the configuration are always
+inferred as zero. The specification states that in this mode, the pixel line size must be a
+multiple of four.
+
+•
+
+To avoid FIFO underflows and overflows, the configured number of pixels is assumed
+to be received from the LTDC at all times.
+
+•
+
+To keep the memory organized with respect to the packet scheduling, the number of
+pixels per packet parameter is used to separate the memory space of different video
+packets.
+
+For SHTDN and COLM sampling and transmission, the video streaming from the LTDC
+must be active. This means that if the LTDC is not actively generating the video signals like
+VSYNC and HSYNC, these signals are not transmitted through the DSI link. Because of
+such constraints and for commands to be correctly transmitted, the first VSYNC active pulse
+must occur for the command sampling and transmission. When shutting down the display, it
+is necessary for the LTDC to be kept active for one frame after the command being issued.
+This ensures that the commands are correctly transmitted before actually disabling the
+video generation at the LTDC interface.
+The SHTDN and COLM values can be programmed in the DSI Wrapper control register
+(DSI_WCR).
+For all of the data types, one entire pixel is received per each clock cycle. The number of
+pixels of payload is restricted to a multiple of a value, as shown in Table 438.
+Table 438. Multiplicity of the payload size in pixels for each data type
+Value
+
+Data types
+
+1
+
+16-bit
+18-bit loosely packed
+24-bit
+
+2
+
+Loosely packed pixel stream
+
+4
+
+18-bit non-loosely packed
+
+RM0456 Rev 6

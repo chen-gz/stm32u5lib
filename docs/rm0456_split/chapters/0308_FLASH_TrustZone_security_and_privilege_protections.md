@@ -1,0 +1,112 @@
+363
+
+Embedded flash memory (FLASH)
+•
+
+•
+
+BOOT_LOCK option bit
+–
+
+BOOT_LOCK has only effect when TZEN is set.
+
+–
+
+BOOT_LOCK can be set without any constraint.
+
+–
+
+BOOT_LOCK deactivation is only possible when RDP is level 0.
+
+SWAP_BANK option bit
+–
+
+•
+
+Refer to Device life cycle managed by readout protection (RDP) transitions.
+
+WRPxyR option bits
+–
+
+•
+
+Secure option bits (SECWMx_PSTRT[6:0] and SECWMx_PEND[6:0]), and HDP
+option bits (HDPx_PEND[6:0] and HDPxEN) area in bank x cannot be modified
+when HDPx_ACCDIS bit is set.
+
+RDP option bits
+–
+
+•
+
+It cannot be modified when BOOT_LOCK and TZEN option bits are set.
+
+SECWMxRy option bits
+–
+
+•
+
+It cannot be modified when BOOT_LOCK option bit is set.
+
+DUALBANK option bit
+–
+
+•
+
+It cannot be modified when BOOT_LOCK and TZEN option bits are set.
+
+SECBOOTADD0 option bytes
+–
+
+•
+
+RM0456
+
+These bits cannot be modified when their UNLOCK bit is cleared.
+
+UNLOCK option bits
+–
+
+These bits can be set only when regressing from RDP level 1 to level 0.
+
+If the user options modification tries to set or modify one of the listed option bytes without
+following their associated rules, the option-byte modification is discarded and OPTWERR
+error flag is set.
+
+7.5
+
+FLASH TrustZone security and privilege protections
+
+7.5.1
+
+TrustZone security protection
+The global TrustZone system security is activated by setting TZEN in FLASH_OPTR.
+When TrustZone is active (TZEN = 1), the following additional security features are
+available:
+•
+
+secure watermark-based user option bytes defining secure and HDP areas
+
+•
+
+secure or nonsecure block-based area that can be configured on-the-fly after reset
+(volatile secure area)
+
+•
+
+an additional RDP protection: RDP level 0.5
+
+•
+
+erase or program operation that can be performed in secure or nonsecure mode
+with associated configuration bit.
+
+When the TrustZone is disabled (TZEN = 0), the above features are deactivated and all
+secure registers are RAZ/WI.
+
+Activate TrustZone security
+When the TrustZone is activated (TZEN is modified from 0 to 1), the secure watermarkbased user options bytes are set to default secure state: all flash memory is secure, and no
+HDP area, as shown in Table 58.
+
+<!-- pagebreak -->
+

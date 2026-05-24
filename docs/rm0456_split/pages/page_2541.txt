@@ -1,0 +1,67 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+When TrustZone is disabled, the APB access to the TAMP registers are nonsecure.
+
+64.4.3
+
+GPIOs controlled by the RTC and TAMP
+Refer to Section 63.3.3: GPIOs controlled by the RTC and TAMP.
+
+64.4.4
+
+TAMP register write protection
+After system reset, the TAMP registers (including backup registers) are protected against
+parasitic write access by the DBP bit in the power control peripheral (refer to the PWR
+power control section). DBP bit must be set in order to enable TAMP registers write access.
+
+64.4.5
+
+TAMP secure protection modes
+By default after a backup domain power-on reset, all TAMP registers can be read or written
+in both secure and nonsecure modes, except for the TAMP secure configuration register
+(TAMP_SECCFGR) which can be written in secure mode only. The TAMP protection
+configuration is not affected by a system reset.
+•
+
+•
+
+When the TAMPSEC bit is set in the TAMP_SECCFGR register:
+–
+
+Writing the TAMP registers is possible only in secure mode, except for the backup
+registers which have their own protection setting.
+
+–
+
+Reading TAMP_SECCFGR, TAMP_PRIVCFGR and TAMP_MISR is always
+possible in secure and nonsecure modes. All the other TAMP registers can be
+read only in secure mode, except for the backup registers and monotonic counters
+which have their own protection setting.
+
+When the CNT1SEC bit is set in the TAMP_SECCFGR register: the TAMP_COUNT1R
+can be read and written only in secure mode.
+
+A nonsecure access to a secure-protected register is denied:
+•
+
+There is no bus error generated.
+
+•
+
+A notification is generated through a flag/interrupt in the TZIC (TrustZone illegal access
+controller).
+
+•
+
+When write protected, the bits are not written.
+
+•
+
+When read protected they are read as 0.
+
+As soon as at least one function is configured to be secured, the TAMP reset and clock
+control is also secured in the RCC.

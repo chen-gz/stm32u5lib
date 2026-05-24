@@ -1,0 +1,112 @@
+1500
+
+Comparator (COMP)
+
+RM0456
+Table 356. COMP1 inverting input assignment
+COMP1_INM
+
+COMP1_INMSEL[3:0]
+
+¼ VREFINT
+
+0000
+
+½ VREFINT
+
+0001
+
+¾ VREFINT
+
+0010
+
+VREFINT
+
+0011
+
+DAC Channel1
+
+0100
+
+DAC Channel2
+
+0101
+
+COMP1_INM1
+
+0110
+
+COMP1_INM2
+
+0111
+
+Reserved
+
+≥ 1000
+
+Table 357. COMP2 non-inverting input assignment
+COMP2_INP
+
+COMP2_INPSEL[1:0]
+
+COMP2_INP1
+
+00
+
+COMP2_INP2
+
+01
+
+Reserved
+
+10
+
+Reserved
+
+11
+
+Table 358. COMP2 inverting input assignment
+COMP2_INM
+
+COMP2_INMSEL[3:0]
+
+¼ VREFINT
+
+0000
+
+½ VREFINT
+
+0001
+
+¾ VREFINT
+
+0010
+
+VREFINT
+
+0011
+
+DAC Channel1
+
+0100
+
+DAC Channel2
+
+0101
+
+COMP2_INM1
+
+0110
+
+COMP2_INM2
+
+0111
+
+Reserved
+
+≥ 1000
+
+Table 359. COMP1 output-blanking PWM assignment
+
+<!-- pagebreak -->
+

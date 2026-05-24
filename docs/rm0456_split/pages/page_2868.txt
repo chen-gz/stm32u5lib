@@ -1,0 +1,194 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+Figure 870. SAI_ADR format in TDM mode, 16-bit slot width
+8 Microphones configuration
+M2R-2 M1R-2
+
+M2R-3 M1R-3
+
+M2R-4 M1R-4
+
+M2R-5 M1R-5
+
+M2R-6 M1R-6
+
+M2R-7 M1R-7
+
+M2R-8 M1R-8
+
+M4R-2
+
+M4R-3
+
+M4R-4
+
+M4R-5
+
+M4R-6
+
+M4R-7
+
+M4R-8
+
+M2L-7 M1L-7
+
+M2L-8 M1L-8
+
+M2L-6 M1L-6
+
+M4L-7
+
+M2R-1 M1R-1
+
+M2L-5 M1L-5
+
+M4L-6
+
+M4R-1
+
+M2L-4 M1L-4
+
+M4L-5
+
+b0
+
+M4L-8
+
+M2L-3 M1L-3
+
+M4L-4
+
+zeros
+
+M2L-2 M1L-2
+
+word 4n+1
+
+M4L-3
+
+zeros
+
+M2L-1 M1L-1
+
+word 4n
+
+LSBFIRST = 0
+
+M4L-2
+
+b16 b15
+
+M4L-1
+
+b31
+
+...
+zeros
+
+word 4n+3
+
+4 Microphones configuration
+b0
+M2R-7 M1R-7
+
+M2R-6 M1R-6
+
+M2R-5 M1R-5
+
+M2R-4 M1R-4
+
+M2R-3 M1R-3
+
+M2R-2 M1R-2
+
+M2R-1 M1R-1
+
+M2L-8 M1L-8
+
+M2L-7 M1L-7
+
+M2L-6 M1L-6
+
+M2L-5 M1L-5
+
+M2L-4 M1L-4
+
+zeros
+
+M2L-3 M1L-3
+
+word 2n+1
+
+M2L-2 M1L-2
+
+zeros
+
+M2L-1 M1L-1
+
+LSBFIRST = 0
+
+word 2n
+
+M2R-8 M1R-8
+
+b31
+
+2 Microphones configuration
+M1R-7
+
+M1R-6
+
+M1R-5
+
+M1R-4
+
+M1R-3
+
+M1R-2
+
+M1R-1
+
+M1L-8
+
+M1L-7
+
+M1L-6
+
+M1L-5
+
+M1L-4
+
+M1L-3
+
+zeros
+
+M1L-2
+
+M1L-1
+
+word 2n
+
+b0
+
+LSBFIRST = 0
+
+M1R-8
+
+b31
+
+MSv35471V1
+
+•
+
+Using an 8-bit slot width (DS = 0b010 and SLOTSZ = 0). Refer to Figure 871.
+For an 8-microphone configuration, eight consecutive words read from the SAI_ADR
+register contain a byte of data from each microphone. Note that the 8-bit data of
+SAI_ADR are right-aligned.
+For a 4- or 2-microphone configuration, the SAI behavior is similar to the 8-microphone
+configuration. Up to four words of eight bits are required to acquire a byte from four
+microphones and two words from two microphones.
+
+RM0456 Rev 6

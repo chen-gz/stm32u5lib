@@ -1,0 +1,196 @@
+482
+
+Power control (PWR)
+
+RM0456
+Table 95. PWR input/output pins
+Pin name
+
+Signal type
+
+Description
+
+VDDA
+
+Supply
+
+Analog peripherals supply
+
+VSSA
+
+Supply
+
+Analog peripherals ground
+
+VDDIO2
+
+Supply
+
+Independent I/O supply
+
+VDDUSB
+
+Supply
+
+USB/OTG_FS/OTG_HS supply
+
+VDD11USB(1)
+
+Supply
+
+OTG_HS transceiver supply (optional)
+
+VDD11 (packages with SMPS)/
+VCAP (packages without SMPS)
+
+Supply
+
+Logic supply (VCORE)
+
+VBAT
+
+Supply
+
+Backup domain supply
+
+Supply
+
+DSI supply
+
+Supply
+
+DSI transceiver supply
+
+VDDSMPS
+
+Supply
+
+SMPS supply
+
+VSSSMPS
+
+Supply
+
+SMPS ground
+
+VLXSMPS
+
+Supply
+
+SMPS output
+
+VREF+
+
+Supply
+
+ADC/DAC high reference voltage
+
+VREF-
+
+Supply
+
+ADC/DAC low reference voltage
+
+WKUPx (x = 1 to 8)
+
+Input
+
+wake-up pins
+
+CSLEEP
+
+Output
+
+MCU in Sleep mode
+
+CDSTOP
+
+Output
+
+CPU domain in Stop mode
+
+SRDSTOP
+
+Output
+
+SmartRun domain in Stop mode
+
+VDDDSI
+
+(1)
+
+VDD11DSI
+
+(1)
+
+1. Only available on STM32U59x/5Ax/5Fx/5Gx devices.
+
+Table 96. PWR internal input/output signals
+Internal signal name
+
+Signal type
+
+WKUPx_y (x = 1 to 8, y = 1 to 4)
+
+Input
+
+Description
+wake-up event source selection
+
+Each of the eight wake-up events, WKUPx, can be generated from four pins or internal
+events, selected by WUSELx[1:0] (x = 1 to 8) in PWR_WUCR3.
+Table 97. PWR wake-up source selection
+Internal signal source (x = 1 to 8)
+wake-up
+event
+
+WKUPx_0
+(WUSELx = 00)
+
+WKUPx_1
+(WUSELx = 01)
+
+WKUPx_2
+(WUSELx = 10)
+
+WKUPx_3 (WUSELx = 11)
+
+WKUP1
+
+PA0
+
+PB2
+
+PE4
+
+Reserved
+
+WKUP2
+
+PA4
+
+PC13
+
+PE5
+
+Reserved
+
+WKUP3
+
+PE6
+
+PA1
+
+PB6
+
+Reserved
+
+WKUP4
+
+PA2
+
+PB1
+
+PB7
+
+Reserved

@@ -1,0 +1,56 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+When the secure software must switch a channel from a secure state to a nonsecure state,
+the secure software must abort the channel or wait until the secure channel is completed
+before switching. This is needed to dynamically re-allocate a channel to a next nonsecure
+transfer as a nonsecure software is not allowed to do so and must have
+GPDMA_CxCR.EN = 0 before the nonsecure software can reprogram the GPDMA_CxCR
+for a next transfer. The secure software may reset not only the channel x
+(GPDMA_CxCR.RESET = 1) but also the full channel x register file to its reset value.
+
+17.4.15
+
+GPDMA privileged/unprivileged channel
+Any channel x is a privileged or unprivileged hardware resource, as configured by a
+privileged agent via GPDMA_PRIVCFGR.PRIVx.
+When a channel x is configured in a privileged state by a privileged agent, the following
+access control rules are applied:
+•
+
+An unprivileged read access to a register field of this channel is forced to return 0,
+except for GPDMA_PRIVCFGR, GPDMA_SECCFGR, and GPDMA_RCFGLOCKR
+that are readable by an unprivileged agent.
+
+•
+
+An unprivileged write access to a register field of this channel has no impact.
+
+When a channel is configured in a privileged (or unprivileged) state, the source and
+destination data transfers are privileged (respectively unprivileged) transfers over the AHB
+master port.
+When a channel is configured in a privileged (or unprivileged) state and in linked-list mode,
+the loading of the next linked-list data structure from the GPDMA memory into its register
+file, is automatically performed with privileged (respectively unprivileged) transfers, via the
+GPDMA_CxCR.LAP allocated master port.
+The GPDMA generates a privileged bus that reflects GPDMA_PRIVCFGR, to keep the
+other peripherals informed of the privileged/unprivileged state of each GPDMA channel x.
+When the privileged software must switch a channel from a privileged state to
+an unprivileged state, the privileged software must abort the channel or wait until that the
+privileged channel is completed before switching. This is needed to dynamically re-allocate
+a channel to a next unprivileged transfer as an unprivileged software is not allowed to do so,
+and must have GPDMA_CxCR.EN = 0 before the unprivileged software can reprogram the
+GPDMA_CxCR for a next transfer. The privileged software may reset not only the channel x
+(GPDMA_CxCR.RESET = 1) but also the full channel x register file to its reset value.
+
+17.4.16
+
+GPDMA error management
+The GPDMA is able to manage and report to the user a transfer error, as follows, depending
+on the root cause.
+
+Data transfer error
+On a bus access (as a AHB single or a burst) to the source or the destination:

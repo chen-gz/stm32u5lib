@@ -1,0 +1,126 @@
+RM0456 Rev 6
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+BCDEN
+
+PWR
+DWN
+
+VBDEN
+
+SDEN
+
+PDEN
+
+DCD
+EN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+PS2
+DET
+
+SDET
+
+PDET
+
+DCDET
+
+r
+
+r
+
+r
+
+r
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+Bits 31:22 Reserved, must be kept at reset value.
+Bit 21 VBDEN: USB VBUS detection enable
+Enables VBUS sensing comparators to detect VBUS valid levels on the VBUS PAD for USB
+host and device operation. If HNP and/or SRP support is enabled, VBUS comparators are
+automatically enabled independently of VBDEN value.
+0 = VBUS detection disabled
+1 = VBUS detection enabled
+Bit 20 SDEN: Secondary detection (SD) mode enable
+This bit is set by the software to put the BCD into SD mode. Only one detection mode (DCD,
+PD, SD or OFF) must be selected to work correctly
+Bit 19 PDEN: Primary detection (PD) mode enable
+This bit is set by the software to put the BCD into PD mode. Only one detection mode (DCD,
+PD, SD or OFF) must be selected to work correctly.
+Bit 18 DCDEN: Data contact detection (DCD) mode enable
+This bit is set by the software to put the BCD into DCD mode. Only one detection mode
+(DCD, PD, SD or OFF) must be selected to work correctly.
+Bit 17 BCDEN: Battery charging detector (BCD) enable
+This bit is set by the software to enable the BCD support within the USB device. When
+enabled, the USB PHY is fully controlled by BCD and cannot be used for normal
+communication. Once the BCD discovery is finished, the BCD must be placed in OFF mode
+by clearing this bit to ‘0’ in order to allow the normal USB operation.
+Bit 16 PWRDWN: Power down control of FS PHY
+Used to activate the FS PHY in transmission/reception. When reset, the PHY is kept in
+power-down. When set, the BCD function must be off (BCDEN=0).
+0 = USB FS PHY disabled
+1 = USB FS PHY enabled
+Bits 15:4 Reserved, must be kept at reset value.
+Bit 3 PS2DET: DM pull-up detection status
+This bit is active only during PD and gives the result of comparison between DM voltage
+level and VLGC threshold. In normal situation, the DM level must be below this threshold. If
+it is above, it means that the DM is externally pulled high. This can be caused by connection
+to a PS2 port (which pulls-up both DP and DM lines) or to some proprietary charger not
+following the BCD specification.
+0: Normal port detected (connected to SDP, CDP or DCP)
+1: PS2 port or proprietary charger detected
+Bit 2 SDET: Secondary detection (SD) status
+This bit gives the result of SD.
+0: CDP detected
+1: DCP detected
+Bit 1 PDET: Primary detection (PD) status
+This bit gives the result of PD.
+0: no BCD support detected (connected to SDP or proprietary device).
+1: BCD support detected (connected to CDP or DCP).
+Bit 0 DCDET: Data contact detection (DCD) status
+This bit gives the result of DCD.
+0: data lines contact not detected
+1: data lines contact detected
+
+RM0456 Rev 6

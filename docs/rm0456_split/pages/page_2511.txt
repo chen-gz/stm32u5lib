@@ -1,0 +1,228 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+This register can be globally protected, or each bit of this register can be individually
+protected against nonsecure access. Refer to Section 63.3.4: RTC secure protection
+modes.
+This register can be globally protected, or each bit of this register can be individually
+protected against unprivileged access. Refer to Section 63.3.5: RTC privilege protection
+modes.
+Address offset: 0x18
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+31
+OUT2
+EN
+
+30
+
+29
+
+28
+
+27
+
+TAMP TAMP
+ALRBF ALRAF
+ALRM_ ALRM_
+CLR
+CLR
+TYPE
+PU
+
+rw
+
+rw
+
+15
+
+14
+
+TSIE
+rw
+
+rw
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+TAMP
+OE
+
+TAMP
+TS
+
+ITSE
+
+COE
+
+OSEL[1:0]
+
+POL
+
+COSEL
+
+BKP
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+w
+
+w
+
+7
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+WUTIE
+
+ALRB
+IE
+
+ALRA
+IE
+
+TSE
+
+WUTE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+ALRBE ALRAE
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+SSR
+UIE
+
+FMT
+
+BYP
+SHAD
+
+REFCK
+ON
+
+TS
+EDGE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+17
+
+16
+
+SUB1H ADD1H
+
+WUCKSEL[2:0]
+rw
+
+rw
+
+rw
+
+Bit 31 OUT2EN: RTC_OUT2 output enable
+With this bit set, the RTC outputs can be remapped on RTC_OUT2 as follows:
+OUT2EN = 0: RTC output 2 disable
+If OSEL ≠ 00 or TAMPOE = 1: TAMPALRM is output on RTC_OUT1
+If OSEL = 00 and TAMPOE = 0 and COE = 1: CALIB is output on RTC_OUT1
+OUT2EN = 1: RTC output 2 enable
+If (OSEL ≠ 00 or TAMPOE = 1) and COE = 0: TAMPALRM is output on RTC_OUT2
+If OSEL = 00 and TAMPOE = 0 and COE = 1: CALIB is output on RTC_OUT2
+If (OSEL ≠ 00 or TAMPOE = 1) and COE = 1: CALIB is output on RTC_OUT2 and
+TAMPALRM is output on RTC_OUT1.
+Bit 30 TAMPALRM_TYPE: TAMPALRM output type
+0: TAMPALRM is push-pull output
+1: TAMPALRM is open-drain output
+Bit 29 TAMPALRM_PU: TAMPALRM pull-up enable
+0: No pull-up is applied on TAMPALRM output
+1: A pull-up is applied on TAMPALRM output
+Bit 28 ALRBFCLR: Alarm B flag automatic clear
+0: Alarm B event generates a trigger event and ALRBF must be cleared by software to allow
+next alarm event.
+1: Alarm B event generates a trigger event. ALRBF is automatically cleared by hardware
+after 1 ck_apre cycle.
+Bit 27 ALRAFCLR: Alarm A flag automatic clear
+0: Alarm A event generates a trigger event and ALRAF must be cleared by software to allow
+next alarm event.
+1: Alarm A event generates a trigger event. ALRAF is automatically cleared by hardware
+after 1 ck_apre cycle.

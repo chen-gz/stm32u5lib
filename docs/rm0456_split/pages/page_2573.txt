@@ -1,0 +1,46 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bit 26 ITAMP11F: Internal tamper 11 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 11.
+Bit 25 Reserved, must be kept at reset value.
+Bit 24 ITAMP9F: Internal tamper 9 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 9.
+Bit 23 ITAMP8F: Internal tamper 8 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 8.
+Bit 22 ITAMP7F: Internal tamper 7 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 7.
+Bit 21 ITAMP6F: Internal tamper 6 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 6.
+Bit 20 ITAMP5F: Internal tamper 5 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 5.
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 ITAMP3F: Internal tamper 3 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 3.
+Bit 17 ITAMP2F: Internal tamper 2 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 2.
+Bit 16 ITAMP1F: Internal tamper 1 flag
+This flag is set by hardware when a tamper detection event is detected on the internal
+tamper 1.
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 TAMP8F: TAMP8 detection flag
+This flag is set by hardware when a tamper detection event is detected on the TAMP8 input
+Bit 6 TAMP7F: TAMP7 detection flag
+This flag is set by hardware when a tamper detection event is detected on the TAMP7 input.
+Bit 5 TAMP6F: TAMP6 detection flag
+This flag is set by hardware when a tamper detection event is detected on the TAMP6 input.
+Bit 4 TAMP5F: TAMP5 detection flag
+This flag is set by hardware when a tamper detection event is detected on the TAMP5 input.
+Bit 3 TAMP4F: TAMP4 detection flag
+This flag is set by hardware when a tamper detection event is detected on the TAMP4 input.

@@ -1,0 +1,120 @@
+RM0456 Rev 6
+
+RM0456
+
+Graphic timer (GFXTIM)
+HSYNC acts as line clock and VSYNC acts as frame clock.
+
+External HSYNC only
+With external HSYNC only, the clock generator provides to the GFXTIM, the frame clock
+and the line clock based only on HSYNC.
+Figure 755. Waveforms with external HSYNC only
+Display refresh duration
+Line
+duration
+
+TE/HSYNC
+FCCounter
+
+1
+
+0
+
+n n-1 n-2 n-3 n-4
+
+2
+
+1
+
+0
+
+n n-1 n-2
+
+FCCUF
+
+MSv66913V1
+
+HSYNC acts as line clock and FCCUF acts as frame clock.
+The clock generator can be synchronized by one of the following ways:
+•
+
+by software reload, setting FCCFR in GFXTIM_CGCR
+
+•
+
+by hardware reload on an external VSYNC (or TE)
+Figure 756. Active counters and signals with external HSYNC only
+FCCUF
+VSYNC
+HSYNC
+
+Line clock counter
+LCCReload
+
+Auto-reload
+
+TE
+SYSCK
+
+22-bit counter
+
+SWReload
+LCCUF
+FCCUF
+VSYNC
+LCCUF HSYNC
+
+Line clock
+
+TE
+Selected function
+FCCUF
+VSYNC
+HSYNC
+
+Frame clock counter
+FCCReload
+
+Auto-reload
+
+TE
+
+LCCUF
+VSYNC
+HSYNC
+
+12-bit counter
+
+SWReload
+LCCUF
+FCCUF
+VSYNC
+FCCUF HSYNC
+
+Frame clock
+
+TE
+
+TE
+MSv66914V1
+
+External VSYNC only
+With external VSYNC only, the clock generator provides to the GFXTIM, the frame clock
+and the line clock based only on VSYNC.
+Figure 757. Waveforms with external VSYNC only
+Display refresh duration
+Line
+duration
+
+TE/VSYNC
+xCCReload
+
+xCCReload
+
+xCCounter
+xCCUF
+MSv66915V1
+
+LCCUF (line clock counter underflow) acts as line clock and VSYNC acts as frame clock.
+
+RM0456 Rev 6

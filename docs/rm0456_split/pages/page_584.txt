@@ -1,0 +1,51 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 23 Reserved, must be kept at reset value.
+Bit 22 SAI2SMEN: SAI2 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SAI2 clocks disabled by the clock gating during Sleep and Stop modes
+1: SAI2 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series.Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 21 SAI1SMEN: SAI1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SAI1 clocks disabled by the clock gating during Sleep and Stop modes
+1: SAI1 clocks enabled by the clock gating during Sleep and Stop modes
+Bits 20:19 Reserved, must be kept at reset value.
+Bit 18 TIM17SMEN: TIM17 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM17 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM17 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 17 TIM16SMEN: TIM16 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM16 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM16 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 16 TIM15SMEN: TIM15 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM15 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM15 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 USART1SMEN: USART1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: USART1clocks disabled by the clock gating during Sleep and Stop modes
+1: USART1clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 13 TIM8SMEN: TIM8 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM8 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM8 clocks enabled by the clock gating during Sleep and Stop modes
+Bit 12 SPI1SMEN: SPI1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: SPI1 clocks disabled by the clock gating during Sleep and Stop modes
+1: SPI1 clocks enabled by the clock gating during Sleep and Stop modes
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bit 11 TIM1SMEN: TIM1 clock enable during Sleep and Stop modes
+This bit is set and cleared by software.
+0: TIM1 clocks disabled by the clock gating during Sleep and Stop modes
+1: TIM1 clocks enabled by the clock gating during Sleep and Stop modes
+Bits 10:0 Reserved, must be kept at reset value.

@@ -1,0 +1,152 @@
+2093
+
+Public key accelerator (PKA)
+
+RM0456
+
+Table 502. Modular exponentiation (protected mode)
+Parameters with direction
+
+IN
+
+Value (note)
+
+Size
+
+PKA_CR
+
+6 bits
+
+MODE
+
+0x03
+
+Exponent e length
+
+(in bits, not null)
+
+RAM@0x400
+
+Modulus or
+operand length
+
+(in bits, not null)
+
+RAM@0x408
+
+Operand A (base of
+(0 ≤ A < n)
+exponentiation)
+
+RAM@0x16C8
+
+Exponent e
+
+(0 ≤ e < n)
+
+RAM@0x14B8
+
+Modulus value n
+
+(odd integer only, n < 24096)
+
+RAM@0x0838
+
+-
+
+RAM@0x0C68
+
+Phi value(1)
+OUT
+
+Storage
+
+Result: Ae mod n
+
+ERROR Error Ae mod n
+
+(0 ≤ result < n)
+
+RAM@0x838
+
+No errors: 0xD60D
+Errors: 0xCBC9
+
+RAM@0x1298
+
+64 bits
+
+ROS
+
+64 bits
+
+1. Euler totient function of n1 with phi = (p - 1) * (q - 1), where p and q are prime factors of modulus n (see
+NIST SP800-56B Appendix C or RSA encryption/decryption principle for details). As optimization it is
+recommended to keep phi information as part of the key pair generation. Alternative is to store the key as
+(p, q, e, d) instead of (N, e, d, phi), in this case, to derive N and phi using PKA arithmetic multiplier:
+N = p * q, and phi = (p - 1) * (q - 1).
+
+53.4.7
+
+Modular inversion
+Modular inversion operation consists in the computation of multiplicative inverse A-1 mod n.
+If the modulus n is prime, for all values of A (1 ≤ A < n) modular inversion output is valid. If
+the modulus n is not prime, A has an inverse only if the greatest common divisor between A
+and n is 1.
+If the operand A is a divisor of the modulus n the result is a multiple of a factor of n.
+Operation instructions for modular inversion are summarized in Table 503.
+Table 503. Modular inversion
+Parameters with direction
+
+IN
+
+OUT
+
+53.4.8
+
+Value (note)
+
+MODE
+
+0x08
+
+Operand length
+
+(in bits, not null)
+
+Operand A
+
+(0 ≤ A < n)
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+
+RAM@0x408
+
+64 bits
+
+RAM@0xA50
+4160)
+
+Modulus value n
+
+(odd integer only, n < 2
+
+RAM@0xC68
+
+Result: A-1 mod n
+
+0 < result < n
+
+RAM@0xE78
+
+ROS
+
+Modular reduction
+Modular reduction operation consists in the computation of the remainder of A divided by n.
+Operation instructions are summarized in Table 504.

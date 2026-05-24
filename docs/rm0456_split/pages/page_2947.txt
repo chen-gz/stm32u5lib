@@ -1,0 +1,60 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Table 728. Standard message ID filter element field description
+Field
+
+Description
+
+Bit 31:30
+SFT[1:0](1)
+
+Standard filter type
+– 00: Range filter from SFID1 to SFID2
+– 01: Dual ID filter for SFID1 or SFID2
+– 10: Classic filter: SFID1 = filter, SFID2 = mask
+– 11: Filter element disabled
+
+Bit 29:27
+SFEC[2:0]
+
+Standard filter element configuration
+All enabled filter elements are used for acceptance filtering of standard frames.
+Acceptance filtering stops at the first matching enabled filter element or when the end
+of the filter list is reached. If SFEC[2:0] = 100, 101 or 110 a match sets interrupt flag
+IR.HPM and, if enabled, an interrupt is generated. In this case register HPMS is
+updated with the status of the priority match.
+– 000: Disable filter element
+– 001: Store in Rx FIFO 0 if filter matches
+– 010: Store in Rx FIFO 1 if filter matches
+– 011: Reject ID if filter matches
+– 100: Set priority if filter matches
+– 101: Set priority and store in FIFO 0 if filter matches
+– 110: Set priority and store in FIFO 1 if filter matches
+– 111: Not used
+
+Bits 26:16 Standard filter ID 1
+SFID1[10:0] First ID of standard ID filter element.
+Bits 10:0
+Standard filter ID 2
+SFID2[10:0] Second ID of standard ID filter element.
+1. With SFT[1:0] = 11 the filter element is disabled and the acceptance filtering continues (same behavior as
+with SFEC[2:0] = 000).
+
+Note:
+
+In case a reserved value is configured, the filter element is considered disabled.
+
+70.3.12
+
+FDCAN extended message ID filter element
+Up to eight filter elements can be configured for 29-bit extended IDs. When accessing an
+extended message ID filter element, its address is the filter list extended start address
+FLESA plus twice the index of the filter element (0 … 7).
+Table 729. Extended message ID filter element
+Bit 31
+F0
+F1

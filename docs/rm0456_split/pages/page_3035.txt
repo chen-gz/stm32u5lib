@@ -1,0 +1,64 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+72.4
+
+OTG_FS functional description
+
+72.4.1
+
+OTG_FS block diagram
+Figure 893. OTG_FS full-speed block diagram
+
+AHB peripheral
+
+Cortex core
+
+USB Interrupt
+
+DP
+DM
+USB2.0
+OTG FS
+core
+
+Power
+and
+clock control
+
+OTG FS
+PHY
+
+UTMIFS
+
+ID
+VBUS
+Universal serial bus
+
+USB suspend
+SOF
+
+USB clock at 48 MHz
+USB clock
+domain
+
+NOE
+
+RAM bus
+
+System clock
+domain
+
+1.25 Kbyte
+USB data
+FIFOs
+MSv47468V1
+
+72.4.2
+
+OTG_FS pin and internal signals
+Table 750. OTG_FS input/output pins
+Signal name

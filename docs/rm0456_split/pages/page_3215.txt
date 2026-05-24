@@ -1,0 +1,99 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Table 768. Device-mode control and status registers (continued)
+Acronym
+
+Offset
+address
+
+Register name
+
+OTG_DOEPTSIZ0
+
+0xB10
+
+Section 73.14.56: OTG device OUT endpoint 0 transfer size register
+(OTG_DOEPTSIZ0)
+
+OTG_DOEPDMAx
+
+0xB14
+0xB34
+...
+0xC14
+
+Section 73.14.57: OTG device OUT endpoint x DMA address register
+(OTG_DOEPDMAx)
+
+OTG_DOEPCTLx
+
+0xB20
+0xB40
+...
+0xC00
+
+Section 73.14.58: OTG device OUT endpoint x control register
+[alternate] (OTG_DOEPCTLx)
+Section 73.14.59: OTG device OUT endpoint x control register
+[alternate] (OTG_DOEPCTLx)
+
+OTG_DOEPTSIZx
+
+0xB30
+0xB50
+..
+0xBF0
+
+Section 73.14.60: OTG device OUT endpoint x transfer size register
+(OTG_DOEPTSIZx)
+
+Data FIFO (DFIFO) access register map
+These registers, available in both host and device modes, are used to read or write the FIFO
+space for a specific endpoint or a channel, in a given direction. If a host channel is of type
+IN, the FIFO can only be read on the channel. Similarly, if a host channel is of type OUT, the
+FIFO can only be written on the channel.
+Table 769. Data FIFO (DFIFO) access register map
+FIFO access register section
+
+Offset address
+
+Access
+
+Device IN endpoint 0/Host OUT Channel 0: DFIFO write access
+Device OUT endpoint 0/Host IN Channel 0: DFIFO read access
+
+0x1000–0x1FFC
+
+w
+r
+
+Device IN endpoint 1/Host OUT Channel 1: DFIFO write access
+Device OUT endpoint 1/Host IN Channel 1: DFIFO read access
+
+0x2000–0x2FFC
+
+w
+r
+
+...
+
+...
+
+...
+
+Device IN endpoint x(1)/Host OUT Channel x(1): DFIFO write access
+0xX000–0xXFFC
+Device OUT endpoint x(1)/Host IN Channel x(1): DFIFO read access
+
+w
+r
+
+1. Where x is 8 in device mode and 15 in host mode.
+
+Power and clock gating CSR map
+There is a single register for power and clock gating. It is available in both host and device
+modes.

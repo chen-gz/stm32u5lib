@@ -1,0 +1,101 @@
+191
+
+System security
+
+RM0456
+
+The figure below shows the 32-bit address space viewed after the SAU configuration
+by the secure code.
+Figure 8. Sharing memory map between CPU in secure and nonsecure state
+
+0xFFFF FFFF
+0xF000 0000
+
+Nonsecure Secure
+memory view memory view
+
+Nonsecure Secure
+memory view memory view
+
+System region
+
+MPU-NS*
+SCB-NS*
+SysTick-NS*
+DEBUG
+hidden
+SAU
+MPU-NS
+MPU-S
+SCB-NS
+SCB-S
+NVIC
+SysTick-NS
+SysTick-S
+ITM / DWT / FBP
+hidden
+
+System control and debug
+0xE000 0000
+External peripherals
+0xA000 0000
+External memories
+0x6000 0000
+0x4000 0000
+0x2000 0000
+0x0000 0000
+
+Periph-NS
+hidden
+Periph-S
+SRAM-NS
+hidden
+SRAM-S
+Flash-NS
+hidden
+Flash-S
+
+(*) Aliased addresses
+MSv64440V1
+
+The Cortex processor state (and associated rights) depends on the security attribute
+assigned to the memory region where it is executed:
+•
+
+A processor in a nonsecure state only executes from nonsecure (NS) program
+memory, while a processor in a secure state only executes from secure (S) program
+memory.
+
+•
+
+While running in the secure state, the processor can access data from both S and NS
+memories. Running in the nonsecure state, the CPU is limited to nonsecure memories.
+
+In order to manage transitions to the secure world, developers must create nonsecure
+callable (NSC) regions that contain valid entry points to the secure libraries. The first
+instruction in these entry points must be the new secure gate (SG) instruction, used
+by the nonsecure code to call a secure function (see the figure below).
+Figure 9. Secure world transition and memory partitioning
+Nonsecure memory
+
+Secure memory
+
+Nonsecure
+callable
+call
+
+Nonsecure
+application
+
+return
+
+Secure
+entry point
+
+call / branch
+
+Secure
+library
+return
+
+MSv64441V1

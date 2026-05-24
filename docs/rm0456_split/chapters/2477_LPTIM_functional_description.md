@@ -1,0 +1,204 @@
+2584
+
+System window watchdog (WWDG)
+
+62.5
+
+RM0456
+
+WWDG interrupts
+The early wake-up interrupt (EWI) can be used if specific safety operations or data logging
+must be performed before the reset is generated. To enable the early wake-up interrupt, the
+application must:
+•
+
+Write EWIF bit of WWDG_SR register to 0, to clear unwanted pending interrupt
+
+•
+
+Write EWI bit of WWDG_CFR register to 1, to enable interrupt
+
+When the down-counter reaches the value 0x40, a watchdog interrupt is generated, and the
+corresponding interrupt service routine (ISR) can be used to trigger specific actions (such as
+communications or data logging), before resetting the device.
+In some applications, the EWI interrupt can be used to manage a software system check
+and/or system recovery/graceful degradation, without generating a WWDG reset. In this
+case the corresponding ISR must reload the WWDG counter to avoid the WWDG reset,
+then trigger the required actions.
+The watchdog interrupt is cleared by writing 0 to the EWIF bit in the WWDG_SR register.
+Note:
+
+When the watchdog interrupt cannot be served (for example due to a system lock in a
+higher priority task), the WWDG reset is eventually generated.
+Table 630. WWDG interrupt requests
+Interrupt
+
+Event
+Enable
+Interrupt clearing method
+flag control bit
+
+Vector
+
+Event
+
+WWDG(2)
+
+Early wake-up
+interrupt
+
+EWIF
+
+EWI
+
+Write EWIF flag to 0
+
+Exit from mode
+Sleep Stop(1) Standby(1)
+Yes
+
+No
+
+No
+
+1. The WWDG interrupt can have additional capabilities, refer to Section 62.3 for details.
+2. WWDG vector corresponds to the assertion of the wwdg_it signal.
+
+62.6
+
+WWDG registers
+Refer to Section 1.2: List of abbreviations for registers for a list of abbreviations used in
+register descriptions.
+The peripheral registers can be accessed by halfwords (16-bit) or words (32-bit).
+
+62.6.1
+
+WWDG control register (WWDG_CR)
+Address offset: 0x000
+Reset value: 0x0000 007F
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+WDGA
+rs
+
+Bits 31:8 Reserved, must be kept at reset value.
+
+<!-- pagebreak -->
+

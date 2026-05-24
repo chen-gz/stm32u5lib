@@ -1,0 +1,108 @@
+•
+
+The physical buffer base address (PBBA) field of the GFXMMU buffer x configuration
+register (GFXMMU_BxCR). It configures the physical location of the 8-Mbyte area
+where the buffer is mapped.
+
+•
+
+The physical buffer location respective to the physical buffer base address is defined by
+the physical buffer offset (PBO) field of the GFXMMU buffer x configuration register
+(GFXMMU_BxCR).
+
+RM0456 Rev 6
+
+RM0456
+
+Chrom-GRC (GFXMMU)
+Figure 98. Virtual buffer and physical buffer memory map
+Physical buffer
+
+0xFF:FFFF
+
+Virtual buffer
+pBuffer3
+
+0xDF:FFFF
+Virtual buffer 3
+(3/4 Mbyte)
+
+0xYY:Y000
+
+Physical buffer 3 offset
+
+0xXX00:0000
+
+Physical buffer 3 base address
+
+0xYY:Y000
+
+Physical buffer 2 offset
+
+0xXX00:0000
+
+Physical buffer 2 base address
+
+0xYY:Y000
+
+Physical buffer 1 offset
+
+0xXX00:0000
+
+Physical buffer 1 base address
+
+0xYY:Y000
+
+Physical buffer 0 offset
+
+0xXX00:0000
+
+Physical buffer 0 base address
+
+0xC0:0000
+0xAF:FFFF
+
+pBuffer2
+
+Virtual buffer 2
+(3/4 Mbyte)
+
+0x80:0000
+0x6F:FFFF
+Virtual buffer 1
+(3/4 Mbyte)
+
+pBuffer1
+
+0x40:0000
+0x2F:FFFF
+Virtual buffer 0
+(3/4 Mbyte)
+pBuffer0
+0x00:0000
+
+MSv43801V2
+
+The buffer can not overflow the 8-Mbyte boundary of the zone defined by its base address.
+In case of overflow, the buffer x overflow flag (BxOF) of the GFXMMU status register
+(GFXMMU_SR) is set and an interrupt is generated if the buffer x overflow interrupt enable
+(BxOIE) bit of the GFXMMU configuration register (GFXMMU_CR) is set.
+
+Virtual buffer application use case
+As the physical locations are independently configurable, the four virtual buffers can be
+physically mapped to non continuous locations. This would allow for example to have the
+four buffers mapped on to four different SDRAM banks and avoid extra precharge cycles
+accessing the SDRAM.
+As a consequence, one buffer must be used by the CPU/Chrom ART for frame buffer
+calculation while an other one must be used by the LTDC.
+The two remaining buffers can be used as a graphical library requiring extra drawing
+buffers.
+
+21.4.2
+
+MMU architecture
+The MMU block is responsible of the address resolution. It receives the 24-bit address and
+returns the physical 23-bit address and a valid signals to indicate the address is physically
+mapped or not. The MMU also checks overflow of a area boundary.
+
+RM0456 Rev 6

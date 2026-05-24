@@ -1,0 +1,54 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+FD controller area network (FDCAN)
+
+Bit 11 TEFFE: Tx event FIFO full interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 10 TEFNE: Tx event FIFO new entry interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 9 TFEE: Tx FIFO empty interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 8 TCFE: Transmission cancellation finished interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 7 TCE: Transmission completed interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 6 HPME: High-priority message interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 5 RF1LE: Rx FIFO 1 message lost interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 4 RF1FE: Rx FIFO 1 full interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 3 RF1NE: Rx FIFO 1 new message interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 2 RF0LE: Rx FIFO 0 message lost interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 1 RF0FE: Rx FIFO 0 full interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 0 RF0NE: Rx FIFO 0 new message interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+
+RM0456 Rev 6

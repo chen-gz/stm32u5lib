@@ -1,0 +1,50 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Bit 17 CMF: Character match flag
+This bit is set by hardware, when a the character defined by ADD[7:0] is received. It is
+cleared by software, writing 1 to the CMCF in the LPUART_ICR register.
+An interrupt is generated if CMIE = 1in the LPUART_CR1 register.
+0: No Character match detected
+1: Character match detected
+Bit 16 BUSY: Busy flag
+This bit is set and reset by hardware. It is active when a communication is ongoing on the
+RX line (successful start bit detected). It is reset at the end of the reception (successful or
+not).
+0: LPUART is idle (no reception)
+1: Reception ongoing
+Bits 15:11 Reserved, must be kept at reset value.
+Bit 10 CTS: CTS flag
+This bit is set/reset by hardware. It is an inverted copy of the status of the CTS input pin.
+0: CTS line set
+1: CTS line reset
+Note: If the hardware flow control feature is not supported, this bit is reserved and kept at
+reset value.
+Bit 9 CTSIF: CTS interrupt flag
+This bit is set by hardware when the CTS input toggles, if the CTSE bit is set. It is cleared by
+software, by writing 1 to the CTSCF bit in the LPUART_ICR register.
+An interrupt is generated if CTSIE = 1 in the LPUART_CR3 register.
+0: No change occurred on the CTS status line
+1: A change occurred on the CTS status line
+Note: If the hardware flow control feature is not supported, this bit is reserved and kept at
+reset value.
+Bit 8 Reserved, must be kept at reset value.
+Bit 7 TXE: Transmit data register empty
+TXE is set by hardware when the content of the LPUART_TDR register has been transferred
+into the shift register. It is cleared by a write to the LPUART_TDR register.
+An interrupt is generated if the TXEIE bit = 1 in the LPUART_CR1 register.
+0: Data register full
+1: Data register empty
+Note: This bit is used during single buffer transmission.
+Bit 6 TC: Transmission complete
+This bit indicates that the last data written in the LPUART_TDR has been transmitted out of
+the shift register. The TC flag is set when the transmission of a frame containing data has
+completed and when TXE is set.
+An interrupt is generated if TCIE = 1 in the LPUART_CR1 register.
+TC bit is cleared by software by writing 1 to the TCCF in the LPUART_ICR register or by
+writing to the LPUART_TDR register.
+
+RM0456 Rev 6

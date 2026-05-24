@@ -1,0 +1,66 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+33.4.32
+
+RM0456
+
+Dual ADC modes
+In devices with two ADCs or more, dual ADC modes can be used (see Figure 33.4.33):
+•
+
+ADC1 and ADC2 can be used together in dual mode (ADC1 is master)
+
+In dual ADC mode the start of conversion is triggered alternately or simultaneously by the
+ADCx master to the ADC slave, depending on the mode selected by the DUAL[4:0] bits of
+the ADC12_CCR register.
+Four possible modes are implemented:
+•
+
+Injected simultaneous mode
+
+•
+
+Regular simultaneous mode
+
+•
+
+Interleaved mode
+
+•
+
+Alternate trigger mode
+
+It is also possible to use these modes combined in the following ways:
+•
+
+Injected simultaneous mode + regular simultaneous mode
+
+•
+
+Regular simultaneous mode + alternate trigger mode
+
+•
+
+Injected simultaneous mode + interleaved mode
+
+In dual ADC mode (when bits DUAL[4:0] in the ADC12_CCR register are not equal to zero),
+the bits CONT, AUTDLY, DISCEN, DISCNUM[2:0], JDISCEN, JAUTO of the ADC_CFGR
+register are shared between the master and slave ADC: the bits in the slave ADC are
+always equal to the corresponding bits of the master ADC.
+To start a conversion in dual mode, the user must program the bits EXTEN[1:0], EXTSEL,
+JEXTEN[1:0], JEXTSEL of the master ADC only, to configure a software or hardware
+trigger, and a regular or injected trigger. (the bits EXTEN[1:0] and JEXTEN[1:0] of the slave
+ADC are don’t care).
+In regular simultaneous or interleaved modes: once the user sets bit ADSTART or bit
+ADSTP of the master ADC, the corresponding bit of the slave ADC is also automatically
+set. However, bit ADSTART or bit ADSTP of the slave ADC is not necessary cleared at the
+same time as the master ADC bit.
+In injected simultaneous or alternate trigger modes: once the user sets bit JADSTART or bit
+JADSTP of the master ADC, the corresponding bit of the slave ADC is also automatically
+set. However, bit JADSTART or bit JADSTP of the slave ADC is not necessary cleared at
+the same time as the master ADC bit.
+In dual ADC mode, the converted data of the master and slave ADC can be read in parallel,
+by reading the ADC common data register (ADC12_CDR). The status bits can be also read
+in parallel by reading the dual-mode status register (ADC12_CSR).

@@ -1,0 +1,205 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.35
+
+RM0456
+
+RCC APB2 peripheral clock enable register (RCC_APB2ENR)
+Address offset: 0x0A4
+Reset value: 0x0000 0000
+Access: word, half-word, and byte access
+
+Note:
+
+When the peripheral clock is not active, read or write access to peripheral registers is
+not supported.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+LTDCE
+DSIEN
+N
+
+25
+
+24
+
+GFXTI
+USBEN
+MEN
+
+23
+
+22
+
+21
+
+Res.
+
+SAI2E
+N
+
+SAI1E
+N
+
+16
+
+rw
+
+rw
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+SPI1E
+N
+
+TIM1E
+N
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+17
+
+5
+
+Res.
+
+rw
+
+18
+
+TIM17E TIM16E TIM15E
+N
+N
+N
+
+Res.
+
+Res.
+
+USART TIM8E
+1EN
+N
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+20
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 DSIEN: DSI clock enable
+This bit is set and cleared by software.
+0: DSI clock disabled
+1: DSI clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 26 LTDCEN: LTDC clock enable
+This bit is set and cleared by software.
+0: LTDC clock disabled
+1: LTDC clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 25 GFXTIMEN: GFXTIM clock enable
+This bit is set and cleared by software.
+0: GFXTIM clock disabled
+1: GFXTIM clock enabled
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 24 USBEN: USB clock enable
+This bit is set and cleared by software.
+0: USB clock disabled
+1: USB clock enabled
+Note: This bit is only available on STM32U535/545 devices, it is reserved on other devices in
+the STM32U5 Series. If not present, consider this bit as reserved and keep it at reset
+value.
+Bit 23 Reserved, must be kept at reset value.

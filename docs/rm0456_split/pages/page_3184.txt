@@ -1,0 +1,66 @@
+The OTG_FS controller sends the B-device a SetFeature b_hnp_enable descriptor to
+enable HNP support. The B-device’s ACK response indicates that the B-device
+supports HNP. The application must set host Set HNP enable bit in the OTG control
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+and status register to indicate to the OTG_FS controller that the B-device supports
+HNP.
+2.
+
+When it has finished using the bus, the application suspends by writing the port
+suspend bit in the host port control and status register.
+
+3.
+
+When the B-device observes a USB suspend, it disconnects, indicating the initial
+condition for HNP. The B-device initiates HNP only when it must switch to the host role;
+otherwise, the bus continues to be suspended.
+The OTG_FS controller sets the host negotiation detected interrupt in the OTG
+interrupt status register, indicating the start of HNP.
+The OTG_FS controller deasserts the DM pull down and DM pull down in the PHY to
+indicate a device role. The PHY enables the OTG_DP pull-up resistor to indicate a
+connect for B-device.
+The application must read the current mode bit in the OTG control and status register
+to determine device mode operation.
+
+4.
+
+The B-device detects the connection, issues a USB reset, and enumerates the
+OTG_FS controller for data traffic.
+
+5.
+
+The B-device continues the host role, initiating traffic, and suspends the bus when
+done.
+The OTG_FS controller sets the early suspend bit in the core interrupt register after 3
+ms of bus idleness. Following this, the OTG_FS controller sets the USB suspend bit in
+the core interrupt register.
+
+6.
+
+In Negotiated mode, the OTG_FS controller detects the suspend, disconnects, and
+switches back to the host role. The OTG_FS controller asserts the DM pull down and
+DM pull down in the PHY to indicate its assumption of the host role.
+
+7.
+
+The OTG_FS controller sets the connector ID status change interrupt in the OTG
+interrupt status register. The application must read the connector ID status in the OTG
+control and status register to determine the OTG_FS controller operation as an Adevice. This indicates the completion of HNP to the application. The application must
+read the Current mode bit in the OTG control and status register to determine host
+mode operation.
+
+8.
+
+The B-device connects, completing the HNP process.
+
+B-device host negotiation protocol
+HNP switches the USB host role from B-device to A-device. The application must set the
+HNP-capable bit in the core USB configuration register to enable the OTG_FS controller to
+perform HNP as a B-device.
+
+RM0456 Rev 6

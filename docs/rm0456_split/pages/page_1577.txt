@@ -1,0 +1,134 @@
+rw
+
+Res.
+rw
+
+Res.
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+19
+
+Res.
+
+rw
+
+RM0456 Rev 6
+
+6
+
+5
+
+4
+
+CCK1D CCK0D CKGM
+IR
+IR
+OD
+rw
+
+rw
+
+rw
+
+17
+
+16
+
+CCKDIV[3:0]
+rw
+
+7
+
+18
+
+3
+Res.
+
+rw
+
+rw
+
+2
+
+1
+
+CCK1E CCK0E
+N
+N
+rw
+
+rw
+
+rw
+0
+CKGD
+EN
+rw
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+Bit 31 CKGACTIVE: Clock generator active flag
+This bit is set and cleared by hardware. This flag must be used by the application to check if
+the clock generator is effectively enabled (active) or not. The protected fields of this function
+can only be updated when CKGACTIVE = 0 (refer to Section 39.4.15 for details). The delay
+between a transition on CKGDEN and a transition on CKGACTIVE is two periods of AHB
+clock and two periods of mdf_proc_ck.
+0: The clock generator is not active and can be configured if needed.
+1: The clock generator is active and protected fields cannot be configured.
+Bits 30:24 PROCDIV[6:0]: Divider to control the serial interface clock
+This bitfield is set and reset by software. It is used to adjust the frequency of the clock
+provided to the SITF.
+F mdf_ker_ck
+F mdf_itf_ck = ------------------------------------------( PROCDIV + 1 )
+This bitfield must not be changed if one of the filters is enabled (DFTEN = 1).
+0: mdf_ker_ck provided to the SITF
+1: mdf_ker_ck/2 provided to the SITF
+2: mdf_ker_ck/3 provided to the SITF
+...
+127: mdf_ker_ck/128 provided to the SITF
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 23:20 Reserved, must be kept at reset value.
+Bits 19:16 CCKDIV[3:0]: Divider to control the MDF_CCK clock
+This bitfield is set and reset by software. It is used to adjust the frequency of the MDF_CCK
+clock. The input clock of this divider is the clock provided to the SITF. More globally, the
+frequency of the MDF_CCK is given by the following formula:
+F mdf_ker_ck
+F MDF_CCK = ----------------------------------------------------------------------------------------( PROCDIV + 1 ) × ( CCKDIV + 1 )
+This bitfield must not be changed if one of the filters is enabled (DFTEN = 1).
+0000: The MDF_CCK clock is mdf_proc_ck.
+0001: The MDF_CCK clock is mdf_proc_ck / 2.
+0010: The MDF_CCK clock is mdf_proc_ck / 3.
+...
+1111: The MDF_CCK clock is mdf_proc_ck / 16.
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 15:12 TRGSRC[3:0]: Digital filter trigger signal selection
+This bitfield is set and cleared by software.It is used to select which external signals trigger
+for the corresponding filter. This bitfield is not significant if CKGMOD = 0.
+000x: TRGO selected
+0010: mdf_trg[0] selected
+0011: mdf_trg[1] selected
+...
+1111: mdf_trg[13] selected
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details.)
+Bits 11:9 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

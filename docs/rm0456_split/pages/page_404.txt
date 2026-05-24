@@ -1,0 +1,110 @@
+482
+
+Power control (PWR)
+
+10.4
+
+RM0456
+
+PWR power supplies and supply domains
+Figure 32. Power supply overview
+VDDA domain
+VDDA
+VSSA
+VDDUSB
+VDD11USB(1)
+VSS
+VDDDSI(1)
+VDD11DSI(1)
+VSS
+
+VDDIO2
+VSS
+
+A/D converters
+Comparators
+D/A converters
+Operational amplifiers
+Voltage reference buffer
+
+USB transceiver
+
+DSI transceiver(1)
+
+VDDIO2 domain
+VDDIO2
+I/O ring
+
+PG[15:2]
+
+VDD domain
+VDDIO1 I/O ring
+Reset block
+Temperature sensor
+3 x PLL
+Internal RC oscillators
+
+VSS
+
+Core domain
+Core
+
+Standby circuitry
+(Wakeup logic, IWDG)
+
+VDD
+Voltage regulator
+(2)
+
+VDD11 or VCAP
+VLXSMPS
+VDDSMPS
+VSSSMPS
+
+LDO regulator
+
+VCORE
+
+SMPS regulator
+
+SRAM1
+SRAM2
+SRAM3(1)
+SRAM4
+SRAM5(1)
+SRAM6(1)
+Digital
+peripherals
+Flash memory
+
+Low-voltage detector
+
+Backup domain
+VBAT
+
+LSE crystal 32 kHz oscillator
+LSI 32 kHz oscillator
+Backup registers
+RCC_BDCR and PWR_BDCR1 registers
+RTC
+TAMP
+BKPSRAM
+
+1. This feature is only available on some devices in the STM32U5 Series.
+Refer to the device datasheet for availability of its associated peripheral.
+2. VDD11 supplies only on SMPS packages, otherwise VCAP pin(s).
+
+10.4.1
+
+MSv65698V3
+
+External power supplies
+The devices require a 1.71 V to 3.6 V VDD operating voltage supply. Several independent
+supplies can be provided for specific peripherals. These supplies must not be provided
+without a valid operating supply on VDD pin:
+•
+
+VDD = 1.71 V to 3.6 V (functionality guaranteed down to VBOR minimum value)
+VDD is the external power supply for the I/Os, the internal regulator, and the system
+analog such as reset, power management, and internal clocks. It is provided externally
+through VDD pins.

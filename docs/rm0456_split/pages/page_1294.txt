@@ -1,0 +1,118 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Example
+•
+
+Note:
+
+JDISCEN = 1, channels to be converted = 1, 2, 3
+–
+
+1st trigger: channel 1 converted (a JEOC event is generated)
+
+–
+
+2nd trigger: channel 2 converted (a JEOC event is generated)
+
+–
+
+3rd trigger: channel 3 converted and a JEOC event + a JEOS event are generated
+
+–
+
+...
+
+When all injected channels have been converted, the next trigger starts the conversion of
+the first injected channel. In the example above, the 4th trigger reconverts the 1st injected
+channel 1.
+It is not possible to use both auto-injected mode and discontinuous mode simultaneously:
+the bits DISCEN and JDISCEN must be kept cleared by software when JAUTO is set.
+
+33.4.22
+
+Programmable resolution (RES) - fast conversion mode
+It is possible to perform faster conversion by reducing the ADC resolution.
+The resolution can be configured to be either 14, 12, 10, 8 bits by programming the control
+bits RES[1:0]. Figure 237, Figure 238, Figure 239 and Figure 240 show the conversion
+result format with respect to the resolution as well as to the data alignment (in continuous
+mode assuming no added extra sampling cycle for high input resistance).
+Lower resolution enables faster conversion time for applications where high-data precision
+is not required. It reduces the conversion time spent by the successive approximation steps
+according to Table 313.
+Table 313. TSAR timings depending on resolution
+
+33.4.23
+
+RES
+
+TSAR
+(ADC clock cycles)
+
+TSAR (ns) at
+Fadc_ker_ck =
+55 MHz
+
+Tadc_ker_ck
+(ADC clock cycles) with
+Sampling time=5 ADC
+clock cycles
+
+Tadc_ker_ck (ns)
+at Fadc_ker_ck =
+55 MHz
+
+14
+
+17 ADC clock cycles
+
+309.1
+
+22 ADC clock cycles
+
+400.0
+
+12
+
+15 ADC clock cycles
+
+272.7
+
+20 ADC clock cycles
+
+363.6
+
+10
+
+13 ADC clock cycles
+
+236.4
+
+18 ADC clock cycles
+
+327.3
+
+8
+
+11 ADC clock cycles
+
+200.0
+
+16 ADC clock cycles
+
+290.9
+
+End of conversion and end of sampling phase
+(EOC, JEOC, EOSMP)
+The ADC notifies the application for each end of regular conversion (EOC) event and each
+injected conversion (JEOC) event.
+The ADC sets the EOC flag as soon as a new regular conversion data is available in the
+ADC_DR register. An interrupt can be generated if bit EOCIE is set. EOC flag is cleared by
+the software either by writing 1 to it or by reading ADC_DR.
+The ADC sets the JEOC flag as soon as a new injected conversion data is available in one
+of the ADC_JDRy registers. An interrupt can be generated if bit JEOCIE is set. JEOC flag is
+cleared by the software either by writing 1 to it or by reading the corresponding ADC_JDRy
+register.

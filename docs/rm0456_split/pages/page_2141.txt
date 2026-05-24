@@ -1,0 +1,55 @@
+If the DTPE bit is enabled while the counter is enabled, any new value written since last
+update is discarded and previous value is used.
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 553. Asymmetrical deadtime
+tim_ocxref
+
+Symmetrical deadtime
+(DTAE = 0)
+
+tim_ocx
+
+tim_ocxn
+DTG[7:0]
+
+DTG[7:0]
+
+tim_ocxref
+
+Asymmetrical deadtime
+(DTAE = 1)
+
+tim_ocx
+
+tim_ocxn
+DTGF[7:0]
+
+DTG[7:0]
+MSv62333V1
+
+Figure 554. Dead-time waveforms with delay greater than the negative pulse
+tim_ocxref
+
+tim_ocx
+delay
+tim_ocxn
+MSv62334V1
+
+Figure 555. Dead-time waveforms with delay greater than the positive pulse
+tim_ocxref
+
+tim_ocx
+tim_ocxn
+delay
+MSv62335V1
+
+The dead-time delay is the same for each of the channels and is programmable with the
+DTG bits in the TIMx_BDTR register. Refer to Section 54.6.20: TIMx break and dead-time
+register (TIMx_BDTR)(x = 1, 8) for delay calculation.
+
+RM0456 Rev 6

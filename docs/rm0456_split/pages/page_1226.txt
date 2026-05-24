@@ -1,0 +1,120 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Figure 213. Normal boot mode operation
+SDMMC_CK
+
+SDMMC_CMD
+
+CMD1
+
+SDMMC_Dn
+
+S 010 E
+
+S
+
+Block read
++ CRC E
+
+S
+
+RESP
+
+Block read
++ CRC E
+
+50 ms max.
+
+56 cycles min.
+
+1 s max.
+Boot completed
+74 cycles
+MSv40944V2
+
+To perform the normal boot procedure the following steps needed:
+1.
+
+Reset the card.
+
+2.
+
+if a boot acknowledgment is requested enable the BOOTACKEN and set the ACKTIME
+and enable the ACKFAIL and ACKTIMEOUT interrupt.
+
+3.
+
+enable the data reception by setting the DPSM in receive mode (DTDIR) and the
+number of data bytes to be received in DATALENGTH.
+
+4.
+
+Enable the DTIMEOUT, DATAEND, and CMDSENT interrupts for end of boot
+command confirmation.
+
+5.
+
+Select the normal boot operation mode in BOOTMODE, and enable boot in BOOTEN.
+The boot procedure is started by enabling the CPSM with CPSMEN.This causes:
+
+6.
+
+7.
+
+8.
+
+–
+
+the SDMMC_CMD to be driven low. (BOOTMODE = normal boot).
+
+–
+
+the ACK timeout to start.
+
+–
+
+DPSM to be enabled.
+
+The incorrect reception of the boot acknowledgment can be detected with ACKFAIL
+flag or ACKTIMEOUT flag when enabled.
+–
+
+when an incorrect boot acknowledgment is received the ACKFAIL flag occurs.
+
+–
+
+when the boot acknowledgment is not received in time the ACKTIMEOUT flag
+occurs.
+
+when all boot data has been received the DATAEND flag occurs.
+–
+
+when data CRC fails the DCRCFAIL flag is also generated.
+
+–
+
+when the data timeout occurs the DTIMEOUT flag is also generated.
+
+When last data has been received, read data from the FIFO until FIFO is empty after
+which end of data DATAEND flag is generated.
+–
+
+9.
+
+SDMMC has completely received all data and the DPSM is disabled.
+
+The boot procedure is terminated by firmware clearing BOOTEN, which causes the
+SDMMC_CMD line to go high. The CMDSENT flag is generated 56 cycles later to
+indicate that a new command can be sent.
+–
+
+If the boot procedure is aborted by firmware before all data has been received the
+CPSM Abort signal stops data reception and disables the DPSM which triggers an
+DABORT flag when enabled.
+
+10. The CMDSENT flag signals the end of the boot procedure and the card is ready to
+receive a new command.

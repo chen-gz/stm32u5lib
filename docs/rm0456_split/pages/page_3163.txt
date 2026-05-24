@@ -1,0 +1,70 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+1.
+
+RM0456
+
+Program the OTG_DOEPTSIZx register.
+–
+
+STUPCNT = 3
+
+2.
+
+Wait for the RXFLVL interrupt (OTG_GINTSTS) and empty the data packets from the
+receive FIFO.
+
+3.
+
+Assertion of the STUP interrupt (OTG_DOEPINTx) marks a successful completion of
+the SETUP data transfer.
+–
+
+On this interrupt, the application must read the OTG_DOEPTSIZx register to
+determine the number of SETUP packets received and process the last received
+SETUP packet.
+Figure 911. Processing a SETUP packet
+
+Wait for STP in OTG_DOEPINTx
+
+rem_supcnt=
+rd_reg(OTG_DOEPTSIZx)
+
+setup_cmd[31:0 = mem[4 – 2 * rem_supcnt]
+setup_cmd[63:32] = mem[5 – 2 * rem_supcnt]
+
+Find setup cmd type
+
+ctrl_rd/wr/2 stage
+
+Read
+
+Write
+
+2-stage
+setup_np_in_pkt
+Data IN phase
+
+setup_np_in_pkt
+Status IN phase
+
+rcv_out_pkt
+Data OUT phase
+MSv37035V1
+
+•
+
+Handling more than three back-to-back SETUP packets
+
+Per the USB 2.0 specification, normally, during a SETUP packet error, a host does not send
+more than three back-to-back SETUP packets to the same endpoint. However, the USB 2.0
+specification does not limit the number of back-to-back SETUP packets a host can send to
+the same endpoint. When this condition occurs, the OTG_FS controller generates an
+interrupt (B2BSTUP in OTG_DOEPINTx).
+•
+
+Setting the global OUT NAK
+
+Internal data flow:
+1.

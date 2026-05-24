@@ -1,0 +1,111 @@
+90
+
+Contents
+
+23
+
+RM0456
+
+Extended interrupts and event controller (EXTI) . . . . . . . . . . . . . . . . 918
+23.1
+
+EXTI main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 918
+
+23.2
+
+EXTI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 918
+
+23.3
+
+23.2.1
+
+EXTI connections between peripherals and CPU . . . . . . . . . . . . . . . . 920
+
+23.2.2
+
+EXTI interrupt/event mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 920
+
+EXTI functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 921
+23.3.1
+
+EXTI configurable event input wake-up . . . . . . . . . . . . . . . . . . . . . . . . 921
+
+23.3.2
+
+EXTI mux selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 922
+
+23.4
+
+EXTI functional behavior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 922
+
+23.5
+
+EXTI event protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 923
+
+23.6
+
+23.5.1
+
+EXTI security protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 924
+
+23.5.2
+
+EXTI privilege protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 924
+
+EXTI registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 925
+23.6.1
+
+EXTI rising trigger selection register (EXTI_RTSR1) . . . . . . . . . . . . . . 925
+
+23.6.2
+
+EXTI falling trigger selection register (EXTI_FTSR1) . . . . . . . . . . . . . 926
+
+23.6.3
+
+EXTI software interrupt event register (EXTI_SWIER1) . . . . . . . . . . . 926
+
+23.6.4
+
+EXTI rising edge pending register (EXTI_RPR1) . . . . . . . . . . . . . . . . 927
+
+23.6.5
+
+EXTI falling edge pending register (EXTI_FPR1) . . . . . . . . . . . . . . . . 928
+
+23.6.6
+
+EXTI security configuration register (EXTI_SECCFGR1) . . . . . . . . . . 928
+
+23.6.7
+
+EXTI privilege configuration register (EXTI_PRIVCFGR1) . . . . . . . . . 929
+
+23.6.8
+
+EXTI external interrupt selection register (EXTI_EXTICRm) . . . . . . . . 930
+
+23.6.9
+
+EXTI lock register (EXTI_LOCKR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 932
+
+23.6.10 EXTI CPU wake-up with interrupt mask register (EXTI_IMR1) . . . . . . 933
+23.6.11 EXTI CPU wake-up with event mask register (EXTI_EMR1) . . . . . . . 933
+23.6.12 EXTI register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 934
+
+24
+
+Cyclic redundancy check calculation unit (CRC) . . . . . . . . . . . . . . . . 936
+24.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 936
+
+24.2
+
+CRC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 936
+
+24.3
+
+CRC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 937
+
+24.4

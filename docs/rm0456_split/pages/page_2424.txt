@@ -1,0 +1,202 @@
+Signal name
+
+Signal type
+
+Description
+
+gfxtim_hclk
+
+Digital input
+
+Kernel and register interface clock
+
+gfxtim_it
+
+Digital output
+
+Global interrupt
+
+gfxtim_wit
+
+Digital output
+
+Watchdog global interrupt
+
+gfxtim_ev1
+
+Digital output
+
+Graphic timer event 1
+
+gfxtim_ev2
+
+Digital output
+
+Graphic timer event 2
+
+gfxtim_ev3
+
+Digital output
+
+Graphic timer event 3
+
+gfxtim_ev4
+
+Digital output
+
+Graphic timer event 4
+
+gfxtim_wrld
+
+Digital input
+
+Watchdog reload
+
+gfxtim_ite
+
+Digital input
+
+Internal tearing effect
+
+RM0456 Rev 6
+
+ALRM
+
+RM0456
+
+Graphic timer (GFXTIM)
+Table 618. GFXTIM internal signals (continued)
+Signal name
+
+Signal type
+
+Description
+
+gfxtim_hsync[3:0]
+
+Digital input
+
+Horizontal synchronization
+
+gfxtim_vsync[3:0]
+
+Digital input
+
+Vertical synchronization
+
+The table below shows how GFXTIM triggers are connected.
+Table 619. GFXTIM trigger interconnections
+
+59.3.3
+
+Trigger name
+
+Direction
+
+Trigger source/destination
+
+gfxtim_ev1
+
+Output
+
+gpdma_trigsel[62]
+
+gfxtim_ev2
+
+Output
+
+gpdma_trigsel[61]
+
+gfxtim_ev3
+
+Output
+
+gpdma_trigsel[60]
+
+gfxtim_ev4
+
+Output
+
+gpdma_trigsel[59]
+
+gfxtim_wrld
+
+Input
+
+reserved
+
+gfxtim_ite
+
+Input
+
+reserved
+
+gfxtim_hsync[0]
+
+Input
+
+LCD_HSYNC
+
+gfxtim_hsync[1]
+
+Input
+
+reserved
+
+gfxtim_hsync[2]
+
+Input
+
+reserved
+
+gfxtim_hsync[3]
+
+Input
+
+reserved
+
+gfxtim_vsync[0]
+
+Input
+
+LCD_VSYNC
+
+gfxtim_vsync[1]
+
+Input
+
+reserved
+
+gfxtim_vsync[2]
+
+Input
+
+reserved
+
+gfxtim_vsync[3]
+
+Input
+
+reserved
+
+Clock generator
+Two clocks are generated internally to fed the absolute and relative timers:
+•
+
+the frame clock: clocking frame counters
+
+•
+
+the line clock: clocking line counters
+
+Internal counter for time base generation
+The GFXTIM embeds a two-clock generation counter:
+•
+
+a 22-bit auto-reload down-counter on the system clock
+
+•
+
+a 12-bit auto-reload down-counter on selectable internal or external event
+
+RM0456 Rev 6

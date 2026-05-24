@@ -1,0 +1,91 @@
+1377
+
+Analog-to-digital converter (ADC12)
+
+RM0456
+
+Figure 274. DMA requests in interleaved mode when DAMDF[1:0] = 10
+
+Trigger
+
+Trigger
+
+ADC Master regular
+
+CH1
+
+CH1
+
+CH1
+
+ADC Master EOC
+
+Delay
+
+Delay
+
+Delay
+
+ADC Slave regular
+
+CH2
+
+CH2
+
+Trigger
+
+Trigger
+
+Trigger
+
+CH1
+Delay
+CH2
+
+CH1
+Delay
+
+CH2
+
+CH2
+
+ADC Slave EOC
+DMA request from
+ADC Master
+DMA request from
+ADC Slave
+
+Configuration where each sequence contains only one conversion
+MSv31034V2
+
+Note:
+
+When using multiple-ADC mode, the user must take care to configure properly the duration
+of the master and slave conversions so that a DMA request is generated and served for
+reading both data (master + slave) before a new conversion is available.
+•
+
+DAMDF[1:0] = 11: This mode is similar to the DAMDF[1:0] = 10. The only differences
+are that on each DMA request (two data items are available), two bytes representing
+two ADC converted data items are transferred as a half-word.
+This mode is used in interleaved and regular simultaneous mode when the result is 8bit. A new DMA request is issued when four new 8-bit values are available.
+Example:
+Interleaved dual mode: a DMA request is generated each time 2 data items are
+available
+DMA request:
+ADC12_CDR[7:0] = MST_ADC_DR[7:0]
+ADC12_CDR[15:8] = SLV_ADC_DR[7:0]
+ADC12_CDR[31:16] = 0x0
+
+Overrun detection
+In dual ADC mode (when DUAL[4:0] is not equal to 0b00000), if an overrun is detected on
+one of the ADCs, the DMA requests are no longer issued to ensure that all the data
+transferred to the RAM are valid (this behavior occurs whatever the DAMDF configuration).
+It may happen that the EOC bit corresponding to one ADC remains set because the data
+register of this ADC contains valid data.
+
+DMA one shot mode/ DMA circular mode when multiple-ADC mode is
+selected
+When DAMDF mode is selected (10 or 11), bit DMNGT[1:0] = 10 in the master ADC
+ADC12_CCR register must also be configured to select between DMA one shot mode and
+circular mode, as explained in section Section : Managing conversions using the DMA.

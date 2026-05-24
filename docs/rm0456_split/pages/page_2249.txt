@@ -1,0 +1,62 @@
+MSv62302V1
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 606. Counter timing diagram, Update event when ARPE = 0 (TIMx_ARR not
+preloaded)
+
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+31
+
+32
+
+33
+
+34
+
+35
+
+36
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter overflow
+
+Update event (UEV)
+
+Update interrupt flag (UIF)
+
+Auto-reload preload register
+
+FF
+
+36
+
+Write a new value in TIMx_ARR
+
+RM0456 Rev 6
+
+MSv62303V1

@@ -1,0 +1,77 @@
+1.
+
+I2C_CR2 register: START, STOP, PECBYTE, and NACK
+
+2.
+
+I2C_ISR register: BUSY, TXE, TXIS, RXNE, ADDR, NACKF, TCR, TC, STOPF, BERR,
+ARLO, PECERR, TIMEOUT, ALERT, and OVR
+
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+PE must be kept low during at least three APB clock cycles to perform the I2C reset. To
+ensure this, perform the following software sequence:
+
+65.4.7
+
+1.
+
+Write PE = 0
+
+2.
+
+Check PE = 0
+
+3.
+
+Write PE = 1
+
+I2C data transfer
+The data transfer is managed through transmit and receive data registers and a shift
+register.
+
+Reception
+The SDA input fills the shift register. After the eighth SCL pulse (when the complete data
+byte is received), the shift register is copied into the I2C_RXDR register if it is empty
+(RXNE = 0). If RXNE = 1, which means that the previous received data byte has not yet
+been read, the SCL line is stretched low until I2C_RXDR is read. The stretch occurs
+between the eighth and the ninth SCL pulse (before the acknowledge pulse).
+Figure 783. Data reception
+ACK pulse
+
+ACK pulse
+
+legend:
+
+SCL
+Shift register
+
+SCL
+stretch
+xx
+
+data1
+
+xx
+
+data2
+
+xx
+
+RXNE
+rd data0 rd data1
+
+I2C_RXDR
+
+data0
+
+data1
+
+data2
+
+MS19848V1
+
+RM0456 Rev 6

@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+The figure below illustrates this programming with a LPDMA channel and a source circular
+buffer.
+Figure 88. LPDMA circular buffer programming: update of the memory start address
+Req=PERIPH_TX
+
+Req=PERIPH_TX
+
+Reset
+Restore
+SAR/LLI1
+
+Init/LLI0
+Channel x
+Ht+ tcf
+
+Ht+ tcf
+
+Linked-list register file
+LLI0
+DMA_CxTR1
+DMA_CxTR2
+DMA_CxBR1
+
+CxLBA (LA = 0)
+USA = 1
+others Uxx = 0
+
+DMA_CxSAR
+
+Memory
+LLI1
+DMA_CxSAR
+
+DMA_CxDAR
+DMA_CxLLR
+MSv62640V1
+
+If circular buffering must be executed after some other transfers over the shared LPDMA
+channel x, the before-last LLIN-1 in memory is needed to configure the first block transfer.
+And the last LLIN restores the memory source (or destination) start address in memory-toperipheral transfer (respectively in peripheral-to-memory transfer).
+
+RM0456 Rev 6

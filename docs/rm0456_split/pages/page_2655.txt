@@ -1,0 +1,108 @@
+2902
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+66.5
+
+USART functional description
+
+66.5.1
+
+USART block diagram
+
+RM0456
+
+Figure 809. USART block diagram
+USART
+usart_ker_ck clock domain
+usart_wkup
+usart_it
+usart_tx_dma
+usart_rx_dma
+
+IRQ Interface
+
+usart_pclk
+clock domain
+
+usart_trg[15:0]
+
+DMA Interface
+COM Controller
+USART_CR1
+USART_ISR
+USART_CR2
+
+CK
+
+Hardware
+flow control
+
+TxFIFO
+
+32-bit APB bus
+
+USART_CR3
+USART_RQR
+USART_ICR
+
+RxFIFO
+
+USART_TDR
+
+USART_RDR
+USART_
+RTOR
+
+RTS/DE
+
+TX Shift Reg
+...
+
+TX
+
+RX Shift Reg
+...
+
+RX
+
+Baudrate
+generator &
+orversampling
+
+USART_GTPR
+USART_BRR
+usart_pclk
+usart_ker_ck
+
+CTS/NSS
+
+USART_
+PRESC
+
+usart_ker_ck_pres
+
+MSv40854V5
+
+66.5.2
+
+USART pins and internal signals
+Description of USART input/output pins
+•
+
+USART bidirectional communications
+USART bidirectional communications require a minimum of two pins: Receive Data In
+(RX) and Transmit Data Out (TX):
+–
+
+RX (Receive Data Input)
+RX is the serial data input. Oversampling techniques are used for data recovery.
+They discriminate between valid incoming data and noise.
+
+–
+
+TX (Transmit Data Output)
+When the transmitter is disabled, the output pin returns to its I/O port
+configuration. When the transmitter is enabled and no data needs to be
+transmitted, the TX pin is High. In single-wire and smartcard modes, this I/O is
+used to transmit and receive data.

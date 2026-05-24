@@ -1,0 +1,63 @@
+2037
+
+Hash processor (HASH)
+
+RM0456
+
+Example from FIPS PUB180-4
+Let us assume that the original message is the ASCII binary-coded form of “abc”, of length
+L = 24:
+byte 0
+byte 1
+byte 2
+byte 3
+01100001 01100010 01100011 UUUUUUUU
+<-- 1st word written to HASH_DIN -->
+
+NBLW[4:0] has to be loaded with the value 24: a “1” is appended at bit location 24 in the bit
+string (starting counting from left to right in the above bit string), which corresponds to bit 31
+in the HASH_DIN register (little-endian convention):
+01100001 01100010 01100011 1UUUUUUU
+
+Since L = 24, the number of bits in the above bit string is 25, and 423 “0” bits are appended,
+making now 448 bits.
+This gives in hexadecimal (byte words in big-endian format):
+61626380 00000000 00000000 00000000
+00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000018
+
+The message length value, L, in two-word format (that is 00000000 00000018) is appended.
+Hence the final padded message in hexadecimal (byte words in big-endian format):
+61626380 00000000 00000000 00000000
+00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000018
+
+If the hash processor is programmed to swap byte within HASH_DIN input register
+(DATATYPE = 10 in HASH_CR), the above message has to be entered by following the
+below sequence:
+1.
+
+0xUU636261 is written to the HASH_DIN register (where ‘U’ means don’t care).
+
+2.
+
+0x18 is written to the HASH_STR register (the number of valid bits in the last word
+written to the HASH_DIN register is 24, as the original message length is 24 bits).
+
+3.
+
+0x10 is written to the HASH_STR register to start the message padding (described
+above) and then perform the digest computation.
+
+4.
+
+The hash computing is complete with the message digest available in the HASH_HRx
+registers (x = 0...4) for the SHA-1 algorithm. For this FIPS example, the expected value
+is as follows:
+HASH_HR0 = 0xA9993E36
+HASH_HR1 = 0x4706816A
+HASH_HR2 = 0xBA3E2571
+HASH_HR3 = 0x7850C26C
+HASH_HR4 = 0x9CD0D89D

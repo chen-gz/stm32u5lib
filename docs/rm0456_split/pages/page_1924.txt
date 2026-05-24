@@ -1,0 +1,102 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+Table 469. AES internal input/output signals
+Signal name
+
+Signal type
+
+aes_hclk
+
+Input
+
+AHB bus clock
+
+aes_it
+
+Output
+
+AES interrupt request
+
+aes_in_dma
+
+Input/Output
+
+Input DMA single request/acknowledge
+
+aes_out_dma
+
+Input/Output
+
+Output DMA single request/acknowledge
+
+aes_itamp_out
+
+49.4.3
+
+Description
+
+Tamper event signal to TAMP (XOR-ed), triggered when an
+unexpected hardware fault occurs. When this signal is
+triggered, AES automatically clears key registers. A reset is
+required for AES to be usable again.
+
+Output
+
+AES cryptographic core
+Overview
+The AES cryptographic core consists of the following components:
+•
+
+AES core algorithm (AEA)
+
+•
+
+multiplier over a binary Galois field (GF2mul)
+
+•
+
+key input
+
+•
+
+initialization vector (IV) input
+
+•
+
+chaining algorithm logic (XOR, feedback/counter, mask)
+
+The AES core works on 128-bit data blocks (four words) with 128-bit or 256-bit key length.
+Depending on the chaining mode, the AES requires zero or one 128-bit initialization vector
+IV.
+The AES features the following modes of operation:
+•
+
+Mode 1:
+Plaintext encryption using a key stored in the AES_KEYRx registers
+
+•
+
+Mode 2:
+ECB or CBC decryption key preparation. It must be used prior to selecting Mode 3 with
+ECB or CBC chaining modes. The key prepared for decryption is stored automatically
+in the AES_KEYRx registers. Now the AES peripheral is ready to switch to Mode 3 for
+executing data decryption.
+
+•
+
+Mode 3:
+Ciphertext decryption using a key stored in the AES_KEYRx registers. When ECB and
+CBC chaining modes are selected, the key must be prepared beforehand, through
+Mode 2.
+
+Note:
+
+Mode 2 is only used when performing ECB and CBC decryption.
+The operating mode is selected by programming the MODE[1:0] bitfield of the AES_CR
+register. It may be done only when the AES peripheral is disabled.
+Special key operation is selected using the KMOD[1:0] bitfield of the AES_CR register. See
+Section 49.4.13 for details.

@@ -1,0 +1,83 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+1.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2.
+
+2.
+
+Configure the same trigger source for both DAC channels by setting the same value in
+the TSEL1 and TSEL2 bitfields.
+
+3.
+
+Load the dual DAC channel data to the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+When a trigger arrives, the DHR1 and DHR2 registers are transferred into DAC_DOR1 and
+DAC_DOR2, respectively (after three dac_hclk clock cycles).
+
+Simultaneous trigger with single LFSR generation
+1.
+
+To configure the DAC in this conversion mode, the following sequence is required:
+
+2.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2.
+
+3.
+
+Configure the same trigger source for both DAC channels by setting the same value in
+the TSEL1 and TSEL2 bitfields.
+
+4.
+
+Configure the two DAC channel WAVEx[1:0] bits as 01 and the same LFSR mask value
+in the MAMPx[3:0] bits.
+
+5.
+
+Load the dual DAC channel data to the desired DHR register (DHR12RD, DHR12LD or
+DHR8RD).
+
+When a trigger arrives, the LFSR1 counter, with the same mask, is added to the DHR1
+register and the sum is transferred into DAC_DOR1 (three dac_hclk clock cycles later). The
+LFSR1 counter is then updated. At the same time, the LFSR2 counter, with the same mask,
+is added to the DHR2 register and the sum is transferred into DAC_DOR2 (three dac_hclk
+clock cycles later). The LFSR2 counter is then updated.
+
+Simultaneous trigger with different LFSR generation
+To configure the DAC in this conversion mode, the following sequence is required:
+1.
+
+Set the two DAC channel trigger enable bits TEN1 and TEN2
+
+2.
+
+Configure the same trigger source for both DAC channels by setting the same value in
+the TSEL1 and TSEL2 bitfields.
+
+3.
+
+Configure the two DAC channel WAVEx[1:0] bits as 01 and set different LFSR mask
+values using the MAMP1[3:0] and MAMP2[3:0] bits.
+
+4.
+
+Load the dual DAC channel data into the desired DHR register (DAC_DHR12RD,
+DAC_DHR12LD or DAC_DHR8RD).
+
+When a trigger arrives, the LFSR1 counter, with the mask configured by MAMP1[3:0], is
+added to the DHR1 register and the sum is transferred into DAC_DOR1 (three dac_hclk
+clock cycles later). The LFSR1 counter is then updated.
+At the same time, the LFSR2 counter, with the mask configured by MAMP2[3:0], is added to
+the DHR2 register and the sum is transferred into DAC_DOR2 (three dac_hclk clock cycles
+later). The LFSR2 counter is then updated.
+
+Simultaneous trigger with single triangle generation
+To configure the DAC in this conversion mode, the following sequence is required:

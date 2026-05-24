@@ -1,0 +1,159 @@
+True random number generator (RNG) . . . . . . . . . . . . . . . . . . . . . . . 1905
+48.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1905
+
+48.2
+
+RNG main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1905
+
+48.3
+
+RNG functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1906
+48.3.1
+
+RNG block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1906
+
+48.3.2
+
+RNG internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1906
+
+48.3.3
+
+Random number generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1906
+
+48.3.4
+
+RNG initialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1909
+
+48.3.5
+
+RNG operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1910
+
+48.3.6
+
+RNG clocking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1912
+
+48.3.7
+
+Error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1912
+RM0456 Rev 6
+
+RM0456
+
+Contents
+48.3.8
+
+48.4
+
+RNG interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1914
+
+48.5
+
+RNG processing time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1914
+
+48.6
+
+RNG entropy source validation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1915
+
+48.7
+
+49
+
+RNG low-power use . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1913
+
+48.6.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1915
+
+48.6.2
+
+Validation conditions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1915
+
+RNG registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1916
+48.7.1
+
+RNG control register (RNG_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1916
+
+48.7.2
+
+RNG status register (RNG_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1918
+
+48.7.3
+
+RNG data register (RNG_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1919
+
+48.7.4
+
+RNG noise source control register (RNG_NSCR) . . . . . . . . . . . . . . . 1920
+
+48.7.5
+
+RNG health test control register (RNG_HTCR) . . . . . . . . . . . . . . . . . 1921
+
+48.7.6
+
+RNG register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1921
+
+AES hardware accelerator (AES) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1922
+49.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1922
+
+49.2
+
+AES main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1922
+
+49.3
+
+AES implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1923
+
+49.4
+
+AES functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1923
+49.4.1
+
+AES block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1923
+
+49.4.2
+
+AES internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1923
+
+49.4.3
+
+AES cryptographic core . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1924
+
+49.4.4
+
+AES procedure to perform a cipher operation . . . . . . . . . . . . . . . . . . 1929
+
+49.4.5
+
+AES decryption round key preparation . . . . . . . . . . . . . . . . . . . . . . . 1932
+
+49.4.6
+
+AES ciphertext stealing and data padding . . . . . . . . . . . . . . . . . . . . . 1932
+
+49.4.7
+
+AES task suspend and resume . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1933
+
+49.4.8
+
+AES basic chaining modes (ECB, CBC) . . . . . . . . . . . . . . . . . . . . . . 1933
+
+49.4.9
+
+AES counter (CTR) mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1938
+
+49.4.10 AES Galois/counter mode (GCM) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1940
+49.4.11 AES Galois message authentication code (GMAC) . . . . . . . . . . . . . 1945
+49.4.12 AES counter with CBC-MAC (CCM) . . . . . . . . . . . . . . . . . . . . . . . . . 1947
+49.4.13 AES operation with shared keys . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1952
+49.4.14 AES data registers and data swapping . . . . . . . . . . . . . . . . . . . . . . . 1953
+49.4.15 AES key registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1955
+49.4.16 AES initialization vector registers . . . . . . . . . . . . . . . . . . . . . . . . . . . 1955
+49.4.17 AES DMA interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1956
+
+RM0456 Rev 6

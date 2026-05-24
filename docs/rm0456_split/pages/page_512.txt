@@ -1,0 +1,220 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+11.8
+
+RCC registers
+
+11.8.1
+
+RCC clock control register (RCC_CR)
+Address offset: 0x000
+Reset value: 0x0000 0035
+Access: no wait state; word, half-word, and byte access
+HSEBYP and HSEEXT are cleared upon power-on reset. They are not affected upon other
+types of reset.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+Res.
+
+Res.
+
+PLL3R
+DY
+
+PLL3O
+N
+
+PLL2R
+DY
+
+PLL2O
+N
+
+PLL1R
+DY
+
+PLL1O
+N
+
+r
+
+rw
+
+r
+
+rw
+
+r
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+Res.
+
+HSIRD
+Y
+r
+
+SHSIR
+DY
+
+SHSIO HSI48R HSI48
+N
+DY
+ON
+
+r
+
+rw
+
+r
+
+rw
+
+23
+
+22
+
+21
+
+20
+
+19
+
+HSEEX
+T
+
+CSSO
+N
+
+rw
+
+rs
+
+rw
+
+r
+
+rw
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+8
+
+7
+
+6
+
+5
+
+HSIKE
+RON
+
+HSION
+
+MSIPL
+LFAST
+
+MSIPL
+LSEL
+
+rw
+
+rw
+
+rw
+
+rw
+
+MSIKR MSIKO
+DY
+N
+r
+
+rw
+
+MSIPL
+LEN
+rw
+
+18
+
+17
+
+MSISR MSIKE MSISO
+DY
+RON
+N
+r
+
+rw
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bit 29 PLL3RDY: PLL3 clock ready flag
+This bit is set by hardware to indicate that the PLL3 is locked.
+0: PLL3 unlocked
+1: PLL3 locked
+Bit 28 PLL3ON: PLL3 enable
+This bit is set and cleared by software to enable PLL3. It is cleared by hardware when
+entering Stop, Standby, or Shutdown mode.
+0: PLL3 OFF
+1: PLL3 ON
+Bit 27 PLL2RDY: PLL2 clock ready flag
+This bit is set by hardware to indicate that the PLL2 is locked.
+0: PLL2 unlocked
+1: PLL2 locked
+Bit 26 PLL2ON: PLL2 enable
+This bit is set and cleared by software to enable PLL2. It is cleared by hardware when
+entering Stop, Standby, or Shutdown mode.
+0: PLL2 OFF
+1: PLL2 ON
+Bit 25 PLL1RDY: PLL1 clock ready flag
+This bit is set by hardware to indicate that the PLL1 is locked.
+0: PLL1 unlocked
+1: PLL1 locked

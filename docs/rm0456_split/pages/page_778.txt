@@ -1,0 +1,43 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+Figure 79. Inserting a LLIn with an auxiliary LPDMA channel y
+
+LLIn-1 transfer
+
+DMA primary channel x
+
+DMA auxiliary channel y
+
+CPU
+
+Executing LLIn-2 data transfer
+Loading LLIn-1
+(with DMA_CxTR2: TRIGM[1:0] = 10
+TRIGPOL[1:0] = 01
+TRIGSEL= dma_chy_tc
+and TCEM[1:0] = 01)
+
+Executing LLIn-1 data transfer
+Transfer complete interrupt
+
+LLIn transfer
+
+Build new LLIn
+Configure channel Y
+
+Executing data transfer
+(Memcopy of new LLIn)
+dma_chy_tc
+
+LLIn+1
+transfer
+
+Loading new LLIn
+
+Executing LLIn data transfer
+Loading LLIn+1
+MSv62632V2

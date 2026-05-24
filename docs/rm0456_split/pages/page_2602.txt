@@ -1,0 +1,166 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+
+Figure 788. Transfer bus diagrams for I2C target transmitter (mandatory events only)
+legend:
+
+Example I2C target transmitter 3 bytes with 1st data flushed,
+NOSTRETCH=0:
+TXIS TXIS
+
+TXIS
+
+A
+
+A
+
+ADDR
+
+S
+
+Address
+
+data1
+
+reception
+data3
+
+A
+
+data2
+
+EV2 EV3
+
+EV1
+
+transmission
+
+TXIS
+
+NA
+
+P
+
+SCL stretch
+
+EV4 EV5
+
+TXE
+
+EV1: ADDR ISR: check ADDCODE and DIR, set TXE, set ADDRCF
+EV2: TXIS ISR: wr data1
+EV3: TXIS ISR: wr data2
+EV4: TXIS ISR: wr data3
+EV5: TXIS ISR: wr data4 (not sent)
+
+legend :
+
+Example I2C target transmitter 3 bytes without 1st data flush,
+NOSTRETCH=0:
+
+S
+
+TXIS
+
+TXIS
+
+ADDR
+
+Address
+
+A
+
+EV1
+
+data1
+
+A
+
+transmission
+
+TXIS
+
+data2
+
+reception
+
+A
+
+EV2
+
+data3
+
+EV3
+
+NA
+
+SCL stretch
+
+P
+
+EV4
+
+TXE
+
+EV1: ADDR ISR: check ADDCODE and DIR, set ADDRCF
+EV2: TXIS ISR: wr data2
+EV3: TXIS ISR: wr data3
+EV4: TXIS ISR: wr data4 (not sent)
+
+legend:
+
+Example I2C target transmitter 3 bytes, NOSTRETCH=1:
+
+transmission
+TXIS
+
+TXIS
+
+S
+
+Address
+
+EV1
+
+data1
+
+A
+
+EV2
+
+A
+
+STOPF
+
+TXIS
+
+data2
+
+EV3
+
+A
+
+data3
+
+EV4
+
+reception
+SCL stretch
+
+NA P
+
+EV5
+
+TXE
+
+EV1: wr data1
+EV2: TXIS ISR: wr data2
+EV3: TXIS ISR: wr data3
+EV4: TXIS ISR: wr data4 (not sent)
+EV5: STOPF ISR: (optional: set TXE and TXIS), set STOPCF
+MSv19853V3
+
+RM0456 Rev 6

@@ -1,0 +1,89 @@
+To guarantee a correct operation for the USB OTG_HS peripheral, the AHB frequency must
+be higher than 30 MHz.
+
+RM0456 Rev 6
+
+RM0456
+
+73.4.4
+
+USB on-the-go high-speed (OTG_HS)
+
+OTG detections
+Additionally the OTG_HS uses the following functions:
+•
+
+Integrated ID pull-up resistor used to sample the ID line for A/B device identification.
+
+•
+
+VBUS sensing comparators with hysteresis used to detect VBUS valid, A-B session valid
+and session-end voltage thresholds. They are used to detect valid startup and end-ofsession conditions, and constantly monitor the VBUS supply during USB operations.
+
+73.4.5
+
+High-speed OTG PHY connected to OTG_HS
+
+Note:
+
+Refer to implementation table to determine if an HS PHY is embedded.
+The USB OTG core includes an internal UTMI interface which is connected to the
+embedded HS PHY (see Section 73.4.1: OTG_HS block diagram).
+
+73.4.6
+
+Battery charging detection
+Support is available for the USB battery charging specification (v1.2).
+The OTG_HS includes the necessary circuits to enable battery charging detection (portable
+device).
+There is also a possibility to behave as a charging data port (the port advertises 1.5 A
+available on it's VBUS pin).
+Various fields control this functions and are implemented in register OTG_GCCFG.
+
+OTG_HS dual role device (DRD)
+Figure 919. OTG_HS A-B device connection
+VDD
+5 V to VDD
+Voltage
+regulator(1)
+VDD
+
+STM32
+
+GPIO
+
+GPIO + IRQ
+
+EN
+
+STMPS2141STR
+Current-limited 5 V Pwr
+Overcurrent power distribution
+switch(2)
+
+VBUS
+DM
+OSC_IN
+
+DP
+ID
+
+OSC_OUT
+
+VBUS
+DM
+DP
+ID
+VSS
+
+USBmicro-AB connector
+
+73.5
+
+MSv36917V2
+
+1. External voltage regulator only needed when building a VBUS powered device.
+2. STMPS2141STR needed only if the application has to support a VBUS powered device. A basic power
+switch can be used if 5 V are available on the application board.
+
+RM0456 Rev 6

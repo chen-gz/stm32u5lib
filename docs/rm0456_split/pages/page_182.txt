@@ -1,0 +1,75 @@
+191
+
+System security
+
+3.9.3
+
+RM0456
+
+On-the-fly decryption engine (OTFDEC)
+The OTFDEC TrustZone-aware peripheral proposes on-the-fly decryption of encrypted
+images stored on external flash memory, connected through the OCTOSPI. This decryption
+process introduces almost no additional cycle overhead when the standard NOR flash
+memory is used. The OTFDEC can also be used to encrypt flash memory images on the
+device (for example to encrypt with a device unique secret key).
+When a tamper event is confirmed in TAMP, all OTFDEC keys are erased and encrypted
+regions are read as zero until the OTFDEC is properly initialized again.
+An OTFDEC typical use is detailed in Section 3.12.2. For more details on the peripheral
+programming, refer to Section 52: On-the-fly decryption engine (OTFDEC).
+
+3.10
+
+Product life-cycle
+A typical IoT device life-cycle is summarized in the figure below. For each step, the devices
+propose secure life-cycle management mechanisms embedded in the hardware.
+
+User states
+Vendor states
+
+Figure 14. Device life-cycle security
+Virgin device
+Device manufacturing
+
+STM32 personalized device
+
+Development platform
+
+Vendor manufacturing
+
+Use
+
+r pr
+
+ovis
+
+ioni
+
+ng
+
+n
+
+Platform
+
+tio
+tiza
+
+duc
+
+Pro
+
+Deployed product
+
+Fie
+
+ld
+
+Decommissioning
+
+ret
+
+urn
+
+Decommissioned product
+
+Return material for analysis
+MSv64454V1

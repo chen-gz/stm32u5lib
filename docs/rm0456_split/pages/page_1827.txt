@@ -1,0 +1,202 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 5 PSE: Packet size error
+This bit indicates that the packet size error is detected during the packet reception.
+Bit 4 CRCE: CRC error
+This bit indicates that the CRC error is detected in the received packet payload.
+Bit 3 ECCME: ECC multi-bit error
+This bit indicates that the ECC multiple error is detected in a received packet.
+Bit 2 ECCSE: ECC single-bit error
+This bit indicates that the ECC single error is detected and corrected in a received packet.
+Bit 1 TOLPRX: Timeout low-power reception
+This bit indicates that the low-power reception timeout counter reached the end and
+contention is detected.
+Bit 0 TOHSTX: Timeout high-speed transmission
+This bit indicates that the high-speed transmission timeout counter reached the end and
+contention is detected.
+
+44.15.43 DSI Host interrupt enable register 0 (DSI_IER0)
+Address offset: 0x00C4
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PE4IE
+
+PE3IE
+
+PE2IE
+
+PE1IE
+
+PE0IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+AE9IE
+
+AE8IE
+
+AE7IE
+
+AE6IE
+
+AE5IE
+
+AE4IE
+
+AE3IE
+
+AE2IE
+
+AE1IE
+
+AE0IE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+AE15IE AE14IE AE13IE AE12IE AE11IE AE10IE
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 PE4IE: PHY error 4 interrupt enable
+This bit enables the interrupt generation on PHY error 4.
+0: Interrupt on PHY error 4 disabled
+1: Interrupt on PHY error 4 enabled
+Bit 19 PE3IE: PHY error 3 interrupt enable
+This bit enables the interrupt generation on PHY error 4.
+0: Interrupt on PHY error 3 disabled
+1: Interrupt on PHY error 3 enabled
+Bit 18 PE2IE: PHY error 2 interrupt enable
+This bit enables the interrupt generation on PHY error 2.
+0: Interrupt on PHY error 2 disabled
+1: Interrupt on PHY error 2 enabled
+Bit 17 PE1IE: PHY error 1 interrupt enable
+This bit enables the interrupt generation on PHY error 1.
+0: Interrupt on PHY error 1 disabled
+1: Interrupt on PHY error 1 enabled
+
+RM0456 Rev 6

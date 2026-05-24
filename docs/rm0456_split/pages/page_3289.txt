@@ -1,0 +1,188 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 30:29 RXDPID[1:0]:
+Condition: isochronous OUT endpoints
+Received data PID
+This is the data PID received in the last packet for this endpoint.
+00: DATA0
+01: DATA2
+10: DATA1
+11: MDATA
+Condition: control OUT endpoints
+STUPCNT[1:0]: SETUP packet count
+This field specifies the number of back-to-back SETUP data packets the endpoint can
+receive.
+01: 1 packet
+10: 2 packets
+11: 3 packets
+Bits 28:19 PKTCNT[9:0]: Packet count
+Indicates the total number of USB packets that constitute the transfer size amount of data for
+this endpoint.
+This field is decremented every time a packet (maximum size or short packet) is written to
+the Rx FIFO.
+Bits 18:0 XFRSIZ[18:0]: Transfer size
+This field contains the transfer size in bytes for the current endpoint. The core only interrupts
+the application after it has exhausted the transfer size amount of data. The transfer size can
+be set to the maximum packet size of the endpoint, to be interrupted at the end of each
+packet.
+The core decrements this field every time a packet is read from the Rx FIFO and written to
+the external memory.
+
+73.14.61 OTG power and clock gating control register (OTG_PCGCCTL)
+This register is available in host and device modes.
+Address offset: 0xE00
+Reset value: 0x200B 8000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SUSP
+
+PHY
+SLEEP
+
+ENL1
+GTG
+
+PHY
+SUSP
+
+Res.
+
+GATE
+HCLK
+
+STPP
+CLK
+
+r
+
+r
+
+rw
+
+r
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:8 Reserved, must be kept at reset value.
+Bit 7 SUSP: Deep Sleep
+This bit indicates that the PHY is in Deep Sleep when in L1 state.
+Bit 6 PHYSLEEP: PHY in Sleep
+This bit indicates that the PHY is in the Sleep state.

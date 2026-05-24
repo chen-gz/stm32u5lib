@@ -1,0 +1,175 @@
+RM0456 Rev 6
+
+FTOLP FTOHS
+RX
+TX
+w
+
+w
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 10 FGPTXE: Force generic payload transmit error
+Writing one to this bit forces a generic payload transmit error.
+Bit 9 FGPWRE: Force generic payload write error
+Writing one to this bit forces a generic payload write error.
+Bit 8 FGCWRE: Force generic command write error
+Writing one to this bit forces a generic command write error.
+Bit 7 FLPWRE: Force LTDC payload write error
+Writing one to this bit forces a LTDC payload write error.
+Bit 6 FEOTPE: Force EoTp error
+Writing one to this bit forces a EoTp error.
+Bit 5 FPSE: Force packet size error
+Writing one to this bit forces a packet size error.
+Bit 4 FCRCE: Force CRC error
+Writing one to this bit forces a CRC error.
+Bit 3 FECCME: Force ECC multi-bit error
+Writing one to this bit forces a ECC multi-bit error.
+Bit 2 FECCSE: Force ECC single-bit error
+Writing one to this bit forces a ECC single-bit error.
+Bit 1 FTOLPRX: Force timeout low-power reception
+Writing one to this bit forces a timeout low-power reception.
+Bit 0 FTOHSTX: Force timeout high-speed transmission
+Writing one to this bit forces a timeout high-speed transmission.
+
+44.15.47 DSI Host data lane timer read configuration register
+(DSI_DLTRCR)
+Address offset: 0x00F4
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+MRD_TIME[14:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bits 14:0 MRD_TIME[14:0]: Maximum read time
+This field configures the maximum time required to perform a read command in lane byte
+clock cycles. This register can only be modified when no read command is in progress.
+
+RM0456 Rev 6

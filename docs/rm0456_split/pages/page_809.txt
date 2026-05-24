@@ -1,0 +1,199 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power direct memory access controller (LPDMA)
+
+18.8.9
+
+LPDMA channel x control register (LPDMA_CxCR)
+Address offset: 0x64 + 0x80 * x (x = 0 to 3)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(LPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of the channel x (LPDMA_PRIVCFGR.PRIVx).
+This register is used to control a channel (activate, suspend, abort or disable it).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PRIO[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+LSM
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TOIE
+
+SUSPI
+E
+
+USEIE
+
+ULEIE
+
+DTEIE
+
+HTIE
+
+TCIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SUSP
+
+RESET
+
+EN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+w
+
+rw
+
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bits 23:22 PRIO[1:0]: priority level of the channel x LPDMA transfer versus others
+00: low priority, low weight
+01: low priority, mid weight
+10: low priority, high weight
+11: high priority
+Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.
+Bits 21:17 Reserved, must be kept at reset value.
+Bit 16 LSM: Link step mode
+0: channel executed for the full linked-list and completed at the end of the last LLI
+(LPDMA_CxLLR = 0). The 16 low-significant bits of the link address are null (LA[15:0] = 0)
+and all the update bits are null (UT1 = UB1 = UT2 = USA = UDA = ULL = 0). Then
+LPDMA_CxBR1.BNDT[15:0] = 0.
+1: channel executed once for the current LLI
+First the block transfer is executed as defined by the current internal register file until
+LPDMA_CxBR1.BNDT[15:0] = 0). Secondly the next linked-list data structure is conditionally
+uploaded from memory as defined by LPDMA_CxLLR. Then channel execution is completed.
+Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 TOIE: trigger overrun interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 13 SUSPIE: completed suspension interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bit 12 USEIE: user setting error interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+
+RM0456 Rev 6

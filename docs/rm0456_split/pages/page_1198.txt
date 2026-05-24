@@ -1,0 +1,13 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+- When DATACOUNT = 0, the transfer is completed normally and there is no
+DHOLD flag.
+–
+
+•
+
+•

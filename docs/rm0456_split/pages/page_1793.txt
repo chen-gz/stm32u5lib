@@ -1,0 +1,83 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+26. Start the LTDC flow through the DSI Wrapper (DSI_WCR.LTDCEN = 1)
+
+44.14.2
+
+a)
+
+In video mode, the data streaming starts as soon as the LTDC is enabled
+
+a)
+
+In adapted command mode, the frame buffer update is launched as soon as the
+DSI_WCR.LTDCEN bit is set
+
+Configuring the D-PHY parameters
+The D-PHY requires a specific configuration prior starting any communications. The
+configuration parameters are stored either in the DSI Host or the DSI Wrapper.
+
+Configuring the D-PHY parameters
+The D-PHY must be configured to adjust:
+•
+
+the slew rate for the clock lane through register DSI_DPCSRC
+
+•
+
+the slew rate for the data lanes through DSI_DPDL0SRC and DSIDPDL1SRC
+
+•
+
+the frequency band for the clock lane through DSI_DPCLBCR
+
+•
+
+the frequency band for the data lanes through DSI_DPDL0BCR and DSI_DPBL1BCR
+
+Configuring the D-PHY parameters in the DSI Host
+The DSI Host stores the configuration of D-PHY timing parameters and number of lanes.
+The following fields must be configured prior to any startup:
+•
+
+44.14.3
+
+Number of data lanes in the DSI_PCONFR register
+
+•
+
+Automatic clock lane control (ACR) in the DSI_CLCR register
+
+•
+
+Clock control (DPCC) in the DSI_CLCR register
+
+•
+
+Time for LP/HS and HS/LP transitions for both clock lane and data lanes in
+DSI_CLTCR and DSI_DLTCR registers
+
+•
+
+Stop wait time in the DSI_PCONFR register
+
+Configuring the DSI Host timing
+All the protocol timing must be configured in the DSI Host.
+
+Clock divider configuration
+Two clocks are generated internally, namely the timeout clock and the TX escape clock.
+The timeout clock is used as the timing unit in the configuration of HS to LP and LP to HS
+transition error. Its division factor is configured by the timeout clock division (TOCKDIV) field
+of the DSI Host clock control register (DSI_CCR).
+The TX escape clock is used in low-power transmission. Its division factor is configured by
+the TX escape clock division (TXECKDIV) field of the DSI Host clock control register
+(DSI_CCR) relatively to the lanebyteclock. Its typical value must be around 20 MHz.
+
+Timeout configuration
+The timings for timeout management as described in Section 44.8 are configured in the DSI
+Host timeout counter configuration registers (DSI_TCCR0 to DSI_TCCR5).
+
+RM0456 Rev 6

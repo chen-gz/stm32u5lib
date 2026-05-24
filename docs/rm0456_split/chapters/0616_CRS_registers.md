@@ -1,0 +1,198 @@
+621
+
+Clock recovery system (CRS)
+
+12.7
+
+RM0456
+
+CRS registers
+Refer to Section 1.2 for a list of abbreviations used in register descriptions.
+The peripheral registers can be accessed only by words (32-bit).
+
+12.7.1
+
+CRS control register (CRS_CR)
+Address offset: 0x00
+Reset value: 0x0000 4000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+ESYNC
+IE
+
+ERR
+IE
+
+SYNC
+WARNIE
+
+SYNC
+OKIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+TRIM[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+SW
+SYNC
+
+AUTO
+TRIMEN
+
+CEN
+
+rt_w1
+
+rw
+
+rw
+
+Bits 31:15 Reserved, must be kept at reset value.
+Bits 14:8 TRIM[6:0]: HSI48 oscillator smooth trimming
+The default value of the HSI48 oscillator smooth trimming is 64, which corresponds to the
+middle of the trimming interval.
+Bit 7 SWSYNC: Generate software SYNC event
+This bit is set by software in order to generate a software SYNC event. It is automatically
+cleared by hardware.
+0: No action
+1: A software SYNC event is generated.
+Bit 6 AUTOTRIMEN: Automatic trimming enable
+This bit enables the automatic hardware adjustment of TRIM bits according to the measured
+frequency error between two SYNC events. If this bit is set, the TRIM bits are read-only. The
+TRIM value can be adjusted by hardware by one or two steps at a time, depending on the
+measured frequency error value. Refer to Section 12.4.5 for more details.
+0: Automatic trimming disabled, TRIM bits can be adjusted by the user.
+1: Automatic trimming enabled, TRIM bits are read-only and under hardware control.
+Bit 5 CEN: Frequency error counter enable
+This bit enables the oscillator clock for the frequency error counter.
+0: Frequency error counter disabled
+1: Frequency error counter enabled
+When this bit is set, the CRS_CFGR register is write-protected and cannot be modified.
+Bit 4 Reserved, must be kept at reset value.
+Bit 3 ESYNCIE: Expected SYNC interrupt enable
+0: Expected SYNC (ESYNCF) interrupt disabled
+1: Expected SYNC (ESYNCF) interrupt enabled
+Bit 2 ERRIE: Synchronization or trimming error interrupt enable
+0: Synchronization or trimming error (ERRF) interrupt disabled
+1: Synchronization or trimming error (ERRF) interrupt enabled
+
+<!-- pagebreak -->
+

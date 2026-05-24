@@ -1,0 +1,37 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+The timer must be in Slave mode, with the bits SMS[3:0] = 1000 (Combined Reset + trigger
+mode) in the TIMx_SMCR register, and the OCxM[3:0] bits set to 1000 or 1001 for
+Retriggerable OPM mode 1 or 2.
+If the timer is configured in Up-counting mode, the corresponding CCRx must be set to 0
+(the ARR register sets the pulse length). If the timer is configured in down-counting mode
+CCRx must be above or equal to ARR.
+Note:
+
+In Retriggerable one-pulse mode, the CCxIF flag is not significant.
+The OCxM[3:0] and SMS[3:0] bitfields are split into two parts for compatibility reasons, the
+most significant bit is not contiguous with the three least significant ones.
+This mode must not be used with center-aligned PWM modes. It is mandatory to have
+CMS[1:0] = 00 in TIMx_CR1.
+Figure 642. Retriggerable one-pulse mode
+
+tim_trgi
+
+Counter
+
+tim_ocx
+MSv62345V2
+
+55.4.17
+
+Pulse on compare mode
+A pulse can be generated upon compare match event. A signal with a programmable pulse
+width generated when the counter value equals a given compare value, for debugging or
+synchronization purposes.
+This mode is available for any slave mode selection, including encoder modes, in edge and
+center aligned counting modes. It is solely available for channel 3 and channel 4. The pulse
+generator is unique and is shared by the two channels, as shown on Figure 643.

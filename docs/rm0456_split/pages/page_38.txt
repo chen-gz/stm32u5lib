@@ -1,0 +1,109 @@
+90
+
+Contents
+
+RM0456
+34.7.2
+
+ADC interrupt enable register (ADC_IER) . . . . . . . . . . . . . . . . . . . . . 1422
+
+34.7.3
+
+ADC control register (ADC_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1425
+
+34.7.4
+
+ADC configuration register 1 (ADC_CFGR1) . . . . . . . . . . . . . . . . . . 1427
+
+34.7.5
+
+ADC configuration register 2 (ADC_CFGR2) . . . . . . . . . . . . . . . . . . 1430
+
+34.7.6
+
+ADC sampling time register (ADC_SMPR) . . . . . . . . . . . . . . . . . . . . 1431
+
+34.7.7
+
+ADC watchdog threshold register (ADC_AWD1TR) . . . . . . . . . . . . . 1432
+
+34.7.8
+
+ADC watchdog threshold register (ADC_AWD2TR) . . . . . . . . . . . . . 1433
+
+34.7.9
+
+ADC channel selection register [alternate] (ADC_CHSELR) . . . . . . . 1434
+
+34.7.10 ADC channel selection register [alternate] (ADC_CHSELR) . . . . . . . 1434
+34.7.11 ADC watchdog threshold register (ADC_AWD3TR) . . . . . . . . . . . . . 1436
+34.7.12 ADC data register (ADC_DR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1437
+34.7.13 ADC power register (ADC_PWRR) . . . . . . . . . . . . . . . . . . . . . . . . . . 1437
+34.7.14 ADC Analog Watchdog 2 Configuration register (ADC_AWD2CR) . . 1438
+34.7.15 ADC Analog Watchdog 3 Configuration register (ADC_AWD3CR) . . 1439
+34.7.16 ADC Calibration factor (ADC_CALFACT) . . . . . . . . . . . . . . . . . . . . . 1439
+34.7.17 ADC option register (ADC_OR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1440
+34.7.18 ADC common configuration register (ADC_CCR) . . . . . . . . . . . . . . . 1440
+34.7.19 ADC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1441
+
+35
+
+Digital-to-analog converter (DAC) . . . . . . . . . . . . . . . . . . . . . . . . . . . 1444
+35.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1444
+
+35.2
+
+DAC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1444
+
+35.3
+
+DAC implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1445
+
+35.4
+
+DAC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1446
+35.4.1
+
+DAC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1446
+
+35.4.2
+
+DAC pins and internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1447
+
+35.4.3
+
+DAC clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1448
+
+35.4.4
+
+DAC channel enable . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1448
+
+35.4.5
+
+DAC data format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1449
+
+35.4.6
+
+DAC conversion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1450
+
+35.4.7
+
+DAC output voltage . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1452
+
+35.4.8
+
+DAC trigger selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1452
+
+35.4.9
+
+DMA requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1452
+
+35.4.10 Noise generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1453
+35.4.11 Triangle-wave generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1455
+35.4.12
+
+DAC channel modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1456
+
+35.4.13 DAC channel buffer calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1459

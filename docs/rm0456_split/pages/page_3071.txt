@@ -1,0 +1,49 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 27 LPMINT: LPM interrupt
+In device mode, this interrupt is asserted when the device receives an LPM transaction and
+responds with a non-ERRORed response.
+In host mode, this interrupt is asserted when the device responds to an LPM transaction with
+a non-ERRORed response or when the host core has completed LPM transactions for the
+programmed number of times (RETRYCNT bit in OTG_GLPMCFG).
+This field is valid only if the LPMEN bit in OTG_GLPMCFG is set to 1.
+Bit 26 PTXFE: Periodic Tx FIFO empty
+Asserted when the periodic transmit FIFO is either half or completely empty and there is
+space for at least one entry to be written in the periodic request queue. The half or
+completely empty status is determined by the periodic Tx FIFO empty level bit in the
+OTG_GAHBCFG register (PTXFELVL bit in OTG_GAHBCFG).
+Note: Only accessible in host mode.
+Bit 25 HCINT: Host channels interrupt
+The core sets this bit to indicate that an interrupt is pending on one of the channels of the
+core (in host mode). The application must read the OTG_HAINT register to determine the
+exact number of the channel on which the interrupt occurred, and then read the
+corresponding OTG_HCINTx register to determine the exact cause of the interrupt. The
+application must clear the appropriate status bit in the OTG_HCINTx register to clear this bit.
+Note: Only accessible in host mode.
+Bit 24 HPRTINT: Host port interrupt
+The core sets this bit to indicate a change in port status of one of the OTG_FS controller
+ports in host mode. The application must read the OTG_HPRT register to determine the
+exact event that caused this interrupt. The application must clear the appropriate status bit in
+the OTG_HPRT register to clear this bit.
+Note: Only accessible in host mode.
+Bit 23 RSTDET: Reset detected interrupt
+In device mode, this interrupt is asserted when a reset is detected on the USB in partial
+power-down mode when the device is in suspend.
+Note: Only accessible in device mode.
+Bit 22 Reserved, must be kept at reset value.
+Bit 21 IPXFR: Incomplete periodic transfer
+In host mode, the core sets this interrupt bit when there are incomplete periodic transactions
+still pending, which are scheduled for the current frame.
+INCOMPISOOUT: Incomplete isochronous OUT transfer
+In device mode, the core sets this interrupt to indicate that there is at least one isochronous
+OUT endpoint on which the transfer is not completed in the current frame. This interrupt is
+asserted along with the End of periodic frame interrupt (EOPF) bit in this register.
+Bit 20 IISOIXFR: Incomplete isochronous IN transfer
+The core sets this interrupt to indicate that there is at least one isochronous IN endpoint on
+which the transfer is not completed in the current frame. This interrupt is asserted along with
+the End of periodic frame interrupt (EOPF) bit in this register.
+Note: Only accessible in device mode.

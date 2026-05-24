@@ -1,0 +1,59 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+67.4.3
+
+RM0456
+
+LPUART clocks
+The simplified block diagram given in Section 67.4.1: LPUART block diagram shows two
+fully independent clock domains:
+•
+
+The lpuart_pclk clock domain
+The lpuart_pclk clock signal feeds the peripheral bus interface. It must be active when
+accesses to the LPUART registers are required.
+
+•
+
+The lpuart_ker_ck kernel clock domain
+The lpuart_ker_ck is the LPUART clock source. It is independent of the lpuart_pclk
+and delivered by the RCC. So, the LPUART registers can be written/read even when
+the lpuart_ker_ck is stopped.
+
+When the dual clock domain feature is not supported, the lpuart_ker_ck is the same
+as the lpuart_pclk clock.
+There is no constraint between lpuart_pclk and lpuart_ker_ck: lpuart_ker_ck can be
+faster or slower than lpuart_pclk, with no more limitation than the ability for the software to
+manage the communication fast enough.
+
+67.4.4
+
+LPUART character description
+The word length can be set to 7 or 8 or 9 bits, by programming the M bits (M0: bit 12 and
+M1: bit 28) in the LPUART_CR1 register (see Figure 810).
+•
+
+7-bit character length: M[1:0] = 10
+
+•
+
+8-bit character length: M[1:0] = 00
+
+•
+
+9-bit character length: M[1:0] = 01
+
+By default, the signal (TX or RX) is in low state during the start bit. It is in high state during
+the stop bit.
+These values can be inverted, separately for each signal, through polarity configuration
+control.
+An idle character is interpreted as an entire frame of “1”s (the number of “1”s includes the
+number of stop bits).
+A break character is interpreted on receiving “0”s for a frame period. At the end of the
+break frame, the transmitter inserts 2 stop bits.
+Transmission and reception are driven by a common baud rate generator. The transmission
+and reception clocks are generated when the enable bit is set for the transmitter and
+receiver, respectively.
+The details of each block is given below.

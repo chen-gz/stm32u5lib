@@ -1,0 +1,163 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+
+N × Ln ( D )
+DS CIC = ⎛ ---------------------------⎞ + DS IN
+⎝ Ln ( 2 ) ⎠
+
+and the CIC gain is given by this formula:
+G CIC = ( D )
+
+N
+
+The decimation ratio can be adjusted from 2 to 512 for the CIC filter.
+Table 395 gives some data output size in bits for some decimation values, when the data
+source is a full-scale signal coming from the serial interface or from a 12-bit ADC.
+Note:
+
+DSIN = 1 bit for a serial bitstream, but can be up to 16 bits when coming from the ADCITF.
+Table 395. Data size according to CIC order and CIC decimation values
+Decimation
+
+Note:
+
+Data size (bits) when DSIN = 1 bit
+(data from SITF0)
+
+Data size (bits) when DSIN = 12 bits
+(data from ADCITF)
+
+Sinc4
+
+Sinc5
+
+Sinc4
+
+Sinc5
+
+4
+
+9
+
+11
+
+20
+
+22
+
+8
+
+13
+
+16
+
+24
+
+-
+
+10
+
+15
+
+18
+
+26
+
+-
+
+12
+
+16
+
+19
+
+-
+
+-
+
+16
+
+17
+
+21
+
+-
+
+-
+
+20
+
+19
+
+23
+
+-
+
+-
+
+24
+
+20
+
+24
+
+-
+
+-
+
+32
+
+21
+
+26
+
+-
+
+-
+
+48
+
+24
+
+-
+
+-
+
+-
+
+64
+
+25
+
+-
+
+-
+
+-
+
+76
+
+26
+
+-
+
+-
+
+-
+
+For a full-scale input signal, the decimation ratio must not exceed 76 for a Sinc4 and 32 for a
+Sinc5.
+The LSB parts of the data provided by the CIC is not necessarily significant: it depends on
+the sensor performances and the ability of the CIC to reject the out-off band noise.
+The sample size at CIC output can be adjusted thanks to the SCALE block.
+
+Scaling (SCALE) and saturation (SAT)
+The SCALE block allows the application to adjust the amplitude of the signal provided by the
+CIC, by steps of 3 dB (± 0.5 dB).
+The signal amplitude can be decreased by up to 8 bits (- 48.2 dB), and can be increased by
+up to 12 bits (+ 72.2 dB).
+
+RM0456 Rev 6

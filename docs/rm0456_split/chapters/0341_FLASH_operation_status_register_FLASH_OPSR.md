@@ -1,0 +1,182 @@
+RM0456 Rev 6
+
+RM0456
+
+Embedded flash memory (FLASH)
+
+7.9.12
+
+FLASH operation status register (FLASH_OPSR)
+Address offset: 0x34
+Reset value: 0xX0XX XXXX
+(0xX0XX XXXX after system reset, and 0x0000 0000 after power-on reset)
+Access: no wait state; word, half-word, and byte access
+This register is nonsecure. It can be read and written by both secure and nonsecure access.
+This register can be protected against unprivileged access when NSPRIV = 1
+in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+29
+
+CODE_OP[2:0]
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+8
+
+7
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+22
+
+21
+
+20
+
+SYSF_
+BK_OP
+OP
+
+19
+
+18
+
+17
+
+16
+
+ADDR_OP[20:16]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+ADDR_OP[15:0]
+r
+
+r
+
+Bits 31:29 CODE_OP[2:0]: Flash memory operation code
+This field indicates which flash memory operation has been interrupted by a system reset:
+000: No flash operation interrupted by previous reset
+001: Single write operation interrupted
+010: Burst write operation interrupted
+011: Page erase operation interrupted
+100: Bank erase operation interrupted
+101: Mass erase operation interrupted
+110: Option change operation interrupted
+111: Reserved
+Bits 28:23 Reserved, must be kept at reset value.
+Bit 22 SYSF_OP: Operation in system flash memory interrupted
+This bit indicates that the reset occurred during an operation in the system flash memory.
+Bit 21 BK_OP: Interrupted operation bank
+This bit indicates which flash memory bank was accessed when reset occurred
+0: Bank 1
+1: Bank 2
+Bits 20:0 ADDR_OP[20:0]: Interrupted operation address
+This field indicates which address in the flash memory was accessed when reset occurred.
+The address is given by bank from address 0x0 0000 to address:
+0x7 FFF0: upper address for STM32U535/545
+0xF FFF0: upper address for STM32U575/585
+0x1F FFF0 upper address for STM32U59x/5Ax/5Fx/5Gx
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

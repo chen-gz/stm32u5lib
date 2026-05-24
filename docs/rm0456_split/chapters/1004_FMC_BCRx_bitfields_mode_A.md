@@ -1,0 +1,137 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+Table 226. FMC_BCRx bitfields (mode A)
+Bit number
+
+Bit name
+
+Value to set
+
+31
+
+FMCEN
+
+0x1
+
+30:24
+
+Reserved
+
+0x000
+
+23:22
+
+NBLSET[1:0]
+
+As needed
+
+20
+
+CCLKEN
+
+As needed
+
+19
+
+CBURSTRW
+
+0x0 (no effect in Asynchronous mode)
+
+18:16
+
+CPSIZE
+
+0x0 (no effect in Asynchronous mode)
+
+15
+
+ASYNCWAIT
+
+14
+
+EXTMOD
+
+0x1
+
+13
+
+WAITEN
+
+0x0 (no effect in Asynchronous mode)
+
+12
+
+WREN
+
+As needed
+
+11
+
+WAITCFG
+
+Don’t care
+
+10
+
+Reserved
+
+0x0
+
+9
+
+WAITPOL
+
+Meaningful only if bit 15 is 1
+
+8
+
+BURSTEN
+
+0x0
+
+7
+
+Reserved
+
+0x1
+
+6
+
+FACCEN
+
+Don’t care
+
+5:4
+
+MWID
+
+As needed
+
+3:2
+
+MTYP
+
+As needed, exclude 0x2 (NOR flash memory)
+
+1
+
+MUXEN
+
+0x0
+
+0
+
+MBKEN
+
+0x1
+
+Set to 1 if the memory supports this feature. Otherwise keep at 0.
+
+Table 227. FMC_BTRx bitfields (mode A)
+
+<!-- pagebreak -->
+

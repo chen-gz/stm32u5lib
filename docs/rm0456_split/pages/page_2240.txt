@@ -1,0 +1,111 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+55.4.2
+
+RM0456
+
+TIM2/TIM3/TIM4/TIM5 pins and internal signals
+Table 557 and Table 558 in this section summarize the TIM inputs and outputs.
+Table 557. TIM input/output pins
+Pin name
+
+TIM_CH1
+TIM_CH2
+TIM_CH3
+TIM_CH4
+
+TIM_ETR
+
+Signal type
+
+Description
+
+Input/Output
+
+Timer multi-purpose channels.
+Each channel be used for capture, compare,
+or PWM.
+TIM_CH1 and TIM_CH2 can also be used
+as external clock (below 1/4 of the
+tim_ker_ck clock) , external trigger and
+quadrature encoder inputs.
+TIM_CH1, TIM_CH2 and TIM_CH3 can be
+used to interface with digital hall effect
+sensors.
+
+Input
+
+External trigger input. This input can be
+used as external trigger or as external clock
+source. This input can receive a clock with a
+frequency higher than the tim_ker_ck if the
+tim_etr_in prescaler is used.
+
+Table 558. TIM internal input/output signals
+Internal signal name
+
+Signal type
+
+Description
+
+Input
+
+Internal timer inputs bus. The
+tim_ti1_in[15:0] and tim_ti2_in[15:0] inputs
+can be used for capture or as external clock
+(below 1/4 of the tim_ker_ck clock) and for
+quadrature encoder signals.
+
+Input
+
+External trigger internal input bus. These
+inputs can be used as trigger, external clock
+or for hardware cycle-by-cycle pulse width
+control. These inputs can receive clock with
+a frequency higher than the tim_ker_ck if the
+tim_etr_in prescaler is used.
+
+tim_itr[15:0]
+
+Input
+
+Internal trigger input bus. These inputs can
+be used for the slave mode controller or as a
+input clock (below 1/4 of the tim_ker_ck
+clock).
+
+tim_trgo
+
+Output
+
+Internal trigger output. This trigger can
+trigger other on-chip peripherals.
+
+tim_ocref_clr[7:0]
+
+Input
+
+Timer tim_ocref_clr input bus. These inputs
+can be used to clear the tim_ocxref signals,
+typically for hardware cycle-by-cycle pulse
+width control.
+
+tim_pclk
+
+Input
+
+Timer APB clock.
+
+tim_ker_ck
+
+Input
+
+Timer kernel clock
+
+tim_ti1_in[15:0]
+tim_ti2_in[15:0]
+tim_ti3_in[15:0]
+tim_ti4_in[15:0]
+
+tim_etr[15:0]

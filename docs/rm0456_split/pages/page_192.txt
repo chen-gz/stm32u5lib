@@ -1,0 +1,115 @@
+191
+
+Boot modes
+
+4
+
+RM0456
+
+Boot modes
+At startup, a BOOT0 pin, NBOOT0, and NSBOOTADDx[24:0]/SECBOOTADD0[24:0]
+option bytes are used to select the boot memory address that includes:
+•
+
+Boot from any address in user flash memory
+
+•
+
+Boot from system memory (bootloader)
+
+•
+
+Boot from any address in the embedded SRAM
+
+•
+
+Boot from root security service (RSS)
+
+The BOOT0 value may come from the PH3-BOOT0 pin or from an option bit depending
+on the value of a user option bit to free the GPIO pad if needed.
+The bootloader, located in the system memory, is used to reprogram the flash memory
+by using USART, I2C, SPI, FDCAN, or USB/OTG_FS/OTG_HS in device mode through
+the DFU (device firmware upgrade).
+Table 25 and Table 26 detail the boot modes when TrustZone is disabled or enabled.
+Table 25. Boot modes when TrustZone is disabled (TZEN = 0)
+NBOOT0
+NSWBOOT0
+BOOT0
+Boot address
+FLASH_
+FLASH_
+pin PH3
+option-byte selection
+OPTR[27]
+OPTR[26]
+
+Boot area
+
+ST programmed
+default value
+
+-
+
+0
+
+1
+
+NSBOOTADD0[24:0]
+
+Boot address defined by
+user option bytes
+NSBOOTADD0[24:0]
+
+Flash memory:
+0x0800 0000
+
+-
+
+1
+
+1
+
+NSBOOTADD1[24:0]
+
+Boot address defined by
+user option bytes
+NSBOOTADD1[24:0]
+
+Bootloader:
+0x0BF9 0000
+
+1
+
+-
+
+0
+
+NSBOOTADD0[24:0]
+
+Boot address defined by
+user option bytes
+NSBOOTADD0[24:0]
+
+Flash memory:
+0x0800 0000
+
+0
+
+-
+
+0
+
+NSBOOTADD1[24:0]
+
+Boot address defined by
+user option bytes
+NSBOOTADD1[24:0]
+
+Bootloader:
+0x0BF9 0000
+
+When TrustZone is enabled by setting the TZEN option bit, the boot space must be in the
+secure area. The SECBOOTADD0[24:0] option bytes are used to select the boot secure
+memory address.
+A unique boot entry option can be selected by setting the BOOT_LOCK option bit. All other
+boot options are ignored.

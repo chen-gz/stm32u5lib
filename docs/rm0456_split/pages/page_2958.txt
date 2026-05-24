@@ -1,0 +1,194 @@
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+
+70.4.13
+
+FDCAN protocol status register (FDCAN_PSR)
+Address offset: 0x0044
+Reset value: 0x0000 0707
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+PXE
+
+REDL
+
+RBRS
+
+RESI
+
+BO
+
+EW
+
+EP
+
+ACT[1:0]
+
+rc_r
+
+rc_r
+
+rc_r
+
+rc_r
+
+r
+
+r
+
+r
+
+r
+
+DLEC[2:0]
+rs
+
+rs
+
+rs
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+TDCV[6:0]
+
+r
+
+LEC[2:0]
+rs
+
+rs
+
+rs
+
+Bits 31:23 Reserved, must be kept at reset value.
+Bits 22:16 TDCV[6:0]: Transmitter delay compensation value
+Position of the secondary sample point, defined by the sum of the measured delay from
+FDCAN_TX to FDCAN_RX and TDCO[6:0] in FDCAN_TDCR. The SSP position is, in the
+data phase, the number of minimum time quanta (mtq) between the start of the transmitted bit
+and the secondary sample point. Valid values are 0 to 127 × mtq.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 PXE: Protocol exception event
+0: No protocol exception event occurred since last read access
+1: Protocol exception event occurred
+Bit 13 REDL: Received FDCAN message
+This bit is set independent of acceptance filtering.
+0: Since this bit was cleared by the CPU, no FDCAN message has been received.
+1: Message in FDCAN format with EDL flag set has been received.
+Access type is rc_r: cleared on read.
+Bit 12 RBRS: BRS flag of last received FDCAN message
+This bit is set together with REDL, independent of acceptance filtering.
+0: Last received FDCAN message did not have its BRS flag set.
+1: Last received FDCAN message had its BRS flag set.
+Access type is rc_r: cleared on read.
+Bit 11 RESI: ESI flag of last received FDCAN message
+This bit is set together with REDL, independent of acceptance filtering.
+0: Last received FDCAN message did not have its ESI flag set.
+1: Last received FDCAN message had its ESI flag set.
+Access type is rc_r: cleared on read.
+Bits 10:8 DLEC[2:0]: Data last error code
+Type of last error that occurred in the data phase of a FDCAN format frame with its BRS flag
+set. Coding is the same as for LEC[2:0]. This field is cleared when a FDCAN format frame
+with its BRS flag set has been transferred (reception or transmission) without error.
+Access type is rs: set on read.
+Bit 7 BO: Bus-off status
+0: The FDCAN is not in bus-off state.
+1: The FDCAN is in bus-off state.
+
+RM0456 Rev 6

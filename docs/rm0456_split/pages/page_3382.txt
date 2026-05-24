@@ -1,0 +1,188 @@
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Bit 5 PHYRXEN: USB Power Delivery receiver enable
+0: Disable
+1: Enable
+Both CC1 and CC2 receivers are disabled when the bit is cleared. Only the CC receiver
+selected via the PHYCCSEL bit is enabled when the bit is set.
+Bit 4 RXMODE: Receiver mode
+Determines the mode of the receiver.
+0: Normal receive mode
+1: BIST receive mode (BIST test data mode)
+When the bit is set, RXORDSET behaves normally, RXDR no longer receives bytes yet the
+CRC checking still proceeds as for a normal message. As this mode prevents reception of
+the header (containing MessageID), software has to auto-increment a received MessageID
+counter for inclusion in the GoodCRC acknowledge that must still be transmitted during this
+test.
+Bit 3 TXHRST: Command to send a Tx Hard Reset
+0: No effect
+1: Start Tx Hard Reset message
+The bit is cleared by hardware as soon as the message transmission begins or is discarded.
+Bit 2 TXSEND: Command to send a Tx packet
+0: No effect
+1: Start Tx packet transmission
+The bit is cleared by hardware as soon as the packet transmission begins or is discarded.
+Bits 1:0 TXMODE[1:0]: Type of Tx packet
+Writing the bitfield triggers the action as follows, depending on the value:
+0x0: Transmission of Tx packet previously defined in other registers
+0x1: Cable Reset sequence
+0x2: BIST test sequence (BIST Carrier Mode 2)
+Others: invalid
+From V1.1 of the USB PD specification, there is a counter defined for the duration of the BIST
+Carrier Mode 2. To quit this mode correctly (after the "tBISTContMode" delay), disable the
+peripheral (UCPDEN = 0).
+
+74.8.5
+
+UCPD interrupt mask register (UCPD_IMR)
+Address offset: 0x010
+Reset value: 0x0000 0000
+Writing to this register is only effective when the peripheral is enabled (UCPDEN = 1).
+
+31
+Res.
+
+30
+Res.
+
+29
+Res.
+
+28
+Res.
+
+27
+Res.
+
+26
+Res.
+
+25
+Res.
+
+24
+Res.
+
+23
+Res.
+
+22
+Res.
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+FRSEV
+TIE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+3
+
+2
+
+1
+
+0
+
+r
+15
+
+14
+
+TYPEC TYPEC
+EVT2IE EVT1IE
+rw
+
+rw
+
+13
+
+12
+
+Res.
+
+RXMS
+GENDI
+E
+rw
+
+11
+
+10
+
+9
+
+RXHRS RXOR
+RXOV
+TDETI DDETI
+RIE
+E
+E
+rw
+
+rw
+
+rw
+
+8
+RXNEI
+E
+
+7
+Res.
+
+rw
+
+6
+
+5
+
+4
+
+TXMS TXMS TXMS
+TXUND HRSTS HRSTD
+GABTI GSENT GDISCI TXISIE
+IE
+ENTIE ISCIE
+E
+IE
+E
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

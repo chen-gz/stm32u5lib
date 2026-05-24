@@ -1,0 +1,174 @@
+363
+
+Embedded flash memory (FLASH)
+
+RM0456
+
+Bits 10:8 BOR_LEV[2:0]: BOR reset level
+These bits contain the VDD supply level threshold that activates/releases the reset.
+000: BOR level 0 (reset level threshold around 1.7 V)
+001: BOR level 1 (reset level threshold around 2.0 V)
+010: BOR level 2 (reset level threshold around 2.2 V)
+011: BOR level 3 (reset level threshold around 2.5 V)
+100: BOR level 4 (reset level threshold around 2.8 V)
+Bits 7:0 RDP[7:0]: Readout protection level
+0xAA: Level 0 (readout protection not active)
+0x55: Level 0.5 (readout protection not active, only nonsecure debug access is possible).
+Only available when TrustZone is active (TZEN = 1)
+0xCC: Level 2 (chip readout protection active)
+Others: Level 1 (memories readout protection active)
+Note: Refer to Section 7.6.2 for more details.
+
+7.9.14
+
+FLASH nonsecure boot address 0 register
+(FLASH_NSBOOTADD0R)
+Address offset: 0x44
+Reset value: 0xXXXX XXXX
+(Option bytes loaded with values from the flash memory at reset release)
+ST production value: 0x0800 007F
+Access: no wait state when no option bytes modification is ongoing; word, half-word, and
+byte access.
+This register can not be written if OPTLOCK bit is set. This register is nonsecure. It can be
+read and written by both secure and nonsecure access. This register can be protected
+against unprivileged access when NSPRIV = 1 in FLASH_PRIVCFGR register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+NSBOOTADD0[24:9]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+NSBOOTADD0[8:0]
+rw
+
+rw
+
+Bits 31:7 NSBOOTADD0[24:0]: Nonsecure boot base address 0
+The nonsecure boot memory address can be programmed to any address in the valid
+address range with a granularity of 128 bytes. These bits correspond to address [31:7].
+NSBOOTADD0 option bytes are selected following the BOOT0 pin or NSWBOOT0 state.
+Examples:
+NSBOOTADD0[24:0] = 0x0100000: Boot from nonsecure flash memory (0x0800 0000)
+NSBOOTADD0[24:0] = 0x017F200: Boot from system memory bootloader (0x0BF9 0000)
+NSBOOTADD0[24:0] = 0x0400000: Boot from nonsecure SRAM1 on S-Bus (0x2000 0000)
+Bits 6:0 Reserved, must be kept at reset value.

@@ -1,0 +1,191 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+This register is read-only when GPDMA_CxCR.EN = 1.
+This register must be written when the channel is completed. Then the hardware has
+deasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block, 2D/repeated block, LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by GPDMA
+from the memory if GPDMA_CxLLR.UT1 = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+DSEC
+
+DAP
+
+Res.
+
+Res.
+
+DHX
+
+DBX
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+SSEC
+
+SAP
+
+SBX
+
+PAM[1:0]
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+DBL_1[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+4
+
+SBL_1[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+19
+
+18
+
+DINC
+
+Res.
+
+rw
+3
+
+2
+
+SINC
+
+Res.
+
+rw
+
+17
+
+16
+
+DDW_LOG2[1:0]
+rw
+
+rw
+
+1
+
+0
+
+SDW_LOG2[1:0]
+rw
+
+rw
+
+Bit 31 DSEC: security attribute of the GPDMA transfer to the destination
+If GPDMA_SECCFGR.SECx = 1 and the access is secure:
+0: GPDMA transfer nonsecure
+1: GPDMA transfer secure
+This is a secure register bit. This bit can only be read by a secure software. This bit must be
+written by a secure software when GPDMA_SECCFGR.SECx = 1. A secure write is ignored
+when GPDMA_SECCFGR.SECx = 0.
+When GPDMA_SECCFGR.SECx is deasserted, this DSEC bit is also deasserted by
+hardware (on a secure reconfiguration of the channel as nonsecure), and the GPDMA
+transfer to the destination is nonsecure.
+Bit 30 DAP: destination allocated port
+This bit is used to allocate the master port for the destination transfer
+0: port 0 (AHB) allocated
+1: port 1 (AHB) allocated
+Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.
+Bits 29:28 Reserved, must be kept at reset value.
+Bit 27 DHX: destination half-word exchange
+If the destination data size is shorter than a word, this bit is ignored.
+If the destination data size is a word:
+0: no halfword-based exchanged within word
+1: the two consecutive (post PAM) half-words are exchanged in each destination word.
+Bit 26 DBX: destination byte exchange
+If the destination data size is a byte, this bit is ignored.
+If the destination data size is not a byte:
+0:no byte-based exchange within half-word
+1: the two consecutive (post PAM) bytes are exchanged in each destination half-word.
+
+RM0456 Rev 6

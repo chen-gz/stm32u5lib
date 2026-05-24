@@ -1,0 +1,44 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bit 15 PRIV: RTC privilege protection
+0: All RTC registers can be written when the APB access is privileged or unprivileged, except
+the registers protected by other privilege protection bits.
+1: All RTC registers can be written only when the APB access is privileged.
+Bit 14 INITPRIV: Initialization privilege protection
+0: RTC Initialization mode, calendar and prescalers registers can be written when the APB
+access is privileged or unprivileged.
+1: RTC Initialization mode, calendar and prescalers registers can be written only when the
+APB access is privileged.
+Bit 13 CALPRIV: Shift register, Delight saving, calibration and reference clock privilege protection
+0: Shift register, Delight saving, calibration and reference clock can be written when the APB
+access is privileged or unprivileged.
+1: Shift register, Delight saving, calibration and reference clock can be written only when the
+APB access is privileged.
+Bits 12:4 Reserved, must be kept at reset value.
+Bit 3 TSPRIV: Timestamp privilege protection
+0: RTC Timestamp configuration and interrupt clear can be written when the APB access is
+privileged or unprivileged.
+1: RTC Timestamp configuration and interrupt clear can be written only when the APB
+access is privileged.
+Bit 2 WUTPRIV: Wake-up timer privilege protection
+0: RTC wake-up timer configuration and interrupt clear can be written when the APB access
+is privileged or unprivileged.
+1: RTC wake-up timer configuration and interrupt clear can be written only when the APB
+access is privileged.
+Bit 1 ALRBPRIV: Alarm B privilege protection
+0: RTC Alarm B configuration and interrupt clear can be written when the APB access is
+privileged or unprivileged.
+1: RTC Alarm B configuration and interrupt clear can be written only when the APB access is
+privileged.
+Bit 0 ALRAPRIV: Alarm A and SSR underflow privilege protection
+0: RTC Alarm A and SSR underflow configuration and interrupt clear can be written when the
+APB access is privileged or unprivileged.
+1: RTC Alarm A and SSR underflow configuration and interrupt clear can be written only
+when the APB access is privileged.
+
+Note:

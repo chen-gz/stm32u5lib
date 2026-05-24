@@ -1,0 +1,55 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Bit 8 TCIE: transfer complete interrupt enable
+0: interrupt disabled
+1: interrupt enabled
+Bits 7:3 Reserved, must be kept at reset value.
+Bit 2 SUSP: suspend
+Writing 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is
+written into this bit 2. Else:
+Software must write 1 in order to suspend an active channel (channel with an ongoing
+GPDMA transfer over its master ports).
+The software must write 0 in order to resume a suspended channel, following the
+programming sequence detailed in Figure 53.
+0: write: resume channel, read: channel not suspended
+1: write: suspend channel, read: channel suspended.
+Bit 1 RESET: reset
+This bit is write only. Writing 0 has no impact. Writing 1 implies the reset of the following: the
+FIFO, the channel internal state, SUSP and EN bits (whatever is written receptively in bit 2
+and bit 0).
+The reset is effective when the channel is in steady state, meaning one of the following:
+- active channel in suspended state (GPDMA_CxSR.SUSPF = 1 and
+GPDMA_CxSR.IDLEF = GPDMA_CxCR.EN = 1)
+- channel in disabled state (GPDMA_CxSR.IDLEF = 1 and GPDMA_CxCR.EN = 0).
+After writing a RESET, to continue using this channel, the user must explicitly reconfigure the
+channel including the hardware-modified configuration registers (GPDMA_CxBR1,
+GPDMA_CxSAR, and GPDMA_CxDAR) before enabling again the channel
+(see the programming sequence in Figure 54).
+0: no channel reset
+1: channel reset
+Bit 0 EN: enable
+Writing 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is
+written into this bit 0. Else:
+this bit is deasserted by hardware when there is a transfer error (master bus error or user
+setting error) or when there is a channel transfer complete (channel ready to be configured,
+for example if LSM = 1 at the end of a single execution of the LLI).
+Else, this bit can be asserted by software.
+Writing 0 into this EN bit is ignored.
+0: write: ignored, read: channel disabled
+1: write: enable channel, read: channel enabled
+
+17.8.10
+
+GPDMA channel x transfer register 1 (GPDMA_CxTR1)
+Address offset: 0x90 + 0x80 * x (x = 0 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx) except for secure DSEC and SSEC, privileged or
+non-privileged, depending on the privileged state of the channel x in
+GPDMA_PRIVCFGR.PRIVx.
+This register controls the transfer of a channel x.
+This register must be written when GPDMA_CxCR.EN = 0.

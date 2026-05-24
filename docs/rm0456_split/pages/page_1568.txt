@@ -1,0 +1,88 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Table 386. Programming sequence (continued)
+Operations
+
+Comments
+
+Enable MDF processing clock:
+MDF_CKGCR = 0x0103 0023
+
+PROCDIV = 1 (division by 2): mdf_proc_ck frequency is
+6.144 MHz.
+CCKDIV = 3 (division by 4): MDF_CCK0 clock frequency is
+1.536 MHz.
+The MDF_CCK0 pad is set in output and generates a clock so that
+the microphones can exit from low-power mode.
+
+Serial interfaces configuration:
+MDF_SITF0CR = 0x0000 1F01
+MDF_SITF2CR = 0x0000 1F01
+
+SCKSRC = 0 to select MDF_CCK0 as serial clock.
+SIFTMOD = 0 to select LF_MASTER mode.
+Clock absence feature is not working in this mode.
+The serial interfaces are enabled.
+
+Bitstream matrix configuration:
+MDF_BSMX0CR = 0x0000 0000
+MDF_BSMX1CR = 0x0000 0001
+MDF_BSMX2CR = 0x0000 0004
+MDF_BSMX3CR = 0x0000 0005
+
+DFLT0 filter takes the bitstream of SITF0, sampled on rising edge.
+DFLT1 filter takes the bitstream of SITF0, sampled on falling edge.
+DFLT2 filter takes the bitstream of SITF2, sampled on rising edge.
+DFLT3 filter takes the bitstream of SITF2, sampled on falling edge.
+
+Filters configuration (CIC):
+MDF_DFLT0CICR = 0x02C0 1750
+MDF_DFLT1CICR = 0x02C0 1750
+MDF_DFLT2CICR = 0x02C0 1750
+MDF_DFLT3CICR = 0x02C0 1750
+
+SCALE = 0x2C (- 12 dB) to avoid any saturation
+MCICD = 0x17 (decimation by 24)
+CICMOD = 5 to select a Sinc5
+DATSCR = 0 to select data coming from BSMX
+
+Filters configuration (RSFLT and HPF):
+MDF_DFLT0RSFR = 0x0000 0100
+MDF_DFLT1RSFR = 0x0000 0100
+MDF_DFLT2RSFR = 0x0000 0100
+MDF_DFLT3RSFR = 0x0000 0100
+
+HPFC = 1: cut-off frequency of 16 kHz * 0.00125 = 20 Hz
+HPFBYP = 0: HPF not bypassed
+RSFLTD = 0: RSFLT decimates by 4
+RSFLTBYP = 0: RSFLT is not bypassed
+
+Filters configuration (INT):
+MDF_DFLT0INTR = 0x0000 0000
+MDF_DFLT1INTR = 0x0000 0000
+MDF_DFLT2INTR = 0x0000 0000
+MDF_DFLT3INTR = 0x0000 0000
+
+INTVAL = 0: INT filter not used
+Other parameter is not significant.
+
+Micro delay adjust:
+MDF_DLY0CR = 0x0000 0005
+MDF_DLY0CR = 0x0000 0012
+MDF_DLY0CR = 0x0000 0023
+MDF_DLY0CR = 0x0000 0000
+
+Initial micro-delay for each microphone, values just given as
+example
+
+Offset error correction:
+MDF_OEC0CR = 0x0000 0000
+MDF_OEC1CR = 0x0000 0000
+MDF_OEC2CR = 0x0000 0000
+MDF_OEC3CR = 0x0000 0000
+
+No correction. DC offset is removed by HPF.

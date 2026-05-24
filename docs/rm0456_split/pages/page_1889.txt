@@ -1,0 +1,61 @@
+RM0456 Rev 6
+
+RM0456
+
+Touch sensing controller (TSC)
+Figure 452. Surface charge transfer analog I/O group structure
+Analog
+I/O group
+
+Electrode 1
+
+VSENSOR
+
+RS1
+
+Gx_IO1
+
+CX1
+
+Gx_IO2
+CS
+
+VCS
+
+Electrode 2
+
+VSENSOR
+
+RS2
+
+CX2
+
+Electrode 3
+
+VSENSOR
+
+Gx_IO3
+
+RS3
+
+Gx_IO4
+
+CX3
+
+MSv30930V3
+
+Note:
+
+Gx_IOy where x is the analog I/O group number and y the GPIO number within the selected
+group.
+The surface charge transfer acquisition principle consists of charging an electrode
+capacitance (CX) and transferring a part of the accumulated charge into a sampling
+capacitor (CS). This sequence is repeated until the voltage across CS reaches a given
+threshold (VIH in our case). The number of charge transfers required to reach the threshold
+is a direct representation of the size of the electrode capacitance.
+Table 456 details the charge transfer acquisition sequence of the capacitive sensing
+channel 1. States 3 to 7 are repeated until the voltage across CS reaches the given
+threshold. The same sequence applies to the acquisition of the other channels. The
+electrode serial resistor RS improves the ESD immunity of the solution.
+
+RM0456 Rev 6

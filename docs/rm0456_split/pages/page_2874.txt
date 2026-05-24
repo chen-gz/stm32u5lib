@@ -1,0 +1,89 @@
+RM0456 Rev 6
+
+RM0456
+
+69.4.12
+
+Serial audio interface (SAI)
+
+SPDIF output
+The SPDIF interface is available in transmitter mode only. It supports the audio IEC60958.
+To select SPDIF mode, set the PRTCFG[1:0] bits to 01 in the SAI_xCR1 register.
+For SPDIF protocol:
+•
+
+Only the SD data line is enabled.
+
+•
+
+The FS, SCK, and MCLK I/Os pins are left free.
+
+•
+
+The MODE[1] bit is forced to 0 to select the master mode to enable the clock generator
+of the SAI and manage the data rate on the SD line.
+
+•
+
+The data size is forced to 24 bits. The value set in the DS[2:0] bits in the SAI_xCR1
+register is ignored.
+
+•
+
+The clock generator must be configured to define the symbol-rate, knowing that the bit
+clock must be twice the symbol-rate. The data is coded in Manchester protocol.
+
+•
+
+The SAI_xFRCR and SAI_xSLOTR registers are ignored. The SAI is configured
+internally to match the SPDIF protocol requirements as shown in Figure 874.
+Figure 874. SPDIF format
+Block N+1
+
+Block N
+Frame 0
+
+Frame 191
+
+Frame 1
+
+Frame 0
+
+Sub-frame
+M Channel A W Channel B B
+
+B Channel A W Channel B M Channel A W Channel B
+
+SOPD
+
+SOPD B,M,W
+
+D0
+
+D1 D2 D3
+
+D4
+
+D20 D21 D22 D23 VP
+
+24-bit data
+
+U
+
+Channel A W Channel B
+
+CS
+
+Status bit
+
+Channel
+MS30042V1
+
+An SPDIF block contains 192 frames. Each frame is composed of two 32-bit subframes,
+generally one for the left channel and one for the right channel. Each subframe is composed
+of a SOPD pattern (4-bit) to specify if the subframe is the start of a block (and so is
+identifying a channel A) or if it is identifying a channel A somewhere in the block, or if it is
+referring to channel B (see Table 712). The next 28 bits of channel information are
+composed of 24 data bits + 4 status bits.
+
+RM0456 Rev 6

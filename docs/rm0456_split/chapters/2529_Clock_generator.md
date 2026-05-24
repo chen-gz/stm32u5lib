@@ -1,0 +1,394 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+Bit 5 ITSMF: Internal timestamp nonsecure masked flag
+This flag is set by hardware when a timestamp on the internal event occurs and timestamp
+nonsecure interrupt is raised.
+Bit 4 TSOVMF: Timestamp overflow nonsecure masked flag
+This flag is set by hardware when a timestamp interrupt occurs while TSMF is already set.
+It is recommended to check and then clear TSOVF only after clearing the TSF bit. Otherwise,
+an overflow might not be noticed if a timestamp event occurs immediately before the TSF bit
+is cleared.
+Bit 3 TSMF: Timestamp nonsecure masked flag
+This flag is set by hardware when a timestamp nonsecure interrupt occurs.
+If ITSF flag is set, TSF must be cleared together with ITSF.
+Bit 2 WUTMF: Wake-up timer nonsecure masked flag
+This flag is set by hardware when the wake-up timer nonsecure interrupt occurs.
+This flag must be cleared by software at least 1.5 RTCCLK periods before WUTF is set to 1
+again.
+Bit 1 ALRBMF: Alarm B nonsecure masked flag
+This flag is set by hardware when the alarm B nonsecure interrupt occurs.
+Bit 0 ALRAMF: Alarm A masked flag
+This flag is set by hardware when the alarm A nonsecure interrupt occurs.
+
+Note:
+
+The bits of this register are cleared few APB clock cycles after setting their corresponding
+clear bit in the RTC_SCR register. After clearing the flag, read it until it is read at 0 before
+leaving the interrupt routine.
+
+63.6.22
+
+RTC secure masked interrupt status register (RTC_SMISR)
+This register can be globally protected, or each bit of this register can be individually
+protected against nonsecure access. Refer to Section 63.3.4: RTC secure protection
+modes.
+This register can be globally protected, or each bit of this register can be individually
+protected against unprivileged access. Refer to Section 63.3.5: RTC privilege protection
+modes.
+Address offset: 0x58
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SSR
+UMF
+
+ITS
+MF
+
+TSOV
+MF
+
+TS
+MF
+
+WUT
+MF
+
+ALRB
+MF
+
+ALRA
+MF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bit 6 SSRUMF: SSR underflow secure masked flag
+This flag is set by hardware when the SSR underflow secure interrupt occurs.
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+Bit 5 ITSMF: Internal timestamp interrupt secure masked flag
+This flag is set by hardware when a timestamp on the internal event occurs and timestamp
+secure interrupt is raised.
+Bit 4 TSOVMF: Timestamp overflow interrupt secure masked flag
+This flag is set by hardware when a timestamp secure interrupt occurs while TSMF is already
+set.
+It is recommended to check and then clear TSOVF only after clearing the TSF bit. Otherwise,
+an overflow might not be noticed if a timestamp event occurs immediately before the TSF bit
+is cleared.
+Bit 3 TSMF: Timestamp interrupt secure masked flag
+This flag is set by hardware when a timestamp secure interrupt occurs.
+If ITSF flag is set, TSF must be cleared together with ITSF.
+Bit 2 WUTMF: Wake-up timer interrupt secure masked flag
+This flag is set by hardware when the wake-up timer secure interrupt occurs.
+This flag must be cleared by software at least 1.5 RTCCLK periods before WUTF is set to 1
+again.
+Bit 1 ALRBMF: Alarm B interrupt secure masked flag
+This flag is set by hardware when the alarm B secure interrupt occurs.
+Bit 0 ALRAMF: Alarm A interrupt secure masked flag
+This flag is set by hardware when the alarm A secure interrupt occurs.
+
+Note:
+
+The bits of this register are cleared few APB clock cycles after setting their corresponding
+clear bit in the RTC_SCR register. After clearing the flag, read it until it is read at 0 before
+leaving the interrupt routine.
+
+63.6.23
+
+RTC status clear register (RTC_SCR)
+This register can be globally protected, or each bit of this register can be individually
+protected against nonsecure access. Refer to Section 63.3.4: RTC secure protection
+modes.
+This register can be globally protected, or each bit of this register can be individually
+protected against unprivileged access. Refer to Section 63.3.5: RTC privilege protection
+modes.
+Address offset: 0x5C
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+CSSR
+UF
+
+CITS
+F
+
+CTSOV
+F
+
+CTS
+F
+
+w
+
+w
+
+w
+
+w
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RM0456 Rev 6
+
+CWUT CALRB CALRA
+F
+F
+F
+w
+
+w
+
+w
+
+<!-- pagebreak -->
+

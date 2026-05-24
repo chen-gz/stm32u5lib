@@ -1,0 +1,55 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+67
+
+Low-power universal asynchronous receiver
+transmitter (LPUART)
+
+67.1
+
+Introduction
+
+RM0456
+
+The LPUART is an UART, which enables bidirectional UART communications with a limited
+power consumption. Only a 32.768 kHz LSE clock is required to enable UART
+communications up to 9600 bauds. Higher baud rates can be reached when the LPUART is
+clocked by clock sources different from the LSE clock.
+Even when the microcontroller is in low-power mode, the LPUART can wait for an incoming
+UART frame while having an extremely low energy consumption. The LPUART includes all
+necessary hardware support to make asynchronous serial communications possible with
+minimum power consumption.
+It supports half-duplex single-wire communications and modem operations (CTS/RTS).
+It also supports multiprocessor communications.
+DMA (direct memory access) can be used for data transmission/reception.
+
+67.2
+
+LPUART main features
+•
+
+Full-duplex asynchronous communications
+
+•
+
+NRZ standard format (mark/space)
+
+•
+
+Programmable baud rate
+
+•
+
+From 300 bauds to 9600 bauds using a 32.768 kHz clock source.
+
+•
+
+Higher baud rates can be achieved by using a higher frequency clock source
+
+•
+
+Two internal FIFOs to transmit and receive data
+Each FIFO can be enabled/disabled by software and come with status flags for FIFOs
+states.

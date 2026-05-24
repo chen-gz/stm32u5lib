@@ -1,0 +1,301 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+44.15.38 DSI Host PHY ULPS control register (DSI_PUCR)
+Address offset: 0x00A8
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+UEDL
+
+URDL
+
+UECL
+
+URCL
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 UEDL: ULPS exit on data lane
+ULPS mode exit on all active data lanes.
+0: No exit request
+1: Exit ULPS mode on all active data lane URDL
+Bit 2 URDL: ULPS request on data lane
+ULPS mode request on all active data lanes.
+0: No ULPS request
+1: Request ULPS mode on all active data lane UECL
+Bit 1 UECL: ULPS exit on clock lane
+ULPS mode exit on clock lane.
+0: No exit request
+1: Exit ULPS mode on clock lane
+Bit 0 URCL: ULPS request on clock lane
+ULPS mode request on clock lane.
+0: No ULPS request
+1: Request ULPS mode on clock lane
+
+44.15.39 DSI Host PHY TX triggers configuration register (DSI_PTTCR)
+Address offset: 0x00AC
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TX_TRIG[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bits 3:0 TX_TRIG[3:0]: Transmission trigger
+Escape mode transmit trigger 0-3.
+Only one bit of TX_TRIG is asserted at any given time.
+
+RM0456 Rev 6

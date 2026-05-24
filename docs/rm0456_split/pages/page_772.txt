@@ -1,0 +1,66 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+4.
+
+The software safely reconfigures the channel. The software must reprogram the
+hardware-modified LPDMA_CxBR1, LPDMA_CxSAR, and LPDMA_CxDAR registers.
+
+5.
+
+In order to restart the aborted then reprogrammed channel, the software enables it
+again by writing 1 to the LPDMA_CxCR.EN bit.
+
+The abort and restart sequence is illustrated in the figure below.
+Figure 75. LPDMA channel abort and restart sequence
+
+Channel state = Active
+Suspend the DMA channel
+(write 1 to CxCR.SUSP)
+or
+
+SUSPF=1 ?
+
+Channel state = Suspended
+(and Idle)
+Receiving
+
+N
+
+Y
+
+suspended
+interrupt
+
+Reset the DMA channel
+(write 1 to CxCR.RESET)
+
+Channel state = Idle
+Reconfigure the DMA channel
+
+Enable the DMA channel
+
+Channel state = Active
+MSv62628V1
+
+18.4.5
+
+LPDMA linked-list data structure
+Alternatively to the direct programming mode, a channel can be programmed by a list of
+transfers, known as a list of linked-list items (LLI). Each LLI is defined by its data structure.
+The base address in memory of the data structure of a next LLIn+1 of a channel x is the sum
+of the following:
+•
+
+the link base address of the channel x (in LPDMA_CxLBAR)
+
+•
+
+the link address offset (LA[15:2] field in LPDMA_CxLLR)
+
+The data structure for each LLI may be specific.
+A linked-list data structure is addressed following the value of the UT1, UT2, UB1, USA,
+UDA and ULL bits of the LPDMA_CxLLR register.

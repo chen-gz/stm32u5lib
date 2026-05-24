@@ -1,0 +1,61 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+This can be configured using ADMODE[2:0] of HSPI_CCR.
+The address can be sent in DTR mode (on each rising and falling edge of the clock) setting
+ADDTR in HSPI_CCR.
+When ADMODE[2:0] = 000, the address phase is skipped and the command sequence
+proceeds directly to the next phase, if any.
+In memory-mapped mode, the address format for the write operation is specified in
+HSPI_WCCR. The address format for the read operation is specified in HSPI_CCR.
+
+Warning:
+
+Some memory specifications consider that each address
+corresponds to a 16-bit value. HSPI considers that each
+address corresponds to an 8-bit value.So the software needs
+to multiply the address by two when accessing the memory
+registers.
+
+Alternate-byte phase
+In the alternate-bytes phase, 1 to 4 bytes are sent to the external device, generally to control
+the mode of operation. The number of alternate bytes to be sent is configured in
+ABSIZE[1:0] of HSPI_CCR. The bytes to be sent are specified in HSPI_ABR.
+The alternate-byte phase can send:
+•
+
+1 bit at a time (over IO0, SO signal in single-SPI mode)
+
+•
+
+2 bits at a time (over IO0/IO1 in dual-SPI mode)
+
+•
+
+4 bits at a time (over IO0 to IO3 in quad-SPI mode)
+
+•
+
+8 bits at a time (over IO0 to IO7 in octal-SPI mode, or in 16-bit SPI mode)
+
+This can be configured using ABMODE[2:0] of HSPI_CCR.
+The alternate bytes can be sent in DTR mode (on each rising and falling edge of the clock)
+setting ABDTR of HSPI_CCR.
+When ABMODE[2:0] = 000, the alternate-bytes phase is skipped and the command
+sequence proceeds directly to the next phase, if any.
+Only a single nibble may need to be sent during the alternate-byte phase rather than a full
+byte, such as when the dual-SPI mode is used and only two cycles are used for the
+alternate bytes.
+In this case, the firmware can use the quad-SPI mode (ABMODE[2:0] = 011), and send
+a byte with bits 7 and 3 of ALTERNATE[31:0] set to 1 (keeping the IO3 line high), and bits 6
+and 2 set to 0 (keeping the IO2 line low), in HSPI_IR.
+The upper two bits of the nibble to be sent are then placed in bits 5:4 of ALTERNATE[31:0],
+while the lower two bits are placed in bits 1:0. For example, if the nibble 2 (0010) is to be
+sent over IO0/IO1, then ALTERNATE[31:0] must be set to 0x8A (1000_1010).
+In memory-mapped mode, the alternate bytes used for the write operation are specified in
+HSPI_WABR, and the alternate byte format is specified in HSPI_WCCR. The alternate
+bytes used for read operation and the alternate byte format are specified in HSPI_ABR and
+HSPI_CCR.

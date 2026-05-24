@@ -1,0 +1,157 @@
+RM0456 Rev 6
+
+RM0456
+
+Chrom-ART Accelerator controller (DMA2D)
+Figure 91. Intel 8080 16-bit mode (RGB565)
+
+16-bit Data
+Data Bus
+
+Colors
+
+R4
+
+R3
+
+R2
+
+R1
+
+R0
+
+D0
+
+D4
+
+D3
+
+D2
+
+D1
+
+G5 B4
+G5 G4 G3 G2 G1 G0
+
+B3
+
+B2
+
+B1 B0
+
+D15 D14 D13 D12 D11 D10 D9
+
+D8 D7
+
+D6
+
+D5
+
+64K colors
+
+MSv42078V2
+
+18/24-bit mode (RGB888)
+This mode needs data reordering.
+1.
+
+Red and the Blue have to be swapped (setting the RBS bit).
+
+2.
+
+MSB and the LSB bytes of a half-word have to be swapped (setting the SB bit).
+Figure 92. Intel 8080 18/24-bit mode (RGB888)
+
+Transfer
+Order
+
+1
+
+2
+
+16-bit Data
+
+16-bit Data
+
+Data Bus
+
+D15 D14 D13 D12 D11 D10 D9 D8 D7 D6 D5 D4 D3 D2 D1 D0 D15 D14 D13 D12 D11 D10 D9 D8 D7 D6 D5 D4 D3 D2 D1 D0
+
+Colors
+
+R7 R6 R5 R4 R3 R2 R1 R0 G7 G6 G5 G4 G3 G2 G1 G0 B7 B6 B5 B4 B3 B2 B1 B0 R7 R6 R5 R4 R3 R2 R1 R0
+
+16.7M colors
+1st pixel
+
+2nd pixel
+MSv42079V2
+
+Table 167. Output FIFO byte reordering steps
+Steps
+
+Original data ordering
+
+@+3
+
+@+2
+
+@+1
+
+@+0
+
+B1[7:0]
+
+R0[7:0]
+
+G0[7:0]
+
+B0[7:0]
+
+G2[7:0]
+
+B2[7:0]
+
+R1[7:0]
+
+G1[7:0]
+
+R3[7:0]
+
+G3[7:0]
+
+B3[7:0]
+
+R2[7:0]
+
+Setting the RBS bit
+Data ordering after red and blue
+swap (RBS set)
+
+R1[7:0]
+
+B0[7:0]
+
+G0[7:0]
+
+R0[7:0]
+
+G2[7:0]
+
+R2[7:0]
+
+B1[7:0]
+
+G1[7:0]
+
+B3[7:0]
+
+G3[7:0]
+
+R3[7:0]
+
+B2[7:0]
+
+Setting the SB bit
+
+RM0456 Rev 6

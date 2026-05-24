@@ -1,0 +1,94 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+The independent supplies (VDDA, VDDIO2, and VDDUSB) are not considered as present
+by default, and a logical and electrical isolation is applied to ignore any information coming
+from the peripherals supplied by these dedicated supplies:
+•
+
+If these supplies are shorted externally to VDD, the application assumes they are
+available without enabling any peripheral voltage monitoring.
+
+•
+
+If these supplies are independent from VDD, the peripheral voltage monitoring (PVM)
+can be enabled to confirm whether the supply is present or not.
+
+The following sequence must be done before using the USB/OTG_FS/OTG_HS:
+1.
+
+If VDDUSB is independent from VDD:
+a)
+
+2.
+3.
+
+Enable the UVM by setting UVMEN in PWR_SVMCR.
+
+b)
+
+Wait for the UVM wake-up time.
+
+c)
+
+Wait until VDDUSBRDY is set in PWR_SVMSR.
+
+d)
+
+Disable the UVM for consumption saving (optional).
+
+Set USV in PWR_SVMCR to remove the VDDUSB power isolation.
+On STM32U59x/5Ax/5Fx/5Gx devices only:
+a)
+
+Make sure the voltage scaling is in range 1 or in range 2 (using VOS[1:0]
+in PWR_VOSR).
+
+b)
+
+Make sure the EPOD booster clock is enabled (using PLL1MBOOST[3:0]
+in RCC_PLL1CFGR).
+
+c)
+
+Enable the USB internal power by setting USBPWREN and USBBOOSTEN
+in PWR_VOSR.
+
+d)
+
+Wait for USBBOOSTRDY to be set in PWR_VOSR.
+
+The following sequence must be done before using any I/O from PG[15:2]:
+1.
+
+2.
+
+If VDDIO2 is independent from VDD:
+a)
+
+Enable the IO2VM by setting IO2VM in PWR_SVMCR.
+
+b)
+
+Wait for the IO2CVM wake-up time.
+
+c)
+
+Wait until VDDIO2RDY is set in PWR_SVMSR.
+
+d)
+
+Disable the IO2VM for consumption saving (optional).
+
+Set IO2SV in PWR_SVMCR to remove the VDDIO2 power isolation.
+
+The following sequence must be done before using any of these analog peripherals: analog
+to digital converters, digital to analog converters, comparators, operational amplifiers,
+voltage reference buffer:
+1.
+
+2.
+Note:

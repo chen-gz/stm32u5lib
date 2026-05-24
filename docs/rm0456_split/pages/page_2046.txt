@@ -1,0 +1,49 @@
+2060
+
+On-the-fly decryption engine (OTFDEC)
+
+52.5.4
+
+RM0456
+
+OTFDEC key CRC source code
+Below is the CRC source code that can be used to compare with the result of the
+computation provided by OTFDEC in KEYCRC bitfield after loading the keys in
+OTFDEC_RxKEYR registers.
+uint8_t getCRC(uint32_t * keyin)
+{
+const uint8_t CRC7_POLY = 0x7;
+const uint32_t key_strobe[4] = {0xAA55AA55, 0x3, 0x18, 0xC0};
+uint8_t
+
+i, j, k, crc = 0x0;
+
+uint32_t
+
+keyval;
+
+for (j = 0; j < 4; j++)
+{
+keyval = *(keyin+j);
+if (j == 0)
+{
+keyval ^= key_strobe[0];
+}
+else
+{
+keyval ^= (key_strobe[j] << 24) | (crc << 16) | (key_strobe[j] << 8)
+| crc;
+}
+for (i = 0, crc = 0; i < 32; i++)
+{
+k = (((crc >> 7) ^ (keyval >> (31-i))&0xF)) & 1;
+crc <<= 1;
+if (k)
+{
+crc ^= CRC7_POLY;
+}
+}
+crc^=0x55;
+}
+return crc;
+}

@@ -1,0 +1,33 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+The FMC supports both NOR flash wait state configurations, for each chip select, thanks to
+the WAITCFG bit in the FMC_BCRx registers (x = 0..3).
+Figure 136. Wait configuration waveforms
+Memory transaction = burst of 4 half words
+HCLK
+
+CLK
+A[25:16]
+
+addr[25:16]
+
+NADV
+NWAIT
+(WAITCFG = 0)
+NWAIT
+(WAITCFG = 1)
+inserted wait state
+A/D[15:0]
+
+addr[15:0]
+
+data
+
+data
+
+data
+ai15798c

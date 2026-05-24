@@ -1,0 +1,75 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Decoded data and clock signals are recovered from serial stream after Manchester
+decoding. They are available on bs0_r. There are two possible settings of Manchester
+codings:
+•
+
+signal rising edge decoded as 0 and signal falling edge decoded as 1
+
+•
+
+signal rising edge decoded as 1 and signal falling edge decoded as 0
+Figure 364. Manchester timing example (SITFMOD = 11)
+
+Data
+transferred
+
+1
+
+1
+
+0
+
+0
+
+1
+
+0
+
+0
+
+TSYMB
+
+ADF_SDI0
+adf_proc_ck
+10
+
+STH[4:0] = 5
+
+5
+
+MCNT
+
+bs0_ck
+
+bs0_r
+
+X
+
+CKABF
+Clear of the
+CKABF
+Signal absence if STH counter is higher than 2*STH
+Long transitions if STH counter is between STH and 2*STH
+Short transitions if STH counter lower than STH
+
+MSv63652V1
+
+To decode the incoming Manchester stream, the user must program STH[4:0] in the ADF
+serial interface control register 0 (ADF_SITF0CR). The STH[4:0] bitfield is used by the
+SITF0 to estimate the Manchester symbol length and to detect a clock absence. An internal
+counter (MCNT) is restarted every time a transition is detected in the ADF_SDI0 input. It is
+used to detect short transitions, long transitions or clock absence. A long transition indicates
+that the data value changed. Figure 364 shows a case where the OVR is around height and
+STH[4:0] = 5.
+The estimated Manchester symbol rate (TSYMB) must respect the following formula:
+(STH + 1)×Tadf_proc_ck < TSYMB < (2 × STH × Tadf_proc_ck)
+It is recommended to compute STH as follows:
+( 2 × OVR ) – 1
+STH [ 4:0 ] = round ⎛⎝ ------------------------------------- ⎞⎠
+3

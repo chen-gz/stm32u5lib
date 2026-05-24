@@ -1,0 +1,236 @@
+RM0456 Rev 6
+
+w
+
+w
+
+w
+
+w
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bit 4 TXFRQ: Transmit data flush request
+When FIFO mode is disabled, writing 1 to this bit sets the TXE flag. This enables to discard
+the transmit data. This bit must be used only in smartcard mode, when data have not been
+sent due to errors (NACK) and the FE flag is active in the USART_ISR register. If the
+USART does not support smartcard mode, this bit is reserved and must be kept at reset
+value.
+When FIFO is enabled, TXFRQ bit is set to flush the whole FIFO. This sets the TXFE flag
+(Transmit FIFO empty, bit 23 in the USART_ISR register). Flushing the Transmit FIFO is
+supported in both UART and smartcard modes.
+Note: In FIFO mode, the TXFNF flag is reset during the flush request until TxFIFO is empty in
+order to ensure that no data are written in the data register.
+Bit 3 RXFRQ: Receive data flush request
+Writing 1 to this bit empties the entire receive FIFO, that is clears the bit RXFNE.
+This enables to discard the received data without reading them, and avoid an overrun
+condition.
+Bit 2 MMRQ: Mute mode request
+Writing 1 to this bit puts the USART in mute mode and resets the RWU flag.
+Bit 1 SBKRQ: Send break request
+Writing 1 to this bit sets the SBKF flag and request to send a BREAK on the line, as soon as
+the transmit machine is available.
+Note: When the application needs to send the break character following all previously
+inserted data, including the ones not yet transmitted, the software must wait for the
+TXE flag assertion before setting the SBKRQ bit.
+Bit 0 ABRRQ: Auto baud rate request
+Writing 1 to this bit resets the ABRF and ABRE flags in the USART_ISR and requests an
+automatic baud rate measurement on the next received data frame.
+Note: If the USART does not support the auto baud rate feature, this bit is reserved and must
+be kept at reset value. Refer to Section 66.4: USART implementation.
+
+66.8.10
+
+USART interrupt and status register (USART_ISR)
+Address offset: 0x1C
+Reset value: 0x0XX0 00C0
+XX = 28 if FIFO/smartcard mode supported
+XX = 08 if FIFO supported and smartcard mode not supported
+The same register can be used in FIFO mode enabled (this section) and FIFO mode
+disabled (next section).
+FIFO mode enabled, FIFOEN = 1
+S
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TXFT
+
+RXFT
+
+TCBGT
+
+RXFF
+
+TXFE
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+ABRF
+
+ABRE
+
+UDR
+
+EOBF
+
+RTOF
+
+CTS
+
+CTSIF
+
+LBDF
+
+TXFNF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RM0456 Rev 6
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+RWU
+
+SBKF
+
+CMF
+
+BUSY
+
+r
+
+r
+
+r
+
+r
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+TC
+
+RXFNE
+
+IDLE
+
+ORE
+
+NE
+
+FE
+
+PE
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+REACK TEACK

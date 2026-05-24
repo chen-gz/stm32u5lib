@@ -1,0 +1,121 @@
+RM0456 Rev 6
+
+RM0456
+
+Inter-integrated circuit interface (I2C)
+Figure 806. Bus transfer diagrams for SMBus target receiver (SBC = 1)
+legend:
+
+Example SMBus target receiver 2 bytes + PEC
+
+transmission
+ADDR
+
+RXNE
+
+S Address
+
+A
+
+data1
+
+A
+
+EV1
+
+data2
+
+A
+
+EV2
+
+NBYTES
+
+RXNE
+
+RXNE
+
+reception
+
+PEC
+
+A
+
+EV3
+
+EV4
+
+SCL stretch
+
+P
+
+3
+
+EV1: ADDR ISR: check ADDCODE and DIR, program NBYTES = 3, PECBYTE = 1, RELOAD = 0, set ADDRCF
+EV2: RXNE ISR: rd data1
+EV3: RXNE ISR: rd data2
+EV4: RXNE ISR: rd PEC
+
+legend :
+
+Example SMBus target receiver 2 bytes + PEC, with ACK control
+(RELOAD = 1/0)
+ADDR
+S Address
+
+RXNE,TCR
+A
+
+data1
+
+EV1
+NBYTES
+
+A
+
+RXNE,TCR
+data2
+
+EV2
+
+A
+EV3
+
+transmission
+
+RXNE
+PEC
+
+A
+
+reception
+P
+
+SCL stretch
+
+EV4
+
+1
+
+EV1: ADDR ISR: check ADDCODE and DIR, program NBYTES = 1, PECBYTE = 1, RELOAD = 1, set ADDRCF
+EV2: RXNE-TCR ISR: rd data1, program NACK=0 and NBYTES = 1
+EV3: RXNE-TCR ISR: rd data2, program NACK=0, NBYTES = 1 and RELOAD = 0
+EV4: RXNE-TCR ISR: rd PEC
+MSv19870V3
+
+65.4.15
+
+SMBus controller mode
+In addition to I2C controller transfer management (refer to Section 65.4.9: I2C controller
+mode), this section provides extra software flowcharts to support SMBus.
+
+SMBus controller transmitter
+When the SMBus controller wants to transmit the PEC, the PECBYTE bit must be set and
+the number of bytes must be loaded in the NBYTES[7:0] bitfield, before setting the START
+bit. In this case, the total number of TXIS interrupts is NBYTES[7:0] - 1. So if the PECBYTE
+bit is set when NBYTES[7:0] = 0x1, the content of the I2C_PECR register is automatically
+transmitted.
+If the SMBus controller wants to send a STOP condition after the PEC, the automatic end
+mode must be selected (AUTOEND = 1). In this case, the STOP condition automatically
+follows the PEC transmission.
+RM0456 Rev 6

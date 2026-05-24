@@ -1,0 +1,92 @@
+90
+
+Contents
+
+RM0456
+18.8.5
+
+LPDMA secure masked interrupt status register (LPDMA_SMISR) . . 805
+
+18.8.6
+
+LPDMA channel x linked-list base address register
+(LPDMA_CxLBAR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 806
+
+18.8.7
+
+LPDMA channel x flag clear register (LPDMA_CxFCR) . . . . . . . . . . . 806
+
+18.8.8
+
+LPDMA channel x status register (LPDMA_CxSR) . . . . . . . . . . . . . . . 807
+
+18.8.9
+
+LPDMA channel x control register (LPDMA_CxCR) . . . . . . . . . . . . . . 809
+
+18.8.10 LPDMA channel x transfer register 1 (LPDMA_CxTR1) . . . . . . . . . . . 811
+18.8.11 LPDMA channel x transfer register 2 (LPDMA_CxTR2) . . . . . . . . . . . 813
+18.8.12 LPDMA channel x block register 1 (LPDMA_CxBR1) . . . . . . . . . . . . . 816
+18.8.13 LPDMA channel x source address register (LPDMA_CxSAR) . . . . . . 817
+18.8.14 LPDMA channel x destination address register (LPDMA_CxDAR) . . . 818
+18.8.15 LPDMA channel x linked-list address register (LPDMA_CxLLR) . . . . . 819
+18.8.16 LPDMA register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 820
+
+19
+
+Chrom-ART Accelerator controller (DMA2D) . . . . . . . . . . . . . . . . . . . 822
+19.1
+
+DMA2D introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 822
+
+19.2
+
+DMA2D main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 822
+
+19.3
+
+DMA2D functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 823
+19.3.1
+
+DMA2D block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 823
+
+19.3.2
+
+DMA2D internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 824
+
+19.3.3
+
+DMA2D control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 825
+
+19.3.4
+
+DMA2D foreground and background FIFOs . . . . . . . . . . . . . . . . . . . . 825
+
+19.3.5
+
+DMA2D foreground and background pixel format converter (PFC) . . . 825
+
+19.3.6
+
+DMA2D foreground and background CLUT interface . . . . . . . . . . . . . 827
+
+19.3.7
+
+DMA2D blender . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 829
+
+19.3.8
+
+DMA2D output PFC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 829
+
+19.3.9
+
+DMA2D output FIFO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 829
+
+19.3.10 DMA2D output FIFO byte reordering . . . . . . . . . . . . . . . . . . . . . . . . . . 830
+19.3.11 DMA2D AHB master port timer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 832
+19.3.12 DMA2D transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 832
+19.3.13 DMA2D configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 832
+19.3.14 DMA2D transfer control (start, suspend, abort and completion) . . . . . 836
+19.3.15 Watermark . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 836
+19.3.16 Error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 836
+19.3.17 AHB dead time . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 837

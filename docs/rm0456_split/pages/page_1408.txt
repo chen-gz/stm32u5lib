@@ -1,0 +1,61 @@
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+It is compatible with the low-power background autonomous mode (LPBAM).
+Figure 297. Autonomous mode state diagram
+
+Consecutive
+HW trigger
+
+ADC in DeepPower-Down
+
+Voltage regulator
+ON
+Wait LDORDY
+ADC enabled
+Wait ADRDY
+
+1st HW
+trigger
+
+ADDIS
+Wait ADEN = 0
+Voltage regulator
+disabled
+
+SCAN
+conversion
+Conversion
+(DMA mode or
+analog
+watchdog)
+
+EOS
+HW event
+Automatic state change
+
+MSv62487V2
+
+34.4.25
+
+Analog window watchdog
+The three AWD analog watchdogs monitor whether some channels remain within a
+configured voltage range (window).
+
+Description of analog watchdog 1
+AWD1 analog watchdog is enabled by setting the AWD1EN bit in the ADC_CFGR1 register.
+It is used to monitor that either one selected channel or all enabled channels (see Table 335:
+Analog watchdog 1 channel selection) remain within a configured voltage range (window) as
+shown in Figure 298.
+The AWD1 analog watchdog status bit is set if the analog voltage converted by the ADC is
+below a lower threshold or above a higher threshold. These thresholds are programmed in
+HT1[11:0] and LT1[11:0] bits of ADC_AWD1TR register. An interrupt can be enabled by
+setting the AWD1IE bit in the ADC_IER register.
+The AWD1 flag is cleared by software by programing it to 1.
+When converting data with a resolution of less than 12-bit (according to bits DRES[1:0]), the
+LSB of the programmed thresholds must be kept cleared because the internal comparison
+is always performed on the full 12-bit raw converted data (left aligned).
+Table 334 describes how the comparison is performed for all the possible resolutions.

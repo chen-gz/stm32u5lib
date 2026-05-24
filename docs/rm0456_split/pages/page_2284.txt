@@ -1,0 +1,51 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+The pulse width is programmed using the PW[7:0] bitfield in the register, using a specific
+clock prescaled according to PWPRSC[2:0] bits, as follows:
+tPW = PW[7:0] x tPWG
+where tPWG = (2(PWPRSC[2:0])) x ttim_ker_ck.
+gives the resolution and maximum values depending on the prescaler value.
+The pulse is retriggerable: a new trigger while the pulse is ongoing, causes the pulse to be
+extended.
+Note:
+
+If the two channels are enabled simultaneously, the pulses are issued independently as long
+as the trigger on one channel is not overlapping the pulse generated on the concurrent
+output. On the opposite, if the two triggers are overlapping, the pulse width related to the
+first arriving trigger is extended (because of the retrigger), while the pulse width of the last
+arriving trigger is correct (as shown on Figure 645).
+Figure 645. Extended pulse width in case of concurrent triggers
+Trigger CMP3
+
+Trigger CMP4
+
+tim_oc3
+Extended pulsewidth
+due to overlapping
+CMP4 trigger
+
+tim_oc4
+MSv62348V1
+
+55.4.18
+
+Encoder interface mode
+Quadrature encoder
+To select Encoder interface mode write SMS = 0001 in the TIMx_SMCR register if the
+counter is counting on tim_ti1 edges only, SMS = 0010 if it is counting on tim_ti2 edges only
+and SMS = 0011 if it is counting on both tim_ti1 and tim_ti2 edges.
+Select the tim_ti1 and tim_ti2 polarity by programming the CC1P and CC2P bits in the
+TIMx_CCER register. CC1NP and CC2NP must be kept cleared. When needed, the input
+filter can be programmed as well.
+The two inputs tim_ti1 and tim_ti2 are used to interface to an incremental encoder. Refer to
+Table 569. The counter is clocked by each valid transition on tim_ti1fp1 or tim_ti2fp2 (tim_ti1
+and tim_ti2 after input filter and polarity selection, tim_ti1fp1 = tim_ti1 if not filtered and not
+inverted, tim_ti2fp2 = tim_ti2 if not filtered and not inverted) assuming that it is enabled
+(CEN bit in TIMx_CR1 register written to 1). The sequence of transitions of the two inputs is
+evaluated and generates count pulses as well as the direction signal. Depending on the
+sequence the counter counts up or down, the DIR bit in the TIMx_CR1 register is modified
+by hardware accordingly. The DIR bit is calculated at each transition on any input (tim_ti1 or

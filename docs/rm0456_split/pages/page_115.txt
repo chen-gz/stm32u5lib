@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 389. Simplified DFLT view with gain information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1651
+Figure 390. SAD example working with SADMOD = 01 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1654
+Figure 391. SAD example working with SADMOD = 1x . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1656
+Figure 392. DCMI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+Figure 393. DCMI signal waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1677
+Figure 394. Timing diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1679
+Figure 395. Frame capture waveforms in snapshot mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1681
+Figure 396. Frame capture waveforms in continuous grab mode . . . . . . . . . . . . . . . . . . . . . . . . . . . 1682
+Figure 397. Coordinates and size of the window after cropping . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1682
+Figure 398. Data capture waveforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1683
+Figure 399. Pixel raster scan order . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1684
+Figure 400. PSSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+Figure 401. Top-level block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1698
+Figure 402. Data enable in receive mode waveform diagram (CKPOL=0) . . . . . . . . . . . . . . . . . . . . 1702
+Figure 403. Data enable waveform diagram in transmit mode (CKPOL=0). . . . . . . . . . . . . . . . . . . . 1702
+Figure 404. Ready in receive mode waveform diagram (CKPOL=0). . . . . . . . . . . . . . . . . . . . . . . . . 1703
+Figure 405. Bidirectional PSSI_DE/PSSI_RDY waveform . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1704
+Figure 406. Bidirectional PSSI_DE/PSSI_RDY connection diagram . . . . . . . . . . . . . . . . . . . . . . . . 1704
+Figure 407. LTDC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+Figure 408. LTDC synchronous timings. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1715
+Figure 409. Layer window programmable parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1718
+Figure 410. Blending two layers with background . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1720
+Figure 411. Interrupt events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1722
+Figure 412. DSI block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+Figure 413. DSI Host architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1746
+Figure 414. Flow to update the LTDC interface configuration using shadow registers . . . . . . . . . . . 1751
+Figure 415. Immediate update procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1752
+Figure 416. Configuration update during the transmission of a frame . . . . . . . . . . . . . . . . . . . . . . . . 1752
+Figure 417. Adapted command mode usage flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1754
+Figure 418. 24 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1758
+Figure 419. 18 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1759
+Figure 420. 16 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1759
+Figure 421. 12 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1760
+Figure 422. 8 bpp APB pixel to byte organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1760
+Figure 423. Timing of PRESP_TO after a bus-turn-around . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1763
+Figure 424. Timing of PRESP_TO after a read request (HS or LP). . . . . . . . . . . . . . . . . . . . . . . . . . 1764
+Figure 425. Timing of PRESP_TO after a write request (HS or LP) . . . . . . . . . . . . . . . . . . . . . . . . . 1765
+Figure 426. Effect of prep mode at 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1766
+Figure 427. Command transmission periods within the image area . . . . . . . . . . . . . . . . . . . . . . . . . 1767
+Figure 428. Transmission of commands on the last line of a frame. . . . . . . . . . . . . . . . . . . . . . . . . . 1768
+Figure 429. LPSIZE for non-burst with sync pulses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1769
+Figure 430. LPSIZE for burst or non-burst with sync events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1769
+Figure 431. VLPSIZE for non-burst with sync pulses . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1771
+Figure 432. VLPSIZE for non-burst with sync events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1771
+Figure 433. VLPSIZE for burst mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1771
+Figure 434. Location of LPSIZE and VLPSIZE in the image area . . . . . . . . . . . . . . . . . . . . . . . . . . . 1773
+Figure 435. Clock lane and data lane in HS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1774
+Figure 436. Clock lane in HS and data lanes in LP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1775
+Figure 437. Clock lane and data lane in LP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1775
+Figure 438. Command transmission by the generic interface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1776
+Figure 439. Vertical color bar mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1778
+Figure 440. Horizontal color bar mode. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1778
+
+RM0456 Rev 6

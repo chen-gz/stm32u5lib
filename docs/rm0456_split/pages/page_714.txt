@@ -1,0 +1,24 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+GPDMA burst with 2D addressing (channel x = 12 to 15)
+When the channel has additional 2D addressing feature, this default value refers to the
+value without taking into account the two programmed incremented or decremented offsets.
+These two additional offsets (with a null default value) are applied:
+•
+
+after each completed source/destination burst, as defined respectively by
+GPDMA_CxTR2.SAO[12:0]/DAO[12:0] and GPDMA_CxBR1.SDEC/DDEC
+
+•
+
+after each completed block, as defined respectively by
+GPDMA_CxBR2.BRSAO[15:0]/BRDAO[15:0] and
+GPDMA_CxBR1.BRSDEC/BRDDEC)
+
+Then, a 2D/repeated block can be addressed with a first programmed address jump after
+each completed burst, and with a second programmed address jump after each block, as
+depicted by Figure 67 with a 2D destination buffer.

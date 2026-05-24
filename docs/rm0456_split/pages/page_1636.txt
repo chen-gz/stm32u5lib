@@ -1,0 +1,78 @@
+1674
+
+Audio digital filter (ADF)
+•
+
+RM0456
+
+The adf_sad_det signal is set to high.
+
+The SAD remains in DETECT state as long as the trigger condition is met or the hangover
+down-counter is different from 0.
+The sddet_evt event indicates when the SAD enters and/or exits the DETECT state. This
+event is used to generate an interrupt when a sound is detected or when a sound is no
+longer detected:
+•
+
+When DETCFG = 0, the application receives an event only when the SAD enters the
+DETECT state.
+
+•
+
+When DETCFG = 1, the application receives an event when the SAD enters or exits the
+DETECT state.
+
+The adf_sad_det signal remains high as long as the SAD is in DETECT state.
+The SAD also provides a flag indicating that a new sound level value is available (SDLVLF).
+The last computed sound level (SDLVL[14:0]) is available in the ADF SAD sound level
+register (ADF_SADSDLVR), and the last computed ambient noise level (ANLVL[14:0]), in
+the ADF SAD ambient noise level register (ADF_SADANLVR).
+Note:
+
+The SAD can work even when the AHB clock is not present. In that case, the SAD does not
+update SDLVL[14:0] and ANLVL[14:0].
+To get the latest valid SDLVL[14:0] and ANLVL[14:0] values, the application must read the
+ADF_SADSDLVR, and ADF_SADANLVR registers, when the SDLVLF flag goes high. This
+can be done in the following ways:
+•
+
+•
+
+by polling the SDLVLF flag:
+a)
+
+Clear the SDLVLF flag by writing SDLVLF to 1.
+
+b)
+
+Wait for SDLVLF = 1, by reading ADF_DFLTxISR.
+
+c)
+
+Read ADF_SADSDLVR and ADF_SADANLVR.
+
+d)
+
+Clear SDLVLF by writing it to 1.
+
+e)
+
+Go to step 2 if other values must to be read.
+
+by generating an interrupt:
+a)
+
+Read ADF_DFLTxISR.
+
+b)
+
+If SDLVLF = 1, read ADF_SADSDLVR and ADF_SADANLVR, and clear SDLVLF
+by writing it to 1.
+
+c)
+
+Handle other status flags and exit from ISR.
+
+Sample transfer to memory
+The SAD offers the following options to control the samples transfer from DFLT0 to the
+system memory:

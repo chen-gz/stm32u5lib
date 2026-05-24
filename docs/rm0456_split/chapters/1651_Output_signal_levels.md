@@ -1,0 +1,134 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+GdB SAD = – 48.1dB
+
+and
+G SAD = 0.003906
+
+The Figure 389 shows a simplified view of the filter path and gives, for each significant
+component, the expression of the bit growth and the gain.
+Figure 389. Simplified DFLT view with gain information
+(1)
+
+Gain (linear)
+GSAD = 0.00391
+
+GHPF = 1
+
+GRSFLT = 2.98
+
+GMCIC = D1N
+
+GSSCALE =
+
+DFLTx
+
+HPF
+
+PCM[23:0]
+
+Ļ RSFLT
+
+SAD
+
+GDBSAD = - 48.1 dB
+
+GDBHPF = 0 dB
+
+SAT
+
+GDBRSFLT = 9.5 dB
+
+D1
+љ
+
+SCALE
+
+CIC
+
+Bin
+
+GdBMCIC = 20 x log10(D1N)
+
+GDBSCALE
+
+Gain (dB)
+(1) The SAD is not always implemented (see the ADF implementation section for details).
+
+MSv62698V1
+
+Table 408 summarizes of the final data size for different filter configurations.
+Table 408. Output signal levels
+Filter configurations
+
+Final signal amplitude (LSB)
+Samples provided to the RXFIFO:
+N
+
+Asout RXFIFO = D1 × 10
+CIC + RSFLT + HPF + SAD
+
+GdB SCALE
+--------------------------20
+
+× 10
+
+9.5
+------20
+
+× Asin DFLT
+
+Samples provided to the SAD:
+N
+
+Asout SAD = D1 × 10
+
+GdB SCALE
+--------------------------20
+
+× 10
+
+9.5
+------20
+
+× 0.003906 × A sin DFLT
+
+DSSCALE must be lower than 22 bits
+N
+
+CIC + RSFLT (+ HPF)
+
+ASout HPF = D1 × 10
+
+GdB SCALE
+--------------------------20
+
+× 10
+
+9.5
+------20
+
+× Asin DFLT
+
+DSSCALE must be lower than 22 bits
+
+CIC (+ HPF)
+
+N
+
+ASout HPF = D1 × 10
+
+GdB SCALE
+--------------------------20
+
+× Asin DFLT
+
+DSSCALE must be lower than 24 bits
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

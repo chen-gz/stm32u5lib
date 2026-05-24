@@ -1,0 +1,58 @@
+RM0456 Rev 6
+
+RM0456
+
+71.5.2
+
+Universal serial bus full-speed host/device interface (USB)
+
+System and power-on reset
+Upon system and power-on reset, the first operation the application software must perform
+is to provide all required clock signals to the USB peripheral and subsequently de-assert its
+reset signal so to be able to access its registers. The whole initialization sequence is
+hereafter described.
+As a first step application software needs to activate register macrocell clock and de-assert
+macrocell specific reset signal using related control bits provided by device clock
+management logic.
+After that, the analog part of the device related to the USB transceiver must be switched on
+using the PDWN bit in CNTR register, which requires a special handling. This bit is intended
+to switch on the internal voltage references that supply the port transceiver. This circuit has
+a defined startup time (tSTARTUP specified in the datasheet) during which the behavior of the
+USB transceiver is not defined. It is thus necessary to wait this time, after setting the PDWN
+bit in the CNTR register, before removing the reset condition on the USB part (by clearing
+the USBRST bit in the CNTR register). Clearing the ISTR register removes any spurious
+pending interrupt before any other macrocell operation is enabled.
+At system reset, the microcontroller must initialize all required registers and the packet
+buffer description table, to make the USB peripheral able to properly generate interrupts and
+data transfers. All registers not specific to any endpoint/channel must be initialized
+according to the needs of application software (choice of enabled interrupts, chosen
+address of packet buffers, etc.). Then the process continues as for the USB reset case (see
+further paragraph).
+
+USB bus reset (RST_DCON interrupt) in Device mode
+When this event occurs, the USB peripheral is put in the same conditions it is left by the
+system reset after the initialization described in the previous paragraph: communication is
+disabled in all endpoint registers (the USB peripheral does not respond to any packet). As a
+response to the USB reset event, the USB function must be enabled, having as USB
+address 0, implementing only the default control endpoint (endpoint address is 0 too). This
+is accomplished by setting the enable function (EF) bit of the USB_DADDR register and
+initializing the CHEP0R register and its related packet buffers accordingly. During USB
+enumeration process, the host assigns a unique address to this device, which must be
+written in the ADD[6:0] bits of the USB_DADDR register, and configures any other
+necessary endpoint.
+When a RST_DCON interrupt is received, the application software is responsible to enable
+again the default endpoint of USB function 0 within 10 ms from the end of the reset
+sequence which triggered the interrupt.
+
+USB bus reset in Host mode
+In Host mode a bus reset is activated by setting the USBRST bit of the USB_CNTR register.
+It must subsequently be cleared by software once the minimum active reset time from the
+standard has been respected.
+
+Structure and usage of packet buffers
+Each bidirectional endpoint can receive or transmit data over the bus. The received data is
+stored in a dedicated memory buffer reserved for that endpoint, while another memory
+buffer contains the data to be transmitted by the endpoint. Access to this memory is
+performed by the packet buffer interface block, which delivers a memory access request
+
+RM0456 Rev 6

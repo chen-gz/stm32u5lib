@@ -1,0 +1,32 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 14 CTZSC1F: clear the illegal access flag for GTZC1 TZSC registers
+0: no action
+1: status flag cleared
+Bits 13:5 Reserved, must be kept at reset value.
+Bit 4 COTFDEC2F: clear the illegal access flag for OTFDEC2
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 3 COTFDEC1F: clear the illegal access flag for OTFDEC1
+0: no action
+1: status flag cleared
+Bit 2 CFLASHF: clear the illegal access flag for flash memory
+0: no action
+1: status flag cleared
+Bit 1 CFLASH_REGF: clear the illegal access flag for FLASH registers
+0: no action
+1: status flag cleared
+Bit 0 CGPDMA1F: clear the illegal access flag for GPDMA1
+0: no action
+1: status flag cleared
+
+5.7.13
+
+GTZC1 TZIC register map

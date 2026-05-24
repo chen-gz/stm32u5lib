@@ -1,0 +1,109 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+sequence to the 1.8V mode. When the voltage sequence is completed successfully the card
+enters UHS-I mode with default SDR12 and card input and output timings are changed.
+Figure 218. CMD11 signal voltage switch sequence
+3.3 V
+SDMMC_CK
+0V
+
+Provide SD clock at 3.3 V
+
+Provide SD clock at 1.8 V
+
+1.8 V
+
+5 ms min.
+
+3.3 V
+SDMMC_CMD
+0V
+
+CMD11
+
+1.8 V
+
+R1
+0 min.
+1 ms max.
+
+3.3 V
+SDMMC_D[3:0]
+0V
+
+1.8 V
+
+MSv40950V1
+
+To perform the signal voltage switch sequence the following steps are needed:
+1.
+
+Before starting the Voltage Switch procedure, the SDMMC_CK frequency must be set
+in the range 100 kHz - 400 kHz.
+
+2.
+
+The host starts the Voltage Switch procedure by setting the VSWITCHEN bit before
+sending the CMD11.
+
+3.
+
+The card returns an R1 response.
+–
+
+if the response CRC is pass, the Voltage Switch procedure continues the host
+does no longer drive the CMD and SDMMC_D[3:0] signals until completion of the
+voltage switch sequence. Some cycles after the response the SDMMC_CK is
+stopped and the CKSTOP flag is set.
+
+–
+
+if the response CRC is fail (CCRCFAIL flag) or no response is received before the
+timeout (CTIMEOUT flag), the Voltage Switch procedure is stopped.
+
+4.
+
+The card drives CMD and SDMMC_D[3:0] to low at the next clock after the R1
+response.
+
+5.
+
+The host, after having received the R1 response, may monitor the SDMMC_D0 line
+using the BUSYD0 register bit. The SDMMC_D0 line is sampled two SDMMC_CK
+clock cycles after the Response. The Firmware may read the BUSYD0 register bit
+following the CKSTOP flag.
+
+6.
+
+–
+
+When the BUSYD0 is detected low the host firmware switches the Voltage
+regulator to 1.8V, after which it instructs the SDMMC to start the timing critical
+section of the Voltage Switch sequence by setting register bit VSWITCH. The
+hardware continues to stop the SDMMC_CK by holding it low for at least 5 ms.
+
+–
+
+When the BUSYD0 is detected high the host aborts the Voltage Switch sequence
+and cycle power the card.
+
+The card after detecting SDMMC_CK low begins switching signaling voltage to 1.8 V.
+
+7.
+
+The host SDMMC hardware after at least 5 ms restarts the SDMMC_CK.
+
+8.
+
+The card within 1 ms from detecting SDMMC_CK transition drives CMD and DAT[3:0]
+high for at least 1 SDMMC_CK cycle and then stop driving CMD and DAT[3:0].
+
+9.
+
+The host SDMMC hardware, 1 ms after the SDMMC_CK has been restarted, the
+SDMMC_D0 is sampled into BUSYD0 and the VSWEND flag is set.
+
+RM0456 Rev 6

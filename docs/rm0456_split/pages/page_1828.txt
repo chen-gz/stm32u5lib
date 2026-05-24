@@ -1,0 +1,50 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+Bit 16 PE0IE: PHY error 0 interrupt enable
+This bit enables the interrupt generation on PHY error 0.
+0: Interrupt on PHY error 0 disabled
+1: Interrupt on PHY error 0 enabled
+Bit 15 AE15IE: Acknowledge error 15 interrupt enable
+This bit enables the interrupt generation on acknowledge error 15.
+0: Interrupt on acknowledge error 15 disabled
+1: Interrupt on acknowledge error 15 enabled
+Bit 14 AE14IE: Acknowledge error 14 interrupt enable
+This bit enables the interrupt generation on acknowledge error 14.
+0: Interrupt on acknowledge error 14 disabled
+1: Interrupt on acknowledge error 14 enabled
+Bit 13 AE13IE: Acknowledge error 13 interrupt enable
+This bit enables the interrupt generation on acknowledge error 13.
+0: Interrupt on acknowledge error 13 disabled
+1: Interrupt on acknowledge error 13 enabled
+Bit 12 AE12IE: Acknowledge error 12 interrupt enable
+This bit enables the interrupt generation on acknowledge error 12.
+0: Interrupt on acknowledge error 12 disabled
+1: Interrupt on acknowledge error 12 enabled
+Bit 11 AE11IE: Acknowledge error 11 interrupt enable
+This bit enables the interrupt generation on acknowledge error 11.
+0: Interrupt on acknowledge error 11 disabled
+1: Interrupt on acknowledge error 11 enabled
+Bit 10 AE10IE: Acknowledge error 10 interrupt enable
+This bit enables the interrupt generation on acknowledge error 10.
+0: Interrupt on acknowledge error 10 disabled
+1: Interrupt on acknowledge error 10 enable.
+Bit 9 AE9IE: Acknowledge error 9 interrupt enable
+This bit enables the interrupt generation on acknowledge error 9.
+0: Interrupt on acknowledge error 9 disabled
+1: Interrupt on acknowledge error 9 enabled
+Bit 8 AE8IE: Acknowledge error 8 interrupt enable
+This bit enables the interrupt generation on acknowledge error 8.
+0: Interrupt on acknowledge error 8 disabled
+1: Interrupt on acknowledge error 8 enabled
+Bit 7 AE7IE: Acknowledge error 7 interrupt enable
+This bit enables the interrupt generation on acknowledge error 7.
+0: Interrupt on acknowledge error 7 disabled
+1: Interrupt on acknowledge error 7 enabled
+Bit 6 AE6IE: Acknowledge error 6 interrupt enable
+This bit enables the interrupt generation on acknowledge error 6.
+0: Interrupt on acknowledge error 6 disabled
+1: Interrupt on acknowledge error 6 enabled

@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+
+Bit 18 SRAM3PDS3: SRAM3 page 3 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 3 content retained in Stop modes
+1: SRAM3 page 3 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 17 SRAM3PDS2: SRAM3 page 2 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 2 content retained in Stop modes
+1: SRAM3 page 2 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 16 SRAM3PDS1: SRAM3 page 1 (64 Kbytes) power-down in all Stop modes
+0: SRAM3 page 1 content retained in Stop modes
+1: SRAM3 page 1 content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit
+reserved and keep it at reset value.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 FLASHFWU: Flash memory fast wake-up from Stop 0 and Stop 1 modes
+This bit is used to obtain the best trade-off between low-power consumption and wake-up
+time when exiting the Stop 0 or Stop 1 modes.
+When this bit is set, the flash memory remains in normal mode in Stop 0 and Stop 1 modes,
+which offers a faster startup time with higher consumption.
+0: Flash memory enters low-power mode in Stop 0/1 modes (lower-power consumption).
+1: Flash memory remains in normal mode in Stop 0/1 modes (faster wake-up time).
+Bit 13 SRAM4FWU: SRAM4 fast wake-up from Stop 0/1/2 modes
+This bit is used to obtain the best trade-off between low-power consumption and wake-up
+time. SRAM4 wake-up time increases the wake-up time when exiting Stop 0/1/2 modes, and
+also increases the LPDMA access time to SRAM4 during Stop modes.
+0: SRAM4 enters low-power mode in Stop 0/1/2 modes (source biasing for lower-power
+consumption).
+1: SRAM4 remains in normal mode in Stop 0/1/2 modes (higher consumption but
+no SRAM4 wake-up time).
+Bit 12 PKARAMPDS: PKA SRAM power-down in all Stop modes (Stop 0/1/2/3)
+0: PKA SRAM content retained in Stop modes
+1: PKA SRAM content lost in Stop modes
+Note: This bit is only available on some devices in the STM32U5 Series.
+Refer to the device datasheet for availability of its associated peripheral.
+If not present, consider this bit reserved and keep at reset value.
+Bit 11 PRAMPDS: FMAC, FDCAN, and USB/OTG_FS/OTG_HS SRAM power-down in all Stop
+modes (Stop 0/1/2/3)
+0: FMAC, FDCAN, and USB/OTG_FS/OTG_HS SRAM content retained in Stop modes
+1: FMAC, FDCAN, and USB/OTG_FS/OTG_HS SRAM content lost in Stop modes
+
+RM0456 Rev 6

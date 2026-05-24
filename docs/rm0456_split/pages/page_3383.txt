@@ -1,0 +1,47 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+Bit 20 FRSEVTIE: FRSEVT interrupt enable
+0: Disable
+1: Enable
+Bits 19:16 Reserved, must be kept at reset value.
+Bit 15 TYPECEVT2IE: TYPECEVT2 interrupt enable
+0: Disable
+1: Enable
+Bit 14 TYPECEVT1IE: TYPECEVT1 interrupt enable
+Bit 13 Reserved, must be kept at reset value.
+Bit 12 RXMSGENDIE: RXMSGEND interrupt enable
+0: Disable
+1: Enable
+Bit 11 RXOVRIE: RXOVR interrupt enable
+0: Disable
+1: Enable
+Bit 10 RXHRSTDETIE: RXHRSTDET interrupt enable
+0: Disable
+1: Enable
+Bit 9 RXORDDETIE: RXORDDET interrupt enable
+0: Disable
+1: Enable
+Bit 8 RXNEIE: RXNE interrupt enable
+0: Disable
+1: Enable
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 TXUNDIE: TXUND interrupt enable
+0: Disable
+1: Enable
+Bit 5 HRSTSENTIE: HRSTSENT interrupt enable
+0: Disable
+1: Enable
+Bit 4 HRSTDISCIE: HRSTDISC interrupt enable
+0: Disable
+1: Enable
+Bit 3 TXMSGABTIE: TXMSGABT interrupt enable
+0: Disable
+1: Enable
+Bit 2 TXMSGSENTIE: TXMSGSENT interrupt enable
+0: Disable
+1: Enable
+Bit 1 TXMSGDISCIE: TXMSGDISC interrupt enable
+0: Disable
+1: Enable

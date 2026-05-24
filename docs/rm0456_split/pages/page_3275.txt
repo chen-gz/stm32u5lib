@@ -1,0 +1,49 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 21 STALL: STALL handshake
+Applies to non-control, non-isochronous IN endpoints only (access type is rw).
+The application sets this bit to stall all tokens from the USB host to this endpoint. If a NAK
+bit, Global IN NAK, or Global OUT NAK is set along with this bit, the STALL bit takes priority.
+Only the application can clear this bit, never the core.
+Bit 20 Reserved, must be kept at reset value.
+Bits 19:18 EPTYP[1:0]: Endpoint type
+This is the transfer type supported by this logical endpoint.
+00: Control
+01: Isochronous
+10: Bulk
+11: Interrupt
+Bit 17 NAKSTS: NAK status
+It indicates the following:
+0: The core is transmitting non-NAK handshakes based on the FIFO status.
+1: The core is transmitting NAK handshakes on this endpoint.
+When either the application or the core sets this bit:
+For non-isochronous IN endpoints: The core stops transmitting any data on an IN endpoint,
+even if there are data available in the Tx FIFO.
+For isochronous IN endpoints: The core sends out a zero-length data packet, even if there
+are data available in the Tx FIFO.
+Irrespective of this bit’s setting, the core always responds to SETUP data packets with an
+ACK handshake.
+Bit 16 EONUM: Even/odd frame
+Applies to isochronous IN endpoints only.
+Indicates the frame number in which the core transmits/receives isochronous data for this
+endpoint. The application must program the even/odd frame number in which it intends to
+transmit/receive isochronous data for this endpoint using the SEVNFRM and SODDFRM
+fields in this register.
+0: Even frame
+1: Odd frame
+Bit 15 USBAEP: USB active endpoint
+Indicates whether this endpoint is active in the current configuration and interface. The core
+clears this bit for all endpoints (other than EP 0) after detecting a USB reset. After receiving
+the SetConfiguration and SetInterface commands, the application must program endpoint
+registers accordingly and set this bit.
+Bits 14:11
+
+Reserved, must be kept at reset value.
+
+Bits 10:0 MPSIZ[10:0]: Maximum packet size
+The application must program this field with the maximum packet size for the current logical
+endpoint. This value is in bytes.

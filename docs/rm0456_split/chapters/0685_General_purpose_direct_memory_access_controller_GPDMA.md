@@ -1,0 +1,111 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+
+17
+
+General purpose direct memory access controller
+(GPDMA)
+
+17.1
+
+GPDMA introduction
+The general purpose direct memory access (GPDMA) controller is a bus master and system
+peripheral.
+The GPDMA is used to perform programmable data transfers between memory-mapped
+peripherals and/or memories via linked-lists, upon the control of an off-loaded CPU.
+
+17.2
+
+GPDMA main features
+•
+
+Dual bidirectional AHB master
+
+•
+
+Memory-mapped data transfers from a source to a destination:
+
+•
+
+–
+
+Peripheral-to-memory
+
+–
+
+Memory-to-peripheral
+
+–
+
+Memory-to-memory
+
+–
+
+Peripheral-to-peripheral
+
+Autonomous data transfers during Stop mode (see Section 17.3.2)
+Transfer arbitration based on a 4-grade programmed priority at channel level:
+–
+
+One high-priority traffic class, for time-sensitive channels (queue 3)
+
+–
+
+Three low-priority traffic classes, with a weighted round-robin allocation for non
+time-sensitive channels (queues 0, 1, 2)
+
+•
+
+Per channel event generation, on any of the following events: transfer complete, half
+transfer complete, data transfer error, user setting error, link transfer error, completed
+suspension, and trigger overrun
+
+•
+
+Per channel interrupt generation, with separately programmed interrupt enable per
+event
+
+•
+
+16 concurrent GPDMA channels:
+
+•
+
+–
+
+Per channel FIFO for queuing source and destination transfers
+(see Section 17.3.1)
+
+–
+
+Intra-channel GPDMA transfers chaining via programmable linked-list into
+memory, supporting two execution modes: run-to-completion and link step mode
+
+–
+
+Intra-channel and inter-channel GPDMA transfers chaining via programmable
+GPDMA input triggers connection to GPDMA task completion events
+
+Per linked-list item within a channel:
+–
+
+Separately programmed source and destination transfers
+
+–
+
+Programmable data handling between source and destination: byte-based
+reordering, packing or unpacking, padding or truncation, sign extension and
+left/right realignment
+
+–
+
+Programmable number of data bytes to be transferred from the source, defining
+the block level
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

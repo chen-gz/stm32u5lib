@@ -1,0 +1,16 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+73.12
+
+RM0456
+
+OTG_HS interrupts
+When the OTG_HS controller is operating in one mode, either device or host, the
+application must not access registers from the other mode. If an illegal access occurs, a
+mode mismatch interrupt is generated and reflected in the core interrupt register (MMIS bit
+in the OTG_GINTSTS register). When the core switches from one mode to the other, the
+registers in the new mode of operation must be reprogrammed as they would be after a
+power-on reset.
+Figure 926 shows the interrupt hierarchy.

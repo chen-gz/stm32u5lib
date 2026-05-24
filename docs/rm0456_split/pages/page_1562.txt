@@ -1,0 +1,119 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+In the mdf_hclk line, the gray boxes indicate that the MDF requested the AHB clock. The
+figure below shows the AHB clock available only when the MDF requests it. In real
+applications, the AHB clock may also be present if the MDF does not request it.
+Figure 355. Example of overflow and transfer to memory
+mdf_ker_ck
+Data from
+DFLTx
+
+S1
+
+S2
+
+S3
+
+S4
+
+S5
+
+S6
+
+Data write into
+RXFIFO
+
+S7
+
+S8
+
+4
+
+S9
+
+S10
+
+S11
+
+S12
+
+4
+
+3
+2
+
+2
+
+1
+
+RXFIFO Level
+0
+
+2
+
+2
+
+1
+
+1
+
+1
+0
+
+0
+
+RXFIFO Full
+FTHF
+RXNEF
+mdf_hclk
+S1 S2
+
+S3 S4 S5 S6 S8
+
+S9 S10
+
+read access to
+RXFIFO
+DOVRF
+Writing DOVRF to 1
+
+MSv62693V1
+
+Note:
+
+If the MDF works in interleaved-transfer mode, the application must check the overrun
+status of all RXFIFOs that works in interleaved-transfer mode.
+
+39.4.14
+
+Autonomous mode
+The MDF can work even if the AHB bus clock is not available (Stop modes). The MDF uses
+the AHB clock only for the register interface. All the processing part is clocked with the
+kernel clock.
+In Stop mode, the MDF receives a kernel clock if the selected clock source is an oscillator
+available in Stop mode
+In Stop mode, the MDF receives the AHB clock if the following conditions are met:
+•
+
+The MDF autonomous mode is enabled in the RCC.
+
+•
+
+The MDF requests the AHB clock, in the following situations:
+–
+
+when the MDF must transfer data into the memory via the DMA
+The data are directly transferred to the SRAM thanks to the DMA while the product
+remains in Stop mode. The AHB clock request is maintained until the DMA
+transfer is completed.
+
+–
+
+when the MDF must generate an interrupt
+An interrupt generally wakes up the device from Stop mode, as an action from the
+application is needed. Once the AHB clock is available, the interrupt is
+generated.The AHB clock request is maintained as long as an enabled interrupt

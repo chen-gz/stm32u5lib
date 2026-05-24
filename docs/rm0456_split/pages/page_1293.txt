@@ -1,0 +1,78 @@
+RM0456 Rev 6
+
+RM0456
+
+33.4.21
+
+Analog-to-digital converter (ADC12)
+
+Discontinuous mode (DISCEN, DISCNUM, JDISCEN)
+Regular group mode
+This mode is enabled by setting the DISCEN bit in the ADC_CFGR1 register.
+It is used to convert a short sequence (subgroup) of n conversions (n ≤ 8) that is part of the
+sequence of conversions selected in the ADC_SQRy registers. The value of n is specified
+by writing to the DISCNUM[2:0] bits in the ADC_CFGR1 register.
+When an external trigger occurs, it starts the next n conversions selected in the ADC_SQRx
+registers until all the conversions in the sequence are done. The total sequence length is
+defined by the L[3:0] bits in the ADC_SQR1 register.
+Example
+•
+
+•
+
+Note:
+
+DISCEN = 1, n=3, channels to be converted = 1, 2, 3, 6, 7, 8, 9, 10, 11
+–
+
+1st trigger: channels converted are 1, 2, 3 (an EOC event is generated at each
+conversion).
+
+–
+
+2nd trigger: channels converted are 6, 7, 8 (an EOC event is generated at each
+conversion).
+
+–
+
+3rd trigger: channels converted are 9, 10, 11 (an EOC event is generated at each
+conversion) and an EOS event is generated after the conversion of channel 11.
+
+–
+
+4th trigger: channels converted are 1, 2, 3 (an EOC event is generated at each
+conversion).
+
+–
+
+...
+
+DISCEN = 0, channels to be converted = 1, 2, 3, 6, 7, 8, 9, 10,11
+–
+
+First trigger: the complete sequence is converted: channel 1, then 2, 3, 6, 7, 8, 9,
+10 and 11. Each conversion generates an EOC event and the last one also
+generates an EOS event.
+
+–
+
+All the next trigger events relaunch the complete sequence.
+
+When a regular group is converted in discontinuous mode, no rollover occurs (the last
+subgroup of the sequence can have less than n conversions).
+When all subgroups are converted, the next trigger starts the conversion of the first
+subgroup. In the example above, the 4th trigger reconverts the channels 1, 2 and 3 in the
+1st subgroup.
+It is not possible to have both discontinuous mode and continuous mode enabled. In this
+case (if DISCEN = 1, CONT = 1), the ADC behaves as if continuous mode was disabled.
+
+Injected group mode
+This mode is enabled by setting the JDISCEN bit in the ADC_CFGR1 register. It converts
+the sequence selected in the ADC_JSQR register, channel by channel, after an external
+injected trigger event. This is equivalent to discontinuous mode for regular channels where
+‘n’ is fixed at 1.
+When an external trigger occurs, it starts the next channel conversions selected in the
+ADC_JSQR registers until all the conversions in the sequence are done. The total sequence
+length is defined by the JL[1:0] bits in the ADC_JSQR register.
+
+RM0456 Rev 6

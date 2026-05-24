@@ -1,0 +1,71 @@
+RM0456 Rev 6
+
+5
+Res.
+
+Res.
+
+TCEN
+rw
+
+DMAE
+ABORT
+N
+rw
+
+rw
+
+EN
+rw
+
+RM0456
+
+Octo-SPI interface (OCTOSPI)
+
+Bits 29:28 FMODE[1:0]: Functional mode
+This bitfield defines the OCTOSPI functional mode of operation.
+00: Indirect-write mode
+01: Indirect-read mode
+10: Automatic status-polling mode (relevant in regular-command protocol only)
+11: Memory-mapped mode
+If DMAEN = 1 already, then the DMA controller for the corresponding channel must be
+disabled before changing the FMODE[1:0] value.
+Note: This bitfield can be modified only when BUSY = 0.
+Bits 27:24 Reserved, must be kept at reset value.
+Bit 23 PMM: Polling match mode
+This bit indicates which method must be used to determine a match during the automatic
+status-polling mode.
+0: AND-match mode, SMF is set if all the unmasked bits received from the device match the
+corresponding bits in the match register.
+1: OR-match mode, SMF is set if any of the unmasked bits received from the device matches
+its corresponding bit in the match register.
+Note: This bit can be modified only when BUSY = 0.
+Bit 22 APMS: Automatic status-polling mode stop
+This bit determines if the automatic status-polling mode is stopped after a match.
+0: Automatic status-polling mode is stopped only by abort or by disabling the OCTOSPI.
+1: Automatic status-polling mode stops as soon as there is a match.
+Note: This bit can be modified only when BUSY = 0.
+Bit 21 Reserved, must be kept at reset value.
+Bit 20 TOIE: Timeout interrupt enable
+This bit enables the timeout interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 19 SMIE: Status-match interrupt enable
+This bit enables the status-match interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 18 FTIE: FIFO threshold interrupt enable
+This bit enables the FIFO threshold interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 17 TCIE: Transfer complete interrupt enable
+This bit enables the transfer complete interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 16 TEIE: Transfer error interrupt enable
+This bit enables the transfer error interrupt.
+0: Interrupt disabled
+1: Interrupt enabled
+Bits 15:13 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

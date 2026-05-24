@@ -1,0 +1,77 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+1.
+
+Disable the IN endpoint to be stalled. Set the STALL bit as well.
+
+2.
+
+EPDIS = 1 in OTG_DIEPCTLx, when the endpoint is already enabled
+–
+
+STALL = 1 in OTG_DIEPCTLx
+
+–
+
+The STALL bit always takes precedence over the NAK bit
+
+3.
+
+Assertion of the endpoint disabled interrupt (in OTG_DIEPINTx) indicates to the
+application that the core has disabled the specified endpoint.
+
+4.
+
+The application must flush the non-periodic or periodic transmit FIFO, depending on
+the endpoint type. In case of a non-periodic endpoint, the application must re-enable
+the other non-periodic endpoints that do not need to be stalled, to transmit data.
+
+5.
+
+Whenever the application is ready to end the STALL handshake for the endpoint, the
+STALL bit must be cleared in OTG_DIEPCTLx.
+
+6.
+
+If the application sets or clears a STALL bit for an endpoint due to a
+SetFeature.Endpoint Halt command or ClearFeature.Endpoint Halt command, the
+STALL bit must be set or cleared before the application sets up the status stage
+transfer on the control endpoint.
+
+Special case: stalling the control OUT endpoint
+The core must stall IN/OUT tokens if, during the data stage of a control transfer, the host
+sends more IN/OUT tokens than are specified in the SETUP packet. In this case, the
+application must enable the ITTXFE interrupt in OTG_DIEPINTx and the OTEPDIS interrupt
+in OTG_DOEPINTx during the data stage of the control transfer, after the core has
+transferred the amount of data specified in the SETUP packet. Then, when the application
+receives this interrupt, it must set the STALL bit in the corresponding endpoint control
+register, and clear this interrupt.
+
+72.16.6
+
+Worst case response time
+When the OTG_FS controller acts as a device, there is a worst case response time for any
+tokens that follow an isochronous OUT. This worst case response time depends on the AHB
+clock frequency.
+The core registers are in the AHB domain, and the core does not accept another token
+before updating these register values. The worst case is for any token following an
+isochronous OUT, because for an isochronous transaction, there is no handshake and the
+next token may come sooner. This worst case value is 7 PHY clocks when the AHB clock is
+the same as the PHY clock. When the AHB clock is faster, this value is smaller.
+If this worst case condition occurs, the core responds to bulk/interrupt tokens with a NAK
+and drops isochronous and SETUP tokens. The host interprets this as a timeout condition
+for SETUP and retries the SETUP packet. For isochronous transfers, the Incomplete
+isochronous IN transfer interrupt (IISOIXFR) and Incomplete isochronous OUT transfer
+interrupt (IISOOXFR) inform the application that isochronous IN/OUT packets were
+dropped.
+
+Choosing the value of TRDT in OTG_GUSBCFG
+The value in TRDT (OTG_GUSBCFG) is the time it takes for the MAC, in terms of PHY
+clocks after it has received an IN token, to get the FIFO status, and thus the first data from
+the PFC block. This time involves the synchronization delay between the PHY and AHB
+clocks. The worst case delay for this is when the AHB clock is the same as the PHY clock.
+In this case, the delay is 5 clocks.

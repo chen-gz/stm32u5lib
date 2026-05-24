@@ -1,0 +1,50 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 12 DCMI_PSSIRST: DCMI and PSSI reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the DCMI and PSSI.
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 ADC12RST: ADC1 and ADC2 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the ADC1 and ADC2.
+Note: This bit impacts ADC1 in STM32U535/545/575/585, and ADC1/ADC2
+in STM32U59x/5Ax/5Fx/5Gx.
+Bit 9 GPIOJRST: I/O port J reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the I/O port J.
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 8 GPIOIRST: I/O port I reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the I/O port .I
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and keep it at reset value.
+Bit 7 GPIOHRST: I/O port H reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the I/O port H.
+Bit 6 GPIOGRST: I/O port G reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the I/O port G.
+Bit 5 GPIOFRST: I/O port F reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset I/O port F
+Note: This bit is only available on some devices in the STM32U5 Series. Refer to the device
+datasheet for availability of its associated peripheral.
+If not present, consider this bit as reserved and keep it at reset value.
+Bit 4 GPIOERST: I/O port E reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the I/O port E.

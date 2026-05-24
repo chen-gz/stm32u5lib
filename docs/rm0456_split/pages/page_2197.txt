@@ -1,0 +1,41 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bit 9 CC1OF: Capture/compare 1 overcapture flag
+This flag is set by hardware only when the corresponding channel is configured in input
+capture mode. It is cleared by software by writing it to 0.
+0: No overcapture has been detected.
+1: The counter value has been captured in TIMx_CCR1 register while CC1IF flag was
+already set
+Bit 8 B2IF: Break 2 interrupt flag
+This flag is set by hardware as soon as the break 2 input goes active. It can be cleared by
+software if the break 2 input is not active.
+0: No break event occurred.
+1: An active level has been detected on the break 2 input. An interrupt is generated if
+BIE = 1 in the TIMx_DIER register.
+Bit 7 BIF: Break interrupt flag
+This flag is set by hardware as soon as the break input goes active. It can be cleared by
+software if the break input is not active.
+0: No break event occurred.
+1: An active level has been detected on the break input. An interrupt is generated if BIE = 1
+in the TIMx_DIER register.
+Bit 6 TIF: Trigger interrupt flag
+This flag is set by hardware on the TRG trigger event (active edge detected on tim_trgi input
+when the slave mode controller is enabled in all modes but gated mode. It is set when the
+counter starts or stops when gated mode is selected. It is cleared by software.
+0: No trigger event occurred.
+1: Trigger interrupt pending.
+Bit 5 COMIF: COM interrupt flag
+This flag is set by hardware on COM event (when capture/compare Control bits - CCxE,
+CCxNE, OCxM - have been updated). It is cleared by software.
+0: No COM event occurred.
+1: COM interrupt pending.
+Bit 4 CC4IF: Capture/compare 4 interrupt flag
+Refer to CC1IF description
+Bit 3 CC3IF: Capture/compare 3 interrupt flag
+Refer to CC1IF description
+
+RM0456 Rev 6

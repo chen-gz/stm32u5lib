@@ -1,0 +1,72 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+executed to recover from an underrun error detected via the underrun interrupt or the
+underrun status bit:
+1.
+
+Disable the DMA stream (via the DMA peripheral) if the DMA is used.
+
+2.
+
+Disable the SAI and check that the peripheral is physically disabled by polling the
+SAIEN bit in the SAI_xCR1 register.
+
+3.
+
+Clear the COVRUNDR flag in the SAI_xCLRFR register.
+
+4.
+
+Flush the FIFO by setting the FFLUSH bit in SAI_xCR2.
+The software needs to point to the address of the future data corresponding to the start
+of a new block (data for preamble B). If the DMA is used, the DMA source base
+address pointer must be updated accordingly.
+
+5.
+
+Enable the DMA stream (DMA peripheral) again if the DMA is used to manage data
+transfers according to the new source base address.
+
+6.
+
+Enable the SAI again by configuring the SAIEN bit in the SAI_xCR1 register.
+
+Clock generator programming in SPDIF generator mode
+For the SPDIF generator, the SAI provides a bit clock twice as fast as the symbol-rate. The
+table below shows examples of symbol rates with respect to the audio sampling rate.
+Table 714. Audio sampling frequency versus symbol rates
+Audio sampling frequencies (FS)
+
+Symbol-rate
+
+44.1 kHz
+
+2.8224 MHz
+
+48 kHz
+
+3.072 MHz
+
+96 kHz
+
+6.144 MHz
+
+192 kHz
+
+12.288 MHz
+
+More generally, the relationship between the audio sampling frequency (FS) and the bit
+clock rate (FSCK_X) is given by the formula:
+F SCK_x
+F S = ----------------------128
+The bit clock rate is obtained as follows:
+F sai_x_ker_ck
+F SCK_x = ---------------------------------MCKDIV
+Note:
+
+The above formulas are valid only if NODIV is set to 1 in the SAI_ACR1 register.
+
+RM0456 Rev 6

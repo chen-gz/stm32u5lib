@@ -1,0 +1,190 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.4
+
+OTG USB configuration register (OTG_GUSBCFG)
+Address offset: 0x00C
+Reset value: 0x0000 1440
+This register can be used to configure the core after power-on or a changing to host mode
+or device mode. It contains USB and USB-PHY related configuration parameters. The
+application must program this register before starting any transactions on either the AHB or
+the USB. Do not make changes to this register after the initial programming.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+FD
+MOD
+
+FH
+MOD
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+HNP
+CAP
+
+SRP
+CAP
+
+Res.
+
+PHY
+SEL
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+TRDT[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+TOCAL[2:0]
+rw
+
+rw
+
+rw
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 FDMOD: Force device mode
+Writing a 1 to this bit, forces the core to device mode irrespective of the OTG_ID input pin.
+0: Normal mode
+1: Force device mode
+After setting the force bit, the application must wait at least 25 ms before the change takes
+effect.
+Note: Accessible in both device and host modes.
+Bit 29 FHMOD: Force host mode
+Writing a 1 to this bit, forces the core to host mode irrespective of the OTG_ID input pin.
+0: Normal mode
+1: Force host mode
+After setting the force bit, the application must wait at least 25 ms before the change takes
+effect.
+Note: Accessible in both device and host modes.
+Bits 28:26 Reserved, must be kept at reset value.
+Bits 25:23 Reserved, must be kept at reset value.
+Bit 22 Reserved, must be kept at reset value.
+Bits 21:16 Reserved, must be kept at reset value.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 Reserved, must be kept at reset value.
+Bits 13:10 TRDT[3:0]: USB turnaround time
+These bits are used to set the turnaround time in PHY clocks. They must be configured
+according to Table 758: TRDT values, depending on the application AHB frequency. Higher
+TRDT values allow stretching the USB response time to IN tokens in order to compensate for
+longer AHB read access latency to the data FIFO.
+Note: Only accessible in device mode.
+
+RM0456 Rev 6

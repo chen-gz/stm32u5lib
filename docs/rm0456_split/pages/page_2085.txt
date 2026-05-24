@@ -1,0 +1,86 @@
+1.
+
+a defined as p-|a| in the finite field GF(p), for example p-3:
+Curve coefficient p = 0xFFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF
+00000000 FFFFFFFF FFFFFFFF
+Curve coefficient a sign= 0x0 (positive)
+Curve coefficient a = 0xFFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF
+00000000 FFFFFFFF FFFFFFFC
+
+2.
+
+a defined as negative, for example -3:
+Curve coefficient p = 0xFFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF
+00000000 FFFFFFFF FFFFFFFF
+Curve coefficient a sign= 0x1 (negative)
+Curve coefficient a = 0x00000000 00000000 00000000 00000000 00000000 00000000
+00000000 00000003
+
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+Table 520 summarizes the family of curves supported by PKA for ECC operations.
+Table 520. Family of supported curves for ECC operations
+
+Curve name
+
+Standard
+
+Reference
+
+P-192
+P-224
+P-256
+
+NIST
+
+Digital Signature Standard (DSS), NIST FIPS 186-4
+
+IETF
+
+– Brainpool Elliptic Curves, IETF RFC 5639
+– Brainpool Elliptic Curves for the Internet Key
+Exchange (IKE) Group Description Registry, IETF
+RFC 6932
+
+https://tools.ietf.org
+
+SEC
+
+Standards for Efficient Cryptography SEC 2 curves
+
+https://www.secg.org
+
+P-384
+P-521
+brainpoolP224r1,
+brainpoolP224t1
+brainpoolP256r1,
+brainpoolP256t1
+brainpoolP320r1,
+brainpoolP320t1
+brainpoolP384r1,
+brainpoolP384t1
+brainpoolP512r1,
+brainpoolP512t1
+secp192k1, secp192r1
+secp224k1, secp224r1
+secp256k1, secp256r1
+secp384r1
+secp521r1
+Recommended curve
+parameters for public
+key cryptographic
+algorithm SM2
+
+OSCCA
+
+– Public key cryptographic algorithm SM2 based on elliptic curves,
+Organization of State Commercial Administration of China OSCCA SM2,
+December 2010
+– Digital signatures - Part 3 Discrete logarithm based mechanisms, ISO/IEC
+14888-3, November 2018
+
+RM0456 Rev 6

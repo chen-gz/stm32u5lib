@@ -1,0 +1,85 @@
+•
+
+In upcounting: CNT < CCRx ≤ ARR (in particular, 0 < CCRx)
+
+•
+
+In downcounting: CNT > CCRx
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Figure 564. Example of one pulse mode.
+tim_ti2
+tim_oc1ref
+tim_oc1
+
+Counter
+
+TIMx_ARR
+TIMx_CCR1
+
+0
+t
+
+DELAY
+
+t
+
+PULSE
+
+t
+MSv62344V1
+
+In the following example, the user wants to generate a positive pulse on tim_oc1 with a
+length of tPULSE and after a delay of tDELAY as soon as a positive edge is detected on the
+tim_ti2 input pin.
+Use tim_ti2fp2 as trigger 1:
+•
+
+Map tim_ti2fp2 to tim_ti2 by writing CC2S = 01 in the TIMx_CCMR1 register.
+
+•
+
+tim_ti2fp2 must detect a rising edge, write CC2P = 0 and CC2NP = 0 in the
+TIMx_CCER register.
+
+•
+
+Configure tim_ti2fp2 as trigger for the slave mode controller (tim_trgi) by writing
+TS = 00110 in the TIMx_SMCR register.
+
+•
+
+tim_ti2fp2 is used to start the counter by writing SMS to 110 in the TIMx_SMCR register
+(trigger mode).
+
+The OPM waveform is defined by writing the compare registers (taking into account the
+clock frequency and the counter prescaler).
+•
+
+The tDELAY is defined by the value written in the TIMx_CCR1 register.
+
+•
+
+The tPULSE is defined by the difference between the autoreload value and the compare
+value (TIMx_ARR - TIMx_CCR1).
+
+•
+
+Suppose the user wants to build a waveform with a transition from 0 to 1 when a
+compare match occurs and a transition from 1 to 0 when the counter reaches the
+auto-reload value. This is achieved by enabling PWM mode 2 (OC1M = 111 in
+TIMx_CCMR1). Optionally the preload registers can be enabled by writing OC1PE = 1
+in the TIMx_CCMR1 register and ARPE in the TIMx_CR1 register. In this case one has
+to write the compare value in the TIMx_CCR1 register, the autoreload value in the
+TIMx_ARR register, generate an update by setting the UG bit and wait for external
+trigger event on tim_ti2. CC1P is written to 0 in this example.
+
+In this example, the DIR and CMS bits in the TIMx_CR1 register must be low.
+Since only one pulse (Single mode) is needed, a 1 must be written in the OPM bit in the
+TIMx_CR1 register to stop the counter at the next update event (when the counter rolls over
+
+RM0456 Rev 6

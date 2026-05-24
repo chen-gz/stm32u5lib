@@ -1,0 +1,129 @@
+Possibility to remap input address falling into up to four memory regions (used to
+remap aliased code in external memories to the code region, for execution from
+the C-AHB code interface)
+
+Replacement and refill
+–
+
+pLRU-t replacement policy (pseudo-least-recently-used, based on binary tree),
+algorithm with best complexity/performance balance
+
+–
+
+Critical-word-first refill policy, minimizing processor stalls
+
+RM0456 Rev 6
+
+RM0456
+
+Instruction cache (ICACHE)
+–
+•
+
+Possibility to configure burst type of AHB memory transaction for remapped
+regions: INCRw or WRAPw (size w aligned on cache line size)
+
+Performance counters
+The ICACHE implements two performance counters:
+
+•
+
+–
+
+Hit monitor counter (32-bit)
+
+–
+
+Miss monitor counter (16-bit)
+
+Error management
+–
+
+•
+
+TrustZone® security support
+
+•
+
+Maintenance operation
+–
+
+8.3
+
+Possibility to detect an unexpected cacheable write access, to flag an error and
+optionally to raise an interrupt
+
+Cache invalidate: full cache invalidation, fast command, noninterruptible
+
+ICACHE implementation
+Table 80. ICACHE features for STM32U535/545/575/585
+Feature
+Number of ways
+
+ICACHE
+2
+
+Cache size
+
+8 Kbytes
+
+Cache line width
+
+16 bytes
+
+Range granularity of memory regions to be remapped
+
+2 Mbytes
+
+Number of regions to remap
+
+4
+
+Data size of AHB slave interface
+
+32 bits
+
+Data size of AHB fast master1 interface
+
+128 bits
+
+Data size of AHB slow master2 interface
+
+32 bits
+
+Table 81. ICACHE features for STM32U59x/5Ax/5Fx/5Gx
+Feature
+Number of ways
+
+ICACHE
+2
+
+Cache size
+
+32 Kbytes
+
+Cache line width
+
+16 bytes
+
+Range granularity of memory regions to be remapped
+
+2 Mbytes
+
+Number of regions to remap
+
+4
+
+Data size of AHB slave interface
+
+32 bits
+
+Data size of AHB fast master1 interface
+
+128 bits
+
+Data size of AHB slow master2 interface
+
+32 bits
+
+RM0456 Rev 6

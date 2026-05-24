@@ -1,0 +1,90 @@
+MSv62307V1
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+Figure 611. Counter timing diagram, internal clock divided by N
+
+tim_psc_ck
+
+tim_cnt_ck
+
+Counter register
+
+20
+
+1F
+
+00
+
+36
+
+Counter underflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+
+MSv62308V1
+
+Figure 612. Counter timing diagram, Update event
+tim_pasc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+05
+
+04
+
+03
+
+02
+
+01
+
+00
+
+36
+
+35
+
+34
+
+33
+
+32
+
+31
+
+30
+
+2F
+
+Counter underflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+Auto-reload preload
+register
+
+FF
+
+36
+
+Write a new value in TIMx_ARR
+
+MSv62309V1
+
+Center-aligned mode (up/down-counting)
+In center-aligned mode, the counter counts from 0 to the autoreload value (content of the
+TIMx_ARR register) – 1, generates a counter overflow event, then counts from the
+
+RM0456 Rev 6

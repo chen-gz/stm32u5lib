@@ -1,0 +1,190 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+ETM identification register 0 (ETM_IDR0)
+Address offset: 0x1E0
+Reset value: 0x2800 06E1
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+Res.
+
+Res.
+
+COMM
+OPT
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+QSUPP
+[0]
+
+Res.
+
+RETST
+ACK
+
+Res.
+
+r
+
+r
+
+CONDTYPE[1:0] NUMEVENT[1:0]
+r
+
+r
+
+r
+
+r
+
+TRCCC TRCC
+I
+OND
+
+r
+
+r
+
+r
+
+TRCBB
+
+TRCDATA[1:0]
+
+r
+
+r
+
+r
+
+17
+
+TRCEX QSUPP
+DATA
+[1]
+r
+
+r
+
+1
+
+0
+
+INSTP0[1:0]
+r
+
+16
+
+Res.
+
+r
+
+Bits 31:30 Reserved, must be kept at reset value.
+Bit 29 COMMOPT: commit field meaning
+Indicates the meaning of the commit field in some packets.
+1: commit mode 1
+Bits 28:18 Reserved, must be kept at reset value.
+Bit 17 TRCEXDATA: trace data transfers for exceptions
+Indicates support for the tracing of data transfers for exceptions and exception returns.
+0: not implemented
+Bits 16:15 QSUPP[1:0]: Q element support
+0: not supported
+Bit 14 Reserved, must be kept at reset value.
+Bits 13:12 CONDTYPE[1:0]: conditional results tracing
+Indicates how conditional results are traced.
+0: The trace unit indicates only if a conditional instruction passes or fails its condition code
+check
+Bits 11:10 NUMEVENT[1:0]: Number of events supported
+0x1: two events
+Bit 9 RETSTACK: return stack support
+1: two entry return stacks
+Bit 8 Reserved, must be kept at reset value.
+Bit 7 TRCCCI: cycle counting support
+1: cycle counting implemented
+Bit 6 TRCCOND: conditional instruction support
+1: conditional instruction tracing implemented
+Bit 5 TRCBB: branch broadcast support
+1: branch broadcast tracing implemented
+Bits 4:3 TRCDATA[1:0]: data tracing support
+0x0: data tracing not supported
+Bits 2:1 INSTP0[1:0]: support for tracing of load and store instructions as P0 elements
+0x0: not supported
+Bit 0 Reserved, must be kept at reset value.

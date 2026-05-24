@@ -1,0 +1,117 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+Figure 291. Data alignment and resolution (oversampling disabled: OVSE = 0)
+15
+
+ALIGN RES
+0
+
+14
+
+13
+
+12
+
+11
+
+9
+
+8
+
+7
+
+6
+
+0x0
+
+0x0
+
+5
+
+4
+
+2
+
+1
+
+0
+
+DR[9:0]
+0x00
+
+0x2
+
+3
+
+DR[11:0]
+0x00
+
+0x1
+
+DR[7:0]
+0x00
+
+0x3
+1
+
+10
+
+DR[5:0]
+DR[11:0]
+
+0x0
+
+0x0
+0x00
+
+DR[9:0]
+
+0x1
+0x2
+
+DR[7:0]
+
+0x3
+
+0x00
+
+0x00
+DR[5:0]
+
+0x0
+MS30342V1
+
+ADC overrun (OVR, OVRMOD)
+The overrun flag (OVR) indicates a data overrun event, when the converted data was not
+read in time by the CPU or the DMA, before the data from a new conversion is available.
+The OVR flag is set in the ADC_ISR register if the EOC flag is still at 1 at the time when a
+new conversion completes. An interrupt can be generated if the OVRIE bit is set in the
+ADC_IER register.
+When an overrun condition occurs, the ADC keeps operating and can continue to convert
+unless the software decides to stop and reset the sequence by setting the ADSTP bit in the
+ADC_CR register.
+The OVR flag is cleared by software by writing 1 to it.
+It is possible to configure if the data is preserved or overwritten when an overrun event
+occurs by programming the OVRMOD bit in the ADC_CFGR1 register:
+•
+
+OVRMOD = 0
+–
+
+•
+
+An overrun event preserves the data register from being overwritten: the old data
+is maintained and the new conversion is discarded. If OVR remains at 1, further
+conversions can be performed but the resulting data is discarded.
+
+OVRMOD = 1
+–
+
+The data register is overwritten with the last conversion result and the previous
+unread data is lost. If OVR remains at 1, further conversions can be performed
+and the ADC_DR register always contains the data from the latest conversion.
+
+RM0456 Rev 6

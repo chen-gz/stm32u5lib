@@ -1,0 +1,214 @@
+RM0456 Rev 6
+
+rw
+
+SPI3R
+ST
+rw
+
+4
+Res.
+
+Res.
+
+rw
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 10:8 Reserved, must be kept at reset value.
+Bit 7 I2C3RST: I2C3 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the I2C3.
+Bit 6 LPUART1RST: LPUART1 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the LPUART1.
+Bit 5 SPI3RST: SPI3 reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the SPI3.
+Bits 4:2 Reserved, must be kept at reset value.
+Bit 1 SYSCFGRST: SYSCFG reset
+This bit is set and cleared by software.
+0: No effect
+1: Reset the SYSCFG.
+Bit 0 Reserved, must be kept at reset value.
+
+11.8.29
+
+RCC AHB1 peripheral clock enable register (RCC_AHB1ENR)
+Address offset: 0x088
+Reset value: 0xD000 0100 (for STM32U535/545/575/585)
+Reset value: 0xD020 0100 (for STM32U59x/5Ax/5Fx/5Gx)
+Access: no wait state; word, half-word, and byte access
+
+Note:
+
+31
+
+When the peripheral clock is not active, read or write access to peripheral registers is
+not supported.
+30
+
+SRAM1 DCAC
+EN
+HE1EN
+rw
+
+rw
+
+15
+
+14
+
+JPEGE
+N
+rw
+
+Res.
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+Res.
+
+BKPSR
+AMEN
+
+Res.
+
+Res.
+
+Res.
+
+GTZC1
+EN
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+Res.
+
+CRCE
+N
+
+Res.
+
+FLASH
+EN
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Res.
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DCAC GPU2D GFXM DMA2D RAMC
+TSCEN
+HE2EN
+EN
+MUEN
+EN
+FGEN
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+rw
+0
+
+MDF1E FMACE CORDI
+N
+N
+CEN
+rw
+
+rw
+
+rw
+
+GPDM
+A1EN
+rw
+
+Bit 31 SRAM1EN: SRAM1 clock enable
+This bit is set and reset by software.
+0: SRAM1 clock disabled
+1: SRAM1 clock enabled
+
+RM0456 Rev 6

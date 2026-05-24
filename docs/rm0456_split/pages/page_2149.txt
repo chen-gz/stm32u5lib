@@ -1,0 +1,145 @@
+•
+
+The break input path is always active: a break event is active even if the BKDSRM
+(BK2DSRM) bit is set and the open drain control is released. This prevents the PWM
+output to be restarted as long as the break condition is present.
+
+•
+
+The BKDSRM (BK2DSRM) bit cannot disarm the break protection as long as the
+outputs are enabled (MOE bit is set) (see Table 548).
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+Table 548. Break protection disarming conditions
+BKBID
+
+BKDSRM
+
+(BK2BID)
+
+(BK2DSRM)
+
+0
+
+0
+
+X
+
+Armed
+
+0
+
+1
+
+0
+
+Armed
+
+0
+
+1
+
+1
+
+Disarmed
+
+1
+
+X
+
+X
+
+Armed
+
+MOE
+
+Break protection state
+
+Arming and rearming break circuitry
+The break circuitry (in input or bidirectional mode) is armed by default (peripheral reset
+configuration).
+The following procedure must be followed to re-arm the protection after a break (break2)
+event:
+•
+
+The BKDSRM (BK2DSRM) bit must be set to release the output control.
+
+•
+
+The software must wait until the system break condition disappears (if any) and clear
+the SBIF status flag (or clear it systematically before rearming).
+
+•
+
+The software must poll the BKDSRM (BK2DSRM) bit until it is cleared by hardware
+(when the application break condition disappears).
+
+From this point, the break circuitry is armed and active, and the MOE bit can be set to reenable the PWM outputs.
+Figure 560. Output redirection (tim_brk2 request not represented)
+tim_sys_brk
+
+SBIF flag
+Software break
+requests: BG
+
+BKE
+
+Other break inputs
+tim_brk_cmp[8:1]
+AF input
+(active low)
+
+AF
+controller
+
+Bidirectional
+Break I/O
+TIM_BKIN
+
+BKF[3:0]
+
+BKP
+
+Filter
+
+BKIN inputs from
+AF controller
+
+BIF flag
+BRK
+request
+tim_brk
+
+Application break requests
+
+AF output
+(open drain)
+
+Vss
+
+Bidirectional
+mode control logic
+
+System break request
+tim_brk request
+
+MOE
+
+BKBID
+
+BKBDSRM
+
+MSv62340V2
+
+54.3.20
+
+Clearing the tim_ocxref signal on an external event
+The tim_ocxref signal of a given channel can be cleared when a high level is applied on the
+tim_ocref_clr_int input (OCxCE enable bit in the corresponding TIMx_CCMRx register set to
+1). tim_ocxref remains low until the next transition to the active state, on the following PWM
+
+RM0456 Rev 6

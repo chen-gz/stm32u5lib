@@ -1,0 +1,168 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+Bits 7:6 WAVE1[1:0]: DAC channel1 noise/triangle wave generation enable
+These bits are set and cleared by software.
+00: wave generation disabled
+01: Noise wave generation enabled
+10: Triangle wave generation enabled
+11: Reserved
+Only used if bit TEN1 = 1 (DAC channel1 trigger enabled).
+Bits 5:2 TSEL1[3:0]: DAC channel1 trigger selection
+These bits select the external event used to trigger DAC channel1
+0000: SWTRIG1
+0001: dac_ch1_trg1
+0010: dac_ch1_trg2
+...
+1111: dac_ch1_trg15
+Refer to the trigger selection tables in Section 35.4.2: DAC pins and internal signals for
+details on trigger configuration and mapping.
+Note: Only used if bit TEN1 = 1 (DAC channel1 trigger enabled).
+Bit 1 TEN1: DAC channel1 trigger enable
+This bit is set and cleared by software to enable/disable DAC channel1 trigger.
+0: DAC channel1 trigger disabled and data written into the DAC_DHR1 register are
+transferred one dac_hclk clock cycle later to the DAC_DOR1 register
+1: DAC channel1 trigger enabled and data from the DAC_DHR1 register are transferred
+three dac_hclk clock cycles later to the DAC_DOR1 register
+Note: When software trigger is selected, the transfer from the DAC_DHR1 register to the
+DAC_DOR1 register takes only one dac_hclk clock cycle.
+Bit 0 EN1: DAC channel1 enable
+This bit is set and cleared by software to enable/disable DAC channel1.
+0: DAC channel1 disabled
+1: DAC channel1 enabled
+
+35.7.2
+
+DAC software trigger register (DAC_SWTRGR)
+Address offset: 0x04
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+1
+
+0
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SWTRIG2 SWTRIG1
+w

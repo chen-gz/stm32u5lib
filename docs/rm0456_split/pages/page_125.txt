@@ -1,0 +1,60 @@
+RM0456 Rev 6
+
+RM0456
+
+List of figures
+
+Figure 893. OTG_FS full-speed block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3140
+Figure 894. OTG_FS A-B device connection. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3142
+Figure 895. OTG_FS peripheral-only connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3144
+Figure 896. OTG_FS host-only connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3148
+Figure 897. SOF connectivity (SOF trigger output to TIM and ITR1 connection) . . . . . . . . . . . . . . . 3152
+Figure 898. Updating OTG_HFIR dynamically (RLDCTRL = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3154
+Figure 899. Device-mode FIFO address mapping and AHB FIFO access mapping . . . . . . . . . . . . . 3155
+Figure 900. Host-mode FIFO address mapping and AHB FIFO access mapping . . . . . . . . . . . . . . . 3156
+Figure 901. Interrupt hierarchy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3160
+Figure 902. Transmit FIFO write task . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3243
+Figure 903. Receive FIFO read task . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3244
+Figure 904. Normal bulk/control OUT/SETUP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3245
+Figure 905. Bulk/control IN transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3249
+Figure 906. Normal interrupt OUT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3252
+Figure 907. Normal interrupt IN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3257
+Figure 908. Isochronous OUT transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3259
+Figure 909. Isochronous IN transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3262
+Figure 910. Receive FIFO packet read . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3266
+Figure 911. Processing a SETUP packet . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3268
+Figure 912. Bulk OUT transaction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3275
+Figure 913. TRDT max timing case . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3285
+Figure 914. A-device SRP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3286
+Figure 915. B-device SRP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3287
+Figure 916. A-device HNP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3288
+Figure 917. B-device HNP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3290
+Figure 918. OTG_HS high-speed block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3295
+Figure 919. OTG_HS A-B device connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3297
+Figure 920. OTG_HS peripheral-only connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3299
+Figure 921. OTG_HS host-only connection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3303
+Figure 922. SOF connectivity (SOF trigger output to TIM and ITR1 connection) . . . . . . . . . . . . . . . 3307
+Figure 923. Updating OTG_HFIR dynamically (RLDCTRL = 1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3309
+Figure 924. Device-mode FIFO address mapping and AHB FIFO access mapping . . . . . . . . . . . . . 3310
+Figure 925. Host-mode FIFO address mapping and AHB FIFO access mapping . . . . . . . . . . . . . . . 3311
+Figure 926. Interrupt hierarchy. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3315
+Figure 927. Transmit FIFO write task . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3408
+Figure 928. Receive FIFO read task . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3409
+Figure 929. Normal bulk/control OUT/SETUP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3410
+Figure 930. Bulk/control IN transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3414
+Figure 931. Normal interrupt OUT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3417
+Figure 932. Normal interrupt IN . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3422
+Figure 933. Isochronous OUT transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3424
+Figure 934. Isochronous IN transactions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3427
+Figure 935. Normal bulk/control OUT/SETUP transactions - DMA . . . . . . . . . . . . . . . . . . . . . . . . . . 3429
+Figure 936. Normal bulk/control IN transaction - DMA. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3431
+Figure 937. Normal interrupt OUT transactions - DMA mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3432
+Figure 938. Normal interrupt IN transactions - DMA mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3433
+Figure 939. Normal isochronous OUT transaction - DMA mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3434
+Figure 940. Normal isochronous IN transactions - DMA mode . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3435
+Figure 941. Receive FIFO packet read . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3441
+Figure 942. Processing a SETUP packet . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3443
+Figure 943. Bulk OUT transaction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3450
+Figure 944. TRDT max timing case . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3459
+
+RM0456 Rev 6

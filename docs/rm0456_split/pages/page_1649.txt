@@ -1,0 +1,40 @@
+RM0456 Rev 6
+
+RM0456
+
+Audio digital filter (ADF)
+Figure 388. Detailed frequency response
+
+40.7.5
+
+Total ADF gain
+This section details how to compute the signal level provided by the ADF according to the
+filter settings.
+A signal level may be expressed in dBFS (decibel full scale). A 0 dBFS level is assigned to
+the maximum possible digital level. For example, a signal that reaches 50 % of the
+maximum level, has a − 6 dBFS level (6 dB below full scale).
+For example, for the ADF offering a final data width of 24 bits, a signal having an amplitude
+of 2 * 106 LSB has a level of:
+⎛ 2 × 10 6⎞
+20 × log 10 ⎜ ------------------⎟ = – 12.45 dBFS
+⎝ 2 ( 24 – 1 )⎠
+
+In addition, the data size of a signal having an amplitude (Amp) expressed in LSB is given
+by:
+ln ( Amp ) + 1⎞ bits
+DS = ⎛ ---------------------⎝ ln ( 2 )
+⎠
+
+One bit need to be added for negative values.
+So a signal having an amplitude of 2 * 106 LSB, has a data size of 21.9 bits.
+
+CIC gain
+The CIC gain (GCIC and GdBCIC) can be deduced from the following formula giving data
+size in bits (DSCIC).
+DS CIC = ( N × log 2 ( D1 ) ) + DSin
+
+where N represents the CIC order (selected by CICMOD[2:0]), and D1 is the decimation
+ratio (given by MCICD[8:0]).
+DSin represents the data size (in bits) of the signal at CIC input.
+
+RM0456 Rev 6

@@ -1,0 +1,128 @@
+•
+
+48 message bits, with DATATYPE[1:0] = 01
+
+•
+
+56 message bits, with DATATYPE[1:0] = 10
+
+•
+
+34 message bits, with DATATYPE[1:0] = 11
+
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+
+50.4.12
+
+SAES key registers
+The SAES_KEYRx write-only registers store the encryption or decryption key bitfield
+KEY[127:0] or KEY[255:0]. The data to write to each register is organized in the memory in
+little-endian order, that is, with most significant byte on the highest address (reads are not
+allowed for security reason).
+The key is spread over eight registers as shown in Table 481.
+
+Table 481. Key endianness in SAES_KEYRx registers (128- or 256-bit key length)
+SAES_KEYR SAES_KEYR SAES_KEYR SAES_KEYR SAES_KEYR SAES_KEYR SAES_KEYR SAES_KEYR
+7
+6
+5
+4
+3
+2
+1
+0
+[31:0]
+[31:0]
+[31:0]
+[31:0]
+[31:0]
+[31:0]
+[31:0]
+[31:0]
+-
+
+-
+
+-
+
+-
+
+KEY[127:96]
+
+KEY[95:64]
+
+KEY[63:32]
+
+KEY[31:0]
+
+KEY[255:224]
+
+KEY[223:192]
+
+KEY[191:160]
+
+KEY[159:128]
+
+KEY[127:96]
+
+KEY[95:64]
+
+KEY[63:32]
+
+KEY[31:0]
+
+TAMP_BKP7R
+[31:0]
+
+TAMP_BKP6R
+[31:0]
+
+TAMP_BKP5R
+[31:0]
+
+TAMP_BKP4R
+[31:0]
+
+TAMP_BKP3R
+[31:0]
+
+TAMP_BKP2R
+[31:0]
+
+TAMP_BKP1R
+[31:0]
+
+TAMP_BKP0R
+[31:0]
+
+The key for encryption or decryption may be written into these registers when the SAES
+peripheral is disabled, by clearing the EN bit and the KEYSEL[2:0] bitfield of the SAES_CR
+register.
+The key registers are not affected by the data swapping controlled by DATATYPE[1:0]
+bitfield of the SAES_CR register.
+The entire key must be written before starting an AES computation. In normal key mode
+(KMOD[1:0] = 00), with KEYSEL[2:0] = 000, the SAES_KEYRx (x = 0 to 3 for KEYSIZE = 0,
+x = 0 to 7 for KEYSIZE = 1) registers must always be written in either ascending or
+descending order.
+With KEYSEL[2:0] set to 001, a derived hardware unique key (DHUK), computed inside the
+SAES engine from a non-volatile OTP-based root hardware unique key, is loaded directly
+into key registers, based on KEYSIZE information.
+With KEYSEL[2:0] set to 010, the boot hardware key (BHK), stored in tamper-resistant
+secure backup registers, is entirely transferred into key registers upon a secure application
+performing a single read of all TAMP_BKPxR registers (x = 0 to 3 for KEYSIZE = 0,
+x = 0 to 7 for KEYSIZE = 1) in either ascending or descending order. Refer to Table 481.
+With KEYSEL[2:0] set to 100, the XOR combination of DHUK and BHK is entirely
+transferred into key registers upon a secure application performing a single read of all
+TAMP_BKPxR registers (x = 0 to 3 for KEYSIZE = 0, x = 0 to 7 for KEYSIZE = 1) in either
+ascending or descending order. Refer to Table 481.
+Repeated writing of KEYSEL[2:0] with the same non-zero value only triggers the loading of
+DHUK or BHK if KEYVALID = 0. The recommended method to clear KEYVALID is to set
+the IPRST bit in the SAES_CR register. Such method is required for example when
+switching from ECB decryption to ECB encryption, selecting the same BHK
+(KEYSEL[2:0] = 010).
+
+RM0456 Rev 6

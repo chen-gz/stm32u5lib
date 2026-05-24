@@ -1,0 +1,163 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+Bit 31 CALMAX: Max value
+This bit gets set when the memory-clock period is outside the range of DLL master, in which
+case HSPI_CALFCR and HSPI_CALSR are updated with the values for the maximum delay.
+Bits 30:21 Reserved, must be kept at reset value.
+Bits 20:16 COARSE[4:0]: Coarse calibration
+The delay unitary value for this bitfield depends on product technology (see the datasheet).
+Bits 15:7 Reserved, must be kept at reset value.
+Bits 6:0 FINE[6:0]: Fine calibration
+The delay unitary value for this bitfield depends on product technology (see the datasheet).
+
+30.7.29
+
+HSPI DLL master calibration configuration (HSPI_CALMR)
+Address offset: 0x218
+Reset value: 0x0000 0000
+The DLL Master is used for delaying the feedback clock when reading without DQS.
+The delay of the master DLL is determined by the value in this register.
+This register can always be read by software and can be modified only when BUSY = 0.
+This register never gets updated automatically by hardware.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+6
+
+5
+
+20
+
+19
+
+rw
+
+rw
+
+4
+
+3
+
+18
+
+17
+
+16
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+COARSE[4:0]
+
+FINE[6:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bits 20:16 COARSE[4:0]: Coarse calibration
+The delay unitary value for this bitfield depends on product technology (see the datasheet).
+Bits 15:7 Reserved, must be kept at reset value.
+Bits 6:0 FINE[6:0]: Fine calibration
+The delay unitary value for this bitfield depends on product technology (see the datasheet).

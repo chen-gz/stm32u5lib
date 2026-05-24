@@ -1,0 +1,75 @@
+•
+
+10 locations must be reserved in the receive FIFO to receive SETUP packets on
+control endpoint. The core does not use these locations, which are reserved for SETUP
+packets, to write any other data.
+
+•
+
+One location is to be allocated for Global OUT NAK.
+
+•
+
+Status information is written to the FIFO along with each received packet. Therefore, a
+minimum space of (largest packet size / 4) + 1 must be allocated to receive packets. If
+multiple isochronous endpoints are enabled, then at least two (largest packet size / 4) +
+1 spaces must be allocated to receive back-to-back packets. Typically, two (largest
+packet size / 4) + 1 spaces are recommended so that when the previous packet is
+being transferred to the CPU, the USB can receive the subsequent packet.
+
+•
+
+Along with the last packet for each endpoint, transfer complete status information is
+also pushed to the FIFO. One location for each OUT endpoint is recommended.
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+Device RxFIFO =
+(5 * number of control endpoints + 8) + ((largest USB packet used / 4) + 1 for status
+information) + (2 * number of OUT endpoints) + 1 for Global NAK
+Example: The MPS is 1,024 bytes for a periodic USB packet and 512 bytes for a nonperiodic USB packet. There are three OUT endpoints, three IN endpoints, one control
+endpoint, and three host channels.
+Device RxFIFO = (5 * 1 + 8) + ((1,024 / 4) +1) + (2 * 4) + 1 = 279
+Transmit FIFO RAM allocation: the minimum RAM space required for each IN endpoint
+Transmit FIFO is the maximum packet size for that particular IN endpoint.
+
+Note:
+
+More space allocated in the transmit IN endpoint FIFO results in better performance on the
+USB.
+
+Host mode
+Receive FIFO RAM allocation:
+Status information is written to the FIFO along with each received packet. Therefore, a
+minimum space of (largest packet size / 4) + 1 must be allocated to receive packets. If
+multiple isochronous channels are enabled, then at least two (largest packet size / 4) + 1
+spaces must be allocated to receive back-to-back packets. Typically, two (largest packet
+size / 4) + 1 spaces are recommended so that when the previous packet is being transferred
+to the CPU, the USB can receive the subsequent packet.
+Along with the last packet in the host channel, transfer complete status information is also
+pushed to the FIFO. So one location must be allocated for this.
+Host RxFIFO = (largest USB packet used / 4) + 1 for status information + 1 transfer
+complete
+Example: Host RxFIFO = ((1,024 / 4) + 1) + 1 = 258
+Transmit FIFO RAM allocation:
+The minimum amount of RAM required for the host Non-periodic Transmit FIFO is the
+largest maximum packet size among all supported non-periodic OUT channels.
+Typically, two largest packet sizes worth of space is recommended, so that when the current
+packet is under transfer to the USB, the CPU can get the next packet.
+Non-Periodic TxFIFO = largest non-periodic USB packet used / 4
+Example: Non-Periodic TxFIFO = (512 / 4) = 128
+The minimum amount of RAM required for host periodic Transmit FIFO is the largest
+maximum packet size out of all the supported periodic OUT channels. If there is at least one
+isochronous OUT endpoint, then the space must be at least two times the maximum packet
+size of that channel.
+Host Periodic TxFIFO = largest periodic USB packet used / 4
+Example: Host Periodic TxFIFO = (1,024 / 4) = 256
+Note:
+
+More space allocated in the Transmit Non-periodic FIFO results in better performance on
+the USB.
+
+RM0456 Rev 6

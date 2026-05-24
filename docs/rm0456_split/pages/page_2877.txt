@@ -1,0 +1,50 @@
+3020
+
+Serial audio interface (SAI)
+
+69.4.13
+
+RM0456
+
+Specific features
+The SAI interface embeds specific features that can be useful depending on the audio
+protocol selected. These functions are accessible through specific bits of the SAI_xCR2
+register.
+
+Mute mode
+The mute mode can be used when the audio subblock is a transmitter or a receiver.
+Audio subblock in transmission mode
+In transmitter mode, the mute mode can be selected at any time. The mute mode is active
+for entire audio frames. The MUTE bit in the SAI_xCR2 register enables the mute mode
+when it is configured during an ongoing frame.
+The mute mode bit is strobed only at the end of the frame. If it is set at this time, the mute
+mode is active at the beginning of the new audio frame and for a complete frame, until the
+next end of frame. The bit is then strobed to determine if the next frame is still a mute frame.
+If the number of slots set through the NBSLOT[3:0] bits in the SAI_xSLOTR register is lower
+than or equal to 2, it is possible to specify if the value sent in mute mode is 0 or if it is the last
+value of each slot. The selection is done via the MUTEVAL bit in the SAI_xCR2 register.
+If the number of slots set in the NBSLOT[3:0] bits in the SAI_xSLOTR register is greater
+than 2, the MUTEVAL bit in the SAI_xCR2 register is meaningless as 0 values are sent on
+each bit on each slot.
+The FIFO pointers are still incremented in mute mode. This means that data present in the
+FIFO and for which the mute mode is requested are discarded.
+Audio subblock in reception mode
+In reception mode, it is possible to detect a mute mode sent from the external transmitter
+when all the declared and valid slots of the audio frame receive 0 for a given consecutive
+number of audio frames (MUTECNT[5:0] bits in the SAI_xCR2 register).
+When the number of MUTE frames is detected, the MUTEDET flag in the SAI_xSR register
+is set and an interrupt can be generated if the MUTEDETIE bit is set in SAI_xCR2.
+The mute frame counter is cleared when the audio subblock is disabled or when a valid slot
+receives at least one data in an audio frame. The interrupt is generated just once, when the
+counter reaches the value specified in the MUTECNT[5:0] bits. The interrupt event is then
+reinitialized when the counter is cleared.
+Note:
+
+The mute mode is not available for SPDIF audio blocks.
+
+Mono/stereo mode
+In transmitter mode, the mono mode can be addressed without any data preprocessing in
+memory, assuming the number of slots is equal to 2 (NBSLOT[3:0] = 0001 in SAI_xSLOTR).
+In this case, the access time to and from the FIFO is reduced by 2 since the data for slot 0 is
+duplicated into data slot 1.
+To enable the mono mode:

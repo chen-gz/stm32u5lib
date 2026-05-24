@@ -1,0 +1,53 @@
+RM0456 Rev 6
+
+RM0456
+
+Digital-to-analog converter (DAC)
+The software must clear the DMAUDRx flag by writing 1, clear the DMAEN bit of the used
+DMA stream and re-initialize both DMA and DAC channelx to restart the transfer correctly.
+The software must modify the DAC trigger conversion frequency or lighten the DMA
+workload to avoid a new DMA underrun. Finally, the DAC conversion can be resumed
+by enabling both DMA data transfer and conversion trigger.
+For each DAC channelx, an interrupt is also generated if its corresponding DMAUDRIEx bit
+in the DAC_CR register is enabled.
+
+DMA double data mode
+When the DMA controller is used in normal mode, only 12-bit (or 8-bit) data are transferred
+by a DMA request. As the AHB width is 32 bits, two 12-bit data may be transferred
+simultaneously. To use this mode, set the DMADOUBLEx bit of DAC_MCR register.
+A DAC DMA request is generated every two external triggers (except for software triggers)
+when the DMAENx bit is set:
+1.
+
+When the first trigger is detected, the value of the DAC_DHRx and DAC_DHRBx
+registers are transferred into the DAC_DORx and DAC_DORBx registers. The actual
+DAC data is loaded into the DAC_DORx register. A DMA request is then generated.
+The DMA writes the new data to the DAC_DHRx and DAC_DHRBx data registers.
+
+2.
+
+When the next trigger is detected, the actual DAC data is loaded into the DAC_DHRBx
+register. This second trigger does not generate any DMA request. The DORSTATx bit
+indicates which DOR data is actually loaded into the analog DAC input.
+
+DMA underrun function is also supported in DMA double data mode.
+The following conditions must be met to change from double data to single data mode or
+vice versa:
+
+35.4.10
+
+•
+
+The DAC must be disabled.
+
+•
+
+DMAEN bit must be cleared (ENx = 0 and DMAEN = 0).
+
+Noise generation
+In order to generate a variable-amplitude pseudonoise, an LFSR (linear feedback shift
+register) is available. DAC noise generation is selected by setting WAVEx[1:0] to 01. The
+preloaded value in LFSR is 0xAAA. This register is updated three dac_hclk clock cycles
+after each trigger event, following a specific calculation algorithm.
+
+RM0456 Rev 6

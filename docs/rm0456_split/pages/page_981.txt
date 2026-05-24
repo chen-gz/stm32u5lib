@@ -1,0 +1,352 @@
+1.
+
+Implementation of direct form 2, or transposed forms, is not efficient. Filters which have
+been designed for such forms must be converted to direct form 1.
+
+2.
+
+Cascaded filters must either be combined into a single stage, or implemented as
+separate filters. In the latter case, multiple sets of filter coefficients can be pre-loaded
+into the memory, one set per stage, and only the X2_BASE address changed to select
+which set is used. The most efficient method of implementing a multi-stage filter is to
+pre-load a large X1 buffer with input samples, run the IIR filter function on it using the
+first stage coefficients, and store the output samples back in memory. Then change the
+X2_BASE pointer to point to the 2nd stage coefficients, and reload the input buffer with
+the output of the first stage (with a gain if required), before running the IIR function
+again. The procedure is repeated for all stages. Once the final stage samples have
+been transferred back into system memory, the input buffer can be loaded with the next
+set of input samples, and a new round of calculations started. Note that the N sample
+input buffer of each stage must be pre-loaded first of all with the N-1 last inputs from the
+previous round, plus one new sample, in order to keep continuity between each round.
+Similarly, the output buffer of each stage must be loaded with the last M samples from
+the previous round, for the same reason.
+
+3.
+
+The use of direct form 1 for IIR designs can lead to large positive or negative partial
+sums in the accumulator, if for example a large step occurs on the input, or some of the
+filter coefficients’ absolute values are >1. Since the accumulator is limited to 26 bits, the
+biggest value that it can handle without wrapping (changing sign) is 0x1FFFFFF
+positive or 0x2000000 negative. This corresponds to 3.99999988 and -4 respectively in
+q3.23 fixed point format. Wrapping does not represent a problem provided the
+wrapping is “undone” before the end of the accumulation. However this is not always
+the case when a filter is starting up and can lead to unexpected results. Consider preloading the output buffer with suitable values to avoid this.
+
+4.
+
+The IIR filter has feed-forward (numerator) coefficients [b0, b1, ..., bN-1], and feed-back
+(denominator) coefficients [1, a1, ..., aM]. Many IIR filters require some of the
+denominator coefficients to have an absolute value greater than 1 to achieve a steep
+roll-off in the frequency response. Given that the coefficients are coded in fixed point
+q1.15 format, this is not possible. Nevertheless, by scaling the denominator coefficients
+by a factor 2-R, such that 2-R.[1, a1, ..., aM] are all less than 1, such filters can be
+implemented. However an inverse gain of 2R must be applied at the output of the
+accumulator to compensate the scaling. This has an adverse effect on the signal-tonoise ratio.
+
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+
+26.4
+
+FMAC registers
+
+26.4.1
+
+FMAC X1 buffer configuration register (FMAC_X1BUFCFG)
+Address offset: 0x00
+Reset value: 0x0000 0000
+Access: word access
+This register can only be modified if START = 0 in the FMAC_PARAM register.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FULL_WM[1:0]
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+X1_BUF_SIZE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+X1_BASE[7:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bits 25:24 FULL_WM[1:0]: Watermark for buffer full flag
+Defines the threshold for setting the X1 buffer full flag when operating in circular mode. The
+flag is set if the number of free spaces in the buffer is less than 2FULL_WM.
+0: Threshold = 1
+1: Threshold = 2
+2: Threshold = 4
+3: Threshold = 8
+Setting a threshold greater than 1 allows several data to be transferred into the buffer under
+one interrupt.
+Threshold must be set to 1 if DMA write requests are enabled (DMAWEN = 1 in FMAC_CR
+register).
+Bits 23:16 Reserved, must be kept at reset value.
+Bits 15:8 X1_BUF_SIZE[7:0]: Allocated size of X1 buffer in 16-bit words
+The minimum buffer size is the number of feed-forward taps in the filter (+ the watermark
+threshold - 1).
+Bits 7:0 X1_BASE[7:0]: Base address of X1 buffer
+
+26.4.2
+
+FMAC X2 buffer configuration register (FMAC_X2BUFCFG)
+Address offset: 0x04
+Reset value: 0x0000 0000
+Access: word access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+X2_BUF_SIZE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+X2_BASE[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+rw

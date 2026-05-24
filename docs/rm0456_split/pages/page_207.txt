@@ -1,0 +1,189 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 7 IWDGSEC: secure access mode for IWDG
+0: nonsecure
+1: secure
+Bit 6 WWDGSEC: secure access mode for WWDG
+0: nonsecure
+1: secure
+Bit 5 TIM7SEC: secure access mode for TIM7
+0: nonsecure
+1: secure
+Bit 4 TIM6SEC: secure access mode for TIM6
+0: nonsecure
+1: secure
+Bit 3 TIM5SEC: secure access mode for TIM5
+0: nonsecure
+1: secure
+Bit 2 TIM4SEC: secure access mode for TIM4
+0: nonsecure
+1: secure
+Bit 1 TIM3SEC: secure access mode for TIM3
+0: nonsecure
+1: secure
+Bit 0 TIM2SEC: secure access mode for TIM2
+0: nonsecure
+1: secure
+
+5.6.3
+
+GTZC1 TZSC secure configuration register 2
+(GTZC1_TZSC_SECCFGR2)
+Address offset: 0x014
+Reset value: 0x0000 0000
+Write-secure access only.
+This register can be written only by secure privileged transaction when corresponding
+GTZC1_TZSC_PRIVCFGR register signal is set to 1. If a given PRIV is not set, the
+equivalent SEC bit can be written by secure unprivileged transaction.
+Read accesses are authorized for any type of transactions, secure or not, privileged or not.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+GFXTI
+MSEC
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+DSISE LTDCU SAI2SE SAI1SE TIM17S TIM16S TIM15S USART TIM8S SPI1SE TIM1S
+C
+SBSEC
+C
+C
+EC
+EC
+EC
+1SEC
+EC
+C
+EC
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:12 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

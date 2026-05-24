@@ -1,0 +1,47 @@
+2756
+
+Inter-integrated circuit interface (I2C)
+
+RM0456
+
+Additionally, in controller mode, the SCL clock high and low levels must be configured by
+programming the PRESC[3:0], SCLH[7:0], and SCLL[7:0] bitfields of the I2C_TIMINGR
+register.
+When the SCL falling edge is internally detected, the I2C peripheral releasing the SCL
+output after the delay tSCLL = (SCLL + 1) x tPRESC, where tPRESC = (PRESC + 1) x tI2CCLK. The
+tSCLL delay impacts the SCL low time tLOW.
+When the SCL rising edge is internally detected, the I2C peripheral forces the SCL output to
+low level after the delay tSCLH = (SCLH + 1) x tPRESC, where tPRESC = (PRESC + 1) x tI2CCLK. The
+tSCLH impacts the SCL high time tHIGH.
+Refer to I2C controller initialization for more details.
+Caution:
+
+Changing the timing configuration and the NOSTRETCH configuration is not allowed when
+the I2C peripheral is enabled. Like the timing settings, the target NOSTRETCH settings
+must also be done before enabling the peripheral. Refer to I2C target initialization for more
+details.
+Figure 782. I2C initialization flow
+Initial settings
+
+Clear PE bit in I2C_CR1
+
+Configure ANFOFF and DNF[3:0] in I2C_CR1
+
+Configure PRESC[3:0], SDADEL[3:0], SCLDEL[3:0],
+SCLH[7:0], and SCLL[7:0] in I2C_TIMINGR
+
+Configure NOSTRETCH in I2C_CR1
+
+Set PE bit in I2C_CR1
+
+End
+MS19847V3
+
+65.4.6
+
+I2C reset
+The reset of the I2C peripheral is performed by clearing the PE bit of the I2C_CR1 register.
+It has the effect of releasing the SCL and SDA lines. Internal state machines are reset and
+the communication control bits and the status bits revert to their reset values. This reset
+does not impact the configuration registers.
+The impacted register bits are:

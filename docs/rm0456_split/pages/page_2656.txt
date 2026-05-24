@@ -1,0 +1,110 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+•
+
+RS232 hardware flow control mode
+The following pins are required in RS232 hardware flow control mode:
+–
+
+CTS (Clear To Send)
+When driven high, this signal blocks the data transmission at the end of the
+current transfer.
+
+–
+
+RTS (Request To Send)
+When it is low, this signal indicates that the USART is ready to receive data.
+
+•
+
+RS485 hardware control mode
+The DE (Driver Enable) pin is required in RS485 hardware control mode. This signal
+activates the transmission mode of the external transceiver.
+
+•
+
+Synchronous SPI master/slave mode and smartcard mode
+The following pins are required in synchronous master/slave mode and smartcard
+mode:
+–
+
+CK
+This pin acts as clock output in synchronous SPI master and smartcard modes.
+It acts as clock input in synchronous SPI slave mode.
+In synchronous master mode, this pin outputs the transmitter data clock for
+synchronous transmission corresponding to SPI master mode (no clock pulses on
+start bit and stop bit, and a software option to send a clock pulse on the last data
+bit). In parallel, data can be received synchronously on RX pin. This mechanism
+can be used to control peripherals featuring shift registers (such as LCD drivers).
+The clock phase and polarity are software programmable.
+In smartcard mode, CK output provides the clock to the smartcard.
+
+–
+
+NSS
+This pin acts as Slave Select input in synchronous slave mode.
+
+Refer to Table 675 and Table 676 for the list of USART input/output pins and internal
+signals.
+Table 675. USART/UART input/output pins
+Pin name
+
+Signal type
+
+USART_RX/UART_RX
+
+Input
+
+Serial data receive input
+
+USART_TX/UART_TX
+
+Output
+
+Transmit data output
+
+USART_CTS/UART_CTS
+
+Input
+
+Clear to send
+
+USART_RTS/UART_RTS
+
+Output
+
+Request to send
+
+(1)
+
+USART_DE /UART_DE
+
+Output
+
+Driver enable
+
+USART_CK
+
+Output
+
+Clock output in synchronous master and smartcard
+modes.
+
+USART_NSS(3)
+
+Input
+
+Slave select input in synchronous slave mode.
+
+(2)
+
+Description
+
+1. USART_DE and USART_RTS share the same pin.
+2. UART_DE and UART_RTS share the same pin.
+3. USART_NSS and USART_CTS share the same pin.
+
+RM0456 Rev 6

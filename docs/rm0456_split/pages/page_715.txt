@@ -1,0 +1,120 @@
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+Figure 67. Programmed 2D addressing
+Memory
+32b
+Cx_DAR
+
+Data0
+Data1
+...
+DataI-1
+
+Burst0
+
+Data0
+Data1
+...
+DataI-1
+
+Burst1
+
++ DAO
+
++ DAO
+
+Block0
+
++ DAO
+
+Memory-mapped
+Peripheral
+
+Data0
+Data1
+...
+DataI-1
+
+BurstJ-1
+
+...
+
+Burst0
+
+...
+
+Burst1
+
++ DAO
++ BRDAO
+
+32b
+Cx_SAR
+
+Data Register
+(fixed addressing,
+SINC=0)
+
++ DAO
+
+Restore Cx_DAR
+
++ DAO
+
+Blockk
+
+2D/repeated block
+LLIL
+
++ DAO
+...
+
+BurstJ-1
+
+Data0
+Data1
+...
+DataI-1
+
+Burst0
+
+Data0
+Data1
+...
+DataI-1
+
+Burst1
+
++ DAO
++ BRDAO
+
++ DAO
+
+BlockK-1
+
++ DAO
+
++ DAO
+
+Programmable address jumps 1) after burst and 2) after
++ DAO
+block.
+Example:
++ BRDAO
+burst: I * words (DBL_1=I-1; DDW_LOG2=’b10)
+block: J * bursts (BNDT=J*I*4)
+LLI: K * blocks (BRC=K-1)
+
+Data0
+Data1
+...
+DataI-1
+
+BurstJ-1
+
+MSv63674V1
+
+RM0456 Rev 6

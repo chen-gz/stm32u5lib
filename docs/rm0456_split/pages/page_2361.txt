@@ -1,0 +1,119 @@
+2474
+
+Basic timers (TIM6/TIM7)
+
+RM0456
+
+The minimum frequency is given by the following formula:
+F Tim
+F Tim
+Resolution = ------------- ⇒ F pwmMin = -----------------------------------F pwm
+Max Resolution
+F Tim
+Dithering mode disabled: F pwmMin = --------------65536
+F Tim
+Dithering mode enabled: F pwmMin = ----------------------------65535 + 15
+-----16
+
+Note:
+
+The maximum TIMx_ARR value is limited to 0xFFFEF in dithering mode (corresponds to
+65534 for the integer part and 15 for the dithered part).
+As shown on Figure 734, the dithering mode is used to increase the PWM resolution
+whatever the PWM frequency.
+Figure 734. FCnt resolution vs frequency
+Resolution
+
+20-bit
+
+16-bit
+Dithering
+
+No Dithering
+
+FCnt
+
+FCnt
+min
+
+MSv50910V1
+
+The period changes are spread over 16 consecutive periods, as described in Figure 735.
+Figure 735. PWM dithering pattern
+
+Counter period
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+ARR value
+Auto-Reload
+value
+
+9
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+
+41
+
+40
+
+40
+
+40
+
+40
+
+40
+
+40
+
+16
+
+643
+
+41
+
+40
+
+40
+
+40
+
+41
+
+40
+
+40
+
+40
+
+40
+MSv47465V1
+
+The autoreload and compare values increments are spread following the specific patterns
+described in Table 594. The dithering sequence is done to have increments distributed as
+evenly as possible and minimize the overall ripple.

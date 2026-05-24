@@ -1,0 +1,179 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Bit 2 SBF: Standby flag
+This bit is set by hardware when the device enters Standby mode, and is cleared by writing
+one to CSSF bit, or by a power-on reset. It is not cleared by the system reset.
+0: The device did not enter Standby mode.
+1: The device entered Standby mode.
+Bit 1 STOPF: Stop flag
+This bit is set by hardware when the device enters a Stop mode, and is cleared by software
+by writing one to CSSF bit.
+0: The device did not enter any Stop mode.
+1: The device entered a Stop mode.
+Bit 0 CSSF: Clear Stop and Standby flags
+This bit is protected against nonsecure access when LPMSEC = 1 in PWR_SECCFGR. This
+bit is protected against unprivileged access when LPMSEC = 1 and SPRIV = 1
+in PWR_PRIVCFGR, or when LPMSEC = 0 and NSPRIV = 1.
+Writing 1 to this bit clears the STOPF and SBF flags.
+
+10.10.16 PWR supply voltage monitoring status register (PWR_SVMSR)
+Address offset: 0x3C
+Reset value: 0x0000 8000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ACTVOS[1:0]
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+r
+
+r
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+ACTVO
+SRDY
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PVDO
+
+Res.
+
+Res.
+
+REGS
+
+Res.
+
+VDDA2 VDDA1 VDDIO VDDUS
+RDY
+RDY
+2RDY BRDY
+
+r
+
+r
+
+r
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 VDDA2RDY: VDDA ready versus 1.8 V voltage monitor
+0: VDDA is below the threshold of the VDDA voltage monitor 2 (around 1.8 V).
+1: VDDA is equal or above the threshold of the VDDA voltage monitor 2 (around 1.8 V).
+Bit 26 VDDA1RDY: VDDA ready versus 1.6V voltage monitor
+0: VDDA is below the threshold of the VDDA voltage monitor 1 (around 1.6 V).
+1: VDDA is equal or above the threshold of the VDDA voltage monitor 1 (around 1.6 V).
+Bit 25 VDDIO2RDY: VDDIO2 ready
+0: VDDIO2 is below the threshold of the VDDIO2 voltage monitor.
+1: VDDIO2 is equal or above the threshold of the VDDIO2 voltage monitor.
+Bit 24 VDDUSBRDY: VDDUSB ready
+0: VDDUSB is below the threshold of the VDDUSB voltage monitor.
+1: VDDUSB is equal or above the threshold of the VDDUSB voltage monitor.
+Bits 23:18 Reserved, must be kept at reset value.

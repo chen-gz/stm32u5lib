@@ -1,0 +1,233 @@
+Event flag
+
+Enable control bit
+
+Timeout
+
+TOF
+
+TOIE
+
+Status match
+
+SMF
+
+SMIE
+
+RM0456 Rev 6
+
+RM0456
+
+Hexadeca-SPI interface (HSPI)
+Table 270. HSPI interrupt requests
+Interrupt event
+
+Event flag
+
+Enable control bit
+
+FIFO threshold
+
+FTF
+
+FTIE
+
+Transfer complete
+
+TCF
+
+TCIE
+
+Transfer error
+
+TEF
+
+TEIE
+
+30.7
+
+HSPI registers
+
+30.7.1
+
+HSPI control register (HSPI_CR)
+Address offset: 0x000
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+PMM
+
+APMS
+
+Res.
+
+TOIE
+
+SMIE
+
+FTIE
+
+TCIE
+
+TEIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+4
+
+3
+
+2
+
+1
+
+0
+
+MSEL[1:0]
+
+FMODE[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+Res.
+
+Res.
+
+11
+
+10
+
+9
+
+8
+
+FTHRES[5:0]
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+rw
+
+rw
+
+DMM
+rw
+
+5
+Res.
+
+Res.
+
+TCEN
+rw
+
+DMAE
+ABORT
+N
+rw
+
+rw
+
+EN
+rw
+
+Bits 31:30 MSEL[1:0]: Flash select
+These bits select the memory to be addressed in single-, dual-, quad-, or octal-SPI mode
+in single-memory configuration (when DMM = 0).
+- when in quad-SPI mode:
+00: Data exchanged over IO[3:0]
+01: Data exchanged over IO[7:4]
+10: Data exchanged over IO[11:8]
+11: Data exchanged over IO[15:12]
+- when in octal-SPI mode or dual-quad configuration:
+0x: Data exchanged over IO[7:0]
+1x: Data exchanged over IO[15:8]
+These bits are ignored when in dual-octal configuration (data on 8 bits and DMM = 1) or
+16-bit configuration (data exchanged over IO[15:0]).
+Note: Bit 30 is mirrored in bit 7. This bitfield can be modified only when BUSY = 0.
+Bits 29:28 FMODE[1:0]: Functional mode
+This bitfield defines the HSPI functional mode of operation.
+00: Indirect-write mode
+01: Indirect-read mode
+10: Automatic status-polling mode (relevant in regular-command protocol only)
+11: Memory-mapped mode
+If DMAEN = 1 already, then the DMA controller for the corresponding channel must be
+disabled before changing the FMODE[1:0] value.
+Note: This bitfield can be modified only when BUSY = 0.
+Bits 27:24 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,46 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+Bits 21:17 ACICD[4:0]: OLDx CIC decimation ratio selection
+This bitfield is set and cleared by software. It is used to select the decimation ratio of the
+ACIC. It is only taken into account by the MDF when CICMOD[2:0] = 0xx. The decimation
+ratio is given by (ACICD + 1).
+0: Decimation ratio is 1.
+1: Decimation ratio is 2.
+2: Decimation ratio is 3.
+3: Decimation ratio is 4.
+...
+31: Decimation ratio is 32.
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 16:14 Reserved, must be kept at reset value.
+Bits 13:12 ACICN[1:0]: OLDx CIC order selection
+This bitfield is set and cleared by software. It is used to select the ACIC type and order. It is
+only taken into account by the MDF when CICMOD[2:0] = 0xx.
+00: FastSinc filter type
+01: Sinc1 filter type
+10: Sinc2 filter type
+11: Sinc3 filter type
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 11:8 Reserved, must be kept at reset value.
+Bits 7:4 BKOLD[3:0]: Break signal assignment for out-of limit detector
+This bitfield is set and cleared by software.
+BKOLD[i] = 0: Break signal (mdf_break[i]) not assigned to threshold event
+BKOLD[i] = 1: Break signal (mdf_break[i]) assigned to threshold event
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 3:2 Reserved, must be kept at reset value.
+Bit 1 THINB: Threshold In band
+This bit is set and cleared by software.
+0: The OLDx generates an event if the signal is lower than OLDTHL or higher than OLDTHH
+(default value).
+1: The OLDx generates an event if the signal is lower than OLDTHH and higher than
+OLDTHL.
+Note: This bit can be write-protected (refer to Section 39.4.15 for details).
+Bit 0 OLDEN: OLDx enable
+This bit is set and cleared by software.
+0: OLDx disabled (default value)
+1: OLDx enabled, including the ACIC filter working in continuous mode
+
+RM0456 Rev 6

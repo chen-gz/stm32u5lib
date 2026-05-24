@@ -1,0 +1,55 @@
+Res.
+
+24
+
+ITAMP9 ITAMP8 ITAMP ITAMP6 ITAMP5
+MF
+MF
+7MF
+MF
+MF
+
+RM0456
+
+Tamper and backup registers (TAMP)
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 Reserved, must be kept at reset value.
+Bit 29 Reserved, must be kept at reset value.
+Bit 28 ITAMP13MF: internal tamper 13 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 13 secure interrupt is raised.
+Bit 27 ITAMP12MF: internal tamper 12 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 12 secure interrupt is raised.
+Bit 26 ITAMP11MF: internal tamper 11 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 11 secure interrupt is raised.
+Bit 25 Reserved, must be kept at reset value.
+Bit 24 ITAMP9MF: internal tamper 9 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 9 secure interrupt is raised.
+Bit 23 ITAMP8MF: Internal tamper 8 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 8 secure interrupt is raised.
+Bit 22 ITAMP7MF: Internal tamper 7 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 7 secure interrupt is raised.
+Bit 21 ITAMP6MF: Internal tamper 6 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 6 secure interrupt is raised.
+Bit 20 ITAMP5MF: Internal tamper 5 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 5 secure interrupt is raised.
+Bit 19 Reserved, must be kept at reset value.
+Bit 18 ITAMP3MF: Internal tamper 3 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 3 secure interrupt is raised.
+Bit 17 ITAMP2MF: Internal tamper 2 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 2 secure interrupt is raised.
+Bit 16 ITAMP1MF: Internal tamper 1 secure interrupt masked flag
+This flag is set by hardware when the internal tamper 1 secure interrupt is raised.
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 TAMP8MF: TAMP8 secure interrupt masked flag
+This flag is set by hardware when the tamper 8 secure interrupt is raised.
+Bit 6 TAMP7MF: TAMP7 secure interrupt masked flag
+This flag is set by hardware when the tamper 7 secure interrupt is raised.
+Bit 5 TAMP6MF: TAMP6 secure interrupt masked flag
+This flag is set by hardware when the tamper 6 secure interrupt is raised.
+Bit 4 TAMP5MF: TAMP5 secure interrupt masked flag
+This flag is set by hardware when the tamper 5 secure interrupt is raised.
+Bit 3 TAMP4MF: TAMP4 secure interrupt masked flag
+This flag is set by hardware when the tamper 4 secure interrupt is raised.
+
+RM0456 Rev 6

@@ -1,0 +1,145 @@
+Interrupt event Event flag
+
+Update
+
+UIF
+
+Enable
+control bit
+
+Interrupt
+clear method
+
+Exit from
+Sleep
+mode
+
+Exit from
+Stop and
+Standby
+mode
+
+UIE
+
+write 0 in UIF
+
+Yes
+
+No
+
+RM0456 Rev 6
+
+RM0456
+
+Basic timers (TIM6/TIM7)
+
+57.4
+
+TIM6/TIM7 registers
+Refer to Section 1.2 for a list of abbreviations used in register descriptions.
+The peripheral registers can be accessed by half-words (16-bit) or words (32-bit).
+
+57.4.1
+
+TIMx control register 1 (TIMx_CR1)(x = 6 to 7)
+Address offset: 0x00
+Reset value: 0x0000
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+DITH
+EN
+
+UIFRE
+MAP
+
+Res.
+
+Res.
+
+Res.
+
+ARPE
+
+Res.
+
+Res.
+
+Res.
+
+OPM
+
+URS
+
+UDIS
+
+CEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 15:13 Reserved, must be kept at reset value.
+Bit 12 DITHEN: Dithering enable
+0: Dithering disabled
+1: Dithering enabled
+Note: The DITHEN bit can only be modified when CEN bit is reset.
+Bit 11 UIFREMAP: UIF status bit remapping
+0: No remapping. UIF status bit is not copied to TIMx_CNT register bit 31.
+1: Remapping enabled. UIF status bit is copied to TIMx_CNT register bit 31.
+Bits 10:8 Reserved, must be kept at reset value.
+Bit 7 ARPE: Auto-reload preload enable
+0: TIMx_ARR register is not buffered.
+1: TIMx_ARR register is buffered.
+Bits 6:4 Reserved, must be kept at reset value.
+Bit 3 OPM: One-pulse mode
+0: Counter is not stopped at update event
+1: Counter stops counting at the next update event (clearing the CEN bit).
+
+RM0456 Rev 6

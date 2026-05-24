@@ -1,0 +1,239 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.2
+
+RM0456
+
+RCC internal clock sources calibration register 1 (RCC_ICSCR1)
+Address offset: 0x008
+Reset value: 0x440X XXXX
+X is factory-programmed.
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+MSISRANGE[3:0]
+
+26
+
+25
+
+24
+
+23
+
+22
+
+MSIRG MSIBIA
+SEL
+S
+
+MSIKRANGE[3:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rs
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+MSICA
+L0[0]
+r
+
+MSICAL1[4:0]
+r
+
+r
+
+r
+
+21
+
+20
+
+Res.
+
+Res.
+
+5
+
+4
+
+19
+
+r
+
+r
+
+r
+
+r
+
+17
+
+16
+
+MSICAL0[4:1]
+r
+
+r
+
+r
+
+r
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+MSICAL2[4:0]
+r
+
+18
+
+MSICAL3[4:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:28 MSISRANGE[3:0]: MSIS clock ranges
+These bits are configured by software to choose the frequency range of MSIS oscillator when
+MSIRGSEL is set. 16 frequency ranges are available:
+0000: range 0 around 48 MHz
+0001: range 1 around 24 MHz
+0010: range 2 around 16 MHz
+0011: range 3 around 12 MHz
+0100: range 4 around 4 MHz (reset value)
+0101: range 5 around 2 MHz
+0110: range 6 around 1.33 MHz
+0111: range 7 around 1 MHz
+1000: range 8 around 3.072 MHz
+1001: range 9 around 1.536 MHz
+1010: range 10 around 1.024 MHz
+1011: range 11 around 768 kHz
+1100: range 12 around 400 kHz
+1101: range 13 around 200 kHz
+1110: range 14 around 133 kHz
+1111: range 15 around 100 kHz
+Note: MSISRANGE can be modified when MSIS is off (MSISON = 0) or when MSIS is ready
+(MSISRDY = 1). MSISRANGE must NOT be modified when MSIS is on and NOT ready
+(MSISON = 1 and MSISRDY = 0)
+MSISRANGE is kept when the device wakes up from Stop mode, except when
+the MSIS range is above 24 MHz. In this case MSISRANGE is changed by hardware
+into range 2 (24 MHz).
+Note: The frequencies slightly differ in PLL-mode. Refer to the datasheet for more information.
+
+<!-- pagebreak -->
+
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bits 27:24 MSIKRANGE[3:0]: MSIK clock ranges
+These bits are configured by software to choose the frequency range of MSIK oscillator when
+MSIRGSEL is set. 16 frequency ranges are available:
+0000: range 0 around 48 MHz
+0001: range 1 around 24 MHz
+0010: range 2 around 16 MHz
+0011: range 3 around 12 MHz
+0100: range 4 around 4 MHz (reset value)
+0101: range 5 around 2 MHz
+0110: range 6 around 1.33 MHz
+0111: range 7 around 1 MHz
+1000: range 8 around 3.072 MHz
+1001: range 9 around 1.536 MHz
+1010: range 10 around 1.024 MHz
+1011: range 11 around 768 kHz
+1100: range 12 around 400 kHz
+1101: range 13 around 200 kHz
+1110: range 14 around 133 kHz
+1111: range 15 around 100 kHz
+Note: MSIKRANGE can be modified when MSIK is off (MSISON = 0) or when MSIK is ready
+(MSIKRDY = 1). MSIKRANGE must NOT be modified when MSIK is on and NOT ready
+(MSIKON = 1 and MSIKRDY = 0)
+MSIKRANGE is kept when the device wakes up from Stop mode, except when
+the MSIK range is above 24 MHz. In this case MSIKRANGE is changed by hardware
+into range 2 (24 MHz).
+Note: The frequencies slightly differ in PLL-mode. Refer to the datasheet for more information.
+Bit 23 MSIRGSEL: MSI clock range selection
+This bit is set by software to select the MSIS and MSIK clocks range with MSISRANGE[3:0]
+and MSIKRANGE[3:0]. Write 0 has no effect.
+After exiting Standby or Shutdown mode, or after a reset, this bit is at 0 and the MSIS and
+MSIK ranges are provided by MSISSRANGE[3:0] and MSIKSRANGE[3:0] in RCC_CSR.
+0: MSIS/MSIK ranges provided by MSISSRANGE[3:0] and MSIKSRANGE[3:0] in RCC_CSR
+1: MSIS/MSIK ranges provided by MSISRANGE[3:0] and MSIKRANGE[3:0]
+in RCC_ICSCR1
+Bit 22 MSIBIAS: MSI bias mode selection
+This bit is set by software to select the MSI bias mode. By default, the MSI bias is
+in continuous mode in order to maintain the output clocks accuracy. Setting this bit reduces
+the MSI consumption when the regulator is in range 4, or when the device is in Stop 1 or
+Stop 2 mode, but it decreases the MSI accuracy
+0: MSI bias continuous mode (clock accuracy fast settling time)
+1: MSI bias sampling mode when the regulator is in range 4, or when the device is
+in Stop 1 or Stop 2 (ultra-low-power mode)
+Bits 21:20 Reserved, must be kept at reset value.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

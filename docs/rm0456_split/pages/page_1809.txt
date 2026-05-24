@@ -1,0 +1,175 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+Bit 11 LPVAE: Low-power vertical active enable
+This bit enables to return to low-power inside the vertical active (VACT) period when timing
+allows.
+0: Return to low-power inside the VACT is disabled.
+1: Return to low-power inside the VACT is enabled.
+Bit 10 LPVFPE: Low-power vertical front-porch enable
+This bit enables to return to low-power inside the vertical front-porch (VFP) period when
+timing allows.
+0: Return to low-power inside the VFP is disabled.
+1: Return to low-power inside the VFP is enabled.
+Bit 9 LPVBPE: Low-power vertical back-porch enable
+This bit enables to return to low-power inside the vertical back-porch (VBP) period when
+timing allows.
+0: Return to low-power inside the VBP is disabled.
+1: Return to low-power inside the VBP is enabled.
+Bit 8 LPVSAE: Low-power vertical sync active enable
+This bit enables to return to low-power inside the vertical sync time (VSA) period when timing
+allows.
+0: Return to low-power inside the VSA is disabled.
+1: Return to low-power inside the VSA is enabled
+Bits 7:2 Reserved, must be kept at reset value.
+Bits 1:0 VMT[1:0]: Video mode type
+This field configures the video mode transmission type :
+00: Non-burst with sync pulses.
+01: Non-burst with sync events.
+1x: Burst mode
+
+44.15.12 DSI Host video packet configuration register (DSI_VPCR)
+Address offset: 0x003C
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+VPSIZE[13:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:14 Reserved, must be kept at reset value.
+Bits 13:0 VPSIZE[13:0]: Video packet size
+This field configures the number of pixels in a single video packet.
+For 18-bit not loosely packed data types, this number must be a multiple of 4.
+For YCbCr data types, it must be a multiple of 2 as described in the DSI specification.
+
+44.15.13 DSI Host video chunks configuration register (DSI_VCCR)
+Address offset: 0x0040
+
+RM0456 Rev 6

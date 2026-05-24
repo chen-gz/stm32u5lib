@@ -1,0 +1,57 @@
+24
+
+PTXFE HCINT
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 31 WKUPINT: Resume/remote wake-up detected interrupt
+Wake-up interrupt during suspend(L2) or LPM(L1) state.
+– During suspend(L2):
+In device mode, this interrupt is asserted when a resume is detected on the USB. In host
+mode, this interrupt is asserted when a remote wake-up is detected on the USB.
+– During LPM(L1):
+This interrupt is asserted for either host initiated resume or device initiated remote wake-up
+on USB.
+Note: Accessible in both device and host modes.
+Bit 30 SRQINT: Session request/new session detected interrupt
+In host mode, this interrupt is asserted when a session request is detected from the device.
+In device mode, this interrupt is asserted when VBUS is in the valid range for a B-peripheral
+device. Accessible in both device and host modes.
+Bit 29 DISCINT: Disconnect detected interrupt
+Asserted when a device disconnect is detected.
+Note: Only accessible in host mode.
+Bit 28 CIDSCHG: Connector ID status change
+The core sets this bit when there is a change in connector ID status.
+Note: Accessible in both device and host modes.
+Bit 27 LPMINT: LPM interrupt
+In device mode, this interrupt is asserted when the device receives an LPM transaction and
+responds with a non-ERRORed response.
+In host mode, this interrupt is asserted when the device responds to an LPM transaction with
+a non-ERRORed response or when the host core has completed LPM transactions for the
+programmed number of times (RETRYCNT bit in OTG_GLPMCFG).
+This field is valid only if the LPMEN bit in OTG_GLPMCFG is set to 1.
+Bit 26 PTXFE: Periodic Tx FIFO empty
+Asserted when the periodic transmit FIFO is either half or completely empty and there is
+space for at least one entry to be written in the periodic request queue. The half or completely
+empty status is determined by the periodic Tx FIFO empty level bit in the OTG_GAHBCFG
+register (PTXFELVL bit in OTG_GAHBCFG).
+Note: Only accessible in host mode.
+Bit 25 HCINT: Host channels interrupt
+The core sets this bit to indicate that an interrupt is pending on one of the channels of the
+core (in host mode). The application must read the OTG_HAINT register to determine the
+exact number of the channel on which the interrupt occurred, and then read the
+corresponding OTG_HCINTx register to determine the exact cause of the interrupt. The
+application must clear the appropriate status bit in the OTG_HCINTx register to clear this bit.
+Note: Only accessible in host mode.
+Bit 24 HPRTINT: Host port interrupt
+The core sets this bit to indicate a change in port status of one of the OTG_HS controller
+ports in host mode. The application must read the OTG_HPRT register to determine the
+exact event that caused this interrupt. The application must clear the appropriate status bit in
+the OTG_HPRT register to clear this bit.
+Note: Only accessible in host mode.
+
+RM0456 Rev 6

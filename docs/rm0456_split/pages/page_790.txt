@@ -1,0 +1,92 @@
+821
+
+Low-power direct memory access controller (LPDMA)
+
+RM0456
+
+LPDMA arbitration
+The LPDMA arbitration is directed from the 4-grade assigned channel priority
+(LPDMA_CxCR.PRIO[1:0]). The arbitration policy, as illustrated in Figure 86, is defined by:
+•
+
+one high-priority traffic class (queue 3), dedicated to the assigned channels with
+priority 3, for time-sensitive channels
+This traffic class is granted via a fixed-priority arbitration against any other low-priority
+traffic class. Within this class, requested single transfers are round-robin arbitrated.
+
+•
+
+three low-priority traffic classes (queues 0, 1 or 2) for non time-sensitive channels with
+priority 0, 1 or 2
+Each requested single transfer within this class is round-robin arbitrated, with a weight
+that is monotonically driven from the programmed priority:
+–
+
+Requests with priority 0 are allocated to the queue 0.
+
+–
+
+Requests with priority 1 are allocated and replicated to the queue 0 and queue 1.
+
+–
+
+Requests with priority 2 are allocated and replicated to the queue 0, queue 1, and
+queue 2.
+
+–
+
+Any queue 0, 1 or 2 equally grants any of its active input requests in a round-robin
+manner, provided there are simultaneous requests.
+
+–
+
+Additionally, there is a second stage for the low-traffic with a round-robin arbiter
+that fairly alternates between simultaneous selected requests from queue 0,
+queue 1 and queue 2.
+Figure 86. LPDMA arbitration policy
+
+Request from any channel x
+being assigned with LPDMA_CxCR.PRIO = 0
+
+Queue 0
+RRA
+
+Request from any channel x
+being assigned with LPDMA_CxCR.PRIO = 1
+
+Queue 1
+RRA
+
+Request from any channel x
+being assigned with LPDMA_CxCR.PRIO = 2
+
+Queue 2
+RRA
+
+Request from any channel x
+being assigned with LPDMA_CxCR.PRIO = 3
+
+Queue 3
+RRA
+
+RRA = round-robin arbitration, FPA = fixed-priority arbitration
+
+Low
+RRA
+
+FPA
+
+Granted
+request
+
+High
+
+LPDMA arbitration
+MSv62639V1
+
+1. RRA: round-robin arbitration
+2. FPA: fixed-priority arbitration
+
+LPDMA arbitration and bandwidth
+With this arbitration policy, the following is guaranteed:
+•

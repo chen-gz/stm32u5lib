@@ -1,0 +1,196 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+68.8.4
+
+SPI configuration register 2 (SPI_CFG2)
+Address offset: 0x00C
+Reset value: 0x0000 0000
+The content of this register is write-protected when SPI is enabled or the IOLOCK bit is set
+in the SPI_CR1 register.
+
+31
+
+30
+
+AFCNTR SSOM
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+SSOE
+
+SSIOP
+
+Res.
+
+SSM
+
+CPOL
+
+CPHA
+
+23
+
+22
+
+21
+
+LSBFRST MASTER
+
+20
+
+19
+
+SP[2:0]
+
+18
+
+17
+
+16
+
+COMM[1:0]
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+IOSWP RDIOP RDIOM
+rw
+
+rw
+
+rw
+
+MIDI[3:0]
+rw
+
+rw
+
+0
+
+MSSI[3:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 AFCNTR: alternate function GPIOs control
+This bit is taken into account when SPE = 0 only.
+When SPI must be disabled temporary for a specific configuration reason (for example CRC
+reset, CPHA or HDDIR change) setting this bit prevents any glitches on the associated
+outputs configured at alternate function mode by keeping them forced at state corresponding
+the current SPI configuration.
+0: The peripheral takes no control of GPIOs while it is disabled
+1: The peripheral keeps always control of all associated GPIOs
+Bit 30 SSOM: SS output management in master mode
+This bit is taken into account in master mode when SSOE is enabled. It allows the SS output
+to be configured between two consecutive data transfers.
+0: SS is kept at active level until data transfer is complete, it becomes inactive with EOT flag
+1: SPI data frames are interleaved with SS nonactive pulses when MIDI[3:0] > 1
+Bit 29 SSOE: SS output enable
+This bit is taken into account in master mode only
+0: SS output is disabled and the SPI can work in multimaster configuration
+1: SS output is enabled. The SPI cannot work in a multimaster environment. It forces the SS
+pin at inactive level after the transfer is complete or SPI is disabled with respect to SSOM,
+MIDI, MSSI, SSIOP bits setting
+Bit 28 SSIOP: SS input/output polarity
+0: low level is active for SS signal
+1: high level is active for SS signal
+Bit 27 Reserved, must be kept at reset value.
+Bit 26 SSM: software management of SS signal input
+0: SS input value is determined by the SS PAD
+1: SS input value is determined by the SSI bit
+Note: When master uses hardware SS output (SSM = 0 and SSOE = 1) the SS signal input is
+forced to not active state internally to prevent master mode fault error.
+Bit 25 CPOL: clock polarity
+0: SCK signal is at 0 when idle
+1: SCK signal is at 1 when idle
+
+RM0456 Rev 6

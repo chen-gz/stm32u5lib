@@ -1,0 +1,192 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+
+72.15.2
+
+OTG interrupt register (OTG_GOTGINT)
+Address offset: 0x04
+Reset value: 0x0000 0000
+The application reads this register whenever there is an OTG interrupt and clears the bits in
+this register to clear the OTG interrupt.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+DBC
+DNE
+
+ADTO
+CHG
+
+HNG
+DET
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+HNSS
+CHG
+
+SRSS
+CHG
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SEDET
+
+Res.
+
+Res.
+
+rc_w1
+
+rc_w1
+
+rc_w1
+
+Bits 31:20 Reserved, must be kept at reset value.
+Bit 19 DBCDNE: Debounce done
+The core sets this bit when the debounce is completed after the device connect. The
+application can start driving USB reset after seeing this interrupt. This bit is only valid when
+the HNP Capable or SRP Capable bit is set in the OTG_GUSBCFG register (HNPCAP bit or
+SRPCAP bit in OTG_GUSBCFG, respectively).
+Note: Only accessible in host mode.
+Bit 18 ADTOCHG: A-device timeout change
+The core sets this bit to indicate that the A-device has timed out while waiting for the B-device
+to connect.
+Note: Accessible in both device and host modes.
+Bit 17 HNGDET: Host negotiation detected
+The core sets this bit when it detects a host negotiation request on the USB.
+Note: Accessible in both device and host modes.
+Bits 16:10 Reserved, must be kept at reset value.
+Bit 9 HNSSCHG: Host negotiation success status change
+The core sets this bit on the success or failure of a USB host negotiation request. The
+application must read the host negotiation success bit of the OTG_GOTGCTL register
+(HNGSCS bit in OTG_GOTGCTL) to check for success or failure.
+Note: Accessible in both device and host modes.
+Bits 7:3 Reserved, must be kept at reset value.
+Bit 8 SRSSCHG: Session request success status change
+The core sets this bit on the success or failure of a session request. The application must
+read the session request success bit in the OTG_GOTGCTL register (SRQSCS bit in
+OTG_GOTGCTL) to check for success or failure.
+Note: Accessible in both device and host modes.
+Bit 2 SEDET: Session end detected
+The core sets this bit to indicate that the level of the voltage on VBUS is no longer valid for a
+B-Peripheral session when VBUS < 0.8 V.
+Note: Accessible in both device and host modes.
+Bits 1:0 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

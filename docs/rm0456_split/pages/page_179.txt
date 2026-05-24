@@ -1,0 +1,95 @@
+RM0456 Rev 6
+
+RM0456
+
+System security
+Figure 13 also shows keys that are manipulated by software (like OTFDEC keys), or keys
+that are managed only by hardware (like DHUK). More information on those hardware keys
+can be found in Section 3.8.1.
+Figure 13. Key management principle
+Peripheral usage
+
+Hardware
+key
+derivation
+
+Derived
+hardware
+unique key
+Hardware
+key
+
+Embedded
+nonvolatile storage
+(software secret)
+
+Secure AES
+
+Hw Key
+
+key
+
+AES with Hardware key
+DPA
+
+Embedded
+volatile storage
+(tamper resistant)
+
+key
+
+OTFDEC
+
+Legend
+key
+
+Hardware transfer of key
+
+key
+
+Software transfer of key
+
+AES
+without
+DPA
+
+key
+
+Embedded
+nonvolatile storage
+
+MSv66956V1
+
+Tamper protection is detailed in Section 3.7.3, while TAMP TrustZone features are briefly
+described in Section 3.5.5.
+
+3.8.1
+
+Hardware secret key management
+As shown in the previous figure, the devices propose a better protection for application
+keys, using hardware secret keys. These AES keys can be made usable to the application,
+without exposing them in clear-text (unencrypted). Such keys also become immediately
+unusable in case of tamper.
+There are three different sources of hardware secret keys:
+•
+
+DHUK: derived keys based on 256-bit nonvolatile device unique secret in flash
+memory. The generation of this key takes into account the TrustZone state and key use
+state (KMOD).
+Note: DHUK is the same for all devices when RDP = 0 (debug/development mode).
+
+•
+
+BHK: 256-bit application key stored in tamper-resistant volatile storage in TAMP
+This key is written at boot time, then read/write locked to application until next reset.
+
+•
+
+XORK: result of an XOR of BHK and DHUK
+
+These keys can be used:
+•
+
+as normal key, loading in write-only key registers (software key mode)
+
+RM0456 Rev 6

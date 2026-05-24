@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+Bit 10 COTGF: clear the illegal access flag for OTG_FS or OTG_HS
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 9 CDCMIF: clear the illegal access flag for DCMI and PSSI
+0: no action
+1: status flag cleared
+Bit 8 CADC12F: clear the illegal access flag for ADC1 and ADC2
+0: no action
+1: status flag cleared
+Bit 7 CDCACHE1_REGF: clear the illegal access flag for DCACHE1 registers
+0: no action
+1: status flag cleared
+Bit 6 CICACHE_REGF: clear the illegal access flag for ICACHE registers
+0: no action
+1: status flag cleared
+Bit 5 CDMA2DF: clear the illegal access flag for register of DMA2D
+0: no action
+1: status flag cleared
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 4 CTSCF: clear the illegal access flag for TSC
+0: no action
+1: status flag cleared
+Bit 3 CCRCF: clear the illegal access flag for CRC
+0: no action
+1: status flag cleared
+Bit 2 CFMACF: clear the illegal access flag for FMAC
+0: no action
+1: status flag cleared
+Bit 1 CCORDICF: clear the illegal access flag for CORDIC
+0: no action
+1: status flag cleared
+Bit 0 CMDF1F: clear the illegal access flag for MDF1
+0: no action
+1: status flag cleared
+
+RM0456 Rev 6

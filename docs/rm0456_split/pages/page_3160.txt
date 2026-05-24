@@ -1,0 +1,98 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+1.
+
+2.
+
+Program the characteristics of the required endpoint into the following fields of the
+OTG_DIEPCTLx register (for IN or bidirectional endpoints) or the OTG_DOEPCTLx
+register (for OUT or bidirectional endpoints).
+–
+
+Maximum packet size
+
+–
+
+USB active endpoint = 1
+
+–
+
+Endpoint start data toggle (for interrupt and bulk endpoints)
+
+–
+
+Endpoint type
+
+–
+
+Tx FIFO number
+
+Once the endpoint is activated, the core starts decoding the tokens addressed to that
+endpoint and sends out a valid handshake for each valid token received for the
+endpoint.
+
+Endpoint deactivation
+This section describes the steps required to deactivate an existing endpoint.
+
+Note:
+
+1.
+
+In the endpoint to be deactivated, clear the USB active endpoint bit in the
+OTG_DIEPCTLx register (for IN or bidirectional endpoints) or the OTG_DOEPCTLx
+register (for OUT or bidirectional endpoints).
+
+2.
+
+Once the endpoint is deactivated, the core ignores tokens addressed to that endpoint,
+which results in a timeout on the USB.
+
+The application must meet the following conditions to set up the device core to handle
+traffic:
+NPTXFEM and RXFLVLM in the OTG_GINTMSK register must be cleared.
+
+Operational model
+SETUP and OUT data transfers:
+This section describes the internal data flow and application-level operations during data
+OUT transfers and SETUP transactions.
+•
+
+Packet read
+
+This section describes how to read packets (OUT data and SETUP packets) from the
+receive FIFO.
+1.
+
+On catching an RXFLVL interrupt (OTG_GINTSTS register), the application must read
+the receive status pop register (OTG_GRXSTSP).
+
+2.
+
+The application can mask the RXFLVL interrupt (in OTG_GINTSTS) by writing to
+RXFLVLM = 0 (in OTG_GINTMSK), until it has read the packet from the receive FIFO.
+
+3.
+
+If the received packet’s byte count is not 0, the byte count amount of data is popped
+from the receive data FIFO and stored in memory. If the received packet byte count is
+0, no data is popped from the receive data FIFO.
+
+4.
+
+The receive status readout of the packet of FIFO indicates one of the following:
+a)
+
+Global OUT NAK pattern:
+PKTSTS = Global OUT NAK, BCNT = 0x000, EPNUM = (0x0),
+DPID = (0b00).
+These data indicate that the global OUT NAK bit has taken effect.
+
+b)
+
+SETUP packet pattern:
+PKTSTS = SETUP, BCNT = 0x008, EPNUM = Control EP Num,
+
+RM0456 Rev 6

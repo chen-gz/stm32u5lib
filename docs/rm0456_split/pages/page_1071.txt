@@ -1,0 +1,103 @@
+HyperBus memories need to be selected when targeted by the application. The
+configuration to set depends on the access type:
+–
+
+HyperBus memory mode: The protocol follows the HyperBus specification.
+MTYP[2:0] = 100 is the configuration to use to access the memory space.
+
+–
+
+HyperBus register mode (addressing register space): the memory-mapped
+accesses in this mode must be noncacheable, or the indirect read/write modes
+must be used. The configuration to be set for this particular register space access
+is MTYP[2:0] = 101.
+
+Standard mode. It is the mode to use whenever the targeted memory is not
+corresponding to any others configurations described in this section. MTYP[2:0] = 010
+for this standard mode.
+
+RM0456 Rev 6
+
+RM0456
+
+28.4.15
+
+Octo-SPI interface (OCTOSPI)
+
+OCTOSPI regular-command mode configuration
+Indirect mode configuration
+When FMODE[1:0] = 00, the indirect-write mode is selected and data can be sent to the
+external device. When FMODE[1:0] = 01, the indirect-read mode is selected, and data can
+be read from the external device.
+When the OCTOSPI is used in indirect mode, the frames are constructed in the following
+way:
+1.
+
+Specify a number of data bytes to read or write in OCTOSPI_DLR.
+
+2.
+
+Specify the frame timing in OCTOSPI_TCR.
+
+3.
+
+Specify the frame format in OCTOSPI_CCR.
+
+4.
+
+Specify the instruction in OCTOSPI_IR.
+
+5.
+
+Specify the optional alternate byte to be sent right after the address phase in
+OCTOSPI_ABR.
+
+6.
+
+Specify the targeted address in OCTOSPI_AR.
+
+7.
+
+Enable the DMA channel if needed.
+
+8.
+
+Read/write the data from/to the FIFO through OCTOSPI_DR (if no DMA usage).
+
+If neither the address register (OCTOSPI_AR) nor the data register (OCTOSPI_DR) need to
+be updated for a particular command, then the command sequence starts as soon as
+OCTOSPI_IR is written. This is the case when both ADMODE[2:0] and DMODE[2:0]
+equal 000, or if just ADMODE[2:0] = 000 when in indirect-read mode (FMODE[1:0] = 01).
+When an address is required (ADMODE[2:0] ≠ 000) and the data register does not need to
+be written (FMODE[1:0] = 01 or DMODE[2:0] = 000), the command sequence starts as
+soon as the address is updated with a write to OCTOSPI_AR.
+In case of data transmission (FMODE[1:0] = 00 and DMODE[2:0] ≠ 000),
+the communication start is triggered by a write in the FIFO through OCTOSPI_DR.
+
+Automatic status-polling mode configuration
+The automatic status-polling mode is enabled by setting FMODE[1:0] = 10. In this mode, the
+programmed frame is sent and data are retrieved periodically.
+The maximum amount of data read in each frame is 4 bytes. If more data is requested in
+OCTOSPI_DLR, it is ignored, and only 4 bytes are read. The periodicity is specified in
+OCTOSPI_PIR.
+Once the status data has been retrieved, the following can be processed:
+•
+
+Set SMF (an interrupt is generated if enabled).
+
+•
+
+Stop automatically the periodic retrieving of the status bytes.
+
+The received value can be masked with the value stored in OCTOSPI_PSMKR, and can be
+ORed or ANDed with the value stored in OCTOSPI_PSMAR.
+In case of a match, SMF is set and an interrupt is generated if enabled. The OCTOSPI can
+be automatically stopped if AMPS is set. In any case, the latest retrieved value is available
+in OCTOSPI_DR.
+When the OCTOSPI is used in automatic status-polling mode, the frames are constructed in
+the following way:
+1.
+
+Specify the input mask in OCTOSPI_PSMKR.
+
+RM0456 Rev 6

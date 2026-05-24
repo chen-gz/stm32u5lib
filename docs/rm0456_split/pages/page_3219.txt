@@ -1,0 +1,180 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+73.14.3
+
+RM0456
+
+OTG AHB configuration register (OTG_GAHBCFG)
+This register can be used to configure the core after power-on or a change in mode. This
+register mainly contains AHB system-related configuration parameters. Do not change this
+register after the initial programming. The application must program this register before
+starting any transactions on either the AHB or the USB.
+Address offset: 0x008
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+
+PTXFE
+LVL
+
+TXFE
+LVL
+
+Res.
+
+DMAE
+N
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+HBSTLEN[3:0]
+rw
+
+rw
+
+rw
+
+0
+GINT
+MSK
+
+rw
+
+rw
+
+Bits 31:9 Reserved, must be kept at reset value.
+Bit 8 PTXFELVL: Periodic Tx FIFO empty level
+Indicates when the periodic Tx FIFO empty interrupt bit in the OTG_GINTSTS register
+(PTXFE bit in OTG_GINTSTS) is triggered.
+0: PTXFE (in OTG_GINTSTS) interrupt indicates that the Periodic Tx FIFO is half empty
+1: PTXFE (in OTG_GINTSTS) interrupt indicates that the Periodic Tx FIFO is completely
+empty
+Note: Only accessible in host mode.
+Bit 7 TXFELVL: Tx FIFO empty level
+Condition: device mode
+This bit indicates when IN endpoint Transmit FIFO empty interrupt (TXFE in OTG_DIEPINTx)
+is triggered:
+0: The TXFE (in OTG_DIEPINTx) interrupt indicates that the IN endpoint Tx FIFO is half
+empty
+1: The TXFE (in OTG_DIEPINTx) interrupt indicates that the IN endpoint Tx FIFO is
+completely empty
+Condition: host mode
+This bit indicates when the nonperiodic Tx FIFO empty interrupt (NPTXFE bit in
+OTG_GINTSTS) is triggered:
+0: The NPTXFE (in OTG_GINTSTS) interrupt indicates that the nonperiodic Tx FIFO is half
+empty
+1: The NPTXFE (in OTG_GINTSTS) interrupt indicates that the nonperiodic Tx FIFO is
+completely empty
+Bit 6 Reserved, must be kept at reset value.

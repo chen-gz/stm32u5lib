@@ -1,0 +1,55 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Bit 12 BKCMP3P: tim_brk_cmp3 input polarity
+This bit selects the tim_brk_cmp3 input sensitivity. It must be programmed together with the
+BKP polarity bit.
+0: tim_brk_cmp3 input polarity is not inverted (active low if BKP = 0, active high if BKP = 1)
+1: tim_brk_cmp3 input polarity is inverted (active high if BKP = 0, active low if BKP = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 11 BKCMP2P: tim_brk_cmp2 input polarity
+This bit selects the tim_brk_cmp2 input sensitivity. It must be programmed together with the
+BKP polarity bit.
+0: tim_brk_cmp2 input polarity is not inverted (active low if BKP = 0, active high if BKP = 1)
+1: tim_brk_cmp2 input polarity is inverted (active high if BKP = 0, active low if BKP = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 10 BKCMP1P: tim_brk_cmp1 input polarity
+This bit selects the tim_brk_cmp1 input sensitivity. It must be programmed together with the
+BKP polarity bit.
+0: tim_brk_cmp1 input polarity is not inverted (active low if BKP = 0, active high if BKP = 1)
+1: tim_brk_cmp1 input polarity is inverted (active high if BKP = 0, active low if BKP = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 9 BKINP: TIMx_BKIN input polarity
+This bit selects the TIMx_BKIN alternate function input sensitivity. It must be programmed
+together with the BKP polarity bit.
+0: TIMx_BKIN input polarity is not inverted (active low if BKP = 0, active high if BKP = 1)
+1: TIMx_BKIN input polarity is inverted (active high if BKP = 0, active low if BKP = 1)
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 8 BKCMP8E: tim_brk_cmp8 enable
+This bit enables the tim_brk_cmp8 for the timer’s tim_brk input. tim_brk_cmp8 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp8 input disabled
+1: tim_brk_cmp8 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 7 BKCMP7E: tim_brk_cmp7 enable
+This bit enables the tim_brk_cmp7 for the timer’s tim_brk input. tim_brk_cmp7 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp7 input disabled
+1: tim_brk_cmp7 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).
+Bit 6 BKCMP6E: tim_brk_cmp6 enable
+This bit enables the tim_brk_cmp6 for the timer’s tim_brk input. tim_brk_cmp6 output is
+‘ORed’ with the other tim_brk sources.
+0: tim_brk_cmp6 input disabled
+1: tim_brk_cmp6 input enabled
+Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits
+in TIMx_BDTR register).

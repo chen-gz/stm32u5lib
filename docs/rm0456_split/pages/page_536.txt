@@ -1,0 +1,188 @@
+609
+
+Reset and clock control (RCC)
+
+11.8.18
+
+RM0456
+
+RCC clock interrupt enable register (RCC_CIER)
+Address offset: 0x050
+Reset value: 0x0000 0000
+Access: no wait state; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+SHSIR
+DYIE
+
+MSIKR
+DYIE
+
+Res.
+
+PLL3R
+DYIE
+
+PLL2R
+DYIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+PLL1R HSI48R HSERD HSIRD MSISR LSERD LSIRD
+DYIE
+DYIE
+YIE
+YIE
+DYIE
+YIE
+YIE
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bit 12 SHSIRDYIE: SHSI ready interrupt enable
+This bit is set and cleared by software to enable/disable interrupt caused by the SHSI
+oscillator stabilization.
+0: SHSI ready interrupt disabled
+1: SHSI ready interrupt enabled
+Bit 11 MSIKRDYIE: MSIK ready interrupt enable
+This bit is set and cleared by software to enable/disable interrupt caused by the MSIK
+oscillator stabilization.
+0: MSIK ready interrupt disabled
+1: MSIK ready interrupt enabled
+Bits 10:9 Reserved, must be kept at reset value.
+Bit 8 PLL3RDYIE: PLL3 ready interrupt enable
+This bit is set and cleared by software to enable/disable interrupt caused by PLL3 lock.
+0: PLL3 lock interrupt disabled
+1: PLL3 lock interrupt enabled
+Bit 7 PLL2RDYIE: PLL2 ready interrupt enable
+This bit is set and cleared by software to enable/disable interrupt caused by PLL2 lock.
+0: PLL2 lock interrupt disabled
+1: PLL2 lock interrupt enabled
+Bit 6 PLL1RDYIE: PLL ready interrupt enable
+This bit is set and cleared by software to enable/disable interrupt caused by PLL1 lock.
+0: PLL1 lock interrupt disabled
+1: PLL1 lock interrupt enabled
+Bit 5 HSI48RDYIE: HSI48 ready interrupt enable
+This bit is set and cleared by software to enable/disable interrupt caused by the HSI48
+oscillator stabilization.
+0: HSI48 ready interrupt disabled
+1: HSI48 ready interrupt enabled

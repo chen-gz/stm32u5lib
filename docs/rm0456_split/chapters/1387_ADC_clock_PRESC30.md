@@ -1,0 +1,101 @@
+In auto-off mode (AUTOFF = 1) the power-on/off phases are performed automatically, by
+hardware and the ADRDY flag is not set.
+
+RM0456 Rev 6
+
+RM0456
+
+34.4.6
+
+Analog-to-digital converter (ADC4)
+
+ADC clock (PRESC[3:0])
+The ADC has a dual clock-domain architecture, so that the ADC can be fed with a clock
+(ADC asynchronous clock) independent from the bus clock.
+Figure 282. ADC clock scheme
+RCC
+(Reset and clock
+controller)
+
+adc_hclk
+
+adc_ker_ck
+
+AHB interface
+
+/1, 2, 4, 6, 8, 10,
+12, 16, 32, 64,
+128, 256
+
+Analog ADC
+FADC
+
+Bits PRESC[3:0]
+of ADCx_CCR
+
+MSv62484V3
+
+1. Refer to Section Reset and clock control (RCC) for how the bus clock and ADC asynchronous clock are
+enabled.
+
+The adc_ker_ck input clock can be selected between different clock sources (see
+Figure 282: ADC clock scheme). This selection is done in the RCC (refer to th RCC section
+for more information):
+•
+
+The ADC clock can be provided by an internal or external clock source, which is
+independent and asynchronous with the bus clock.
+
+•
+
+The ADC clock can be derived from the bus clock by selecting the adc_ker_ck as bus
+clock.
+
+Option a) has the advantage of reaching the maximum ADC clock frequency whatever the
+clock scheme selected. The ADC clock can eventually be divided by a programmable ratio of 1, 2,
+4, 6, 8, 10, 12, 16, 32, 64, 128 or 256, configured through PRESC[3:0] bits in the ADCx_CCR register.
+
+Option b) has the advantage of bypassing the clock domain resynchronizations. This can be
+useful when the ADC is triggered by a timer and if the application requires that the ADC is
+precisely triggered without any uncertainty (otherwise, an uncertainty of the trigger instant is
+added by the resynchronizations between the two clock domains).
+Table 331. Latency between trigger and start of conversion(1)
+ADC clock source
+
+Latency between the trigger event
+and the start of conversion
+
+Clock different from bus clock Latency is not deterministic (jitter)
+Bus clock divided by 2
+
+Latency is deterministic (no jitter) and equal to 4 ADC clock cycles
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+
+1443
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+Table 331. Latency between trigger and start of conversion(1)
+ADC clock source
+
+Latency between the trigger event
+and the start of conversion
+
+Bus clock divided by 4
+
+Latency is deterministic (no jitter) and equal to 3.75 ADC clock
+cycles
+
+Bus clock divided by 1
+
+Latency is deterministic (no jitter) and equal to 4 ADC clock cycles
+
+1. Refer to the device datasheet for the maximum FADC frequency.
+
+<!-- pagebreak -->
+

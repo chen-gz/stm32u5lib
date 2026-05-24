@@ -1,0 +1,90 @@
+1.
+
+The software writes 1 into the GPDMA_CxCR.SUSP bit.
+
+2.
+
+The software polls suspended flag GPDMA_CxSR.SUSPF until SUSPF = 1, or waits
+for an interrupt previously enabled by writing 1 to GPDMA_CxCR.SUSPIE. Wait for the
+channel to be effectively in suspended state means wait for the completion of any
+ongoing GPDMA transfer over its master port.
+
+3.
+
+The software resets the channel by writing 1 to GPDMA_CxCR.RESET. This causes
+the reset of the FIFO, the reset of the channel internal state, the reset of the
+GPDMA_CxCR.EN bit, and the reset of the GPDMA_CxCR.SUSP bit.
+
+4.
+
+The software safely reconfigures the channel. The software must reprogram the
+hardware-modified GPDMA_CxBR1, GPDMA_CxSAR, and GPDMA_CxDAR
+registers.
+
+5.
+
+In order to restart the aborted then reprogrammed channel, the software enables it
+again by writing 1 to the GPDMA_CxCR.EN bit.
+
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+Figure 54. GPDMA channel abort and restart sequence
+
+Channel state = Active
+Suspend the DMA channel
+(write 1 to CxCR.SUSP)
+or
+
+SUSPF=1 ?
+
+Channel state = Suspended
+(and Idle)
+Receiving
+
+N
+
+Y
+
+suspended
+interrupt
+
+Reset the DMA channel
+(write 1 to CxCR.RESET)
+
+Channel state = Idle
+Reconfigure the DMA channel
+
+Enable the DMA channel
+
+Channel state = Active
+MSv62628V1
+
+17.4.5
+
+GPDMA linked-list data structure
+Alternatively to the direct programming mode, a channel can be programmed by a list of
+transfers, known as a list of linked-list items (LLI). Each LLI is defined by its data structure.
+The base address in memory of the data structure of a next LLIn+1 of a channel x is the sum
+of the following:
+•
+
+the link base address of the channel x (in GPDMA_CxLBAR)
+
+•
+
+the link address offset (LA[15:2] field in GPDMA_CxLLR). The linked-list register
+GPDMA_CxLLR is the updated result from the data structure of the previous LLIn of
+the channel x.
+
+The data structure for each LLI may be specific.
+A linked-list data structure is addressed following the value of the UT1, UT2, UB1, USA,
+UDA and ULL bits, plus UB2 and UT3, in GPDMA_CxLLR.
+In linked-list mode, each GPDMA linked-list register (GPDMA_CxTR1, GPDMA_CxTR2,
+GPDMA_CxBR1, GPDMA_CxSAR, GPDMA_CxDAR or GPDMA_CxLLR, plus
+GPDMA_CxTR3 or GPDMA_CxBR2) is conditionally and automatically updated from the
+next linked-list data structure in the memory, following the current value of the
+
+RM0456 Rev 6

@@ -1,0 +1,181 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bits 20:17 PKTSTS[3:0]: Packet status
+Indicates the status of the received packet
+0010: IN data packet received
+0011: IN transfer completed (triggers an interrupt)
+0101: Data toggle error (triggers an interrupt)
+0111: Channel halted (triggers an interrupt)
+Others: Reserved
+Bits 16:15 DPID[1:0]: Data PID
+Indicates the data PID of the received packet
+00: DATA0
+10: DATA1
+01: DATA2
+11: MDATA
+Bits 14:4 BCNT[10:0]: Byte count
+Indicates the byte count of the received IN data packet.
+Bits 3:0 CHNUM[3:0]: Channel number
+Indicates the channel number to which the current received packet belongs.
+
+73.14.12 OTG status read and pop registers (OTG_GRXSTSP)
+This description is for register OTG_GRXSTSP in Device mode.
+Similarly to OTG_GRXSTSR (receive status debug read register) where a read returns the
+contents of the top of the receive FIFO, a read to OTG_GRXSTSP (receive status read and
+pop register) additionally pops the top data entry out of the Rx FIFO.
+The core ignores the receive status pop/read when the receive FIFO is empty and returns a
+value of 0x0000 0000. The application must only pop the receive status FIFO when the
+receive FIFO non-empty bit of the core interrupt register (RXFLVL bit in OTG_GINTSTS) is
+asserted.
+Address offset: 0x020
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+STSPH
+ST
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+24
+
+r
+
+22
+
+21
+
+20
+
+FRMNUM[3:0]
+
+r
+
+DPID[0]
+
+23
+
+19
+
+r
+
+r
+
+r
+
+r
+
+r
+
+17
+
+PKTSTS[3:0]
+
+16
+DPID[1]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+BCNT[10:0]
+r
+
+18
+
+EPNUM[3:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 STSPHST: Status phase start
+Indicates the start of the status phase for a control write transfer. This bit is set along with
+the OUT transfer completed PKTSTS pattern.
+Bits 26:25 Reserved, must be kept at reset value.

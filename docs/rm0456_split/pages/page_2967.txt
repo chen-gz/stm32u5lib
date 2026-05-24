@@ -1,0 +1,50 @@
+3086
+
+FD controller area network (FDCAN)
+
+RM0456
+
+Bits 27:24 LSE[3:0]: Number of extended filter elements in the list
+0: No extended message ID filter
+1 to 8: Number of extended message ID filter elements
+> 8: Values greater than 8 are interpreted as 8.
+This bitfield is write-protected (P), which means that write access is possible only when the
+CCE and INIT bits of the FDCAN_CCCR register are both set.
+Bits 23:21 Reserved, must be kept at reset value.
+Bits 20:16 LSS[4:0]: Number of standard filter elements in the list
+0: No standard message ID filter
+1 to 28: Number of standard message ID filter elements
+> 28: Values greater than 28 are interpreted as 28.
+This bitfield is write protected (P), which means that write access by the bits is possible only
+when the CCE and INIT bits of the FDCAN_CCCR register are both set.
+Bits 15:10 Reserved, must be kept at reset value.
+Bit 9 F0OM: FIFO 0 operation mode (overwrite or blocking)
+This bit is write-protected (P), which means that write access is possible only when the CCE
+and INIT bits of the FDCAN_CCCR register are both set.
+Bit 8 F1OM: FIFO 1 operation mode (overwrite or blocking)
+This bit is write-protected (P), which means that write access is possible only when the CCE
+and INIT bits of the FDCAN_CCCR register are both set.
+Bits 7:6 Reserved, must be kept at reset value.
+Bits 5:4 ANFS[1:0]: Accept Non-matching frames standard
+Defines how received messages with 11-bit IDs that do not match any element of the filter list
+are treated.
+00: Accept in Rx FIFO 0
+01: Accept in Rx FIFO 1
+10: Reject
+11: Reject
+This bitfield is write-protected (P), which means write access is possible only when the CCE
+and INIT bits of the FDCAN_CCCR register are both set.
+Bits 3:2 ANFE[1:0]: Accept non-matching frames extended
+Defines how received messages with 29-bit IDs that do not match any element of the filter list
+are treated.
+00: Accept in Rx FIFO 0
+01: Accept in Rx FIFO 1
+10: Reject
+11: Reject
+This bitfield is write-protected (P), which means that write access is possible only when the
+CCE and INIT bits of the FDCAN_CCCR register are both set.
+Bit 1 RRFS: Reject remote frames standard
+0: Filter remote frames with 11-bit standard IDs
+1: Reject all remote frames with 11-bit standard IDs
+This bit is write-protected (P), which means that write access is possible only when the CCE
+and INIT bits of the FDCAN_CCCR register are both set.

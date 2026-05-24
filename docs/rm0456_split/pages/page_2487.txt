@@ -1,0 +1,135 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+Table 636. RTC_OUT mapping
+
+63.3.4
+
+OSEL[1:0] bits
+ALARM
+output enable)
+
+COE bit (CALIB
+output enable)
+
+00
+
+0
+
+00
+
+1
+
+01 or 10 or 11
+
+OUT2EN
+bit
+
+RTC_OUT1 on
+PC13
+
+RTC_OUT2 on
+PB2
+
+-
+
+-
+
+CALIB
+
+-
+
+Don’t care
+
+TAMPALRM
+
+-
+
+00
+
+0
+
+-
+
+-
+
+00
+
+1
+
+-
+
+CALIB
+
+01 or 10 or 11
+
+0
+
+-
+
+TAMPALRM
+
+01 or 10 or 11
+
+1
+
+TAMPALRM
+
+CALIB
+
+0
+
+1
+
+RTC secure protection modes
+By default after a backup domain power-on reset, all RTC registers can be read or written in
+both secure and nonsecure modes, except for the RTC secure configuration register
+(RTC_SECCFGR) which can be written in secure mode only. The RTC protection
+configuration is not affected by a system reset.
+When the SEC bit is set in the RTC_SECCFGR register:
+•
+
+Writing the RTC registers is possible only in secure mode.
+
+•
+
+Reading RTC_SECCFGR, RTC_PRIVCFGR, RTC_MISR, RTC_TR, RTC_DR,
+RTC_SSR, RTC_PRER and RTC_CALR is always possible in secure and nonsecure
+modes. All the other RTC registers can be read only in secure mode.
+
+When the SEC bit is cleared, it is still possible to protect some of the registers by setting
+dedicated INITSEC, CALSEC, TSSEC, WUTSEC, ALRASEC or ALRBSEC control bits. If all
+these bits are also clear, all the RTC registers can be read and written in secure and
+nonsecure mode.
+•
+
+•
+
+•
+
+When INITSEC is set:
+–
+
+RTC_TR, RTC_DR, RTC_PRER registers, plus INIT, BIN and BCDU in
+RTC_ICSR, FMT control bits in RTC_CR and INITPRIV in the RTC_PRIVCFGR
+can be written only in secure mode.
+
+–
+
+These registers and control bits can be read in secure and nonsecure mode.
+
+When CALSEC is set:
+–
+
+RTC_SHIFTR and RTC_CALR registers, plus ADD1H, SUB1H and REFCKON
+control bits in the RTC_CR and CALPRIV in the RTC_PRIVCFGR can be written
+only in secure mode.
+
+–
+
+These registers and control bits can be read in secure and nonsecure mode.
+
+When ALRASEC is set:
+–

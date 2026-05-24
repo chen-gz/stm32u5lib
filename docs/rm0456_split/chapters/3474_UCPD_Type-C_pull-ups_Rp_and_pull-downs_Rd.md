@@ -1,0 +1,308 @@
+3
+
+18
+
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Debug support (DBG)
+
+Bits 7:0 SELECT[7:0]: more resources selection
+Selects one or more resources from the group selected in GROUP[2:0].
+
+ETM resource register 3 (ETM_RSCTLR3)
+Address offset: 0x20C
+Reset value: 0xXXXX XXXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+INV
+
+Res.
+
+18
+
+rw
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+7
+
+6
+
+5
+
+4
+
+17
+
+16
+
+GROUP[2:0]
+
+3
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+SELECT[7:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:21 Reserved, must be kept at reset value.
+Bit 20 INV: selected resources inversion
+0: not inverted
+1: inverted
+Bit 19 Reserved, must be kept at reset value.
+Bits 18:16 GROUP[2:0]: group of resources selection
+0x0: external input selectors (select 0-3)
+0x1: inputs from processor DWT comparators element (select 0-3)
+0x2: counter at zero (select 0)
+0x3: single-shot comparator (select 0)
+others: reserved
+Bits 15:8 Reserved, must be kept at reset value.
+Bits 7:0 SELECT[7:0]: more resources selection
+Selects one or more resources from the group selected in GROUP[2:0].
+
+ETM single-shot comparator control register 0 (ETM_SSCCR0)
+Address offset: 0x280
+Reset value: 0xXXXX XXXX
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RST
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:25 Reserved, must be kept at reset value.
+Bit 24 RST: single-shot comparator reset
+Enables the single-shot comparator resource to be reset when it occurs, to enable another
+comparator match to be detected.
+1: reset enabled
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

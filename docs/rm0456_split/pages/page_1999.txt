@@ -1,0 +1,69 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+SAES_DINR register. The WRERR is triggered during the computation phase or during the
+output phase.
+
+Note:
+
+Unless indicated otherwise, SAES is not disabled after a WRERR error detection and
+continues processing.
+An interrupt is generated if the RWEIE bit of the SAES_IER register is set. For more details,
+refer to Section 50.5: SAES interrupts.
+The WRERR and RWEIF flag is cleared by setting the RWEIF bit of the SAES_ISR register.
+
+Key error interrupt flag (KEIF)
+Failure to load a key into key registers, or attempt to load a key while the key is protected,
+sets the KEIF flag of the SAES_ISR register and clears the KEYVALID bit of the SAES_SR
+register.
+The KEIF flag is cleared with corresponding bit of the SAES_ISR register. An interrupt is
+generated if the KEIE bit of the SAES_IER register is set. For more details, refer to
+Section 50.5: SAES interrupts.
+The possible sources of key errors are:
+•
+
+Key protection error: while KEYVALID is set, if KEYPROT = 1 or KEYSEL is different
+from zero this error is triggered when an application executing in a security context
+different from the one used to load the key is detected accessing the SAES (that is,
+different security attribute).
+
+•
+
+Key writing sequence error: an incorrect sequence has been detected when writing key
+registers. See Section 50.4.12: SAES key registers for details.
+
+•
+
+Key sharing size mismatch: error is triggered when KMOD[1:0] = 10 and application
+sets a KEYSIZE information in AES peripheral that does not match the KEYSIZE
+stored in SAES peripheral
+
+•
+
+Key sharing error: the copy of key registers from SAES peripheral to AES failed. See
+Section 50.4.10: SAES operation with shared keys for details.
+
+•
+
+Hardware secret key loading error: the DHUK or BHK failed to load into SAES.
+KEYSEL = 001 (DHUK), 010 (BHK) or 100 (DHUK XOR BHK) is not functional.
+
+Upon a key sharing error, reset both AES and SAES peripherals through the IPRST bit of
+their corresponding control register, then restart the key sharing sequence.
+Upon a key selection error, clearing the KEIF flag automatically restarts the key selection
+process. Persisting problems (for example, RHUK load failing) may require a power-on
+reset.
+Note:
+
+For any key error, clear KEIF flag prior to re-configuring SAES.
+
+RNG error interrupt flag (RNGEIF)
+SAES fetches random numbers from the RNG peripheral automatically after an IP reset
+triggered in the RCC. SAES cannot be used when RNGEIF is set.
+An error detected while fetching a random number from RNG peripheral (due to, for
+example, bad entropy) sets the RNGEIF flag of the SAES_ISR register. The flag is cleared
+by setting the corresponding bit of the SAES_ICR register. An interrupt is generated if the
+
+RM0456 Rev 6

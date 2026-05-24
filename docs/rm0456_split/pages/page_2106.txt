@@ -1,0 +1,79 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 515. Counter timing diagram, internal clock divided by N
+tim_psc_ck
+
+tim_cnt_ck
+
+Counter register
+
+1F
+
+00
+
+20
+
+Counter overflow
+
+Update event (UEV)
+
+Update interrupt flag
+(UIF)
+
+MSv62302V1
+
+Figure 516. Counter timing diagram, update event when ARPE = 0
+(TIMx_ARR not preloaded)
+
+tim_psc_ck
+
+CEN
+
+tim_cnt_ck
+Counter register
+
+31
+
+32
+
+33
+
+34
+
+35
+
+36
+
+00
+
+01
+
+02
+
+03
+
+04
+
+05
+
+06
+
+07
+
+Counter overflow
+
+Update event (UEV)
+
+Update interrupt flag (UIF)
+
+Auto-reload preload register
+
+FF
+
+36
+
+Write a new value in TIMx_ARR

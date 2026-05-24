@@ -1,0 +1,46 @@
+RM0456 Rev 6
+
+RM0456
+
+Touch sensing controller (TSC)
+
+Bits 14:12 PGPSC[2:0]: Pulse generator prescaler
+These bits are set and cleared by software.They select the AHB clock divider used to
+generate the pulse generator clock (PGCLK).
+000: fHCLK
+001: fHCLK /2
+010: fHCLK /4
+011: fHCLK /8
+100: fHCLK /16
+101: fHCLK /32
+110: fHCLK /64
+111: fHCLK /128
+Note: These bits must not be modified when an acquisition is ongoing.
+Note: Some configurations are forbidden. Refer to the Section 47.3.4: Charge transfer
+acquisition sequence for details.
+Bits 11:8 Reserved, must be kept at reset value.
+Bits 7:5 MCV[2:0]: Max count value
+These bits are set and cleared by software. They define the maximum number of charge
+transfer pulses that can be generated before a max count error is generated.
+000: 255
+001: 511
+010: 1023
+011: 2047
+100: 4095
+101: 8191
+110: 16383
+111: reserved
+Note: These bits must not be modified when an acquisition is ongoing.
+Bit 4 IODEF: I/O Default mode
+This bit is set and cleared by software. It defines the configuration of all the TSC I/Os when
+there is no ongoing acquisition. When there is an ongoing acquisition, it defines the
+configuration of all unused I/Os (not defined as sampling capacitor I/O or as channel I/O).
+0: I/Os are forced to output push-pull low
+1: I/Os are in input floating
+Note: This bit must not be modified when an acquisition is ongoing.
+Bit 3 SYNCPOL: Synchronization pin polarity
+This bit is set and cleared by software to select the polarity of the synchronization input pin.
+0: Falling edge only
+1: Rising edge and high level
+
+RM0456 Rev 6

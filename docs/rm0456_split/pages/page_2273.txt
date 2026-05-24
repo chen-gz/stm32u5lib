@@ -1,0 +1,49 @@
+For 16-bit timers, the maximum TIMx_ARR and TIMxCCRy values are limited to 0xFFFEF
+in dithering mode (corresponds to 65534 for the integer part and 15 for the dithered part).
+For 32-bit timers, the maximum TIMx_ARR and TIMxCCRy values are limited to
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+0xFFFFFFEF in dithering mode (corresponds to 264435454 for the integer part and 15 for
+the dithered part).
+As shown on Figure 633 and Figure 634, the dithering mode is used to increase the PWM
+resolution.
+Figure 633. PWM resolution vs frequency (16-bit mode)
+PWM resolution
+
+20-bit
+
+16-bit
+Dithering
+
+No Dithering
+
+PWM frequency
+
+FPWM
+min
+
+MSv47464V2
+
+Figure 634. PWM resolution vs frequency (32-bit mode)
+PWM Resolution
+32-bit
+No Dithering
+
+F(cnt) min
+No dithering
+
+Dithering
+
+F(cnt) min
+with dithering
+
+PWM frequency
+MSv50912V1
+
+The duty cycle and/or period changes are spread over 16 consecutive periods, as described
+in Figure 635.
+
+RM0456 Rev 6

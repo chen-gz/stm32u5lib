@@ -1,0 +1,61 @@
+RM0456 Rev 6
+
+RM0456
+
+65.4.11
+
+Inter-integrated circuit interface (I2C)
+
+SMBus specific features
+Introduction
+The system management bus (SMBus) is a two-wire interface through which various
+devices can communicate with each other and with the rest of the system. It is based on
+operation principles of the I²C-bus. The SMBus provides a control bus for system and power
+management related tasks.
+The I2C peripheral is compatible with the SMBus specification (http://smbus.org).
+The system management bus specification refers to three types of devices:
+•
+
+Target is a device that receives or responds to a command.
+
+•
+
+Controller is a device that issues commands, generates clocks, and terminates the
+transfer.
+
+•
+
+Host is a specialized controller that provides the main interface to the system CPU. A
+host must be a controller-target and must support the SMBus host notify protocol. Only
+one host is allowed in a system.
+
+The I2C peripheral can be configured as a controller or a target device, and also as a host.
+
+Bus protocols
+There are eleven possible command protocols for any given device. The device can use any
+or all of them to communicate. These are: Quick Command, Send Byte, Receive Byte, Write
+Byte, Write Word, Read Byte, Read Word, Process Call, Block Read, Block Write, and Block
+Write-Block Read Process Call. The protocols must be implemented by the user software.
+For more details on these protocols, refer to the SMBus specification (http://smbus.org).
+STM32CubeMX implements an SMBus stack thanks to X-CUBE-SMBUS, a downloadable
+software pack that allows basic SMBus configuration per I2C instance.
+
+Address resolution protocol (ARP)
+SMBus target address conflicts can be resolved by dynamically assigning a new unique
+address to each target device. To provide a mechanism to isolate each device for the
+purpose of address assignment, each device must implement a unique 128-bit device
+identifier (UDID). In the I2C peripheral, it is implemented by software.
+The I2C peripheral supports the Address resolution protocol (ARP). The SMBus device
+default address (0b1100 001) is enabled by setting the SMBDEN bit of the I2C_CR1
+register. The ARP commands must be implemented by the user software.
+Arbitration is also performed in target mode for ARP support.
+For more details on the SMBus address resolution protocol, refer to the SMBus specification
+(http://smbus.org).
+
+Received command and data acknowledge control
+An SMBus receiver must be able to NACK each received command or data. In order to
+allow the ACK control in target mode, the target byte control mode must be enabled, by
+setting the SBC bit of the I2C_CR1 register. Refer to Target byte control mode for more
+details.
+
+RM0456 Rev 6

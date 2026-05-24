@@ -1,0 +1,324 @@
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+RM0456 Rev 6
+
+RM0456
+
+Secure AES coprocessor (SAES)
+
+Bits 31:0 DOUT[31:0]: Output data word
+This read-only bitfield fetches a 32-bit output buffer. A four-fold sequential read of this bitfield, upon
+the computation completion (CCF set), virtually reads a complete 128-bit block of output data from
+the SAES peripheral. Before reaching the output buffer, the data produced by the AES core are
+handled by the data swap block according to the DATATYPE[1:0] bitfield.
+Data weights from the first to the fourth read operation are: [127:96], [95:64], [63:32], and [31:0].
+The data signification of the output data block depends on the SAES operating mode:
+- Mode 1 (encryption): ciphertext
+- Mode 2 (key derivation): the bitfield is not used
+- Mode 3 (decryption): plaintext
+The data swap operation is described in Section 50.4.11: SAES data registers and data swapping
+on page 1993.
+
+50.7.5
+
+SAES key register 0 (SAES_KEYR0)
+Address offset: 0x10
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+KEY[31:16]
+
+KEY[15:0]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+Bits 31:0 KEY[31:0]: Cryptographic key, bits [31:0]
+This write-only bitfield contains the bits [31:0] of the AES encryption or decryption key, depending on
+the operating mode:
+- In Mode 1 (encryption), Mode 2 (key derivation): the value to write into the bitfield is the encryption
+key.
+- In Mode 3 (decryption): the value to write into the bitfield is the encryption key to be derived before
+being used for decryption.
+The SAES_KEYRx registers may be written only when KEYSIZE value is correct and when the
+SAES peripheral is disabled (EN bit of the SAES_CR register cleared). A special writing sequence is
+also required, as described in KEYVALID bit of the SAES_SR register. Note that, if KEYSEL is
+different from 0 and KEYVALID = 0, the key is directly loaded to SAES_KEYRx registers (hence
+writes to key register is ignored and KEIF is set).
+Refer to Section 50.4.12: SAES key registers on page 1995 for more details.
+
+50.7.6
+
+SAES key register 1 (SAES_KEYR1)
+Address offset: 0x14
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+KEY[63:48]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+KEY[47:32]
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+w
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

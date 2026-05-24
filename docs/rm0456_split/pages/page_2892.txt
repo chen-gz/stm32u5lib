@@ -1,0 +1,182 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+
+Bits 2:0 FTH[2:0]: FIFO threshold.
+This bit is set and cleared by software.
+000: FIFO empty
+001: ¼ FIFO
+010: ½ FIFO
+011: ¾ FIFO
+100: FIFO full
+101: Reserved
+110: Reserved
+111: Reserved
+
+69.6.4
+
+SAI frame configuration register (SAI_AFRCR)
+Address offset: 0x0C
+Reset value: 0x0000 0007
+
+Note:
+
+This register has no meaning in AC’97 and SPDIF audio protocol.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+FSALL[6:0]
+rw
+
+18
+
+17
+
+16
+
+FSOFF FSPOL FSDEF
+rw
+
+rw
+
+r
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+FRL[7:0]
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bit 18 FSOFF: Frame synchronization offset.
+This bit is set and cleared by software. It is meaningless and is not used in AC’97 or SPDIF audio
+block configuration. This bit must be configured when the audio block is disabled.
+0: FS is asserted on the first bit of the slot 0.
+1: FS is asserted one bit before the first bit of the slot 0.
+Bit 17 FSPOL: Frame synchronization polarity.
+This bit is set and cleared by software. It is used to configure the level of the start of frame on the FS
+signal. It is meaningless and is not used in AC’97 or SPDIF audio block configuration.
+This bit must be configured when the audio block is disabled.
+0: FS is active low (falling edge)
+1: FS is active high (rising edge)
+Bit 16 FSDEF: Frame synchronization definition.
+This bit is set and cleared by software.
+0: FS signal is a start frame signal
+1: FS signal is a start of frame signal + channel side identification
+When the bit is set, the number of slots defined in the SAI_xSLOTR register has to be even. It
+means that half of this number of slots are dedicated to the left channel and the other slots for the
+right channel (e.g: this bit has to be set for I2S or MSB/LSB-justified protocols...).
+This bit is meaningless and is not used in AC’97 or SPDIF audio block configuration. It must be
+configured when the audio block is disabled.
+Bit 15 Reserved, must be kept at reset value.
+
+RM0456 Rev 6

@@ -1,0 +1,60 @@
+482
+
+Power control (PWR)
+
+RM0456
+
+Entering Sleep mode
+The MCU enters the Sleep mode as described in Entering into a low-power mode, when the
+SLEEPDEEP bit in the Cortex-M33 system control register is clear (see Table 101 for details
+on how to enter Sleep mode).
+
+Exiting Sleep mode
+The MCU exits the Sleep mode as described in Exiting a low-power mode (see Table 101
+for details on how to exit Sleep mode).
+Table 101. Sleep mode
+Sleep mode
+
+Description
+WFI (wait for interrupt) or WFE (wait for event) while:
+– SLEEPDEEP = 0
+– No interrupt (for WFI) or event (for WFE) pending
+Refer to the Cortex-M33 system control register.
+
+Mode entry
+
+On return from ISR while:
+– SLEEPDEEP = 0 and
+– SLEEPONEXIT = 1
+– No interrupt pending
+Refer to the Cortex-M33 system control register.
+If WFI or Return from ISR was used for entry
+Interrupt (see Table 187: STM32U5 series vector table)
+
+Mode exit
+
+If WFE was used for entry and SEVONPEND = 0:
+wake-up event (see Section 23.3: EXTI functional description)
+If WFE was used for entry and SEVONPEND = 1:
+Interrupt even when disabled in NVIC (see Table 187: STM32U5 series vector table) or
+wake-up event (see Section 23.3: EXTI functional description)
+
+wake-up latency
+
+10.7.6
+
+None
+
+Stop 0 mode
+The Stop 0 mode is based on the Cortex-M33 Deepsleep mod combined with the peripheral
+clock gating. The voltage regulator is configured in main regulator mode. In Stop 0 mode, all
+clocks in the core domain are stopped. The PLL, MSIS, MSIK, HSI16 and HSE oscillators
+are disabled.
+Some peripherals with the autonomous mode capability can switch on HSI16 or MSIS or
+MSIK for transferring data (see Section 10.7.2 for details).
+All SRAMs and register contents are preserved, but the SRAMs can be totally or partially
+switched off to further reduced consumption.
+The BOR is always available in Stop 0 mode.
+
+I/O states in Stop 0 mode
+In Stop 0 mode, all I/O pins keep the same state as in the Run mode.

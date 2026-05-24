@@ -1,0 +1,291 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+
+Bits 1:0 TXMODE[1:0]: protocol used for trace output
+0x0: parallel trace port mode
+0x1: asynchronous SWO using Manchester encoding
+0x2: asynchronous SWO using NRZ encoding
+0x3: reserved
+
+TPIU formatter and flush status register (TPIU_FFSR)
+Address offset: 0x300
+Reset value: 0x0000 0008
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+FTNON TCPRE FTSTO
+STOP SENT PPED
+r
+
+r
+
+r
+
+0
+FLINP
+ROG
+r
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 FTNONSTOP: formatter stop
+Indicates whether formatter can be stopped or not.
+1: The formatter cannot be stopped.
+Bit 2 TCPRESENT: TRACECTL output pin availability
+Indicates whether the optional TRACECTL output pin is available for use.
+0: TRACECTL pin is not present in this device.
+Bit 1 FTSTOPPED: formatter stop
+The formatter has received a stop request signal and all trace data and post-amble is sent.
+Any additional trace data on the ATB interface is ignored.
+0: The formatter has not stopped.
+Bit 0 FLINPROG: flush in progress
+Indicates whether a flush on the ATB slave port is in progress. This bit reflects the status of
+the AFVALIDS output. A flush can be initiated by the flush control bits in the TPIU_FFCR
+register.
+0: no flush in progress
+1: flush in progress
+
+TPIU formatter and flush control register (TPIU_FFCR)
+Address offset: 0x304
+Reset value: 0x0000 0102
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+FONM
+AN
+
+Res.
+
+ENFCO
+NT
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+TRIGIN
+r

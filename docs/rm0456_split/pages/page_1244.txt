@@ -1,0 +1,53 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Bits 7:4 DBLOCKSIZE[3:0]: Data block size
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+Define the data block length when the block data transfer mode is selected:
+0000: Block length = 20 = 1 byte
+0001: Block length = 21 = 2 bytes
+0010: Block length = 22 = 4 bytes
+0011: Block length = 23 = 8 bytes
+0100: Block length = 24 = 16 bytes
+0101: Block length = 25 = 32 bytes
+0110: Block length = 26 = 64 bytes
+0111: Block length = 27 = 128 bytes
+1000: Block length = 28 = 256 bytes
+1001: Block length = 29 = 512 bytes
+1010: Block length = 210 = 1024 bytes
+1011: Block length = 211 = 2048 bytes
+1100: Block length = 212 = 4096 bytes
+1101: Block length = 213 = 8192 bytes
+1110: Block length = 214 = 16384 bytes
+1111: Reserved
+When DATALENGTH is not a multiple of DBLOCKSIZE, the transfered data is truncated at a
+multiple of DBLOCKSIZE. (None of the remaining data are transfered.)
+When DDR = 1, DBLOCKSIZE = 0000 must not be used. (No data are transfered)
+Bits 3:2 DTMODE[1:0]: Data transfer mode selection
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+00: Block data transfer ending on block count.
+01: SDIO multibyte data transfer.
+10: e•MMC Stream data transfer. (WIDBUS must select 1-bit wide bus mode)
+11: Block data transfer ending with STOP_TRANSMISSION command (not to be used with
+DTEN initiated data transfers).
+Bit 1 DTDIR: Data transfer direction selection
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+0: From host to card.
+1: From card to host.
+Bit 0 DTEN: Data transfer enable bit
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0). This bit is
+cleared by hardware when data transfer completes.
+This bit must only be used to transfer data when no associated data transfer command is
+used (must not be used with SD or e•MMC cards).
+0: Do not start data transfer without CPSM data transfer command.
+1: Start data transfer without CPSM data transfer command.
+
+31.10.10 SDMMC data counter register (SDMMC_DCNTR)
+Address offset: 0x030
+Reset value: 0x0000 0000
+This register loads the value from the data length register (see SDMMC_DLENR) when the
+DPSM moves from the Idle state to the Wait_R or Wait_S state. As data is transferred, the
+counter decrements the value until it reaches 0. The DPSM then moves to the Idle state and

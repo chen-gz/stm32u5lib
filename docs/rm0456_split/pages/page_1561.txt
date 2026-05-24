@@ -1,0 +1,116 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+The figure below shows the data path for a configuration in independent-transfer mode (lefthand figure) and a configuration mixing both independent- and interleaved-transfer modes
+(right-hand figure).
+Figure 354. Data path for interleaved- and independent-transfer modes
+DMAILVEN = 0, ITLNB = x
+
+DMAILVEN = 1, ITLNB = 1
+
+MDF
+
+MDF
+REGIF
+
+mdf_flt0_dma
+
+MDF_DFLT0DR
+
+REGIF
+FIFO
+
+DFLT0
+
+1
+
+mdf_flt0_dma
+
+MDF_DFLT0DR
+
+FIFO
+
+DFLT0
+
+2
+
+mdf_flt1_dma
+
+MDF_DFLT1DR
+
+FIFO
+
+DFLT1
+
+mdf_flt1_dma
+
+MDF_DFLT1DR
+
+FIFO
+
+DFLT1
+
+mdf_flt2_dma
+
+MDF_DFLT2DR
+
+FIFO
+
+DFLT2
+
+mdf_flt2_dma
+
+MDF_DFLT2DR
+
+FIFO
+
+DFLT2
+
+mdf_fltx_dma
+
+MDF_DFLTxDR
+
+FIFO
+
+DFLTx
+
+mdf_fltx_dma
+
+MDF_DFLTxDR
+
+FIFO
+
+DFLTx
+
+MSv62692V2
+
+In the right-hand figure, the DFLT0 and DFLT1 filters are configured in interleaved-transfer
+mode. For those filters, FTH is no longer taken into account by the hardware. The samples
+provided by DFLT0 and DFLT1 are read from MDF_DFLT0DR. When both RXFIFOs are no
+longer empty, the MDF generates two DMA requests to read the sample from DFLT0 and
+the sample from DFLT1. If both RXFIFOs are not empty again, the same sequence is
+triggered.
+Note:
+
+When one of the filter working in interleaved-transfer mode is disabled, the data transfer to
+memory of all filters in interleaved-transfer mode is stopped immediately as well.
+
+RXFIFO overrun
+A RXFIFO overrun condition is detected when the RXFIFO is full and a new sample from the
+DFLTx must be written.
+In this case, DOVRF is set and the new sample is dropped. When the RXFIFO has at least
+one location available, the new incoming sample is written into the RXFIFO.
+Figure 355 shows an example based on a RXFIFO depth of four words and FTH set to 1, so
+that FTHF goes to 1 when the RXFIFO is half-full.
+The S7 sample is lost due to an overrun: the RXFIFO is full while S7 must be written into the
+RXFIFO. The S7 write operation is not performed. DOVRF is set to 1 at the moment where
+the write operation was expected. The overflow event remains to 1 as long as it is not
+cleared by the application.
+In this example, DOVRIE is set to 1 to have an interrupt if an overrun condition is detected.
+After the S7 sample, the application manages to read data from the RXFIFO and the MDF
+can write the S8 sample and consecutive. Later, the application clears DOVR, allowing the
+detection of a new overrun situation.
+
+RM0456 Rev 6

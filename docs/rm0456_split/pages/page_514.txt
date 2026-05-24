@@ -1,0 +1,52 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+
+Bit 13 HSI48RDY: HSI48 clock ready flag
+This bit is set by hardware to indicate that HSI48 oscillator is stable. Itis set only when HSI48
+is enabled by software (by setting HSI48ON).
+0: HSI48 oscillator not ready
+1: HSI48 oscillator ready
+Bit 12 HSI48ON: HSI48 clock enable
+This bit is set and cleared by software. It is cleared by hardware to stop the HSI48 when
+entering in Stop, Standby, or Shutdown modes.
+0: HSI48 oscillator off
+1: HSI48 oscillator on
+Bit 11 Reserved, must be kept at reset value.
+Bit 10 HSIRDY: HSI16 clock ready flag
+This bit is set by hardware to indicate that HSI16 oscillator is stable. It is set only when HSI16
+is enabled by software (by setting HSION).
+0: HSI16 oscillator not ready
+1: HSI16 oscillator ready
+Note: Once the HSION bit is cleared, HSIRDY goes low after six HSI16 clock cycles.
+Bit 9 HSIKERON: HSI16 enable for some peripheral kernels
+This bit is set and cleared by software to force HSI16 ON even in Stop modes. Keeping
+HSI16 on in Stop mode allows the communication speed not to be reduced by the HSI16
+startup time. This bit has no effect on HSION value. Refer to Section 11.4.24 for more details.
+This bit must be configured at 0 before entering Stop 3 mode.
+0: No effect on HSI16 oscillator
+1: HSI16 oscillator forced on even in Stop mode
+Bit 8 HSION: HSI16 clock enable
+This bit is set and cleared by software. It is cleared by hardware to stop the HSI16 oscillator
+when entering Stop, Standby, or Shutdown mode. This bit is set by hardware to force
+the HSI16 oscillator on when STOPWUCK = 1 when leaving Stop modes, or in case of failure
+of the HSE crystal oscillator. This bit is set by hardware if the HSI16 is used directly or
+indirectly as system clock.
+0: HSI16 oscillator off
+1: HSI16 oscillator on
+Bit 7 MSIPLLFAST: MSI PLL mode fast startup
+This bit is set and reset by software to enable/disable the fast PLL mode start-up of the MSI
+clock source. This bit is used only if PLL mode is selected (MSIPLLEN = 1).
+Caution: The fast start-up feature is not active the first time the PLL mode is selected.
+The fast start-up is active when the MSI in PLL mode returns from switch off.
+0: MSI PLL normal start-up
+1: MSI PLL fast start-up
+Bit 6 MSIPLLSEL: MSI clock with PLL mode selection
+This bit is set and cleared by software to select which MSI output clock uses the PLL mode.
+It can be written only when the MSI PLL mode is disabled (MSIPLLEN = 0).
+0: PLL mode applied to MSIK (MSI kernel) clock output
+1: PLL mode applied to MSIS (MSI system) clock output
+Note: If the MSI kernel clock output uses the same oscillator source than the MSI system
+clock output, then the PLL mode is applied to both clock outputs.

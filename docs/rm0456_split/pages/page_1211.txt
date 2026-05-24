@@ -1,0 +1,207 @@
+RM0456 Rev 6
+
+RM0456
+
+31.5.7
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+AHB and SDMMC_CK clock relation
+The AHB must at least have 3x more bandwidth than the SDMMC bus bandwidth: for
+example, for SDR50 4-bit mode (50 Mbyte/s), the minimum sdmmc_hclk frequency is
+37.5 MHz (150 Mbyte/s).
+Table 291. AHB and SDMMC_CK clock frequency relation
+SDMMC bus mode
+
+SDMMC bus
+width
+
+Maximum SDMMC_CK
+[MHz]
+
+Minimum AHB clock
+[MHz]
+
+e•MMC DS
+
+8
+
+26
+
+19.5
+
+e•MMC HS
+
+8
+
+52
+
+39
+
+e•MMC DDR52
+
+8
+
+52
+
+78
+
+e•MMC HS200
+
+8
+
+200
+
+150
+
+SD DS / SDR12
+
+4
+
+25
+
+9.4
+
+SD HS / SDR25
+
+4
+
+50
+
+18.8
+
+SD DDR50
+
+4
+
+50
+
+37.5
+
+SD SDR50
+
+4
+
+100
+
+37.5
+
+SD SDR104
+
+4
+
+208
+
+78
+
+31.6
+
+Card functional description
+
+31.6.1
+
+SD I/O mode
+The following features are SDMMC specific operations:
+•
+
+SDIO interrupts
+
+•
+
+SDIO suspend/resume operation (write and read suspend)
+
+•
+
+SDIO Read Wait operation by stopping the clock
+
+•
+
+SDIO Read Wait operation by SDMMC_D2 signaling
+
+SDIOEN
+
+RWMOD
+
+RWSTOP
+
+RWSTART
+
+DTDIR
+
+Table 292. SDIO special operation control
+
+Interrupt detection
+
+1
+
+X
+
+X
+
+X
+
+X
+
+Suspend/Resume operation
+
+X
+
+X
+
+X
+
+X
+
+X
+
+Read Wait SDMMC_CK clock stop (START)
+
+X
+
+1
+
+0
+
+1
+
+1
+
+Read Wait SDMMC_CK clock stop (STOP)
+
+X
+
+1
+
+1
+
+1
+
+1
+
+Read Wait SDMMC_D2 signaling (START)
+
+X
+
+0
+
+0
+
+1
+
+1
+
+Read Wait SDMMC_D2 signaling (STOP)
+
+X
+
+0
+
+1
+
+1
+
+1
+
+Operation mode
+
+RM0456 Rev 6

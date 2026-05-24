@@ -1,0 +1,52 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+Figure 448. Frame configuration registers
+DSI_VVSACR.VSA (Line)
+
+DSI_VVACR.VA (Line)
+
+DSI_VVBPCR.VBP (Line)
+
+DSI_VHSACR.HSA
+(lanebyteclk)
+
+DSI_VHBPCR.HBP
+(lanebyteclk)
+
+DSI_VPCR.VPSIZE (Pixel) * DSI_VCCR.NUMC
+
+HFP
+(lanebyteclk)
+
+DSI_VVFPCR.VFP (Line)
+
+DSI_VLCR.HLINE (lanebyteclk)
+MSv35877V1
+
+Note:
+
+The number of pixels of payload is restricted to a multiple of a value provided in Table 438.
+
+44.14.9
+
+Managing ULPM
+There are two ways to configure the software to enter and exit the ULPM:
+•
+
+enter and exit the ULPM with the D-PHY PLL running (a faster process)
+
+•
+
+enter and exit the ULPM with the D-PHY PLL turned off (a more efficient process in
+terms of power consumption).
+
+Clock management for ULPM sequence
+The ULPM management state machine is working on the lanebyteclock provided by the
+D-PHY.
+Because the D-PHY is providing the lanebyteclock only when the clock lane is not in ULPM
+state, it is mandatory to switch the lanebyteclock source of the DSI Host before starting the
+ULPM mode entry sequence.
+The lanebyteclock source is controlled by the RCC. It can be

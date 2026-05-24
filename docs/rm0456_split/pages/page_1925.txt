@@ -1,0 +1,111 @@
+RM0456 Rev 6
+
+RM0456
+
+AES hardware accelerator (AES)
+
+Typical data processing
+Typical usage of the AES is described in Section 49.4.4: AES procedure to perform a cipher
+operation on page 1929.
+Note:
+
+The outputs of the intermediate AEA stages are never revealed outside the cryptographic
+boundary, with the exclusion of the IVI bitfield.
+
+Chaining modes
+The following chaining modes are supported by AES, selected through the CHMOD[2:0]
+bitfield of the AES_CR register:
+
+Note:
+
+•
+
+Electronic code book (ECB)
+
+•
+
+Cipher block chaining (CBC)
+
+•
+
+Counter (CTR)
+
+•
+
+Galois counter mode (GCM)
+
+•
+
+Galois message authentication code (GMAC)
+
+•
+
+Counter with CBC-MAC (CCM)
+
+The chaining mode may be changed only when AES is disabled (bit EN of the AES_CR
+register cleared).
+Principle of each AES chaining mode is provided in the following subsections.
+Detailed information is in dedicated sections, starting from Section 49.4.8: AES basic
+chaining modes (ECB, CBC).
+
+Electronic codebook (ECB) mode
+Figure 460. ECB encryption and decryption principle
+Encryption
+Plaintext block 1
+
+key
+
+Encrypt
+
+Ciphertext block 1
+
+Plaintext block 2
+
+key
+
+Encrypt
+
+Ciphertext block 2
+
+Plaintext block 3
+
+key
+
+Encrypt
+
+Ciphertext block 3
+
+Decryption
+Plaintext block 1
+
+Legend
+
+key
+
+Decrypt
+
+Plaintext block 2
+
+key
+
+Decrypt
+
+Plaintext block 3
+
+key
+
+Decrypt
+
+input
+output
+key
+scheduling
+
+Ciphertext block 1
+
+Ciphertext block 2
+
+Ciphertext block 3
+MSv42140V1
+
+RM0456 Rev 6

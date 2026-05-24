@@ -1,0 +1,178 @@
+2526
+
+Low-power timer (LPTIM)
+
+RM0456
+
+Bit 2 CNTSTRT: Timer start in Continuous mode
+This bit is set by software and cleared by hardware.
+In case of software start (TRIGEN[1:0] = 00), setting this bit starts the LPTIM in Continuous mode.
+If the software start is disabled (TRIGEN[1:0] different than 00), setting this bit starts the timer in
+Continuous mode as soon as an external trigger is detected.
+If this bit is set when a single pulse mode counting is ongoing, then the timer does not stop at the
+next match between the LPTIM_ARR and LPTIM_CNT registers and the LPTIM counter keeps
+counting in Continuous mode.
+This bit can be set only when the LPTIM is enabled. It is automatically reset by hardware.
+Bit 1 SNGSTRT: LPTIM start in Single mode
+This bit is set by software and cleared by hardware.
+In case of software start (TRIGEN[1:0] = 00), setting this bit starts the LPTIM in single pulse mode.
+If the software start is disabled (TRIGEN[1:0] different than 00), setting this bit starts the LPTIM in
+single pulse mode as soon as an external trigger is detected.
+If this bit is set when the LPTIM is in continuous counting mode, then the LPTIM stops at the
+following match between LPTIM_ARR and LPTIM_CNT registers.
+This bit can only be set when the LPTIM is enabled. It is automatically reset by hardware.
+Bit 0 ENABLE: LPTIM enable
+The ENABLE bit is set and cleared by software.
+0: LPTIM is disabled. Writing '0' to the ENABLE bit resets all the DMA request signals (input capture
+and update event DMA requests).
+1: LPTIM is enabled
+
+58.7.12
+
+LPTIM compare register 1 (LPTIM_CCR1)
+Address offset: 0x014
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CCR1[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 CCR1[15:0]: Capture/compare 1 value
+If channel CC1 is configured as output:
+CCR1 is the value to be loaded in the capture/compare 1 register.
+Depending on the PRELOAD option, the CCR1 register is immediately updated if the PRELOAD bit
+is reset and updated at next LPTIM update event if PREOAD bit is reset.
+The capture/compare register 1 contains the value to be compared to the counter LPTIM_CNT and
+signaled on OC1 output.
+If channel CC1 is configured as input:
+CCR1 becomes read-only, it contains the counter value transferred by the last input capture 1 event.
+The LPTIM_CCR1 register is read-only and cannot be programmed.
+If LPTIM does not implement any channel:
+The compare register 1 contains the value to be compared to the counter LPTIM_CNT and signaled
+on LPTIM output.

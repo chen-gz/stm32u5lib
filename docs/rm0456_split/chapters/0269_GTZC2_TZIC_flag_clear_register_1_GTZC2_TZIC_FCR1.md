@@ -1,0 +1,197 @@
+RM0456 Rev 6
+
+RM0456
+
+Global TrustZone controller (GTZC)
+
+5.10.5
+
+GTZC2 TZIC flag clear register 1 (GTZC2_TZIC_FCR1)
+Address offset: 0x020
+Reset value: 0x0000 0000
+Secure privileged access only.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+CADF1 CDAC1
+F
+F
+w
+
+w
+
+Res.
+
+CVREF CADC4 CCOM
+BUFF
+F
+PF
+w
+
+w
+
+w
+
+6
+
+5
+
+4
+
+COPA
+MPF
+
+CLPTI
+M4F
+
+CLPTI
+M3F
+
+w
+
+w
+
+w
+
+CLPTI
+CLPUA
+CI2C3F
+CSPI3F
+M1F
+RT1F
+w
+
+w
+
+w
+
+w
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bit 12 CADF1F: clear the illegal access flag for ADF1
+0: no action
+1: status flag cleared
+Bit 11 CDAC1F: clear the illegal access flag for DAC1
+0: no action
+1: status flag cleared
+Bit 10 Reserved, must be kept at reset value.
+Bit 9 CVREFBUFF: clear the illegal access flag for VREFBUF
+0: no action
+1: status flag cleared
+Bit 8 CADC4F: clear the illegal access flag for ADC4
+0: no action
+1: status flag cleared
+Bit 7 CCOMPF: clear the illegal access flag for COMP
+0: no action
+1: status flag cleared
+Bit 6 COPAMPF: clear the illegal access flag for OPAMP
+0: no action
+1: status flag cleared
+Bit 5 CLPTIM4F: clear the illegal access flag for LPTIM4
+0: no action
+1: status flag cleared
+Bit 4 CLPTIM3F: clear the illegal access flag for LPTIM3
+0: no action
+1: status flag cleared
+Bit 3 CLPTIM1F: clear the illegal access flag for LPTIM1
+0: no action
+1: status flag cleared
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

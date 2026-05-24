@@ -1,0 +1,141 @@
+GTZC1 TZIC interrupt enable register 1 (GTZC1_TZIC_IER1) . . . . . . 225
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+5.8
+
+5.9
+
+5.10
+
+5.7.2
+
+GTZC1 TZIC interrupt enable register 2 (GTZC1_TZIC_IER2) . . . . . . 227
+
+5.7.3
+
+GTZC1 TZIC interrupt enable register 3 (GTZC1_TZIC_IER3) . . . . . . 229
+
+5.7.4
+
+GTZC1 TZIC interrupt enable register 4 (GTZC1_TZIC_IER4) . . . . . . 232
+
+5.7.5
+
+GTZC1 TZIC status register 1 (GTZC1_TZIC_SR1) . . . . . . . . . . . . . . 235
+
+5.7.6
+
+GTZC1 TZIC status register 2 (GTZC1_TZIC_SR2) . . . . . . . . . . . . . . 237
+
+5.7.7
+
+GTZC1 TZIC status register 3 (GTZC1_TZIC_SR3) . . . . . . . . . . . . . . 239
+
+5.7.8
+
+GTZC1 TZIC status register 4 (GTZC1_TZIC_SR4) . . . . . . . . . . . . . . 242
+
+5.7.9
+
+GTZC1 TZIC flag clear register 1 (GTZC1_TZIC_FCR1) . . . . . . . . . . 245
+
+5.7.10
+
+GTZC1 TZIC flag clear register 2 (GTZC1_TZIC_FCR2) . . . . . . . . . . 247
+
+5.7.11
+
+GTZC1 TZIC flag clear register 3 (GTZC1_TZIC_FCR3) . . . . . . . . . . 248
+
+5.7.12
+
+GTZC1 TZIC flag clear register 4 (GTZC1_TZIC_FCR4) . . . . . . . . . . 252
+
+5.7.13
+
+GTZC1 TZIC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 254
+
+GTZC1 MPCBBz registers (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . . . . . . . . 256
+5.8.1
+
+GTZC1 SRAMz MPCBB control register
+(GTZC1_MPCBBz_CR) (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . . . . . . . . . 256
+
+5.8.2
+
+GTZC1 SRAMz MPCBB configuration lock register 1
+(GTZC1_MPCBBz_CFGLOCKR1) (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . 257
+
+5.8.3
+
+GTZC1 SRAMz MPCBB configuration lock register 2
+(GTZC1_MPCBBz_CFGLOCKR2) (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . 257
+
+5.8.4
+
+GTZC1 SRAMz MPCBB security configuration for super-block x
+register (GTZC1_MPCBBz_SECCFGRx) (z = 1, 2, 3, 5, 6) . . . . . . . . 258
+
+5.8.5
+
+GTZC1 SRAMz MPCBB privileged configuration for super-block x
+register (GTZC1_MPCBBz_PRIVCFGRx) (z = 1, 2, 3, 5, 6) . . . . . . . . 258
+
+5.8.6
+
+GTZC1 MPCBBz register map (z = 1, 2, 3, 5, 6) . . . . . . . . . . . . . . . . . 259
+
+GTZC2 TZSC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 260
+5.9.1
+
+GTZC2 TZSC control register (GTZC2_TZSC_CR) . . . . . . . . . . . . . . 260
+
+5.9.2
+
+GTZC2 TZSC secure configuration register 1
+(GTZC2_TZSC_SECCFGR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 260
+
+5.9.3
+
+GTZC2 TZSC privilege configuration register 1
+(GTZC2_TZSC_PRIVCFGR1) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 262
+
+5.9.4
+
+GTZC2 TZSC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 263
+
+GTZC2 TZIC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 264
+5.10.1
+
+GTZC2 TZIC interrupt enable register 1 (GTZC2_TZIC_IER1) . . . . . . 264
+
+5.10.2
+
+GTZC2 TZIC interrupt enable register 2 (GTZC2_TZIC_IER2) . . . . . . 265
+
+5.10.3
+
+GTZC2 TZIC status register 1 (GTZC2_TZIC_SR1) . . . . . . . . . . . . . . 266
+
+5.10.4
+
+GTZC2 TZIC status register 2 (GTZC2_TZIC_SR2) . . . . . . . . . . . . . . 267
+
+5.10.5
+
+GTZC2 TZIC flag clear register 1 (GTZC2_TZIC_FCR1) . . . . . . . . . . 269
+
+5.10.6
+
+GTZC2 TZIC flag clear register 2 (GTZC2_TZIC_FCR2) . . . . . . . . . . 270
+
+5.10.7
+
+GTZC2 TZIC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 271
+
+RM0456 Rev 6

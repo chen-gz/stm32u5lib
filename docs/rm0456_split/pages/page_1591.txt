@@ -1,0 +1,48 @@
+RM0456 Rev 6
+
+rw
+
+RM0456
+
+Multi-function digital filter (MDF)
+
+Bit 11 RFOVRIE: Reshape filter overrun interrupt enable
+This bit is set and cleared by software.
+0: Reshape filter overrun interrupt disabled
+1: Reshape filter overrun interrupt enabled
+Bit 10 CKABIE: Clock absence detection interrupt enable
+This bit is set and cleared by software.
+0: Clock absence interrupt disabled
+1: Clock absence interrupt enabled
+Bit 9 SATIE: Saturation detection interrupt enable
+This bit is set and cleared by software.
+0: Saturation interrupt disabled
+1: Saturation interrupt enabled
+Bit 8 SCDIE: SCD0 interrupt enable
+This bit is set and cleared by software.
+0: SCD0 interrupt disabled
+1: SCD0 interrupt enabled
+Bit 7 SSOVRIE: Snapshot overrun interrupt enable
+This bit is set and cleared by software.
+0: Snapshot overrun interrupt disabled
+1: Snapshot overrun interrupt enabled
+Bits 6:5 Reserved, must be kept at reset value.
+Bit 4 OLDIE: OLD0 interrupt enable
+This bit is set and cleared by software.
+0: OLD0 event interrupt disabled
+1: OLD0 event interrupt enabled
+Bit 3 Reserved, must be kept at reset value.
+Bit 2 SSDRIE: Snapshot data ready interrupt enable
+This bit is set and cleared by software.
+0: Snapshot data ready interrupt disabled
+1: Snapshot data ready interrupt enabled
+Bit 1 DOVRIE: Data overflow interrupt enable
+This bit is set and cleared by software.
+0: Data overflow interrupt disabled
+1: Data overflow interrupt enabled
+Bit 0 FTHIE: RXFIFO threshold interrupt enable
+This bit is set and cleared by software.
+0: RXFIFO threshold interrupt disabled
+1: RXFIFO threshold interrupt enabled
+
+RM0456 Rev 6

@@ -1,0 +1,103 @@
+8 7
+
+Description
+
+T0 Bit 31
+ESI(1)
+
+Error state indicator
+– 0: ESI bit in CAN FD format depends only on error passive flag
+– 1: ESI bit in CAN FD format transmitted recessive
+
+T0 Bit 30
+XTD
+
+Extended identifier
+– 0: 11-bit standard identifier
+– 1: 29-bit extended identifier
+
+RM0456 Rev 6
+
+RM0456
+
+FD controller area network (FDCAN)
+Table 724. Tx buffer element description (continued)
+Field
+T0 Bit 29
+RTR(2)
+
+Description
+Remote transmission request
+– 0: Transmit data frame
+– 1: Transmit remote frame
+
+Identifier
+T0 Bits 28:0
+Standard or extended identifier depending on bit XTD. A standard identifier has to be
+ID[28:0]
+written to ID[28:18].
+Message marker
+T1 Bits 31:24
+Written by CPU during Tx buffer configuration. Copied into Tx event FIFO element for
+MM[7:0]
+identification of Tx message status.
+T1 Bit 23
+EFC
+
+Event FIFO control
+– 0: Do not store Tx events
+– 1: Store Tx events
+
+T1 Bit 21
+FDF
+
+FD format
+– 0: Frame transmitted in classic CAN format
+– 1: Frame transmitted in CAN FD format
+
+T1 Bit 20
+BRS(3)
+
+Bit rate switching
+– 0: CAN FD frames transmitted without bit rate switching
+– 1: CAN FD frames transmitted with bit rate switching
+
+Data length code
+T1 Bits 19:16 – 0 - 8: Classic CAN + CAN FD: received frame has 0-8 data bytes
+DLC[3:0]
+– 9 - 15: Classic CAN: received frame has 8 data bytes
+– 9 - 15: CAN FD: received frame has 12/16/20/24/32/48/64 data bytes
+T2 Bits 31:24
+Data byte 3
+DB3[7:0]
+T2 Bits 23:16
+Data byte 2
+DB2[7:0]
+T2 Bits 15:8
+Data byte 1
+DB1[7:0]
+T2 Bits 7:0
+D[7:0]
+
+Data byte 0
+
+T3 Bits 31:24
+Data byte 7
+DB7[7:0]
+T3 Bits 23:16
+Data byte 6
+DB6[7:0]
+T3 Bits 15:8
+Data byte 5
+DB5[7:0]
+
+...
+
+Data byte 4
+
+...
+
+T3 Bits 7:0
+DB4[7:0]
+
+RM0456 Rev 6

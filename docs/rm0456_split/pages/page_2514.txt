@@ -1,0 +1,195 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+Bit 4 REFCKON: RTC_REFIN reference clock detection enable (50 or 60 Hz)
+0: RTC_REFIN detection disabled
+1: RTC_REFIN detection enabled
+Note: BIN must be 0x00 and PREDIV_S must be 0x00FF.
+Bit 3 TSEDGE: Timestamp event active edge
+0: RTC_TS input rising edge generates a timestamp event
+1: RTC_TS input falling edge generates a timestamp event
+TSE must be reset when TSEDGE is changed to avoid unwanted TSF setting.
+Bits 2:0 WUCKSEL[2:0]: ck_wut wake-up clock selection
+000: RTC/16 clock is selected
+001: RTC/8 clock is selected
+010: RTC/4 clock is selected
+011: RTC/2 clock is selected
+10x: ck_spre (usually 1 Hz) clock is selected in BCD mode. In binary or mixed mode, this is
+the clock selected by BCDU.
+11x: ck_spre (usually 1 Hz) clock is selected in BCD mode. In binary or mixed mode, this is
+the clock selected by BCDU. Furthermore, 216 is added to the WUT counter value.
+
+Note:
+
+Bits 6 and 4 of this register can be written in initialization mode only (RTC_ICSR/INITF = 1).
+WUT = wake-up unit counter value. WUT = (0x0000 to 0xFFFF) + 0x10000 added when
+WUCKSEL[2:1 = 11].
+Bits 2 to 0 of this register can be written only when RTC_CR WUTE bit = 0 and RTC_ICSR
+WUTWF bit = 1.
+It is recommended not to change the hour during the calendar hour increment as it may
+mask the incrementation of the calendar hour.
+ADD1H and SUB1H changes are effective in the next second.
+
+63.6.8
+
+RTC privilege mode control register (RTC_PRIVCFGR)
+This register can be written only when the APB access is privileged. This register can be
+write-protected, or each bit of this register can be individually write-protected against
+nonsecure access depending on the RTC_SECCFGR configuration (refer to Section 63.3.5:
+RTC privilege protection modes).
+Address offset: 0x1C
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+TS
+PRIV
+
+WUT
+PRIV
+
+ALRB
+PRIV
+
+ALRA
+PRIV
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+PRIV
+
+INIT
+PRIV
+
+CAL
+PRIV
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+RM0456 Rev 6
+
+Res.
+
+Res.

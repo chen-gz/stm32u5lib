@@ -1,0 +1,100 @@
+•
+
+Table 552: Effect of low-power modes on TIM1/TIM8
+
+•
+
+Table 572: Effect of low-power modes on TIM2/TIM3/TIM4/TIM5
+
+•
+
+Table 587: Effect of low-power modes on TIM15/TIM16/TIM17
+
+•
+
+Section 34.5: ADC low-power modes for ADC4
+
+•
+
+Table 599: STM32U5 series LPTIM features
+
+•
+
+Table 614: Effect of low-power modes on the LPTIM
+
+RM0456 Rev 6
+
+RM0456
+
+16.3.3
+
+Peripherals interconnect matrix
+
+ADC analog watchdogs as triggers to timers
+From ADC1/ADC4 to TIM1/3/8 on STM32U535/345/575/585.
+From ADC1/ADC2/ADC4 to TIM1/3/4/8 on STM32U59x/5Ax/5Fx/5Gx.
+
+Purpose
+The internal analog watchdog output signals coming from ADC1/ADC2/ADC4, are
+connected to on-chip timers. ADC1/ADC2/ADC4 can provide trigger event through analog
+watchdog signals to advanced-control timers (TIM1/3/4/8) in order to reset, start, stop, or
+clock the counter.
+Settings description of the ADC analog watchdog and timer trigger, are provided in:
+•
+
+Section 54.3.6: External trigger input for TIM1/8
+
+•
+
+Table 539 for the internal ADC1/ADC2/ADC4 sources connected to TIM1/8 (tim_etr)
+input multiplexer
+
+•
+
+Table 565 for the internal ADC1/ADC2 sources connected to TIM3/4 (tim_etr) input
+multiplexer
+
+•
+
+Section 33.4.30 for the ADC1/ADC2/ADC_AWDy_OUT signal output generation
+
+•
+
+Section 34.4.25 for the ADC4/ADC_AWDy_OUT signal output generation
+
+Triggering signals
+The output (from ADC) is on signals ADCn_AWDx_OUT, with n being the ADC instance
+and x = 1, 2, 3 (three watchdogs per ADC). The input (to timer) is on signal TIMx_ETR
+(external trigger).
+
+Active power mode
+ADC1/ADC2 and ADC4 are active in Run and Sleep modes.
+The ADC4 conversion is functional and autonomous in Stop 0, Stop 1, and Stop 2 modes.
+This conversion can generate a wake-up interrupt and desired trigger action on timers.
+
+16.3.4
+
+Triggers to DAC
+From timer (TIM1/2/4/5/6/7/8/15), Low-power timers (LPTIM1/3) and EXTI to DAC (DAC1/2)
+
+Purpose
+General-purpose timers (TIM2/4/5/15), basic timers (TIM6/7), advanced-control timers
+(TIM1/8), LP timers (LPTIM1/3) outputs channels (lptim1_ch1 and lptim3_ch1) and EXTI
+can be used as triggering event to start a DAC conversion.
+
+Triggering signals
+The output (from timer) on the TIMx_TRGO signal and from LP timers are directly
+connected to corresponding DAC inputs.
+The selection of input triggers on DAC is provided in:
+•
+
+Table 343: DAC interconnection
+
+•
+
+Section 35.4.8: DAC trigger selection
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

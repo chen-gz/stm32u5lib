@@ -1,0 +1,87 @@
+RM0456 Rev 6
+
+RM0456
+Note:
+
+Secure AES coprocessor (SAES)
+For decryption, a special key scheduling is required before processing the first block.
+
+Cipher block chaining (CBC) mode
+Figure 487. CBC encryption and decryption principle
+Encryption
+Plaintext block 1
+
+Plaintext block 2
+
+Plaintext block 3
+
+initialization
+vector
+key
+
+Encrypt
+
+key
+
+Encrypt
+
+Ciphertext block 1
+
+Ciphertext block 2
+
+Plaintext block 1
+
+Plaintext block 2
+
+key
+
+Encrypt
+
+Ciphertext block 3
+
+Decryption
+Plaintext block 3
+
+initialization
+vector
+
+Legend
+
+key
+
+Decrypt
+
+key
+
+Decrypt
+
+key
+
+Decrypt
+
+input
+output
+key
+scheduling
+
+Ciphertext block 1
+
+Ciphertext block 2
+
+Ciphertext block 3
+MSv42141V1
+
+In CBC mode the output of each block chains with the input of the following block. To make
+each message unique, an initialization vector is used during the first block processing.
+Note:
+
+For decryption, a special key scheduling is required before processing the first block.
+
+50.4.4
+
+SAES procedure to perform a cipher operation
+Introduction
+A typical cipher operation is explained below. Detailed information is provided in sections
+starting from Section 50.4.8: SAES basic chaining modes (ECB, CBC).
+
+RM0456 Rev 6

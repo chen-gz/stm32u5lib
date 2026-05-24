@@ -1,0 +1,67 @@
+3631
+
+Debug support (DBG)
+
+RM0456
+Table 789. Single-wire trace port pins
+
+Pin name
+
+Type
+
+TRACESWO
+
+O
+
+Description
+
+Pin assignment
+
+Single-wire trace asynchronous data out
+
+PB3(1)
+
+1. TRACESWO is multiplexed with JTDO. This means that single-wire trace is only available when using the serial-wire debug
+interface, and not when using JTAG.
+
+75.2.3
+
+DBG reset and clocks
+The debug port (SWJ-DP) is reset by a power-on reset and when waking up
+from Standby mode.
+The debugger supplies the clock for the debug port via the debug interface pin
+JTCK/SWCLK. This clock is used to register the serial input data in both serial-wire and
+JTAG modes, as well as to operate the state machines and internal logic of the debug port.
+This clock must therefore continue to toggle for several cycles after the end of an access, to
+ensure that the debug port returns to the idle state.
+The SWJ-DP contains an asynchronous interface to the DCLK domain, that covers the rest
+of the SWJ-DP and the access port.
+The DCLK is a gated version of the system clock.
+The DCLK domain is enabled by the debugger using CDBGPWRUPREQ
+in DP_CTRL/STATR. The clock must be enabled before the debugger can access any of the
+device debug features. The availability of the clock is reflected by CDBGPWRUPACK
+in DP_CTRL/STATR. The DCLK is disabled at power-up, and must be disabled when
+the debugger is disconnected, to avoid wasting energy.
+The debug and trace components included in the processor are clocked with the processor
+clock.
+
+75.2.4
+
+DBG power domains
+The debug components are located in the core power domain. This means that the
+debugger connection is not possible in Shutdown or Standby low-power mode. To avoid
+losing the connection when the device enters Standby mode, the power can be maintained
+to the core by setting a bit in DBGMCU_CR. This also keeps the processor clocks active
+and holds off the reset, so that the debug session is maintained.
+
+75.2.5
+
+Debug and low-power modes
+The devices include power saving features that allow the core power domain to be switched
+off or stopped when not required. If the power is switched off or if the core is not clocked, all
+debug components are inaccessible to the debugger. To avoid this, power-saving mode
+emulation is implemented. If the emulation is enabled for a domain, the domain still enters
+power-saving mode, but its clock and power are maintained. In other words, the domain
+behaves as if it is in power-saving mode, but the debugger does not lose the connection.
+The emulation mode is programmed in the microcontroller debug (DBGMCU) unit. For more
+information, refer to Section 75.12.

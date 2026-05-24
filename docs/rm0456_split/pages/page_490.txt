@@ -1,0 +1,96 @@
+609
+
+Reset and clock control (RCC)
+
+RM0456
+Figure 40. MSI block diagram
+
+/1
+/2
+
+MSIRC0
+48 MHz
+
+/3
+/4
+
+/1
+
+MSIK
+
+/2
+
+MSIRC1
+4 MHz
+
+/3
+/4
+
+/1
+
+MSIS
+
+/2
+
+MSIRC2
+3.072 MHz
+
+/3
+/4
+
+/1
+/2
+
+MSIRC3
+400 kHz
+
+/3
+/4
+MSv64329V1
+
+Refer to datasheet for complete MSI frequency characteristics in MSI-mode and in PLLmode. MSIS and MSIK frequency ranges can be adjusted by software, by using respectively
+MSISRANGE[3:0] and MSIKRANGE[3:0] in RCC_ICSCR1, with MSIRGSEL = 1.
+Sixteen frequency ranges are available, generated from the four internal RCs, as shown
+in the table below.
+Table 113. MSIS and MSIK ranges per internal MSIRCs (PLL_mode disabled)(1)
+MSIRC0
+
+MSIRC1
+
+MSIRC2
+
+MSIRC3
+
+Range 0: 48 MHz
+
+Range 4: 4 MHz
+
+Range 8: 3.072 MHz
+
+Range 12: 400 kHz
+
+Range 1: 24 MHz
+
+Range 5: 2 MHz
+
+Range 9: 1.536 MHz
+
+Range 13: 200 kHz
+
+Range 2: 16 MHz
+
+Range 6: 1.33 MHz
+
+Range 10: 1.024 MHz
+
+Range 14: 133 kHz
+
+Range 3: 12 MHz
+
+Range 7: 1 MHz
+
+Range 11: 0.768 MHz
+
+Range 15: 100 kHz
+
+1. Refer to datasheet for complete MSI frequency characteristics in MSI-mode and in PLL-mode.

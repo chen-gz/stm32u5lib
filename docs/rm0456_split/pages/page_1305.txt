@@ -1,0 +1,75 @@
+•
+
+The content of the ADC data register is frozen.
+
+•
+
+Any ongoing conversion is aborted with partial result discarded.
+
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+•
+
+No new DMA request is issued to the DMA controller. This avoids generating an
+overrun error if there are still conversions, which are started.
+
+•
+
+Scan sequence is stopped and reset.
+
+•
+
+The DMA is stopped.
+
+DMA circular mode (DMNGT[1:0] = 11)
+In this mode, the ADC generates a DMA transfer request each time a new conversion data
+is available in the data register, even if the DMA has reached the last DMA transfer. This
+allows configuring the DMA in circular mode to handle a continuous analog input data
+stream.
+DMA with FIFO
+The output data register features an eight-stage FIFO. Two different DMA requests are
+generated in parallel. When a data is available, an “SREQ single request” is generated.
+When four data are available, a “BREQ burst request” is generated. DMA can be
+programmed either single transfer mode or incremental burst mode (four beats), according
+to this mode, correct request line is selected by the DMA. Refer to the DMA chapter for
+further information.
+
+33.4.28
+
+Managing conversions using the MDF
+The ADC conversion results can be transferred directly to the MDF.
+In this case, the DMNGT[1:0] bits must be set to 10.
+The ADC transfers the 16 least significant bits of the regular data register to the MDF
+through adcx_dat[15:0] bus, which in turn resets the EOC flag once the transfer is effective.
+The data format must be in 16-bit signed format:
+ADC_DR[31:16] = don’t care
+ADC_DR[15] = sign
+ADC_DR[14:0] = data
+Any value above 16-bit signed format is truncated.
+
+33.4.29
+
+Dynamic low-power features
+Auto-delayed conversion mode (AUTDLY)
+The ADC implements an auto-delayed conversion mode controlled by the AUTDLY
+configuration bit. Auto-delayed conversions are useful to simplify the software as well as to
+optimize performance of an application clocked at low frequency where there would be risk
+of encountering an ADC overrun.
+When AUTDLY = 1, a new conversion can start only if all the previous data of the same
+group has been treated:
+•
+
+For a regular conversion: once the ADC_DR register has been read or if the EOC bit
+has been cleared (see Figure 243).
+
+•
+
+For an injected conversion: when the JEOS bit has been cleared (see Figure 244).
+
+The auto-delayed conversion mode enables to automatically adapt the speed of the ADC to
+the speed of the system which reads the data.
+
+RM0456 Rev 6

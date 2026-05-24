@@ -1,0 +1,49 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+Bit 16 ADD1H: Add 1 hour (summer time change)
+When this bit is set outside initialization mode, 1 hour is added to the calendar time. This bit
+is always read as 0.
+0: No effect
+1: Adds 1 hour to the current time. This can be used for summer time change
+Bit 15 TSIE: Timestamp interrupt enable
+0: Timestamp interrupt disable
+1: Timestamp interrupt enable
+Bit 14 WUTIE: Wake-up timer interrupt enable
+0: Wake-up timer interrupt disabled
+1: Wake-up timer interrupt enabled
+Bit 13 ALRBIE: Alarm B interrupt enable
+0: Alarm B interrupt disable
+1: Alarm B interrupt enable
+Bit 12 ALRAIE: Alarm A interrupt enable
+0: Alarm A interrupt disabled
+1: Alarm A interrupt enabled
+Bit 11 TSE: timestamp enable
+0: timestamp disable
+1: timestamp enable
+Bit 10 WUTE: Wake-up timer enable
+0: Wake-up timer disabled
+1: Wake-up timer enabled
+Note: When the wake-up timer is disabled, wait for WUTWF = 1 before enabling it again.
+Bit 9 ALRBE: Alarm B enable
+0: Alarm B disabled
+1: Alarm B enabled
+Bit 8 ALRAE: Alarm A enable
+0: Alarm A disabled
+1: Alarm A enabled
+Bit 7 SSRUIE: SSR underflow interrupt enable
+0: SSR underflow interrupt disabled
+1: SSR underflow interrupt enabled
+Bit 6 FMT: Hour format
+0: 24 hour/day format
+1: AM/PM hour format
+Bit 5 BYPSHAD: Bypass the shadow registers
+0: Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken from
+the shadow registers, which are updated once every two RTCCLK cycles.
+1: Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken
+directly from the calendar counters.
+Note: If the frequency of the APB clock is less than seven times the frequency of RTCCLK,
+BYPSHAD must be set to 1.

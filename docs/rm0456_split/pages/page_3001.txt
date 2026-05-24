@@ -1,0 +1,45 @@
+3134
+
+Universal serial bus full-speed host/device interface (USB)
+
+RM0456
+
+A brief description of a typical suspend procedure is provided below, focused on the USBrelated aspects of the application software routine responding to the SUSP notification of
+the USB peripheral:
+1.
+
+Set the SUSPEN bit in the USB_CNTR register to 1. This action activates the suspend
+mode within the USB peripheral. As soon as the suspend mode is activated, the check
+on SOF reception is disabled to avoid any further SUSP interrupts being issued while
+the USB is suspended.
+
+2.
+
+Remove or reduce any static power consumption in blocks different from the USB
+peripheral.
+
+3.
+
+Set SUSPRDY bit in USB_CNTR register to 1 to remove static power consumption in
+the analog USB transceivers but keeping them able to detect resume activity.
+
+4.
+
+Optionally turn off external oscillator and device PLL to stop any activity inside the
+device.
+
+When an USB event occurs while the device is in SUSPEND mode, the RESUME
+procedure must be invoked to restore nominal clocks and regain normal USB behavior.
+Particular care must be taken to ensure that this process does not take more than 10 ms
+when the wakening event is an USB reset sequence (see “Universal Serial Bus
+Specification” for more details). The start of a resume or reset sequence, while the USB
+peripheral is suspended, clears the SUSPRDY bit in USB_CNTR register asynchronously.
+Even if this event can trigger a WKUP interrupt if enabled, the use of an interrupt response
+routine must be carefully evaluated because of the long latency due to system clock restart;
+to have the shorter latency before re-activating the nominal clock it is suggested to put the
+resume procedure just after the end of the suspend one, so its code is immediately
+executed as soon as the system clock restarts. To prevent ESD discharges or any other kind
+of noise from waking-up the system (the exit from suspend mode is an asynchronous
+event), a suitable analog filter on data line status is activated during suspend; the filter width
+is about 70 ns.
+The following is a list of actions a resume procedure must address:

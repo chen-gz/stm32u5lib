@@ -1,0 +1,50 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+When CKMODE = 1 (clock mode 3: CLK goes high when no operation is in progress) and
+when in SDR mode, NCS falls one CLK cycle before an operation first rising CLK edge, and
+NCS rises one CLK cycle after the operation final rising CLK edge (see the figure below).
+Figure 160. NCS when CKMODE = 1 in SDR mode (T = CLK period)
+T
+
+T
+
+NCS
+SCLK
+
+MSv44101V1
+
+When the CKMODE = 1 (clock mode 3) and DDTR = 1 (data DTR mode), NCS falls one
+CLK cycle before an operation first rising CLK edge, and NCS rises one CLK cycle after the
+operation final active rising CLK edge (see the figure below). Because the DTR operations
+must finish with a falling edge, CLK is low when NCS rises, and CLK rises back up one half
+of a CLK cycle afterwards.
+Figure 161. NCS when CKMODE = 1 in DTR mode (T = CLK period)
+T/2
+T
+
+T
+
+NCS
+
+SCLK
+
+MSv44102V1
+
+When the FIFO stays full during a read operation, or if the FIFO stays empty during a write
+operation, the operation stalls and CLK stays low until the software services the FIFO. If an
+abort occurs when an operation is stalled, NCS rises just after the abort is requested and
+then CLK rises one half of a CLK cycle later (see the figure below).
+Figure 162. NCS when CKMODE = 1 with an abort (T = CLK period)
+T/2
+Clock stalled
+
+T
+NCS
+SCLK
+Abort
+
+MSv44103V1

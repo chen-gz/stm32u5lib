@@ -1,0 +1,121 @@
+667
+
+System configuration controller (SYSCFG)
+
+RM0456
+
+The table below shows the register security overview.
+Table 131. TrustZone security and privilege register accesses
+SYSCFG register name
+
+Privileged
+/unprivileged
+access
+
+Read/write access
+
+TrustZone configuration(1)
+
+TZEN = 1
+
+TZEN = 0
+
+Not applicable
+
+SYSCFG_SECCFGR
+
+Read: no restriction
+Write: secure access only
+Nonsecure write is WI and generates an illegal
+access event.
+
+RAZ/WI
+
+Read: no restriction,
+FPUSEC privileged
+write only
+Other bits write: no
+restriction
+
+SYSCFG_CSLCKR
+
+Read/Write: secure access only
+Nonsecure access is RAZ/WI and generates and
+an illegal access event.
+
+RAZ/WI
+
+Privileged only
+Unprivileged:
+RAZ/WI
+
+SYSCFG_FPUIMR
+
+– If FPUSEC = 1:
+Read/Write: secure access only
+Nonsecure access is RAZ/WI and generates an
+illegal access event.
+– If FPUSEC = 0: Read/Write: no restriction
+
+Privileged only
+No
+restriction Unprivileged:
+RAZ/WI
+
+SYSCFG_CNSLCKR
+
+Read/write: no restriction
+
+Privileged only
+No
+restriction Unprivileged:
+RAZ/WI
+
+SYSCFG_CFGR1
+
+Read/Write: secure access only for secure bits
+depending on peripheral security bits in GTZC
+Nonsecure access only for nonsecure bits,
+otherwise RAZ/WI
+
+No
+No restriction
+restriction
+
+SYSCFG_CFGR2
+
+– If CLASSBSEC = 1:
+Read/Write: secure access only
+Nonsecure access is RAZ/WI and generates
+an illegal access event.
+– If CLASSBSEC = 0:Read/Write: no restriction
+
+No
+No restriction
+restriction
+
+SYSCFG_MESR
+
+– If SYSCFGSEC = 1:
+Read/Write: secure access only
+Nonsecure access is RAZ/WI and generates
+an illegal access event.
+– If SYSCFGSEC = 0:Read/Write: no restriction
+
+No
+No restriction
+restriction
+
+SYSCFG_CCCSR
+SYSCFG_CCVR
+SYSCFG_CCCR
+
+– If SYSCFGSEC = 1:
+Read/Write: secure access only
+Nonsecure access is RAZ/WI and generates
+an illegal access event
+– If SYSCFGSEC = 0:Read/Write: no restriction
+
+No
+No restriction
+restriction

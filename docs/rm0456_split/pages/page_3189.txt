@@ -1,0 +1,85 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+73.2.2
+
+RM0456
+
+Host-mode features
+The OTG_HS interface main features and requirements in host-mode are the following:
+•
+
+External charge pump for VBUS voltage generation
+
+•
+
+Up to 16 host channels (pipes): each channel is dynamically reconfigurable to allocate
+any type of USB transfer.
+
+•
+
+Built-in hardware scheduler holding:
+
+•
+
+73.2.3
+
+–
+
+Up to 16 interrupt plus isochronous transfer requests in the periodic hardware
+queue
+
+–
+
+Up to 16 control plus bulk transfer requests in the non-periodic hardware queue
+
+Management of a shared Rx FIFO, a periodic Tx FIFO and a nonperiodic Tx FIFO for
+efficient usage of the USB data RAM.
+
+Peripheral-mode features
+The OTG_HS interface main features in peripheral-mode are the following:
+
+73.3
+
+•
+
+1 bidirectional control endpoint0
+
+•
+
+8 IN endpoints (EPs) configurable to support bulk, interrupt or isochronous transfers
+
+•
+
+8 OUT endpoints configurable to support bulk, interrupt or isochronous transfers
+
+•
+
+Management of a shared Rx FIFO and a Tx-OUT FIFO for efficient usage of the USB
+data RAM
+
+•
+
+Management of up to 9 dedicated Tx-IN FIFOs (one for each active IN EP) to put less
+load on the application
+
+•
+
+Support for the soft disconnect feature.
+
+OTG_HS implementation
+Table 762. OTG_HS implementation(1)
+USB features
+
+OTG_HS for STM32U59x/5Ax/5Fx/5Gx
+
+Device bidirectional endpoints (including EP0)
+
+9
+
+Host mode channels
+
+16
+
+Size of dedicated SRAM

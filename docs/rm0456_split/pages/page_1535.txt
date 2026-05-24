@@ -1,0 +1,82 @@
+If the application needs to skip more data strobes, then the operation must be restarted
+from step 1.
+
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+The effect of the delay performed with this mechanism is cumulative as long as the MDF is
+enabled. In a given filter, if the application performs a D1 delay, followed by a D2 delay, then
+all other active filters are delayed by D1 + D2.
+Data coming from ADCs can also benefit of this feature.
+In interleaved acquisition mode, it is up to the application to insure that the delay applied on
+the different microphones is in line with the depth of the RXFIFO buffers. If the relative delay
+between each activated filter is less than the decimation ratio, then it costs one FIFO
+location.
+If the interleaved acquisition mode is not used, then the delay value has no impact on the
+RXFIFO buffering.
+
+Note:
+
+If SKPDLY[6:0] is written when SKPBF = 1, the write operation is ignored.
+
+Cascaded-integrator-comb (CIC) filter
+The CIC digital filters are an efficient implementation of low-pass filters, often used for
+decimation and interpolation. The CIC frequency response is equal to a SincN function, this
+is why they are often called Sinc filters.
+The SincN digital filter embedded into the MDF is configurable according to the application
+targeted.
+•
+
+For audio applications, such as speech capture from digital microphones, the
+application can select a high-resolution low-pass decimation filter by setting CICMOD
+to 100 or 101.
+
+•
+
+If the targeted application is motor control or any other sensor capture, then the
+application can configure the CIC in order to offer a main filter path for acquisition
+(MCIC) and an auxiliary filter for fast-event generation (ACIC). This auxiliary filter can
+be used for example, to detect over-current conditions. This mode is selected by
+setting CICMOD[2:0] = 0xx.
+
+When CICMOD[2:0] = 0xx, the following CIC filters are available:
+•
+
+main filter (MCIC)
+
+•
+
+auxiliary CIC filter (ACIC)
+
+Both of them are configurable in FastSinc, Sinc1 to Sinc3.
+When CICMOD[2:0] = 100, the CIC is configured into a single Sinc4 and when
+CICMOD[2:0] = 101, the CIC is configured into a single Sinc5 filter.
+The filters have the following transfer function (impulse response in z domain):
+•
+
+SincN filter type:
+
+•
+
+FastSinc filter type:
+
+⎛ 1 – z –D⎞
+H ( z ) = ⎜ ----------------⎟
+⎝ 1 – z–1 ⎠
+
+N
+
+2
+
+⎛ 1 – z –D⎞
+–( 2 ⋅ D )
+H ( z ) = ⎜ ----------------)
+⎟ ⋅ (1 + z
+⎝ 1 – z–1 ⎠
+
+where N can be 1, 2, 3, 4 or 5, and D is the decimation ratio.
+D is equal to MCICD+1 or ACICD+1.
+
+RM0456 Rev 6

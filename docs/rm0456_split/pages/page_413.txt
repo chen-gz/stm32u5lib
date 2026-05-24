@@ -1,0 +1,88 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+interrupt is generated when VDD drops below the PVD threshold. As an example, the
+service routine can perform emergency shutdown tasks.
+The PVD can remain active in Stop 0, Stop 1, and Stop 2 modes, and the PVM interrupt can
+wake up from Stop mode. The PVD is not functional in Stop 3 mode.
+Figure 34. PVD thresholds
+V DD
+
+V PVD threshold
+
+100 mV
+hysteresis
+
+PVD output
+MSv66959V1
+
+Note:
+
+PVD is not functional in Shutdown mode.
+
+10.6.3
+
+Peripheral voltage monitoring (PVM)
+Only VDD is monitored by default, as it is the only supply required for all system-related
+functions. The other supplies (VDDA, VDDIO2, and VDDUSB) can be independent from VDD
+and can be monitored with four peripheral voltage monitoring (PVM):
+•
+
+The UVM monitors the USB supply VDDUSB. VDDUSBRDY indicates if the VDDUSB
+independent power supply is higher or lower than the VUVM threshold.
+
+•
+
+The IO2VM monitors the PG[15:2] supply VDDIO2. VDDIO2RDY indicates if the VDDIO2
+independent power supply is higher or lower than the VIO2VM threshold.
+
+•
+
+The AVM1 monitors the analog supply VDDA. VDDA1RDY indicates if the VDDA
+independent power supply is higher or lower than the VAVM1 threshold.
+
+•
+
+The AVM2 monitors the analog supply VDDA. VDDA2RDY indicates if the VDDA
+independent power supply is higher or lower than the VAVM2 threshold.
+
+Each PVM output is connected to an EXTI line and can generate an interrupt if enabled
+through the EXTI registers. The PVMx output interrupt is generated when the independent
+power supply drops below the PVM threshold and/or when it rises above the PVM threshold,
+depending on EXTI line rising/falling edge configuration (refer to Table 110).
+Each PVM can remain active in Stop 0, Stop 1, and Stop 2 modes, and the PVM interrupt
+can wake up from the Stop mode. The PVM is not functional in Stop 3 mode.
+Table 98. PVM features
+PVM
+
+Power supply
+
+PVM threshold
+
+UVM
+
+VDDUSB
+
+VUVM (around 1.2 V)
+
+IO2VM
+
+VDDIO2
+
+VIO2VM (around 0.9 V)
+
+AVM1
+
+VDDA
+
+VAVM1 (around 1.6 V)
+
+AVM2
+
+VDDA
+
+VAVM2 (around 1.8 V)
+
+RM0456 Rev 6

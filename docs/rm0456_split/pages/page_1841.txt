@@ -1,0 +1,186 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+
+44.15.63 DSI Host FIFO and buffer status register (DSI_FBSR)
+Address offset: 0x0168
+Reset value: 0x0005 0015
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+APBF
+
+APBE
+
+ACBF
+
+ACBE
+
+Res.
+
+Res.
+
+VPBF
+
+VPBE
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+APWFF APWFE ACWFF ACWFE VPWFF VPWFE VCWFF VCWFE
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 APBF: Adapted command mode payload buffer full
+This bit indicates the full status of the adapted command mode payload internal buffer:
+0: Payload internal buffer not full
+1: Payload internal buffer full
+Bit 22 APBE: Adapted command mode payload buffer empty
+This bit indicates the empty status of the adapted command mode payload internal
+buffer:
+0: Payload internal buffer not empty
+1: Payload internal buffer empty
+Bit 21 ACBF: Adapted command mode command buffer full
+This bit indicates the full status of the adapted command mode command internal
+buffer:
+0: Command internal buffer not full
+1: Command internal buffer full
+Bit 20 ACBE: Adapted command mode command buffer empty
+This bit indicates the empty status of the adapted command mode command internal
+buffer:
+0: Command internal buffer not empty
+1: Command internal buffer empty
+Bits 19:18 Reserved, must be kept at reset value.
+Bit 17 VPBF: Video mode payload buffer full
+This bit indicates the full status of the video mode payload internal buffer:
+0: Payload internal buffer not full
+1: Payload internal buffer full
+Bit 16 VPBE: Video mode payload buffer empty
+This bit indicates the empty status of the video mode payload internal buffer:
+0: Payload internal buffer not empty
+1: Payload internal buffer empty
+Bits 15:8 Reserved, must be kept at reset value.
+Bit 7 APWFF: Adapted command mode payload write FIFO full
+This bit indicates the full status of the adapted command mode write payload FIFO:
+0: Write payload FIFO not full
+1: Write payload FIFO full
+
+RM0456 Rev 6

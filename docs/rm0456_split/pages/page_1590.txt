@@ -1,0 +1,191 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+
+Bit 31 SCDACTIVE: SCDx active flag
+This bit is set and cleared by hardware. It is used to check if the SCDx is effectively enabled
+(active) or not. The protected fields of this function can only be updated when the
+SCDACTIVE is set to 0 (refer to Section 39.4.15 for details).
+The delay between a transition on SCDEN and a transition on SCDACTIVE is two periods of
+AHB clock and two periods of mdf_proc_ck.
+0: SCDx not active and can be configured if needed
+1: SCDx active and protected fields cannot be configured
+Bits 30:20 Reserved, must be kept at reset value.
+Bits 19:12 SCDT[7:0]: SCDx threshold
+This bitfield is set and cleared by software. These bits are written by software to define the
+threshold counter for SCDx. If this value is reached, a short-circuit detector event occurs on a
+given input stream.
+0: 2 consecutive 1's or 0's generate an event.
+1: 2 consecutive 1's or 0's generate an event.
+2: 3 consecutive 1's or 0's generate an event.
+...
+255: 256 consecutive 1's or 0's generate an event.
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 11:8 Reserved, must be kept at reset value.
+Bits 7:4 BKSCD[3:0]: Break signal assignment for short circuit detector
+This bitfield is set and cleared by software.
+BKSCD[i] = 0: Break signal (mdf_break[i]) not assigned to this SCD event
+BKSCD[i] = 1: Break signal (mdf_break[i]) assigned to this SCD event
+Note: This bitfield can be write-protected (refer to Section 39.4.15 for details).
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 SCDEN: SCDx enable
+This bit is set and cleared by software.
+0: SCDx disabled
+1: SCDx enabled,
+
+39.8.14
+
+MDF DFLT0 interrupt enable register 0 (MDF_DFLT0IER)
+Address offset: 0x0AC
+Reset value: 0x0000 0000
+This register is used for allowing or not the events to generate an interrupt.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SATIE
+
+SCDIE
+
+SSOVR
+IE
+
+Res.
+
+Res.
+
+OLDIE
+
+Res.
+
+SSDRI
+E
+
+DOVRI
+E
+
+FTHIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RFOVR CKABI
+IE
+E
+rw
+
+rw
+
+Bits 31:12 Reserved, must be kept at reset value.

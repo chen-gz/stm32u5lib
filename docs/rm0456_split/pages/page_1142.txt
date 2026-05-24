@@ -1,0 +1,76 @@
+1177
+
+Hexadeca-SPI interface (HSPI)
+
+RM0456
+
+5.
+
+Specify the frame timing in HSPI_WTCR for write operation.
+
+6.
+
+Specify the frame format in HSPI_WCCR for write operation.
+
+7.
+
+Specify the instruction in HSPI_WIR.
+
+8.
+
+Specify the optional alternate byte to be sent right after the address phase in
+HSPI_WABR for write operation.
+
+All the configuration operations must be completed (ensured by checking BUSY = 0) before
+the first access to the memory area: any register write operation when BUSY = 1 have no
+effect and is not signaled with an error response. On the first access, the HSPI becomes
+busy, and no further configuration is allowed. Then, the only way to get BUSY low is to clear
+the ENABLE bit or to abort by setting the ABORT bit.
+
+HSPI delayed data sampling when no DQS is used
+By default, when no DQS is used, the HSPI samples the data driven by the external device
+one half of a CLK cycle after the external device drives the signal.
+In case of any external signal delays, it may be useful to sample the data later. Using
+SSHIFT in HSPI_TCR, the sampling of the data can be shifted by half of a CLK cycle.
+The firmware must clear SSHIFT when the data phase is configured in DTR mode
+(DDTR = 1).
+
+HSPI delayed data sampling when DQS is used
+When external DQS is used as a sampling clock, it is shifted precisely by one quarter of the
+SPI clock cycle, for all frequencies above freq_min, to compensate the data propagation
+delay in the “high-speed interface” when the product embeds one.
+
+30.4.16
+
+HSPI HyperBus protocol configuration
+Indirect mode configuration (HyperBus)
+When FMODE[1:0] = 00, the indirect-write mode is selected and data can be sent to the
+external device. When FMODE[1:0] = 01, the indirect-read mode is selected where data can
+be read from the external device. ADMODE must be configured with a value different from
+000 (for instance ADMODE = 100).
+When the HSPI is used in indirect mode, the frames are constructed in the following way:
+1.
+
+Specify a number of data bytes to read or write in HSPI_DLR.
+
+2.
+
+Specify the targeted address in HSPI_AR.
+
+3.
+
+Enable the DMA channel if needed.
+
+4.
+
+Read/write the data from/to the FIFO through HSPI_DR (if no DMA usage).
+
+In indirect-read mode, the command sequence starts as soon as the address is updated
+with a write to HSPI_AR.
+In indirect-write mode, the communication start is triggered by a write in the FIFO through
+HSPI_DR.
+
+Memory-mapped mode configuration (HyperBus)
+In memory-mapped mode, the external device is seen as an internal memory but with some
+latency during the accesses. Read and write operations are allowed to the external device in
+this mode.

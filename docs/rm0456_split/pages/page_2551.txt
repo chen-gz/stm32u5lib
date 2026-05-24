@@ -1,0 +1,47 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+elaborated by the PRNG, the SEEDF bit is set in the TAMP_ATOR and it is not allowed to
+switch off the TAMP APB clock. The duration of the elaboration is up to 184 APB clock
+cycles after the forth seed is written. Consequently, after writing a new seed, the user must
+wait until SEEDF is cleared before entering low-power modes.
+The active tamper outputs are activated only after the first seed is written and the
+elaboration is completed. Then new seeds can be written and elaborated during active
+tamper activity.
+
+Active tamper initialization
+Here is the software procedure to initialize the active tampers after system reset:
+Read INITS in TAMP_ATOR register.
+•
+If INITS = 0x0 (initialization was not done):
+
+•
+
+a)
+
+Write TAMP_ATCR to configure Active tamper clock, filter and output sharing if
+any, and active mode.
+
+b)
+
+Write TAMP_CR1 to enable tampers (all the needed tampers must be enabled in
+the same write access).
+
+c)
+
+Write SEED by writing four times in the TAMP_ATSEEDR.
+
+d)
+
+Wait until SEEDF = 0 in TAMP_ATOR. Backup registers are then protected by
+active tamper.
+
+If INITS = 0x1 (initialization already done):
+No initialization. To increase randomness a new SEED should be provided regularly.
+When a new SEED is provided, wait until SEEDF = 0 before entering a low-power
+mode which switches off the TAMP APB clock.
+
+•

@@ -1,0 +1,89 @@
+An isochronous IN transfer is treated as incomplete in one of the following conditions:
+a)
+
+The core receives a corrupted isochronous IN token on at least one isochronous
+IN endpoint. In this case, the application detects an incomplete isochronous IN
+transfer interrupt (IISOIXFR in OTG_GINTSTS).
+
+b)
+
+The application is slow to write the complete data payload to the transmit FIFO
+and an IN token is received before the complete data payload is written to the
+FIFO. In this case, the application detects an IN token received when Tx FIFO
+empty interrupt in OTG_DIEPINTx. The application can ignore this interrupt, as it
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go full-speed (OTG_FS)
+eventually results in an incomplete isochronous IN transfer interrupt (IISOIXFR in
+OTG_GINTSTS) at the end of periodic frame.
+The core transmits a zero-length data packet on the USB in response to the
+received IN token.
+2.
+
+The application must stop writing the data payload to the transmit FIFO as soon as
+possible.
+
+3.
+
+The application must set the NAK bit and the disable bit for the endpoint.
+
+4.
+
+The core disables the endpoint, clears the disable bit, and asserts the endpoint disable
+interrupt for the endpoint.
+
+Application programming sequence:
+1.
+
+The application can ignore the IN token received when Tx FIFO empty interrupt in
+OTG_DIEPINTx on any isochronous IN endpoint, as it eventually results in an
+incomplete isochronous IN transfer interrupt (in OTG_GINTSTS).
+
+2.
+
+Assertion of the incomplete isochronous IN transfer interrupt (in OTG_GINTSTS)
+indicates an incomplete isochronous IN transfer on at least one of the isochronous IN
+endpoints.
+
+3.
+
+The application must read the endpoint control register for all isochronous IN endpoints
+to detect endpoints with incomplete IN data transfers.
+
+4.
+
+The application must stop writing data to the Periodic Transmit FIFOs associated with
+these endpoints on the AHB.
+
+5.
+
+6.
+
+Program the following fields in the OTG_DIEPCTLx register to disable the endpoint:
+–
+
+SNAK = 1 in OTG_DIEPCTLx
+
+–
+
+EPDIS = 1 in OTG_DIEPCTLx
+
+The assertion of the endpoint disabled interrupt in OTG_DIEPINTx indicates that the
+core has disabled the endpoint.
+–
+
+•
+
+At this point, the application must flush the data in the associated transmit FIFO or
+overwrite the existing data in the FIFO by enabling the endpoint for a new transfer
+in the next microframe. To flush the data, the application must use the
+OTG_GRSTCTL register.
+
+Stalling non-isochronous IN endpoints
+
+This section describes how the application can stall a non-isochronous endpoint.
+Application programming sequence:
+
+RM0456 Rev 6

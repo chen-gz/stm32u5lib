@@ -1,0 +1,8 @@
+2236
+
+0x3E0
+
+0x3DC
+TIMx_DCR
+
+Reset value

@@ -1,0 +1,175 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+67.7.14
+
+RM0456
+
+LPUART autonomous mode control register (LPUART_AUTOCR)
+Address offset: 0x30
+Reset value: 0x8000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+22
+
+21
+
+20
+
+19
+
+18
+
+TRIGSEL[3:0]
+
+17
+
+16
+
+IDLEDIS TRIGEN TRIGPOL
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+TDN[15:0]
+rw
+
+Bits 31:23 Reserved, must be kept at reset value.
+Bits 22:19 TRIGSEL[3:0]: Trigger selection bits
+Refer to Description LPUART interconnections.
+This bitfield can be written only when the UE bit is cleared in LPUART_CR1 register.
+0000: lpuart_trg0 selected
+0001: lpuart_trg1 selected
+...
+1111: lpuart_trg15 selected
+Note: This bitfield can be written only when the UE bit of LPUART_CR1 register is cleared.
+Bit 18 IDLEDIS: Idle frame transmission disable bit after enabling the transmitter
+0: Idle frame sent after enabling the transmitter (TE = 1 in LPUART_CR1)
+1: Idle frame not sent after enabling the transmitter
+Note: This bitfield can be written only when the UE bit of LPUART_CR1 register is cleared.
+Bit 17 TRIGEN: Trigger enable bit
+0: Trigger disabled
+1: Trigger enabled
+Note: This bitfield can be written only when the UE bit of LPUART_CR1 register is cleared.
+When a trigger is detected, TE is set to 1 in LPUART_CR1 and the data transfer is
+launched.
+Bit 16 TRIGPOL: Trigger polarity bit
+This bitfield can be written only when the UE bit is cleared in LPUART_CR1 register.
+0: Trigger active on rising edge
+1: Trigger active on falling edge
+Bits 15:0 TDN[15:0]: TDC transmission data number
+This bitfield enables the programming of the number of data to be transmitted. It can be
+written only when UE is cleared in LPUART_CR1.
+
+67.7.15
+
+LPUART register map

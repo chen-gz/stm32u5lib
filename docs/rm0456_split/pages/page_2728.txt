@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+
+Bit 9 CTSIF: CTS interrupt flag
+This bit is set by hardware when the CTS input toggles, if the CTSE bit is set. It is cleared by
+software, by writing 1 to the CTSCF bit in the USART_ICR register.
+An interrupt is generated if CTSIE = 1 in the USART_CR3 register.
+0: No change occurred on the CTS status line
+1: A change occurred on the CTS status line
+Note: If the hardware flow control feature is not supported, this bit is reserved and kept at
+reset value.
+Bit 8 LBDF: LIN break detection flag
+This bit is set by hardware when the LIN break is detected. It is cleared by software, by
+writing 1 to the LBDCF in the USART_ICR.
+An interrupt is generated if LBDIE = 1 in the USART_CR2 register.
+0: LIN Break not detected
+1: LIN break detected
+Note: If the USART does not support LIN mode, this bit is reserved and kept at reset value.
+Refer to Section 66.4: USART implementation.
+Bit 7 TXFNF: TXFIFO not full
+TXFNF is set by hardware when TXFIFO is not full meaning that data can be written in the
+USART_TDR. Every write operation to the USART_TDR places the data in the TXFIFO.
+This flag remains set until the TXFIFO is full. When the TXFIFO is full, this flag is cleared
+indicating that data can not be written into the USART_TDR.
+An interrupt is generated if the TXFNFIE bit = 1 in the USART_CR1 register.
+0: Transmit FIFO is full
+1: Transmit FIFO is not full
+Note: The TXFNF is kept reset during the flush request until TXFIFO is empty. After sending
+the flush request (by setting TXFRQ bit), the flag TXFNF must be checked prior to
+writing in TXFIFO (TXFNF and TXFE is set at the same time).
+This bit is used during single buffer transmission.
+Bit 6 TC: Transmission complete
+This bit indicates that the last data written in the USART_TDR has been transmitted out of
+the shift register.
+The TC flag behaves as follows:
+–
+When TDN = 0, the TC flag is set when the transmission of a frame containing data
+has completed and when TXE/TXFE is set.
+–
+When TDN is equal to the number of data in the TXFIFO, the TC flag is set when
+TXFIFO is empty and TDN is reached.
+–
+When TDN is greater than the number of data in the TXFIFO, TC remains cleared
+until the TXFIFO is filled again to reach the programmed number of data to be
+transferred.
+–
+When TDN is less than the number of data in the TXFIFO, TC is set when TDN is
+reached even if the TXFIFO is not empty.
+An interrupt is generated if TCIE = 1 in the USART_CR1 register.
+The TC bit is cleared by software, by writing 1 to the TCCF of the USART_ICR register, or
+by writing to the USART_TDR register.
+
+RM0456 Rev 6

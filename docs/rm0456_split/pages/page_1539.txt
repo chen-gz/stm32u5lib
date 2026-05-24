@@ -1,0 +1,78 @@
+RM0456 Rev 6
+
+RM0456
+
+Multi-function digital filter (MDF)
+A way to select the optimal gain is detailed below:
+1.
+
+Check that, for the expected input signal, the data size into the CIC filter does not
+exceed 26 bits. This can be checked using this
+formula:
+N
+LN ( SIN pp ⋅ D )
+-------------------------------------------- < 26
+LN ( 2 )
+
+where N represents the CIC order, D the decimation ratio and SINpp the maximum
+peak-to-peak amplitude of the input signal.
+SINppcan take:
+–
+
+a maximum peak-to-peak amplitude of 2 (± 1), for samples coming from SITF
+
+–
+
+a maximum peak-to-peak amplitude of 4095 (+ 2047, - 2048) for samples coming
+from a 12-bit ADC
+
+Example: a Sinc4 can be used with a decimation ratio of 96, if the maximum input
+signal does not exceed ± 0.35. Indeed:
+4
+
+LN ( 0.7 ⋅ 96 )
+------------------------------------∼25.82 bits < 26 bits
+LN ( 2 )
+
+2.
+
+Adjust the SCALE value.
+To select the most appropriate SCALE value, the user must check if the RSFLT is used
+or not. If the RSFLT is used, the data size at SCALE output must not exceed 22 bits,
+otherwise the data size can be up to 24 bits.
+The SCALE value in dB is selected using this formula:
+NB
+⎛
+⎞
+2
+SCALE dB < 20 ⋅ log 10 ⎜ ------------------------------N-⎟
+⎝ SIN pp ⋅ D ⎠
+
+where NB is equal to 22 if RSFLT is enabled, or 24 if RSFLT is bypassed. SCALEdB
+represents the gain value selected by SCALE[5:0].
+Example: for a Sinc4 with a decimation ratio of 96 and a SINpp of 0.7:
+–
+
+If the RSFLT is bypassed:
+⎛ 2 24 ⎞
+20 ⋅ log 10 ⎜ ------------------------4⎟ ∼– 11 dB
+⎝ 0.7 ⋅ 96 ⎠
+
+SCALEdB value must be lower than - 11 dB. The closest lower value is - 12dB
+(SCALE[5:0] = 0x2C).
+–
+
+If the RSFLT is enabled:
+⎛ 2 22 ⎞
+20 ⋅ log 10 ⎜ ------------------------4⎟ ∼– 23 dB
+⎝ 0.7 ⋅ 96 ⎠
+
+SCALEdB value must be lower than - 23 dB, the closest lower value is - 24.1 dB
+(SCALE[5:0] = 0x28).
+If SCALE[5:0] is set to a higher value, then a saturation may occur. An event flag
+informs the user if a saturation occurred.
+The table below proposes gain values for different filter configurations, when the data
+comes from the SITFx, according to the CIC order, and the CIC decimation ratio. This table
+is not exhaustive, and considers a full-scale input signal (see Section 39.7.5 for details).
+
+RM0456 Rev 6

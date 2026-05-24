@@ -1,0 +1,213 @@
+2902
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+RM0456
+
+2. RXFF flag is asserted if the LPUART receives n+1 data (n being the RXFIFO size): n data in the RXFIFO and 1 data in
+LPUART_RDR. In Stop mode, LPUART_RDR is not clocked. As a result, this register is not written and once n data are
+received and written in the RXFIFO, the RXFF interrupt is asserted (RXFF flag is not set).
+3. Parity/Noise/Framing error interrupts enable waking up from Stop modes when the DMA is used.
+4. When OVRDIS = 0.
+5. The DMA must be used when the FIFO mode is enabled.
+
+67.7
+
+LPUART registers
+Refer to Section 1.2: List of abbreviations for registers for a list of abbreviations used in
+register descriptions.
+The peripheral registers have to be accessed by words (32 bits).
+
+67.7.1
+
+LPUART control register 1 (LPUART_CR1)
+Address offset: 0x00
+Reset value: 0x0000 0000
+The same register can be used in FIFO mode enabled (this section) and FIFO mode
+disabled (next section).
+FIFO mode enabled, FIFOEN = 1
+30
+
+29
+
+28
+
+27
+
+26
+
+RXF
+FIE
+
+31
+
+TXFEIE
+
+FIFO
+EN
+
+M1
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+Res.
+
+11
+
+10
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+DEAT[4:0]
+rw
+
+rw
+
+9
+
+rw
+
+8
+
+7
+
+CMIE
+
+MME
+
+M0
+
+WAKE
+
+PCE
+
+PS
+
+PEIE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+17
+
+16
+
+DEDT[4:0]
+
+rw
+
+TXFN
+FIE
+
+18
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+TCIE
+
+RXFN
+EIE
+
+IDLEIE
+
+TE
+
+RE
+
+UESM
+
+UE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bit 31 RXFFIE:RXFIFO Full interrupt enable
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: An LPUART interrupt is generated when RXFF = 1 in the LPUART_ISR register
+Bit 30 TXFEIE:TXFIFO empty interrupt enable
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: An LPUART interrupt is generated when TXFE = 1 in the LPUART_ISR register
+Bit 29 FIFOEN:FIFO mode enable
+This bit is set and cleared by software.
+0: FIFO mode is disabled.
+1: FIFO mode is enabled.

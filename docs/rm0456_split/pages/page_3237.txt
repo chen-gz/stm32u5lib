@@ -1,0 +1,181 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 7 GONAKEFFM: Global OUT NAK effective mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 6 GINAKEFFM: Global non-periodic IN NAK effective mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 5 Reserved, must be kept at reset value.
+Bit 4 RXFLVLM: Receive FIFO non-empty mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 3 SOFM: Start of frame mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 2 OTGINT: OTG interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 1 MMISM: Mode mismatch interrupt mask
+0: Masked interrupt
+1: Unmasked interrupt
+Bit 0 Reserved, must be kept at reset value.
+
+73.14.10 OTG receive status debug read register [alternate]
+(OTG_GRXSTSR)
+This description is for register OTG_GRXSTSR in Device mode.
+A read to the receive status debug read register returns the contents of the top of the
+receive FIFO.
+The core ignores the receive status read when the receive FIFO is empty and returns a
+value of 0x0000 0000.
+Address offset: 0x01C
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+Res.
+
+Res.
+
+9
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+STSPH
+ST
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+r
+
+r
+
+r
+
+r
+
+r
+
+24
+
+r
+
+22
+
+21
+
+20
+
+FRMNUM[3:0]
+
+r
+
+DPID[0]
+
+23
+
+19
+
+17
+
+PKTSTS[3:0]
+
+16
+DPID[1]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+BCNT[10:0]
+r
+
+18
+
+EPNUM[3:0]
+r
+
+r
+
+r
+
+Bits 31:28 Reserved, must be kept at reset value.
+Bit 27 STSPHST: Status phase start
+Indicates the start of the status phase for a control write transfer. This bit is set along with
+the OUT transfer completed PKTSTS pattern.
+Bits 26:25 Reserved, must be kept at reset value.

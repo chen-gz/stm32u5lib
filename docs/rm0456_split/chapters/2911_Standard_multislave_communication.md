@@ -1,0 +1,72 @@
+3020
+
+Serial audio interface (SAI)
+
+RM0456
+
+Bit 9 CKEN2: Clock enable of bitstream clock number 2
+This bit is set and cleared by software.
+0: SAI_CK2 clock disabled
+1: SAI_CK2 clock enabled
+Note: It is not recommended to configure this bit when PDMEN = 1.
+SAI_CK2 might not be available for all SAI instances. Refer to Section 69.3: SAI
+implementation for details.
+Bit 8 CKEN1: Clock enable of bitstream clock number 1
+This bit is set and cleared by software.
+0: SAI_CK1 clock disabled
+1: SAI_CK1 clock enabled
+Note: It is not recommended to configure this bit when PDMEN = 1.
+SAI_CK1 might not be available for all SAI instances. Refer to Section 69.3: SAI
+implementation for details.
+Bits 7:6 Reserved, must be kept at reset value.
+Bits 5:4 MICNBR[1:0]: Number of microphones
+This bit is set and cleared by software.
+00: Configuration with 2 microphones
+01: Configuration with 4 microphones
+10: Configuration with 6 microphones
+11: Configuration with 8 microphones
+Note: It is not recommended to configure this field when PDMEN = 1.*
+The complete set of data lines might not be available for all SAI instances. Refer to
+Section 69.3: SAI implementation for details.
+Bits 3:1 Reserved, must be kept at reset value.
+Bit 0 PDMEN: PDM enable
+This bit is set and cleared by software. This bit enables to control the state of the PDM interface
+block.
+Make sure that the SAI in already operating in TDM master mode before enabling the PDM interface.
+0: PDM interface disabled
+1: PDM interface enabled
+
+69.6.19
+
+SAI PDM delay register (SAI_PDMDLY)
+Address offset: 0x48
+Reset value: 0x0000 0000
+
+31
+
+30
+
+Res.
+
+15
+
+29
+
+28
+
+DLYM4R[2:0]
+rw
+
+rw
+
+rw
+
+13
+
+12
+
+DLYM2R[2:0]
+rw
+
+<!-- pagebreak -->
+

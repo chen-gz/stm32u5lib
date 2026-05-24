@@ -1,0 +1,96 @@
+RM0456 Rev 6
+
+1
+
+Error asserted
+
+MSv62357V1
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+In down-counting mode, the detection is conditioned by a preliminary transition from 1 to 0.
+This is to cope with narrow index pulses in gated A and B mode, as shown on Figure 591, to
+avoid any false error detection in case the encoder dithers between TIMx_ARR and 0
+immediately after the index detection.
+Figure 591. Down-counting encode error detection
+tim_ti1
+
+tim_ti2
+
+Index
+
+IERRF
+
+Counter
+
+2
+
+1
+
+0
+
+7
+
+No error: transition from 0 to
+TIMx_ARR following an index
+
+0
+
+7
+
+6
+
+5
+
+No error: transition from 0 to
+TIMx_ARR without index, but not
+following a transition from 1 to 0
+
+tim_ti1
+
+tim_ti2
+
+Index
+
+IERRF
+
+Counter
+
+2
+
+1
+
+0
+
+Error detected
+
+7
+
+6
+
+Error asserted
+
+5
+
+4
+
+MSv62358V1
+
+An index error sets the IERRF interrupt flag in the TIMx_SR status register. An index error
+interrupt is generated if the IERRIE bit is set in the TIMx_DIER register.
+
+Functional encoder interrupts
+The following interrupts are also available in encoder mode
+•
+
+Direction change: any change of the counting direction in encoder mode causes the
+DIR bit in the TIMx_CR1 register to toggle. The direction change sets the DIRF
+interrupt flag in the TIMx_SR status register. A direction change interrupt is generated if
+the DIRIE bit is set in the TIMx_DIER register.
+
+•
+
+Index event: the index event sets the IDXF interrupt flag in the TIMx_SR status register.
+An index interrupt is generated if the IDXIE bit is set in the TIMx_DIER register.
+RM0456 Rev 6

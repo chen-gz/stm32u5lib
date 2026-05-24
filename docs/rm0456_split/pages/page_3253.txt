@@ -1,0 +1,174 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+73.14.27 OTG_Host periodic transmit FIFO/queue status register
+(OTG_HPTXSTS)
+This read-only register contains the free space information for the periodic Tx FIFO and the
+periodic transmit request queue.
+Address offset: 0x410
+Reset value: 0x0008 0100
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+PTXQTOP[7:0]
+
+20
+
+19
+
+18
+
+17
+
+16
+
+PTXQSAV[7:0]
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+PTXFSAVL[15:0]
+r
+
+r
+
+Bits 31:24 PTXQTOP[7:0]: Top of the periodic transmit request queue
+This indicates the entry in the periodic Tx request queue that is currently being processed by
+the MAC.
+This register is used for debugging.
+Bit 31: Odd/Even frame
+0XXXXXXX: send in even frame
+1XXXXXXX: send in odd frame
+Bits 30:27: Channel/endpoint number
+Bits 26:25: Type
+XXXXX00X: IN/OUT
+XXXXX01X: Zero-length packet
+XXXXX11X: Disable channel command
+Bit 24: Terminate (last entry for the selected channel/endpoint)
+Bits 23:16 PTXQSAV[7:0]: Periodic transmit request queue space available
+Indicates the number of free locations available to be written in the periodic transmit request
+queue. This queue holds both IN and OUT requests.
+0: Periodic transmit request queue is full
+1: 1 location available
+2: 2 locations available
+n: n locations available (0 ≤ n ≤ 8)
+Others: Reserved
+Bits 15:0 PTXFSAVL[15:0]: Periodic transmit data FIFO space available
+Indicates the number of free locations available to be written to in the periodic Tx FIFO.
+Values are in terms of 32-bit words
+0: Periodic Tx FIFO is full
+1: 1 word available
+2: 2 words available
+n: n words available (where 0 ≤ n ≤ PTXFD)
+Others: Reserved

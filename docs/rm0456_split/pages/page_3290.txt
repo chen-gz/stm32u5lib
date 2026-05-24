@@ -1,0 +1,179 @@
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+
+Bit 5 ENL1GTG: Enable sleep clock gating
+When this bit is set, core internal clock gating is enabled in Sleep state if the core cannot
+assert utmi_l1_suspend_n. When this bit is not set, the PHY clock is not gated in Sleep
+state.
+Bit 4 PHYSUSP: PHY suspended
+Indicates that the PHY has been suspended. This bit is updated once the PHY is suspended
+after the application has set the STPPCLK bit.
+Bits 3:2 Reserved, must be kept at reset value.
+Bit 1 GATEHCLK: Gate HCLK
+The application sets this bit to gate HCLK to modules other than the AHB Slave and Master
+and wake-up logic when the USB is suspended or the session is not valid. The application
+clears this bit when the USB is resumed or a new session starts.
+Bit 0 STPPCLK: Stop PHY clock
+The application sets this bit to stop the PHY clock when the USB is suspended, the session
+is not valid, or the device is disconnected. The application clears this bit when the USB is
+resumed or a new session starts.
+
+73.14.62 OTG power and clock gating control register 1 (OTG_PCGCCTL1)
+This register is available in host and device modes.
+Address offset: 0xE04
+Reset value: 0x0000 0000
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+RAM
+GATE
+EN
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+CNTGATECLK
+[1:0]
+rw
+
+rw
+
+GATE
+EN
+rw
+
+Bits 31:4 Reserved, must be kept at reset value.
+Bit 3 RAMGATEEN: Enable RAM clock gating
+Enable gating of the FIFO RAM.
+Bits 2:1 CNTGATECLK[1:0]: Counter for clock gating
+Indicates to the controller how many PHY Clock cycles and AHB Clock cycles of 'IDLE' (no
+activity) the controller waits for before Gating the respective PHY and AHB clocks internal to
+the controller.
+00: 64 clocks
+01: 128 clocks
+10: Reserved
+11: Reserved
+Bit 0 GATEEN: Enable active clock gating
+The application programs GATEEN to enable Active Clock Gating feature for the PHY and
+AHB clocks.
+
+RM0456 Rev 6

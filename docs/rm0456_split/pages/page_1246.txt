@@ -1,0 +1,49 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Bit 25 VSWEND: Voltage switch critical timing section completion
+The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 24 ACKTIMEOUT: Boot acknowledgment timeout
+The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 23 ACKFAIL: Boot acknowledgment received (boot acknowledgment check fail)
+The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 22 SDIOIT: SDIO interrupt received
+The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.
+Bit 21 BUSYD0END: end of SDMMC_D0 Busy following a CMD response detected
+This indicates only end of busy following a CMD response. This bit does not signal busy due
+to data transfer. Interrupt flag is cleared by writing corresponding interrupt clear bit in
+SDMMC_ICR.
+0: card SDMMC_D0 signal does NOT signal change from busy to not busy.
+1: card SDMMC_D0 signal changed from busy to NOT busy.
+Bit 20 BUSYD0: Inverted value of SDMMC_D0 line (Busy), sampled at the end of a CMD response
+and a second time 2 SDMMC_CK cycles after the CMD response
+This bit is reset to not busy when the SDMMCD0 line changes from busy to not busy. This bit
+does not signal busy due to data transfer. This is a hardware status flag only, it does not
+generate an interrupt.
+0: card signals not busy on SDMMC_D0.
+1: card signals busy on SDMMC_D0.
+Bit 19 RXFIFOE: Receive FIFO empty
+This is a hardware status flag only, does not generate an interrupt. This bit is cleared when
+one FIFO location becomes full.
+Bit 18 TXFIFOE: Transmit FIFO empty
+This bit is cleared when one FIFO location becomes full.
+Bit 17 RXFIFOF: Receive FIFO full
+This bit is cleared when one FIFO location becomes empty.
+Bit 16 TXFIFOF: Transmit FIFO full
+This is a hardware status flag only, does not generate an interrupt. This bit is cleared when
+one FIFO location becomes empty.
+Bit 15 RXFIFOHF: Receive FIFO half full
+There are at least half the number of words in the FIFO. This bit is cleared when the FIFO
+becomes half+1 empty.
+Bit 14 TXFIFOHE: Transmit FIFO half empty
+At least half the number of words can be written into the FIFO. This bit is cleared when the
+FIFO becomes half+1 full.
+Bit 13 CPSMACT: Command path state machine active (not in Idle state)
+This is a hardware status flag only, does not generate an interrupt.
+Bit 12 DPSMACT: Data path state machine active (not in Idle state)
+This is a hardware status flag only, does not generate an interrupt.
+Bit 11 DABORT: Data transfer aborted by CMD12
+Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.

@@ -1,0 +1,119 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC4)
+Figure 296. ADC behavior with WAIT = 1 and AUTOFF = 1
+
+TRGx
+EOC
+
+ADC state
+
+RDY
+
+Startup
+
+CH1
+
+DLY
+
+DLY
+
+OFF
+
+Startup CH2
+
+D1
+
+ADC_DR
+
+by S/W
+
+DLY
+
+DLY
+
+Startup
+
+CH3
+
+D2
+
+OFF
+
+Startup
+
+CH1
+
+D3
+
+OFF
+
+ADC_DR Read
+access
+
+OFF
+
+EOS
+
+CH2
+
+D4
+
+by H/W
+
+triggered
+
+MSv30346V2
+
+1. EXTSEL = TRGx, EXTEN = 01 (rising edge), CONT = x, ADSTART = 1, CHSEL = 0xF, SCANDIR = 0, WAIT = 1,
+AUTOFF = 1.
+
+Autonomous mode (AUTOFF, DPD)
+The autonomous mode is enabled by setting both AUTOFF and DPD bits to 1 in
+ADC_PWRR register. In addition, the autonomous mode must be enabled in the RCC.
+Below the autonomous mode operating sequence:
+1.
+
+When AUTOFF and DPD are both set to 1, the ADC is powered off when no conversion
+is ongoing.
+
+2.
+
+Upon hardware trigger reception, the ADC requests the adc_ker_ck and adc_hclk
+clocks to the RCC, the ADC voltage regulator is enabled, the calibration factor is
+loaded, the ADC is enabled and the conversion starts.
+
+3.
+
+Once the ADC conversion is complete, the ADC can either generate an AWDx interrupt
+or a DMA request, depending on peripheral configuration:
+–
+
+When DMA mode is enabled, the ADC generates a DMA request to transfer data
+to memory or to another peripherals.
+
+–
+
+When an analog watchdog is enabled, ADC data do not need to be transferred.
+The analog watchdog compares the data to the threshold value and generates an
+AWDx interrupt to wake up the device if the data is under or over the programmed
+threshold.
+
+4.
+
+When the ADC conversion/sequence or conversion is complete, the ADC and the ADC
+voltage regulator are automatically disabled as well as VREFINT buffer and the
+temperature sensor, and further clock requests are deasserted. This allows the
+minimization of current consumption.
+
+5.
+
+When consecutive hardware triggers occur, the ADC is automatically enabled and the
+conversion is processed.
+
+Refer to Figure 297 for a description of autonomous mode state diagram.
+The autonomous mode enables the ADC peripheral to operate when the device is in Stop
+mode. However it can also be used in Run or Sleep mode.
+RM0456 Rev 6

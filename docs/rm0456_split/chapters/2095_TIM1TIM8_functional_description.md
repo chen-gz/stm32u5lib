@@ -1,0 +1,386 @@
+•
+
+16-bit up, down, up/down autoreload counter.
+
+•
+
+16-bit programmable prescaler allowing dividing (also “on the fly”) the counter clock
+frequency by any factor from 1 to 65536.
+
+•
+
+Up to six independent channels for:
+–
+
+Input capture (but channels 5 and 6)
+
+–
+
+Output compare
+
+–
+
+PWM generation (edge and center-aligned mode)
+
+–
+
+One-pulse mode output
+
+•
+
+Complementary outputs with programmable dead-time
+
+•
+
+Synchronization circuit to control the timer with external signals and to interconnect
+several timers together.
+
+•
+
+Repetition counter to update the timer registers only after a given number of cycles of
+the counter.
+
+•
+
+2 break inputs to put the timer’s output signals in a safe user selectable configuration.
+
+•
+
+Interrupt/DMA generation on the following events:
+–
+
+Update: counter overflow/underflow, counter initialization (by software or
+internal/external trigger)
+
+–
+
+Trigger event (counter start, stop, initialization, or count by internal/external
+trigger)
+
+–
+
+Input capture
+
+–
+
+Output compare
+
+•
+
+Supports incremental (quadrature) encoder and hall-sensor circuitry for positioning
+purposes
+
+•
+
+Trigger input for external clock or cycle-by-cycle current management
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+54.3
+
+TIM1/TIM8 functional description
+
+54.3.1
+
+Block diagram
+Figure 509. Advanced-control timer block diagram
+
+tim_ker_ck
+tim_pclk
+TIM_ETR
+tim_etr[15:1]
+
+Trigger
+controller
+
+tim_etrf
+
+tim_etr_in
+Polarity selection & edge
+detector & prescaler
+
+tim_etr0
+
+Input
+filter
+
+tim_itr
+32-bit APB
+bus
+
+tim_trgo
+tim_trgo2
+
+TRG
+
+tim_itr[15:0]
+
+Slave
+
+tim_trc
+
+tim_trgi controller
+mode
+
+Reset, enable, up/down,
+count
+
+tim_ti1f_ed
+
+tim_cc_it
+tim_upd_it
+tim_brk_terr_ierr_it
+tim_trgi_com_dir_idx_it
+
+IRQ interface
+
+tim_cc1_dma
+tim_cc2_dma
+tim_cc3_dma
+tim_cc4_dma
+tim_upd_dma
+tim_trgi_dma
+tim_com_dma
+
+DMA interface
+
+tim_ti1fp1
+tim_ti2fp2
+
+REP register
+
+UEV
+
+tim_psc_ck
+XOR
+
+tim_ti1_in0
+
+tim_ti1 Input filter tim_ti1fp1
+
+tim_ti2_in0
+
+Input filter tim_ti2fp1
+
+Clock tim_cnt_ck
+prescaler
+
+Repetition
+counter
+
+CC2I
+tim_ic2
+
+CC1I
+
+DTG
+
+Output
+control
+
+tim_oc1n
+TIM_CH1N
+tim_oc2
+TIM_CH2
+
+Capture/Compare 2 register
+
+DTG
+
+Output
+control
+
+tim_oc2n
+TIM_CH2N
+
+DTG
+
+Output
+control
+
+tim_oc3n
+TIM_CH3N
+
+DTG
+
+Output
+control
+
+tim_oc4
+TIM_CH4
+tim_oc4n
+TIM_CH4N
+
+tim_oc5ref
+
+Output
+control
+
+tim_oc5
+
+tim_oc6ref
+
+Output
+control
+
+tim_oc6
+
+tim_oc2ref
+
+detector tim_trc
+
+tim_ti2_in[15:1]
+tim_ti3_in0
+
+Input filter
+tim_ti3 & edge tim_ti3fp1
+tim_ti3fp2
+
+TIM_CH4
+
+tim_trc
+
+tim_ti4_in0
+
+CC4I
+
+Input filter tim_ti4fp1
+
+tim_ic4
+
+tim_ti4 & edge
+tim_ti4fp2
+
+tim_oc3ref
+
+CC4I
+
+UEV
+Capture/Compare 4 register
+
+Prescaler
+
+tim_oc3
+TIM_CH3
+
+CC3I
+
+Capture/Compare 3 register
+
+Prescaler
+
+detector
+
+tim_ti3_in[15:0]
+
+CC3I UEV
+
+tim_ic3
+
+tim_oc4ref
+
+detector tim_trc
+
+tim_ti4_in[15:0]
+
+tim_oc1
+TIM_CH1
+
+DTG registers
+
+tim_oc1ref
+
+CC2I
+
+UEV
+
+Prescaler
+
+UEV
+
+CNT counter
+
+Capture/Compare 1 register
+
+Prescaler
+
+tim_ti2 & edge tim_ti2fp2
+
++/-
+
+CC1I UEV
+
+tim_ic1
+
+& edge tim_ti1fp2
+detector
+tim_trc
+
+tim_ti1_in[15:1]
+
+TIM_CH3
+
+UI
+
+Auto-reload register
+
+Stop, clear or up/down
+
+TIM_CH1
+
+TIM_CH2
+
+Encoder
+interface
+
+Capture/Compare 5 register
+
+Capture/Compare 6 register
+
+tim_ocref_clr_int
+tim_ocref_clr (1)
+
+tim_ocref_clr(1)[7:0]
+
+SBI
+F
+
+tim_sys_brk
+
+tim_etrf
+BIF
+tim_brk
+
+TIM_BKIN
+tim_brk_cmp[8:1]
+
+Break and Break2 circuitry
+
+TIM_BKIN2
+tim_brk2_cmp[8:1]
+
+(2)
+
+B2IF
+tim_brk2
+
+Notes:
+Reg
+
+Preload registers transferred to active registers on UEV event according to control bit
+Event
+Interrupt & DMA output
+
+MSv45751V6
+
+1. This feature is not available on all timers, refer to Section 54.3.2: TIM1/TIM8 pins and internal signals.
+2. See Figure 556: Break and Break2 circuitry overview for details.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

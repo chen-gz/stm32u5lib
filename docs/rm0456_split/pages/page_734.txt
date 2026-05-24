@@ -1,0 +1,179 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+17.8
+
+RM0456
+
+GPDMA registers
+The GPDMA registers must be accessed with an aligned 32-bit word data access.
+
+17.8.1
+
+GPDMA secure configuration register (GPDMA_SECCFGR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+A write access to this register must be secure and privileged. A read access is secure or
+nonsecure, privileged or unprivileged.
+A write access is ignored at bit level if the corresponding channel x is locked
+(GPDMA_RCFGLOCKR.LOCKx = 1).
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1.
+This register must be programmed at a bit level, at the initialization/closure of a GPDMA
+channel (when GPDMA_CxCR.EN = 0), to securely allocate individually any channel x to
+the secure or nonsecure world.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+SEC15 SEC14 SEC13 SEC12 SEC11 SEC10
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+SEC9
+
+SEC8
+
+SEC7
+
+SEC6
+
+SEC5
+
+SEC4
+
+SEC3
+
+SEC2
+
+SEC1
+
+SEC0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:16 Reserved, must be kept at reset value.
+Bits 15:0 SECx: secure state of channel x (x = 15 to 0)
+0: Nonsecure
+1: Secure

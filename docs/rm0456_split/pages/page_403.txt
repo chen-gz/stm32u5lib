@@ -1,0 +1,67 @@
+RM0456 Rev 6
+
+RM0456
+
+Power control (PWR)
+Table 97. PWR wake-up source selection (continued)
+Internal signal source (x = 1 to 8)
+
+wake-up
+event
+
+WKUPx_0
+(WUSELx = 00)
+
+WKUPx_1
+(WUSELx = 01)
+
+WKUPx_2
+(WUSELx = 10)
+
+WKUPx_3 (WUSELx = 11)
+
+WKUP5
+
+PC5
+
+PA3
+
+PB8
+
+Early IWDG interrupt(1)
+
+WKUP6
+
+PB5
+
+PA5
+
+PE7
+
+RTC_ALRA_S, RTC_ALRB_S, RTC_WUT_S,
+or RTC_TS_S
+
+WKUP7
+
+PB15
+
+PA6
+
+PE8
+
+RTC_ALRA, RTC_ALRB, RTC_WUT,
+or RTC_TS
+
+WKUP8
+
+PF2
+
+PA7
+
+PB10
+
+TAMP
+
+1. Interconnection available in all STM32U5 Series devices except STM32U575/585.
+
+RM0456 Rev 6

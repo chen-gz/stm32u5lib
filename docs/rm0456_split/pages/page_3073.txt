@@ -1,0 +1,55 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bit 6 GINAKEFF: Global IN non-periodic NAK effective
+Indicates that the Set global non-periodic IN NAK bit in the OTG_DCTL register (SGINAK bit
+in OTG_DCTL), set by the application, has taken effect in the core. That is, the core has
+sampled the Global IN NAK bit set by the application. This bit can be cleared by clearing the
+Clear global non-periodic IN NAK bit in the OTG_DCTL register (CGINAK bit in
+OTG_DCTL).
+This interrupt does not necessarily mean that a NAK handshake is sent out on the USB. The
+STALL bit takes precedence over the NAK bit.
+Note: Only accessible in device mode.
+Bit 5 NPTXFE: Non-periodic Tx FIFO empty
+This interrupt is asserted when the non-periodic Tx FIFO is either half or completely empty,
+and there is space for at least one entry to be written to the non-periodic transmit request
+queue. The half or completely empty status is determined by the non-periodic Tx FIFO
+empty level bit in the OTG_GAHBCFG register (TXFELVL bit in OTG_GAHBCFG).
+Note: Accessible in host mode only.
+Bit 4 RXFLVL: Rx FIFO non-empty
+Indicates that there is at least one packet pending to be read from the Rx FIFO.
+Note: Accessible in both host and device modes.
+Bit 3 SOF: Start of frame
+In host mode, the core sets this bit to indicate that an SOF (FS), or Keep-Alive (LS) is
+transmitted on the USB. The application must write a 1 to this bit to clear the interrupt.
+In device mode, in the core sets this bit to indicate that an SOF token has been received on
+the USB. The application can read the OTG_DSTS register to get the current frame number.
+This interrupt is seen only when the core is operating in FS.
+Note: This register may return '1' if read immediately after power on reset. If the register bit
+reads '1' immediately after power on reset it does not indicate that an SOF has been
+sent (in case of host mode) or SOF has been received (in case of device mode). The
+read value of this interrupt is valid only after a valid connection between host and
+device is established. If the bit is set after power on reset the application can clear the
+bit.
+Note: Accessible in both host and device modes.
+Bit 2 OTGINT: OTG interrupt
+The core sets this bit to indicate an OTG protocol event. The application must read the OTG
+interrupt status (OTG_GOTGINT) register to determine the exact event that caused this
+interrupt. The application must clear the appropriate status bit in the OTG_GOTGINT
+register to clear this bit.
+Note: Accessible in both host and device modes.
+Bit 1 MMIS: Mode mismatch interrupt
+The core sets this bit when the application is trying to access:
+– A host mode register, when the core is operating in device mode
+– A device mode register, when the core is operating in host mode
+The register access is completed on the AHB with an OKAY response, but is ignored by the
+core internally and does not affect the operation of the core.
+Note: Accessible in both host and device modes.
+Bit 0 CMOD: Current mode of operation
+Indicates the current mode.
+0: Device mode
+1: Host mode
+Note: Accessible in both host and device modes.

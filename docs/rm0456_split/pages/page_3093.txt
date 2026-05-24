@@ -1,0 +1,158 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+Bits 31:24 PTXQTOP[7:0]: Top of the periodic transmit request queue
+This indicates the entry in the periodic Tx request queue that is currently being processed by
+the MAC.
+This register is used for debugging.
+Bit 31: Odd/Even frame
+0: send in even frame
+1: send in odd frame
+Bits 30:27: Channel/endpoint number
+Bits 26:25: Type
+00: IN/OUT
+01: Zero-length packet
+11: Disable channel command
+Bit 24: Terminate (last entry for the selected channel/endpoint)
+Bits 23:16 PTXQSAV[7:0]: Periodic transmit request queue space available
+Indicates the number of free locations available to be written in the periodic transmit request
+queue. This queue holds both IN and OUT requests.
+00: Periodic transmit request queue is full
+01: 1 location available
+10: 2 locations available
+bxn: n locations available (0 ≤ n ≤ 8)
+Others: Reserved
+Bits 15:0 PTXFSAVL[15:0]: Periodic transmit data FIFO space available
+Indicates the number of free locations available to be written to in the periodic Tx FIFO.
+Values are in terms of 32-bit words
+0000: Periodic Tx FIFO is full
+0001: 1 word available
+0010: 2 words available
+bxn: n words available (where 0 ≤ n ≤ PTXFD)
+Others: Reserved
+
+72.15.25 OTG host all channels interrupt register (OTG_HAINT)
+Address offset: 0x414
+Reset value: 0x0000 0000
+When a significant event occurs on a channel, the host all channels interrupt register
+interrupts the application using the host channels interrupt bit of the core interrupt register
+(HCINT bit in OTG_GINTSTS). This is shown in Figure 901. There is one interrupt bit per
+channel, up to a maximum of 16 bits. Bits in this register are set and cleared when the
+application sets and clears bits in the corresponding host channel-x interrupt register.
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+HAINT[15:0]
+r
+
+r

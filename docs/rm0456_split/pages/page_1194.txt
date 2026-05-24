@@ -1,0 +1,76 @@
+1259
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+RM0456
+
+Figure 196. Data path
+To control unit
+
+Data path
+
+Status
+flag
+
+Registers
+
+Data
+timer
+
+Odd receive
+shift register
+
+FIFO
+
+Even receive
+shift register
+
+Control
+logic
+
+in
+
+Odd CRC
+
+SDMMC_D[7:0]
+
+Even CRC
+
+sdmmc_rx_ck
+Odd transmit
+shift register
+
+Mux
+
+Odd CRC
+
+Even transmit
+shift register
+
+out
+
+Even CRC
+
+SDMMC_CK
+MSv40162V2
+
+The card data bus width can be programmed in the clock control register bits WIDBUS. The
+supported data bus width modes are:
+•
+
+If the wide bus mode is not enabled, only one bit is transferred over SDMMC_D0.
+
+•
+
+If the 4-bit wide bus mode is enabled, data is transferred at four bits over
+SDMMC_D[3:0].
+
+•
+
+If the 8-bit wide bus mode is enabled, data is transferred at eight bits over
+SDMMC_D[7:0].
+
+Next to the data bus width the data sampling mode can be programmed in the clock control
+register bit DDR. The supported data sampling modes are:
+
+Note:

@@ -1,0 +1,127 @@
+dQ= d mod (q -1) and
+
+qinv= q-1 mod p
+
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+These values allow the recipient to compute the exponentiation m = Ad (mod pq) more
+efficiently as follows:
+•
+
+m1 = AdP mod p
+
+•
+
+m2 = AdQ mod q
+
+•
+
+h = qinv (m1 - m2) mod p, with m1> m2
+
+•
+
+m = m2 + hq mod pq
+
+Operation instructions for computing CRT exponentiation Ad mod pq are summarized in
+Table 509.
+Table 509. CRT exponentiation
+Parameters with direction
+
+Value (note)
+
+Storage
+
+Size
+
+PKA_CR
+
+6 bits
+64 bits
+
+IN
+
+MODE
+
+0x07
+
+IN
+
+Operand length
+
+(in bits, not null)
+
+RAM@0x408
+
+Operand dP
+
+(0 < dP
+
+< 2M/2)
+
+RAM@0x730
+
+Operand dQ
+
+(0 < dQ < 2M/2)
+
+RAM@0xE78
+
+Operand qinv
+
+< 2M/2)
+
+RAM@0x948
+
+IN
+
+(0 < p < 2M/2)
+
+RAM@0xB60
+
+Prime q(1)
+
+(0 < q< 2M/2)
+
+RAM@0x1088
+
+Operand A
+
+(0 < A< 2M)
+
+RAM@0x12A0
+
+(0 ≤ result < pq)
+
+RAM@0x838
+
+Prime p
+
+IN
+OUT
+
+(0 < qinv
+
+(1)
+
+d mod pq
+
+Result: A
+
+ROS / 2
+
+ROS
+
+1. Must be different from 2.
+
+53.4.14
+
+Point on elliptic curve Fp check
+This operation consists in checking whether a given point P (x, y) satisfies or not the curves
+over prime fields equation y2 = (x3 + ax + b) mod p, where a and b are elements of the
+curve.
+Operation instructions for point on elliptic curve Fp check are summarized in Table 510.
+
+RM0456 Rev 6

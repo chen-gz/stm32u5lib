@@ -1,0 +1,55 @@
+RM0456 Rev 6
+
+RM0456
+
+Low-power universal asynchronous receiver transmitter (LPUART)
+
+Bit 10 PCE: Parity control enable
+This bit selects the hardware parity control (generation and detection). When the parity
+control is enabled, the computed parity is inserted at the MSB position (9th bit if M = 1; 8th bit
+if M = 0) and parity is checked on the received data. This bit is set and cleared by software.
+Once it is set, PCE is active after the current byte (in reception and in transmission).
+0: Parity control disabled
+1: Parity control enabled
+This bitfield can only be written when the LPUART is disabled (UE = 0).
+Bit 9 PS: Parity selection
+This bit selects the odd or even parity when the parity generation/detection is enabled (PCE
+bit set). It is set and cleared by software. The parity is selected after the current byte.
+0: Even parity
+1: Odd parity
+This bitfield can only be written when the LPUART is disabled (UE = 0).
+Bit 8 PEIE: PE interrupt enable
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: An LPUART interrupt is generated whenever PE = 1 in the LPUART_ISR register
+Bit 7 TXEIE: Transmit data register empty
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: A LPUART interrupt is generated whenever TXE = 1 in the LPUART_ISR register
+Bit 6 TCIE: Transmission complete interrupt enable
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: An LPUART interrupt is generated whenever TC = 1 in the LPUART_ISR register
+Bit 5 RXNEIE: Receive data register not empty
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: A LPUART interrupt is generated whenever ORE = 1 or RXNE = 1 in the LPUART_ISR
+register
+Bit 4 IDLEIE: IDLE interrupt enable
+This bit is set and cleared by software.
+0: Interrupt is inhibited
+1: An LPUART interrupt is generated whenever IDLE = 1 in the LPUART_ISR register
+Bit 3 TE: Transmitter enable
+This bit enables the transmitter. When the autonomous mode is disabled, TE bit is set and
+cleared by software. When the autonomous mode is enabled, TE bit becomes a status bit,
+which is set and cleared by hardware.
+0: Transmitter is disabled
+1: Transmitter is enabled
+Note: When the LPUART acts as a transmitted, a low pulse on the TE bit (0 followed by 1)
+sends a preamble (idle line) after the current word, except in smartcard mode. In order
+to generate an idle character, the TE must not be immediately written to 1. To ensure
+the required duration, the software can poll the TEACK bit in the LPUART_ISR register.
+In smartcard mode, when TE is set, there is a 1 bit-time delay before the transmission
+starts.
+
+RM0456 Rev 6

@@ -1,0 +1,96 @@
+on/off
+
+Push-pull or
+open-drain
+MSv63642V2
+
+RM0456 Rev 6
+
+RM0456
+
+13.3.12
+
+General-purpose I/Os (GPIO)
+
+Analog configuration
+When the I/O port is programmed as analog configuration:
+•
+
+The output buffer is disabled.
+
+•
+
+The Schmitt trigger input is deactivated, providing zero consumption for every analog
+value of the I/O pin. The output of the Schmitt trigger is forced to a constant value (0).
+
+•
+
+The weak pull-up resistors are disabled by hardware. The weak pull-down is
+configurable.
+
+•
+
+Read access to the input data register gets the value 0.
+
+The figure below shows the high-impedance, analog-input configuration of the I/O port bits.
+Figure 49. High-impedance analog configuration
+To/from on-chip
+peripheral
+
+Input data register
+
+Analog
+
+Read/write
+
+Output data register
+
+Write
+
+Bit set/reset registers
+
+Read
+
+off
+
+TTL Schmitt trigger
+
+Input driver
+Output driver
+
+I/O pin
+Pull
+down
+VSS
+
+ESD
+protection
+
+VSS
+
+Protection diode
+
+VSS
+
+MSv74119V1
+
+13.3.13
+
+Using the HSE or LSE oscillator pins as GPIOs
+When the HSE or LSE oscillator is switched off (default state after reset), the related
+oscillator pins can be used as normal GPIOs.
+When the HSE or LSE oscillator is switched on (by setting the HSEON or LSEON bit in the
+RCC_CSR register), the oscillator takes control of its associated pins and the GPIO
+configuration of these pins has no effect.
+When the oscillator is configured in a user external clock mode, only the pin is reserved for
+clock input, and the OSC_OUT or OSC32_OUT pin can still be used as normal GPIO.
+
+13.3.14
+
+Using the GPIO pins in the RTC supply domain
+The PC13/PC14/PC15 GPIO functionality is lost when the core supply domain is powered
+off (when the device enters Standby mode). In this case, if their GPIO configuration is not
+bypassed by the RTC configuration, these pins are set in an analog input mode.
+For details about I/O control by the RTC, refer to Section 63.3: RTC functional description.
+
+RM0456 Rev 6

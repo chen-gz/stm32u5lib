@@ -1,0 +1,87 @@
+Use cases:
+–
+
+Standard-A connector which always implies Host mode.
+
+–
+
+Micro connector, so ID present on connector, but ID pin not available in pinout, at
+A-plug insertion (detected by another means, for example: GPIO).
+
+–
+
+A Type-C connector, when host functionality is determined at cable attachment or
+via power delivery messages.
+
+Note that the integrated pull-down resistors are set on the DP/DM lines by setting bit
+FORCEHOSTPD.
+
+On-chip 5 V VBUS generation is not supported. For this reason, a charge pump or, if 5 V are
+available on the application board, a basic power switch must be added externally to drive
+
+RM0456 Rev 6
+
+RM0456
+
+USB on-the-go high-speed (OTG_HS)
+the 5 V VBUS line. The external charge pump can be driven by any GPIO output. This is
+required for the OTG A-host, A-device and host-only configurations.
+Figure 921. OTG_HS host-only connection
+VDD
+5V
+
+GPIO + IRQ
+
+STMPS2141STR
+5 V Pwr
+Current-limited
+Overcurrent power distribution
+switch(2)
+VBUS
+DM
+
+OSC_IN
+
+DP
+VSS
+
+OSC_OUT
+
+USB Std-A connector
+
+GPIO
+
+EN
+
+MSv36915V2
+
+1. VDD range is between 2 V and 3.6 V.
+
+73.7.1
+
+USB host states
+Host port power
+On-chip 5 V VBUS generation is not supported. For this reason, a charge pump or, if 5 V are
+available on the application board, a basic power switch, must be added externally to drive
+the 5 V VBUS line. The external charge pump can be driven by any GPIO output or via an
+I2C interface connected to an external PMIC (power management IC). When the application
+decides to power on VBUS, it must also set the port power bit in the host port control and
+status register (PPWR bit in OTG_HPRT).
+
+VBUS valid
+In Host mode, the VBUS sensing pin does not need to be connected to VBUS.
+The charge pump overcurrent flag can also be used to prevent electrical damage. Connect
+the overcurrent flag output from the charge pump to any GPIO input and configure it to
+generate a port interrupt on the active level. The overcurrent ISR must promptly disable the
+VBUS generation and clear the port power bit.
+
+Host detection of a peripheral connection
+USB peripherals or B-device are detected as soon as they are connected. The OTG_HS
+core issues a host port interrupt triggered by the device connected bit in the host port control
+and status (PCDET bit in OTG_HPRT).
+
+Host detection of peripheral a disconnection
+The peripheral disconnection event triggers the disconnect detected interrupt (DISCINT bit
+in OTG_GINTSTS).
+
+RM0456 Rev 6

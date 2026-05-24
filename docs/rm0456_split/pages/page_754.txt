@@ -1,0 +1,152 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+17.8.14
+
+RM0456
+
+GPDMA channel x source address register (GPDMA_CxSAR)
+Address offset: 0x9C + 0x80 * x (x = 0 to 15)
+Reset value: 0x0000 0000
+This register is secure or nonsecure depending on the secure state of channel x
+(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged
+state of channel x (GPDMA_PRIVCFGR.PRIVx).
+This register configures the source start address of a transfer.
+This register must be written when GPDMA_CxCR.EN = 0.
+This register is read-only when GPDMA_CxCR.EN = 1, and continuously updated by
+hardware, in order to reflect the address of the next burst transfer from the source.
+This register must be written when the channel is completed (then the hardware has
+deasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at
+different levels: block, 2D/repeated block, LLI or full linked-list.
+In linked-list mode, during the link transfer, this register is automatically updated by the
+GPDMA from the memory if GPDMA_CxLLR.USA = 1.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+SA[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+SA[15:0]

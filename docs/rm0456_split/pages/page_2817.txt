@@ -1,0 +1,63 @@
+2952
+
+Serial peripheral interface (SPI)
+
+RM0456
+
+flags RXP, TXP, and DXP of the SPI_SR register according to the SPI mode (duplex or
+simplex):
+•
+
+If RXP is set, at least one complete data packet can be read from the RxFIFO.
+
+•
+
+If TXP is set, at least one complete data packet can be written to the TxFIFO.
+
+•
+
+If DXP is set, at least one complete data packet can be read from the RxFIFO and
+written to the TxFIFO at full-duplex mode.
+
+These flags can be polled by software, or they can trigger an interrupt and/or a DMA request
+(if enabled through the RXPIE, TXPIE, and DXPIE bits of the SPI_EIR register or the
+RXDMAEN and TXDMAEN bits of the SPI_CFG1 register).
+Once an occupancy flag is set, the software or the DMA must read and/or write a complete
+data packet before checking the flag again to verify if the next packet can be handled. This
+cycle can be repeated until the corresponding flag is read at zero.
+Both RxFIFO and TxFIFO contents are flushed and cannot be accessed when the SPI is
+disabled (SPE cleared in the SPI_CR1 register).
+
+Data packing versus data register access control
+The content of the RxFIFO and TxFIFO can be accessed by reading/writing from/to the SPI
+data registers SPI_RXDR and SPI_TXDR, respectively. A read access from the SPI_RXDR
+register returns the oldest values stored in the RxFIFO that have not been read yet. A write
+access to the SPI_TXDR register stores the data written at the end of the send queue in the
+TxFIFO.
+These data registers can be accessed by 8-, 16-, or 32-bit read and write CPU instructions,
+forced by the register address casting applied by the software. Data packing is performed
+automatically by hardware if the data access applied by the software is a multiple of the data
+size. It allows handling more than one data in parallel in a single data register access. Then
+the SPI operates using the lowest significant byte or half-word first. FIFO data accesses of
+less than the configured data size are forbidden. To avoid spurious data being read or
+written data being lost, a complete data packet (configured through the FIFO threshold)
+must be serviced when the corresponding FIFO occupancy flag is set. If the data pattern is
+not byte-, half-word, or word-aligned, only the valid data bits are stored right-aligned to the
+FIFO and transferred on the bus. Unused bits are discarded on the transmitter side and
+padded with zeros on the receiver side.
+For example, if the data frame size fits into one byte, the data packing is used automatically
+when a 16-bit or 32-bit read/write access is performed by software from/to the
+SPI_RXDR/SPI_TXDR register. In this case, two respectively four data are handled by a
+single 16-bit respectively 32-bit access. Additionally, if such data frames are grouped into
+packets of four via the FIFO threshold setting, the packet to be serviced is signalized by
+raising the corresponding FIFO occupancy flag (TXP, RXP, or DXP). If the instance FIFO
+threshold is sufficient, a packet containing eight 8-bit data frames can be handled by two
+consecutive 32-bit accesses upon the same single threshold event. The most efficient data
+handling is achieved when the data packet size (defined by DSIZE and FTHLV bitfields) is
+aligned with the read/write access from/to the data registers.
+
+Concurrent read and write services
+In full-duplex mode, both TxFIFO and RxFIFO packet occupancies can be monitored
+through a common FIFO flag (DXP). When the DXP flag is set, the application performs the
+specified number of writes to SPI_TXDR to upload the content of one entire data packet for
+transmission, followed by the same number of reads from SPI_RXDR to download the

@@ -1,0 +1,76 @@
+988
+
+Filter math accelerator (FMAC)
+
+RM0456
+Figure 115. IIR filter structure (direct form 1)
+
+2R
+
+b[0]
+x[n]
+
+y[n]
+
+Z-1
+
+a[1]
+
+b[1]
+
+y[n-1]
+
+x[n-1]
+
+Z-1
+
+b[2]
+
+a[2]
+
+x[n-2]
+
+Z-1
+
+Z-1
+
+Z-1
+y[n-2]
+
+b[3]
+
+a[3]
+
+x[n-3]
+
+Z-1
+y[n-3]
+
+Z-1
+
+Z-1
+b[N]
+
+a[M]
+
+x[n-N]
+
+y[n-M]
+MSv47127V1
+
+Input:
+•
+
+X1 buffer contains the elements of vector X. It is a circular buffer of length N + 1+ d.
+
+•
+
+X2 buffer contains the elements of coefficient vectors B and A concatenated
+(b0, b1, b2..., bN, a1, a2, ..., aM). It is a fixed buffer of length M+N+1.
+
+Output:
+•
+
+Y buffer contains the output values, yn. It is a circular buffer of length M + d.
+
+Parameters

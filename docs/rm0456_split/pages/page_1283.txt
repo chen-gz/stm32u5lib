@@ -1,0 +1,84 @@
+There is no hardware protection to prevent these forbidden write accesses that may cause
+the ADC to enter an unknown state. To recover from this situation, the ADC must be
+disabled (clear ADEN as well as all the bits of the ADC_CR register).
+
+RM0456 Rev 6
+
+RM0456
+
+33.4.11
+
+Analog-to-digital converter (ADC12)
+
+Channel selection (SQRx, JSQRx)
+The ADC features up to 20 multiplexed channels per ADC:
+•
+
+Up to 17 analog inputs coming from GPIO pads
+
+•
+
+Each ADC is connected to 3 internal analog inputs:
+–
+
+the internal temperature sensor (VSENSE)
+
+–
+
+the internal reference voltage (VREFINT)
+
+–
+
+the VBAT monitoring channel (VBAT/4)
+
+Refer to Table ADC interconnection in Section 33.4.2: ADC pins and internal signals for the
+connection of the above internal analog inputs to external ADC pins or internal signals.
+The conversions can be organized in two groups: regular and injected. A group consists of a
+sequence of conversions that can be done on any channel and in any order. For instance, it
+is possible to implement the conversion sequence in the following order: ADC_IN3,
+ADC_IN8, ADC_IN2, ADC_IN2, ADC_IN0, ADC_IN2, ADC_IN2, ADC_IN15.
+•
+
+A regular group is composed of up to 16 conversions. The regular channels and their
+order in the conversion sequence must be selected in the ADC_SQRy registers. The
+total number of conversions in the regular group must be written in the L[3:0] bits in the
+ADC_SQR1 register.
+
+•
+
+An injected group is composed of up to four conversions. The injected channels and
+their order in the conversion sequence must be selected in the ADC_JSQR register.
+The total number of conversions in the injected group must be written in the L[1:0] bits
+in the ADC_JSQR register.
+
+ADC_SQRy registers must not be modified while regular conversions are ongoing. To
+modify ADC_SQRy registers, the ADC regular conversions must first be stopped by setting
+ADSTP (refer to Section 33.4.18: Stopping an ongoing conversion (ADSTP, JADSTP)).
+Note:
+
+To convert one of the internal analog channels, the corresponding analog sources must first
+be enabled by programming VBATEN, VSENSESEL, or VREFEN bits in the ADC12_CCR
+registers.
+
+33.4.12
+
+Channel preselection register (ADC_PCSEL)
+For each channel selected through SQRx or JSQRx bits, the corresponding ADC_PCSEL
+bit must be configured in advance.
+This ADC_PCSEL bit controls the analog switch integrated in the I/O level. The ADC input
+multiplexer selects the ADC input according to SQRx and JSQRx configuration with very
+high speed and the analog switch integrated in the I/O cannot react as fast as the ADC
+multiplexer does. To avoid the delay due to on analog switch control on the I/O, it is
+necessary to preselect the input channels that are selected through the SQRx and JSQRx.
+The selection is based on the VINP[i] of each ADC input. For example, if the ADC converts
+ADC_IN1, the PCSEL1 bit must also be set in ADC_PCSEL.
+
+33.4.13
+
+Channel-wise programmable sampling time (SMPR1, SMPR2)
+Before starting a conversion, the ADC must establish a direct connection between the
+voltage source under measurement and the embedded sampling capacitor of the ADC. This
+sampling time must be enough for the input voltage source to charge the embedded
+capacitor to the input voltage level.
+
+RM0456 Rev 6

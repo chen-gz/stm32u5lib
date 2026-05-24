@@ -1,0 +1,89 @@
+Signal name
+
+Signal type
+
+Description
+
+DSI_D0P/D0N
+
+Input/Output
+
+Differential Data lane 0
+
+DSI_D1P/D1N
+
+Output
+
+Differential Data lane 1
+
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+Table 435. DSI pins (continued)
+Signal name
+
+Signal type
+
+Description
+
+DSI_CKP/CKN
+
+Output
+
+Differential clock
+
+DSI_TE
+
+Input
+
+DSI tearing effect pin
+
+Table 436. DSI internal input/output signals
+
+44.4.3
+
+Signal name
+
+Signal type
+
+dsi_it
+
+Output
+
+Description
+DSI global interrupt
+
+Supported resolutions and frame rates
+The DSI specification does not define supported standard resolutions or frame rates.
+Display resolution, blanking periods, synchronization events duration, frame rates, and pixel
+color depth play a fundamental role in the required bandwidth. In addition, other link-related
+attributes can influence the ability of the link to support a DSI-specific device, namely
+display input buffering capabilities, video transmission mode (burst or non-burst), bus
+turn-around (BTA) time, concurrent command mode traffic in a video mode transmission, or
+display device specifics. All these variables make it difficult to define a standard procedure
+to estimate the minimum lane rate and the minimum number of lanes that support a specific
+display device.
+The basic assumptions for estimates are:
+
+44.4.4
+
+•
+
+clock lane frequency is 250 MHz, resulting in a bandwidth of 500 Mbit/s for each data
+lane
+
+•
+
+the display must be capable of buffering the pixel data at the speed at which it is
+delivered in the DSI link
+
+•
+
+no significant control traffic is present on the link when the pixel data are transmitted.
+
+System level architecture
+Figure 413 shows the architecture of the DSI Host.
+
+RM0456 Rev 6

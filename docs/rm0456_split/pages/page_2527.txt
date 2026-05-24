@@ -1,0 +1,188 @@
+2687
+
+Real-time clock (RTC)
+
+RM0456
+
+Bits 29:24 MASKSS[5:0]: Mask the most-significant bits starting at this bit
+0: No comparison on subseconds for Alarm B. The alarm is set when the seconds unit is
+incremented (assuming that the rest of the fields match).
+1: SS[31:1] are don’t care in Alarm B comparison. Only SS[0] is compared.
+2: SS[31:2] are don’t care in Alarm B comparison. Only SS[1:0] are compared.
+...
+31: SS[31] is don’t care in Alarm B comparison. Only SS[30:0] are compared.
+From 32 to 63: All 32 SS bits are compared and must match to activate alarm.
+Note: In BCD mode (BIN=00)The overflow bits of the synchronous counter (bits 15) is never
+compared. This bit can be different from 0 only after a shift operation.
+Bits 23:15
+
+Reserved, must be kept at reset value.
+
+Bits 14:0 SS[14:0]: Subseconds value
+This value is compared with the contents of the synchronous prescaler counter to determine
+if alarm B is to be activated. Only bits 0 up to MASKSS-1 are compared.
+This field is the mirror of SS[14:0] in the RTC_ALRBBINR, and so can also be read or written
+through RTC_ALRBBINR.
+Note: SS[3:0] must be 0000 when SSCLR is set with ATCKSEL[3] = 1 in TAMP_ATCR1.
+
+63.6.20
+
+RTC status register (RTC_SR)
+This register can be globally protected, or each bit of this register can be individually
+protected against nonsecure access. Refer to Section 63.3.4: RTC secure protection
+modes.
+This register can be globally protected, or each bit of this register can be individually
+protected against unprivileged access. Refer to Section 63.3.5: RTC privilege protection
+modes.
+Address offset: 0x50
+Backup domain reset value: 0x0000 0000
+System reset: not affected
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+SSR
+UF
+
+ITSF
+
+TSOVF
+
+TSF
+
+WUTF
+
+r
+
+r
+
+r
+
+r
+
+r
+
+ALRBF ALRAF
+r
+
+r
+
+Bits 31:7 Reserved, must be kept at reset value.
+Bit 6 SSRUF: SSR underflow flag
+This flag is set by hardware when the SSR is reloaded with 0xFFFF FFFF after reaching 0.
+SSRUF is not set when SSCLR = 1.
+Note: SSRUF is not an error event as SSR counter is a free-running down-counter with
+automatic reload.
+Bit 5 ITSF: Internal timestamp flag
+This flag is set by hardware when a timestamp on the internal event occurs.

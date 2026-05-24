@@ -1,0 +1,35 @@
+1861
+
+DSI Host (DSI)
+
+44.11.4
+
+RM0456
+
+Video mode pattern generator resolution
+Depending on the orientation, BER mode, and color coding, the smallest resolutions
+accepted by the video mode pattern generator are:
+•
+
+BER mode: 8x8
+
+•
+
+horizontal color bar mode: 8x8
+
+•
+
+vertical color bar mode: 8x8.
+
+Vertical pattern
+The width of each color bar is determined by the division of horizontal resolution (pixels) for
+eight test pattern colors. If the horizontal resolution is not divisible by eight, the last color
+(black) is extended to fill the resolution.
+In the example in Figure 442, the horizontal resolution is 103.
+Figure 442. Vertical pattern (103x15)
+
+Horizontal pattern
+The width of each color bar is determined by the division of the number of vertical resolution
+(lines) for eight test pattern colors. If the vertical resolution is not divisible by eight, the last
+color (black) is extended to fill the resolution, as shown in Figure 443.
+Figure 443. Horizontal pattern (103x15)

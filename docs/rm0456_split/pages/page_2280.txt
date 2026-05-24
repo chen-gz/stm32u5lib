@@ -1,0 +1,51 @@
+2350
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+RM0456
+
+Note:
+
+In case of a PWM with a 100% duty cycle (if CCRx>ARR), tim_ocxref is enabled again at
+the next counter overflow.
+
+55.4.15
+
+One-pulse mode
+One-pulse mode (OPM) is a particular case of the previous modes. It allows the counter to
+be started in response to a stimulus and to generate a pulse with a programmable length
+after a programmable delay.
+Starting the counter can be controlled through the slave mode controller. Generating the
+waveform can be done in output compare mode or PWM mode. One-pulse mode is selected
+by setting the OPM bit in the TIMx_CR1 register. This makes the counter stop automatically
+at the next update event UEV.
+A pulse can be correctly generated only if the compare value is different from the counter
+initial value. Before starting (when the timer is waiting for the trigger), the configuration must
+be:
+CNT<CCRx ≤ ARR (in particular, 0<CCRx).
+Figure 641. Example of One-pulse mode
+tim_ti2
+tim_oc1ref
+tim_oc1
+
+Counter
+
+TIMx_ARR
+TIMx_CCR1
+
+0
+t
+
+DELAY
+
+t
+
+PULSE
+
+t
+MSv62344V1
+
+For example if the user wants to generate a positive pulse on tim_oc1 with a length of
+tPULSE and after a delay of tDELAY as soon as a positive edge is detected on the tim_ti2 input
+pin.
+Use tim_ti2fp2 as trigger 1:

@@ -1,0 +1,62 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+GPDMA FIFO-based burst
+In FIFO-mode, a transfer generally consists of two pipelined and separated burst transfers:
+•
+
+one burst from the source to the FIFO over the allocated source master port, as defined
+by GPDMA_CxTR1.SAP
+
+•
+
+one burst from the FIFO to the destination over the allocated destination master port,
+as defined by GPDMA_CxTR1.DAP
+
+GPDMA source burst
+The requested source burst transfer to the FIFO can be scheduled as early as possible over
+the allocated port, depending on the current FIFO level versus the programmed burst size
+(when the FIFO is ready to get one new burst from the source):
+when FIFO level ≤ 2dma_fifo_size[x] - (SBL_1[5:0]+1) * 2SDW_LOG2[1:0]
+where:
+•
+
+FIFO level is the current filling level of the FIFO, in bytes.
+
+•
+
+2dma_fifo_size[x] is the half of the FIFO size of the channel x, in bytes (see Section 17.3.1
+for the implementation details and dma_fifo_size[x] value).
+
+•
+
+(SBL_1[5:0]+1) * 2SDW_LOG2[1:0] is the size of the programmed source burst transfer,
+in bytes.
+
+Based on the channel priority (GPDMA_CxCR.PRIO[1:0]), this ready FIFO-based source
+transfer is internally arbitrated versus the other requested and active channels.
+
+GPDMA destination burst
+The requested destination burst transfer from the FIFO can be scheduled as early as
+possible over the allocated port, depending on the current FIFO level versus the
+programmed burst size (when the FIFO is ready to push one new burst to the destination):
+when FIFO level ≥ (DBL_1[5:0]+1) * 2DDW_LOG2[1:0]
+where:
+•
+
+FIFO level is the current filling level of the FIFO, in bytes.
+
+•
+
+(DBL_1[5:0]+1) * 2DDW_LOG2[1:0] is the size of the programmed destination burst
+transfer, in bytes.
+
+Based on the channel priority, this ready FIFO-based destination transfer is internally
+arbitrated versus the other requested and active channels.
+
+GPDMA burst vs source block size, 1-Kbyte address boundary and FIFO size
+The programmed source/destination GPDMA burst is implemented with an AHB burst as is,
+unless one of the following conditions is met:

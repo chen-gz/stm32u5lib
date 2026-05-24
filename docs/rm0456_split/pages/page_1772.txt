@@ -1,0 +1,73 @@
+1861
+
+DSI Host (DSI)
+
+RM0456
+
+The VLPSIZE field can be compared directly with the size of the command to be transmitted
+to determine if there is time to transmit the command.
+Consider an example of a frame with 16.4 μs per line and assume an escape clock
+frequency of 20 MHz and a lane bit rate of 800 Mbits/s. In this case, it is possible to send
+420 bits in escape mode (that is, 164 bits = 16.4 μs * 20 MHz / 2). Still, since it is the vertical
+active region of the frame, consider the HSA, HBP, and HACT timings apart from the D-PHY
+protocol and PHY timings. The following assumptions are made:
+•
+
+number of active lanes is four
+
+•
+
+Lane byte clock period (lanebyteclkperiod) is 10 ns (800 Mbit/s per lane)
+
+•
+
+escape clock period is 50 ns (DSI_CCR.TXECKDIV = 5)
+
+•
+
+D-PHY takes 180 ns to pass from low-power to high-speed mode
+(DSI_DLTCR.LP2HS_TIME = 18)
+
+•
+
+D-PHY takes 200 ns to pass from high-speed to low-power mode
+(DSI_DLTCR.HS2LP_TIME = 20)
+
+•
+
+tHSA = 420 ns
+
+•
+
+tHBP = 800 ns
+
+•
+
+tHACT = 12800 ns to send 1280 pixel at 24 bpp
+
+•
+
+video is transmitted in non-burst mode
+
+•
+
+DSI is configured for four lanes.
+
+In this example, consider that video is sent in non-burst mode. The VLPSIZE is calculated
+as follows:
+VLPSIZE = (16.4 µs -(420 ns + 800 ns + 12.8 µs + 180 ns +200 ns +
+(22 × 50 ns + 2 × 50 ns)) / (2 × 8 × 50 ns) = 1 byte
+Only one byte can be transmitted in this period. A short packet (for example, generic short
+write) requires a minimum of four bytes. Therefore, in this example, commands are not sent
+in the VACT region.
+If burst mode is enabled, more time is available to transmit the commands in the VACT
+region, because HACT is time compressed.
+VLPSIZE = (16.4 µs - (420 ns + 800 ns + (1280 × 3 / 4 × 10 ns) + 180 ns + 200 ns +
+(22 × 50 ns + 2 × 50 ns) / (2 × 8 × 50 ns) = 5 bytes
+For burst mode, the VLPSIZE is 5 bytes and then a 4-byte short packet can be sent.
+
+Transmission of commands in different periods
+The LPSIZE and VLPSIZE fields allow a simple comparison to determine if a command can
+be transmitted in any of the BLLP periods.
+Figure 434 illustrates the meaning of VLPSIZE and LPSIZE, matching them with the shaded
+areas and the VACT region.

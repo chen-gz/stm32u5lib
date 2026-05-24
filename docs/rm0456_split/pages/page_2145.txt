@@ -1,0 +1,73 @@
+•
+
+The MOE bit is cleared asynchronously, putting the outputs in inactive state, idle state,
+or even releasing the control to the GPIO controller (selected by the OSSI bit). This
+feature is enabled even if the MCU oscillator is off.
+
+•
+
+Each output channel is driven with the level programmed in the OISx bit in the
+TIMx_CR2 register as soon as MOE = 0. If OSSI = 0, the timer releases the output
+control (taken over by the GPIO controller), otherwise the enable output remains high.
+
+•
+
+When complementary outputs are used:
+–
+
+The outputs are first put in inactive state (depending on the polarity). This is done
+asynchronously so that it works even if no clock is provided to the timer.
+
+–
+
+If the timer clock is still present, then the dead-time generator is reactivated in
+order to drive the outputs with the level programmed in the OISx and OISxN bits
+after a dead-time. Even in this case, tim_ocx and tim_ocxn cannot be driven to
+
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+their active level together. Note that because of the resynchronization on MOE,
+the dead-time duration is slightly longer than usual (around 2 tim_ker_ck clock
+cycles).
+–
+
+Note:
+
+If OSSI = 0, the timer releases the output control (taken over by the GPIO
+controller which forces a Hi-Z state), otherwise the enable outputs remain or
+become high as soon as one of the CCxE or CCxNE bits is high.
+
+•
+
+The break status flag (SBIF, BIF, and B2IF bits in the TIMx_SR register) is set. An
+interrupt is generated if the BIE bit in the TIMx_DIER register is set. A DMA request
+can be sent if the BDE bit in the TIMx_DIER register is set.
+
+•
+
+If the AOE bit in the TIMx_BDTR register is set, the MOE bit is automatically set again
+at the next update event (UEV). As an example, this can be used to perform a
+regulation. Otherwise, MOE remains low until the application sets it to 1 again. In this
+case, it can be used for security and the break input can be connected to an alarm from
+power drivers, thermal sensors, or any security components.
+
+If the MOE is reset by the CPU while the AOE bit is set, the outputs are in idle state and
+forced to inactive level or Hi-Z depending on OSSI value. If both the MOE and AOE bits are
+reset by the CPU, the outputs are in disabled state and driven with the level programmed in
+the OISx bit in the TIMx_CR2 register.
+The break inputs are active on level. Thus, the MOE cannot be set while the break input is
+active (neither automatically nor by software). In the meantime, the status flag BIF and B2IF
+cannot be cleared.
+In addition to the break input and the output management, a write protection has been
+implemented inside the break circuit to safeguard the application. It is used to freeze the
+configuration of several parameters (dead-time duration, tim_ocx/tim_ocxn polarities and
+state when disabled, OCxM configurations, break enable, and polarity). The application can
+choose from three levels of protection selected by the LOCK bits in the TIMx_BDTR
+register. Refer to Section 54.6.20. The LOCK bits can be written only once after an MCU
+reset.
+Figure 557 shows an example of behavior of the outputs in response to a break.
+
+RM0456 Rev 6

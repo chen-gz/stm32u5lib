@@ -1,0 +1,176 @@
+RM0456 Rev 6
+
+RM0456
+
+Graphic timer (GFXTIM)
+
+Event and interrupt generation
+The watchdog can generate two events:
+•
+
+an alarm when the watchdog down-counter reaches 0
+The watchdog counter is automatically stopped, and WDGAF (alarm flag) is set
+in GFXTIM_ISR. An interrupt is generated if WDGAIE (alarm interrupt enable) is set
+in GFXTIM_IER.
+
+•
+
+a pre-alarm when the watchdog counter matches the pre-alarm register value
+in GFXTIM_WDGPAR (watchdog pre-alarm register)
+WDGPF (pre-alarm flag) is set in GFXTIM_ISR, and an interrupt is generated
+if WDGPIE (pre-alarm interrupt enable) is set in GFXTIM_IER.
+
+59.4
+
+GFXTIM interrupts
+An interrupt can be produced on the following events:
+•
+
+absolute frame counter compare event
+
+•
+
+absolute frame counter overflow
+
+•
+
+absolute line counter compare events
+
+•
+
+absolute line counter overflow
+
+•
+
+relative frame counter reload events
+
+•
+
+external tearing effect
+
+•
+
+combined events
+
+•
+
+watchdog alarm event
+
+•
+
+watchdog pre-alarm event
+
+Separate interrupt enable bits are available for flexibility.
+Table 620. Graphic timer interrupt requests
+Interrupt
+acronym
+
+GFXTIM
+
+Event flag
+
+Enable control
+bit
+
+Interrupt clear
+method
+
+Absolute frame counter overflow
+
+AFCOF
+
+AFCOIE
+
+write 1 in CAFCOF
+
+Absolute frame counter compare 1
+
+AFCC1F
+
+AFCC1IE
+
+write 1 in CAFCC1F
+
+Absolute line counter overflow
+
+ALCOF
+
+ALCOIE
+
+write 1 in CALCOF
+
+Absolute line counter compare 1
+
+ALCC1F
+
+ALCC1IE
+
+write 1 in CALCC1F
+
+Absolute line counter compare 2
+
+ALCC2F
+
+ALCC2IE
+
+write 1 in CALCC2F
+
+Relative frame counter 1 reload
+
+RFC1RF
+
+RFC1RIE
+
+write 1 in CRFC1RF
+
+Relative frame counter 2 reload
+
+RFC2RF
+
+RFC2RIE
+
+write 1 in CRFC2RF
+
+External tearing effect
+
+TEF
+
+TEIE
+
+write 1 in CTEF
+
+Event 1
+
+EV1F
+
+EV1IE
+
+write 1 in CEV1F
+
+Event 2
+
+EV2F
+
+EV2IE
+
+write 1 in CEV2F
+
+Event 3
+
+EV3F
+
+EV3IE
+
+write 1 in CEV3F
+
+Event 4
+
+EV4F
+
+EV4IE
+
+write 1 in CEV4F
+
+Interrupt event
+
+RM0456 Rev 6

@@ -1,0 +1,131 @@
+•
+
+If DATCAP[1:0] = 1x, the samples are transferred into the system memory as soon as
+DFLT0 and SAD are enabled. The transfer does not depend on the SAD state.
+
+•
+
+If DATCAP[1:0] = 01, the samples are transferred into the system memory when the
+SAD detects a sound (when the SAD is in DETECT state), assuming that DFLT0 and
+SAD are enabled.
+
+•
+
+If DATCAP[1:0] = 0, the samples are not transferred into the memory. This mode can
+be used if the application only wants to observe but does not need samples for other
+processing.
+
+RM0456 Rev 6
+
+RM0456
+Note:
+
+Audio digital filter (ADF)
+DATCAP[1:0] is taken into account only when the SADEN = 1. For example, if the SAD
+configuration is DATCAP[1:0] = 0, SADEN = DFLTEN = 1, and if the application sets now
+SADEN to 0, the samples provided by the DFLT0 are transferred to the RXFIFO.
+
+Programming recommendations
+To make the SAD function working properly, the ADF must be programmed as follows:
+1.
+
+Provide the proper kernel clock (adf_ker_ck) to the ADF.
+
+2.
+
+Configure the CKGEN and enable it.
+
+3.
+
+Configure the SITF and enable it (note that microphones have a settling time of several
+milliseconds).
+
+4.
+
+Configure the DFLT0. A typical setting is the following:
+–
+
+CIC5 with a decimation ratio of 12, 16 or 24
+
+–
+
+RSFLT with a decimation ratio of 4
+
+–
+
+HPF with HPFC = 2 or 3
+
+For a very-low power implementation, the RSFLT can be bypassed.
+5.
+
+Set SADEN to 0.
+
+6.
+
+Wait for SADACTIVE = 0. If SADEN was previously enabled, this phase can take two
+periods of adf_hclk, and two periods of adf_proc_ck.
+
+7.
+
+Configure the SAD as follows:
+–
+
+Set DATCAP[1:0] to 0, if the application does not want to store the samples into
+the system memory.
+
+–
+
+Set DATCAP[1:0] to 01, if the application wants to store the samples into the
+system memory only when the SAD detects a sound.
+
+–
+
+Set DATCAP[1:0] to 11, if the application wants to store the samples into the
+system memory continuously.
+
+8.
+
+Configure the DMA (optional).
+
+9.
+
+Enable the SAD.
+
+10. Enable the DFLT0.
+Figure 380 shows a simplified timing diagram when the SAD works with DATCAP[1:0] = 01.
+Thanks to the kernel clock (adf_ker_ck), the SAD continuously monitors the audio signal
+provided by the DFLT0. The threshold is also continuously updated according to the
+ambient noise level estimation.
+•
+
+When the SAD detects a sound higher than the programmed threshold (1), the ADF
+requests the bus clock (adf_bus_ckreq asserted).
+
+•
+
+When the bus clock is available (see 2 in Figure 380) then:
+–
+
+The data transfer to the memory is triggered.
+
+–
+
+The event interrupt (adf_evt_it) can be generated.
+
+•
+
+In this example, the event interrupt (adf_evt_it) is used to wake up the application. The
+interrupt line is released by clearing SDDETF by writing 1 to it.
+
+•
+
+As long as the SAD remains in DETECT state, the application waits to get enough
+samples and calls, for example the keyword recognition algorithm (see 3 in
+Figure 380).
+
+•
+
+In the case shown in Figure 381, the SAD state (SADST) goes back to MONITOR
+before the keyword is recognized. If DETCFG is set to 1, an event signals when the
+SAD goes back to MONITOR state. The SAD stops the transfer of samples into the
+RM0456 Rev 6

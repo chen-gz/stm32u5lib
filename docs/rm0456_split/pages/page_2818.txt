@@ -1,0 +1,52 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+content of one received data packet. Once one data packet is uploaded and one packet is
+downloaded, the application software or the DMA checks again the DXP flag and repeats
+the data packet read and write operation sequence until DXP is read as zero.
+The drawback of services based on DXP exclusively is that servicing the TxFIFO is delayed
+on purpose due to the SPI nature since the TXP events precedes the RXP ones. To allow
+continuous SCK clock flow on the master side and prevent underrun on the slave side, it is
+recommended to prefill a few data ahead to the TxFIFO at the transfer start, and wait until
+the transfer is complete to read the last received data.
+
+Hardware data counter
+If a hardware data counter is used (TSIZE bitfield of the SPI_CR2 register set to a nonzero
+value), the application software does not need to calculate the remaining number of data to
+be handled. The end of transfer automatically controls the CRC, as well as the hardware SS
+management, when used. The user application does not need to ensure that the overall
+number of data is a multiple of the packet size. If the last data packet is incomplete, it is
+serviced in the same way as any full packet. The unused part of this last packet is not
+handled by the peripheral. Only the valid data are written into the TxFIFO and/or read from
+the RxFIFO, and the redundant writes and reads are discarded. When the hardware counter
+reaches zero, the EOT flag is raised, and the RXP flag is not set for the last data packet. If
+the last packet is not aligned with the packet size, the TXP and EOT occupancy events are
+not related to the configured packet size but to the number of remaining data calculated by
+hardware.
+If TSIZE is kept at zero (for example due to an unpredictable number of data), only the
+number of transferred data corresponding to the FIFO thresholds is supported. If some data
+are not aligned with the configured packet size, they may remain pending and available in
+the RxFIFO. In this case, the FTHLV level is not reached and the RXP flag is not set. Then
+the number of remaining received data frames in the RxFIFO is indicated by the RXWNE
+and RXPLVL bitfields of the SPI_SR register. Nevertheless, the application software can still
+read the complete data packet from the RxFIFO and the redundant data are read as zero.
+To prevent such an unaligned data reception, the user must configure the FIFO threshold to
+a single data (FTHLV = 0). In this case, each data frame is serviced by its own RXP
+occupancy event.
+
+Data transfer handling
+Data are transferred using MOSI and MISO lines, depending on the SPI communication
+mode and associated configuration. The mode is configured through the COMM[1:0] bitfield
+of the SPI_CFG2 register. The HDDIR bit of the SPI_CR1 register controls the data flow
+direction in half-duplex mode. The communication flow is handled by the master via the SS
+and SCK signals. The slave selected for the communication is fully subordinated to the
+master communication activity, no matter if it handles the data flow on time or not. The slave
+can only temporarily suspend the master communication by using the RDY signal. The
+active levels of RDY and SS signals can be changed, or MISO and MOSI functionality
+swapped (via the RDIOP, SSIOP and IOSWP bits of the SPI_CFG2 register).
+The SPI master transmitter can operate in full-duplex, simplex, or half-duplex mode. In fullduplex mode, data are received synchronously. The master starts the data transfer once the
+CSTART bit of the SPI_CR1 register is set, provided the SPI is enabled and the TxFIFO
+
+RM0456 Rev 6

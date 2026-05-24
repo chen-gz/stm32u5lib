@@ -1,0 +1,56 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial peripheral interface (SPI)
+
+Bit 10 CSUSP: master suspend request
+This bit reads as zero.
+In master mode, when this bit is set by software, the CSTART bit is reset at the end of the
+current frame and communication is suspended. The user has to check SUSP flag to check
+end of the frame transfer.
+The master mode communication must be suspended (using this bit or keeping TXDR
+empty) before going to Low-power mode.
+After software suspension, SUSP flag must be cleared and SPI disabled and re-enabled
+before the next transfer starts.
+Bit 9 CSTART: master transfer start
+This bit can be set by software if SPI is enabled only to start an SPI communication. it is
+cleared by hardware when end of transfer (EOT) flag is set or when a transfer suspend
+request is accepted.
+In SPI mode, the bit is taken into account at master mode only. If transmission is enabled,
+communication starts or continues only if any data is available in the transmission FIFO.
+0: master transfer is at idle
+1: master transfer is ongoing or temporary suspended by automatic suspend
+Bit 8 MASRX: master automatic suspension in Receive mode
+This bit is set and cleared by software to control continuous SPI transfer in master receiver
+mode and automatic management in order to avoid overrun condition.
+When SPI communication is suspended by hardware automatically, it may happen that few
+bits of next frame are already clocked out due to internal synchronization delay.
+This is why, the automatic suspension is not quite reliable when size of data drops below 8
+bits. In this case, a safe suspension can be achieved by combination with delay inserted
+between data frames applied when MIDI parameter keeps a non zero value; sum of data size
+and the interleaved SPI cycles must always produce interval at length of 8 SPI clock periods
+at minimum. After software clearing of the SUSP bit, the communication resumes and
+continues by subsequent bits transfer without any next constraint. Before the SUSP bit is
+cleared, the user must release the RxFIFO space as much as possible by reading out all the
+data packets available at RxFIFO based on the RXP flag indication to prevent any
+subsequent suspension.
+0: SPI flow/clock generation is continuous, regardless of overrun condition. (data are lost)
+1: SPI flow is suspended temporary on RxFIFO full condition, before reaching overrun
+condition. The SUSP flag is set when the SPI communication is suspended.
+Bits 7:1 Reserved, must be kept at reset value.
+Bit 0 SPE: serial peripheral enable
+This bit is set by and cleared by software.
+When SPE = 1, SPI data transfer is enabled, the SPI_CFG1 and SPI_CFG2 configuration
+registers, CRCPOLY, UDRDR, part of the SPI_AUTOCR register and IOLOCK bit in the
+SPI_CR1 register are write protected. They can be changed only when SPE = 0.
+When SPE = 0 any SPI operation is stopped and disabled, all the pending requests of the
+events with enabled interrupt are blocked except the MODF interrupt request (but their
+pending still propagates the request of the spi_plck clock), the SS output is deactivated at
+master, the RDY signal keeps not ready status at slave, the internal state machine is reseted,
+all the FIFOs content is flushed, CRC calculation initialized, receive data register is read zero.
+SPE is cleared and cannot be set when MODF error flag is active.
+0: Serial peripheral disabled.
+1: Serial peripheral enabled
+
+RM0456 Rev 6

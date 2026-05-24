@@ -1,0 +1,81 @@
+RM0456 Rev 6
+
+RM0456
+
+34.4.15
+
+Analog-to-digital converter (ADC4)
+
+Stopping an ongoing conversion (ADSTP)
+The software can decide to stop any ongoing conversions by setting ADSTP to 1 in the
+ADC_CR register.
+This resets the ADC operation and the ADC is idle, ready for a new operation.
+When the ADSTP bit is set by software, any ongoing conversion is aborted and the result is
+discarded (ADC_DR register is not updated with the current conversion).
+The scan sequence is also aborted and reset (meaning that restarting the ADC would restart a new sequence).
+Once this procedure is complete, the ADSTP and ADSTART bits are both cleared by
+hardware and the software must wait until ADSTART is cleared to 0 before starting new
+conversions.
+Figure 286. Stopping an ongoing conversion
+
+ADC state
+
+RDY
+
+ADSTART
+
+set by
+SW
+
+SAMPLING CH(N)
+
+RDY
+
+CONVERTING CH(N)
+
+cleared by HW
+
+set by SW
+
+ADSTOP
+ADC_DR
+
+cleared by HW
+
+DATA N-1
+MSv30337V2
+
+34.4.16
+
+Conversion on external trigger and trigger polarity
+(EXTSEL, EXTEN)
+A conversion or a sequence of conversion can be triggered either by software or by an
+external event (for example timer capture). If the EXTEN[1:0] control bits are not equal to
+“0b00”, then external events are able to trigger a conversion with the selected polarity. The
+trigger selection is effective once software has set bit ADSTART to 1.
+Any hardware triggers which occur while a conversion is ongoing are ignored.
+If bit ADSTART is cleared, any hardware triggers which occur are ignored.
+Table 332 provides the correspondence between the EXTEN[1:0] values and the trigger
+polarity.
+Table 332. Configuring the trigger polarity
+Source
+
+EXTEN[1:0]
+
+Trigger detection disabled
+
+00
+
+Detection on rising edge
+
+01
+
+Detection on falling edge
+
+10
+
+Detection on both rising and falling edges
+
+11
+
+RM0456 Rev 6

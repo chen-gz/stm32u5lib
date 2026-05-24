@@ -1,0 +1,108 @@
+1599
+
+Multi-function digital filter (MDF)
+
+RM0456
+Figure 331. CKGEN overview
+
+MDF
+
+TRIGx
+TRIG_CK
+
+CKGEN
+
+mdf_proc_ck
+
+Digital
+processing:
+DFLTx, SAD,
+OLD, SCD
+
+Interfaces:
+ADCITF[2:1],
+SITFx
+
+CKGDEN
+
+PROCDIV[6:0]
+
+CKGMOD
+
+CCKDIV[3:0]
+
+CCK0DIR
+CCK0EN
+
+÷ 1 to 128
+
+mdf_ker_ck
+
+0
+
+MDF_CCK0
+
+÷ 1 to 16
+
+1
+
+cck_trg
+(from TRIG_CK)
+
+MDF_CCK1
+
+CCK1EN
+CCK1DIR
+MSv62657V1
+
+The trigger logic for CKGEN is handled by the TRG_CK block. As shown in Figure 340, the
+CCKDIV divider can be triggered on the rising or falling edge of one of the 16 trigger
+sources. When the proper trigger condition occurs, the cck_trg signal goes to high, allowing
+the CCKDIV divider to start. The TRG_CK logic is reset when CKGDEN is set to 0.
+This feature can be helpful to synchronize the MDF_CCKy (y = 0,1) clock of several MDF
+instances, or to synchronize the clock generation to a timer event.
+The application can control the activation of the MDF_CCK0 or MDF_CCK1 pin
+CCK0EN/CCK1EN and CCK0DIR/CCK1DIR bits:
+•
+
+CCKyEN is used to enable the CCKDIV, and thus generates a clock for the external
+sensors.
+
+•
+
+CCKyDIR is used to control the direction of the ADF_CCKy pin (input or output)
+Table 374. Control of the common clock generation(1)
+
+CCKyEN CCKyDIR
+
+Description
+
+0
+
+0
+
+The MDF_CCKy pin is in input. An external clock can be connected to the MDF_CCKy pin
+and used by the SITFx in order to decode the serial stream
+
+0
+
+1
+
+The MDF_CCKy pin is in output. No clock is generated, thus the MDF_CCKy pin is driven
+low.
+
+1
+
+1
+
+The MDF_CCKy pin is in output. A clock is generated on the MDF_CCKy pin. The SITFx
+can use this pin as clock source in order to decode the serial stream
+
+1. The configuration with CCKyEN = 1 and CCKyDIR = 0 must be avoided (no interest).
+
+When CCKyDIR = 1, as soon as the CCKyEN bit is set to 1, a clock is generated to the
+corresponding output without any spurs.
+Note:
+
+<!-- pagebreak -->
+

@@ -1,0 +1,148 @@
+RM0456 Rev 6
+
+RM0456
+
+69.4.11
+
+Serial audio interface (SAI)
+
+AC’97 link controller
+The SAI is able to work as an AC’97 link controller. In this protocol:
+•
+
+The slot number and the slot size are fixed.
+
+•
+
+The frame synchronization signal is perfectly defined and has a fixed shape.
+
+To select this protocol, set the PRTCFG[1:0] bits in the SAI_xCR1 register to 10. When
+AC’97 mode is selected, only data sizes of 16 or 20 bits can be used, otherwise the SAI
+behavior is not guaranteed.
+•
+
+The NBSLOT[3:0] and SLOTSZ[1:0] bits are consequently ignored.
+
+•
+
+The number of slots is fixed at 13 slots. The first one is 16 bits wide and all the others
+are 20 bits wide (data slots).
+
+•
+
+The FBOFF[4:0] bits in the SAI_xSLOTR register are ignored.
+
+•
+
+The SAI_xFRCR register is ignored.
+
+•
+
+The MCLK is not used.
+
+The FS signal from the block defined as asynchronous is configured automatically as an
+output, since the AC’97 controller link drives the FS signal whatever the master or slave
+configuration.
+Figure 872 shows an AC’97 audio frame structure.
+Figure 872. AC’97 audio frame
+
+FS
+1
+
+2
+
+CMD CMD
+
+3
+
+4
+
+PCM
+
+PCM
+
+SDI
+
+Tag ADDR DATA LFRONT RFRONT
+
+SDO
+
+Tag ADDR
+
+STATUS STATUS PCM PCM
+DATA LEFT RIGHT
+
+5
+
+6
+
+9
+
+10
+
+11
+
+12
+
+LINE1
+PCM
+PCM
+PCM
+DAC CENTER LSURR RSURR
+
+PCM
+LFE
+
+LINE2
+DAC
+
+HSET
+DAC
+
+IO
+CTRL
+
+LINE1
+ADC
+
+RSR
+LVD
+
+LINE2
+ADC
+
+HSET
+
+IO
+STATUS
+
+PCM
+MIC
+
+7
+
+RSR
+VD
+
+8
+
+RSR
+VD
+
+MS192343V1
+
+Note:
+
+In the AC’97 protocol, bit 2 of the tag is reserved (always 0), so bit 2 of the TAG is forced to
+0 level whatever the value written in the SAI FIFO.
+For more details about tag representation, refer to the AC’97 protocol standard.
+One SAI can be used to target an AC’97 point-to-point communication.
+Using two SAIs (for devices featuring two embedded SAIs) enables the control of three
+external AC’97 decoders as illustrated in Figure 873.
+In SAI1, the audio block A must be declared as asynchronous master transmitter, whereas
+the audio block B is defined to be slave receiver and internally synchronous to the audio
+block A.
+The SAI2 is configured for audio block A and B both synchronous with the external SAI1 in
+slave receiver mode.
+
+RM0456 Rev 6

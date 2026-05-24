@@ -1,0 +1,48 @@
+3460
+
+USB on-the-go high-speed (OTG_HS)
+
+RM0456
+
+Bit 31 Reserved, must be kept at reset value.
+Bit 30 FDMOD: Force device mode
+Writing a 1 to this bit, forces the core to device mode irrespective of the OTG_ID input pin.
+0: Normal mode
+1: Force device mode
+After setting the force bit, the application must wait at least 25 ms before the change takes
+effect.
+Note: Accessible in both device and host modes.
+Bit 29 FHMOD: Force host mode
+Writing a 1 to this bit, forces the core to host mode irrespective of the OTG_ID input pin.
+0: Normal mode
+1: Force host mode
+After setting the force bit, the application must wait at least 25 ms before the change takes
+effect.
+Note: Accessible in both device and host modes.
+Bits 28:26 Reserved, must be kept at reset value.
+Bits 25:23 Reserved, must be kept at reset value.
+Bit 22 TSDPS: TermSel DLine pulsing selection
+This bit selects utmi_termselect to drive the data line pulse during SRP (session request
+protocol).
+0: Data line pulsing using utmi_txvalid (default)
+1: Data line pulsing using utmi_termsel
+Bits 21:16 Reserved, must be kept at reset value.
+Bit 15 PHYLPC: PHY Low-power clock select
+This bit selects either 480 MHz or 48 MHz (low-power) PHY mode. In FS and LS modes, the
+PHY can usually operate on a 48 MHz clock to save power.
+0: 480 MHz internal PLL clock
+1: 48 MHz external clock
+In 480 MHz mode, the UTMI interface operates at either 60 or 30 MHz, depending on
+whether the 8- or 16-bit data width is selected. In 48 MHz mode, the UTMI interface operates
+at 48 MHz in FS and LS modes.
+Bit 14 Reserved, must be kept at reset value.
+Bits 13:10 TRDT[3:0]: USB turnaround time
+These bits allows to set the turnaround time in PHY clocks. They must be configured
+according to Table 771: TRDT values, depending on the application AHB frequency. Higher
+TRDT values allow stretching the USB response time to IN tokens in order to compensate for
+longer AHB read access latency to the data FIFO.
+Note: Only accessible in device mode.
+Bits 9:8 Reserved, must be kept at reset value.
+Bit 7 Reserved, must be kept at reset value.
+Bit 6 Reserved, must be kept at reset value.
+Bit 5 Reserved, must be kept at reset value.

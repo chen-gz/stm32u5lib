@@ -1,0 +1,35 @@
+1377
+
+Analog-to-digital converter (ADC4)
+
+RM0456
+
+34
+
+Analog-to-digital converter (ADC4)
+
+34.1
+
+Introduction
+The 12-bit ADC is a successive approximation analog-to-digital converter. It has up to 25
+multiplexed channels enabling it to measure signals from up to 19 external sources and 6
+internal sources. A/D conversion of the various channels can be performed in single,
+continuous, scan or discontinuous mode. The result of the ADC is stored in a left-aligned or
+right-aligned 16-bit data register.
+The analog watchdog feature enables the application to detect if the input voltage goes
+outside the user-defined higher or lower thresholds.
+An efficient low-power mode is implemented to allow very low consumption at low
+frequency.
+A built-in hardware oversampler allows improving analog performances while off-loading the
+related computational burden from the CPU.
+
+34.2
+
+ADC main features
+•
+
+•
+
+•
+
+•

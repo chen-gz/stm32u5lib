@@ -1,0 +1,7 @@
+3499
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Table 778. 4b5b symbol encoding table

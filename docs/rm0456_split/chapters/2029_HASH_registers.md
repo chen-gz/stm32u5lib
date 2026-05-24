@@ -1,0 +1,217 @@
+Interrupt event
+
+Event flag
+
+Enable
+control bit
+
+Interrupt clear method
+
+Digest computation completed
+
+DCIS
+
+DCIE
+
+Clear DCIS or set INIT
+
+Data input buffer ready to get a
+new block
+
+DINIS
+
+DINIE
+
+Clear DINIS or write to
+HASH_DIN
+
+RM0456 Rev 6
+
+RM0456
+
+Hash processor (HASH)
+
+51.6
+
+HASH registers
+The HASH core is associated with several control and status registers and several message
+digest registers. All these registers are accessible through 32-bit word accesses only, else
+an AHB error is generated.
+
+51.6.1
+
+HASH control register (HASH_CR)
+Address offset: 0x00
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ALGO[1:0]
+
+17
+
+rw
+15
+
+14
+
+Res.
+
+Res.
+
+13
+
+12
+
+11
+
+MDMAT DINNE
+rw
+
+r
+
+10
+
+9
+
+8
+
+NBW[3:0]
+r
+
+r
+
+r
+
+7
+
+6
+
+Res.
+
+MODE
+
+r
+
+rw
+
+5
+
+4
+
+DATATYPE[1:0]
+rw
+
+rw
+
+rw
+
+16
+LKEY
+rw
+
+3
+
+2
+
+1
+
+0
+
+DMAE
+
+INIT
+
+Res.
+
+Res.
+
+rw
+
+rw
+
+Bits 31:19 Reserved, must be kept at reset value.
+Bits 18:17 ALGO[1:0]: Algorithm selection
+These bits select the hash algorithm.
+00: SHA-1
+01: MD5
+10: SHA2-224
+11: SHA2-256
+This selection is only taken into account when the INIT bit is set. Changing this bitfield during
+a computation has no effect.
+When ALGO bitfield is updated and INIT bit is set, NBWE in HASH_SR is automatically
+updated to 0x11.
+Bit 16 LKEY: Long key selection
+This bit selects between short key (≤ 64 bytes) or long key (> 64 bytes) in HMAC mode.
+0: the HMAC key is shorter or equal to 64 bytes. The actual key value written to HASH_DIN
+is used during the HMAC computation.
+1: the HMAC key is longer than 64 bytes. The hash of the key is used instead of the real key
+during the HMAC computation.
+This selection is only taken into account when the INIT and MODE bits are both set.
+Changing this bit during a computation has no effect.
+Bit 15 Reserved, must be kept at reset value.
+Bit 14 Reserved, must be kept at reset value.
+Bit 13 MDMAT: Multiple DMA transfers
+This bit is set when hashing large files when multiple DMA transfers are needed.
+0: DCAL is automatically set at the end of a DMA transfer.
+1: DCAL is not automatically set at the end of a DMA transfer.
+Bit 12 DINNE: DIN not empty
+Refer to DINNE bit of HASH_SR for the description.
+This bit is read-only.
+
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

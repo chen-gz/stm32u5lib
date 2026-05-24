@@ -1,0 +1,168 @@
+rw
+
+rw
+
+RM0456 Rev 6
+
+RM0456
+
+General-purpose timers (TIM2/TIM3/TIM4/TIM5)
+
+Bits 31:0 CCR3[31:0]: Capture/compare 3 value
+If channel CC3 is configured as output:
+CCR3 is the value to be loaded in the actual capture/compare 3 register (preload value). It is
+loaded permanently if the preload feature is not selected in the TIMx_CCMR3 register (bit
+OC3PE). Else the preload value is copied in the active capture/compare 3 register when an
+update event occurs.
+The active capture/compare register contains the value to be compared to the counter
+TIMx_CNT and signaled on tim_oc3 output.
+Non-dithering mode (DITHEN = 0)
+The register holds the compare value.
+Dithering mode (DITHEN = 1)
+The register holds the integer part in CCR3[31:4]. The CCR3[3:0] bitfield contains the
+dithered part.
+If channel CC3 is configured as input:
+CCR3 is the counter value transferred by the last input capture 3 event (tim_ic3). The
+TIMx_CCR3 register is read-only and cannot be programmed.
+Non-dithering mode (DITHEN = 0)
+The register holds the capture value.
+Dithering mode (DITHEN = 1)
+The register holds the capture in CCR3[31:0]. The CCR3[3:0] bits are reset.
+
+55.5.18
+
+TIMx capture/compare register 4 (TIMx_CCR4)(x = 2 to 5)
+Address offset: 0x040
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+CCR4[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CCR4[15:0]
+rw
+
+rw
+
+RM0456 Rev 6

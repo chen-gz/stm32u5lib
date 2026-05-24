@@ -1,0 +1,83 @@
+2037
+
+Hash processor (HASH)
+
+51.4.5
+
+RM0456
+
+Message digest computing
+The hash processor sequentially processes several blocks when computing the message
+digest. For MD5, SHA1 and SHA2, the block size is 512 bits.
+Each time the DMA or the CPU writes a block to the hash processor, the HASH
+automatically starts computing the message digest. This operation is known as partial digest
+computation.
+As described in Section 51.4.4: Message data feeding, the message to be processed is
+entered into the HASH 32-bit word at a time, writing to the HASH_DIN register to fill the
+input FIFO.
+In order to perform the hash computation on this data below sequence must be used by the
+application:
+1.
+
+2.
+Caution:
+
+Initialize the hash processor using the HASH_CR register:
+a)
+
+Select the right algorithm using the ALGO bitfield. If needed program the correct
+swapping operation on the message input words using DATATYPE bitfield in
+HASH_CR.
+
+b)
+
+When the HMAC mode is required, set the MODE bit, as well as the LKEY bit if the
+HMAC key size is greater than the known block size of the algorithm (else keep
+LKEY cleared). Refer to Section 51.4.7: HMAC operation for details.
+
+c)
+
+Update NBLW[4:0] to define the number of valid bits in last word of the message if
+it is different from 32 bits. NBLW[4:0] information are used to correctly perform the
+automatic message padding before the final message digest computation.
+
+Complete the initialization by setting to 1 the INIT bit in HASH_CR. Also set the bit
+DMAE to 1 if data are transferred via DMA.
+
+When programming step 2, it is important to set up before or at the same time the correct
+configuration values (ALGO, DATATYPE, HMAC mode, key length, NBLW[4:0]).
+3.
+
+Start filling data by writing to HASH_DIN register, unless data are automatically:
+transferred via DMA. Note that the processing of a block can start only once the last
+value of the block has entered the input FIFO. The way the partial or final digest
+computation is managed depends on the way data are fed into the processor:
+a)
+
+When data are filled by software:
+
+–
+
+Partial digest computation are triggered each time the application writes the first
+word of the next block, the block size being defined the NBWE bit of HASH_CR.
+Once the processor is ready again (DINIS = 1 in HASH_SR), the software can
+write new data to HASH_DIN. This mechanism avoids the introduction of wait
+states by the HASH.
+
+–
+
+The final digest computation is triggered when the last block is entered and the
+software writes the DCAL bit to 1. If the message length is not an exact multiple of
+the block size, the NBLW[4:0] bitfield in HASH_STR register must be written prior
+to writing DCAL bit (see Section 51.4.6 for details).
+
+b)
+
+When data are filled by DMA as a single DMA transfer (MDMAT bit = 0):
+
+–
+
+Partial digest computations are triggered automatically each time the FIFO is full.
+The final digest computation is triggered automatically when the last block has
+been transferred to the HASH_DIN register (DCAL bit is set to 1 by hardware). If
+the message length is not an exact multiple of the block size, the NBLW[4:0] field

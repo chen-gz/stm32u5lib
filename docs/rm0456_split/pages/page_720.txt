@@ -1,0 +1,149 @@
+763
+
+General purpose direct memory access controller (GPDMA)
+
+RM0456
+
+Table 141. Programmed data handling (continued)
+SDW_
+LOG2
+[1:0]
+
+Source
+data
+stream(1)
+
+Source
+data
+
+SB
+X
+
+DDW_
+LOG2
+[1:0]
+
+Destination
+data
+
+PAM[1:0](2)
+
+DB
+X
+0
+
+0
+
+10
+
+Word
+
+xx
+
+1
+0
+1
+
+DH
+X
+
+0
+
+1
+
+00 (RA, LT)
+00
+
+Byte
+
+01 (LA, RT)
+
+10
+
+Word
+
+00 (RA, LT)
+
+1
+
+01
+
+Half-word
+
+01 (LA, RT)
+
+1x (UNPACK)
+
+x
+
+Word
+
+xx
+
+B6B7B4B5,B2B3B0B1
+B5B4B7B6,B1B0B3B2
+B4B5B6B7,B0B1B2B3
+B15,B11,B7,B3
+B7,B5,B6,B4,B3,B1,B2,B0
+
+0
+1
+
+B6B4,B2B0
+x
+
+B4B6,B0B2
+
+0
+
+B7B5,B3B1
+
+1
+
+B5B7,B1B3
+
+0
+
+B7B5,B6B4,B3B1,B2B0
+
+1
+
+B5B7,B4B6,B1B3,B0B2
+
+0
+10
+
+B7B6B5B4,B3B2B1B0
+
+B12,B8,B4,B0
+
+1x (UNPACK)
+B7B6B5B4,
+B3B2B1B0
+
+Destination data
+stream(1)
+
+1
+0
+1
+
+0
+
+1
+
+B7B5B6B4,B3B1B2B0
+B5B7B4B6,B1B3B0B2
+B6B4B7B5,B2B0B3B1
+B4B6B5B7,B0B2B1B3
+
+1. Data stream is timely ordered starting from the byte with the lowest index (B0).
+2. RA= right aligned, LA = left aligned, RT = right truncated, LT = left truncated, 0P = zero bit padding up to the destination
+data width, SE = sign bit extended up to the destination data width.
+
+17.4.11
+
+GPDMA transfer request and arbitration
+GPDMA transfer request
+As defined by GPDMA_CxTR2, a programmed GPDMA data transfer is requested with one
+of the following:

@@ -1,0 +1,51 @@
+RM0456 Rev 6
+
+RM0456
+
+Advanced-control timers (TIM1/TIM8)
+
+Bits 16, 2:0 SMS[3:0]: Slave mode selection
+When external signals are selected the active edge of the trigger signal (tim_trgi) is linked to
+the polarity selected on the external input (refer to ETP bit in TIMx_SMCR for tim_etr_in and
+CCxP/CCxNP bits in TIMx_CCER register for tim_ti1fp1 and tim_ti2fp2).
+0000: Slave mode disabled - if CEN = 1 then the prescaler is clocked directly by the internal
+clock.
+0001: Quadrature encoder mode 1, x2 mode- Counter counts up/down on tim_ti1fp1 edge
+depending on tim_ti2fp2 level.
+0010: Quadrature encoder mode 2, x2 mode - Counter counts up/down on tim_ti2fp2 edge
+depending on tim_ti1fp1 level.
+0011: Quadrature encoder mode 3, x4 mode - Counter counts up/down on both tim_ti1fp1
+and tim_ti2fp2 edges depending on the level of the other input.
+0100: Reset mode - Rising edge of the selected trigger input (tim_trgi) reinitializes the
+counter and generates an update of the registers.
+0101: Gated mode - The counter clock is enabled when the trigger input (tim_trgi) is high.
+The counter stops (but is not reset) as soon as the trigger becomes low. Both start
+and stop of the counter are controlled.
+0110: Trigger mode - The counter starts at a rising edge of the trigger tim_trgi (but it is not
+reset). Only the start of the counter is controlled.
+0111: External Clock mode 1 - Rising edges of the selected trigger (tim_trgi) clock the
+counter.
+1000: Combined reset + trigger mode - Rising edge of the selected trigger input (tim_trgi)
+reinitializes the counter, generates an update of the registers and starts the counter.
+1001: Combined gated + reset mode - The counter clock is enabled when the trigger input
+(tim_trgi) is high. The counter stops and is reset) as soon as the trigger becomes low.
+Both start and stop of the counter are controlled.
+1010: Encoder mode: Clock plus direction, x2 mode.
+1011: Encoder mode: Clock plus direction, x1 mode, tim_ti2fp2 edge sensitivity is set by
+CC2P
+1100: Encoder mode: Directional Clock, x2 mode.
+1101: Encoder mode: Directional Clock, x1 mode, tim_ti1fp1 and tim_ti2fp2 edge sensitivity
+is set by CC1P and CC2P.
+1110: Quadrature encoder mode: x1 mode, counting on tim_ti1fp1 edges only, edge
+sensitivity is set by CC1P.
+1111: Quadrature encoder mode: x1 mode, counting on tim_ti2fp2 edges only, edge
+sensitivity is set by CC2P.
+Note: The gated mode must not be used if tim_ti1f_ed is selected as the trigger input (TS =
+00100). Indeed, tim_ti1f_ed outputs 1 pulse for each transition on TI1F, whereas the
+gated mode checks the level of the trigger signal.
+Note: The clock of the slave peripherals (timer, ADC, ...) receiving the tim_trgo or the
+tim_trgo2 signals must be enabled prior to receive events from the master timer, and
+the clock frequency (prescaler) must not be changed on-the-fly while triggers are
+received from the master timer.
+
+RM0456 Rev 6

@@ -1,0 +1,107 @@
+•
+
+The access to PKA RAM falls outside the expected range. In this case the address
+error flag (ADDRERRF) is set in the PKA_SR register.
+
+•
+
+An AHB access to the PKA RAM occurred while the PKA core was using it. In this case
+the RAM error flag (RAMERRF) is set in the PKA_SR register, reads to PKA RAM
+return 0, while writes are ignored.
+
+•
+
+The selected operating mode using MODE bitfield is not listed in PKA operating modes
+(see bitfield description). In this case the operation error flag (OPERRF) is set in the
+PKA_SR register, and write to MODE bitfield is ignored.
+
+RM0456 Rev 6
+
+RM0456
+
+Public key accelerator (PKA)
+For each error flag above PKA generates an interrupt if the application sets the
+corresponding bit in PKA_CR register (see Section 53.6 for details).
+ADDRERRF, OPERRF and RAMERRF errors are cleared by setting the corresponding bit in
+PKA_CLRFR.
+OPERRF error must be cleared using OPERRFC bit in PKA_CLRFR before a new
+operation is written in PKA_CR register.
+
+Note:
+
+The PKA can be re-initialized at any moment by resetting the EN bit in the PKA_CR register.
+
+53.4
+
+PKA operating modes
+
+53.4.1
+
+Introduction
+The various operations supported by PKA are described in the following subsections,
+defining the format of the input data and of the results, both stored in the PKA RAM.
+
+Warning:
+
+The validity of all input parameters to the PKA must be
+checked before starting any operation, as PKA assumes that
+all of them are valid and consistent with each other. Input
+parameters must not exceed the operand size specified in the
+operation tables.
+
+The following information applies to all PKA operations.
+•
+
+PKA core processes 64-bit words in its RAM. Hence hereafter all word size is 64-bit
+
+•
+
+When an element is written as input in the PKA RAM, an additional word with all bits
+equal to zero has to be added after the most significant input word. This rule does not
+apply if the operand has a fixed size of 1.
+
+•
+
+All reported RAM storage addresses refer to the least significant word of the data, and
+to obtain the actual address to use application must add to the indicated offset the base
+address of the PKA.
+
+•
+
+Supported operand “Size” are:
+
+•
+
+–
+
+ROS (RSA operand size): data size is (rsa_size / 64 + 1) words, with rsa_size
+equal to the chosen modulus length in bits. For example, when computing RSA
+with an operand size of 1024 bits, ROS is equal to 17 words, or 1088 bits.
+
+–
+
+EOS (ECC operand size): data size is (ecc_size / 64 + 1) words, with ecc_size
+equal to the chosen prime modulus length in bits. For example, when computing
+ECC with an operand size of 192 bits, EOS is equal to 4 words, or 256 bits.
+
+–
+
+ROS and EOS values include the required additional all 0 word.
+
+Unless indicated otherwise, all operands in the tables are integers.
+
+Note:
+
+Fractional results for above formulas must be rounded up to the nearest integer since PKA
+core processes 64-bit words.
+
+Note:
+
+The maximum ROS is 66 words (4160-bit max exponent size), while the maximum EOS is
+11 words (640-bit max operand size).
+As a first example (and to better understand the endianess in PKA memory), to prepare the
+operation ECC Fp scalar multiplication, when the application writes the x coordinate of point
+RM0456 Rev 6
+
+<!-- pagebreak -->
+

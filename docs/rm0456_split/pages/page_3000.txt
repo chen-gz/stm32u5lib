@@ -1,0 +1,95 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal serial bus full-speed host/device interface (USB)
+The mechanism is based on a table very similar to that for Device mode. See Table 738 to
+understand the relationship between the DTOG bit buffers and the buffer usage.
+Table 738. Isochronous memory buffers usage
+Endpoint
+Type
+
+DTOG bit
+value
+
+Packet buffer used by the
+USB peripheral
+
+Packet buffer used by the
+application software
+
+0
+
+USB_CHEP_TXRXBD_0
+(ADDRn_TX / COUNTn_TX)
+Buffer description table locations.
+
+USB_CHEP_RXTXBD_0
+(ADDRn_TX / COUNTn_TX)
+Buffer description table locations
+
+1
+
+USB_CHEP_RXTXBD_0
+(ADDRn_TX / COUNTn_TX)
+Buffer description table locations
+
+USB_CHEP_TXRXBD_0
+(ADDRn_TX / COUNTn_TX)
+Buffer description table locations.
+
+0
+
+USB_CHEP_RXTXBD_0
+(ADDRn_RX / COUNTn_RX)
+Buffer description table locations.
+
+USB_CHEP_TXRXBD_0
+(ADDRn_RX / COUNTn_RX)
+Buffer description table locations.
+
+1
+
+USB_CHEP_TXRXBD_0
+(ADDRn_RX / COUNTn_RX)
+Buffer description table locations
+
+USB_CHEP_RXTXBD_0
+(ADDRn_RX / COUNTn_RX)
+Buffer description table locations.
+
+Transmit
+(OUT)
+
+Receive
+(IN)
+
+The isochronous behavior for an endpoint is selected by setting the UTYPE bits at 10 in its
+USB_CHEPnR register; since there is no handshake phase the only legal values for the
+STATRX/STATTX bit pairs are 00 (DISABLED) and 11 (VALID),
+Just as in Device mode, the mechanism allows automatic toggle of the DTOG bit. Note that
+in Host mode, at the same time as this toggle, the STATTX or STATRX of the completed
+buffer is automatically set to DISABLED, permitting the future buffer to be accessed before
+re-enabling it by setting it to 11 (VALID).
+
+71.5.7
+
+Suspend/resume events
+The USB standard defines a special peripheral state, called SUSPEND, in which the
+average current drawn from the USB bus must not be greater than 2.5 mA. This
+requirement is of fundamental importance for bus-powered devices, while self-powered
+devices are not required to comply to this strict power consumption constraint. In suspend
+mode, the host PC sends the notification by not sending any traffic on the USB bus for more
+than 3 ms: since a SOF packet must be sent every 1 ms during normal operations, the USB
+peripheral detects the lack of 3 consecutive SOF packets as a suspend request from the
+host PC and set the SUSP bit to 1 in USB_ISTR register, causing an interrupt if enabled.
+Once the device is suspended, its normal operation can be restored by a so called
+RESUME sequence, which can be started from the host PC or directly from the peripheral
+itself, but it is always terminated by the host PC. The suspended USB peripheral must be
+anyway able to detect a RESET sequence, reacting to this event as a normal USB reset
+event.
+The actual procedure used to suspend the USB peripheral is device dependent since
+according to the device composition, different actions may be required to reduce the total
+consumption.
+
+RM0456 Rev 6

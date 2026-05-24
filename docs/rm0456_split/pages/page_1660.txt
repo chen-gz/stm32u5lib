@@ -1,0 +1,178 @@
+1674
+
+Audio digital filter (ADF)
+
+RM0456
+
+Bits 5:4 SITFMOD[1:0]: Serial interface type
+This bitfield is set and cleared by software. It is used to define the serial interface type.
+00: LF_MASTER SPI mode
+01: Normal SPI mode
+10: Manchester mode: rising edge = logic 0, falling edge = logic 1
+11: Manchester mode: rising edge = logic 1, falling edge = logic 0
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 3 Reserved, must be kept at reset value.
+Bits 2:1 SCKSRC[1:0]: Serial clock source
+This bitfield is set and cleared by software. It is used to select the clock source of the serial
+interface.
+00: Serial clock source is ADF_CCK0.
+01: Serial clock source is ADF_CCK1.
+others: reserved
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).
+Bit 0 SITFEN: Serial interface enable
+This bit is set and cleared by software. It is used to enable/disable the serial interface.
+0: Serial interface disabled
+1: Serial interface enabled
+
+40.8.4
+
+ADF bitstream matrix control register 0 (ADF_BSMX0CR)
+Address offset: 0x084
+Reset value: 0x0000 0000
+This register is used to select the bitstream to be provided to DFLT0.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+BSMXA
+CTIVE
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+rw
+
+rw
+
+rw
+
+rw
+
+r
+
+BSSEL[4:0]
+rw
+
+Bit 31 BSMXACTIVE: BSMX active flag
+This bit is set and cleared by hardware. It is used by the application to check if the BSMX is
+effectively enabled (active) or not. BSSEL[4:0] can only be updated when BSMXACTIVE is
+set to 0. This BSMXACTIVE flag cannot go to 0 if DFLT0 is enabled.
+0: BSMX is not active and can be configured if needed.
+1: BSMX is active and protected fields cannot be configured.
+Bits 30:5 Reserved, must be kept at reset value.
+Bits 4:0 BSSEL[4:0]: Bitstream selection
+This bitfield is set and cleared by software. It is used to select the bitstream to be processed
+for DFLT0.
+00000: bs0_r provided to DFLT0
+00001: bs0_f provided to DFLT0
+others: reserved
+Note: This bitfield can be write-protected (see Section 40.4.13: Register protection for details).

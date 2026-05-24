@@ -1,0 +1,190 @@
+3086
+
+FD controller area network (FDCAN)
+
+70.4.16
+
+RM0456
+
+FDCAN interrupt enable register (FDCAN_IE)
+The settings in the interrupt enable register determine which status changes in the interrupt
+register are signaled on an interrupt line.
+Address offset: 0x0054
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+ARAE
+
+PEDE
+
+PEAE
+
+WDIE
+
+BOE
+
+EWE
+
+EPE
+
+ELOE
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+TFEE
+
+TCFE
+
+TCE
+
+HPME
+
+rw
+
+rw
+
+rw
+
+rw
+
+TOOE MRAFE TSWE
+rw
+
+rw
+
+rw
+
+TEFLE TEFFE TEFNE
+rw
+
+rw
+
+rw
+
+RF1LE RF1FE RF1NE RF0LE RF0FE RF0NE
+rw
+
+Bits 31:24 Reserved, must be kept at reset value.
+Bit 23 ARAE: Access to reserved address enable
+Bit 22 PEDE: Protocol error in data phase enable
+Bit 21 PEAE: Protocol error in arbitration phase enable
+Bit 20 WDIE: Watchdog interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 19 BOE: Bus-off status
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 18 EWE: Warning status interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 17 EPE: Error passive interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 16 ELOE: Error logging overflow interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 15 TOOE: Timeout occurred interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 14 MRAFE: Message RAM access failure interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 13 TSWE: Timestamp wraparound interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled
+Bit 12 TEFLE: Tx event FIFO element lost interrupt enable
+0: Interrupt disabled
+1: Interrupt enabled

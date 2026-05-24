@@ -1,0 +1,108 @@
+1973
+
+AES hardware accelerator (AES)
+
+RM0456
+
+The second ciphertext block is processed in the same way as the first block, except that the
+I1 data from the first block is used in place of the initialization vector.
+The decryption continues in this way until the last complete ciphertext block is decrypted.
+If the message size is not a multiple of 128 bits, the final partial data block is decrypted in
+the way explained in Section 49.4.6: AES ciphertext stealing and data padding.
+For more information on data swapping, refer to Section 49.4.14: AES data registers and
+data swapping.
+
+ECB/CBC encryption sequence
+The sequence of events to perform an ECB/CBC encryption (more detail in Section 49.4.4):
+1.
+
+Disable the AES peripheral by clearing the EN bit of the AES_CR register.
+
+2.
+
+Select the Mode 1 by setting to 00 the MODE[1:0] bitfield of the AES_CR register and
+select ECB or CBC chaining mode by setting the CHMOD[2:0] bitfield of the AES_CR
+register to 000 or 001, respectively. Data type can also be defined, using
+DATATYPE[1:0] bitfield. Select normal key mode by setting KMOD[1:0] to 00. For
+encryption with other KMOD[1:0] values, refer to Section 49.4.13.
+
+3.
+
+Select 128- or 256-bit key length through the KEYSIZE bit of the AES_CR register.
+
+4.
+
+Write the AES_KEYRx registers (128 or 256 bits) with encryption key. Fill the
+AES_IVRx registers with the initialization vector data if CBC mode has been selected.
+
+5.
+
+Enable the AES peripheral by setting the EN bit of the AES_CR register.
+
+6.
+
+Write the AES_DINR register four times to input the plaintext (MSB first), as shown in
+Figure 471.
+
+7.
+
+Wait until the CCF flag is set in the AES_SR register.
+
+8.
+
+Read the AES_DOUTR register four times to get the ciphertext (MSB first) as shown in
+Figure 471. Then clear the CCF flag by setting the CCF bit of the AES_ICR register.
+
+9.
+
+Repeat steps 6-7-8 to process all the blocks with the same encryption key.
+Figure 471. ECB/CBC encryption (Mode 1)
+WR
+PT3
+MSB
+
+WR
+PT2
+
+WR
+PT1
+
+WR
+PT0
+
+Wait until flag CCF = 1
+
+LSB
+
+RD
+CT3
+MSB
+
+Computation phase
+
+Input phase
+4 write operations into
+AES_DINR[31:0]
+
+RD
+CT2
+
+RD
+CT1
+
+RD
+CT0
+LSB
+
+Output phase
+4 read operations of
+AES_DOUTR[31:0]
+
+PT = plaintext = 4 words (PT3, … , PT0)
+CT = ciphertext = 4 words (CT3, … , CT0)
+MS18936V3
+
+ECB/CBC decryption sequence
+The sequence of events to perform an AES ECB/CBC decryption is as follows (More detail
+in Section 49.4.4). Select normal key mode by setting KMOD[1:0] to 00. For decryption with
+other KMOD[1:0] values, refer to Section 49.4.13.

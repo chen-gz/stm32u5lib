@@ -1,0 +1,158 @@
+1514
+
+Operational amplifier (OPAMP)
+
+RM0456
+
+Bits 5:4 PGA_GAIN[1:0]: OPAMP programmable amplifier gain value
+00: internal PGA gain 2
+01: internal PGA gain 4
+10: internal PGA gain 8
+11: internal PGA gain 16
+Bits 3:2 OPAMODE[1:0]: OPAMP PGA mode
+00 and 01: internal PGA disabled
+10: internal PGA enabled, gain programmed in PGA_GAIN
+11: internal follower
+Bit 1 OPALPM: OPAMP low-power mode
+The OPAMP must be disabled to change this configuration.
+0: normal mode
+1: low-power mode
+Bit 0 OPAEN: OPAMP enable
+0: OPAMP disabled
+1: OPAMP enabled
+
+38.5.5
+
+OPAMP2 offset trimming register in normal mode (OPAMP2_OTR)
+Address offset: 0x14
+Reset value: 0x0000 XXXX
+XXXX are factory trimmed values.
+This register availability varies in STM32U5 Series devices. Refer to Section 38.1. If not
+present, consider it as reserved and keep it at reset value.
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+12
+
+11
+
+10
+
+9
+
+8
+
+4
+
+3
+
+2
+
+1
+
+0
+
+15
+
+14
+
+13
+
+Res.
+
+Res.
+
+Res.
+
+TRIMOFFSETP[4:0]
+rw
+
+rw
+
+rw
+
+rw
+
+7
+
+6
+
+5
+
+Res.
+
+Res.
+
+Res.
+
+rw
+
+Bits 31:13 Reserved, must be kept at reset value.
+Bits 12:8 TRIMOFFSETP[4:0]: Trim for PMOS differential pairs
+Bits 7:5 Reserved, must be kept at reset value.
+Bits 4:0 TRIMOFFSETN[4:0]: Trim for NMOS differential pairs
+
+<!-- pagebreak -->
+

@@ -1,0 +1,96 @@
+•
+
+When half of the FIFO size of the channel x is lower than the programmed
+source/destination burst size, the programmed source/destination GPDMA burst is
+implemented with a series of singles or bursts of a lower size, each transfer being of a
+size that is lower or equal than half of the FIFO size, without any user constraint.
+
+•
+
+if the source block size (GPDMA_CxBR1.BNDT[15:0]) is not a multiple of the source
+burst size but is a multiple of the data width of the source burst
+(GPDMA_CxTR1.SDW_LOG2[1:0]), the GPDMA modifies and shortens bursts into
+singles or bursts of lower length, in order to transfer exactly the source block size,
+without any user constraint.
+
+RM0456 Rev 6
+
+RM0456
+
+General purpose direct memory access controller (GPDMA)
+•
+
+if the source/destination burst transfer have crossed the 1-Kbyte address boundary on
+a AHB transfer, the GPDMA modifies and shortens the programmed burst into singles
+or bursts of lower length, to be compliant with the AHB protocol, without any user
+constraint.
+
+•
+
+If the source/destination burst length exceeds 16 on a AHB transfer, the GPDMA
+modifies and shortens the programmed burst into singles or bursts of lower length, to
+be compliant with the AHB protocol, without any user constraint.
+
+In any case, the GPDMA keeps ensuring source/destination data (and address) integrity
+without any user constraint. The current FIFO level (software readable in GPDMA_CxSR) is
+compared to and updated with the effective transfer size, and the GPDMA re-arbitrates
+between each AHB single or burst transfer, possibly modified.
+Based on the channel priority, each single or burst of a lower burst size versus the
+programmed burst, is internally arbitrated versus the other requested and active channels.
+Note:
+
+In linked-list mode, the GPDMA read transfers related to the update of the linked-list
+parameters from the memory to the internal GPDMA registers, are scheduled over the link
+allocated port, as programmed by GPDMA_CxCR.LAP.
+
+GPDMA data handling: byte-based reordering, packing/unpacking,
+padding/truncation, sign extension and left/right alignment
+The data handling is controlled by GPDMA_CxTR1. The source/destination data width of
+the programmed burst is byte, half-word or word, as per the SDW_LOG2[1:0] and
+DDW_LOG2[1:0] fields (see Table 141).
+The user can configure the data handling between transferred data from the source and
+transfer to the destination. More specifically, programmed data handling is orderly
+performed with:
+1.
+
+Byte-based source reordering
+–
+
+2.
+
+3.
+
+Note:
+
+If SBX = 1 and if source data width is a word, the two bytes of the unaligned
+half-word at the middle of each source data word are exchanged.
+
+Data width conversion by packing, unpacking, padding or truncation, if destination data
+width is different than the source data width, depending on PAM[1:0]:
+–
+
+If destination data width > source data width, the post SBX source data is either
+right-aligned and padded with 0 s, or sign extended up to the destination data
+width, or is FIFO queued and packed up to the destination data width.
+
+–
+
+If destination data width < source data width, the post SBX data is either
+right-aligned and left-truncated down to the destination data width, or is FIFO
+queued and unpacked and streamed down to the destination data width.
+
+Byte-based destination re-ordering:
+–
+
+If DBX = 1 and if the destination data width is not a byte, the two bytes are
+exchanged within the aligned post PAM[1:0] half-words.
+
+–
+
+If DHX = 1 and if the destination data width is neither a byte nor a half-word, the
+two aligned half-words are exchanged within the aligned post PAM[1:0] words.
+
+Left-alignment with 0s-padding can be achieved by programming both a right-alignment with
+a 0s-padding and a destination byte-based re-ordering.
+
+RM0456 Rev 6

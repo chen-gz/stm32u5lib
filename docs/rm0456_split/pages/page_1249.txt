@@ -1,0 +1,77 @@
+RM0456 Rev 6
+
+rw
+
+rw
+
+rw
+
+2
+
+1
+
+0
+
+C
+TIME
+OUTC
+
+DCRC
+FAILC
+
+CCRC
+FAILC
+
+rw
+
+rw
+
+rw
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+Bit 21 BUSYD0ENDC: BUSYD0END flag clear bit
+Set by software to clear the BUSYD0END flag.
+0: BUSYD0END not cleared
+1: BUSYD0END cleared
+Bits 20:12 Reserved, must be kept at reset value.
+Bit 11 DABORTC: DABORT flag clear bit
+Set by software to clear the DABORT flag.
+0: DABORT not cleared
+1: DABORT cleared
+Bit 10 DBCKENDC: DBCKEND flag clear bit
+Set by software to clear the DBCKEND flag.
+0: DBCKEND not cleared
+1: DBCKEND cleared
+Bit 9 DHOLDC: DHOLD flag clear bit
+Set by software to clear the DHOLD flag.
+0: DHOLD not cleared
+1: DHOLD cleared
+Bit 8 DATAENDC: DATAEND flag clear bit
+Set by software to clear the DATAEND flag.
+0: DATAEND not cleared
+1: DATAEND cleared
+Bit 7 CMDSENTC: CMDSENT flag clear bit
+Set by software to clear the CMDSENT flag.
+0: CMDSENT not cleared
+1: CMDSENT cleared
+Bit 6 CMDRENDC: CMDREND flag clear bit
+Set by software to clear the CMDREND flag.
+0: CMDREND not cleared
+1: CMDREND cleared
+Bit 5 RXOVERRC: RXOVERR flag clear bit
+Set by software to clear the RXOVERR flag.
+0: RXOVERR not cleared
+1: RXOVERR cleared
+Bit 4 TXUNDERRC: TXUNDERR flag clear bit
+Set by software to clear TXUNDERR flag.
+0: TXUNDERR not cleared
+1: TXUNDERR cleared
+Bit 3 DTIMEOUTC: DTIMEOUT flag clear bit
+Set by software to clear the DTIMEOUT flag.
+0: DTIMEOUT not cleared
+1: DTIMEOUT cleared
+
+RM0456 Rev 6

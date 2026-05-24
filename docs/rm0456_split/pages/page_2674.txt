@@ -1,0 +1,63 @@
+RM0456 Rev 6
+
+RM0456
+
+Universal synchronous/asynchronous receiver transmitter (USART/UART)
+These modes are the following:
+•
+
+Mode 0: Any character starting with a bit at 1.
+In this case the USART measures the duration of the start bit (falling edge to rising
+edge).
+
+•
+
+Mode 1: Any character starting with a 10xx bit pattern.
+In this case, the USART measures the duration of the Start and of the 1st data bit. The
+measurement is done falling edge to falling edge, to ensure a better accuracy in the
+case of slow signal slopes.
+
+•
+
+Mode 2: A 0x7F character frame (it may be a 0x7F character in LSB first mode or a
+0xFE in MSB first mode).
+In this case, the baud rate is updated first at the end of the start bit (BRs), then at the
+end of bit 6 (based on the measurement done from falling edge to falling edge: BR6).
+Bit0 to bit6 are sampled at BRs while further bits of the character are sampled at BR6.
+
+•
+
+Mode 3: A 0x55 character frame.
+In this case, the baud rate is updated first at the end of the start bit (BRs), then at the
+end of bit0 (based on the measurement done from falling edge to falling edge: BR0),
+and finally at the end of bit6 (BR6). Bit 0 is sampled at BRs, bit 1 to bit 6 are sampled at
+BR0, and further bits of the character are sampled at BR6. In parallel, another check is
+performed for each intermediate RX line transition. An error is generated if the
+transitions on RX are not sufficiently synchronized with the receiver (the receiver being
+based on the baud rate calculated on bit 0).
+
+Prior to activating the auto baud rate detection, the USART_BRR register must be initialized
+by writing a non-zero baud rate value.
+The automatic baud rate detection is activated by setting the ABREN bit in the USART_CR2
+register. The USART then waits for the first character on the RX line. The auto baud rate
+operation completion is indicated by the setting of the ABRF flag in the USART_ISR
+register. If the line is noisy, the correct baud rate detection cannot be guaranteed. In this
+case the BRR value may be corrupted and the ABRE error flag is set. This also happens if
+the communication speed is not compatible with the automatic baud rate detection range
+(bit duration not between 16 and 65536 clock periods (oversampling by 16) and not between
+8 and 65536 clock periods (oversampling by 8)).
+The auto baud rate detection can be re-launched later by resetting the ABRF flag (by writing
+a 0).
+When FIFO management is disabled and an auto baud rate error occurs, the ABRE flag is
+set through RXNE and FE bits.
+When FIFO management is enabled and an auto baud rate error occurs, the ABRE flag is
+set through RXFNE and FE bits.
+If the FIFO mode is enabled, the auto baud rate detection must be made using the data on
+the first RXFIFO location. So, prior to launching the auto baud rate detection, make sure
+that the RXFIFO is empty by checking the RXFNE flag in USART_ISR register.
+Note:
+
+The BRR value might be corrupted if the USART is disabled (UE = 0) during an auto baud
+rate operation.
+
+RM0456 Rev 6

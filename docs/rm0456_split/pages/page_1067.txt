@@ -1,0 +1,78 @@
+RM0456 Rev 6
+
+RM0456
+
+28.4.11
+
+Octo-SPI interface (OCTOSPI)
+
+OCTOSPI memory-mapped mode
+When configured in memory-mapped mode, the external SPI device is seen as an internal
+memory.
+
+Note:
+
+No more than 256 Mbytes can be addressed even if the external device capacity is larger.
+If an access is made to an address outside of the range defined by DEVSIZE[4:0] but still
+within the 256 Mbytes range, then an AHB error is given. The effect of this error depends on
+the AHB master that attempted the access:
+•
+
+If it is the Cortex CPU, a hard-fault interrupt is generated.
+
+•
+
+If it is a DMA, a DMA transfer error is generated, and the corresponding DMA channel
+is automatically disabled.
+
+Byte, half-word, and word access types are all supported.
+A support for execute in place (XIP) operation is implemented, where the OCTOSPI
+continues to load the bytes to the addresses following the most recent access. If
+subsequent accesses are continuous to the bytes that follow, then these operations end up
+quickly since their results were prefetched.
+By default, the OCTOSPI never stops its prefetch operation. It either keeps the previous
+read operation active with the NCS maintained low or it relaunches a new transfer, even
+if no access to the external device occurs for a long time.
+Since external devices tend to consume more power when the NCS is held low, the
+application may want to activate the timeout counter (TCEN = 1 in OCTOSPI_CR): the NCS
+is released after a period defined by TIMEOUT[15:0] in OCTOSPI_LPTR, when x cycles
+have elapsed without access since the clock is inactive.
+BUSY goes high as soon as the first memory-mapped access occurs. Because of the
+prefetch operations, BUSY does not fall until there is an abort, or the peripheral is disabled.
+It is not recommended to program the flash memory using the memory-mapped writes.
+The indirect-write mode fulfills this operation.
+However, if the application requires the use of the MCE for encryption (check MCE product
+availability), the memory-mapped write mode may be used to program encrypted data to
+external flash memory under the following conditions:
+•
+
+Prefetch must be enabled.
+
+•
+
+In block cipher mode, the CPU must write a complete 128-bit data block to prevent the
+MCE from initiating read-modify-write operations when only a few bytes need to be
+programmed. This precaution avoids incorrect programming operations. There are no
+specific constraints to respect if the MCE is used in stream cipher mode.
+
+•
+
+Apply the abort sequence to exit memory-mapped mode when the data linked to the
+page has been written in the external memory buffers. The abort sequence triggers the
+start of the page programming.
+
+•
+
+Switch to the automatic status-polling mode to monitor the completion of the page
+programing phase.
+
+•
+
+Relaunch the write enable command in indirect mode, then switch back to the
+memory-mapped mode configuration to continue to program additional pages if any.
+
+It is recommended to add a synchronization barrier between the end of the controller
+registers configuration and the first memory-mapped access to the external memory when
+the controller is configured in memory-mapped mode.
+
+RM0456 Rev 6

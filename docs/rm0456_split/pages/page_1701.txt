@@ -1,0 +1,93 @@
+Byte address
+
+31:24
+
+23:16
+
+15:8
+
+7:0
+
+0
+
+Dn+3[7:0]
+
+Dn+2[7:0]
+
+Dn+1[7:0]
+
+Dn[7:0]
+
+4
+
+Dn+7[7:0]
+
+Dn+6[7:0]
+
+Dn+5[7:0]
+
+Dn+4[7:0]
+
+RM0456 Rev 6
+
+RM0456
+
+Parallel synchronous slave interface (PSSI)
+
+16-bit data
+When EDM[1:0] in PSSI_CR are programmed to 11, the interface transfers 16 bits using the
+D[15:0] pins. In this case, two PSSI_PDCK cycles are required to transfer a 32-bit word.
+The least-significant half word (bits 15:0) correspond to the first half word transferred, and
+the most-significant half-word (bits 31:16) corresponds to the second half word transferred.
+Table 425 illustrates the positioning of the data in two 32-bit words.
+Table 425. Positioning of captured data bytes in 32-bit words (16-bit width)
+Byte address
+
+31:16
+
+15:0
+
+0
+
+Dn+1[15:0]
+
+Dn[15:0]
+
+4
+
+Dn+3[15:0]
+
+Dn+2[15:0]
+
+FIFO data buffer and error conditions
+An eight-word FIFO helps improving performance and avoids overruns and underruns.
+If the ready signal (PSSI_RDY) is disabled in receive mode, an overrun error is generated
+when a clock active edge occurs when the FIFO is full. In this case, the input data is lost.
+If the data enable signal (PSSI_DE) is disabled in transmit mode, an underrun error is
+generated when a clock active edge occurs when the FIFO is empty. In this case,
+unpredictable data are output.
+The OVR_RIS status bit indicates that either an overrun or an underrun occurred. An
+interrupt can be generated when these events occur.
+
+42.3.5
+
+PSSI optional control signals
+Data Enable (PSSI_DE) alternate function input
+The data enable signal, PSSI_DE, is an optional signal. It is driven by the data
+source/transmitter in order to indicate that the data is valid to be transferred during the
+current cycle. When PSSI_DE is inactive, it means that the data must not be sampled by the
+receiver at the next clock edge.
+This alternate function signal can be enabled using the DERDYCFG (bits 20:18 of
+PSSI_CR) control bits. PSSI_DE polarity is configured through DEPOL control bit (bit 6 of
+PSSI_CR). PSSI_DE is active low when DEPOL is cleared to 0, and high when DEPOL is et
+to 1.
+The direction of the PSSI_DE signal is defined by the OUTEN value. It is the same as the
+data direction.
+If the PSSI_DE alternate function input is enabled (through DERDYCFG) in receive mode
+(OUTEN cleared to 0), the PSSI samples PSSI_DE on the same PSSI_PDCK edge as the
+one used for sampling the data (D[15:0]). If PSSI_DE is active, the sampled data is saved in
+the FIFO. Otherwise, the sampled data is considered invalid and discarded. The
+transmitting device can use PSSI_DE as a data valid signal, driving it inactive when the data
+in the current cycle is not valid. This flow control function allows avoiding underrun errors.
+
+RM0456 Rev 6

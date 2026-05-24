@@ -1,0 +1,166 @@
+RM0456
+
+VREF buffer modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1487
+VREFBUF register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1489
+COMP features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1490
+COMP1 non-inverting input assignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1491
+COMP1 inverting input assignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1492
+COMP2 non-inverting input assignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1492
+COMP2 inverting input assignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1492
+COMP1 output-blanking PWM assignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1492
+COMP2 output-blanking PWM assignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1493
+Comparator behavior in the low-power modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1496
+Interrupt control bits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1497
+COMP register map and reset values. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1500
+Operational amplifier possible connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1502
+Operating modes and calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1507
+Effect of low-power modes on the OPAMP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1508
+OPAMP register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1513
+ADF/MDF features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1516
+MDF external pins. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1519
+MDF internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1519
+MDF trigger connections. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1519
+MDF break connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1520
+MDF ADC data connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1520
+Control of the common clock generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1528
+Clock constraints with respect to the incoming stream . . . . . . . . . . . . . . . . . . . . . . . . . . 1529
+Data size according to CIC order and CIC decimation values . . . . . . . . . . . . . . . . . . . . 1536
+Maximum decimation ratio versus order and input data size . . . . . . . . . . . . . . . . . . . . . 1537
+Possible gain values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1538
+Recommended maximum gain values versus CIC decimation ratios. . . . . . . . . . . . . . . 1540
+Most common microphone settings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1540
+HPF 3 dB cut-off frequencies examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1542
+Register protection summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1563
+Effect of low-power modes on MDF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1564
+MDF interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1566
+Examples of MDF settings for microphone capture . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1567
+Programming sequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1567
+Output signal levels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1574
+MDF register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1598
+ADF/MDF features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1601
+ADF external pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+ADF internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1602
+ADF trigger connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1603
+Control of the common clock generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1609
+Clock constraints with respect to the incoming stream . . . . . . . . . . . . . . . . . . . . . . . . . . 1610
+Data size according to CIC order and CIC decimation values . . . . . . . . . . . . . . . . . . . . 1615
+Possible gain values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1616
+Recommended maximum gain values
+versus CIC decimation ratios . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1618
+Most common microphone settings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1619
+HPF 3 dB cut-off frequency examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1621
+ANSLP values versus FRSIZE and sampling rates . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1634
+Threshold values according SNTHR . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1635
+Register protection summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1641
+
+RM0456 Rev 6
+
+RM0456
+Table 403.
+Table 404.
+Table 405.
+Table 406.
+Table 407.
+Table 408.
+Table 409.
+Table 410.
+Table 411.
+Table 412.
+Table 413.
+Table 414.
+Table 415.
+Table 416.
+Table 417.
+Table 418.
+Table 419.
+Table 420.
+Table 421.
+Table 422.
+Table 423.
+Table 424.
+Table 425.
+Table 426.
+Table 427.
+Table 428.
+Table 429.
+Table 430.
+Table 431.
+Table 432.
+Table 433.
+Table 434.
+Table 435.
+Table 436.
+Table 437.
+Table 438.
+Table 439.
+Table 440.
+Table 441.
+Table 442.
+Table 443.
+Table 444.
+Table 445.
+Table 446.
+Table 447.
+Table 448.
+Table 449.
+Table 450.
+Table 451.
+Table 452.
+Table 453.
+Table 454.
+
+List of tables
+Effect of low-power modes on ADF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1642
+ADF interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1643
+Examples of ADF settings for microphone capture . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1644
+Programming sequence (CIC4) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1645
+Programming sequence (CIC5) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1646
+Output signal levels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1651
+ADF register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1672
+DCMI input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+DCMI internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1676
+Positioning of captured data bytes in 32-bit words (8-bit width) . . . . . . . . . . . . . . . . . . . 1678
+Positioning of captured data bytes in 32-bit words (10-bit width) . . . . . . . . . . . . . . . . . . 1678
+Positioning of captured data bytes in 32-bit words (12-bit width) . . . . . . . . . . . . . . . . . . 1678
+Positioning of captured data bytes in 32-bit words (14-bit width) . . . . . . . . . . . . . . . . . . 1679
+Data storage in monochrome progressive video format . . . . . . . . . . . . . . . . . . . . . . . . . 1684
+Data storage in RGB progressive video format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1685
+Data storage in YCbCr progressive video format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1685
+Data storage in YCbCr progressive video format - Y extraction mode . . . . . . . . . . . . . . 1685
+DCMI interrupts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1686
+DCMI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1696
+PSSI input/output pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1699
+PSSI internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1699
+Positioning of captured data bytes in 32-bit words (8-bit width) . . . . . . . . . . . . . . . . . . . 1700
+Positioning of captured data bytes in 32-bit words (16-bit width) . . . . . . . . . . . . . . . . . . 1701
+PSSI interrupt requests. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1704
+PSSI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1710
+LTDC external pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1712
+LTDC internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1713
+LTDC trigger interconnection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1713
+Clock domain for each register . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1713
+Pixel data mapping versus color format . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1718
+LTDC interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1722
+LTDC register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1739
+DSI pins . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1744
+DSI internal input/output signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1745
+Location of color components in the LTDC interface . . . . . . . . . . . . . . . . . . . . . . . . . . . 1748
+Multiplicity of the payload size in pixels for each data type . . . . . . . . . . . . . . . . . . . . . . 1749
+Contention detection timeout counters configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . 1761
+List of events of different categories of the PRESP_TO counter . . . . . . . . . . . . . . . . . . 1762
+PRESP_TO counter configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1765
+Frame requirement configuration registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1777
+RGB components . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1779
+Custom lane configuration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1781
+HS2LP and LP2HS values vs. band frequency (MHz) . . . . . . . . . . . . . . . . . . . . . . . . . 1782
+DSI Wrapper interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1783
+Error causes and recovery . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1785
+DSI register map and reset values . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1856
+GPU2D implementation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1863
+GPU2D internal input/output signals. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+GPU2D trigger connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1864
+JPEG internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1866
+JPEG trigger connections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1867
+JPEG codec interrupt requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1872
+
+RM0456 Rev 6

@@ -1,0 +1,59 @@
+24 23
+EFEC[2:0]
+EFT[1:0]
+
+16 15
+EFID1[28:0]
+
+Res.
+
+EFID2[28:0]
+
+RM0456 Rev 6
+
+8 7
+
+0
+
+RM0456
+
+FD controller area network (FDCAN)
+Table 730. Extended message ID filter element field description
+Field
+
+Description
+
+Extended filter element configuration
+All enabled filter elements are used for acceptance filtering of extended frames.
+Acceptance filtering stops at the first matching enabled filter element or when the end
+of the filter list is reached. If EFEC[2:0] = 100, 101 or 110 a match sets interrupt flag
+IR[HPM] and, if enabled, an interrupt is generated. In this case register HPMS is
+updated with the status of the priority match.
+F0 Bits 31:29 – 000: Disable filter element
+EFEC[2:0] – 001: Store in Rx FIFO 0 if filter matches
+– 010: Store in Rx FIFO 1 if filter matches
+– 011: Reject ID if filter matches
+– 100: Set priority if filter matches
+– 101: Set priority and store in FIFO 0 if filter matches
+– 110: Set priority and store in FIFO 1 if filter matches
+– 111: Not used
+Extended filter ID 1
+F0 Bits 28:0 First ID of extended ID filter element.
+EFID1[28:0] When filtering for Rx FIFO, this field defines the ID of an extended message to be
+stored. The received identifiers must match exactly, only XIDAM masking
+mechanism.
+Extended filter type
+– 00: Range filter from EF1ID to EF2ID (EF2ID ≥ EF1ID)
+F1 Bits 31:30
+– 01: Dual ID filter for EF1ID or EF2ID
+EFT[1:0]
+– 10: Classic filter: EF1ID = filter, EF2ID = mask
+– 11: Range filter from EF1ID to EF2ID (EF2ID ≥ EF1ID), XIDAM mask not applied
+F1 Bit 29
+
+Not used
+
+F1 Bits 28:0 Extended filter ID 2
+EFID2[28:0] Second ID of extended ID filter element.
+
+RM0456 Rev 6

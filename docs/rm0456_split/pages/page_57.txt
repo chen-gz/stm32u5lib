@@ -1,0 +1,208 @@
+51.5
+
+HASH interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2028
+
+51.6
+
+HASH registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2029
+51.6.1
+
+HASH control register (HASH_CR) . . . . . . . . . . . . . . . . . . . . . . . . . . 2029
+
+51.6.2
+
+HASH data input register (HASH_DIN) . . . . . . . . . . . . . . . . . . . . . . . 2030
+
+51.6.3
+
+HASH start register (HASH_STR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2031
+
+51.6.4
+
+HASH digest registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2032
+
+51.6.5
+
+HASH interrupt enable register (HASH_IMR) . . . . . . . . . . . . . . . . . . 2033
+
+51.6.6
+
+HASH status register (HASH_SR) . . . . . . . . . . . . . . . . . . . . . . . . . . . 2034
+
+51.6.7
+
+HASH context swap registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2035
+
+51.6.8
+
+HASH register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2036
+
+On-the-fly decryption engine (OTFDEC) . . . . . . . . . . . . . . . . . . . . . . 2038
+52.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2038
+
+52.2
+
+OTFDEC main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2038
+
+52.3
+
+OTFDEC functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2039
+52.3.1
+
+OTFDEC block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2039
+
+52.3.2
+
+OTFDEC internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2039
+
+52.3.3
+
+OTFDEC on-the-fly decryption . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2040
+
+52.3.4
+
+OTFDEC usage of AES in counter mode decryption . . . . . . . . . . . . . 2041
+
+52.3.5
+
+Flow control management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2042
+
+52.3.6
+
+OTFDEC error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2042
+
+52.4
+
+OTFDEC interrupts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2043
+
+52.5
+
+OTFDEC application information . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2043
+
+RM0456 Rev 6
+
+RM0456
+
+Contents
+
+52.6
+
+52.5.1
+
+OTFDEC initialization process . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2043
+
+52.5.2
+
+OTFDEC and power management . . . . . . . . . . . . . . . . . . . . . . . . . . 2045
+
+52.5.3
+
+Encrypting for OTFDEC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2045
+
+52.5.4
+
+OTFDEC key CRC source code . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2046
+
+OTFDEC registers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2047
+52.6.1
+
+OTFDEC control register (OTFDEC_CR) . . . . . . . . . . . . . . . . . . . . . 2047
+
+52.6.2
+
+OTFDEC privileged access control configuration register
+(OTFDEC_PRIVCFGR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2048
+
+52.6.3
+
+OTFDEC region x configuration register (OTFDEC_RxCFGR) . . . . . 2048
+
+52.6.4
+
+OTFDEC region x start address register
+(OTFDEC_RxSTARTADDR) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2050
+
+52.6.5
+
+OTFDEC region x end address register (OTFDEC_RxENDADDR) . 2050
+
+52.6.6
+
+OTFDEC region x nonce register 0 (OTFDEC_RxNONCER0) . . . . . 2051
+
+52.6.7
+
+OTFDEC region x nonce register 1 (OTFDEC_RxNONCER1) . . . . . 2052
+
+52.6.8
+
+OTFDEC region x key register 0 (OTFDEC_RxKEYR0) . . . . . . . . . . 2052
+
+52.6.9
+
+OTFDEC region x key register 1 (OTFDEC_RxKEYR1) . . . . . . . . . . 2053
+
+52.6.10 OTFDEC region x key register 2 (OTFDEC_RxKEYR2) . . . . . . . . . . 2053
+52.6.11 OTFDEC region x key register 3 (OTFDEC_RxKEYR3) . . . . . . . . . . 2054
+52.6.12 OTFDEC interrupt status register (OTFDEC_ISR) . . . . . . . . . . . . . . 2054
+52.6.13 OTFDEC interrupt clear register (OTFDEC_ICR) . . . . . . . . . . . . . . . 2055
+52.6.14 OTFDEC interrupt enable register (OTFDEC_IER) . . . . . . . . . . . . . . 2056
+52.6.15 OTFDEC register map . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2057
+
+53
+
+Public key accelerator (PKA) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2061
+53.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2061
+
+53.2
+
+PKA main features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2061
+
+53.3
+
+PKA functional description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2062
+
+53.4
+
+53.3.1
+
+PKA block diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2062
+
+53.3.2
+
+PKA internal signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2062
+
+53.3.3
+
+PKA reset and clocks . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2062
+
+53.3.4
+
+PKA public key acceleration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2063
+
+53.3.5
+
+Typical applications for PKA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2065
+
+53.3.6
+
+PKA procedure to perform an operation . . . . . . . . . . . . . . . . . . . . . . 2067
+
+53.3.7
+
+PKA error management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2068
+
+PKA operating modes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2069
+53.4.1
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2069
+
+53.4.2
+
+Montgomery parameter computation . . . . . . . . . . . . . . . . . . . . . . . . . 2070
+
+RM0456 Rev 6

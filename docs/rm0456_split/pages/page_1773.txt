@@ -1,0 +1,85 @@
+RM0456 Rev 6
+
+RM0456
+
+DSI Host (DSI)
+Figure 434. Location of LPSIZE and VLPSIZE in the image area
+VSS
+or
+HSS
+
+HSS+HBP
+
+VSA and
+VBP lines
+
+BLLP
+
+RGB
+
+HSS
+
+BLLP in
+burst
+mode
+
+HFP
+
+VACT lines
+
+BLLP
+
+VFP lines
+
+DSI_LPMCR.LPSIZE
+DSI_LPMCR.VLPSIZE
+MSv35874V1
+
+44.9.3
+
+Transmission of commands in high-speed
+If the LPCE bit of the DSI_VMCR register is 0, the commands are sent in high-speed in
+video mode. In this case, the DSI Host automatically determines the area where each
+command can be sent and no programming or calculation is required.
+
+44.9.4
+
+Read command transmission
+The MRD_TIME field of the DSI_DLTRCR register configures the maximum amount of time
+required to perform a read command in lane byte clock cycles, it is calculated as:
+MRD_TIME = time to transmit the read command in low-power mode + time to enter and
+leave low-power mode + time to return the read data packet from the peripheral device.
+The time to return the read data packet from the peripheral depends on the number of bytes
+read and the escape clock frequency of the peripheral, not the escape clock of the host. The
+MRD_TIME field is used in both high-speed and low-power mode to determine if there is
+time to complete a read command in a BLLP period.
+In high-speed mode (LPCE = 0), MRD_TIME is calculated as follows:
+MRD_TIME = (tHS->LP + tLP->HS + tread + 2 x tBTA) / lanebyteclkperiod
+In low-power mode (LPCE = 1), MRD_TIME is calculated as follows:
+MRD_TIME = (tHS->LP + tLP->HS + tLPDT + tlprd + tread + 2 x tBTA) / lanebyteclkperiod, where:
+•
+
+tHS->LP = time to enter the low-power mode
+
+•
+
+tLP->HS = time to leave the low-power mode
+
+•
+
+tLPDT = D-PHY timing related to escape mode entry, LPDT command, and escape
+mode exit (according to the D-PHY specification, this value is always 11 bits in LP, or
+22 TX escape clock cycles)
+
+•
+
+tlprd = read command time in low-power mode (64 * TX esc clock)
+
+•
+
+tread = time to return the read data packet from the peripheral
+
+•
+
+tBTA = time to perform a bus-turn-around (D-PHY dependent).
+RM0456 Rev 6

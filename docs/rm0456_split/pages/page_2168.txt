@@ -1,0 +1,81 @@
+2236
+
+Advanced-control timers (TIM1/TIM8)
+
+RM0456
+
+Figure 583 shows how the index is managed in x1 and x2 modes.
+Figure 583. Index behavior in x1 and x2 mode (IPOS[1:0] = 01)
+AB = IPOS[1:0] = 01
+
+Channel A
+
+Channel B
+
+Index
+
+DIR bit
+
+Counter x2
+
+Counter x1
+
+10
+
+11
+
+0
+
+5
+
+1
+
+6
+
+2
+
+7
+
+1
+
+0
+
+11
+
+0
+
+10
+
+1
+
+9
+
+8
+
+3
+MSv45773V1
+
+Directional index sensitivity
+The IDIR[1:0] bitfield in the TIMx_ECR register allows the index to be active only in a
+selected counting direction.
+Figure 584 shows the relationship between index and counter reset events, depending on
+IDIR[1:0] value.
+Figure 584. Directional index sensitivity
+DIR bit
+
+UP-counting
+
+Down-counting
+
+Counter
+
+Index input
+
+Counter reset
+
+IDIR[1:0]=00
+
+IDIR[1:0]=01
+
+IDIR[1:0]=10
+MSv45774V1

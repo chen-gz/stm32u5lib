@@ -1,0 +1,102 @@
+GFXMMU features
+
+STM32U599/5A9
+
+STM32U5Fx/5Gx
+
+Cache and prefetch mechanism
+
+X
+
+-
+
+Address cache
+
+-
+
+X
+
+RM0456 Rev 6
+
+RM0456
+
+21.4
+
+Chrom-GRC (GFXMMU)
+
+GFXMMU functional and architectural description
+The GFXMMU is composed of two main blocks:
+•
+
+The MMU, responsible of address resolution
+
+•
+
+The cache, responsible of data/address caching, prefetching and packing/unpacking
+Figure 96. GFXMMU block diagram
+AHBSlaveAdd[23:0]
+
+Add[23:4]
+PhyAdd[22:4]
+
+Cache
+
+MMU
+
+Overflow
+
+Valid
+
+Add[23:22]
+PhyAdd[22:0]
+
+pBuffer3AddMSB[31:23]
+pBuffer2AddMSB[31:23]
+pBuffer1AddMSB[31:23]
+pBuffer0AddMSB[31:23]
+
+Status
+registers
+
+Control
+registers
+
+AHBMasterAdd[31:0]
+
+21.4.1
+
+MSv41699V1
+
+Virtual memory
+The GFXMMU provides a virtual memory space seen by the system masters(a). This virtual
+memory space is divided into four virtual buffers.
+
+Virtual buffer
+A virtual buffer is seen by any system master as a continuous memory space representing a
+virtual frame buffer of 1024 lines.
+Each line is divided into 192 or 256 16-byte blocks depending on the 192BM bit of the
+GFXMMU configuration register (GFXMMU_CR).
+Depending on the display shape and size, only the necessary blocks are mapped to a
+physical memory location. This mapping is done programming the LUT entry for each line:
+•
+
+The enable of the line
+
+•
+
+The number of the first “visible” block
+
+•
+
+The number of the last “visible” block
+
+•
+
+The address offset of the line within the physical buffer
+
+The “visible” blocks can be arranged in the physical buffer in a continuous way programming
+the address offset of each line.
+
+a. Refer to section “System architecture” for system masters accessing GFXMMU.
+
+RM0456 Rev 6

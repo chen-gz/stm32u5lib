@@ -1,0 +1,423 @@
+Name
+
+4b
+
+5b
+
+Symbol description
+
+0
+
+0000
+
+11110
+
+hex data 0
+
+1
+
+0001
+
+01001
+
+hex data 1
+
+2
+
+0010
+
+10100
+
+hex data 2
+
+3
+
+0011
+
+10101
+
+hex data 3
+
+4
+
+0100
+
+01010
+
+hex data 4
+
+5
+
+0101
+
+01011
+
+hex data 5
+
+6
+
+0110
+
+01110
+
+hex data 6
+
+7
+
+0111
+
+01111
+
+hex data 7
+
+8
+
+1000
+
+10010
+
+hex data 8
+
+9
+
+1001
+
+10011
+
+hex data 9
+
+A
+
+1010
+
+10110
+
+hex data A
+
+B
+
+1011
+
+10111
+
+hex data B
+
+C
+
+1100
+
+11010
+
+hex data C
+
+D
+
+1101
+
+11011
+
+hex data D
+
+E
+
+1110
+
+11100
+
+hex data E
+
+F
+
+1111
+
+11101
+
+hex data F
+
+Sync-1
+
+K-code
+
+11000
+
+Startsynch #1
+
+Sync-2
+
+K-code
+
+10001
+
+Startsynch #2
+
+RST-1
+
+K-code
+
+00111
+
+Hard Reset #1
+
+RST-2
+
+K-code
+
+11001
+
+Hard Reset #2
+
+EOP
+
+K-code
+
+01101
+
+EOP
+
+Reserved
+
+Error
+
+00000
+
+Do Not Use
+
+Reserved
+
+Error
+
+00001
+
+Do Not Use
+
+Reserved
+
+Error
+
+00010
+
+Do Not Use
+
+Reserved
+
+Error
+
+00011
+
+Do Not Use
+
+Reserved
+
+Error
+
+00100
+
+Do Not Use
+
+Reserved
+
+Error
+
+00101
+
+Do Not Use
+
+Sync-3
+
+K-code
+
+00110
+
+Startsynch #3
+
+Reserved
+
+Error
+
+01000
+
+Do Not Use
+
+Reserved
+
+Error
+
+01100
+
+Do Not Use
+
+Reserved
+
+Error
+
+10000
+
+Do Not Use
+
+Reserved
+
+Error
+
+11111
+
+Do Not Use
+
+RM0456 Rev 6
+
+USB Type-C®/USB Power Delivery interface (UCPD)
+
+RM0456
+
+Ordered sets
+An ordered set consists of four K-codes as shown in the following figure.
+Figure 947. K-code transmission
+
+Transmit last
+
+Transmit first
+
+K-code 4
+
+K-code 3
+
+K-code 2
+
+K-code 1
+
+b4
+
+Bit 3
+
+Bit 4
+
+Bit 2
+
+Bit 1
+
+Transmit last
+
+b0
+
+Bit 0
+
+Transmit first
+MSv45537V1
+
+The following table lists the defined ordered sets, including all possible SOP* sequences.
+At the physical layer, the Hard Reset has higher priority than the other ordered sets so it can
+interrupt an ongoing Tx message.
+Table 779. Ordered sets
+Ordered set name
+
+K-code #1
+
+K-code #2
+
+K-code #3
+
+K-code #4
+
+SOP
+
+Sync-1
+
+Sync-1
+
+Sync-1
+
+Sync-2
+
+SOP’
+
+Sync-1
+
+Sync-1
+
+Sync-3
+
+Sync-3
+
+SOP’’
+
+Sync-1
+
+Sync-3
+
+Sync-1
+
+Sync-3
+
+Hard Reset
+
+RST-1
+
+RST-1
+
+RST-1
+
+RST-2
+
+Cable Reset
+
+RST-1
+
+Sync-1
+
+RST-1
+
+Sync-3
+
+SOP’_Debug
+
+Sync-1
+
+RST-2
+
+RST-2
+
+Sync-3
+
+SOP’’_Debug
+
+Sync-1
+
+RST-2
+
+Sync-3
+
+Sync-2
+
+On reception, the physical layer must accept ordered sets with any combination of three
+correct K-codes out of four, as shown in the following table:
+Table 780. Validation of ordered sets
+Status
+
+1st code
+
+2nd code
+
+3rd code
+
+4th code
+
+Valid
+
+Corrupt
+
+K-code
+
+K-code
+
+K-code
+
+Valid
+
+K-code
+
+Corrupt
+
+K-code
+
+K-code
+
+RM0456 Rev 6

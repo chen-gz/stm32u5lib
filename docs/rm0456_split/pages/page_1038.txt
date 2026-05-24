@@ -1,0 +1,129 @@
+1045
+
+Flexible static memory controller (FSMC)
+
+RM0456
+
+These two ECC blocks are identical and associated with Bank 2 and Bank 3. As a
+consequence, no hardware ECC computation is available for memories connected to
+Bank 4.
+The ECC algorithm implemented in the FMC can perform 1-bit error correction and 2-bit
+error detection per 256, 512, 1 024, 2 048, 4 096 or 8 192 bytes read or written from/to the
+NAND flash memory. It is based on the Hamming coding algorithm and consists in
+calculating the row and column parity.
+The ECC modules monitor the NAND flash data bus and read/write signals (NCE and NWE)
+each time the NAND flash memory bank is active.
+The ECC operates as follows:
+•
+
+When accessing NAND flash memory bank 2 or bank 3, the data present on the
+D[15:0] bus is latched and used for ECC computation.
+
+•
+
+When accessing any other address in NAND flash memory, the ECC logic is idle, and
+does not perform any operation. As a result, write operations to define commands or
+addresses to the NAND flash memory are not taken into account for ECC computation.
+
+Once the desired number of bytes has been read/written from/to the NAND flash memory by
+the host CPU, the FMC_ECCR registers must be read to retrieve the computed value. Once
+read, they must be cleared by resetting the ECCEN bit to ‘0’. To compute a new data block,
+the ECCEN bit must be set to one in the FMC_PCR registers.
+To perform an ECC computation:
+
+27.7.7
+
+1.
+
+Enable the ECCEN bit in the FMC_PCR register.
+
+2.
+
+Write data to the NAND flash memory page. While the NAND page is written, the ECC
+block computes the ECC value.
+
+3.
+
+Read the ECC value available in the FMC_ECCR register and store it in a variable.
+
+4.
+
+Clear the ECCEN bit and then enable it in the FMC_PCR register before reading back
+the written data from the NAND page. While the NAND page is read, the ECC block
+computes the ECC value.
+
+5.
+
+Read the new ECC value available in the FMC_ECCR register.
+
+6.
+
+If the two ECC values are the same, no correction is required, otherwise there is an
+ECC error and the software correction routine returns information on whether the error
+can be corrected or not.
+
+NAND flash controller registers
+NAND flash control registers (FMC_PCR)
+Address offset: 0x80
+Reset value: 0x0000 0018
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+TAR[2:0]
+rw
+
+rw

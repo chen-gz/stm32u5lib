@@ -1,0 +1,68 @@
+1485
+
+Digital-to-analog converter (DAC)
+
+RM0456
+
+Figure 312. DAC LFSR register calculation algorithm
+
+XOR
+X6
+X 12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+X4
+5
+
+4
+
+X0
+
+X
+3
+
+2
+
+1
+
+0
+
+12
+NOR
+
+ai14713c
+
+The LFSR value, that may be masked partially or totally by means of the MAMPx[3:0] bits in
+the DAC_CR register, is added up to the DAC_DHRx contents without overflow and this
+value is then transferred into the DAC_DORx register.
+If LFSR is 0x0000, a 1 is injected into it (antilock-up mechanism).
+It is possible to reset LFSR wave generation by resetting the WAVEx[1:0] bits.
+Figure 313. DAC conversion (SW trigger enabled) with LFSR wave generation
+
+Bus clock
+
+DHR
+
+DOR
+
+0x00
+
+0xAAA
+
+0xD55
+
+SWTRIG
+MSv45320V2
+
+Note:

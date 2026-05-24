@@ -1,0 +1,200 @@
+RM0456 Rev 6
+
+RM0456
+
+Reset and clock control (RCC)
+
+Bit 5 SPI3AMEN: SPI3 autonomous mode enable in Stop 0,1, 2 mode
+This bit is set and cleared by software.
+0: SPI3 autonomous mode disabled during Stop 0/1/2 mode
+1: SPI3 autonomous mode enabled during Stop 0/1/2 mode
+Note: This bit must be set to allow the peripheral to wake up from Stop modes.
+Bits 4:0 Reserved, must be kept at reset value.
+
+11.8.46
+
+RCC peripherals independent clock configuration register 1
+(RCC_CCIPR1)
+Address offset: 0x0E0
+Reset value: 0x0000 0000
+Access: no wait states; word, half-word, and byte access
+
+31
+
+30
+
+29
+
+TIMICSEL[2:0]
+
+28
+Res.
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+27
+
+26
+
+ICLKSEL[1:0]
+
+23
+
+22
+
+21
+
+20
+
+SPI1SEL[1:0]
+
+19
+
+18
+
+LPTIM2SEL[1:0]
+
+17
+
+16
+
+SPI2SEL[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+I2C2SEL[1:0]
+
+I2C1SEL[1:0]
+
+rw
+
+rw
+
+rw
+
+rw
+
+24
+
+rw
+
+I2C4SEL[1:0]
+rw
+
+25
+
+FDCAN1SEL[1:0 SYSTICKSEL[1:
+]
+0]
+
+rw
+
+UART5SEL[1:0]
+rw
+
+USART3SEL[1:0 USART2SEL[1:0 USART1SEL[1:0
+UART4SEL[1:0]
+]
+]
+]
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Bits 31:29 TIMICSEL[2:0]: Clock sources for TIM16,TIM17, and LPTIM2 internal input capture
+When TIMICSEL2 is set, the TIM16, TIM17, and LPTIM2 internal input capture can be
+connected either to HSI/256, MSI/4, or MSI/1024. Depending on TIMICSEL[1:0] value, MSI
+is either MSIK or MSIS.
+When TIMICSEL2 is cleared, the HSI, MSIK, and MSIS clock sources cannot be selected
+as TIM16, TIM17, or LPTIM2 internal input capture.
+0xx: HSI, MSIK and MSIS dividers disabled
+100: HSI/256, MSIS/1024 and MSIS/4 generated and can be selected by TIM16, TIM17, and
+LPTIM2 as internal input capture
+101: HSI/256, MSIS/1024 and MSIK/4 generated and can be selected by TIM16, TIM17, and
+LPTIM2 as internal input capture
+110: HSI/256, MSIK/1024 and MSIS/4 generated and can be selected by TIM16, TIM17 ,and
+LPTIM2 as internal input capture
+111: HSI/256, MSIK/1024 and MSIK/4 generated and can be selected by TIM16, TIM17, and
+LPTIM2 as internal input capture
+Note: The clock division must be disabled (TIMICSEL configured to 0xx) before selecting or
+changing a clock sources division.
+Bit 28 Reserved, must be kept at reset value.
+Bits 27:26 ICLKSEL[1:0]: Intermediate clock source selection
+These bits are used to select the clock source for the OTG_FS, the USB, and the SDMMC.
+00: HSI48 clock selected
+01: PLL2 “Q” (pll2_q_ck) selected
+10: PLL1 “Q” (pll1_q_ck) selected
+11: MSIK clock selected
+
+RM0456 Rev 6

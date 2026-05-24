@@ -1,0 +1,56 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+Bits 19:16 ATCKSEL[3:0]: Active tamper RTC asynchronous prescaler clock selection
+These bits selects the RTC asynchronous prescaler stage output. The selected clock is
+CK_ATPRE. ATCKSEL[3] is reserved, read only, and tied to 0 when the active tamper
+prescaler extension is not implemented.
+0000: RTCCLK is selected
+0001: RTCCLK/2 is selected
+0010: RTCCLK/4 is selected
+0011: RTCCLK/8 is selected
+0100: RTCCLK/16 is selected
+0101: RTCCLK/32 is selected
+0110: RTCCLK/64 is selected
+0111: RTCCLK/128 is selected
+1011: RTCCLK/2048 is selected when (PREDIV_A+1) = 128 and (PREDIV_S+1) is a
+multiple of 16. This value is supported only when the active tamper prescaler
+extension is supported. Refer to Section 64.3: TAMP implementation.
+Others: Reserved
+Note: These bits can be written only when all active tampers are disabled. The write
+protection remains for up to 1.5 CK_ATPRE cycles after all the active tampers are
+disable.
+Bits 15:14 ATOSEL4[1:0]: Active tamper shared output 4 selection
+00: TAMPOUTSEL4 = TAMP_OUT1
+01: TAMPOUTSEL4 = TAMP_OUT2
+10: TAMPOUTSEL4 = TAMP_OUT3
+11: TAMPOUTSEL4 = TAMP_OUT4
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bits 13:12 ATOSEL3[1:0]: Active tamper shared output 3 selection
+00: TAMPOUTSEL3 = TAMP_OUT1
+01: TAMPOUTSEL3 = TAMP_OUT2
+10: TAMPOUTSEL3 = TAMP_OUT3
+11: TAMPOUTSEL3 = TAMP_OUT4
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bits 11:10 ATOSEL2[1:0]: Active tamper shared output 2 selection
+00: TAMPOUTSEL2 = TAMP_OUT1
+01: TAMPOUTSEL2 = TAMP_OUT2
+10: TAMPOUTSEL2 = TAMP_OUT3
+11: TAMPOUTSEL2 = TAMP_OUT4
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bits 9:8 ATOSEL1[1:0]: Active tamper shared output 1 selection
+00: TAMPOUTSEL1 = TAMP_OUT1
+01: TAMPOUTSEL1 = TAMP_OUT2
+10: TAMPOUTSEL1 = TAMP_OUT3
+11: TAMPOUTSEL1 = TAMP_OUT4
+If the TAMP_OUTx output is not available in the package pinout, the ouput selection value is
+reserved and must not be used.
+Bit 7 TAMP8AM: Tamper 8 active mode
+0: Tamper 8 detection mode is passive.
+1: Tamper 8 detection mode is active.

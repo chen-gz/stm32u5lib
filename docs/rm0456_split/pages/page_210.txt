@@ -1,0 +1,51 @@
+275
+
+Global TrustZone controller (GTZC)
+
+RM0456
+
+Bit 25 GFXMMU_REGSEC: secure access mode for GFXMMU registers
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 24 GFXMMUSEC: secure access mode for GFXMMU
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 23 GPU2DSEC: secure access mode for GPU2D
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 22 RAMCFGSEC: secure access mode for RAMCFG
+0: nonsecure
+1: secure
+Bit 21 OCTOSPI2_REGSEC: secure access mode for OCTOSPI2 registers
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 20 OCTOSPI1_REGSEC: secure access mode for OCTOSPI1 registers
+0: nonsecure
+1: secure
+Bit 19 FSMC_REGSEC: secure access mode for FSMC registers
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 18 SDMMC2SEC: secure access mode for SDMMC1
+0: nonsecure
+1: secure
+Note: This bit is only available on some devices in the STM32U5 series. Refer to the device
+datasheet for availability of its associated peripheral. If not present, consider this bit as
+reserved and kept at reset value.
+Bit 17 SDMMC1SEC: secure access mode for SDMMC2
+0: nonsecure
+1: secure

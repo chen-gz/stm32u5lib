@@ -1,0 +1,193 @@
+RM0456 Rev 6
+
+RM0456
+
+Secure digital input/output MultiMediaCard interface (SDMMC)
+
+31.10.9
+
+SDMMC data control register (SDMMC_DCTRL)
+Address offset: 0x02C
+Reset value: 0x0000 0000
+This register controls the data path state machine (DPSM).
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+FIFO
+RST
+
+BOOT
+ACK
+EN
+
+SDIO
+EN
+
+RW
+MOD
+
+RW
+STOP
+
+RW
+START
+
+DTDIR
+
+DTEN
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+Res.
+
+Res.
+
+DBLOCKSIZE[3:0]
+rw
+
+rw
+
+rw
+
+DTMODE[1:0]
+rw
+
+rw
+
+rw
+
+Bits 31:14 Reserved, must be kept at reset value.
+Bit 13 FIFORST: FIFO reset, flushes any remaining data
+This bit can only be written by firmware when IDMAEN= 0 and DPSM is active
+(DPSMACT = 1). This bit only takes effect when a transfer error or transfer hold occurs.
+0: FIFO not affected.
+1: Flush any remaining data and reset the FIFO pointers. This bit is automatically cleared to
+0 by hardware when DPSM gets inactive (DPSMACT = 0).
+Bit 12 BOOTACKEN: Enable the reception of the boot acknowledgment
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+0: Boot acknowledgment disabled, not expected to be received
+1: Boot acknowledgment enabled, expected to be received
+Bit 11 SDIOEN: SD I/O interrupt enable functions
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+If this bit is set, the DPSM enables the SD I/O card specific interrupt operation.
+Bit 10 RWMOD: Read Wait mode
+This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).
+0: Read Wait control using SDMMC_D2
+1: Read Wait control stopping SDMMC_CK
+Bit 9 RWSTOP: Read Wait stop
+This bit is written by firmware and auto cleared by hardware when the DPSM moves from the
+R_W state to the Wait_R or Idle state.
+0: No Read Wait stop
+1: Enable for Read Wait stop when DPSM is in the R_W state.
+Bit 8 RWSTART: Read Wait start
+If this bit is set, Read Wait operation starts.
+
+RM0456 Rev 6

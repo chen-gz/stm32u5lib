@@ -1,0 +1,305 @@
+RM0456 Rev 6
+
+RM0456
+
+Analog-to-digital converter (ADC12)
+
+33.6.27
+
+ADC user control register (ADC_CALFACT)
+Address offset: 0xC4
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+25
+
+24
+
+CAPTURE LATCH
+_COEF _COEF
+rw
+
+rw
+
+9
+
+8
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+Res.
+
+VALIDITY
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+r
+
+r
+
+r
+
+r
+
+I_APB_DATA[7:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+I_APB_ADDR[7:0]
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+r
+
+Bits 31:26 Reserved, must be kept at reset value.
+Bit 25 CAPTURE_COEF: Calibration factor capture enable bit
+This bit enables the internal calibration factor capture.
+0: Calibration factor not captured
+1: Calibration factor available in CALFACT[31:0] bits, the calibration factor index being defined by
+CALINDEX[3:0] bits
+Bit 24 LATCH_COEF: Calibration factor latch enable bit
+This bit latches the calibration factor in the CALFACT[31:0] bits.
+0: No effect
+1: Calibration factor latched in the analog block on LATCH_COEF bit transition from 0 to 1. Prior to
+latching the calibration factor, CALFACT[31:0] bits must be programmed with the content of
+CALINDEX[3:0] bits.
+Bits 23:17 Reserved, must be kept at reset value.
+Bit 16 VALIDITY: Delayed write access status bit
+This bit indicates the communication status between the ADC digital and analog blocks.
+0: Operation still in progress
+1: Operation complete
+Bits 15:8 I_APB_DATA[7:0]: Delayed write access data
+This bitfield contains the data that are being written during delayed write accesses.
+Bits 7:0 I_APB_ADDR[7:0]: Delayed write access address
+This bitfield contains the address that is being written during delayed write accesses.
+
+33.6.28
+
+ADC calibration factor register (ADC_CALFACT2)
+Address offset: 0xC8
+Reset value: 0x0000 0000
+
+31
+
+30
+
+29
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+20
+
+19
+
+18
+
+17
+
+16
+
+CALFACT[31:16]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+0
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+CALFACT[15:0]
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+rw
+
+RM0456 Rev 6

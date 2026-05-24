@@ -1,0 +1,23 @@
+2687
+
+Tamper and backup registers (TAMP)
+
+RM0456
+
+64
+
+Tamper and backup registers (TAMP)
+
+64.1
+
+Introduction
+The anti-tamper detection circuit is used to protect sensitive data from external attacks. 32
+32-bit backup registers are retained in all low-power modes and also in VBAT mode. The
+backup registers, as well as other secrets in the device, are protected by this anti-tamper
+detection circuit with 8 tamper pins and 11 internal tampers. The external tamper pins can
+be configured for edge detection, or level detection with or without filtering, or active tamper
+which increases the security level by auto checking that the tamper pins are not externally
+opened or shorted.
+
+<!-- pagebreak -->
+

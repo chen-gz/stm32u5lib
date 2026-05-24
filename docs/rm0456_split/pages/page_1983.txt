@@ -1,0 +1,61 @@
+RM0456 Rev 6
+
+RM0456
+
+50.4.7
+
+Secure AES coprocessor (SAES)
+
+SAES task suspend and resume
+A message can be suspended if another message with a higher priority must be processed.
+When this highest priority message is sent, the suspended message can resume in both
+encryption or decryption mode.
+Suspend/resume operations do not break the chaining operation and the message
+processing can resume as soon as SAES is enabled again to receive the next data block.
+Figure 488 gives an example of suspend/resume operation: Message 1 is suspended in
+order to send a shorter and higher-priority Message 2.
+Figure 488. Example of suspend mode management
+Message 1
+
+Message 2
+
+128-bit block 1
+
+New higher-priority
+message 2 to be
+processed
+
+128-bit block 2
+
+128-bit block 3
+
+AES suspend
+sequence
+128-bit block 1
+
+128-bit block 2
+128-bit block 4
+
+128-bit block 5
+
+AES resume
+sequence
+
+128-bit block 6
+
+...
+
+MSv42148V1
+
+A detailed description of suspend/resume operations is in the sections dedicated to each
+SAES mode.
+
+50.4.8
+
+SAES basic chaining modes (ECB, CBC)
+Overview
+This section gives a brief explanation of the four basic operation modes provided by the
+SAES core: ECB encryption, ECB decryption, CBC encryption and CBC decryption. For
+detailed information, refer to the FIPS publication 197 from November 26, 2001.
+
+RM0456 Rev 6

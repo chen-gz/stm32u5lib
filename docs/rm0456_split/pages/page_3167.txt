@@ -1,0 +1,107 @@
+3291
+
+USB on-the-go full-speed (OTG_FS)
+
+RM0456
+
+3.
+
+When the packet count becomes 0 or when a short packet is received on the endpoint,
+the NAK bit for that endpoint is set. Once the NAK bit is set, the isochronous or nonisochronous data packets are ignored and not written to the receive FIFO, and nonisochronous OUT tokens receive a NAK handshake reply.
+
+4.
+
+After the data are written to the receive FIFO, the application reads the data from the
+receive FIFO and writes it to external memory, one packet at a time per endpoint.
+
+5.
+
+At the end of every packet write on the AHB to external memory, the transfer size for
+the endpoint is decremented by the size of the written packet.
+
+6.
+
+The OUT data transfer completed pattern for an OUT endpoint is written to the receive
+FIFO on one of the following conditions:
+
+7.
+
+–
+
+The transfer size is 0 and the packet count is 0
+
+–
+
+The last OUT data packet written to the receive FIFO is a short packet
+(0 ≤ packet size < maximum packet size)
+
+When either the application pops this entry (OUT data transfer completed), a transfer
+completed interrupt is generated for the endpoint and the endpoint enable is cleared.
+
+Application programming sequence:
+1.
+
+Program the OTG_DOEPTSIZx register for the transfer size and the corresponding
+packet count.
+
+2.
+
+Program the OTG_DOEPCTLx register with the endpoint characteristics, and set the
+EPENA and CNAK bits.
+
+3.
+
+–
+
+EPENA = 1 in OTG_DOEPCTLx
+
+–
+
+CNAK = 1 in OTG_DOEPCTLx
+
+Wait for the RXFLVL interrupt (in OTG_GINTSTS) and empty the data packets from the
+receive FIFO.
+–
+
+This step can be repeated many times, depending on the transfer size.
+
+4.
+
+Asserting the XFRC interrupt (OTG_DOEPINTx) marks a successful completion of the
+non-isochronous OUT data transfer.
+
+5.
+
+Read the OTG_DOEPTSIZx register to determine the size of the received data
+payload.
+
+•
+
+Generic isochronous OUT data transfer
+
+This section describes a regular isochronous OUT data transfer.
+Application requirements:
+1.
+
+All the application requirements for non-isochronous OUT data transfers also apply to
+isochronous OUT data transfers.
+
+2.
+
+For isochronous OUT data transfers, the transfer size and packet count fields must
+always be set to the number of maximum-packet-size packets that can be received in a
+single frame and no more. Isochronous OUT data transfers cannot span more than 1
+frame.
+
+3.
+
+The application must read all isochronous OUT data packets from the receive FIFO
+(data and status) before the end of the periodic frame (EOPF interrupt in
+OTG_GINTSTS).
+
+4.
+
+To receive data in the following frame, an isochronous OUT endpoint must be enabled
+after the EOPF (OTG_GINTSTS) and before the SOF (OTG_GINTSTS).
+
+Internal data flow:

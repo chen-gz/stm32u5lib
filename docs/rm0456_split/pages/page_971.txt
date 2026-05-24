@@ -1,0 +1,54 @@
+Y buffer contains the output values, yn. It is a circular buffer of length d.
+
+RM0456 Rev 6
+
+RM0456
+
+Filter math accelerator (FMAC)
+Parameters:
+•
+
+The parameter P contains the length, N+1, of the coefficient vector B in the range
+[2:127].
+
+•
+
+The parameter R contains the gain to be applied to the accumulator output. The value
+output to the Y buffer is multiplied by 2R, where R is in the range [0:7]
+
+•
+
+The parameter Q is not used.
+
+The function completes when the START bit in the FMAC_PARAM register is reset by
+software.
+
+IIR filter
+Y = B*X+A*Y’
+
+M
+⎛ N
+⎞
+⎜
+yn = 2 ⋅
+b
+x
++
+a
+y
+∑ k n – k⎟⎟
+⎜ ∑ k n–k
+⎝k = 0
+⎠
+k=1
+R
+
+This function implements an infinite impulse response (IIR) filter. The filter output vector Y is
+the convolution of a coefficient vector B of length N+1 and a vector X of indefinite length,
+plus the convolution of the delayed output vector Y’ with a second coefficient vector A, of
+length M. The elements of Y for incrementing values of n are calculated as yn = B.Xn +
+A.Yn-1, where Xn = [xn-N,...,xn] comprises the N+1 elements of X at indexes n - N to n, while
+Yn-1 = [yn-M,...,yn-1] comprises the M elements of Y at indexes n - M to n - 1. The structure of
+the filter (direct form 1) is shown in Figure 115.
+
+RM0456 Rev 6

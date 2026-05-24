@@ -1,0 +1,62 @@
+1104
+
+Octo-SPI interface (OCTOSPI)
+
+RM0456
+
+In this case, the firmware can use the quad-SPI mode (ABMODE[2:0] = 011) and send a
+byte with bits 7 and 3 of ALTERNATE[31:0] set to 1 (keeping the IO3 line high), and bits 6
+and 2 set to 0 (keeping the IO2 line low), in OCTOSPI_IR.
+The upper two bits of the nibble to be sent are then placed in bits 5:4 of ALTERNATE[31:0]
+while the lower two bits are placed in bits 1:0. For example, if the nibble 2 (0010) is to be
+sent over IO0/IO1, then ALTERNATE[31:0] must be set to 0x8A (1000_1010).
+In memory-mapped mode, the alternate bytes used for the write operation are specified in
+OCTOSPI_WABR, and the alternate byte format is specified in OCTOSPI_WCCR. The
+alternate bytes used for read operation and the alternate byte format are specified in
+OCTOSPI_ABR and OCTOSPI_CCR.
+
+Dummy-cycle phase (memory latency)
+In the dummy-cycle phase, 1 to 31 cycles are given without any data being sent or received,
+in order to give the external device, the time to prepare for the data phase when higher clock
+frequencies are used. The number of cycles given during this phase is specified
+by DCYC[4:0] in OCTOSPI_TCR. In both SDR and DTR modes, the duration is specified as
+a number of full CLK cycles.
+When DCYC[4:0] = 00000, the dummy-cycle phase is skipped, and the command sequence
+proceeds directly to the data phase, if present.
+In order to assure enough “turn-around” time for changing the data signals from the output
+mode to the input mode, there must be at least one dummy cycle when using the dual-SPI,
+the quad-SPI, or the octal-SPI mode, to receive data from the external device.
+In memory-mapped mode, the dummy cycles for the write operations are specified
+in OCTOSPI_WTCR. The dummy cycles for the read operation are specified
+in OCTOSPI_TCR.
+
+Data phase
+During the data phase, any number of bytes can be sent to or received from the external
+device.
+In indirect mode, the number of bytes to be sent/received is specified in OCTOSPI_DLR. In
+this mode, the data to be sent to the external device must be written to OCTOSPI_DR, while
+in indirect-read mode the data received from the external device is obtained by reading
+OCTOSPI_DR.
+In automatic status-polling mode, the number of bytes to be received is specified in
+OCTOSPI_DLR, and the data received from the external device can be obtained by reading
+OCTOSPI_DR.
+In memory-mapped mode, the data read or written, is sent or received directly over the AHB
+to the Cortex core or to a DMA.
+The data phase can send/receive:
+•
+
+1 bit at a time (over IO0/IO1 (SO/SI respectively) in single-SPI mode)
+
+•
+
+2 bits at a time (over IO0/IO1 in dual-SPI mode)
+
+•
+
+4 bits at a time (over IO0 to IO3 in quad-SPI mode)
+
+•
+
+8 bits at a time (over IO0 to IO7 in octal-SPI mode)
+
+This can be configured using DMODE[2:0] in OCTOSPI_CCR.

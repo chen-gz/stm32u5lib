@@ -1,0 +1,99 @@
+RM0456 Rev 6
+
+RM0456
+
+Serial audio interface (SAI)
+Table 707. External synchronization selection
+Block instance
+
+69.4.5
+
+SYNCIN = 1
+
+SYNCIN = 0
+
+SAI1
+
+SAI2 sync.
+
+Reserved
+
+SAI2
+
+Reserved
+
+SAI1 sync.
+
+Audio data size
+The audio frame can target different data sizes by configuring bit DS[2:0] in the SAI_xCR1
+register. The data sizes may be 8, 10, 16, 20, 24, or 32 bits. During the transfer, either the
+MSB or the LSB of the data is sent first, depending on the configuration of the LSBFIRST bit
+in the SAI_xCR1 register.
+
+69.4.6
+
+Frame synchronization
+The FS signal acts as the frame synchronization signal in the audio frame (start of frame).
+The shape of this signal is completely configurable to target the different audio protocols
+with their own specificities concerning this frame synchronization behavior. This
+reconfigurability is done using the SAI_xFRCR register. Figure 860 illustrates this flexibility.
+Figure 860. Audio frame
+FS Length: up to 256 bits
+FS active: up to 128 bits
+FS
+
+The falling edge can occur into this area
+
+SCK
+SD
+(FSOFF = 0)
+
+Slot 0
+
+SD
+(FSOFF = 1)
+
+Slot 0
+
+Slot 1
+
+Slot 2
+
+Slot 1
+
+Slot 2
+
+Slot 3
+
+Slot 3
+
+Slot 4
+
+Slot 4
+
+…...
+
+…...
+
+Slot 0
+
+Slot 0
+
+MSv30037V2
+
+In AC’97 mode or in SPDIF mode (bit PRTCFG[1:0] = 10 or PRTCFG[1:0] = 01 in the
+SAI_xCR1 register), the frame synchronization shape is forced to match the AC’97 protocol.
+The SAI_xFRCR register value is ignored.
+Each audio block is independent and consequently each one requires a specific
+configuration.
+
+Frame length
+•
+
+Master mode
+The audio frame length can be configured to up to 256-bit clock cycles, by configuring
+the FRL[7:0] field in the SAI_xFRCR register.
+If the frame length is greater than the number of declared slots for the frame, the
+remaining bits to transmit are extended to 0 or the SD line is released to high-Z
+
+RM0456 Rev 6

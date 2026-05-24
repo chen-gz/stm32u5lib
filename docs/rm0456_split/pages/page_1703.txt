@@ -1,0 +1,47 @@
+RM0456 Rev 6
+
+RM0456
+
+Parallel synchronous slave interface (PSSI)
+the data (D[15:0]). If the FIFO has enough free space to receive more data, the PSSI drives
+the PSSI_RDY signal active. Otherwise, if the FIFO is full and cannot accept more data, the
+PSSI drives the PSSI_RDY signal inactive. The transmitting device must repeat the current
+data in the next cycle when it detects that PSSI_RDY is inactive. This flow control function
+allows the PSSI to avoid overrun errors when the system (via the DMA) is unable to keep up
+with the data flow.
+Figure 404. Ready in receive mode waveform diagram (CKPOL=0)
+
+PSSI_PDCK
+
+PSSI_D[15:0]
+
+PSSI_DE
+
+PSSI_RDY
+
+MSv48848V2
+
+If the PSSI_RDY alternate input function is enabled (through DERDYCFG) in transmit mode
+(OUTEN=1), the PSSI samples the PSSI_RDY signal on the opposite PSSI_PDCK edge to
+the one at which D[15:0] are driven. If the PSSI_RDY signal is inactive, the PSSI keeps the
+same data (D[15:0]) and PSSI_DE signals that valid data are available during the next
+PSSI_PDCK clock cycle. Otherwise, if PSSI_RDY signal is sampled as active, the next data
+from the TX FIFO (if available) is output on the data outputs (D[15:0]). If no new data are
+available in the TX FIFO, the PSSI keeps the data output values and outputs the PSSI_DE
+signal as inactive (if enabled).
+The receiving device uses the PSSI_RDY to control the data flow and avoid overrun errors
+when the system (via the DMA) is unable to keep up with the data flow.
+
+Bidirectional PSSI_DE/PSSI_RDY signal
+A single pin can be used for both data enable (PSSI_DE) and ready (PSSI_RDY) functions
+if DEPOL and RDYPOL are both set to 1 and DERDYCFG is set to 111 or 100 in the
+PSSI_CR register. In this case, the GPIO corresponding to selected alternate function
+(PSSI_DE when DERDYCFG=111 or PSSI_RDY when DERDYCFG=100) must be
+configured as open-drain. The other device must also be configured to drive the line as
+open-drain, and a weak pull-up must be applied to the line.
+The signal thus becomes bidirectional. If either the sender drives the line low (to indicate
+that the data is not valid) or the receiver drives the line low (to indicate that it is not sampling
+the current data), then both devices know that the data is not being transferred in the current
+cycle.
+
+RM0456 Rev 6

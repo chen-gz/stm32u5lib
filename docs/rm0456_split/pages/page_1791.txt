@@ -1,0 +1,20 @@
+The PLL of the D-PHY has
+unlocked.
+
+RM0456 Rev 6
+
+This error can be critical.
+The graphical subsystem must be
+reconfigured and restarted.
+
+RM0456
+
+44.14
+
+DSI Host (DSI)
+
+Programing procedure
+To operate the DSI Host the user must be familiar with the MIPI® DSI specification. Every
+software programmable register is accessible through the APB interface.
+
+RM0456 Rev 6

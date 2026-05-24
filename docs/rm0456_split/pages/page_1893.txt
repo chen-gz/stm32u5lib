@@ -1,0 +1,105 @@
+RM0456 Rev 6
+
+RM0456
+
+47.3.6
+
+Touch sensing controller (TSC)
+
+Max count error
+The max count error prevents long acquisition times resulting from a faulty capacitive
+sensing channel. It consists of specifying a maximum count value for the analog I/O group
+counters. This maximum count value is specified using the MCV[2:0] bits in the TSC_CR
+register. As soon as an acquisition group counter reaches this maximum value, the ongoing
+acquisition is stopped and the end of acquisition (EOAF bit) and max count error (MCEF bit)
+flags are both set. An interrupt can also be generated if the corresponding end of acquisition
+(EOAIE bit) or/and max count error (MCEIE bit) interrupt enable bits are set.
+
+47.3.7
+
+Sampling capacitor I/O and channel I/O mode selection
+To allow the GPIOs to be controlled by the touch sensing controller, the corresponding
+alternate function must be enabled through the standard GPIO registers and the GPIOxAFR
+registers.
+The GPIOs modes controlled by the TSC are defined using the TSC_IOSCR and
+TSC_IOCCR register.
+When there is no ongoing acquisition, all the I/Os controlled by the touch sensing controller
+are in default state. While an acquisition is ongoing, only unused I/Os (neither defined as
+sampling capacitor I/O nor as channel I/O) are in default state. The IODEF bit in the
+TSC_CR register defines the configuration of the I/Os which are in default state. The table
+below summarizes the configuration of the I/O depending on its mode.
+Table 458. I/O state depending on its mode and IODEF bit value
+IODEF bit
+
+Acquisition
+status
+
+Unused I/O
+mode
+
+Channel I/O
+mode
+
+Sampling
+capacitor I/O
+mode
+
+0
+(output push-pull low)
+
+No
+
+Output push-pull
+low
+
+Output push-pull
+low
+
+Output push-pull
+low
+
+0
+(output push-pull low)
+
+Ongoing
+
+Output push-pull
+low
+
+-
+
+-
+
+1
+(input floating)
+
+No
+
+Input floating
+
+Input floating
+
+Input floating
+
+1
+(input floating)
+
+Ongoing
+
+Input floating
+
+-
+
+-
+
+Unused I/O mode
+An unused I/O corresponds to a GPIO controlled by the TSC peripheral but not defined as
+an electrode I/O nor as a sampling capacitor I/O.
+Sampling capacitor I/O mode
+To allow the control of the sampling capacitor I/O by the TSC peripheral, the corresponding
+GPIO must be first set to alternate output open drain mode and then the corresponding
+Gx_IOy bit in the TSC_IOSCR register must be set.
+Only one sampling capacitor per analog I/O group must be enabled at a time.
+Channel I/O mode
+
+RM0456 Rev 6

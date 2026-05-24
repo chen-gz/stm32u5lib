@@ -1,0 +1,98 @@
+RM0456 Rev 6
+
+RM0456
+
+Real-time clock (RTC)
+
+TAMPALRM output
+The TAMPALRM pin can be configured in output open drain or output push-pull using the
+control bit TAMPALRM_TYPE in the RTC_CR register. It is possible to apply the internal
+pull-up in output mode thanks to TAMPALRM_PU in the RTC_CR.
+Note:
+
+Once the TAMPALRM output is enabled, it has priority over CALIB on RTC_OUT1.
+
+63.4
+
+RTC low-power modes
+Table 637. Effect of low-power modes on RTC
+Mode
+
+Description
+
+Sleep
+
+No effect
+RTC interrupts cause the device to exit the Sleep mode.
+
+Stop
+
+The RTC remains active when the RTC clock source is LSE or LSI. RTC interrupts
+cause the device to exit the Stop mode.
+
+Standby
+
+The RTC remains active when the RTC clock source is LSE or LSI. RTC interrupts
+cause the device to exit the Standby mode.
+
+Shutdown
+
+The RTC remains active when the RTC clock source is LSE. RTC interrupts cause the
+device to exit the Shutdown mode.
+
+The table below summarizes the RTC pins and functions capability in all modes.
+Table 638. RTC pins functionality over modes
+
+63.5
+
+Functions
+
+Functional in all lowpower modes except
+Stop 3, Standby and
+Shutdown modes
+
+Functional in Stop 3,
+Standby and Shutdown
+modes
+
+Functional in VBAT
+mode
+
+RTC_TS
+
+Yes
+
+Yes
+
+Yes
+
+RTC_REFIN
+
+Yes
+
+No
+
+No
+
+RTC_OUT1
+
+Yes
+
+Yes
+
+Yes
+
+RTC_OUT2
+
+Yes
+
+Yes
+
+Yes
+
+RTC interrupts
+The interrupt channel is set in the masked interrupt status register or in the secure masked
+interrupt status register depending on its security mode configuration. The nonsecure
+interrupt output or the secure interrupt output is also activated.
+
+RM0456 Rev 6
