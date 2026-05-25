@@ -25,3 +25,14 @@ setup:
     cargo install probe-rs-tools
 
 # nucleo_u575 = ["stm32u575zi", "lse"]
+
+# Generate/update .devcontainer configuration using devbox
+generate-devcontainer:
+    #!/usr/bin/env bash
+    exts=$(jq -c '.customizations.vscode.extensions // []' .devcontainer/devcontainer.json 2>/dev/null || echo '[]')
+    devbox generate devcontainer --force
+    jq --argjson old "$exts" '.customizations.vscode.extensions = (($old + (.customizations.vscode.extensions // [])) | unique)' .devcontainer/devcontainer.json > .devcontainer/devcontainer.tmp
+    mv .devcontainer/devcontainer.tmp .devcontainer/devcontainer.json
+
+
+

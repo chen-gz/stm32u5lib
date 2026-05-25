@@ -6,14 +6,18 @@
     "probe-rs-tools@latest",
     "python3@latest",
     "python312Packages.pyserial@latest",
+    "jq@latest",
+    "just@latest"
   ],
   "shell": {
     "init_hook": [
       "echo 'Welcome to devbox!' > /dev/null",
       "rustup default stable",
       "rustup target add thumbv8m.main-none-eabihf",
+      "rustup component add llvm-tools-preview",
     ],
     "scripts": {
+      "gen-devcontainer": "just generate-devcontainer",
       "test": [
         "# add power reset and echo to make each test seperate",
         "cargo test  --features \"stm32u575zi, defmt, lse\"",

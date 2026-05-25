@@ -1,17 +1,19 @@
 {
-  "name": "Rust 1.88 Dev Container",
+  "name": "Devbox Remote Container",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "./Dockerfile",
+    "context": ".."
   },
   "customizations": {
     "vscode": {
+      "settings": {},
       "extensions": [
-        "rust-lang.rust-analyzer",
+        "jetpack-io.devbox",
         "marus25.cortex-debug",
-        "probe-rs.probe-rs-debugger"
+        "probe-rs.probe-rs-debugger",
+        "rust-lang.rust-analyzer"
       ]
     }
   },
-  "postCreateCommand": "rustup target add thumbv8m.main-none-eabihf && rustup component add llvm-tools-preview && cargo install cargo-binutils",
-  "remoteUser": "vscode"
+  "remoteUser": "devbox"
 }
