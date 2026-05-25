@@ -5,6 +5,7 @@ pub use stm32_metapac::gpio::vals::Moder;
 pub use stm32_metapac::gpio::vals::Odr;
 pub use stm32_metapac::gpio::vals::Ot;
 pub use stm32_metapac::gpio::vals::Pupdr;
+pub use stm32_metapac::gpio::vals::Ospeedr;
 use stm32_metapac::gpio::Gpio;
 use stm32_metapac::{GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, GPIOF, GPIOG};
 
@@ -20,6 +21,7 @@ macro_rules! define_gpio_port {
                     mode: Moder::OUTPUT,
                     ot: Ot::PUSH_PULL,
                     pupd: Pupdr::FLOATING,
+                    speed: Ospeedr::VERY_HIGH_SPEED, // Default to max speed for backward compatibility
                 };
             )*
         };
@@ -33,6 +35,7 @@ macro_rules! define_gpio_port_alt {
                 mode: $mode,
                 ot: $ot,
                 pupd: $pupd,
+                speed: Ospeedr::VERY_HIGH_SPEED, // Default to max speed for backward compatibility
             };)*
         };
 
@@ -47,13 +50,12 @@ pub struct GpioPort {
     pub mode: Moder,
     pub ot: Ot,
     pub pupd: Pupdr,
-}
-impl Drop for GpioPort {
-    fn drop(&mut self) {
-        // set the pin to floating
-        // self.port.moder().modify(|v| v.set_moder(self.pin, Moder::INPUT));
-        // self.port.pupdr().modify(|v| v.set_pupdr(self.pin, Pupdr::FLOATING));
-    }
+    /// Pin speed:
+    /// - LOW_SPEED: up to 8 MHz
+    /// - MEDIUM_SPEED: up to 50 MHz
+    /// - HIGH_SPEED: up to 100 MHz
+    /// - VERY_HIGH_SPEED: up to 120 MHz
+    pub speed: Ospeedr,
 }
 
 impl GpioPort {
@@ -64,12 +66,11 @@ impl GpioPort {
         self.port.bsrr().write(|v| v.set_br(self.pin, true))
     }
     pub fn toggle(&self) {
-        let is_high = self.port.odr().read().odr(self.pin) == Odr::HIGH;
-        if is_high {
-            self.port.bsrr().write(|v| v.set_br(self.pin, true));
-        } else {
-            self.port.bsrr().write(|v| v.set_bs(self.pin, true));
-        }
+        let val = self.port.odr().read().0;
+        self.port.odr().write(|v| v.0 = val ^ (1 << self.pin));
+    }
+    pub fn is_high(&self) -> bool {
+        self.port.idr().read().idr(self.pin) == stm32_metapac::gpio::vals::Idr::HIGH
     }
     pub fn setup(&self) {
         // enable the clock
@@ -78,7 +79,7 @@ impl GpioPort {
         self.port.pupdr().modify(|v| v.set_pupdr(self.pin, self.pupd));
         self.port
             .ospeedr()
-            .modify(|v| v.set_ospeedr(self.pin, stm32_metapac::gpio::vals::Ospeedr::VERY_HIGH_SPEED));
+            .modify(|v| v.set_ospeedr(self.pin, self.speed));
         if self.pin < 8 {
             self.port.afr(0).modify(|v| v.set_afr(self.pin, self.alt_func));
         } else {
