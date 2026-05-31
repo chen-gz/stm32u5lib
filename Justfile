@@ -28,7 +28,8 @@ setup:
 
 # Generate/update .devcontainer.json configuration using devenv
 generate-devcontainer:
-    devenv shell -- true
+    rm -f .devcontainer.json
+    devenv eval devcontainer.settings | jq '.["devcontainer.settings"]' > .devcontainer.json
 
 
 

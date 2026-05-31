@@ -20,7 +20,7 @@
   '';
 
   # https://devenv.sh/reference/options/#devcontainerenable
-  devcontainer.enable = true;
+  devcontainer.enable = false;
 
   devcontainer.settings = {
     customizations.vscode.extensions = [

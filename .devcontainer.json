@@ -1,1 +1,16 @@
-/nix/store/1siqfbrql9rw8y2nqvlrylgapmz3i08l-devcontainer.json
+{
+  "image": "ghcr.io/cachix/devenv/devcontainer:latest",
+  "overrideCommand": false,
+  "updateContentCommand": "devenv test",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "cachix.devenv",
+        "mkhl.direnv",
+        "marus25.cortex-debug",
+        "probe-rs.probe-rs-debugger",
+        "rust-lang.rust-analyzer"
+      ]
+    }
+  }
+}
