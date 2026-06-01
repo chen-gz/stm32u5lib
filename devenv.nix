@@ -1,16 +1,12 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  # Enable Rust and Zig language support natively in devenv
-  languages.rust = {
-    enable = true;
-  };
-
+  # Enable Zig language support natively in devenv
   languages.zig = {
     enable = true;
   };
 
-  # Additional CLI tools
+  # https://devenv.sh/packages/
   packages = [
     pkgs.cargo-binutils
     pkgs.probe-rs-tools
@@ -20,10 +16,21 @@
     pkgs.just
   ];
 
-  enterShell = ''
-    rustup target add thumbv8m.main-none-eabihf
-    rustup component add llvm-tools-preview
-  '';
+  # https://devenv.sh/languages/
+  languages.rust = {
+    enable = true;
+    channel = "stable";
+    targets = [ "thumbv8m.main-none-eabihf" ];
+    components = [
+      "rustc"
+      "cargo"
+      "clippy"
+      "rustfmt"
+      "rust-analyzer"
+      "llvm-tools-preview"
+      "rust-src"
+    ];
+  };
 
   # https://devenv.sh/reference/options/#devcontainerenable
   devcontainer.enable = false;
