@@ -20,30 +20,6 @@
 //!    - 每次编程需连续写入 4 个 32 位字（Word）到内部写入缓存，并等待 busy 清空。
 //! 7. **指令缓存失效（ICACHE Invalidation）**：
 //!    - 为了防止数据擦写后 CPU ICACHE 残留旧版本的数据副本，擦写成功后驱动会自动执行 `invalidate_icache()` 清空缓存，保证读回最新写入的数据。
-//!
-//! ### 使用示例
-//! ```rust
-//! use u5_lib::flash;
-//!
-//! fn save_data_example() {
-//!     // 1. 获取安全的写入起始地址
-//!     let safe_addr = flash::get_flash_safe_start();
-//!     
-//!     // 2. 擦除该 8 KB 页面（写入前必须擦除）
-//!     flash::erase_page(safe_addr).unwrap();
-//!     
-//!     // 3. 准备写入的 16 字节数据（必须是 16 字节对齐）
-//!     let my_data: [u8; 16] = [0xAA; 16];
-//!     
-//!     // 4. 写入数据到该安全地址
-//!     flash::write(safe_addr, &my_data).unwrap();
-//!
-//!     // 5. 从该安全地址读回数据进行校验
-//!     let mut read_buf = [0u8; 16];
-//!     flash::read(safe_addr, &mut read_buf).unwrap();
-//!     assert_eq!(read_buf, my_data);
-//! }
-//! ```
 
 use stm32_metapac::{FLASH, ICACHE};
 
@@ -55,8 +31,12 @@ extern "C" {
 
 /// Flash 起始物理基地址（STM32 统一为 0x08000000）
 pub const FLASH_START: usize = 0x08000000;
+/// Base address of main Flash memory (as u32)
+pub const FLASH_BASE: u32 = 0x0800_0000;
 /// STM32U5 最小擦除扇区大小（8 KB）
 pub const PAGE_SIZE: usize = 8192; // 8 KB
+/// Size of one Flash page on STM32U5
+pub const FLASH_PAGE_SIZE: usize = PAGE_SIZE;
 
 /// 驱动可能返回的错误枚举
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -73,6 +53,16 @@ pub enum FlashError {
     EraseError,
     /// 编程写入时发生硬件错误（如对齐、大小限制、校验错误等）
     ProgramError,
+    /// Flash is locked and unlock sequence failed
+    Locked,
+    /// Address is not aligned or out of range
+    InvalidAddress,
+    /// Write or erase error flag set by Flash controller
+    WriteError,
+    /// Programming alignment/sequence error
+    ProgrammingError,
+    /// Flash operation timed out
+    Timeout,
 }
 
 // 解锁 Flash 控制器所需的两步魔术密钥
@@ -111,6 +101,21 @@ fn unlock_flash() {
 /// 重新锁定非安全 Flash 控制寄存器以保护 Flash 避免误操作。
 fn lock_flash() {
     FLASH.nscr().modify(|w| w.set_lock(true));
+}
+
+/// Public unlock helper
+pub fn unlock() -> Result<(), FlashError> {
+    unlock_flash();
+    if FLASH.nscr().read().lock() {
+        Err(FlashError::Locked)
+    } else {
+        Ok(())
+    }
+}
+
+/// Public lock helper
+pub fn lock() {
+    lock_flash();
 }
 
 /// 清空并失效指令缓存 (ICACHE)，避免 CPU 读到缓存在 ICACHE 中的旧 Flash 数据副本。
@@ -328,24 +333,10 @@ pub fn write(addr: usize, data: &[u8]) -> Result<(), FlashError> {
     Ok(())
 }
 
-// ///////////////////////////////////////////////////////////////////////////
-// 未来规划与高耐用性（High-Endurance）擦写优化指南
-// ///////////////////////////////////////////////////////////////////////////
-// STM32U5 官方规范中，Flash 擦写物理特性不支持通过软件开关（如 Option Bytes）直接配置“高耐用性”模式。
-// 该模式本质上是硬件电荷泵与物理存储阵列的物理耐受极限。为了支持部分页面的 100,000 次高频擦写寿命，
-// 未来在该驱动上层可进一步实现以下规划方案：
-//
-// 1. 软件磨损均衡（Wear Leveling）实现：
-//    - 限制频繁擦写的数据区总大小在单 Bank 内不超过 32 个页面（共 256 Kbytes）。
-//    - 引入环形缓冲区（Ring Buffer）或日志型文件系统（LFS），让写操作在 32 个页面内循环滚动分布。
-//    - 这样可以避免单个 8 KB 页面因频繁擦写过早物理损坏，使得整个 256 KB 区域整体寿命达到 100,000 次。
-//
-// 2. 擦除计数器（Erase Counter）：
-//    - 在磨损均衡算法中，设计每个 Sector / Page 头部的擦写元数据，记录该页面的擦写次数。
-//    - 写入时优先选择擦写次数最少的物理页面进行数据装填，以确保所有物理页寿命消耗均匀。
-//
-// 3. 坏块标记与数据保护：
-//    - 监测 `erase_page` 与 `program_quad_word` 返回的 `EraseError` 与 `ProgramError`。
-//    - 一旦检测到某个物理页物理损坏（写入/擦除校验失败），应将其标记为“坏页”并从可用地址链表中剔除，
-//      同时将该页原存的重要配置数据迁移保存至备用页面中，保证系统数据高可用。
-
+/// Write 32-bit words to Flash memory (quad-word aligned helper for DFU).
+pub fn write_quad_words(address: u32, data: &[u32]) -> Result<(), FlashError> {
+    let bytes: &[u8] = unsafe {
+        core::slice::from_raw_parts(data.as_ptr() as *const u8, data.len() * 4)
+    };
+    write(address as usize, bytes)
+}

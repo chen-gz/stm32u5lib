@@ -19,3 +19,6 @@ devenv.local.yaml
 # pre-commit
 .pre-commit-config.yaml
 zig-pkg/
+zig_project/deps/
+zig_0_17/
+

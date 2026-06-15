@@ -50,6 +50,7 @@ pub use embassy_executor_macros::task;
 pub mod drivers;
 pub mod hal;
 pub mod shared_i2c;
+pub mod dfu;
 pub mod utils;
 
 #[cfg(all(target_arch = "arm", target_os = "none", dcmi))]
