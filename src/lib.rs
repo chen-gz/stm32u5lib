@@ -22,6 +22,7 @@ pub mod hal;
 pub mod nucleo_u575;
 pub mod otg;
 pub mod utils;
+pub mod shared_i2c;
 
 #[cfg(all(sdmmc, dcmi))]
 pub mod camera;

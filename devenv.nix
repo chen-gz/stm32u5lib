@@ -1,11 +1,6 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  # Enable Zig language support natively in devenv
-  languages.zig = {
-    enable = true;
-  };
-
   # https://devenv.sh/packages/
   packages = [
     pkgs.cargo-binutils
