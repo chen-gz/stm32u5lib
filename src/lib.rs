@@ -1,32 +1,47 @@
-#![cfg_attr(not(test), no_std)]
+#![cfg_attr(all(not(test), target_os = "none"), no_std)]
 #![allow(dead_code)]
 #[macro_use]
 mod fmt;
-pub mod adc;
-pub mod clock;
-pub mod dma;
-pub mod exti;
-pub mod gpio;
-pub mod i2c;
-pub mod low_power;
-pub mod lptim;
-pub mod rtc;
-pub mod sd_device;
-pub mod tim;
-pub mod usart;
-pub use embassy_executor;
-pub use embassy_executor::Spawner;
-pub use embassy_executor_macros::task;
-pub mod drivers;
-pub mod hal;
-pub mod nucleo_u575;
-pub mod otg;
-pub mod utils;
-pub mod shared_i2c;
 
-#[cfg(all(sdmmc, dcmi))]
+macro_rules! mcu_modules {
+    ($($mod:ident),* $(,)?) => {
+        $(
+            #[cfg(all(target_arch = "arm", target_os = "none"))]
+            pub mod $mod;
+        )*
+    };
+}
+
+mcu_modules!(
+    adc,
+    clock,
+    dma,
+    exti,
+    gpio,
+    i2c,
+    low_power,
+    lptim,
+    rtc,
+    sd_device,
+    tim,
+    usart,
+    drivers,
+    hal,
+    nucleo_u575,
+    otg,
+    shared_i2c,
+);
+
+#[cfg(all(target_arch = "arm", target_os = "none"))]
+pub use embassy_executor::{self, Spawner};
+#[cfg(all(target_arch = "arm", target_os = "none"))]
+pub use embassy_executor_macros::task;
+
+pub mod utils;
+
+#[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]
 pub mod camera;
-#[cfg(dcmi)]
+#[cfg(all(target_arch = "arm", target_os = "none", dcmi))]
 pub mod dcmi;
-#[cfg(sdmmc)]
+#[cfg(all(target_arch = "arm", target_os = "none", sdmmc))]
 pub mod sdmmc;

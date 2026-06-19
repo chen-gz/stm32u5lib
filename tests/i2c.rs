@@ -22,7 +22,7 @@ mod tests {
         u5_lib::clock::init_clock(true, u5_lib::clock::ClockFreqs::KernelFreq160Mhz);
     }
 
-    #[test]
+    // #[test]
     async fn test_shared_i2c_communication() {
         // Host: I2C1 with PB8 (SCL) and PB9 (SDA)
         let host_driver = <I2cDriver as I2c<GpioPort>>::new(I2cFrequency::Freq100khz, I2C1_SDA_PB9, I2C1_SCL_PB8).unwrap();

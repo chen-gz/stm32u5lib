@@ -123,8 +123,10 @@ macro_rules! trace {
             ::log::trace!($s $(, $x)*);
             #[cfg(feature = "defmt")]
             ::defmt::trace!($s $(, $x)*);
-            #[cfg(not(any(feature = "log", feature="defmt")))]
+            #[cfg(all(not(any(feature = "log", feature="defmt")), target_os = "none"))]
             let _ = ($( & $x ),*);
+            #[cfg(all(not(any(feature = "log", feature="defmt")), not(target_os = "none")))]
+            ::std::println!(concat!("[TRACE] ", $s) $(, $x)*);
         }
     };
 }
@@ -138,8 +140,10 @@ macro_rules! debug {
             ::log::debug!($s $(, $x)*);
             #[cfg(feature = "defmt")]
             ::defmt::debug!($s $(, $x)*);
-            #[cfg(not(any(feature = "log", feature="defmt")))]
+            #[cfg(all(not(any(feature = "log", feature="defmt")), target_os = "none"))]
             let _ = ($( & $x ),*);
+            #[cfg(all(not(any(feature = "log", feature="defmt")), not(target_os = "none")))]
+            ::std::println!(concat!("[DEBUG] ", $s) $(, $x)*);
         }
     };
 }
@@ -153,8 +157,10 @@ macro_rules! info {
             ::log::info!($s $(, $x)*);
             #[cfg(feature = "defmt")]
             ::defmt::info!($s $(, $x)*);
-            #[cfg(not(any(feature = "log", feature="defmt")))]
+            #[cfg(all(not(any(feature = "log", feature="defmt")), target_os = "none"))]
             let _ = ($( & $x ),*);
+            #[cfg(all(not(any(feature = "log", feature="defmt")), not(target_os = "none")))]
+            ::std::println!(concat!("[INFO] ", $s) $(, $x)*);
         }
     };
 }
@@ -168,8 +174,10 @@ macro_rules! warn {
             ::log::warn!($s $(, $x)*);
             #[cfg(feature = "defmt")]
             ::defmt::warn!($s $(, $x)*);
-            #[cfg(not(any(feature = "log", feature="defmt")))]
+            #[cfg(all(not(any(feature = "log", feature="defmt")), target_os = "none"))]
             let _ = ($( & $x ),*);
+            #[cfg(all(not(any(feature = "log", feature="defmt")), not(target_os = "none")))]
+            ::std::println!(concat!("[WARN] ", $s) $(, $x)*);
         }
     };
 }
@@ -183,8 +191,10 @@ macro_rules! error {
             ::log::error!($s $(, $x)*);
             #[cfg(feature = "defmt")]
             ::defmt::error!($s $(, $x)*);
-            #[cfg(not(any(feature = "log", feature="defmt")))]
+            #[cfg(all(not(any(feature = "log", feature="defmt")), target_os = "none"))]
             let _ = ($( & $x ),*);
+            #[cfg(all(not(any(feature = "log", feature="defmt")), not(target_os = "none")))]
+            ::std::println!(concat!("[ERROR] ", $s) $(, $x)*);
         }
     };
 }

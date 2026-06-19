@@ -11,7 +11,7 @@ mod tests {
     use core::time::Duration;
     use u5_lib::{
         clock::{self, delay_ms},
-        lptim::{timeout, Lptim, TimeoutError, WallTimer},
+        lptim::{timeout, Lptim, TimeoutError, WallTimer, LptimPrescaler},
     };
 
     /// This function is run before each test case.
@@ -21,7 +21,8 @@ mod tests {
     #[test]
     async fn test_timeout() {
         clock::init_clock(true, clock::ClockFreqs::KernelFreq160Mhz);
-        let lptim2 = Lptim::new(2);
+        let mut lptim2 = Lptim::new(2);
+        lptim2.init_new(LptimPrescaler::DIV32);
 
         // Test timeout (future never completes)
         let result = timeout(

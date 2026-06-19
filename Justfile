@@ -6,6 +6,9 @@ test-lse:
 test:
     cargo test --features stm32u575zi,defmt
 
+test-host:
+    cargo test --lib --target aarch64-apple-darwin
+
 test-auto:
     @echo "Starting USB Test Harness in background..."
     @python3 scripts/test_usb_acm.py > /tmp/usb_test.log 2>&1 & \

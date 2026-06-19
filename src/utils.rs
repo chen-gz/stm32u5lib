@@ -1,10 +1,9 @@
 // #![feature(panic_info_message)]
 
-#[cfg(feature = "utils")]
+#[cfg(all(target_arch = "arm", target_os = "none", feature = "utils"))]
 use core::panic::PanicInfo;
 
 use core::time::Duration;
-use crate::clock;
 
 /// Profile the execution time of a synchronous closure.
 ///
@@ -16,10 +15,12 @@ use crate::clock;
 /// - **Overhead:** The function call and cycle counter reads add a small overhead (typically a few dozen cycles).
 /// - **Sleep:** The DWT counter may stop during low-power sleep modes (WFI/WFE) depending on the MCU debug configuration.
 /// - **Precision:** Precision is 1 CPU cycle (~6.25ns at 160MHz). Time values in `us` and `ms` are truncated.
+#[cfg(all(target_arch = "arm", target_os = "none"))]
 pub fn profile<F, R>(name: &str, f: F) -> R
 where
     F: FnOnce() -> R,
 {
+    use crate::clock;
     let start = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
     let res = f();
     let end = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
@@ -28,6 +29,18 @@ where
     let us = (cycles as u64 * 1_000_000) / hclk as u64;
     let ms = us / 1000;
     info!("profile: {} took {} cycles ({} us, {} ms)", name, cycles, us as u32, ms as u32);
+    res
+}
+
+#[cfg(not(all(target_arch = "arm", target_os = "none")))]
+pub fn profile<F, R>(name: &str, f: F) -> R
+where
+    F: FnOnce() -> R,
+{
+    let start = std::time::Instant::now();
+    let res = f();
+    let duration = start.elapsed();
+    info!("profile: {} took {:?}", name, duration);
     res
 }
 
@@ -40,10 +53,12 @@ where
 /// - **Executor Overhead:** Includes the time spent by the executor switching tasks if other tasks are polled during the await.
 /// - **Sleep:** The DWT counter may stop during low-power sleep modes.
 /// - **Precision:** Precision is 1 CPU cycle. Time values in `us` and `ms` are truncated.
+#[cfg(all(target_arch = "arm", target_os = "none"))]
 pub async fn profile_async<F, R>(name: &str, f: F) -> R
 where
     F: core::future::Future<Output = R>,
 {
+    use crate::clock;
     let start = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
     let res = f.await;
     let end = unsafe { cortex_m::Peripherals::steal().DWT.cyccnt.read() };
@@ -52,6 +67,18 @@ where
     let us = (cycles as u64 * 1_000_000) / hclk as u64;
     let ms = us / 1000;
     info!("profile_async: {} took {} cycles ({} us, {} ms)", name, cycles, us as u32, ms as u32);
+    res
+}
+
+#[cfg(not(all(target_arch = "arm", target_os = "none")))]
+pub async fn profile_async<F, R>(name: &str, f: F) -> R
+where
+    F: core::future::Future<Output = R>,
+{
+    let start = std::time::Instant::now();
+    let res = f.await;
+    let duration = start.elapsed();
+    info!("profile_async: {} took {:?}", name, duration);
     res
 }
 
@@ -75,7 +102,7 @@ macro_rules! profile_async {
     };
 }
 
-#[cfg(feature = "utils")]
+#[cfg(all(target_arch = "arm", target_os = "none", feature = "utils"))]
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     info!("panic");
@@ -95,7 +122,8 @@ fn panic(_info: &PanicInfo) -> ! {
 const SECONDS_IN_A_DAY: u64 = 86400;
 
 fn is_leap_year(year: u8) -> bool {
-    year % 4 == 0 && year % 100 != 0
+    let abs_year = 2000 + year as u16;
+    abs_year % 4 == 0 && (abs_year % 100 != 0 || abs_year % 400 == 0)
 }
 
 fn days_in_month(year: u8, month: u8) -> u8 {
@@ -169,3 +197,39 @@ pub fn time_date_from_duration_since_2000(duration: Duration) -> (u8, u8, u8, u8
 
     (year, month, day, hour, min, sec)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_is_leap_year() {
+        // year 0 is 2000, which is a leap year
+        assert!(is_leap_year(0));
+        // year 4 is 2004, which is a leap year
+        assert!(is_leap_year(4));
+        // year 1 is 2001, not a leap year
+        assert!(!is_leap_year(1));
+        // year 100 is 2100, which is not a leap year
+        assert!(!is_leap_year(100));
+    }
+
+    #[test]
+    fn test_date_conversions() {
+        let (y, m, d, h, min, s) = (24, 6, 19, 14, 8, 44);
+        let seconds = seconds_since_2000(y, m, d, h, min, s);
+        let duration = Duration::from_secs(seconds);
+        let roundtrip = time_date_from_duration_since_2000(duration);
+        assert_eq!(roundtrip, (y, m, d, h, min, s));
+    }
+
+    #[test]
+    fn test_host_profiling() {
+        let res = profile!("host_test_delay", {
+            std::thread::sleep(Duration::from_millis(10));
+            42
+        });
+        assert_eq!(res, 42);
+    }
+}
+
