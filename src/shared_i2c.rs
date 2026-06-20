@@ -219,7 +219,7 @@ mod tests {
 
         // Test MockI2c other functions
         let mock_driver = MockI2c::new(I2cFrequency::Freq100khz, MockPin, MockPin).unwrap();
-        assert!(matches!(mock_driver.capacity(), I2cFrequency::Freq400khz));
+        assert_eq!(mock_driver.capacity(), I2cFrequency::Freq400khz);
         assert!(mock_driver.write_read(0x50, &[], &mut []).is_ok());
 
         // Test MockI2c read buffer underflow
@@ -231,12 +231,12 @@ mod tests {
             SharedI2cManager::default();
         block_on(async {
             let write_res = manager.write(0x50, &[0xAA]).await;
-            assert!(matches!(write_res, Err(I2cError::InitError)));
+            assert_eq!(write_res, Err(I2cError::InitError));
 
             let mut token = I2cRxToken::new();
             let mut read_buf = [0u8; 1];
             let read_res = manager.read(&mut token, 0x50, &mut read_buf).await;
-            assert!(matches!(read_res, Err(I2cError::InitError)));
+            assert_eq!(read_res, Err(I2cError::InitError));
         });
     }
 }

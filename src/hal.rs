@@ -20,14 +20,14 @@ pub trait DMA {
     fn stop(&self);
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum I2cFrequency {
     Freq100khz,
     Freq400khz,
     Freq1Mhz,
 }
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum I2cError {
     InitError,
@@ -342,7 +342,7 @@ mod tests {
         assert!(i2c.read(0x50, &mut buf).is_ok());
         assert!(block_on(i2c.read_async(0x50, &mut buf)).is_ok());
         assert!(i2c.write_read(0x50, &[], &mut buf).is_ok());
-        assert!(matches!(i2c.capacity(), I2cFrequency::Freq100khz));
+        assert_eq!(i2c.capacity(), I2cFrequency::Freq100khz);
     }
 
     #[test]
