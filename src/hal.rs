@@ -79,6 +79,7 @@ pub trait I2c<T: Pin> {
     fn read_async(&self, addr: u16, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send;
 
     /// start -> write(write_data) -> restart -> read(read_data) -> stop
+    /// Note: This function always keeps using the blocking way.
     fn write_read(&self, addr: u16, write_data: &[u8], read_data: &mut [u8]) -> Result<(), I2cError>;
 
     /// return the maximum frequency that the I2c can support

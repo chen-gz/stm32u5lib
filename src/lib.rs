@@ -26,10 +26,8 @@ mcu_modules!(
     tim,
     usart,
     drivers,
-    hal,
     nucleo_u575,
     otg,
-    shared_i2c,
 );
 
 #[cfg(all(target_arch = "arm", target_os = "none"))]
@@ -37,6 +35,8 @@ pub use embassy_executor::{self, Spawner};
 #[cfg(all(target_arch = "arm", target_os = "none"))]
 pub use embassy_executor_macros::task;
 
+pub mod hal;
+pub mod shared_i2c;
 pub mod utils;
 
 #[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]

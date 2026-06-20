@@ -9,6 +9,13 @@ test:
 test-host:
     cargo test --lib --target aarch64-apple-darwin
 
+coverage:
+    cargo llvm-cov --lib --target aarch64-apple-darwin
+
+coverage-html:
+    cargo llvm-cov --lib --target aarch64-apple-darwin --html
+    @echo "HTML coverage report generated at target/llvm-cov/html/index.html"
+
 test-auto:
     @echo "Starting USB Test Harness in background..."
     @python3 scripts/test_usb_acm.py > /tmp/usb_test.log 2>&1 & \
