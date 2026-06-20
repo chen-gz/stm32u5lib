@@ -7,15 +7,16 @@ use u5_lib as _; // links panic handler
 
 #[embedded_test::tests]
 mod tests {
-    use u5_lib::hal::{I2c, I2cSlave, I2cSlaveEvent, I2cFrequency};
-    use u5_lib::i2c::I2c as I2cDriver;
-    use u5_lib::shared_i2c::SharedI2cManager;
-    use u5_lib::gpio::{I2C1_SCL_PB8, I2C1_SDA_PB9, I2C2_SCL_PB13, I2C2_SDA_PB14, GpioPort};
     use embassy_futures::join::join;
     use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+    use u5_lib::gpio::{GpioPort, I2C1_SCL_PB8, I2C1_SDA_PB9, I2C2_SCL_PB13, I2C2_SDA_PB14};
+    use u5_lib::hal::{I2c, I2cFrequency, I2cSlave, I2cSlaveEvent};
+    use u5_lib::i2c::I2c as I2cDriver;
+    use u5_lib::shared_i2c::SharedI2cManager;
 
     // 1. Declare the static global shared I2C manager.
-    static SHARED_I2C: SharedI2cManager<CriticalSectionRawMutex, I2cDriver, GpioPort> = SharedI2cManager::new();
+    static SHARED_I2C: SharedI2cManager<CriticalSectionRawMutex, I2cDriver, GpioPort> =
+        SharedI2cManager::new();
 
     #[init]
     fn init() {
@@ -25,13 +26,17 @@ mod tests {
     // #[test]
     async fn test_shared_i2c_communication() {
         // Host: I2C1 with PB8 (SCL) and PB9 (SDA)
-        let host_driver = <I2cDriver as I2c<GpioPort>>::new(I2cFrequency::Freq100khz, I2C1_SDA_PB9, I2C1_SCL_PB8).unwrap();
+        let host_driver =
+            <I2cDriver as I2c<GpioPort>>::new(I2cFrequency::Freq100khz, I2C1_SDA_PB9, I2C1_SCL_PB8)
+                .unwrap();
 
         // 2. Initialize the shared I2C manager and retrieve the unique RX token.
         let mut rx_token = SHARED_I2C.init(host_driver).await;
 
         // Slave: I2C2 with PB13 (SCL) and PB14 (SDA), Address 0x50
-        let slave = <I2cDriver as I2cSlave<GpioPort>>::new_slave(I2C2_SDA_PB14, I2C2_SCL_PB13, 0x50).unwrap();
+        let slave =
+            <I2cDriver as I2cSlave<GpioPort>>::new_slave(I2C2_SDA_PB14, I2C2_SCL_PB13, 0x50)
+                .unwrap();
 
         // We run two concurrent host write tasks, and one host read task, to verify serialization.
         let host_task = async {
@@ -75,11 +80,17 @@ mod tests {
             // Slave: Wait for first write (2 bytes)
             #[cfg(feature = "defmt")]
             defmt::info!("Slave: Waiting for write 1...");
-            let event = slave.slave_wait_address_async().await.expect("Slave wait_address failed");
+            let event = slave
+                .slave_wait_address_async()
+                .await
+                .expect("Slave wait_address failed");
             match event {
                 I2cSlaveEvent::Write => {
                     let mut rx_buf = [0u8; 2];
-                    slave.slave_read_async(&mut rx_buf).await.expect("Slave read failed");
+                    slave
+                        .slave_read_async(&mut rx_buf)
+                        .await
+                        .expect("Slave read failed");
                     #[cfg(feature = "defmt")]
                     defmt::info!("Slave: Received data 1: {:x}", rx_buf);
                 }
@@ -89,11 +100,17 @@ mod tests {
             // Slave: Wait for second write (2 bytes)
             #[cfg(feature = "defmt")]
             defmt::info!("Slave: Waiting for write 2...");
-            let event = slave.slave_wait_address_async().await.expect("Slave wait_address failed");
+            let event = slave
+                .slave_wait_address_async()
+                .await
+                .expect("Slave wait_address failed");
             match event {
                 I2cSlaveEvent::Write => {
                     let mut rx_buf = [0u8; 2];
-                    slave.slave_read_async(&mut rx_buf).await.expect("Slave read failed");
+                    slave
+                        .slave_read_async(&mut rx_buf)
+                        .await
+                        .expect("Slave read failed");
                     #[cfg(feature = "defmt")]
                     defmt::info!("Slave: Received data 2: {:x}", rx_buf);
                 }
@@ -103,11 +120,17 @@ mod tests {
             // Slave: Wait for read request and reply
             #[cfg(feature = "defmt")]
             defmt::info!("Slave: Waiting for read...");
-            let event = slave.slave_wait_address_async().await.expect("Slave wait_address failed");
+            let event = slave
+                .slave_wait_address_async()
+                .await
+                .expect("Slave wait_address failed");
             match event {
                 I2cSlaveEvent::Read => {
                     let tx_data = [0x11, 0x22, 0x33, 0x44];
-                    slave.slave_write_async(&tx_data).await.expect("Slave write failed");
+                    slave
+                        .slave_write_async(&tx_data)
+                        .await
+                        .expect("Slave write failed");
                     #[cfg(feature = "defmt")]
                     defmt::info!("Slave: Sent data: {:x}", tx_data);
                 }

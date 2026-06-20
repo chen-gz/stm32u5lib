@@ -1,3 +1,5 @@
+host_target := `rustc -vV | grep host | cut -d' ' -f2`
+
 default: setup test
 
 test-lse:
@@ -7,14 +9,24 @@ test:
     cargo test --features stm32u575zi,defmt
 
 test-host:
-    cargo test --lib --target aarch64-apple-darwin
+    cargo test --lib --target {{host_target}}
 
 coverage:
-    cargo llvm-cov --lib --target aarch64-apple-darwin
+    cargo llvm-cov --lib --target {{host_target}}
 
 coverage-html:
-    cargo llvm-cov --lib --target aarch64-apple-darwin --html
+    cargo llvm-cov --lib --target {{host_target}} --html
     @echo "HTML coverage report generated at target/llvm-cov/html/index.html"
+
+ci:
+    cargo fmt --all --check
+    cargo clippy --lib --target {{host_target}}
+    cargo clippy --lib --target thumbv8m.main-none-eabihf
+    cargo clippy --tests --target thumbv8m.main-none-eabihf
+    cargo test --lib --target {{host_target}}
+    cargo llvm-cov --lib --target {{host_target}}
+
+
 
 test-auto:
     @echo "Starting USB Test Harness in background..."

@@ -41,7 +41,10 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     // clock::set_clock_to_hsi(); // slow clock for sd card
     let block_count: u32 = ((pic_end + 512 - 1) / 512) as u32;
     let end: usize = block_count as usize * 512;
-    info!("start write picture to sd card, block_count: {}", block_count);
+    info!(
+        "start write picture to sd card, block_count: {}",
+        block_count
+    );
     let mut buf = [0u8; 512];
     match sd.read_single_block_async(&mut buf, SIZE_BLOCK).await {
         Ok(_) => {
@@ -51,7 +54,10 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
             panic!("read picture number from sd card fail: {:?}", err);
         }
     }
-    let mut num = ((buf[0] as u32) << 24) | ((buf[1] as u32) << 16) | ((buf[2] as u32) << 8) | (buf[3] as u32);
+    let mut num = ((buf[0] as u32) << 24)
+        | ((buf[1] as u32) << 16)
+        | ((buf[2] as u32) << 8)
+        | (buf[3] as u32);
     num += 1;
     buf[0] = (num >> 24) as u8;
     buf[1] = ((num >> 16) & 0xff) as u8;
@@ -69,7 +75,11 @@ pub async fn save_picture(pic_buf: &mut [u8], sd: &SdInstance) {
     }
 
     match sd
-        .write_multiple_blocks_async(&pic_buf[0..end], (num + IMG_START_BLOCK) * IMG_SIZE, block_count)
+        .write_multiple_blocks_async(
+            &pic_buf[0..end],
+            (num + IMG_START_BLOCK) * IMG_SIZE,
+            block_count,
+        )
         .await
     {
         Ok(_) => {

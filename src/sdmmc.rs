@@ -246,7 +246,11 @@ impl SdInstance {
             Ok(_) => {
                 info!("cid: {}", self.cid.manufacturer_id());
             }
-            Err(err) => error!("get cid error: {:?}, sta: {:x}", err, self.port.star().read().0),
+            Err(err) => error!(
+                "get cid error: {:?}, sta: {:x}",
+                err,
+                self.port.star().read().0
+            ),
         }
         match self.get_rca() {
             Ok(_) => {}
@@ -394,7 +398,11 @@ impl SdInstance {
                     ok = true;
                     break;
                 }
-                Err(err) => error!("get cid error: {:?}, sta: {:x}", err, self.port.star().read().0),
+                Err(err) => error!(
+                    "get cid error: {:?}, sta: {:x}",
+                    err,
+                    self.port.star().read().0
+                ),
             }
             delay_ms(10);
         }
@@ -450,7 +458,9 @@ impl SdInstance {
             ResponseLen::Zero => 0,
             ResponseLen::R48 => {
                 let mut val = 1;
-                if cmd.cmd == sd_cmd::sd_send_op_cond(true, false, false, 0).cmd || cmd.cmd == emmc_cmd::send_op_cond(0).cmd {
+                if cmd.cmd == sd_cmd::sd_send_op_cond(true, false, false, 0).cmd
+                    || cmd.cmd == emmc_cmd::send_op_cond(0).cmd
+                {
                     val = 2; // no crc for this command
                 }
                 val
@@ -507,7 +517,10 @@ impl SdInstance {
         {
             let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp0);
             if (cs.error()) {
-                info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
+                info!(
+                    "cmd: {}, param: {:x}, res_len: {}",
+                    cmd.cmd, cmd.arg, res_len
+                );
                 info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
                 error!("card status error: {:x}", resp0);
                 error!(
@@ -623,7 +636,10 @@ impl SdInstance {
         {
             let cs: sd::CardStatus<sd::SD> = sd::CardStatus::from(resp0);
             if (cs.error()) {
-                info!("cmd: {}, param: {:x}, res_len: {}", cmd.cmd, cmd.arg, res_len);
+                info!(
+                    "cmd: {}, param: {:x}, res_len: {}",
+                    cmd.cmd, cmd.arg, res_len
+                );
                 info!("cmd: {}, param: {:x}", cmd.cmd, cmd.arg);
                 error!("card status error: {:x}", resp0);
                 error!(
@@ -730,7 +746,12 @@ impl SdInstance {
     }
 
     /// the maximum block count is (1<<24) = 16777216 bytes = 16MB
-    pub fn read_multiple_blocks(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
+    pub fn read_multiple_blocks(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        block_count: u32,
+    ) -> Result<(), SdError> {
         // if (block_count + block_addr) > self.csd.block_count() as u32 {
         //     return Err(SdError::ReadBlockCountError);
         // }
@@ -757,7 +778,12 @@ impl SdInstance {
         Ok(())
     }
 
-    pub fn write_multiple_blocks(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
+    pub fn write_multiple_blocks(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        block_count: u32,
+    ) -> Result<(), SdError> {
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::WriteBlockCountError);
         }
@@ -805,7 +831,12 @@ impl SdInstance {
         Ok(())
     }
 
-    pub async fn write_multiple_blocks_async(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
+    pub async fn write_multiple_blocks_async(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        block_count: u32,
+    ) -> Result<(), SdError> {
         if (block_count + block_addr) > self.csd.block_count() as u32 {
             return Err(SdError::WriteBlockCountError);
         }
@@ -827,12 +858,18 @@ impl SdInstance {
             v.set_idmabmode(false); // single buffer mode
             v.set_idmaen(true);
         });
-        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
-        self.send_cmd_async(common_cmd::write_multiple_blocks(block_addr)).await?;
+        self.send_cmd_async(sd_cmd::set_block_count(block_count))
+            .await?;
+        self.send_cmd_async(common_cmd::write_multiple_blocks(block_addr))
+            .await?;
         Ok(())
     }
 
-    pub async fn write_single_block_async(&self, buf: &[u8], block_addr: u32) -> Result<(), SdError> {
+    pub async fn write_single_block_async(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+    ) -> Result<(), SdError> {
         if block_addr as u64 > self.csd.block_count() {
             return Err(SdError::WriteAddressError);
         }
@@ -855,11 +892,16 @@ impl SdInstance {
             v.set_idmaen(true); // enable dma
         });
         // self.send_cmd(common_cmd::write_single_block(block_addr))?;
-        self.send_cmd_async(common_cmd::write_single_block(block_addr)).await?;
+        self.send_cmd_async(common_cmd::write_single_block(block_addr))
+            .await?;
         Ok(())
     }
 
-    pub async fn read_single_block_async(&self, buf: &mut [u8], block_addr: u32) -> Result<(), SdError> {
+    pub async fn read_single_block_async(
+        &self,
+        buf: &mut [u8],
+        block_addr: u32,
+    ) -> Result<(), SdError> {
         // TODO: check
         if block_addr > self.csd.block_count() as u32 {
             return Err(SdError::STATUSError);
@@ -883,11 +925,17 @@ impl SdInstance {
         });
 
         // self.send_cmd(common_cmd::read_single_block(block_addr as u32))?;
-        self.send_cmd_async(common_cmd::read_single_block(block_addr as u32)).await?;
+        self.send_cmd_async(common_cmd::read_single_block(block_addr as u32))
+            .await?;
         Ok(())
     }
 
-    pub async fn read_multiple_blocks_async(&self, buf: &[u8], block_addr: u32, block_count: u32) -> Result<(), SdError> {
+    pub async fn read_multiple_blocks_async(
+        &self,
+        buf: &[u8],
+        block_addr: u32,
+        block_count: u32,
+    ) -> Result<(), SdError> {
         // if (block_count + block_addr) > self.csd.block_count() as u32 {
         //     return Err(SdError::ReadBlockCountError);
         // }
@@ -913,8 +961,10 @@ impl SdInstance {
         });
         // self.send_cmd(sd_cmd::set_block_count(block_count))?;
         // self.send_cmd(common_cmd::read_multiple_blocks(block_addr))?;
-        self.send_cmd_async(sd_cmd::set_block_count(block_count)).await?;
-        self.send_cmd_async(common_cmd::read_multiple_blocks(block_addr)).await?;
+        self.send_cmd_async(sd_cmd::set_block_count(block_count))
+            .await?;
+        self.send_cmd_async(common_cmd::read_multiple_blocks(block_addr))
+            .await?;
         Ok(())
     }
 

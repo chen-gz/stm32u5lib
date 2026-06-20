@@ -93,7 +93,10 @@ mod tests {
         debug!("RTC Time: {:02}:{:02}:{:02}:{:03}", hh0, mm0, ss0, sss0);
         delay_s(1);
         let (hh1, mm1, ss1, sss1) = u5_lib::rtc::get_time();
-        debug!("RTC Time after delay: {:02}:{:02}:{:02}:{:03}", hh1, mm1, ss1, sss1);
+        debug!(
+            "RTC Time after delay: {:02}:{:02}:{:02}:{:03}",
+            hh1, mm1, ss1, sss1
+        );
         assert!(hh0 != 0 || hh1 != 0 || mm0 != 0 || mm1 != 0 || ss0 != 0 || ss1 != 0);
         // it should increment by 1 seconds
         let t0_ms = (hh0 as u64 * 3600 + mm0 as u64 * 60 + ss0 as u64) * 1000 + sss0 as u64;

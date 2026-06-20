@@ -84,7 +84,12 @@ impl<M: RawMutex, I: I2c<P>, P: Pin> SharedI2cManager<M, I, P> {
 
     /// Asynchronously reads from a device.
     /// Requires exclusive mutable access to the unique `I2cRxToken` to compile-time restrict who can call it.
-    pub async fn read(&self, _token: &mut I2cRxToken, addr: u16, data: &mut [u8]) -> Result<(), I2cError> {
+    pub async fn read(
+        &self,
+        _token: &mut I2cRxToken,
+        addr: u16,
+        data: &mut [u8],
+    ) -> Result<(), I2cError> {
         let mut guard = self.mutex.lock().await;
         if let Some(i2c) = guard.as_mut() {
             i2c.read_async(addr, data).await
@@ -126,7 +131,11 @@ mod tests {
             Ok(())
         }
 
-        fn write_async(&self, addr: u16, data: &[u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send {
+        fn write_async(
+            &self,
+            addr: u16,
+            data: &[u8],
+        ) -> impl core::future::Future<Output = Result<(), I2cError>> + Send {
             let res = self.write(addr, data);
             async move { res }
         }
@@ -141,12 +150,21 @@ mod tests {
             Ok(())
         }
 
-        fn read_async(&self, addr: u16, data: &mut [u8]) -> impl core::future::Future<Output = Result<(), I2cError>> + Send {
+        fn read_async(
+            &self,
+            addr: u16,
+            data: &mut [u8],
+        ) -> impl core::future::Future<Output = Result<(), I2cError>> + Send {
             let res = self.read(addr, data);
             async move { res }
         }
 
-        fn write_read(&self, _addr: u16, _write_data: &[u8], _read_data: &mut [u8]) -> Result<(), I2cError> {
+        fn write_read(
+            &self,
+            _addr: u16,
+            _write_data: &[u8],
+            _read_data: &mut [u8],
+        ) -> Result<(), I2cError> {
             Ok(())
         }
 
@@ -160,9 +178,10 @@ mod tests {
         use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
         use futures::executor::block_on;
 
-        let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> = SharedI2cManager::new();
+        let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> =
+            SharedI2cManager::new();
         let mock_driver = MockI2c::new(I2cFrequency::Freq100khz, MockPin, MockPin).unwrap();
-        
+
         // Put some data in read buffer
         *mock_driver.read_data.lock().unwrap() = vec![0x11, 0x22, 0x33, 0x44];
 
@@ -202,7 +221,8 @@ mod tests {
         assert!(mock_driver.read(0x50, &mut read_buf).is_err());
 
         // Test uninitialized manager error paths
-        let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> = SharedI2cManager::new();
+        let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> =
+            SharedI2cManager::new();
         block_on(async {
             let write_res = manager.write(0x50, &[0xAA]).await;
             assert!(matches!(write_res, Err(I2cError::InitError)));

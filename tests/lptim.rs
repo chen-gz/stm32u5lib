@@ -11,7 +11,7 @@ mod tests {
     use core::time::Duration;
     use u5_lib::{
         clock::{self, delay_ms},
-        lptim::{timeout, Lptim, TimeoutError, WallTimer, LptimPrescaler},
+        lptim::{timeout, Lptim, LptimPrescaler, TimeoutError, WallTimer},
     };
 
     /// This function is run before each test case.

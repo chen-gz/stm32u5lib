@@ -31,7 +31,8 @@ mod tests {
         let res = profile_async!("async_delay_10ms", async {
             clock::delay_ms(10);
             43
-        }).await;
+        })
+        .await;
         assert_eq!(res, 43);
     }
 

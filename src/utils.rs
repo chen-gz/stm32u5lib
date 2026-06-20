@@ -28,7 +28,10 @@ where
     let hclk = clock::get_hclk();
     let us = (cycles as u64 * 1_000_000) / hclk as u64;
     let ms = us / 1000;
-    info!("profile: {} took {} cycles ({} us, {} ms)", name, cycles, us as u32, ms as u32);
+    info!(
+        "profile: {} took {} cycles ({} us, {} ms)",
+        name, cycles, us as u32, ms as u32
+    );
     res
 }
 
@@ -66,7 +69,10 @@ where
     let hclk = clock::get_hclk();
     let us = (cycles as u64 * 1_000_000) / hclk as u64;
     let ms = us / 1000;
-    info!("profile_async: {} took {} cycles ({} us, {} ms)", name, cycles, us as u32, ms as u32);
+    info!(
+        "profile_async: {} took {} cycles ({} us, {} ms)",
+        name, cycles, us as u32, ms as u32
+    );
     res
 }
 
@@ -153,7 +159,8 @@ pub fn seconds_since_2000(year: u8, month: u8, day: u8, hour: u8, min: u8, sec: 
     // defmt::info!("year: {}, month: {}, day: {}", year, month, day);
     // defmt::info!("total_days: {}", total_days);
     total_days += day as u64 - 1;
-    let total_seconds = total_days * SECONDS_IN_A_DAY + (hour as u64 * 3600) + (min as u64 * 60) + sec as u64;
+    let total_seconds =
+        total_days * SECONDS_IN_A_DAY + (hour as u64 * 3600) + (min as u64 * 60) + sec as u64;
     total_seconds
 }
 pub fn duration_since_2000(year: u8, month: u8, day: u8, hour: u8, min: u8, sec: u8) -> Duration {
@@ -278,5 +285,3 @@ mod tests {
         assert_eq!(res2, 43);
     }
 }
-
-

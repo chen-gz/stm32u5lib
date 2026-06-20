@@ -7,12 +7,12 @@ use u5_lib as _; // links panic handler
 
 #[embedded_test::tests]
 mod tests {
-    use u5_lib::otg::{Driver, Config};
-    use u5_lib::gpio::{USB_DM_PA11, USB_DP_PA12};
-    use embassy_usb::Builder;
-    use embassy_usb::class::cdc_acm::{CdcAcmClass, State};
     use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
     use embassy_sync::signal::Signal;
+    use embassy_usb::class::cdc_acm::{CdcAcmClass, State};
+    use embassy_usb::Builder;
+    use u5_lib::gpio::{USB_DM_PA11, USB_DP_PA12};
+    use u5_lib::otg::{Config, Driver};
 
     #[init]
     fn init() {
@@ -31,7 +31,12 @@ mod tests {
 
         // Config
         let config = Config::default();
-        let driver = Driver::new_fs(USB_DP_PA12, USB_DM_PA11, unsafe { &mut *ep_out_buffer }, config);
+        let driver = Driver::new_fs(
+            USB_DP_PA12,
+            USB_DM_PA11,
+            unsafe { &mut *ep_out_buffer },
+            config,
+        );
 
         // Embassy USB Config
         let mut usb_config = embassy_usb::Config::new(0x1234, 0x5678);

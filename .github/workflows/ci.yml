@@ -20,20 +20,11 @@ jobs:
           target: thumbv8m.main-none-eabihf
           components: rustfmt, clippy, llvm-tools-preview
 
-      - name: Check code formatting
-        run: cargo fmt --all --check
+      - name: Install tools (just, cargo-llvm-cov)
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just,cargo-llvm-cov
 
-      - name: Run Clippy
-        run: cargo clippy --all-targets --all-features
+      - name: Run CI suite
+        run: just ci
 
-      - name: Host Unit Tests (Target-independent)
-        run: cargo test --lib
-
-      - name: Build Library (MCU)
-        run: cargo build --lib --target thumbv8m.main-none-eabihf
-
-      - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@cargo-llvm-cov
-
-      - name: Verify Code Coverage
-        run: cargo llvm-cov --lib
