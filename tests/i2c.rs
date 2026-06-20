@@ -64,7 +64,7 @@ mod tests {
             // Join the two write tasks. They will execute concurrently and be serialized by the SharedI2cManager.
             join(write_task_1, write_task_2).await;
 
-            // Host: Read from slave using the exclusive token
+            // Host: Read from slave
             u5_lib::clock::delay_ms(100);
             let mut read_buf = [0u8; 4];
             #[cfg(feature = "defmt")]

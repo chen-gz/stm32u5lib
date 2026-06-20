@@ -31,6 +31,34 @@
 //! ### Half-Duplex Bus Design
 //! Since I2C is a half-duplex bus, we do not require a separate read/write access token.
 //! Both reads and writes are serialized using the same async Mutex.
+//!
+//! ### Real-World Firmware Sharing (Global `static` Variable)
+//! In real-world asynchronous firmware (like Embassy-based projects), tasks must have `'static` lifetimes.
+//! Therefore, you cannot pass local variables by temporary reference. Instead, declare `SharedI2cManager`
+//! as a global `static` variable so multiple tasks can safely reference it concurrently using `&'static`.
+//!
+//! ```rust,ignore
+//! use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+//! use u5_lib::shared_i2c::SharedI2cManager;
+//! use u5_lib::i2c::I2c as I2cDriver;
+//! use u5_lib::gpio::GpioPort;
+//!
+//! static SHARED_I2C: SharedI2cManager<CriticalSectionRawMutex, I2cDriver, GpioPort> =
+//!     SharedI2cManager::new();
+//!
+//! #[embassy_executor::task]
+//! async fn task_1() {
+//!     // Safely borrows the global static manager
+//!     let _ = SHARED_I2C.write(0x50, &[0xAA]).await;
+//! }
+//!
+//! #[embassy_executor::task]
+//! async fn task_2() {
+//!     let mut buf = [0u8; 2];
+//!     // Safely borrows the same global static manager concurrently
+//!     let _ = SHARED_I2C.read(0x50, &mut buf).await;
+//! }
+//! ```
 
 use crate::hal::{I2c, I2cError, Pin};
 use embassy_sync::blocking_mutex::raw::RawMutex;
@@ -81,6 +109,37 @@ impl<M: RawMutex, I: I2c<P>, P: Pin> SharedI2cManager<M, I, P> {
             i2c.read_async(addr, data).await
         } else {
             Err(I2cError::InitError)
+        }
+    }
+
+    /// Asynchronously writes then reads from a device under the same lock (atomic transaction).
+    pub async fn write_read(
+        &self,
+        addr: u16,
+        write_data: &[u8],
+        read_data: &mut [u8],
+    ) -> Result<(), I2cError> {
+        let mut guard = self.mutex.lock().await;
+        if let Some(i2c) = guard.as_mut() {
+            i2c.write_read(addr, write_data, read_data)
+        } else {
+            Err(I2cError::InitError)
+        }
+    }
+
+    /// Asynchronously writes to a device with retry logic.
+    pub async fn write_retry(&self, addr: u16, data: &[u8], retry: u8) -> Result<(), I2cError> {
+        let mut cnt = 0;
+        loop {
+            match self.write(addr, data).await {
+                Ok(_) => return Ok(()),
+                Err(e) => {
+                    cnt += 1;
+                    if cnt >= retry {
+                        return Err(e);
+                    }
+                }
+            }
         }
     }
 }
@@ -147,11 +206,12 @@ mod tests {
 
         fn write_read(
             &self,
-            _addr: u16,
-            _write_data: &[u8],
-            _read_data: &mut [u8],
+            addr: u16,
+            write_data: &[u8],
+            read_data: &mut [u8],
         ) -> Result<(), I2cError> {
-            Ok(())
+            let _ = self.write(addr, write_data);
+            self.read(addr, read_data)
         }
 
         fn capacity(&self) -> I2cFrequency {
@@ -169,7 +229,7 @@ mod tests {
         let mock_driver = MockI2c::new(I2cFrequency::Freq100khz, MockPin, MockPin).unwrap();
 
         // Put some data in read buffer
-        *mock_driver.read_data.lock().unwrap() = vec![0x11, 0x22, 0x33, 0x44];
+        *mock_driver.read_data.lock().unwrap() = vec![0x11, 0x22, 0x33, 0x44, 0x55, 0x66];
 
         block_on(async {
             manager.init(mock_driver).await;
@@ -183,6 +243,16 @@ mod tests {
             let read_res = manager.read(0x50, &mut read_buf).await;
             assert!(read_res.is_ok());
             assert_eq!(read_buf, [0x11, 0x22, 0x33, 0x44]);
+
+            // Perform write_read
+            let mut wr_read_buf = [0u8; 2];
+            let wr_res = manager.write_read(0x50, &[0xCC], &mut wr_read_buf).await;
+            assert!(wr_res.is_ok());
+            assert_eq!(wr_read_buf, [0x55, 0x66]);
+
+            // Perform write_retry
+            let retry_res = manager.write_retry(0x50, &[0xDD], 3).await;
+            assert!(retry_res.is_ok());
         });
     }
 
@@ -206,6 +276,13 @@ mod tests {
         let mut read_buf = [0u8; 1];
         assert!(mock_driver.read(0x50, &mut read_buf).is_err());
 
+        // Test MockI2c write_read error paths
+        let mock_driver_fail_read =
+            MockI2c::new(I2cFrequency::Freq100khz, MockPin, MockPin).unwrap();
+        assert!(mock_driver_fail_read
+            .write_read(0x50, &[0xAA], &mut read_buf)
+            .is_err());
+
         // Test uninitialized manager error paths
         let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> =
             SharedI2cManager::default();
@@ -216,6 +293,54 @@ mod tests {
             let mut read_buf = [0u8; 1];
             let read_res = manager.read(0x50, &mut read_buf).await;
             assert_eq!(read_res, Err(I2cError::InitError));
+
+            // Test write_read on uninitialized manager
+            let wr_res = manager.write_read(0x50, &[], &mut read_buf).await;
+            assert_eq!(wr_res, Err(I2cError::InitError));
+
+            // Test write_retry on uninitialized manager
+            let retry_res = manager.write_retry(0x50, &[], 2).await;
+            assert_eq!(retry_res, Err(I2cError::InitError));
+        });
+    }
+
+    #[test]
+    fn test_shared_i2c_concurrent_tasks() {
+        use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+        use futures::executor::block_on;
+        use futures::join;
+
+        let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> =
+            SharedI2cManager::new();
+        let mock_driver = MockI2c::new(I2cFrequency::Freq100khz, MockPin, MockPin).unwrap();
+
+        // Put some data in read buffer
+        *mock_driver.read_data.lock().unwrap() = vec![0x11, 0x22, 0x33, 0x44];
+
+        block_on(async {
+            manager.init(mock_driver).await;
+
+            let task_1 = async {
+                let write_res = manager.write(0x50, &[0xAA]).await;
+                assert!(write_res.is_ok());
+            };
+
+            let task_2 = async {
+                let mut read_buf = [0u8; 2];
+                let read_res = manager.read(0x50, &mut read_buf).await;
+                assert!(read_res.is_ok());
+                assert_eq!(read_buf, [0x11, 0x22]);
+            };
+
+            let task_3 = async {
+                let mut read_buf = [0u8; 2];
+                let wr_res = manager.write_read(0x50, &[0xBB], &mut read_buf).await;
+                assert!(wr_res.is_ok());
+                assert_eq!(read_buf, [0x33, 0x44]);
+            };
+
+            // Execute them concurrently and verify serialization
+            join!(task_1, task_2, task_3);
         });
     }
 }

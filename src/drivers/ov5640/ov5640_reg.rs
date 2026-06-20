@@ -837,11 +837,7 @@ pub const OV5640_COMMON: &[(u16, u16)] = &[
     (OV5640_AEC_CTRL1F, 0x14),
     (OV5640_SYSTEM_CTROL0, 0x02),
 ];
-pub const OV5640_JPEG_MODE: &[(u16, u16)] = &[
-    // (OV5640_TIMING_TC_REG21,  0x20),
-    // (OV5640_SYSREM_RESET02, 0),
-    // (OV5640_CLOCK_ENABLE02, 0x28 ),
-];
+pub const OV5640_JPEG_MODE: &[(u16, u16)] = &[(OV5640_TIMING_TC_REG21, 0x20)];
 pub const OV5640_WVGA: &[(u16, u16)] = &[
     (OV5640_TIMING_DVPHO_HIGH, 0x03),
     (OV5640_TIMING_DVPHO_LOW, 0x20),

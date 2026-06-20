@@ -37,7 +37,6 @@ mcu_modules!(
     sd_device,
     tim,
     usart,
-    drivers,
     nucleo_u575,
     otg,
 );
@@ -47,6 +46,7 @@ pub use embassy_executor::{self, Spawner};
 #[cfg(all(target_arch = "arm", target_os = "none"))]
 pub use embassy_executor_macros::task;
 
+pub mod drivers;
 pub mod hal;
 pub mod shared_i2c;
 pub mod utils;
