@@ -228,7 +228,7 @@ mod tests {
 
         // Test uninitialized manager error paths
         let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> =
-            SharedI2cManager::new();
+            SharedI2cManager::default();
         block_on(async {
             let write_res = manager.write(0x50, &[0xAA]).await;
             assert!(matches!(write_res, Err(I2cError::InitError)));
