@@ -215,12 +215,34 @@ mod tests {
     }
 
     #[test]
+    fn test_days_in_month() {
+        // Leap year Feb
+        assert_eq!(days_in_month(0, 2), 29);
+        // Non-leap year Feb
+        assert_eq!(days_in_month(1, 2), 28);
+        // Wildcard / invalid month
+        assert_eq!(days_in_month(1, 0), 0);
+        assert_eq!(days_in_month(1, 13), 0);
+    }
+
+    #[test]
     fn test_date_conversions() {
         let (y, m, d, h, min, s) = (24, 6, 19, 14, 8, 44);
-        let seconds = seconds_since_2000(y, m, d, h, min, s);
-        let duration = Duration::from_secs(seconds);
+        let duration = duration_since_2000(y, m, d, h, min, s);
         let roundtrip = time_date_from_duration_since_2000(duration);
         assert_eq!(roundtrip, (y, m, d, h, min, s));
+
+        // Test non-leap year Feb date conversion roundtrip
+        let (y2, m2, d2, h2, min2, s2) = (1, 2, 28, 23, 59, 59);
+        let duration2 = duration_since_2000(y2, m2, d2, h2, min2, s2);
+        let roundtrip2 = time_date_from_duration_since_2000(duration2);
+        assert_eq!(roundtrip2, (y2, m2, d2, h2, min2, s2));
+
+        // Test leap year Feb date conversion roundtrip
+        let (y3, m3, d3, h3, min3, s3) = (0, 2, 29, 12, 0, 0);
+        let duration3 = duration_since_2000(y3, m3, d3, h3, min3, s3);
+        let roundtrip3 = time_date_from_duration_since_2000(duration3);
+        assert_eq!(roundtrip3, (y3, m3, d3, h3, min3, s3));
     }
 
     #[test]
@@ -230,6 +252,31 @@ mod tests {
             42
         });
         assert_eq!(res, 42);
+
+        // Also test the single-parameter macro version
+        let res2 = profile!({
+            std::thread::sleep(Duration::from_millis(10));
+            43
+        });
+        assert_eq!(res2, 43);
+    }
+
+    #[test]
+    fn test_host_profiling_async() {
+        use futures::executor::block_on;
+        let res = block_on(profile_async!("host_test_delay_async", async {
+            std::thread::sleep(Duration::from_millis(10));
+            42
+        }));
+        assert_eq!(res, 42);
+
+        // Also test the single-parameter macro version
+        let res2 = block_on(profile_async!(async {
+            std::thread::sleep(Duration::from_millis(10));
+            43
+        }));
+        assert_eq!(res2, 43);
     }
 }
+
 
