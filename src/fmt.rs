@@ -282,3 +282,41 @@ impl<'a> defmt::Format for Bytes<'a> {
         defmt::write!(fmt, "{:02x}", self.0)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_try_trait() {
+        let opt_some = Some(42);
+        assert_eq!(opt_some.into_result(), Ok(42));
+
+        let opt_none: Option<i32> = None;
+        assert_eq!(opt_none.into_result(), Err(NoneError));
+
+        let res_ok: Result<i32, &str> = Ok(42);
+        assert_eq!(res_ok.into_result(), Ok(42));
+
+        let res_err: Result<i32, &str> = Err("error");
+        assert_eq!(res_err.into_result(), Err("error"));
+    }
+
+    #[test]
+    fn test_bytes_formatting() {
+        let data = [0x01, 0x02, 0x0A];
+        let bytes = Bytes(&data);
+
+        // Test Debug
+        let debug_str = format!("{:?}", bytes);
+        assert!(!debug_str.is_empty());
+
+        // Test Display
+        let display_str = format!("{}", bytes);
+        assert!(!display_str.is_empty());
+
+        // Test LowerHex
+        let hex_str = format!("{:x}", bytes);
+        assert!(!hex_str.is_empty());
+    }
+}
