@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          target: thumbv8m.main-none-eabihf
+          components: rustfmt, clippy, llvm-tools-preview
+
+      - name: Check code formatting
+        run: cargo fmt --all --check
+
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features
+
+      - name: Host Unit Tests (Target-independent)
+        run: cargo test --lib
+
+      - name: Build Library (MCU)
+        run: cargo build --lib --target thumbv8m.main-none-eabihf
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Verify Code Coverage
+        run: cargo llvm-cov --lib
