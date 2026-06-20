@@ -38,7 +38,7 @@ mod tests {
 
     #[test]
     fn test_profile_no_name() {
-        let _res = profile!(clock::delay_ms(5));
+        profile!(clock::delay_ms(5));
         // res is () here
     }
 }

@@ -53,6 +53,6 @@ mod tests {
         let diff = end - start;
         // 100ms = 100,000us
         // Allow some tolerance
-        assert!(diff >= 99_000 && diff <= 110_000);
+        assert!((99_000..=110_000).contains(&diff));
     }
 }

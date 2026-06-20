@@ -1,6 +1,6 @@
 #![no_std]
 #![no_main]
-
+#![allow(dead_code, unused)]
 #[cfg(feature = "defmt")]
 use defmt_rtt as _;
 use u5_lib as _; // links panic handler

@@ -84,10 +84,10 @@ mod tests {
         static mut MSOS_DESC: [u8; 256] = [0; 256];
         static mut CONTROL_BUF: [u8; 64] = [0; 64];
 
-        let config_desc = unsafe { &mut *(&raw mut CONFIG_DESC) };
-        let bos_desc = unsafe { &mut *(&raw mut BOS_DESC) };
-        let msos_desc = unsafe { &mut *(&raw mut MSOS_DESC) };
-        let control_buf = unsafe { &mut *(&raw mut CONTROL_BUF) };
+        let config_desc = unsafe { &mut *core::ptr::addr_of_mut!(CONFIG_DESC) };
+        let bos_desc = unsafe { &mut *core::ptr::addr_of_mut!(BOS_DESC) };
+        let msos_desc = unsafe { &mut *core::ptr::addr_of_mut!(MSOS_DESC) };
+        let control_buf = unsafe { &mut *core::ptr::addr_of_mut!(CONTROL_BUF) };
 
         static CONFIGURED: Signal<CriticalSectionRawMutex, ()> = Signal::new();
         let mut handler = MyHandler {
