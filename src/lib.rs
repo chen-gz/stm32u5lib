@@ -1,5 +1,17 @@
 #![cfg_attr(all(not(test), target_os = "none"), no_std)]
 #![allow(dead_code)]
+#![allow(
+    clippy::wrong_self_convention,
+    clippy::needless_range_loop,
+    clippy::needless_late_init,
+    clippy::declare_interior_mutable_const,
+    clippy::too_many_arguments,
+    clippy::type_complexity,
+    clippy::manual_flatten,
+    clippy::non_minimal_cfg,
+    clippy::zero_prefixed_literal,
+    clippy::doc_lazy_continuation
+)]
 #[macro_use]
 mod fmt;
 

@@ -195,7 +195,7 @@ pub fn set_gpio_clock(gpio: stm32_metapac::gpio::Gpio) {
     }
 }
 
-#[cfg(any(sdmmc))]
+#[cfg(sdmmc)]
 pub fn set_sdmmc_clock(sdmmc: stm32_metapac::sdmmc::Sdmmc, clk_src: SdmmcClockSource) -> Result<(), ()> {
     // the clock source can only be set once
     // use HSI48 as ICLK
@@ -453,21 +453,21 @@ pub fn get_ws_and_vcore(sys_clk: u32) -> (u8, VoltageScale) {
     // return (0, VoltageScale::RANGE4);
     // refter to rm0456 rev4 table 54 and p278
     if sys_clk <= 12_000_000 {
-        return (0, VoltageScale::RANGE4);
+        (0, VoltageScale::RANGE4)
     } else if sys_clk <= 24_000_000 {
-        return (0, VoltageScale::RANGE3);
+        (0, VoltageScale::RANGE3)
     } else if sys_clk <= 48_000_000 {
-        return (1, VoltageScale::RANGE3);
+        (1, VoltageScale::RANGE3)
     } else if sys_clk <= 60_000_000 {
-        return (1, VoltageScale::RANGE2);
+        (1, VoltageScale::RANGE2)
     } else if sys_clk <= 90_000_000 {
-        return (2, VoltageScale::RANGE2);
+        (2, VoltageScale::RANGE2)
     } else if sys_clk <= 110_000_000 {
-        return (3, VoltageScale::RANGE2);
+        (3, VoltageScale::RANGE2)
     } else if sys_clk <= 128_000_000 {
-        return (3, VoltageScale::RANGE1);
+        (3, VoltageScale::RANGE1)
     } else if sys_clk <= 160_000_000 {
-        return (4, VoltageScale::RANGE1);
+        (4, VoltageScale::RANGE1)
     } else {
         panic!("sys_clk is too high");
     }

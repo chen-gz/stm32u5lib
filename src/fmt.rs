@@ -1,4 +1,3 @@
-#![macro_use]
 #![allow(unused)]
 
 use core::fmt::{Debug, Display, LowerHex};

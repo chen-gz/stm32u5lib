@@ -39,7 +39,7 @@ pub fn set_adc1_calibration(calibration: u16) {
 
 pub fn get_adc1_calibration() -> u16 {
     unsafe {
-        return ADC1_CALIBRATION;
+        ADC1_CALIBRATION
     }
 }
 
@@ -190,15 +190,15 @@ impl AdcPort {
         //     v.set_addis(true);
         // });
 
-        return _result as u32;
+        _result
     }
     pub fn get_vref_int_raw(&self) -> u32 {
         let addr = 0x0BFA_07A5 as *const u8;
-        let val = unsafe { addr.read_volatile() as u8 } as u32;
+        let val = unsafe { addr.read_volatile() } as u32;
         let addr = 0x0BFA_07A6 as *const u8;
         // let val = val as u16 | (unsafe { addr.read_volatile() as u16 } << 8);
-        let val2 = unsafe { addr.read_volatile() as u8 } as u32;
-        return val2 << 8 | val;
+        let val2 = unsafe { addr.read_volatile() } as u32;
+        val2 << 8 | val
         // return val << 8 | val2;
     }
     // pub fn get_calibration_factor(&self) -> f64 {

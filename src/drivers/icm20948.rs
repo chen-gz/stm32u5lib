@@ -21,19 +21,19 @@ pub const ICM20948_BANK_SEL: u8 = 0x7f;
 
 pub fn icm20948_read_imu(i2c: &mut i2c::I2c) -> [u8; 6] {
     let mut buf = [0u8; 6];
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_XOUT_H], &mut buf[0..1])
+    i2c.write_read(ICM20948_ADDR, &[ICM20948_ACC_XOUT_H], &mut buf[0..1])
         .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_XOUT_L], &mut buf[1..2])
+    i2c.write_read(ICM20948_ADDR, &[ICM20948_ACC_XOUT_L], &mut buf[1..2])
         .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_YOUT_H], &mut buf[2..3])
+    i2c.write_read(ICM20948_ADDR, &[ICM20948_ACC_YOUT_H], &mut buf[2..3])
         .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_YOUT_L], &mut buf[3..4])
+    i2c.write_read(ICM20948_ADDR, &[ICM20948_ACC_YOUT_L], &mut buf[3..4])
         .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_ZOUT_H], &mut buf[4..5])
+    i2c.write_read(ICM20948_ADDR, &[ICM20948_ACC_ZOUT_H], &mut buf[4..5])
         .unwrap();
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_ACC_ZOUT_L], &mut buf[5..6])
+    i2c.write_read(ICM20948_ADDR, &[ICM20948_ACC_ZOUT_L], &mut buf[5..6])
         .unwrap();
-    return buf;
+    buf
 }
 pub fn icm20948_setup(i2c: &mut i2c::I2c, fsync: &mut gpio::GpioPort) {
     // pa3 to ground
@@ -43,7 +43,7 @@ pub fn icm20948_setup(i2c: &mut i2c::I2c, fsync: &mut gpio::GpioPort) {
     info!("start setup imu");
     // icm-20948
     let mut buf = [0u8; 1];
-    i2c.write_read(ICM20948_ADDR, &mut [ICM20948_WHO_AM_I], &mut buf).unwrap();
+    i2c.write_read(ICM20948_ADDR, &[ICM20948_WHO_AM_I], &mut buf).unwrap();
     // read who am i
     info!("imu who am i: {:?}", buf[0]);
     i2c.write(ICM20948_ADDR, &[ICM20948_PWR_MGMT_1, 0x00]).unwrap();

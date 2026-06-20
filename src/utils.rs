@@ -129,7 +129,7 @@ const SECONDS_IN_A_DAY: u64 = 86400;
 
 fn is_leap_year(year: u8) -> bool {
     let abs_year = 2000 + year as u16;
-    abs_year % 4 == 0 && (abs_year % 100 != 0 || abs_year % 400 == 0)
+    abs_year.is_multiple_of(4) && (!abs_year.is_multiple_of(100) || abs_year.is_multiple_of(400))
 }
 
 fn days_in_month(year: u8, month: u8) -> u8 {
@@ -159,9 +159,8 @@ pub fn seconds_since_2000(year: u8, month: u8, day: u8, hour: u8, min: u8, sec: 
     // defmt::info!("year: {}, month: {}, day: {}", year, month, day);
     // defmt::info!("total_days: {}", total_days);
     total_days += day as u64 - 1;
-    let total_seconds =
-        total_days * SECONDS_IN_A_DAY + (hour as u64 * 3600) + (min as u64 * 60) + sec as u64;
-    total_seconds
+
+    total_days * SECONDS_IN_A_DAY + (hour as u64 * 3600) + (min as u64 * 60) + sec as u64
 }
 pub fn duration_since_2000(year: u8, month: u8, day: u8, hour: u8, min: u8, sec: u8) -> Duration {
     Duration::from_secs(seconds_since_2000(year, month, day, hour, min, sec))
@@ -171,9 +170,6 @@ pub fn time_date_from_duration_since_2000(duration: Duration) -> (u8, u8, u8, u8
     let mut year = 0;
     let mut month = 1;
     let mut day = 1;
-    let hour;
-    let min;
-    let sec;
 
     // Calculate year
     while total_seconds >= SECONDS_IN_A_DAY * if is_leap_year(year) { 366 } else { 365 } {
@@ -192,15 +188,15 @@ pub fn time_date_from_duration_since_2000(duration: Duration) -> (u8, u8, u8, u8
     total_seconds %= SECONDS_IN_A_DAY;
 
     // Calculate hour
-    hour = (total_seconds / 3600) as u8;
+    let hour = (total_seconds / 3600) as u8;
     total_seconds %= 3600;
 
     // Calculate minute
-    min = (total_seconds / 60) as u8;
+    let min = (total_seconds / 60) as u8;
     total_seconds %= 60;
 
     // Remaining seconds
-    sec = total_seconds as u8;
+    let sec = total_seconds as u8;
 
     (year, month, day, hour, min, sec)
 }

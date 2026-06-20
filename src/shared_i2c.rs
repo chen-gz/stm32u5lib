@@ -55,6 +55,12 @@ pub struct SharedI2cManager<M: RawMutex, I: I2c<P>, P: Pin> {
     _phantom: core::marker::PhantomData<P>,
 }
 
+impl<M: RawMutex, I: I2c<P>, P: Pin> Default for SharedI2cManager<M, I, P> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<M: RawMutex, I: I2c<P>, P: Pin> SharedI2cManager<M, I, P> {
     /// Creates a new uninitialized manager (can be used in `static` contexts).
     pub const fn new() -> Self {

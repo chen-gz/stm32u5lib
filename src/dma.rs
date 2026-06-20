@@ -100,7 +100,7 @@ impl DmaChannel {
         });
         assert!(len < DMA_SINGLE_XFER * 32);
         let link_list = unsafe { &mut LINK_LISTS[self.ch] };
-        let num_link_list = (len + DMA_SINGLE_XFER - 1) / DMA_SINGLE_XFER;
+        let num_link_list = len.div_ceil(DMA_SINGLE_XFER);
         for i in 0..num_link_list as usize {
             link_list[i].sar = src_addr + u32::from(src_inc) * (i as u32 * DMA_SINGLE_XFER);
             link_list[i].dar = dar_addr + u32::from(dst_inc) * (i as u32 * DMA_SINGLE_XFER);
@@ -113,7 +113,7 @@ impl DmaChannel {
             // handle last link list
             if i == num_link_list as usize - 1 {
                 link_list[i].llr = 0;
-                if len % DMA_SINGLE_XFER != 0 {
+                if !len.is_multiple_of(DMA_SINGLE_XFER) {
                     link_list[i].br1 = len % DMA_SINGLE_XFER;
                 }
             }
@@ -139,9 +139,9 @@ impl DmaChannel {
             if ch.sr().read().tcf() {
                 ch.sr().write(|v| v.set_tcf(true));
                 // clear the interrupt
-                return core::task::Poll::Ready(());
+                core::task::Poll::Ready(())
             } else {
-                return core::task::Poll::Pending;
+                core::task::Poll::Pending
             }
         });
     }

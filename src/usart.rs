@@ -113,7 +113,7 @@ impl hal::Usart<GpioPort> for Usart {
 
     fn read(&self, data: &mut [u8]) -> Result<(), hal::UsartError> {
         for i in 0..data.len() {
-            while self.port.isr().read().rxne() == false {}
+            while !self.port.isr().read().rxne() {}
             data[i] = self.port.rdr().read().dr() as u8;
         }
         Ok(())
@@ -132,7 +132,7 @@ impl hal::Usart<GpioPort> for Usart {
                     panic!("not supported dma");
                 }
             } else {
-                return self.read_async_interrupt(data);
+                self.read_async_interrupt(data)
             }
         })
         .await;
@@ -140,10 +140,10 @@ impl hal::Usart<GpioPort> for Usart {
 
     fn write(&self, data: &[u8]) -> Result<(), hal::UsartError> {
         for &c in data {
-            while self.port.isr().read().txe() == false {}
+            while !self.port.isr().read().txe() {}
             self.port.tdr().write(|v| v.set_dr(c as u16));
         }
-        while self.port.isr().read().tc() == false {}
+        while !self.port.isr().read().tc() {}
         Ok(())
     }
 

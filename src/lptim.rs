@@ -175,9 +175,9 @@ impl Lptim {
         poll_fn(|cx| unsafe {
             WAKER[index].register(cx.waker());
             if TIMER_LOCKER[index].load(core::sync::atomic::Ordering::Relaxed) {
-                return core::task::Poll::Pending;
+                core::task::Poll::Pending
             } else {
-                return core::task::Poll::Ready(());
+                core::task::Poll::Ready(())
             }
         })
         .await;

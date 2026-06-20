@@ -312,7 +312,7 @@ impl hal::I2c<GpioPort> for I2c {
             hal::I2cFrequency::Freq1Mhz => 1_000_000,
         };
         unsafe {
-            if { TAKEN[port_num as usize] } {
+            if TAKEN[port_num as usize] {
                 return Err(hal::I2cError::InitError);
             }
             TAKEN[port_num as usize] = true;
@@ -399,7 +399,7 @@ impl hal::I2c<GpioPort> for I2c {
             // v.set_reload(stm32_metapac::i2c::vals::Reload::COMPLETED);
             // v.set_autoend(stm32_metapac::i2c::vals::Autoend::SOFTWARE);
         });
-        for i in &*data {
+        for i in data {
             // wait for the transfer complete
             while !self.port.isr().read().txis() {} // txdr register is empty
                                                     // send data
@@ -505,7 +505,7 @@ impl hal::I2cSlave<GpioPort> for I2c {
     fn new_slave(sda_pin: GpioPort, scl_pin: GpioPort, addr: u16) -> Result<Self, hal::I2cError> {
         let port_num = pin_to_port(&scl_pin, &sda_pin);
         unsafe {
-            if { TAKEN[port_num as usize] } {
+            if TAKEN[port_num as usize] {
                 return Err(hal::I2cError::InitError);
             }
             TAKEN[port_num as usize] = true;
