@@ -28,28 +28,15 @@
 //! 3. **API Incompatibility**: The underlying lock (`embassy_sync::mutex::Mutex`) does not expose a blocking
 //!    synchronous acquire method. Using `try_lock` in a spin-loop is an anti-pattern that consumes 100% CPU.
 //!
-//! ### Compile-Time Reader Safety (`I2cRxToken`)
-//! To prevent multiple tasks from concurrently reading from the same bus (which could mix up received data),
-//! `SharedI2cManager` enforces a single-reader model at compile-time:
-//! - Writing (`write`) can be called by any task holding a reference to the manager.
-//! - Reading (`read`) requires exclusive mutable access to a unique `I2cRxToken` returned during initialization.
+//! ### Half-Duplex Bus Design
+//! Since I2C is a half-duplex bus, we do not require a separate read/write access token.
+//! Both reads and writes are serialized using the same async Mutex.
 
 use crate::hal::{I2c, I2cError, Pin};
 use embassy_sync::blocking_mutex::raw::RawMutex;
 use embassy_sync::mutex::Mutex;
 
-/// A non-cloneable token that grants exclusive access to the I2C read interface.
-pub struct I2cRxToken {
-    _private: (),
-}
-
-impl I2cRxToken {
-    pub(crate) fn new() -> Self {
-        Self { _private: () }
-    }
-}
-
-/// A generic manager that wraps any `I2c` implementation to serialize writes and restrict reads.
+/// A generic manager that wraps any `I2c` implementation to serialize writes and reads.
 pub struct SharedI2cManager<M: RawMutex, I: I2c<P>, P: Pin> {
     mutex: Mutex<M, Option<I>>,
     _phantom: core::marker::PhantomData<P>,
@@ -70,11 +57,10 @@ impl<M: RawMutex, I: I2c<P>, P: Pin> SharedI2cManager<M, I, P> {
         }
     }
 
-    /// Initializes the manager with a concrete I2C driver instance and returns the unique RX token.
-    pub async fn init(&self, i2c: I) -> I2cRxToken {
+    /// Initializes the manager with a concrete I2C driver instance.
+    pub async fn init(&self, i2c: I) {
         let mut guard = self.mutex.lock().await;
         *guard = Some(i2c);
-        I2cRxToken::new()
     }
 
     /// Asynchronously writes to a device on the shared I2C bus.
@@ -89,13 +75,7 @@ impl<M: RawMutex, I: I2c<P>, P: Pin> SharedI2cManager<M, I, P> {
     }
 
     /// Asynchronously reads from a device.
-    /// Requires exclusive mutable access to the unique `I2cRxToken` to compile-time restrict who can call it.
-    pub async fn read(
-        &self,
-        _token: &mut I2cRxToken,
-        addr: u16,
-        data: &mut [u8],
-    ) -> Result<(), I2cError> {
+    pub async fn read(&self, addr: u16, data: &mut [u8]) -> Result<(), I2cError> {
         let mut guard = self.mutex.lock().await;
         if let Some(i2c) = guard.as_mut() {
             i2c.read_async(addr, data).await
@@ -192,7 +172,7 @@ mod tests {
         *mock_driver.read_data.lock().unwrap() = vec![0x11, 0x22, 0x33, 0x44];
 
         block_on(async {
-            let mut token = manager.init(mock_driver).await;
+            manager.init(mock_driver).await;
 
             // Perform write
             let write_res = manager.write(0x50, &[0xAA, 0xBB]).await;
@@ -200,7 +180,7 @@ mod tests {
 
             // Perform read
             let mut read_buf = [0u8; 4];
-            let read_res = manager.read(&mut token, 0x50, &mut read_buf).await;
+            let read_res = manager.read(0x50, &mut read_buf).await;
             assert!(read_res.is_ok());
             assert_eq!(read_buf, [0x11, 0x22, 0x33, 0x44]);
         });
@@ -233,9 +213,8 @@ mod tests {
             let write_res = manager.write(0x50, &[0xAA]).await;
             assert_eq!(write_res, Err(I2cError::InitError));
 
-            let mut token = I2cRxToken::new();
             let mut read_buf = [0u8; 1];
-            let read_res = manager.read(&mut token, 0x50, &mut read_buf).await;
+            let read_res = manager.read(0x50, &mut read_buf).await;
             assert_eq!(read_res, Err(I2cError::InitError));
         });
     }

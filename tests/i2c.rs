@@ -30,8 +30,8 @@ mod tests {
             <I2cDriver as I2c<GpioPort>>::new(I2cFrequency::Freq100khz, I2C1_SDA_PB9, I2C1_SCL_PB8)
                 .unwrap();
 
-        // 2. Initialize the shared I2C manager and retrieve the unique RX token.
-        let mut rx_token = SHARED_I2C.init(host_driver).await;
+        // 2. Initialize the shared I2C manager.
+        SHARED_I2C.init(host_driver).await;
 
         // Slave: I2C2 with PB13 (SCL) and PB14 (SDA), Address 0x50
         let slave =
@@ -69,7 +69,7 @@ mod tests {
             let mut read_buf = [0u8; 4];
             #[cfg(feature = "defmt")]
             defmt::info!("Host: Reading from slave...");
-            let res = SHARED_I2C.read(&mut rx_token, 0x50, &mut read_buf).await;
+            let res = SHARED_I2C.read(0x50, &mut read_buf).await;
             #[cfg(feature = "defmt")]
             defmt::info!("Host: Read result: {:?} data: {:x}", res, read_buf);
             res.expect("Host read failed");
