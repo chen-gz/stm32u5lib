@@ -1,27 +1,15 @@
 #![allow(unused)]
 
 use crate::clock;
+use core::sync::atomic::{AtomicBool, Ordering};
 use core::task::Poll;
 use cortex_m::peripheral::NVIC;
 use embassy_sync::waitqueue::AtomicWaker;
 use stm32_metapac::interrupt;
 use stm32_metapac::{I2C1, RCC};
 
-static mut TAKEN: [bool; 8] = [false; 8]; // first bit will be ignored
+static TAKEN: [AtomicBool; 8] = [const { AtomicBool::new(false) }; 8]; // first bit will be ignored
 static WAKERS: [AtomicWaker; 8] = [const { AtomicWaker::new() }; 8];
-
-#[derive(Copy, Clone, Debug)]
-pub enum I2cError {
-    TAKEN,
-    NoError,
-    ArbitrationLost,
-    BusError,
-    Nack,
-    OverrunUnderrun,
-    PecError,
-    Timeout,
-    Alert,
-}
 
 pub struct I2cConfig {
     pub port_num: u8,
@@ -49,9 +37,7 @@ impl I2cConfig {
 
 impl Drop for I2c {
     fn drop(&mut self) {
-        unsafe {
-            TAKEN[self.port_num as usize] = false;
-        }
+        TAKEN[self.port_num as usize].store(false, Ordering::SeqCst);
         self.port.cr1().modify(|v| v.set_pe(false));
     }
 }
@@ -95,6 +81,24 @@ pub fn pin_to_port(scl_pin: &GpioPort, sda_pin: &GpioPort) -> u8 {
 
 impl I2c {
     pub async fn write_async_interrupt(&self, addr: u16, data: &[u8]) -> Result<(), hal::I2cError> {
+        let res = self.write_async_interrupt_impl(addr, data).await;
+        if res.is_err() {
+            self.port.cr1().modify(|v| {
+                v.set_txie(false);
+                v.set_rxie(false);
+                v.set_tcie(false);
+                v.set_stopie(false);
+                v.set_nackie(false);
+            });
+            self.port.icr().write(|v| {
+                v.set_stopcf(true);
+                v.set_nackcf(true);
+            });
+        }
+        res
+    }
+
+    async fn write_async_interrupt_impl(&self, addr: u16, data: &[u8]) -> Result<(), hal::I2cError> {
         assert!(data.len() <= 255);
         self.port.cr2().modify(|v| {
             v.set_sadd(addr << 1);
@@ -150,6 +154,24 @@ impl I2c {
     }
 
     pub async fn read_async_interrupt(&self, addr: u16, data: &mut [u8]) -> Result<(), hal::I2cError> {
+        let res = self.read_async_interrupt_impl(addr, data).await;
+        if res.is_err() {
+            self.port.cr1().modify(|v| {
+                v.set_txie(false);
+                v.set_rxie(false);
+                v.set_tcie(false);
+                v.set_stopie(false);
+                v.set_nackie(false);
+            });
+            self.port.icr().write(|v| {
+                v.set_stopcf(true);
+                v.set_nackcf(true);
+            });
+        }
+        res
+    }
+
+    async fn read_async_interrupt_impl(&self, addr: u16, data: &mut [u8]) -> Result<(), hal::I2cError> {
         assert!(data.len() <= 255);
         self.port.cr2().modify(|v| {
             v.set_sadd(addr << 1);
@@ -228,6 +250,24 @@ impl I2c {
     }
 
     pub async fn read_async_slave(&self, data: &mut [u8]) -> Result<(), hal::I2cError> {
+        let res = self.read_async_slave_impl(data).await;
+        if res.is_err() {
+            self.port.cr1().modify(|v| {
+                v.set_txie(false);
+                v.set_rxie(false);
+                v.set_tcie(false);
+                v.set_stopie(false);
+                v.set_nackie(false);
+            });
+            self.port.icr().write(|v| {
+                v.set_stopcf(true);
+                v.set_nackcf(true);
+            });
+        }
+        res
+    }
+
+    async fn read_async_slave_impl(&self, data: &mut [u8]) -> Result<(), hal::I2cError> {
         for i in 0..data.len() {
             core::future::poll_fn(|cx| {
                 WAKERS[self.port_num as usize].register(cx.waker());
@@ -254,6 +294,24 @@ impl I2c {
     }
 
     pub async fn write_async_slave(&self, data: &[u8]) -> Result<(), hal::I2cError> {
+        let res = self.write_async_slave_impl(data).await;
+        if res.is_err() {
+            self.port.cr1().modify(|v| {
+                v.set_txie(false);
+                v.set_rxie(false);
+                v.set_tcie(false);
+                v.set_stopie(false);
+                v.set_nackie(false);
+            });
+            self.port.icr().write(|v| {
+                v.set_stopcf(true);
+                v.set_nackcf(true);
+            });
+        }
+        res
+    }
+
+    async fn write_async_slave_impl(&self, data: &[u8]) -> Result<(), hal::I2cError> {
         for &byte in data {
             core::future::poll_fn(|cx| {
                 WAKERS[self.port_num as usize].register(cx.waker());
@@ -311,11 +369,8 @@ impl hal::I2c<GpioPort> for I2c {
             hal::I2cFrequency::Freq400khz => 400_000,
             hal::I2cFrequency::Freq1Mhz => 1_000_000,
         };
-        unsafe {
-            if TAKEN[port_num as usize] {
-                return Err(hal::I2cError::InitError);
-            }
-            TAKEN[port_num as usize] = true;
+        if TAKEN[port_num as usize].swap(true, Ordering::SeqCst) {
+            return Err(hal::I2cError::InitError);
         }
         scl_pin.setup();
         sda_pin.setup();
@@ -401,12 +456,36 @@ impl hal::I2c<GpioPort> for I2c {
         });
         for i in data {
             // wait for the transfer complete
-            while !self.port.isr().read().txis() {} // txdr register is empty
-                                                    // send data
+            loop {
+                let isr = self.port.isr().read();
+                if isr.nackf() {
+                    self.port.icr().write(|v| {
+                        v.set_stopcf(true);
+                        v.set_nackcf(true);
+                    });
+                    return Err(hal::I2cError::Nack);
+                }
+                if isr.txis() {
+                    break;
+                }
+            }
+            // send data
             self.port.txdr().write(|v| v.set_txdata(*i));
         }
         // wait for the start bit to be cleared
-        while self.port.cr2().read().start() {}
+        loop {
+            let isr = self.port.isr().read();
+            if isr.nackf() {
+                self.port.icr().write(|v| {
+                    v.set_stopcf(true);
+                    v.set_nackcf(true);
+                });
+                return Err(hal::I2cError::Nack);
+            }
+            if !self.port.cr2().read().start() {
+                break;
+            }
+        }
         // wait for the transfer complete
         // while !self.port.isr().read().tc() {} //  don't care about tc flag when no reload
         // and autoend is set to automatic
@@ -434,11 +513,35 @@ impl hal::I2c<GpioPort> for I2c {
         });
         for i in data {
             // wait for the transfer complete
-            while !self.port.isr().read().rxne() {}
+            loop {
+                let isr = self.port.isr().read();
+                if isr.nackf() {
+                    self.port.icr().write(|v| {
+                        v.set_stopcf(true);
+                        v.set_nackcf(true);
+                    });
+                    return Err(hal::I2cError::Nack);
+                }
+                if isr.rxne() {
+                    break;
+                }
+            }
             // read data
             *i = self.port.rxdr().read().rxdata();
         }
-        while self.port.cr2().read().start() {}
+        loop {
+            let isr = self.port.isr().read();
+            if isr.nackf() {
+                self.port.icr().write(|v| {
+                    v.set_stopcf(true);
+                    v.set_nackcf(true);
+                });
+                return Err(hal::I2cError::Nack);
+            }
+            if !self.port.cr2().read().start() {
+                break;
+            }
+        }
         self.port.icr().write(|v| v.set_stopcf(true));
         Ok(())
     }
@@ -464,12 +567,36 @@ impl hal::I2c<GpioPort> for I2c {
         });
 
         for &byte in write_data {
-            while !self.port.isr().read().txis() {}
+            loop {
+                let isr = self.port.isr().read();
+                if isr.nackf() {
+                    self.port.icr().write(|v| {
+                        v.set_stopcf(true);
+                        v.set_nackcf(true);
+                    });
+                    return Err(hal::I2cError::Nack);
+                }
+                if isr.txis() {
+                    break;
+                }
+            }
             self.port.txdr().write(|v| v.set_txdata(byte));
         }
 
         // Wait for Transfer Complete (TC)
-        while !self.port.isr().read().tc() {}
+        loop {
+            let isr = self.port.isr().read();
+            if isr.nackf() {
+                self.port.icr().write(|v| {
+                    v.set_stopcf(true);
+                    v.set_nackcf(true);
+                });
+                return Err(hal::I2cError::Nack);
+            }
+            if isr.tc() {
+                break;
+            }
+        }
 
         // 2. Read part (with STOP)
         self.port.cr2().modify(|v| {
@@ -481,12 +608,36 @@ impl hal::I2c<GpioPort> for I2c {
         });
 
         for byte in read_data {
-            while !self.port.isr().read().rxne() {}
+            loop {
+                let isr = self.port.isr().read();
+                if isr.nackf() {
+                    self.port.icr().write(|v| {
+                        v.set_stopcf(true);
+                        v.set_nackcf(true);
+                    });
+                    return Err(hal::I2cError::Nack);
+                }
+                if isr.rxne() {
+                    break;
+                }
+            }
             *byte = self.port.rxdr().read().rxdata();
         }
 
         // Wait for STOP
-        while !self.port.isr().read().stopf() {}
+        loop {
+            let isr = self.port.isr().read();
+            if isr.nackf() {
+                self.port.icr().write(|v| {
+                    v.set_stopcf(true);
+                    v.set_nackcf(true);
+                });
+                return Err(hal::I2cError::Nack);
+            }
+            if isr.stopf() {
+                break;
+            }
+        }
         self.port.icr().write(|v| v.set_stopcf(true));
 
         Ok(())
@@ -504,11 +655,8 @@ impl hal::I2c<GpioPort> for I2c {
 impl hal::I2cSlave<GpioPort> for I2c {
     fn new_slave(sda_pin: GpioPort, scl_pin: GpioPort, addr: u16) -> Result<Self, hal::I2cError> {
         let port_num = pin_to_port(&scl_pin, &sda_pin);
-        unsafe {
-            if TAKEN[port_num as usize] {
-                return Err(hal::I2cError::InitError);
-            }
-            TAKEN[port_num as usize] = true;
+        if TAKEN[port_num as usize].swap(true, Ordering::SeqCst) {
+            return Err(hal::I2cError::InitError);
         }
         scl_pin.setup();
         sda_pin.setup();
