@@ -51,7 +51,6 @@ pub mod hal;
 pub mod shared_i2c;
 pub mod utils;
 
-#[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]
 pub mod camera;
 #[cfg(all(target_arch = "arm", target_os = "none", dcmi))]
 pub mod dcmi;
