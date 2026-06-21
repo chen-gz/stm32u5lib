@@ -149,3 +149,6 @@ harness = false
 [[test]]
 name = "profile"
 harness = false
+[[test]]
+name = "flash"
+harness = false

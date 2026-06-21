@@ -29,6 +29,7 @@ mcu_modules!(
     clock,
     dma,
     exti,
+    flash,
     gpio,
     i2c,
     low_power,
