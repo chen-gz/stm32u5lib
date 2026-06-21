@@ -20,11 +20,20 @@ jobs:
           target: thumbv8m.main-none-eabihf
           components: rustfmt, clippy, llvm-tools-preview
 
-      - name: Install tools (just, cargo-llvm-cov)
+      - name: Install tools (cargo-llvm-cov)
         uses: taiki-e/install-action@v2
         with:
-          tool: just,cargo-llvm-cov
+          tool: cargo-llvm-cov
 
       - name: Run CI suite
-        run: just ci
+        run: |
+          HOST_TARGET=$(rustc -vV | grep host | cut -d' ' -f2)
+          cargo fmt --all --check
+          cargo clippy --lib --target "$HOST_TARGET"
+          cargo clippy --lib --target thumbv8m.main-none-eabihf
+          cargo clippy --tests --target thumbv8m.main-none-eabihf
+          cargo check --example camera --target "$HOST_TARGET"
+          cargo test --lib --target "$HOST_TARGET"
+          cargo llvm-cov --lib --target "$HOST_TARGET"
+
 
