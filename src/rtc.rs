@@ -397,3 +397,12 @@ fn RTC() {
     });
     update_alarm();
 }
+
+impl crate::hal::Rtc for RtcPort {
+    fn get_date_time(&self) -> ((u8, u8, u8), (u8, u8, u8)) {
+        let date = get_date();
+        let time = get_time();
+        (date, (time.0, time.1, time.2))
+    }
+}
+

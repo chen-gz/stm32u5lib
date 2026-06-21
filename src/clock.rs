@@ -641,3 +641,12 @@ pub fn reset_backup_domain() {
     // disable backup domain write
     PWR.dbpcr().modify(|v| v.set_dbp(false));
 }
+
+pub struct Delay;
+
+impl crate::hal::Delay for Delay {
+    fn delay_ms(&self, ms: u32) {
+        delay_ms(ms);
+    }
+}
+

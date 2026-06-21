@@ -1,57 +1,32 @@
-host_target := `rustc -vV | grep host | cut -d' ' -f2`
-
-default: setup test
+default: test
 
 test-lse:
-    cargo test --features stm32u575zi,lse,defmt
+    devenv shell test-lse
 
 test:
-    cargo test --features stm32u575zi,defmt
+    devenv shell test
 
 test-host:
-    cargo test --lib --target {{host_target}}
+    devenv shell test-host
 
 coverage:
-    cargo llvm-cov --lib --target {{host_target}}
+    devenv shell coverage
 
 coverage-html:
-    cargo llvm-cov --lib --target {{host_target}} --html
-    @echo "HTML coverage report generated at target/llvm-cov/html/index.html"
+    devenv shell coverage-html
 
 ci:
-    cargo fmt --all --check
-    cargo clippy --lib --target {{host_target}}
-    cargo clippy --lib --target thumbv8m.main-none-eabihf
-    cargo clippy --tests --target thumbv8m.main-none-eabihf
-    cargo test --lib --target {{host_target}}
-    cargo llvm-cov --lib --target {{host_target}}
-
-
+    devenv shell ci
 
 test-auto:
-    @echo "Starting USB Test Harness in background..."
-    @python3 scripts/test_usb_acm.py > /tmp/usb_test.log 2>&1 & \
-    PID=$$!; \
-    echo "USB Harness started (PID: $$PID). Running tests..."; \
-    cargo test --features nucleo_u575,defmt; \
-    EXIT_CODE=$$?; \
-    echo "Tests finished. Cleaning up USB Harness..."; \
-    kill $$PID > /dev/null 2>&1; \
-    exit $$EXIT_CODE
+    devenv shell test-auto
 
 setup:
-    rustup default stable
-    rustup target add thumbv8m.main-none-eabihf
-    rustup component add llvm-tools-preview rust-src rust-analyzer
-    cargo install cargo-binutils
-    cargo install probe-rs-tools
+    @echo "Environment setup is automatically managed by devenv (nix/direnv)."
 
-# nucleo_u575 = ["stm32u575zi", "lse"]
-
-# Generate/update .devcontainer.json configuration using devenv
 generate-devcontainer:
-    rm -f .devcontainer.json
-    devenv eval devcontainer.settings | jq '.["devcontainer.settings"]' > .devcontainer.json
+    devenv shell generate-devcontainer
+
 
 
 

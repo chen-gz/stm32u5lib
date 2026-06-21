@@ -54,7 +54,8 @@ pub const SD1: SdmmcPort = SdmmcPort {
     port: stm32_metapac::SDMMC1,
 };
 
-#[derive(Copy, Clone, Debug, Format)]
+#[derive(Copy, Clone, Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum SdError {
     WriteBlockCountError,
     WriteAddressError,
@@ -238,7 +239,7 @@ impl SdInstance {
                         break;
                     }
                 }
-                Err(err) => panic!("send if cond error {}", err),
+                Err(err) => panic!("send if cond error {:?}", err),
             }
         }
 

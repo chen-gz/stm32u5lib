@@ -20,6 +20,17 @@ pub trait DMA {
     fn stop(&self);
 }
 
+/// Abstraction over hardware delay.
+pub trait Delay {
+    fn delay_ms(&self, ms: u32);
+}
+
+/// Abstraction over hardware RTC.
+pub trait Rtc {
+    /// Returns (year, month, day) and (hour, minute, second)
+    fn get_date_time(&self) -> ((u8, u8, u8), (u8, u8, u8));
+}
+
 #[derive(Debug, Copy, Clone, PartialEq)]
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum I2cFrequency {

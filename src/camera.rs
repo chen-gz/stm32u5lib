@@ -1,21 +1,10 @@
-use crate::hal::Pin;
+use crate::hal::{Delay, Pin, Rtc};
 
 // use 4 byte in first block to store the number of image files
 const IMG_START_BLOCK: u32 = 10;
 const IMG_SIZE: u32 = 2000;
 // 2000 block = 2000 * 512 = 1M
 const SIZE_BLOCK: u32 = 1; // first block store the number of image files
-
-/// Abstraction over hardware delay.
-pub trait Delay {
-    fn delay_ms(&self, ms: u32);
-}
-
-/// Abstraction over hardware RTC.
-pub trait CameraRtc {
-    /// Returns (year, month, day) and (hour, minute, second)
-    fn get_date_time(&self) -> ((u8, u8, u8), (u8, u8, u8));
-}
 
 /// Abstraction over SD card block device.
 pub trait CameraSdCard {
@@ -47,7 +36,7 @@ pub trait CameraDcmi {
 }
 
 /// Save a JPEG picture to the SD card.
-pub async fn save_picture<SD: CameraSdCard, R: CameraRtc>(pic_buf: &mut [u8], sd: &SD, rtc: &R) {
+pub async fn save_picture<SD: CameraSdCard, R: Rtc>(pic_buf: &mut [u8], sd: &SD, rtc: &R) {
     let mut found = false;
     let mut pic_end = 0;
     let len = pic_buf.len();
@@ -143,26 +132,6 @@ pub async fn capture<P: Pin, D: Delay, DCMI: CameraDcmi>(
 }
 
 #[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]
-pub struct TargetDelay;
-
-#[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]
-impl Delay for TargetDelay {
-    fn delay_ms(&self, ms: u32) {
-        crate::clock::delay_ms(ms);
-    }
-}
-
-#[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]
-pub struct TargetRtc;
-
-#[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]
-impl CameraRtc for TargetRtc {
-    fn get_date_time(&self) -> ((u8, u8, u8), (u8, u8, u8)) {
-        (crate::rtc::get_date(), crate::rtc::get_time())
-    }
-}
-
-#[cfg(all(target_arch = "arm", target_os = "none", sdmmc, dcmi))]
 impl CameraSdCard for crate::sdmmc::SdInstance {
     type Error = crate::sdmmc::SdError;
 
@@ -229,7 +198,7 @@ mod tests {
     }
 
     struct MockRtc;
-    impl CameraRtc for MockRtc {
+    impl Rtc for MockRtc {
         fn get_date_time(&self) -> ((u8, u8, u8), (u8, u8, u8)) {
             ((26, 6, 21), (12, 0, 0))
         }
