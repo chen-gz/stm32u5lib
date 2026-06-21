@@ -414,8 +414,8 @@ mod tests {
             toggle_called: Cell::new(false),
         };
 
-        let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
         block_on(async {
+            let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
             // First run successful setups to count transactions
             let i2c_setup_success = MockI2c {
                 write_log: Rc::new(RefCell::new(Vec::new())),
@@ -428,6 +428,7 @@ mod tests {
             let setup_tx_count = i2c_setup_success.tx_count.get();
 
             for i in 0..setup_tx_count {
+                let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
                 let i2c = MockI2c {
                     write_log: Rc::new(RefCell::new(Vec::new())),
                     read_responses: Rc::new(RefCell::new(vec![vec![0xEA]])),
@@ -439,6 +440,7 @@ mod tests {
             }
 
             // Do the same for read_imu_async
+            let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
             let i2c_read_success = MockI2c {
                 write_log: Rc::new(RefCell::new(Vec::new())),
                 read_responses: Rc::new(RefCell::new(vec![
@@ -457,6 +459,7 @@ mod tests {
             let read_tx_count = i2c_read_success.tx_count.get();
 
             for i in 0..read_tx_count {
+                let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
                 let i2c = MockI2c {
                     write_log: Rc::new(RefCell::new(Vec::new())),
                     read_responses: Rc::new(RefCell::new(vec![

@@ -106,6 +106,12 @@ impl DcmiPort {
     }
 }
 
+impl crate::hal::Dcmi for DcmiPort {
+    async fn capture(&self, pic_buf: &mut [u8]) {
+        self.capture(crate::dma::DMA_DCMI, pic_buf).await
+    }
+}
+
 static SIGNAL: Signal<CriticalSectionRawMutex, u32> = Signal::new();
 
 use stm32_metapac::interrupt;

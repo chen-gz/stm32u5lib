@@ -1,6 +1,6 @@
 pub mod ov5640_reg;
 use crate::drivers::ov5640::ov5640_reg::*;
-use crate::hal::{I2c, I2cError, Pin};
+use crate::hal::{Dcmi, Delay, I2c, I2cError, Pin};
 use crate::shared_i2c::SharedI2cManager;
 use embassy_sync::blocking_mutex::raw::RawMutex;
 
@@ -179,6 +179,20 @@ pub async fn setup_ov5640_camera_async<M: RawMutex, I2C: I2c<P>, P: Pin>(
         .await?;
     info!("setup camera registers finished");
     Ok(())
+}
+
+pub async fn capture_frame<P: Pin, D: Delay, DCMI: Dcmi>(
+    pdwn: &P,
+    delay: &D,
+    dcmi: &DCMI,
+    pic_buf: &mut [u8],
+) {
+    pdwn.set_low(); // set power down to low. Enable camera
+    delay.delay_ms(2);
+    delay.delay_ms(200);
+    dcmi.capture(pic_buf).await;
+    info!("finish take picture");
+    pdwn.set_high();
 }
 
 #[cfg(test)]
@@ -530,8 +544,8 @@ mod tests {
             toggle_called: Cell::new(false),
         };
 
-        let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
         block_on(async {
+            let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
             // First run a successful setup to count the exact number of transactions
             let i2c_success = MockI2c {
                 write_log: Rc::new(RefCell::new(Vec::new())),
@@ -551,6 +565,7 @@ mod tests {
 
             // Inject errors at each transaction step to hit all early return paths
             for i in 0..total_tx {
+                let manager = SharedI2cManager::<CriticalSectionRawMutex, _, _>::new();
                 let i2c = MockI2c {
                     write_log: Rc::new(RefCell::new(Vec::new())),
                     read_responses: Rc::new(RefCell::new(vec![
@@ -569,5 +584,58 @@ mod tests {
                     .is_err());
             }
         });
+    }
+
+    struct MockAtomicPin {
+        low_called: std::sync::atomic::AtomicBool,
+        high_called: std::sync::atomic::AtomicBool,
+    }
+    impl Pin for MockAtomicPin {
+        fn setup(&self) {}
+        fn set_high(&self) {
+            self.high_called
+                .store(true, std::sync::atomic::Ordering::SeqCst);
+        }
+        fn set_low(&self) {
+            self.low_called
+                .store(true, std::sync::atomic::Ordering::SeqCst);
+        }
+        fn toggle(&self) {}
+    }
+
+    struct MockDelay;
+    impl Delay for MockDelay {
+        fn delay_ms(&self, _ms: u32) {}
+    }
+
+    struct MockDcmi {
+        captured: std::sync::atomic::AtomicBool,
+    }
+    impl Dcmi for MockDcmi {
+        async fn capture(&self, pic_buf: &mut [u8]) {
+            self.captured
+                .store(true, std::sync::atomic::Ordering::SeqCst);
+            pic_buf[0] = 0xAA;
+        }
+    }
+
+    #[test]
+    fn test_capture_frame() {
+        let pin = MockAtomicPin {
+            low_called: std::sync::atomic::AtomicBool::new(false),
+            high_called: std::sync::atomic::AtomicBool::new(false),
+        };
+        pin.setup();
+        pin.toggle();
+        let delay = MockDelay;
+        let dcmi = MockDcmi {
+            captured: std::sync::atomic::AtomicBool::new(false),
+        };
+        let mut buf = [0u8; 10];
+        block_on(capture_frame(&pin, &delay, &dcmi, &mut buf));
+        assert!(pin.low_called.load(std::sync::atomic::Ordering::SeqCst));
+        assert!(pin.high_called.load(std::sync::atomic::Ordering::SeqCst));
+        assert!(dcmi.captured.load(std::sync::atomic::Ordering::SeqCst));
+        assert_eq!(buf[0], 0xAA);
     }
 }

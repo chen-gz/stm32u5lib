@@ -67,6 +67,7 @@
     cargo clippy --lib --target "$HOST_TARGET"
     cargo clippy --lib --target thumbv8m.main-none-eabihf
     cargo clippy --tests --target thumbv8m.main-none-eabihf
+    cargo check --example camera --target "$HOST_TARGET"
     cargo test --lib --target "$HOST_TARGET"
     cargo llvm-cov --lib --target "$HOST_TARGET"
   '';

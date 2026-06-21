@@ -46,6 +46,19 @@
 //! static SHARED_I2C: SharedI2cManager<CriticalSectionRawMutex, I2cDriver, GpioPort> =
 //!     SharedI2cManager::new();
 //!
+//! #[embassy_executor::main]
+//! async fn main(spawner: Spawner) {
+//!     // 1. Initialize the concrete I2C hardware driver instance
+//!     let i2c_driver = I2cDriver::new(...);
+//!
+//!     // 2. Initialize the global SHARED_I2C manager with the driver
+//!     SHARED_I2C.init(i2c_driver).await;
+//!
+//!     // 3. Spawn tasks that safely reference SHARED_I2C concurrently
+//!     spawner.spawn(task_1()).unwrap();
+//!     spawner.spawn(task_2()).unwrap();
+//! }
+//!
 //! #[embassy_executor::task]
 //! async fn task_1() {
 //!     // Safely borrows the global static manager
@@ -86,8 +99,12 @@ impl<M: RawMutex, I: I2c<P>, P: Pin> SharedI2cManager<M, I, P> {
     }
 
     /// Initializes the manager with a concrete I2C driver instance.
+    /// Panics if the manager is already initialized.
     pub async fn init(&self, i2c: I) {
         let mut guard = self.mutex.lock().await;
+        if guard.is_some() {
+            panic!("SharedI2cManager is already initialized");
+        }
         *guard = Some(i2c);
     }
 
@@ -341,6 +358,23 @@ mod tests {
 
             // Execute them concurrently and verify serialization
             join!(task_1, task_2, task_3);
+        });
+    }
+
+    #[test]
+    #[should_panic(expected = "SharedI2cManager is already initialized")]
+    fn test_shared_i2c_double_init() {
+        use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+        use futures::executor::block_on;
+
+        let manager: SharedI2cManager<CriticalSectionRawMutex, MockI2c, MockPin> =
+            SharedI2cManager::new();
+        let driver1 = MockI2c::new(I2cFrequency::Freq100khz, MockPin, MockPin).unwrap();
+        let driver2 = MockI2c::new(I2cFrequency::Freq100khz, MockPin, MockPin).unwrap();
+
+        block_on(async {
+            manager.init(driver1).await;
+            manager.init(driver2).await;
         });
     }
 }

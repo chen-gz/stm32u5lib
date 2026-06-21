@@ -21,8 +21,8 @@ Future updates plan to restructure the library to support self-loop (loopback) t
 
 ## Local Development
 
-The project uses `just` to automate development tasks:
-*   `just setup`: Installs the cross-compilation target and toolchain components.
-*   `just test-host`: Runs target-independent unit tests on the host.
-*   `just coverage`: Runs host tests and prints a text code coverage report.
-*   `just coverage-html`: Generates an HTML coverage report at `target/llvm-cov/html/index.html`.
+The project uses `devenv` to automate development tasks (if you use `direnv`, these commands are also exposed directly as shell commands):
+*   `devenv shell test-host`: Runs target-independent unit tests on the host.
+*   `devenv shell coverage`: Runs host tests and prints a text code coverage report.
+*   `devenv shell coverage-html`: Generates an HTML coverage report at `target/llvm-cov/html/index.html`.
+*   `devenv shell ci`: Runs clippy, tests, formatting check, and coverage.

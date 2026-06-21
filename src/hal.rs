@@ -31,6 +31,11 @@ pub trait Rtc {
     fn get_date_time(&self) -> ((u8, u8, u8), (u8, u8, u8));
 }
 
+/// Abstraction over digital camera interface (DCMI).
+pub trait Dcmi {
+    fn capture(&self, pic_buf: &mut [u8]) -> impl core::future::Future<Output = ()> + Send;
+}
+
 #[derive(Debug, Copy, Clone, PartialEq)]
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum I2cFrequency {
