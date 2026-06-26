@@ -17,12 +17,3 @@ An interface redesign is planned to introduce comprehensive async/await support:
 
 ### Future Roadmap: Loopback Testing
 Future updates plan to restructure the library to support self-loop (loopback) testing. This will enable automated self-testing capabilities directly on the chip for verification.
-
-
-## Local Development
-
-The project uses `devenv` to automate development tasks (if you use `direnv`, these commands are also exposed directly as shell commands):
-*   `devenv shell test-host`: Runs target-independent unit tests on the host.
-*   `devenv shell coverage`: Runs host tests and prints a text code coverage report.
-*   `devenv shell coverage-html`: Generates an HTML coverage report at `target/llvm-cov/html/index.html`.
-*   `devenv shell ci`: Runs clippy, tests, formatting check, and coverage.
