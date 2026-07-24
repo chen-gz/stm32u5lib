@@ -259,15 +259,15 @@ impl<'a> DfuClass<'a> {
         let addr = self.current_address;
 
         // Erase page if chunk starts on page boundary
-        if addr % (FLASH_PAGE_SIZE as u32) == 0 {
-            if let Err(_) = flash::erase_page(addr as usize) {
-                return Err(DfuStatus::ErrErase);
-            }
+        if addr.is_multiple_of(FLASH_PAGE_SIZE as u32)
+            && flash::erase_page(addr as usize).is_err()
+        {
+            return Err(DfuStatus::ErrErase);
         }
 
         // Convert slice bytes into u32 words aligned to 4 words (16 bytes)
         let mut u32_buf = [0u32; 512]; // Up to 2048 bytes
-        let words_count = (chunk_len + 3) / 4;
+        let words_count = chunk_len.div_ceil(4);
         let quad_words_count = (words_count + 3) & !3; // Round up to multiple of 4 words
 
         unsafe {
@@ -276,7 +276,7 @@ impl<'a> DfuClass<'a> {
             core::ptr::copy_nonoverlapping(src_ptr, dst_ptr, chunk_len);
         }
 
-        if let Err(_) = flash::write_quad_words(addr, &u32_buf[..quad_words_count]) {
+        if flash::write_quad_words(addr, &u32_buf[..quad_words_count]).is_err() {
             return Err(DfuStatus::ErrWrite);
         }
 
