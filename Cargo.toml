@@ -156,3 +156,7 @@ harness = false
 [[test]]
 name = "usb_dfu"
 harness = false
+
+[[test]]
+name = "spi"
+harness = false

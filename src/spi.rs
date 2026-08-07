@@ -5,7 +5,7 @@ use stm32_metapac::spi::{Spi as Peripheral};
 
 pub struct SpiConfig {
     pub port_num: u8,
-    pub freq: u32,
+    pub _freq: u32,
     pub mode: hal::SpiMode,
     pub sck_pin: GpioPort,
     pub miso_pin: GpioPort,
@@ -57,7 +57,7 @@ impl<'d> core::ops::Drop for Spi<'d> {
 }
 
 impl<'d> hal::Spi<GpioPort> for Spi<'d> {
-    fn new(freq: u32, mode: hal::SpiMode, sck: GpioPort, miso: GpioPort, mosi: GpioPort) -> Result<Self, hal::SpiError> {
+    fn new(_freq: u32, mode: hal::SpiMode, sck: GpioPort, miso: GpioPort, mosi: GpioPort) -> Result<Self, hal::SpiError> {
         let port_num = pin_to_port(&sck, &miso, &mosi);
         let port = port_num_to_spi(port_num);
         
