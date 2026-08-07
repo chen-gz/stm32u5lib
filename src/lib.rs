@@ -36,6 +36,7 @@ mcu_modules!(
     lptim,
     rtc,
     sd_device,
+    spi,
     tim,
     usart,
     nucleo_u575,

@@ -184,39 +184,33 @@ pub trait Usart<T: Pin> {
     ) -> impl core::future::Future<Output = Result<(), UsartError>> + Send;
 }
 
-// pub trait Spi: Drop {
-//     pub enum Error {
-//         BusError,
-//         Timeout,
-//     }
-//     pub enum Mode {
-//         Mode0,
-//         Mode1,
-//         Mode2,
-//         Mode3,
-//     }
-//     pub enum Frequency {
-//         FREQ_1MHz,
-//         FREQ_2MHz,
-//         FREQ_4MHz,
-//         FREQ_8MHz,
-//         FREQ_16MHz,
-//         FREQ_32MHz,
-//         FREQ_64MHz,
-//         FREQ_128MHz,
-//     }
-//     /// create a new instance of Spi. The instance should be initialized with the default configuration.
-//     /// After this function is called, the Spi should be ready to use.
-//     pub fn new(freq: u32, mode: Mode, sck: Pin, miso: Pin, mosi: Pin) -> Self;
-//
-//     pub fn write(&self, data: &[u8]) -> Result<(), Error>;
-//
-//     pub fn read(&self, data: &mut [u8]) -> Result<(), Error>;
-//
-//     pub fn write_read(&self, write_data: &[u8], read_data: &mut [u8]) -> Result<(), Error>;
-// }
-//
-//
+#[derive(Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
+pub enum SpiError {
+    BusError,
+    Timeout,
+}
+
+#[derive(Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
+pub enum SpiMode {
+    Mode0,
+    Mode1,
+    Mode2,
+    Mode3,
+}
+
+pub trait Spi<T: Pin> {
+    /// create a new instance of Spi. The instance should be initialized with the default configuration.
+    /// After this function is called, the Spi should be ready to use.
+    fn new(freq: u32, mode: SpiMode, sck: T, miso: T, mosi: T) -> Result<Self, SpiError>
+    where
+        Self: Sized;
+
+    fn write(&self, data: &[u8]) -> Result<(), SpiError>;
+    fn read(&self, data: &mut [u8]) -> Result<(), SpiError>;
+    fn write_read(&self, write_data: &[u8], read_data: &mut [u8]) -> Result<(), SpiError>;
+}
 
 #[cfg(test)]
 mod tests {

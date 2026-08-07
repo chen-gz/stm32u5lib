@@ -253,6 +253,20 @@ pub fn set_i2c_clock(i2c_num: u8) {
     }
 }
 
+pub fn set_spi_clock(spi_num: u8) {
+    if spi_num == 1 {
+        // Option 1: rely on default clock source or set to HSI/PCLK etc.
+        // SPI1 is on APB2
+        RCC.apb2enr().modify(|v| v.set_spi1en(true));
+    } else if spi_num == 2 {
+        RCC.apb1enr1().modify(|v| v.set_spi2en(true));
+    } else if spi_num == 3 {
+        RCC.apb3enr().modify(|v| v.set_spi3en(true));
+    } else {
+        panic!("Invalid spi number");
+    }
+}
+
 /// enable lptim for all mode and use LSE as clock source
 pub fn set_lptim_clock(num: u8) -> u32 {
     RCC.cr().modify(|v| v.set_hsikeron(true));

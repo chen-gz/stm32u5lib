@@ -185,7 +185,15 @@ define_gpio_port_alt!(
     TIM3_CH1_PA6: GPIOA, 6, 2, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::MEDIUM_SPEED,
 
     TIM3_CH1_PB4: GPIOB, 4, 2, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::MEDIUM_SPEED,
-    TIM3_CH4_PB1: GPIOB, 1, 2, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::MEDIUM_SPEED
+    TIM3_CH4_PB1: GPIOB, 1, 2, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::MEDIUM_SPEED,
+
+    SPI1_SCK_PA5: GPIOA, 5, 5, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::VERY_HIGH_SPEED,
+    SPI1_MISO_PA6: GPIOA, 6, 5, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::VERY_HIGH_SPEED,
+    SPI1_MOSI_PA7: GPIOA, 7, 5, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::VERY_HIGH_SPEED,
+
+    SPI2_SCK_PB13: GPIOB, 13, 5, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::VERY_HIGH_SPEED,
+    SPI2_MISO_PB14: GPIOB, 14, 5, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::VERY_HIGH_SPEED,
+    SPI2_MOSI_PB15: GPIOB, 15, 5, Moder::ALTERNATE, Ot::PUSH_PULL, Pupdr::FLOATING, Ospeedr::VERY_HIGH_SPEED
 );
 pub const I2C1_SCL_PINS: [GpioPort; 2] = [I2C1_SCL_PB6, I2C1_SCL_PB8];
 pub const I2C1_SDA_PINS: [GpioPort; 3] = [I2C1_SDA_PB3, I2C1_SDA_PB7, I2C1_SDA_PB9];
@@ -195,6 +203,15 @@ pub const I2C3_SCL_PINS: [GpioPort; 1] = [I2C3_SCL_PC0];
 pub const I2C3_SDA_PINS: [GpioPort; 1] = [I2C3_SDA_PB4];
 pub const USART1_TX_PINS: [GpioPort; 1] = [USART_TX_PA9];
 pub const USART1_RX_PINS: [GpioPort; 1] = [USART_RX_PA10];
+
+pub const SPI1_SCK_PINS: [GpioPort; 1] = [SPI1_SCK_PA5];
+pub const SPI1_MISO_PINS: [GpioPort; 1] = [SPI1_MISO_PA6];
+pub const SPI1_MOSI_PINS: [GpioPort; 1] = [SPI1_MOSI_PA7];
+
+pub const SPI2_SCK_PINS: [GpioPort; 1] = [SPI2_SCK_PB13];
+pub const SPI2_MISO_PINS: [GpioPort; 1] = [SPI2_MISO_PB14];
+pub const SPI2_MOSI_PINS: [GpioPort; 1] = [SPI2_MOSI_PB15];
+
 /// Implement the Pin trait for GpioPort
 use crate::hal;
 impl hal::Pin for GpioPort {
