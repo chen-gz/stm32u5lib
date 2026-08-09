@@ -119,7 +119,7 @@ impl<'d> hal::Spi<GpioPort> for Spi<'d> {
         for &byte in data {
             while !self.port.sr().read().txp() {}
             unsafe {
-                core::ptr::write_volatile(self.port.txdr8().as_ptr() as *mut u8, byte);
+                core::ptr::write_volatile(self.port.txdr8().as_ptr(), byte);
             }
         }
         while !self.port.sr().read().txc() {}
@@ -133,7 +133,7 @@ impl<'d> hal::Spi<GpioPort> for Spi<'d> {
             while !self.port.sr().read().txp() {}
             // Write dummy byte to clock out the receive
             unsafe {
-                core::ptr::write_volatile(self.port.txdr8().as_ptr() as *mut u8, 0xFF);
+                core::ptr::write_volatile(self.port.txdr8().as_ptr(), 0xFF);
             }
             while !self.port.sr().read().rxp() {}
             unsafe {
@@ -151,7 +151,7 @@ impl<'d> hal::Spi<GpioPort> for Spi<'d> {
             let tx_byte = if i < write_data.len() { write_data[i] } else { 0xFF };
             while !self.port.sr().read().txp() {}
             unsafe {
-                core::ptr::write_volatile(self.port.txdr8().as_ptr() as *mut u8, tx_byte);
+                core::ptr::write_volatile(self.port.txdr8().as_ptr(), tx_byte);
             }
             while !self.port.sr().read().rxp() {}
             let rx_byte = unsafe {

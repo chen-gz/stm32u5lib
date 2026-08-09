@@ -27,7 +27,8 @@ mod tests {
             SPI1_SCK_PA5,
             SPI1_MISO_PA6,
             SPI1_MOSI_PA7,
-        ).unwrap();
+        )
+        .unwrap();
 
         // 1. Test Write
         let tx_data = [0xDE, 0xAD, 0xBE, 0xEF];
@@ -40,7 +41,8 @@ mod tests {
         #[cfg(feature = "defmt")]
         defmt::info!("SPI: Write and Read...");
         // This will successfully send tx_data and read back whatever is on the MISO line concurrently
-        spi.write_read(&tx_data, &mut rx_data).expect("SPI write_read failed");
+        spi.write_read(&tx_data, &mut rx_data)
+            .expect("SPI write_read failed");
 
         #[cfg(feature = "defmt")]
         defmt::info!("SPI: Read result: {:x}", rx_data);
