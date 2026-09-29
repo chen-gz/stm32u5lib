@@ -31,8 +31,18 @@ pub trait CameraSdCard {
     ) -> impl core::future::Future<Output = Result<(), Self::Error>> + Send;
 }
 
+#[derive(Debug)]
+pub enum SavePictureError<E> {
+    JpegEndNotFound,
+    SdCardError(E),
+}
+
 /// Save a JPEG picture to the SD card.
-pub async fn save_picture<SD: CameraSdCard, R: Rtc>(pic_buf: &mut [u8], sd: &SD, rtc: &R) {
+pub async fn save_picture<SD: CameraSdCard, R: Rtc>(
+    pic_buf: &mut [u8],
+    sd: &SD,
+    rtc: &R,
+) -> Result<(), SavePictureError<SD::Error>> {
     let mut found = false;
     let mut pic_end = 0;
     let len = pic_buf.len();
@@ -44,7 +54,7 @@ pub async fn save_picture<SD: CameraSdCard, R: Rtc>(pic_buf: &mut [u8], sd: &SD,
         }
     }
     if !found {
-        panic!("not find jpeg end");
+        return Err(SavePictureError::JpegEndNotFound);
     }
     let (date, time) = rtc.get_date_time();
     pic_buf[0] = (pic_end >> 24) as u8;
@@ -65,7 +75,7 @@ pub async fn save_picture<SD: CameraSdCard, R: Rtc>(pic_buf: &mut [u8], sd: &SD,
     match sd.read_single_block_async(&mut buf, SIZE_BLOCK).await {
         Ok(_) => {}
         Err(err) => {
-            panic!("read picture number from sd card fail: {:?}", err);
+            return Err(SavePictureError::SdCardError(err));
         }
     }
     let mut num = ((buf[0] as u32) << 24)
@@ -81,7 +91,7 @@ pub async fn save_picture<SD: CameraSdCard, R: Rtc>(pic_buf: &mut [u8], sd: &SD,
     match sd.write_single_block_async(&buf, SIZE_BLOCK).await {
         Ok(_) => {}
         Err(err) => {
-            panic!("write picture number to sd card fail: {:?}", err);
+            return Err(SavePictureError::SdCardError(err));
         }
     }
 
@@ -95,9 +105,11 @@ pub async fn save_picture<SD: CameraSdCard, R: Rtc>(pic_buf: &mut [u8], sd: &SD,
     {
         Ok(_) => {}
         Err(err) => {
-            panic!("write picture to sd card fail: {:?}", err);
+            return Err(SavePictureError::SdCardError(err));
         }
     }
+
+    Ok(())
 }
 
 // Simple implementations for a mock scenario
@@ -200,7 +212,7 @@ fn main() {
         u5_lib::drivers::ov5640::capture_frame(&pin, &delay, &dcmi, &mut buf[16..]).await;
 
         // 2. Save the captured frame to SD card
-        save_picture(&mut buf[16..], &sd, &rtc).await;
+        save_picture(&mut buf[16..], &sd, &rtc).await.unwrap();
     });
 
     println!("Camera capture and save sequence completed successfully!");
