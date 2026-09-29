@@ -14,7 +14,10 @@ impl Timings {
 
         // For the standard-mode configuration method, we must have a ratio of 4
         // or higher
-        assert!(ratio >= 4, "The I2C PCLK must be at least 4 times the bus frequency!");
+        assert!(
+            ratio >= 4,
+            "The I2C PCLK must be at least 4 times the bus frequency!"
+        );
 
         let (presc_reg, scll, sclh, sdadel, scldel) = if frequency > 100_000 {
             // Fast-mode (Fm) or Fast-mode Plus (Fm+)
@@ -48,7 +51,13 @@ impl Timings {
                 (sdadel, scldel)
             };
 
-            (presc_reg, scll as u8, sclh as u8, sdadel as u8, scldel as u8)
+            (
+                presc_reg,
+                scll as u8,
+                sclh as u8,
+                sdadel as u8,
+                scldel as u8,
+            )
         } else {
             // Standard-mode (Sm)
             // here we pick SCLL = SCLH
@@ -66,12 +75,21 @@ impl Timings {
             let scll = sclh;
 
             // Speed check
-            assert!(sclh < 256, "The I2C PCLK is too fast for this bus frequency!");
+            assert!(
+                sclh < 256,
+                "The I2C PCLK is too fast for this bus frequency!"
+            );
 
             let sdadel = i2cclk / 2_000_000 / presc;
             let scldel = i2cclk / 500_000 / presc - 1;
 
-            (presc_reg, scll as u8, sclh as u8, sdadel as u8, scldel as u8)
+            (
+                presc_reg,
+                scll as u8,
+                sclh as u8,
+                sdadel as u8,
+                scldel as u8,
+            )
         };
 
         // Sanity check
