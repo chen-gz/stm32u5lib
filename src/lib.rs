@@ -51,6 +51,7 @@ pub use embassy_executor_macros::task;
 
 pub mod drivers;
 pub mod hal;
+pub mod i2c_timing;
 pub mod shared_i2c;
 pub mod utils;
 

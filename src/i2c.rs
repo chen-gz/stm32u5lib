@@ -384,22 +384,13 @@ impl hal::I2c<GpioPort> for I2c {
         // set timing
         let kernel_freq = crate::clock::get_hclk();
 
-        // TODO: HSI 16 is used as system clock for easy setup.
-        // The values are from the reference menu
-        // set as 100Khz
-        let (presc, scll, sclh, sdadel, scldel) = match freq_val {
-            10_000 => (3, 0xC7, 0xC3, 0x2, 0x4), // 10khz
-            100_000 => (3, 0x13, 0xF, 0x2, 0x4),  // 100khz
-            400_000 => (1, 9, 3, 2, 3),          // 400khz
-            1_000_000 => (0, 9, 4, 1, 2),        // 1Mhz
-            _ => panic!("invalid frequency"),
-        };
+        let timings = crate::i2c_timing::Timings::new(kernel_freq, freq_val);
         port.timingr().modify(|v| {
-            v.set_presc(presc);
-            v.set_scll(scll);
-            v.set_sclh(sclh);
-            v.set_sdadel(sdadel);
-            v.set_scldel(scldel);
+            v.set_presc(timings.prescale);
+            v.set_scll(timings.scll);
+            v.set_sclh(timings.sclh);
+            v.set_sdadel(timings.sdadel);
+            v.set_scldel(timings.scldel);
         });
 
         // set autoend to true
